@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.droidrun.ai](https://docs.droidrun.ai/api-reference). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -33,14 +33,12 @@ from droidrun_cloud import DroidrunCloud
 
 client = DroidrunCloud(
     api_key=os.environ.get("DROIDRUN_CLOUD_API_KEY"),  # This is the default and can be omitted
-    # defaults to "production".
-    environment="sandbox",
+    # or 'production' | 'dev'; defaults to "production".
+    environment="staging",
 )
 
-response = client.tasks.run(
-    task="x",
-)
-print(response.id)
+tasks = client.tasks.list()
+print(tasks.items)
 ```
 
 While you can provide a `api_key` keyword argument,
@@ -59,16 +57,14 @@ from droidrun_cloud import AsyncDroidrunCloud
 
 client = AsyncDroidrunCloud(
     api_key=os.environ.get("DROIDRUN_CLOUD_API_KEY"),  # This is the default and can be omitted
-    # defaults to "production".
-    environment="sandbox",
+    # or 'production' | 'dev'; defaults to "production".
+    environment="staging",
 )
 
 
 async def main() -> None:
-    response = await client.tasks.run(
-        task="x",
-    )
-    print(response.id)
+    tasks = await client.tasks.list()
+    print(tasks.items)
 
 
 asyncio.run(main())
@@ -100,10 +96,8 @@ async def main() -> None:
         api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
-        response = await client.tasks.run(
-            task="x",
-        )
-        print(response.id)
+        tasks = await client.tasks.list()
+        print(tasks.items)
 
 
 asyncio.run(main())
@@ -134,9 +128,7 @@ from droidrun_cloud import DroidrunCloud
 client = DroidrunCloud()
 
 try:
-    client.tasks.run(
-        task="x",
-    )
+    client.tasks.list()
 except droidrun_cloud.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -179,9 +171,7 @@ client = DroidrunCloud(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).tasks.run(
-    task="x",
-)
+client.with_options(max_retries=5).tasks.list()
 ```
 
 ### Timeouts
@@ -204,9 +194,7 @@ client = DroidrunCloud(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).tasks.run(
-    task="x",
-)
+client.with_options(timeout=5.0).tasks.list()
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -247,13 +235,11 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from droidrun_cloud import DroidrunCloud
 
 client = DroidrunCloud()
-response = client.tasks.with_raw_response.run(
-    task="x",
-)
+response = client.tasks.with_raw_response.list()
 print(response.headers.get('X-My-Header'))
 
-task = response.parse()  # get the object that `tasks.run()` would have returned
-print(task.id)
+task = response.parse()  # get the object that `tasks.list()` would have returned
+print(task.items)
 ```
 
 These methods return an [`APIResponse`](https://github.com/stainless-sdks/droidrun-cloud-python/tree/main/src/droidrun_cloud/_response.py) object.
@@ -267,9 +253,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.tasks.with_streaming_response.run(
-    task="x",
-) as response:
+with client.tasks.with_streaming_response.list() as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
