@@ -303,6 +303,7 @@ class TasksResource(SyncAPIResource):
         temperature: float | Omit = omit,
         api_timeout: int | Omit = omit,
         vision: bool | Omit = omit,
+        vpn_country: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -337,6 +338,7 @@ class TasksResource(SyncAPIResource):
                     "temperature": temperature,
                     "api_timeout": api_timeout,
                     "vision": vision,
+                    "vpn_country": vpn_country,
                 },
                 task_run_params.TaskRunParams,
             ),
@@ -360,6 +362,7 @@ class TasksResource(SyncAPIResource):
         temperature: float | Omit = omit,
         api_timeout: int | Omit = omit,
         vision: bool | Omit = omit,
+        vpn_country: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -395,6 +398,7 @@ class TasksResource(SyncAPIResource):
                     "temperature": temperature,
                     "api_timeout": api_timeout,
                     "vision": vision,
+                    "vpn_country": vpn_country,
                 },
                 task_run_streamed_params.TaskRunStreamedParams,
             ),
@@ -701,6 +705,7 @@ class AsyncTasksResource(AsyncAPIResource):
         temperature: float | Omit = omit,
         api_timeout: int | Omit = omit,
         vision: bool | Omit = omit,
+        vpn_country: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -735,6 +740,7 @@ class AsyncTasksResource(AsyncAPIResource):
                     "temperature": temperature,
                     "api_timeout": api_timeout,
                     "vision": vision,
+                    "vpn_country": vpn_country,
                 },
                 task_run_params.TaskRunParams,
             ),
@@ -758,6 +764,7 @@ class AsyncTasksResource(AsyncAPIResource):
         temperature: float | Omit = omit,
         api_timeout: int | Omit = omit,
         vision: bool | Omit = omit,
+        vpn_country: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -793,6 +800,7 @@ class AsyncTasksResource(AsyncAPIResource):
                     "temperature": temperature,
                     "api_timeout": api_timeout,
                     "vision": vision,
+                    "vpn_country": vpn_country,
                 },
                 task_run_streamed_params.TaskRunStreamedParams,
             ),

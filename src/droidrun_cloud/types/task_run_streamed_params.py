@@ -35,6 +35,8 @@ class TaskRunStreamedParams(TypedDict, total=False):
 
     vision: bool
 
+    vpn_country: Annotated[Optional[str], PropertyInfo(alias="vpnCountry")]
+
 
 class Credential(TypedDict, total=False):
     credential_names: Required[Annotated[SequenceNotStr[str], PropertyInfo(alias="credentialNames")]]

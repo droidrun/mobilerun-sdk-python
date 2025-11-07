@@ -62,3 +62,5 @@ class Task(BaseModel):
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
     vision: Optional[bool] = None
+
+    vpn_country: Optional[str] = FieldInfo(alias="vpnCountry", default=None)
