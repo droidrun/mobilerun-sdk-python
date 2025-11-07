@@ -304,6 +304,7 @@ class TestTasks:
             temperature=0,
             api_timeout=0,
             vision=True,
+            vpn_country="Mv",
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
 
@@ -361,6 +362,7 @@ class TestTasks:
             temperature=0,
             api_timeout=0,
             vision=True,
+            vpn_country="Mv",
         )
         assert task is None
 
@@ -717,6 +719,7 @@ class TestAsyncTasks:
             temperature=0,
             api_timeout=0,
             vision=True,
+            vpn_country="Mv",
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
 
@@ -774,6 +777,7 @@ class TestAsyncTasks:
             temperature=0,
             api_timeout=0,
             vision=True,
+            vpn_country="Mv",
         )
         assert task is None
 
