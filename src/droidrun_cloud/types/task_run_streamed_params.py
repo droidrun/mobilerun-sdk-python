@@ -1,0 +1,42 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+from typing import Dict, Iterable, Optional
+from typing_extensions import Required, Annotated, TypedDict
+
+from .._types import SequenceNotStr
+from .._utils import PropertyInfo
+from .llm_model import LlmModel
+
+__all__ = ["TaskRunStreamedParams", "Credential"]
+
+
+class TaskRunStreamedParams(TypedDict, total=False):
+    task: Required[str]
+
+    apps: SequenceNotStr[str]
+
+    credentials: Iterable[Credential]
+
+    files: SequenceNotStr[str]
+
+    llm_model: Annotated[LlmModel, PropertyInfo(alias="llmModel")]
+
+    max_steps: Annotated[int, PropertyInfo(alias="maxSteps")]
+
+    output_schema: Annotated[Optional[Dict[str, object]], PropertyInfo(alias="outputSchema")]
+
+    reasoning: bool
+
+    temperature: float
+
+    api_timeout: Annotated[int, PropertyInfo(alias="timeout")]
+
+    vision: bool
+
+
+class Credential(TypedDict, total=False):
+    credential_names: Required[Annotated[SequenceNotStr[str], PropertyInfo(alias="credentialNames")]]
+
+    package_name: Required[Annotated[str, PropertyInfo(alias="packageName")]]
