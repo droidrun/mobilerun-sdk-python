@@ -1,3 +1,47 @@
+# Tasks
+
+Types:
+
+```python
+from droidrun_cloud.types import (
+    LlmModel,
+    Task,
+    TaskCreate,
+    TaskStatus,
+    TaskRetrieveResponse,
+    TaskListResponse,
+    TaskGetStatusResponse,
+    TaskGetTrajectoryResponse,
+    TaskRunResponse,
+    TaskStopResponse,
+)
+```
+
+Methods:
+
+- <code title="get /tasks/{task_id}">client.tasks.<a href="./src/droidrun_cloud/resources/tasks/tasks.py">retrieve</a>(task_id) -> <a href="./src/droidrun_cloud/types/task_retrieve_response.py">TaskRetrieveResponse</a></code>
+- <code title="get /tasks/">client.tasks.<a href="./src/droidrun_cloud/resources/tasks/tasks.py">list</a>(\*\*<a href="src/droidrun_cloud/types/task_list_params.py">params</a>) -> <a href="./src/droidrun_cloud/types/task_list_response.py">TaskListResponse</a></code>
+- <code title="get /tasks/{task_id}/attach">client.tasks.<a href="./src/droidrun_cloud/resources/tasks/tasks.py">attach</a>(task_id) -> None</code>
+- <code title="get /tasks/{task_id}/gif">client.tasks.<a href="./src/droidrun_cloud/resources/tasks/tasks.py">get_gif</a>(task_id) -> <a href="./src/droidrun_cloud/types/tasks/media_response.py">MediaResponse</a></code>
+- <code title="get /tasks/{task_id}/status">client.tasks.<a href="./src/droidrun_cloud/resources/tasks/tasks.py">get_status</a>(task_id) -> <a href="./src/droidrun_cloud/types/task_get_status_response.py">TaskGetStatusResponse</a></code>
+- <code title="get /tasks/{task_id}/trajectory">client.tasks.<a href="./src/droidrun_cloud/resources/tasks/tasks.py">get_trajectory</a>(task_id) -> <a href="./src/droidrun_cloud/types/task_get_trajectory_response.py">TaskGetTrajectoryResponse</a></code>
+- <code title="post /tasks/">client.tasks.<a href="./src/droidrun_cloud/resources/tasks/tasks.py">run</a>(\*\*<a href="src/droidrun_cloud/types/task_run_params.py">params</a>) -> <a href="./src/droidrun_cloud/types/task_run_response.py">TaskRunResponse</a></code>
+- <code title="post /tasks/stream">client.tasks.<a href="./src/droidrun_cloud/resources/tasks/tasks.py">run_streamed</a>(\*\*<a href="src/droidrun_cloud/types/task_run_streamed_params.py">params</a>) -> None</code>
+- <code title="post /tasks/{task_id}/cancel">client.tasks.<a href="./src/droidrun_cloud/resources/tasks/tasks.py">stop</a>(task_id) -> <a href="./src/droidrun_cloud/types/task_stop_response.py">TaskStopResponse</a></code>
+
+## Screenshots
+
+Types:
+
+```python
+from droidrun_cloud.types.tasks import MediaResponse, ScreenshotListResponse
+```
+
+Methods:
+
+- <code title="get /tasks/{task_id}/screenshots/{index}">client.tasks.screenshots.<a href="./src/droidrun_cloud/resources/tasks/screenshots.py">retrieve</a>(index, \*, task_id) -> <a href="./src/droidrun_cloud/types/tasks/media_response.py">MediaResponse</a></code>
+- <code title="get /tasks/{task_id}/screenshots">client.tasks.screenshots.<a href="./src/droidrun_cloud/resources/tasks/screenshots.py">list</a>(task_id) -> <a href="./src/droidrun_cloud/types/tasks/screenshot_list_response.py">ScreenshotListResponse</a></code>
+
 # Apps
 
 Types:
