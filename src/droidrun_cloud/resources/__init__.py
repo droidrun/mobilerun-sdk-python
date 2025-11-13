@@ -8,14 +8,6 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
-from .tasks import (
-    TasksResource,
-    AsyncTasksResource,
-    TasksResourceWithRawResponse,
-    AsyncTasksResourceWithRawResponse,
-    TasksResourceWithStreamingResponse,
-    AsyncTasksResourceWithStreamingResponse,
-)
 from .credentials import (
     CredentialsResource,
     AsyncCredentialsResource,
@@ -26,12 +18,6 @@ from .credentials import (
 )
 
 __all__ = [
-    "TasksResource",
-    "AsyncTasksResource",
-    "TasksResourceWithRawResponse",
-    "AsyncTasksResourceWithRawResponse",
-    "TasksResourceWithStreamingResponse",
-    "AsyncTasksResourceWithStreamingResponse",
     "AppsResource",
     "AsyncAppsResource",
     "AppsResourceWithRawResponse",
