@@ -30,7 +30,6 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.tasks import tasks
 from .resources.credentials import credentials
 
 __all__ = [
@@ -53,7 +52,6 @@ ENVIRONMENTS: Dict[str, str] = {
 
 
 class DroidrunCloud(SyncAPIClient):
-    tasks: tasks.TasksResource
     apps: apps.AppsResource
     credentials: credentials.CredentialsResource
     with_raw_response: DroidrunCloudWithRawResponse
@@ -133,7 +131,6 @@ class DroidrunCloud(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.tasks = tasks.TasksResource(self)
         self.apps = apps.AppsResource(self)
         self.credentials = credentials.CredentialsResource(self)
         self.with_raw_response = DroidrunCloudWithRawResponse(self)
@@ -260,7 +257,6 @@ class DroidrunCloud(SyncAPIClient):
 
 
 class AsyncDroidrunCloud(AsyncAPIClient):
-    tasks: tasks.AsyncTasksResource
     apps: apps.AsyncAppsResource
     credentials: credentials.AsyncCredentialsResource
     with_raw_response: AsyncDroidrunCloudWithRawResponse
@@ -340,7 +336,6 @@ class AsyncDroidrunCloud(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.tasks = tasks.AsyncTasksResource(self)
         self.apps = apps.AsyncAppsResource(self)
         self.credentials = credentials.AsyncCredentialsResource(self)
         self.with_raw_response = AsyncDroidrunCloudWithRawResponse(self)
@@ -468,28 +463,24 @@ class AsyncDroidrunCloud(AsyncAPIClient):
 
 class DroidrunCloudWithRawResponse:
     def __init__(self, client: DroidrunCloud) -> None:
-        self.tasks = tasks.TasksResourceWithRawResponse(client.tasks)
         self.apps = apps.AppsResourceWithRawResponse(client.apps)
         self.credentials = credentials.CredentialsResourceWithRawResponse(client.credentials)
 
 
 class AsyncDroidrunCloudWithRawResponse:
     def __init__(self, client: AsyncDroidrunCloud) -> None:
-        self.tasks = tasks.AsyncTasksResourceWithRawResponse(client.tasks)
         self.apps = apps.AsyncAppsResourceWithRawResponse(client.apps)
         self.credentials = credentials.AsyncCredentialsResourceWithRawResponse(client.credentials)
 
 
 class DroidrunCloudWithStreamedResponse:
     def __init__(self, client: DroidrunCloud) -> None:
-        self.tasks = tasks.TasksResourceWithStreamingResponse(client.tasks)
         self.apps = apps.AppsResourceWithStreamingResponse(client.apps)
         self.credentials = credentials.CredentialsResourceWithStreamingResponse(client.credentials)
 
 
 class AsyncDroidrunCloudWithStreamedResponse:
     def __init__(self, client: AsyncDroidrunCloud) -> None:
-        self.tasks = tasks.AsyncTasksResourceWithStreamingResponse(client.tasks)
         self.apps = apps.AsyncAppsResourceWithStreamingResponse(client.apps)
         self.credentials = credentials.AsyncCredentialsResourceWithStreamingResponse(client.credentials)
 
