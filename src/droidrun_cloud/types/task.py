@@ -22,6 +22,8 @@ class Credential(BaseModel):
 class Task(BaseModel):
     device_id: str = FieldInfo(alias="deviceId")
 
+    llm_model: LlmModel = FieldInfo(alias="llmModel")
+
     task: str
 
     user_id: str = FieldInfo(alias="userId")
@@ -37,8 +39,6 @@ class Task(BaseModel):
     files: Optional[List[str]] = None
 
     finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
-
-    llm_model: Optional[LlmModel] = FieldInfo(alias="llmModel", default=None)
 
     max_steps: Optional[int] = FieldInfo(alias="maxSteps", default=None)
 
