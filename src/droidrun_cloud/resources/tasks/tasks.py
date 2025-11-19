@@ -258,11 +258,11 @@ class TasksResource(SyncAPIResource):
     def run(
         self,
         *,
+        llm_model: LlmModel,
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_params.Credential] | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
-        llm_model: LlmModel | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
@@ -293,11 +293,11 @@ class TasksResource(SyncAPIResource):
             "/tasks/",
             body=maybe_transform(
                 {
+                    "llm_model": llm_model,
                     "task": task,
                     "apps": apps,
                     "credentials": credentials,
                     "files": files,
-                    "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
@@ -317,11 +317,11 @@ class TasksResource(SyncAPIResource):
     def run_streamed(
         self,
         *,
+        llm_model: LlmModel,
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
-        llm_model: LlmModel | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
@@ -353,11 +353,11 @@ class TasksResource(SyncAPIResource):
             "/tasks/stream",
             body=maybe_transform(
                 {
+                    "llm_model": llm_model,
                     "task": task,
                     "apps": apps,
                     "credentials": credentials,
                     "files": files,
-                    "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
@@ -627,11 +627,11 @@ class AsyncTasksResource(AsyncAPIResource):
     async def run(
         self,
         *,
+        llm_model: LlmModel,
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_params.Credential] | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
-        llm_model: LlmModel | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
@@ -662,11 +662,11 @@ class AsyncTasksResource(AsyncAPIResource):
             "/tasks/",
             body=await async_maybe_transform(
                 {
+                    "llm_model": llm_model,
                     "task": task,
                     "apps": apps,
                     "credentials": credentials,
                     "files": files,
-                    "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
@@ -686,11 +686,11 @@ class AsyncTasksResource(AsyncAPIResource):
     async def run_streamed(
         self,
         *,
+        llm_model: LlmModel,
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
-        llm_model: LlmModel | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
@@ -722,11 +722,11 @@ class AsyncTasksResource(AsyncAPIResource):
             "/tasks/stream",
             body=await async_maybe_transform(
                 {
+                    "llm_model": llm_model,
                     "task": task,
                     "apps": apps,
                     "credentials": credentials,
                     "files": files,
-                    "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
                     "reasoning": reasoning,

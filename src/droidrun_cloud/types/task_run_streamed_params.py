@@ -13,6 +13,8 @@ __all__ = ["TaskRunStreamedParams", "Credential"]
 
 
 class TaskRunStreamedParams(TypedDict, total=False):
+    llm_model: Required[Annotated[LlmModel, PropertyInfo(alias="llmModel")]]
+
     task: Required[str]
 
     apps: SequenceNotStr[str]
@@ -20,8 +22,6 @@ class TaskRunStreamedParams(TypedDict, total=False):
     credentials: Iterable[Credential]
 
     files: SequenceNotStr[str]
-
-    llm_model: Annotated[LlmModel, PropertyInfo(alias="llmModel")]
 
     max_steps: Annotated[int, PropertyInfo(alias="maxSteps")]
 
