@@ -198,26 +198,11 @@ class TrajectoryTrajectoryStopEvent(BaseModel):
 
 
 class TrajectoryTrajectoryResultEventData(BaseModel):
-    reason: str
-
-    steps: int
-
-    structured_output: Optional[object] = None
-
-    success: bool
+    structured_output: Union[Dict[str, object], object, None] = None
 
 
 class TrajectoryTrajectoryResultEvent(BaseModel):
     data: TrajectoryTrajectoryResultEventData
-    """DroidAgent final result event.
-
-    Returned by DroidAgent.run() with attributes:
-
-    - success: Whether the task completed successfully
-    - reason: Explanation of the result or error message
-    - steps: Number of steps taken
-    - structured_output: Extracted structured data (if output_model was provided)
-    """
 
     event: Literal["ResultEvent"]
 
