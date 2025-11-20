@@ -538,7 +538,9 @@ class TrajectoryTrajectoryStartAppEvent(BaseModel):
 
 
 class TrajectoryTrajectoryRecordUiStateEventData(BaseModel):
-    ui_state: List[Dict[str, object]]
+    index: int
+
+    url: str
 
 
 class TrajectoryTrajectoryRecordUiStateEvent(BaseModel):
