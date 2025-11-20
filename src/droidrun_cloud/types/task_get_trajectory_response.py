@@ -24,7 +24,6 @@ __all__ = [
     "TrajectoryTrajectoryFinalizeEventData",
     "TrajectoryTrajectoryStopEvent",
     "TrajectoryTrajectoryResultEvent",
-    "TrajectoryTrajectoryResultEventData",
     "TrajectoryTrajectoryManagerInputEvent",
     "TrajectoryTrajectoryManagerPlanEvent",
     "TrajectoryTrajectoryManagerPlanEventData",
@@ -197,12 +196,8 @@ class TrajectoryTrajectoryStopEvent(BaseModel):
     event: Literal["StopEvent"]
 
 
-class TrajectoryTrajectoryResultEventData(BaseModel):
-    structured_output: Union[Dict[str, object], object, None] = None
-
-
 class TrajectoryTrajectoryResultEvent(BaseModel):
-    data: TrajectoryTrajectoryResultEventData
+    data: Dict[str, object]
 
     event: Literal["ResultEvent"]
 
