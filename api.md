@@ -41,6 +41,19 @@ Methods:
 - <code title="get /tasks/{task_id}/screenshots/{index}">client.tasks.screenshots.<a href="./src/droidrun_cloud/resources/tasks/screenshots.py">retrieve</a>(index, \*, task_id) -> <a href="./src/droidrun_cloud/types/tasks/media_response.py">MediaResponse</a></code>
 - <code title="get /tasks/{task_id}/screenshots">client.tasks.screenshots.<a href="./src/droidrun_cloud/resources/tasks/screenshots.py">list</a>(task_id) -> <a href="./src/droidrun_cloud/types/tasks/screenshot_list_response.py">ScreenshotListResponse</a></code>
 
+## UiStates
+
+Types:
+
+```python
+from droidrun_cloud.types.tasks import UiStateListResponse
+```
+
+Methods:
+
+- <code title="get /tasks/{task_id}/ui_states/{index}">client.tasks.ui_states.<a href="./src/droidrun_cloud/resources/tasks/ui_states.py">retrieve</a>(index, \*, task_id) -> <a href="./src/droidrun_cloud/types/tasks/media_response.py">MediaResponse</a></code>
+- <code title="get /tasks/{task_id}/ui_states">client.tasks.ui_states.<a href="./src/droidrun_cloud/resources/tasks/ui_states.py">list</a>(task_id) -> <a href="./src/droidrun_cloud/types/tasks/ui_state_list_response.py">UiStateListResponse</a></code>
+
 # Apps
 
 Types:
@@ -114,3 +127,27 @@ Methods:
 - <code title="post /credentials/packages/{packageName}/credentials/{credentialName}/fields">client.credentials.packages.credentials.fields.<a href="./src/droidrun_cloud/resources/credentials/packages/credentials/fields.py">create</a>(credential_name, \*, package_name, \*\*<a href="src/droidrun_cloud/types/credentials/packages/credentials/field_create_params.py">params</a>) -> <a href="./src/droidrun_cloud/types/credentials/packages/credentials/field_create_response.py">FieldCreateResponse</a></code>
 - <code title="patch /credentials/packages/{packageName}/credentials/{credentialName}/fields/{fieldType}">client.credentials.packages.credentials.fields.<a href="./src/droidrun_cloud/resources/credentials/packages/credentials/fields.py">update</a>(field_type, \*, package_name, credential_name, \*\*<a href="src/droidrun_cloud/types/credentials/packages/credentials/field_update_params.py">params</a>) -> <a href="./src/droidrun_cloud/types/credentials/packages/credentials/field_update_response.py">FieldUpdateResponse</a></code>
 - <code title="delete /credentials/packages/{packageName}/credentials/{credentialName}/fields/{fieldType}">client.credentials.packages.credentials.fields.<a href="./src/droidrun_cloud/resources/credentials/packages/credentials/fields.py">delete</a>(field_type, \*, package_name, credential_name) -> <a href="./src/droidrun_cloud/types/credentials/packages/credentials/field_delete_response.py">FieldDeleteResponse</a></code>
+
+# Hooks
+
+Types:
+
+```python
+from droidrun_cloud.types import (
+    HookUpdateResponse,
+    HookListResponse,
+    HookGetSampleDataResponse,
+    HookPerformResponse,
+    HookSubscribeResponse,
+    HookUnsubscribeResponse,
+)
+```
+
+Methods:
+
+- <code title="post /hooks/{hook_id}/edit">client.hooks.<a href="./src/droidrun_cloud/resources/hooks.py">update</a>(hook_id, \*\*<a href="src/droidrun_cloud/types/hook_update_params.py">params</a>) -> <a href="./src/droidrun_cloud/types/hook_update_response.py">HookUpdateResponse</a></code>
+- <code title="get /hooks/">client.hooks.<a href="./src/droidrun_cloud/resources/hooks.py">list</a>(\*\*<a href="src/droidrun_cloud/types/hook_list_params.py">params</a>) -> <a href="./src/droidrun_cloud/types/hook_list_response.py">HookListResponse</a></code>
+- <code title="get /hooks/sample">client.hooks.<a href="./src/droidrun_cloud/resources/hooks.py">get_sample_data</a>() -> <a href="./src/droidrun_cloud/types/hook_get_sample_data_response.py">HookGetSampleDataResponse</a></code>
+- <code title="post /hooks/perform">client.hooks.<a href="./src/droidrun_cloud/resources/hooks.py">perform</a>() -> <a href="./src/droidrun_cloud/types/hook_perform_response.py">HookPerformResponse</a></code>
+- <code title="post /hooks/subscribe">client.hooks.<a href="./src/droidrun_cloud/resources/hooks.py">subscribe</a>(\*\*<a href="src/droidrun_cloud/types/hook_subscribe_params.py">params</a>) -> <a href="./src/droidrun_cloud/types/hook_subscribe_response.py">HookSubscribeResponse</a></code>
+- <code title="post /hooks/{hook_id}/unsubscribe">client.hooks.<a href="./src/droidrun_cloud/resources/hooks.py">unsubscribe</a>(hook_id) -> <a href="./src/droidrun_cloud/types/hook_unsubscribe_response.py">HookUnsubscribeResponse</a></code>

@@ -8,6 +8,14 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
+from .hooks import (
+    HooksResource,
+    AsyncHooksResource,
+    HooksResourceWithRawResponse,
+    AsyncHooksResourceWithRawResponse,
+    HooksResourceWithStreamingResponse,
+    AsyncHooksResourceWithStreamingResponse,
+)
 from .tasks import (
     TasksResource,
     AsyncTasksResource,
@@ -44,4 +52,10 @@ __all__ = [
     "AsyncCredentialsResourceWithRawResponse",
     "CredentialsResourceWithStreamingResponse",
     "AsyncCredentialsResourceWithStreamingResponse",
+    "HooksResource",
+    "AsyncHooksResource",
+    "HooksResourceWithRawResponse",
+    "AsyncHooksResourceWithRawResponse",
+    "HooksResourceWithStreamingResponse",
+    "AsyncHooksResourceWithStreamingResponse",
 ]

@@ -8,6 +8,14 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
+from .ui_states import (
+    UiStatesResource,
+    AsyncUiStatesResource,
+    UiStatesResourceWithRawResponse,
+    AsyncUiStatesResourceWithRawResponse,
+    UiStatesResourceWithStreamingResponse,
+    AsyncUiStatesResourceWithStreamingResponse,
+)
 from .screenshots import (
     ScreenshotsResource,
     AsyncScreenshotsResource,
@@ -24,6 +32,12 @@ __all__ = [
     "AsyncScreenshotsResourceWithRawResponse",
     "ScreenshotsResourceWithStreamingResponse",
     "AsyncScreenshotsResourceWithStreamingResponse",
+    "UiStatesResource",
+    "AsyncUiStatesResource",
+    "UiStatesResourceWithRawResponse",
+    "AsyncUiStatesResourceWithRawResponse",
+    "UiStatesResourceWithStreamingResponse",
+    "AsyncUiStatesResourceWithStreamingResponse",
     "TasksResource",
     "AsyncTasksResource",
     "TasksResourceWithRawResponse",

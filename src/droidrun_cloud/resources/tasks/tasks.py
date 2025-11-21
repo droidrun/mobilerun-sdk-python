@@ -11,6 +11,14 @@ from ...types import LlmModel, TaskStatus, task_run_params, task_list_params, ta
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
+from .ui_states import (
+    UiStatesResource,
+    AsyncUiStatesResource,
+    UiStatesResourceWithRawResponse,
+    AsyncUiStatesResourceWithRawResponse,
+    UiStatesResourceWithStreamingResponse,
+    AsyncUiStatesResourceWithStreamingResponse,
+)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
     to_raw_response_wrapper,
@@ -43,6 +51,10 @@ class TasksResource(SyncAPIResource):
     @cached_property
     def screenshots(self) -> ScreenshotsResource:
         return ScreenshotsResource(self._client)
+
+    @cached_property
+    def ui_states(self) -> UiStatesResource:
+        return UiStatesResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> TasksResourceWithRawResponse:
@@ -412,6 +424,10 @@ class AsyncTasksResource(AsyncAPIResource):
     @cached_property
     def screenshots(self) -> AsyncScreenshotsResource:
         return AsyncScreenshotsResource(self._client)
+
+    @cached_property
+    def ui_states(self) -> AsyncUiStatesResource:
+        return AsyncUiStatesResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncTasksResourceWithRawResponse:
@@ -810,6 +826,10 @@ class TasksResourceWithRawResponse:
     def screenshots(self) -> ScreenshotsResourceWithRawResponse:
         return ScreenshotsResourceWithRawResponse(self._tasks.screenshots)
 
+    @cached_property
+    def ui_states(self) -> UiStatesResourceWithRawResponse:
+        return UiStatesResourceWithRawResponse(self._tasks.ui_states)
+
 
 class AsyncTasksResourceWithRawResponse:
     def __init__(self, tasks: AsyncTasksResource) -> None:
@@ -843,6 +863,10 @@ class AsyncTasksResourceWithRawResponse:
     @cached_property
     def screenshots(self) -> AsyncScreenshotsResourceWithRawResponse:
         return AsyncScreenshotsResourceWithRawResponse(self._tasks.screenshots)
+
+    @cached_property
+    def ui_states(self) -> AsyncUiStatesResourceWithRawResponse:
+        return AsyncUiStatesResourceWithRawResponse(self._tasks.ui_states)
 
 
 class TasksResourceWithStreamingResponse:
@@ -878,6 +902,10 @@ class TasksResourceWithStreamingResponse:
     def screenshots(self) -> ScreenshotsResourceWithStreamingResponse:
         return ScreenshotsResourceWithStreamingResponse(self._tasks.screenshots)
 
+    @cached_property
+    def ui_states(self) -> UiStatesResourceWithStreamingResponse:
+        return UiStatesResourceWithStreamingResponse(self._tasks.ui_states)
+
 
 class AsyncTasksResourceWithStreamingResponse:
     def __init__(self, tasks: AsyncTasksResource) -> None:
@@ -911,3 +939,7 @@ class AsyncTasksResourceWithStreamingResponse:
     @cached_property
     def screenshots(self) -> AsyncScreenshotsResourceWithStreamingResponse:
         return AsyncScreenshotsResourceWithStreamingResponse(self._tasks.screenshots)
+
+    @cached_property
+    def ui_states(self) -> AsyncUiStatesResourceWithStreamingResponse:
+        return AsyncUiStatesResourceWithStreamingResponse(self._tasks.ui_states)
