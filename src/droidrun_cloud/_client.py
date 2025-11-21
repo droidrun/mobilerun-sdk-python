@@ -22,7 +22,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import apps
+from .resources import apps, hooks
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
@@ -56,6 +56,7 @@ class DroidrunCloud(SyncAPIClient):
     tasks: tasks.TasksResource
     apps: apps.AppsResource
     credentials: credentials.CredentialsResource
+    hooks: hooks.HooksResource
     with_raw_response: DroidrunCloudWithRawResponse
     with_streaming_response: DroidrunCloudWithStreamedResponse
 
@@ -136,6 +137,7 @@ class DroidrunCloud(SyncAPIClient):
         self.tasks = tasks.TasksResource(self)
         self.apps = apps.AppsResource(self)
         self.credentials = credentials.CredentialsResource(self)
+        self.hooks = hooks.HooksResource(self)
         self.with_raw_response = DroidrunCloudWithRawResponse(self)
         self.with_streaming_response = DroidrunCloudWithStreamedResponse(self)
 
@@ -263,6 +265,7 @@ class AsyncDroidrunCloud(AsyncAPIClient):
     tasks: tasks.AsyncTasksResource
     apps: apps.AsyncAppsResource
     credentials: credentials.AsyncCredentialsResource
+    hooks: hooks.AsyncHooksResource
     with_raw_response: AsyncDroidrunCloudWithRawResponse
     with_streaming_response: AsyncDroidrunCloudWithStreamedResponse
 
@@ -343,6 +346,7 @@ class AsyncDroidrunCloud(AsyncAPIClient):
         self.tasks = tasks.AsyncTasksResource(self)
         self.apps = apps.AsyncAppsResource(self)
         self.credentials = credentials.AsyncCredentialsResource(self)
+        self.hooks = hooks.AsyncHooksResource(self)
         self.with_raw_response = AsyncDroidrunCloudWithRawResponse(self)
         self.with_streaming_response = AsyncDroidrunCloudWithStreamedResponse(self)
 
@@ -471,6 +475,7 @@ class DroidrunCloudWithRawResponse:
         self.tasks = tasks.TasksResourceWithRawResponse(client.tasks)
         self.apps = apps.AppsResourceWithRawResponse(client.apps)
         self.credentials = credentials.CredentialsResourceWithRawResponse(client.credentials)
+        self.hooks = hooks.HooksResourceWithRawResponse(client.hooks)
 
 
 class AsyncDroidrunCloudWithRawResponse:
@@ -478,6 +483,7 @@ class AsyncDroidrunCloudWithRawResponse:
         self.tasks = tasks.AsyncTasksResourceWithRawResponse(client.tasks)
         self.apps = apps.AsyncAppsResourceWithRawResponse(client.apps)
         self.credentials = credentials.AsyncCredentialsResourceWithRawResponse(client.credentials)
+        self.hooks = hooks.AsyncHooksResourceWithRawResponse(client.hooks)
 
 
 class DroidrunCloudWithStreamedResponse:
@@ -485,6 +491,7 @@ class DroidrunCloudWithStreamedResponse:
         self.tasks = tasks.TasksResourceWithStreamingResponse(client.tasks)
         self.apps = apps.AppsResourceWithStreamingResponse(client.apps)
         self.credentials = credentials.CredentialsResourceWithStreamingResponse(client.credentials)
+        self.hooks = hooks.HooksResourceWithStreamingResponse(client.hooks)
 
 
 class AsyncDroidrunCloudWithStreamedResponse:
@@ -492,6 +499,7 @@ class AsyncDroidrunCloudWithStreamedResponse:
         self.tasks = tasks.AsyncTasksResourceWithStreamingResponse(client.tasks)
         self.apps = apps.AsyncAppsResourceWithStreamingResponse(client.apps)
         self.credentials = credentials.AsyncCredentialsResourceWithStreamingResponse(client.credentials)
+        self.hooks = hooks.AsyncHooksResourceWithStreamingResponse(client.hooks)
 
 
 Client = DroidrunCloud
