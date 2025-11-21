@@ -21,6 +21,8 @@ class TaskRunParams(TypedDict, total=False):
 
     credentials: Iterable[Credential]
 
+    execution_timeout: Annotated[int, PropertyInfo(alias="executionTimeout")]
+
     files: SequenceNotStr[str]
 
     max_steps: Annotated[int, PropertyInfo(alias="maxSteps")]
@@ -30,8 +32,6 @@ class TaskRunParams(TypedDict, total=False):
     reasoning: bool
 
     temperature: float
-
-    api_timeout: Annotated[int, PropertyInfo(alias="timeout")]
 
     vision: bool
 
