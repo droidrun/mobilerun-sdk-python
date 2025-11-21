@@ -36,6 +36,8 @@ class Task(BaseModel):
 
     credentials: Optional[List[Credential]] = None
 
+    execution_timeout: Optional[int] = FieldInfo(alias="executionTimeout", default=None)
+
     files: Optional[List[str]] = None
 
     finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
@@ -55,8 +57,6 @@ class Task(BaseModel):
     succeeded: Optional[bool] = None
 
     temperature: Optional[float] = None
-
-    timeout: Optional[int] = None
 
     trajectory: Optional[List[Dict[str, object]]] = None
 

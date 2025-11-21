@@ -255,12 +255,12 @@ class TestTasks:
                     "package_name": "packageName",
                 }
             ],
+            execution_timeout=0,
             files=["string"],
             max_steps=0,
             output_schema={"foo": "bar"},
             reasoning=True,
             temperature=0,
-            api_timeout=0,
             vision=True,
             vpn_country="US",
         )
@@ -316,12 +316,12 @@ class TestTasks:
                     "package_name": "packageName",
                 }
             ],
+            execution_timeout=0,
             files=["string"],
             max_steps=0,
             output_schema={"foo": "bar"},
             reasoning=True,
             temperature=0,
-            api_timeout=0,
             vision=True,
             vpn_country="US",
         )
@@ -634,12 +634,12 @@ class TestAsyncTasks:
                     "package_name": "packageName",
                 }
             ],
+            execution_timeout=0,
             files=["string"],
             max_steps=0,
             output_schema={"foo": "bar"},
             reasoning=True,
             temperature=0,
-            api_timeout=0,
             vision=True,
             vpn_country="US",
         )
@@ -695,12 +695,12 @@ class TestAsyncTasks:
                     "package_name": "packageName",
                 }
             ],
+            execution_timeout=0,
             files=["string"],
             max_steps=0,
             output_schema={"foo": "bar"},
             reasoning=True,
             temperature=0,
-            api_timeout=0,
             vision=True,
             vpn_country="US",
         )
