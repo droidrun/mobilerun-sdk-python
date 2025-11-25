@@ -13,6 +13,8 @@ __all__ = ["HookListResponse", "Item", "Pagination"]
 
 
 class Item(BaseModel):
+    service: Literal["zapier", "n8n", "make", "internal", "other"]
+
     url: str
 
     user_id: str = FieldInfo(alias="userId")
@@ -22,8 +24,6 @@ class Item(BaseModel):
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     events: Optional[List[TaskStatus]] = None
-
-    service: Optional[Literal["zapier", "n8n", "make", "other"]] = None
 
     state: Optional[Literal["active", "disabled", "deleted"]] = None
 
