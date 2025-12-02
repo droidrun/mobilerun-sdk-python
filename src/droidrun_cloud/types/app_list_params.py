@@ -20,4 +20,4 @@ class AppListParams(TypedDict, total=False):
 
     sort_by: Annotated[Literal["createdAt", "name"], PropertyInfo(alias="sortBy")]
 
-    source: Literal["all", "uploaded", "store"]
+    source: Literal["all", "uploaded", "store", "queued"]
