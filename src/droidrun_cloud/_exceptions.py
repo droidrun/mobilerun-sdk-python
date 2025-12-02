@@ -18,11 +18,11 @@ __all__ = [
 ]
 
 
-class DroidrunCloudError(Exception):
+class MobilerunCloudError(Exception):
     pass
 
 
-class APIError(DroidrunCloudError):
+class APIError(MobilerunCloudError):
     message: str
     request: httpx.Request
 

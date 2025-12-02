@@ -5,13 +5,13 @@ from typing import Iterator, AsyncIterator
 import httpx
 import pytest
 
-from droidrun_cloud import DroidrunCloud, AsyncDroidrunCloud
+from droidrun_cloud import MobilerunCloud, AsyncMobilerunCloud
 from droidrun_cloud._streaming import Stream, AsyncStream, ServerSentEvent
 
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_basic(sync: bool, client: DroidrunCloud, async_client: AsyncDroidrunCloud) -> None:
+async def test_basic(sync: bool, client: MobilerunCloud, async_client: AsyncMobilerunCloud) -> None:
     def body() -> Iterator[bytes]:
         yield b"event: completion\n"
         yield b'data: {"foo":true}\n'
@@ -28,7 +28,7 @@ async def test_basic(sync: bool, client: DroidrunCloud, async_client: AsyncDroid
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_data_missing_event(sync: bool, client: DroidrunCloud, async_client: AsyncDroidrunCloud) -> None:
+async def test_data_missing_event(sync: bool, client: MobilerunCloud, async_client: AsyncMobilerunCloud) -> None:
     def body() -> Iterator[bytes]:
         yield b'data: {"foo":true}\n'
         yield b"\n"
@@ -44,7 +44,7 @@ async def test_data_missing_event(sync: bool, client: DroidrunCloud, async_clien
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_event_missing_data(sync: bool, client: DroidrunCloud, async_client: AsyncDroidrunCloud) -> None:
+async def test_event_missing_data(sync: bool, client: MobilerunCloud, async_client: AsyncMobilerunCloud) -> None:
     def body() -> Iterator[bytes]:
         yield b"event: ping\n"
         yield b"\n"
@@ -60,7 +60,7 @@ async def test_event_missing_data(sync: bool, client: DroidrunCloud, async_clien
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_multiple_events(sync: bool, client: DroidrunCloud, async_client: AsyncDroidrunCloud) -> None:
+async def test_multiple_events(sync: bool, client: MobilerunCloud, async_client: AsyncMobilerunCloud) -> None:
     def body() -> Iterator[bytes]:
         yield b"event: ping\n"
         yield b"\n"
@@ -82,7 +82,7 @@ async def test_multiple_events(sync: bool, client: DroidrunCloud, async_client: 
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_multiple_events_with_data(sync: bool, client: DroidrunCloud, async_client: AsyncDroidrunCloud) -> None:
+async def test_multiple_events_with_data(sync: bool, client: MobilerunCloud, async_client: AsyncMobilerunCloud) -> None:
     def body() -> Iterator[bytes]:
         yield b"event: ping\n"
         yield b'data: {"foo":true}\n'
@@ -107,7 +107,7 @@ async def test_multiple_events_with_data(sync: bool, client: DroidrunCloud, asyn
 @pytest.mark.asyncio
 @pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
 async def test_multiple_data_lines_with_empty_line(
-    sync: bool, client: DroidrunCloud, async_client: AsyncDroidrunCloud
+    sync: bool, client: MobilerunCloud, async_client: AsyncMobilerunCloud
 ) -> None:
     def body() -> Iterator[bytes]:
         yield b"event: ping\n"
@@ -131,7 +131,7 @@ async def test_multiple_data_lines_with_empty_line(
 @pytest.mark.asyncio
 @pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
 async def test_data_json_escaped_double_new_line(
-    sync: bool, client: DroidrunCloud, async_client: AsyncDroidrunCloud
+    sync: bool, client: MobilerunCloud, async_client: AsyncMobilerunCloud
 ) -> None:
     def body() -> Iterator[bytes]:
         yield b"event: ping\n"
@@ -149,7 +149,7 @@ async def test_data_json_escaped_double_new_line(
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_multiple_data_lines(sync: bool, client: DroidrunCloud, async_client: AsyncDroidrunCloud) -> None:
+async def test_multiple_data_lines(sync: bool, client: MobilerunCloud, async_client: AsyncMobilerunCloud) -> None:
     def body() -> Iterator[bytes]:
         yield b"event: ping\n"
         yield b"data: {\n"
@@ -169,8 +169,8 @@ async def test_multiple_data_lines(sync: bool, client: DroidrunCloud, async_clie
 @pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
 async def test_special_new_line_character(
     sync: bool,
-    client: DroidrunCloud,
-    async_client: AsyncDroidrunCloud,
+    client: MobilerunCloud,
+    async_client: AsyncMobilerunCloud,
 ) -> None:
     def body() -> Iterator[bytes]:
         yield b'data: {"content":" culpa"}\n'
@@ -200,8 +200,8 @@ async def test_special_new_line_character(
 @pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
 async def test_multi_byte_character_multiple_chunks(
     sync: bool,
-    client: DroidrunCloud,
-    async_client: AsyncDroidrunCloud,
+    client: MobilerunCloud,
+    async_client: AsyncMobilerunCloud,
 ) -> None:
     def body() -> Iterator[bytes]:
         yield b'data: {"content":"'
@@ -241,8 +241,8 @@ def make_event_iterator(
     content: Iterator[bytes],
     *,
     sync: bool,
-    client: DroidrunCloud,
-    async_client: AsyncDroidrunCloud,
+    client: MobilerunCloud,
+    async_client: AsyncMobilerunCloud,
 ) -> Iterator[ServerSentEvent] | AsyncIterator[ServerSentEvent]:
     if sync:
         return Stream(cast_to=object, client=client, response=httpx.Response(200, content=content))._iter_events()

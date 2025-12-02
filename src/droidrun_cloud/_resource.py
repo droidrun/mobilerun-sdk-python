@@ -8,13 +8,13 @@ from typing import TYPE_CHECKING
 import anyio
 
 if TYPE_CHECKING:
-    from ._client import DroidrunCloud, AsyncDroidrunCloud
+    from ._client import MobilerunCloud, AsyncMobilerunCloud
 
 
 class SyncAPIResource:
-    _client: DroidrunCloud
+    _client: MobilerunCloud
 
-    def __init__(self, client: DroidrunCloud) -> None:
+    def __init__(self, client: MobilerunCloud) -> None:
         self._client = client
         self._get = client.get
         self._post = client.post
@@ -28,9 +28,9 @@ class SyncAPIResource:
 
 
 class AsyncAPIResource:
-    _client: AsyncDroidrunCloud
+    _client: AsyncMobilerunCloud
 
-    def __init__(self, client: AsyncDroidrunCloud) -> None:
+    def __init__(self, client: AsyncMobilerunCloud) -> None:
         self._client = client
         self._get = client.get
         self._post = client.post
