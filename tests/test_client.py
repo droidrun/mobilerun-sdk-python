@@ -18,7 +18,7 @@ import pytest
 from respx import MockRouter
 from pydantic import ValidationError
 
-from droidrun_cloud import DroidrunCloud, AsyncDroidrunCloud, APIResponseValidationError
+from droidrun_cloud import MobilerunCloud, AsyncMobilerunCloud, APIResponseValidationError
 from droidrun_cloud._types import Omit
 from droidrun_cloud._utils import asyncify
 from droidrun_cloud._models import BaseModel, FinalRequestOptions
@@ -50,7 +50,7 @@ def _low_retry_timeout(*_args: Any, **_kwargs: Any) -> float:
     return 0.1
 
 
-def _get_open_connections(client: DroidrunCloud | AsyncDroidrunCloud) -> int:
+def _get_open_connections(client: MobilerunCloud | AsyncMobilerunCloud) -> int:
     transport = client._client._transport
     assert isinstance(transport, httpx.HTTPTransport) or isinstance(transport, httpx.AsyncHTTPTransport)
 
@@ -58,9 +58,9 @@ def _get_open_connections(client: DroidrunCloud | AsyncDroidrunCloud) -> int:
     return len(pool._requests)
 
 
-class TestDroidrunCloud:
+class TestMobilerunCloud:
     @pytest.mark.respx(base_url=base_url)
-    def test_raw_response(self, respx_mock: MockRouter, client: DroidrunCloud) -> None:
+    def test_raw_response(self, respx_mock: MockRouter, client: MobilerunCloud) -> None:
         respx_mock.post("/foo").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         response = client.post("/foo", cast_to=httpx.Response)
@@ -69,7 +69,7 @@ class TestDroidrunCloud:
         assert response.json() == {"foo": "bar"}
 
     @pytest.mark.respx(base_url=base_url)
-    def test_raw_response_for_binary(self, respx_mock: MockRouter, client: DroidrunCloud) -> None:
+    def test_raw_response_for_binary(self, respx_mock: MockRouter, client: MobilerunCloud) -> None:
         respx_mock.post("/foo").mock(
             return_value=httpx.Response(200, headers={"Content-Type": "application/binary"}, content='{"foo": "bar"}')
         )
@@ -79,7 +79,7 @@ class TestDroidrunCloud:
         assert isinstance(response, httpx.Response)
         assert response.json() == {"foo": "bar"}
 
-    def test_copy(self, client: DroidrunCloud) -> None:
+    def test_copy(self, client: MobilerunCloud) -> None:
         copied = client.copy()
         assert id(copied) != id(client)
 
@@ -87,7 +87,7 @@ class TestDroidrunCloud:
         assert copied.api_key == "another My API Key"
         assert client.api_key == "My API Key"
 
-    def test_copy_default_options(self, client: DroidrunCloud) -> None:
+    def test_copy_default_options(self, client: MobilerunCloud) -> None:
         # options that have a default are overridden correctly
         copied = client.copy(max_retries=7)
         assert copied.max_retries == 7
@@ -104,7 +104,7 @@ class TestDroidrunCloud:
         assert isinstance(client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
-        client = DroidrunCloud(
+        client = MobilerunCloud(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
@@ -139,7 +139,7 @@ class TestDroidrunCloud:
         client.close()
 
     def test_copy_default_query(self) -> None:
-        client = DroidrunCloud(
+        client = MobilerunCloud(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
@@ -176,7 +176,7 @@ class TestDroidrunCloud:
 
         client.close()
 
-    def test_copy_signature(self, client: DroidrunCloud) -> None:
+    def test_copy_signature(self, client: MobilerunCloud) -> None:
         # ensure the same parameters that can be passed to the client are defined in the `.copy()` method
         init_signature = inspect.signature(
             # mypy doesn't like that we access the `__init__` property.
@@ -193,7 +193,7 @@ class TestDroidrunCloud:
             assert copy_param is not None, f"copy() signature is missing the {name} param"
 
     @pytest.mark.skipif(sys.version_info >= (3, 10), reason="fails because of a memory leak that started from 3.12")
-    def test_copy_build_request(self, client: DroidrunCloud) -> None:
+    def test_copy_build_request(self, client: MobilerunCloud) -> None:
         options = FinalRequestOptions(method="get", url="/foo")
 
         def build_request(options: FinalRequestOptions) -> None:
@@ -255,7 +255,7 @@ class TestDroidrunCloud:
                     print(frame)
             raise AssertionError()
 
-    def test_request_timeout(self, client: DroidrunCloud) -> None:
+    def test_request_timeout(self, client: MobilerunCloud) -> None:
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
         assert timeout == DEFAULT_TIMEOUT
@@ -265,7 +265,7 @@ class TestDroidrunCloud:
         assert timeout == httpx.Timeout(100.0)
 
     def test_client_timeout_option(self) -> None:
-        client = DroidrunCloud(
+        client = MobilerunCloud(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
@@ -278,7 +278,7 @@ class TestDroidrunCloud:
     def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
-            client = DroidrunCloud(
+            client = MobilerunCloud(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -290,7 +290,7 @@ class TestDroidrunCloud:
 
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
-            client = DroidrunCloud(
+            client = MobilerunCloud(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -302,7 +302,7 @@ class TestDroidrunCloud:
 
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = DroidrunCloud(
+            client = MobilerunCloud(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -315,7 +315,7 @@ class TestDroidrunCloud:
     async def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             async with httpx.AsyncClient() as http_client:
-                DroidrunCloud(
+                MobilerunCloud(
                     base_url=base_url,
                     api_key=api_key,
                     _strict_response_validation=True,
@@ -323,14 +323,14 @@ class TestDroidrunCloud:
                 )
 
     def test_default_headers_option(self) -> None:
-        test_client = DroidrunCloud(
+        test_client = MobilerunCloud(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = test_client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        test_client2 = DroidrunCloud(
+        test_client2 = MobilerunCloud(
             base_url=base_url,
             api_key=api_key,
             _strict_response_validation=True,
@@ -347,12 +347,12 @@ class TestDroidrunCloud:
         test_client2.close()
 
     def test_validate_headers(self) -> None:
-        client = DroidrunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = MobilerunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
-        with update_env(**{"DROIDRUN_CLOUD_API_KEY": Omit()}):
-            client2 = DroidrunCloud(base_url=base_url, api_key=None, _strict_response_validation=True)
+        with update_env(**{"MOBILERUN_CLOUD_API_KEY": Omit()}):
+            client2 = MobilerunCloud(base_url=base_url, api_key=None, _strict_response_validation=True)
 
         with pytest.raises(
             TypeError,
@@ -366,7 +366,7 @@ class TestDroidrunCloud:
         assert request2.headers.get("Authorization") is None
 
     def test_default_query_option(self) -> None:
-        client = DroidrunCloud(
+        client = MobilerunCloud(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -385,7 +385,7 @@ class TestDroidrunCloud:
 
         client.close()
 
-    def test_request_extra_json(self, client: DroidrunCloud) -> None:
+    def test_request_extra_json(self, client: MobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -419,7 +419,7 @@ class TestDroidrunCloud:
         data = json.loads(request.content.decode("utf-8"))
         assert data == {"foo": "bar", "baz": None}
 
-    def test_request_extra_headers(self, client: DroidrunCloud) -> None:
+    def test_request_extra_headers(self, client: MobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -441,7 +441,7 @@ class TestDroidrunCloud:
         )
         assert request.headers.get("X-Bar") == "false"
 
-    def test_request_extra_query(self, client: DroidrunCloud) -> None:
+    def test_request_extra_query(self, client: MobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -482,7 +482,7 @@ class TestDroidrunCloud:
         params = dict(request.url.params)
         assert params == {"foo": "2"}
 
-    def test_multipart_repeating_array(self, client: DroidrunCloud) -> None:
+    def test_multipart_repeating_array(self, client: MobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions.construct(
                 method="post",
@@ -512,7 +512,7 @@ class TestDroidrunCloud:
         ]
 
     @pytest.mark.respx(base_url=base_url)
-    def test_basic_union_response(self, respx_mock: MockRouter, client: DroidrunCloud) -> None:
+    def test_basic_union_response(self, respx_mock: MockRouter, client: MobilerunCloud) -> None:
         class Model1(BaseModel):
             name: str
 
@@ -526,7 +526,7 @@ class TestDroidrunCloud:
         assert response.foo == "bar"
 
     @pytest.mark.respx(base_url=base_url)
-    def test_union_response_different_types(self, respx_mock: MockRouter, client: DroidrunCloud) -> None:
+    def test_union_response_different_types(self, respx_mock: MockRouter, client: MobilerunCloud) -> None:
         """Union of objects with the same field name using a different type"""
 
         class Model1(BaseModel):
@@ -549,7 +549,7 @@ class TestDroidrunCloud:
 
     @pytest.mark.respx(base_url=base_url)
     def test_non_application_json_content_type_for_json_data(
-        self, respx_mock: MockRouter, client: DroidrunCloud
+        self, respx_mock: MockRouter, client: MobilerunCloud
     ) -> None:
         """
         Response that sets Content-Type to something other than application/json but returns json data
@@ -571,7 +571,7 @@ class TestDroidrunCloud:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = DroidrunCloud(
+        client = MobilerunCloud(
             base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
@@ -583,29 +583,29 @@ class TestDroidrunCloud:
         client.close()
 
     def test_base_url_env(self) -> None:
-        with update_env(DROIDRUN_CLOUD_BASE_URL="http://localhost:5000/from/env"):
-            client = DroidrunCloud(api_key=api_key, _strict_response_validation=True)
+        with update_env(MOBILERUN_CLOUD_BASE_URL="http://localhost:5000/from/env"):
+            client = MobilerunCloud(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
         # explicit environment arg requires explicitness
-        with update_env(DROIDRUN_CLOUD_BASE_URL="http://localhost:5000/from/env"):
+        with update_env(MOBILERUN_CLOUD_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                DroidrunCloud(api_key=api_key, _strict_response_validation=True, environment="production")
+                MobilerunCloud(api_key=api_key, _strict_response_validation=True, environment="production")
 
-            client = DroidrunCloud(
+            client = MobilerunCloud(
                 base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
             )
-            assert str(client.base_url).startswith("https://api.droidrun.ai/v1")
+            assert str(client.base_url).startswith("https://api.mobilerun.ai/v1")
 
             client.close()
 
     @pytest.mark.parametrize(
         "client",
         [
-            DroidrunCloud(
+            MobilerunCloud(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            DroidrunCloud(
+            MobilerunCloud(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -614,7 +614,7 @@ class TestDroidrunCloud:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_trailing_slash(self, client: DroidrunCloud) -> None:
+    def test_base_url_trailing_slash(self, client: MobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -628,10 +628,10 @@ class TestDroidrunCloud:
     @pytest.mark.parametrize(
         "client",
         [
-            DroidrunCloud(
+            MobilerunCloud(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            DroidrunCloud(
+            MobilerunCloud(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -640,7 +640,7 @@ class TestDroidrunCloud:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_no_trailing_slash(self, client: DroidrunCloud) -> None:
+    def test_base_url_no_trailing_slash(self, client: MobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -654,10 +654,10 @@ class TestDroidrunCloud:
     @pytest.mark.parametrize(
         "client",
         [
-            DroidrunCloud(
+            MobilerunCloud(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            DroidrunCloud(
+            MobilerunCloud(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -666,7 +666,7 @@ class TestDroidrunCloud:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_absolute_request_url(self, client: DroidrunCloud) -> None:
+    def test_absolute_request_url(self, client: MobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -678,7 +678,7 @@ class TestDroidrunCloud:
         client.close()
 
     def test_copied_client_does_not_close_http(self) -> None:
-        test_client = DroidrunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        test_client = MobilerunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not test_client.is_closed()
 
         copied = test_client.copy()
@@ -689,7 +689,7 @@ class TestDroidrunCloud:
         assert not test_client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        test_client = DroidrunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        test_client = MobilerunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         with test_client as c2:
             assert c2 is test_client
             assert not c2.is_closed()
@@ -697,7 +697,7 @@ class TestDroidrunCloud:
         assert test_client.is_closed()
 
     @pytest.mark.respx(base_url=base_url)
-    def test_client_response_validation_error(self, respx_mock: MockRouter, client: DroidrunCloud) -> None:
+    def test_client_response_validation_error(self, respx_mock: MockRouter, client: MobilerunCloud) -> None:
         class Model(BaseModel):
             foo: str
 
@@ -710,7 +710,7 @@ class TestDroidrunCloud:
 
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            DroidrunCloud(
+            MobilerunCloud(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
             )
 
@@ -721,12 +721,12 @@ class TestDroidrunCloud:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = DroidrunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = MobilerunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        non_strict_client = DroidrunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        non_strict_client = MobilerunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = non_strict_client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -757,7 +757,7 @@ class TestDroidrunCloud:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(
-        self, remaining_retries: int, retry_after: str, timeout: float, client: DroidrunCloud
+        self, remaining_retries: int, retry_after: str, timeout: float, client: MobilerunCloud
     ) -> None:
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -766,7 +766,7 @@ class TestDroidrunCloud:
 
     @mock.patch("droidrun_cloud._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: DroidrunCloud) -> None:
+    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: MobilerunCloud) -> None:
         respx_mock.get("/tasks/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
@@ -776,7 +776,7 @@ class TestDroidrunCloud:
 
     @mock.patch("droidrun_cloud._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: DroidrunCloud) -> None:
+    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: MobilerunCloud) -> None:
         respx_mock.get("/tasks/").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
@@ -789,7 +789,7 @@ class TestDroidrunCloud:
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     def test_retries_taken(
         self,
-        client: DroidrunCloud,
+        client: MobilerunCloud,
         failures_before_success: int,
         failure_mode: Literal["status", "exception"],
         respx_mock: MockRouter,
@@ -818,7 +818,7 @@ class TestDroidrunCloud:
     @mock.patch("droidrun_cloud._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_omit_retry_count_header(
-        self, client: DroidrunCloud, failures_before_success: int, respx_mock: MockRouter
+        self, client: MobilerunCloud, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = client.with_options(max_retries=4)
 
@@ -841,7 +841,7 @@ class TestDroidrunCloud:
     @mock.patch("droidrun_cloud._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_overwrite_retry_count_header(
-        self, client: DroidrunCloud, failures_before_success: int, respx_mock: MockRouter
+        self, client: MobilerunCloud, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = client.with_options(max_retries=4)
 
@@ -883,7 +883,7 @@ class TestDroidrunCloud:
         )
 
     @pytest.mark.respx(base_url=base_url)
-    def test_follow_redirects(self, respx_mock: MockRouter, client: DroidrunCloud) -> None:
+    def test_follow_redirects(self, respx_mock: MockRouter, client: MobilerunCloud) -> None:
         # Test that the default follow_redirects=True allows following redirects
         respx_mock.post("/redirect").mock(
             return_value=httpx.Response(302, headers={"Location": f"{base_url}/redirected"})
@@ -895,7 +895,7 @@ class TestDroidrunCloud:
         assert response.json() == {"status": "ok"}
 
     @pytest.mark.respx(base_url=base_url)
-    def test_follow_redirects_disabled(self, respx_mock: MockRouter, client: DroidrunCloud) -> None:
+    def test_follow_redirects_disabled(self, respx_mock: MockRouter, client: MobilerunCloud) -> None:
         # Test that follow_redirects=False prevents following redirects
         respx_mock.post("/redirect").mock(
             return_value=httpx.Response(302, headers={"Location": f"{base_url}/redirected"})
@@ -908,9 +908,9 @@ class TestDroidrunCloud:
         assert exc_info.value.response.headers["Location"] == f"{base_url}/redirected"
 
 
-class TestAsyncDroidrunCloud:
+class TestAsyncMobilerunCloud:
     @pytest.mark.respx(base_url=base_url)
-    async def test_raw_response(self, respx_mock: MockRouter, async_client: AsyncDroidrunCloud) -> None:
+    async def test_raw_response(self, respx_mock: MockRouter, async_client: AsyncMobilerunCloud) -> None:
         respx_mock.post("/foo").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         response = await async_client.post("/foo", cast_to=httpx.Response)
@@ -919,7 +919,7 @@ class TestAsyncDroidrunCloud:
         assert response.json() == {"foo": "bar"}
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_raw_response_for_binary(self, respx_mock: MockRouter, async_client: AsyncDroidrunCloud) -> None:
+    async def test_raw_response_for_binary(self, respx_mock: MockRouter, async_client: AsyncMobilerunCloud) -> None:
         respx_mock.post("/foo").mock(
             return_value=httpx.Response(200, headers={"Content-Type": "application/binary"}, content='{"foo": "bar"}')
         )
@@ -929,7 +929,7 @@ class TestAsyncDroidrunCloud:
         assert isinstance(response, httpx.Response)
         assert response.json() == {"foo": "bar"}
 
-    def test_copy(self, async_client: AsyncDroidrunCloud) -> None:
+    def test_copy(self, async_client: AsyncMobilerunCloud) -> None:
         copied = async_client.copy()
         assert id(copied) != id(async_client)
 
@@ -937,7 +937,7 @@ class TestAsyncDroidrunCloud:
         assert copied.api_key == "another My API Key"
         assert async_client.api_key == "My API Key"
 
-    def test_copy_default_options(self, async_client: AsyncDroidrunCloud) -> None:
+    def test_copy_default_options(self, async_client: AsyncMobilerunCloud) -> None:
         # options that have a default are overridden correctly
         copied = async_client.copy(max_retries=7)
         assert copied.max_retries == 7
@@ -954,7 +954,7 @@ class TestAsyncDroidrunCloud:
         assert isinstance(async_client.timeout, httpx.Timeout)
 
     async def test_copy_default_headers(self) -> None:
-        client = AsyncDroidrunCloud(
+        client = AsyncMobilerunCloud(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
@@ -989,7 +989,7 @@ class TestAsyncDroidrunCloud:
         await client.close()
 
     async def test_copy_default_query(self) -> None:
-        client = AsyncDroidrunCloud(
+        client = AsyncMobilerunCloud(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
@@ -1026,7 +1026,7 @@ class TestAsyncDroidrunCloud:
 
         await client.close()
 
-    def test_copy_signature(self, async_client: AsyncDroidrunCloud) -> None:
+    def test_copy_signature(self, async_client: AsyncMobilerunCloud) -> None:
         # ensure the same parameters that can be passed to the client are defined in the `.copy()` method
         init_signature = inspect.signature(
             # mypy doesn't like that we access the `__init__` property.
@@ -1043,7 +1043,7 @@ class TestAsyncDroidrunCloud:
             assert copy_param is not None, f"copy() signature is missing the {name} param"
 
     @pytest.mark.skipif(sys.version_info >= (3, 10), reason="fails because of a memory leak that started from 3.12")
-    def test_copy_build_request(self, async_client: AsyncDroidrunCloud) -> None:
+    def test_copy_build_request(self, async_client: AsyncMobilerunCloud) -> None:
         options = FinalRequestOptions(method="get", url="/foo")
 
         def build_request(options: FinalRequestOptions) -> None:
@@ -1105,7 +1105,7 @@ class TestAsyncDroidrunCloud:
                     print(frame)
             raise AssertionError()
 
-    async def test_request_timeout(self, async_client: AsyncDroidrunCloud) -> None:
+    async def test_request_timeout(self, async_client: AsyncMobilerunCloud) -> None:
         request = async_client._build_request(FinalRequestOptions(method="get", url="/foo"))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
         assert timeout == DEFAULT_TIMEOUT
@@ -1117,7 +1117,7 @@ class TestAsyncDroidrunCloud:
         assert timeout == httpx.Timeout(100.0)
 
     async def test_client_timeout_option(self) -> None:
-        client = AsyncDroidrunCloud(
+        client = AsyncMobilerunCloud(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
@@ -1130,7 +1130,7 @@ class TestAsyncDroidrunCloud:
     async def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
-            client = AsyncDroidrunCloud(
+            client = AsyncMobilerunCloud(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1142,7 +1142,7 @@ class TestAsyncDroidrunCloud:
 
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
-            client = AsyncDroidrunCloud(
+            client = AsyncMobilerunCloud(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1154,7 +1154,7 @@ class TestAsyncDroidrunCloud:
 
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = AsyncDroidrunCloud(
+            client = AsyncMobilerunCloud(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1167,7 +1167,7 @@ class TestAsyncDroidrunCloud:
     def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             with httpx.Client() as http_client:
-                AsyncDroidrunCloud(
+                AsyncMobilerunCloud(
                     base_url=base_url,
                     api_key=api_key,
                     _strict_response_validation=True,
@@ -1175,14 +1175,14 @@ class TestAsyncDroidrunCloud:
                 )
 
     async def test_default_headers_option(self) -> None:
-        test_client = AsyncDroidrunCloud(
+        test_client = AsyncMobilerunCloud(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = test_client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        test_client2 = AsyncDroidrunCloud(
+        test_client2 = AsyncMobilerunCloud(
             base_url=base_url,
             api_key=api_key,
             _strict_response_validation=True,
@@ -1199,12 +1199,12 @@ class TestAsyncDroidrunCloud:
         await test_client2.close()
 
     def test_validate_headers(self) -> None:
-        client = AsyncDroidrunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncMobilerunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
-        with update_env(**{"DROIDRUN_CLOUD_API_KEY": Omit()}):
-            client2 = AsyncDroidrunCloud(base_url=base_url, api_key=None, _strict_response_validation=True)
+        with update_env(**{"MOBILERUN_CLOUD_API_KEY": Omit()}):
+            client2 = AsyncMobilerunCloud(base_url=base_url, api_key=None, _strict_response_validation=True)
 
         with pytest.raises(
             TypeError,
@@ -1218,7 +1218,7 @@ class TestAsyncDroidrunCloud:
         assert request2.headers.get("Authorization") is None
 
     async def test_default_query_option(self) -> None:
-        client = AsyncDroidrunCloud(
+        client = AsyncMobilerunCloud(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1237,7 +1237,7 @@ class TestAsyncDroidrunCloud:
 
         await client.close()
 
-    def test_request_extra_json(self, client: DroidrunCloud) -> None:
+    def test_request_extra_json(self, client: MobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1271,7 +1271,7 @@ class TestAsyncDroidrunCloud:
         data = json.loads(request.content.decode("utf-8"))
         assert data == {"foo": "bar", "baz": None}
 
-    def test_request_extra_headers(self, client: DroidrunCloud) -> None:
+    def test_request_extra_headers(self, client: MobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1293,7 +1293,7 @@ class TestAsyncDroidrunCloud:
         )
         assert request.headers.get("X-Bar") == "false"
 
-    def test_request_extra_query(self, client: DroidrunCloud) -> None:
+    def test_request_extra_query(self, client: MobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1334,7 +1334,7 @@ class TestAsyncDroidrunCloud:
         params = dict(request.url.params)
         assert params == {"foo": "2"}
 
-    def test_multipart_repeating_array(self, async_client: AsyncDroidrunCloud) -> None:
+    def test_multipart_repeating_array(self, async_client: AsyncMobilerunCloud) -> None:
         request = async_client._build_request(
             FinalRequestOptions.construct(
                 method="post",
@@ -1364,7 +1364,7 @@ class TestAsyncDroidrunCloud:
         ]
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_basic_union_response(self, respx_mock: MockRouter, async_client: AsyncDroidrunCloud) -> None:
+    async def test_basic_union_response(self, respx_mock: MockRouter, async_client: AsyncMobilerunCloud) -> None:
         class Model1(BaseModel):
             name: str
 
@@ -1379,7 +1379,7 @@ class TestAsyncDroidrunCloud:
 
     @pytest.mark.respx(base_url=base_url)
     async def test_union_response_different_types(
-        self, respx_mock: MockRouter, async_client: AsyncDroidrunCloud
+        self, respx_mock: MockRouter, async_client: AsyncMobilerunCloud
     ) -> None:
         """Union of objects with the same field name using a different type"""
 
@@ -1403,7 +1403,7 @@ class TestAsyncDroidrunCloud:
 
     @pytest.mark.respx(base_url=base_url)
     async def test_non_application_json_content_type_for_json_data(
-        self, respx_mock: MockRouter, async_client: AsyncDroidrunCloud
+        self, respx_mock: MockRouter, async_client: AsyncMobilerunCloud
     ) -> None:
         """
         Response that sets Content-Type to something other than application/json but returns json data
@@ -1425,7 +1425,7 @@ class TestAsyncDroidrunCloud:
         assert response.foo == 2
 
     async def test_base_url_setter(self) -> None:
-        client = AsyncDroidrunCloud(
+        client = AsyncMobilerunCloud(
             base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
@@ -1437,29 +1437,29 @@ class TestAsyncDroidrunCloud:
         await client.close()
 
     async def test_base_url_env(self) -> None:
-        with update_env(DROIDRUN_CLOUD_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncDroidrunCloud(api_key=api_key, _strict_response_validation=True)
+        with update_env(MOBILERUN_CLOUD_BASE_URL="http://localhost:5000/from/env"):
+            client = AsyncMobilerunCloud(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
         # explicit environment arg requires explicitness
-        with update_env(DROIDRUN_CLOUD_BASE_URL="http://localhost:5000/from/env"):
+        with update_env(MOBILERUN_CLOUD_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                AsyncDroidrunCloud(api_key=api_key, _strict_response_validation=True, environment="production")
+                AsyncMobilerunCloud(api_key=api_key, _strict_response_validation=True, environment="production")
 
-            client = AsyncDroidrunCloud(
+            client = AsyncMobilerunCloud(
                 base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
             )
-            assert str(client.base_url).startswith("https://api.droidrun.ai/v1")
+            assert str(client.base_url).startswith("https://api.mobilerun.ai/v1")
 
             await client.close()
 
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncDroidrunCloud(
+            AsyncMobilerunCloud(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            AsyncDroidrunCloud(
+            AsyncMobilerunCloud(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -1468,7 +1468,7 @@ class TestAsyncDroidrunCloud:
         ],
         ids=["standard", "custom http client"],
     )
-    async def test_base_url_trailing_slash(self, client: AsyncDroidrunCloud) -> None:
+    async def test_base_url_trailing_slash(self, client: AsyncMobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1482,10 +1482,10 @@ class TestAsyncDroidrunCloud:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncDroidrunCloud(
+            AsyncMobilerunCloud(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            AsyncDroidrunCloud(
+            AsyncMobilerunCloud(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -1494,7 +1494,7 @@ class TestAsyncDroidrunCloud:
         ],
         ids=["standard", "custom http client"],
     )
-    async def test_base_url_no_trailing_slash(self, client: AsyncDroidrunCloud) -> None:
+    async def test_base_url_no_trailing_slash(self, client: AsyncMobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1508,10 +1508,10 @@ class TestAsyncDroidrunCloud:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncDroidrunCloud(
+            AsyncMobilerunCloud(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            AsyncDroidrunCloud(
+            AsyncMobilerunCloud(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -1520,7 +1520,7 @@ class TestAsyncDroidrunCloud:
         ],
         ids=["standard", "custom http client"],
     )
-    async def test_absolute_request_url(self, client: AsyncDroidrunCloud) -> None:
+    async def test_absolute_request_url(self, client: AsyncMobilerunCloud) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1532,7 +1532,7 @@ class TestAsyncDroidrunCloud:
         await client.close()
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        test_client = AsyncDroidrunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        test_client = AsyncMobilerunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not test_client.is_closed()
 
         copied = test_client.copy()
@@ -1544,7 +1544,7 @@ class TestAsyncDroidrunCloud:
         assert not test_client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        test_client = AsyncDroidrunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        test_client = AsyncMobilerunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         async with test_client as c2:
             assert c2 is test_client
             assert not c2.is_closed()
@@ -1553,7 +1553,7 @@ class TestAsyncDroidrunCloud:
 
     @pytest.mark.respx(base_url=base_url)
     async def test_client_response_validation_error(
-        self, respx_mock: MockRouter, async_client: AsyncDroidrunCloud
+        self, respx_mock: MockRouter, async_client: AsyncMobilerunCloud
     ) -> None:
         class Model(BaseModel):
             foo: str
@@ -1567,7 +1567,7 @@ class TestAsyncDroidrunCloud:
 
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            AsyncDroidrunCloud(
+            AsyncMobilerunCloud(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
             )
 
@@ -1578,12 +1578,12 @@ class TestAsyncDroidrunCloud:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncDroidrunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = AsyncMobilerunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        non_strict_client = AsyncDroidrunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        non_strict_client = AsyncMobilerunCloud(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = await non_strict_client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1614,7 +1614,7 @@ class TestAsyncDroidrunCloud:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     async def test_parse_retry_after_header(
-        self, remaining_retries: int, retry_after: str, timeout: float, async_client: AsyncDroidrunCloud
+        self, remaining_retries: int, retry_after: str, timeout: float, async_client: AsyncMobilerunCloud
     ) -> None:
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -1624,7 +1624,7 @@ class TestAsyncDroidrunCloud:
     @mock.patch("droidrun_cloud._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(
-        self, respx_mock: MockRouter, async_client: AsyncDroidrunCloud
+        self, respx_mock: MockRouter, async_client: AsyncMobilerunCloud
     ) -> None:
         respx_mock.get("/tasks/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
@@ -1636,7 +1636,7 @@ class TestAsyncDroidrunCloud:
     @mock.patch("droidrun_cloud._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(
-        self, respx_mock: MockRouter, async_client: AsyncDroidrunCloud
+        self, respx_mock: MockRouter, async_client: AsyncMobilerunCloud
     ) -> None:
         respx_mock.get("/tasks/").mock(return_value=httpx.Response(500))
 
@@ -1650,7 +1650,7 @@ class TestAsyncDroidrunCloud:
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     async def test_retries_taken(
         self,
-        async_client: AsyncDroidrunCloud,
+        async_client: AsyncMobilerunCloud,
         failures_before_success: int,
         failure_mode: Literal["status", "exception"],
         respx_mock: MockRouter,
@@ -1679,7 +1679,7 @@ class TestAsyncDroidrunCloud:
     @mock.patch("droidrun_cloud._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_omit_retry_count_header(
-        self, async_client: AsyncDroidrunCloud, failures_before_success: int, respx_mock: MockRouter
+        self, async_client: AsyncMobilerunCloud, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
 
@@ -1702,7 +1702,7 @@ class TestAsyncDroidrunCloud:
     @mock.patch("droidrun_cloud._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_overwrite_retry_count_header(
-        self, async_client: AsyncDroidrunCloud, failures_before_success: int, respx_mock: MockRouter
+        self, async_client: AsyncMobilerunCloud, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
 
@@ -1748,7 +1748,7 @@ class TestAsyncDroidrunCloud:
         )
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_follow_redirects(self, respx_mock: MockRouter, async_client: AsyncDroidrunCloud) -> None:
+    async def test_follow_redirects(self, respx_mock: MockRouter, async_client: AsyncMobilerunCloud) -> None:
         # Test that the default follow_redirects=True allows following redirects
         respx_mock.post("/redirect").mock(
             return_value=httpx.Response(302, headers={"Location": f"{base_url}/redirected"})
@@ -1760,7 +1760,7 @@ class TestAsyncDroidrunCloud:
         assert response.json() == {"status": "ok"}
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_follow_redirects_disabled(self, respx_mock: MockRouter, async_client: AsyncDroidrunCloud) -> None:
+    async def test_follow_redirects_disabled(self, respx_mock: MockRouter, async_client: AsyncMobilerunCloud) -> None:
         # Test that follow_redirects=False prevents following redirects
         respx_mock.post("/redirect").mock(
             return_value=httpx.Response(302, headers={"Location": f"{base_url}/redirected"})

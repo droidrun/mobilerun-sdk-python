@@ -1,11 +1,11 @@
 [project]
 name = "droidrun_cloud"
 version = "0.0.1"
-description = "The official Python library for the droidrun-cloud API"
+description = "The official Python library for the mobilerun-cloud API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Droidrun Cloud", email = "support@droidrun.ai" },
+{ name = "Mobilerun Cloud", email = "support@droidrun.ai" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",

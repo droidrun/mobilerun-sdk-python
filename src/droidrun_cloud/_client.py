@@ -39,26 +39,26 @@ __all__ = [
     "Transport",
     "ProxiesTypes",
     "RequestOptions",
-    "DroidrunCloud",
-    "AsyncDroidrunCloud",
+    "MobilerunCloud",
+    "AsyncMobilerunCloud",
     "Client",
     "AsyncClient",
 ]
 
 ENVIRONMENTS: Dict[str, str] = {
-    "production": "https://api.droidrun.ai/v1",
+    "production": "https://api.mobilerun.ai/v1",
     "staging": "https://staging-api.droidrun.ai/v1",
     "dev": "https://dev-api.droidrun.ai/v1",
 }
 
 
-class DroidrunCloud(SyncAPIClient):
+class MobilerunCloud(SyncAPIClient):
     tasks: tasks.TasksResource
     apps: apps.AppsResource
     credentials: credentials.CredentialsResource
     hooks: hooks.HooksResource
-    with_raw_response: DroidrunCloudWithRawResponse
-    with_streaming_response: DroidrunCloudWithStreamedResponse
+    with_raw_response: MobilerunCloudWithRawResponse
+    with_streaming_response: MobilerunCloudWithStreamedResponse
 
     # client options
     api_key: str | None
@@ -89,24 +89,24 @@ class DroidrunCloud(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous DroidrunCloud client instance.
+        """Construct a new synchronous MobilerunCloud client instance.
 
-        This automatically infers the `api_key` argument from the `DROIDRUN_CLOUD_API_KEY` environment variable if it is not provided.
+        This automatically infers the `api_key` argument from the `MOBILERUN_CLOUD_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
-            api_key = os.environ.get("DROIDRUN_CLOUD_API_KEY")
+            api_key = os.environ.get("MOBILERUN_CLOUD_API_KEY")
         self.api_key = api_key
 
         self._environment = environment
 
-        base_url_env = os.environ.get("DROIDRUN_CLOUD_BASE_URL")
+        base_url_env = os.environ.get("MOBILERUN_CLOUD_BASE_URL")
         if is_given(base_url) and base_url is not None:
             # cast required because mypy doesn't understand the type narrowing
             base_url = cast("str | httpx.URL", base_url)  # pyright: ignore[reportUnnecessaryCast]
         elif is_given(environment):
             if base_url_env and base_url is not None:
                 raise ValueError(
-                    "Ambiguous URL; The `DROIDRUN_CLOUD_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
+                    "Ambiguous URL; The `MOBILERUN_CLOUD_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
                 )
 
             try:
@@ -138,8 +138,8 @@ class DroidrunCloud(SyncAPIClient):
         self.apps = apps.AppsResource(self)
         self.credentials = credentials.CredentialsResource(self)
         self.hooks = hooks.HooksResource(self)
-        self.with_raw_response = DroidrunCloudWithRawResponse(self)
-        self.with_streaming_response = DroidrunCloudWithStreamedResponse(self)
+        self.with_raw_response = MobilerunCloudWithRawResponse(self)
+        self.with_streaming_response = MobilerunCloudWithStreamedResponse(self)
 
     @property
     @override
@@ -261,13 +261,13 @@ class DroidrunCloud(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncDroidrunCloud(AsyncAPIClient):
+class AsyncMobilerunCloud(AsyncAPIClient):
     tasks: tasks.AsyncTasksResource
     apps: apps.AsyncAppsResource
     credentials: credentials.AsyncCredentialsResource
     hooks: hooks.AsyncHooksResource
-    with_raw_response: AsyncDroidrunCloudWithRawResponse
-    with_streaming_response: AsyncDroidrunCloudWithStreamedResponse
+    with_raw_response: AsyncMobilerunCloudWithRawResponse
+    with_streaming_response: AsyncMobilerunCloudWithStreamedResponse
 
     # client options
     api_key: str | None
@@ -298,24 +298,24 @@ class AsyncDroidrunCloud(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncDroidrunCloud client instance.
+        """Construct a new async AsyncMobilerunCloud client instance.
 
-        This automatically infers the `api_key` argument from the `DROIDRUN_CLOUD_API_KEY` environment variable if it is not provided.
+        This automatically infers the `api_key` argument from the `MOBILERUN_CLOUD_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
-            api_key = os.environ.get("DROIDRUN_CLOUD_API_KEY")
+            api_key = os.environ.get("MOBILERUN_CLOUD_API_KEY")
         self.api_key = api_key
 
         self._environment = environment
 
-        base_url_env = os.environ.get("DROIDRUN_CLOUD_BASE_URL")
+        base_url_env = os.environ.get("MOBILERUN_CLOUD_BASE_URL")
         if is_given(base_url) and base_url is not None:
             # cast required because mypy doesn't understand the type narrowing
             base_url = cast("str | httpx.URL", base_url)  # pyright: ignore[reportUnnecessaryCast]
         elif is_given(environment):
             if base_url_env and base_url is not None:
                 raise ValueError(
-                    "Ambiguous URL; The `DROIDRUN_CLOUD_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
+                    "Ambiguous URL; The `MOBILERUN_CLOUD_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
                 )
 
             try:
@@ -347,8 +347,8 @@ class AsyncDroidrunCloud(AsyncAPIClient):
         self.apps = apps.AsyncAppsResource(self)
         self.credentials = credentials.AsyncCredentialsResource(self)
         self.hooks = hooks.AsyncHooksResource(self)
-        self.with_raw_response = AsyncDroidrunCloudWithRawResponse(self)
-        self.with_streaming_response = AsyncDroidrunCloudWithStreamedResponse(self)
+        self.with_raw_response = AsyncMobilerunCloudWithRawResponse(self)
+        self.with_streaming_response = AsyncMobilerunCloudWithStreamedResponse(self)
 
     @property
     @override
@@ -470,38 +470,38 @@ class AsyncDroidrunCloud(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class DroidrunCloudWithRawResponse:
-    def __init__(self, client: DroidrunCloud) -> None:
+class MobilerunCloudWithRawResponse:
+    def __init__(self, client: MobilerunCloud) -> None:
         self.tasks = tasks.TasksResourceWithRawResponse(client.tasks)
         self.apps = apps.AppsResourceWithRawResponse(client.apps)
         self.credentials = credentials.CredentialsResourceWithRawResponse(client.credentials)
         self.hooks = hooks.HooksResourceWithRawResponse(client.hooks)
 
 
-class AsyncDroidrunCloudWithRawResponse:
-    def __init__(self, client: AsyncDroidrunCloud) -> None:
+class AsyncMobilerunCloudWithRawResponse:
+    def __init__(self, client: AsyncMobilerunCloud) -> None:
         self.tasks = tasks.AsyncTasksResourceWithRawResponse(client.tasks)
         self.apps = apps.AsyncAppsResourceWithRawResponse(client.apps)
         self.credentials = credentials.AsyncCredentialsResourceWithRawResponse(client.credentials)
         self.hooks = hooks.AsyncHooksResourceWithRawResponse(client.hooks)
 
 
-class DroidrunCloudWithStreamedResponse:
-    def __init__(self, client: DroidrunCloud) -> None:
+class MobilerunCloudWithStreamedResponse:
+    def __init__(self, client: MobilerunCloud) -> None:
         self.tasks = tasks.TasksResourceWithStreamingResponse(client.tasks)
         self.apps = apps.AppsResourceWithStreamingResponse(client.apps)
         self.credentials = credentials.CredentialsResourceWithStreamingResponse(client.credentials)
         self.hooks = hooks.HooksResourceWithStreamingResponse(client.hooks)
 
 
-class AsyncDroidrunCloudWithStreamedResponse:
-    def __init__(self, client: AsyncDroidrunCloud) -> None:
+class AsyncMobilerunCloudWithStreamedResponse:
+    def __init__(self, client: AsyncMobilerunCloud) -> None:
         self.tasks = tasks.AsyncTasksResourceWithStreamingResponse(client.tasks)
         self.apps = apps.AsyncAppsResourceWithStreamingResponse(client.apps)
         self.credentials = credentials.AsyncCredentialsResourceWithStreamingResponse(client.credentials)
         self.hooks = hooks.AsyncHooksResourceWithStreamingResponse(client.hooks)
 
 
-Client = DroidrunCloud
+Client = MobilerunCloud
 
-AsyncClient = AsyncDroidrunCloud
+AsyncClient = AsyncMobilerunCloud

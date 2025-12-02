@@ -1,9 +1,9 @@
-# Droidrun Cloud Python API library
+# Mobilerun Cloud Python API library
 
 <!-- prettier-ignore -->
 [![PyPI version](https://img.shields.io/pypi/v/droidrun_cloud.svg?label=pypi%20(stable))](https://pypi.org/project/droidrun_cloud/)
 
-The Droidrun Cloud Python library provides convenient access to the Droidrun Cloud REST API from any Python 3.9+
+The Mobilerun Cloud Python library provides convenient access to the Mobilerun Cloud REST API from any Python 3.9+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -29,10 +29,10 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 import os
-from droidrun_cloud import DroidrunCloud
+from droidrun_cloud import MobilerunCloud
 
-client = DroidrunCloud(
-    api_key=os.environ.get("DROIDRUN_CLOUD_API_KEY"),  # This is the default and can be omitted
+client = MobilerunCloud(
+    api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
     # or 'production' | 'dev'; defaults to "production".
     environment="staging",
 )
@@ -43,20 +43,20 @@ print(tasks.items)
 
 While you can provide a `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `DROIDRUN_CLOUD_API_KEY="My API Key"` to your `.env` file
+to add `MOBILERUN_CLOUD_API_KEY="My API Key"` to your `.env` file
 so that your API Key is not stored in source control.
 
 ## Async usage
 
-Simply import `AsyncDroidrunCloud` instead of `DroidrunCloud` and use `await` with each API call:
+Simply import `AsyncMobilerunCloud` instead of `MobilerunCloud` and use `await` with each API call:
 
 ```python
 import os
 import asyncio
-from droidrun_cloud import AsyncDroidrunCloud
+from droidrun_cloud import AsyncMobilerunCloud
 
-client = AsyncDroidrunCloud(
-    api_key=os.environ.get("DROIDRUN_CLOUD_API_KEY"),  # This is the default and can be omitted
+client = AsyncMobilerunCloud(
+    api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
     # or 'production' | 'dev'; defaults to "production".
     environment="staging",
 )
@@ -88,11 +88,11 @@ Then you can enable it by instantiating the client with `http_client=DefaultAioH
 ```python
 import asyncio
 from droidrun_cloud import DefaultAioHttpClient
-from droidrun_cloud import AsyncDroidrunCloud
+from droidrun_cloud import AsyncMobilerunCloud
 
 
 async def main() -> None:
-    async with AsyncDroidrunCloud(
+    async with AsyncMobilerunCloud(
         api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
@@ -123,9 +123,9 @@ All errors inherit from `droidrun_cloud.APIError`.
 
 ```python
 import droidrun_cloud
-from droidrun_cloud import DroidrunCloud
+from droidrun_cloud import MobilerunCloud
 
-client = DroidrunCloud()
+client = MobilerunCloud()
 
 try:
     client.tasks.list()
@@ -162,10 +162,10 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from droidrun_cloud import DroidrunCloud
+from droidrun_cloud import MobilerunCloud
 
 # Configure the default for all requests:
-client = DroidrunCloud(
+client = MobilerunCloud(
     # default is 2
     max_retries=0,
 )
@@ -180,16 +180,16 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
-from droidrun_cloud import DroidrunCloud
+from droidrun_cloud import MobilerunCloud
 
 # Configure the default for all requests:
-client = DroidrunCloud(
+client = MobilerunCloud(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = DroidrunCloud(
+client = MobilerunCloud(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
@@ -207,10 +207,10 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `DROIDRUN_CLOUD_LOG` to `info`.
+You can enable logging by setting the environment variable `MOBILERUN_CLOUD_LOG` to `info`.
 
 ```shell
-$ export DROIDRUN_CLOUD_LOG=info
+$ export MOBILERUN_CLOUD_LOG=info
 ```
 
 Or to `debug` for more verbose logging.
@@ -232,9 +232,9 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from droidrun_cloud import DroidrunCloud
+from droidrun_cloud import MobilerunCloud
 
-client = DroidrunCloud()
+client = MobilerunCloud()
 response = client.tasks.with_raw_response.list()
 print(response.headers.get('X-My-Header'))
 
@@ -306,10 +306,10 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from droidrun_cloud import DroidrunCloud, DefaultHttpxClient
+from droidrun_cloud import MobilerunCloud, DefaultHttpxClient
 
-client = DroidrunCloud(
-    # Or use the `DROIDRUN_CLOUD_BASE_URL` env var
+client = MobilerunCloud(
+    # Or use the `MOBILERUN_CLOUD_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
         proxy="http://my.test.proxy.example.com",
@@ -329,9 +329,9 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from droidrun_cloud import DroidrunCloud
+from droidrun_cloud import MobilerunCloud
 
-with DroidrunCloud() as client:
+with MobilerunCloud() as client:
   # make requests here
   ...
 
