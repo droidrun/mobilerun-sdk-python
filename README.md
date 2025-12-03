@@ -33,8 +33,6 @@ from droidrun_cloud import MobilerunCloud
 
 client = MobilerunCloud(
     api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
-    # or 'production' | 'dev'; defaults to "production".
-    environment="staging",
 )
 
 tasks = client.tasks.list()
@@ -57,8 +55,6 @@ from droidrun_cloud import AsyncMobilerunCloud
 
 client = AsyncMobilerunCloud(
     api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
-    # or 'production' | 'dev'; defaults to "production".
-    environment="staging",
 )
 
 
