@@ -38,20 +38,20 @@ __all__ = [
     "Transport",
     "ProxiesTypes",
     "RequestOptions",
-    "MobilerunCloud",
-    "AsyncMobilerunCloud",
+    "Mobilerun",
+    "AsyncMobilerun",
     "Client",
     "AsyncClient",
 ]
 
 
-class MobilerunCloud(SyncAPIClient):
+class Mobilerun(SyncAPIClient):
     tasks: tasks.TasksResource
     apps: apps.AppsResource
     credentials: credentials.CredentialsResource
     hooks: hooks.HooksResource
-    with_raw_response: MobilerunCloudWithRawResponse
-    with_streaming_response: MobilerunCloudWithStreamedResponse
+    with_raw_response: MobilerunWithRawResponse
+    with_streaming_response: MobilerunWithStreamedResponse
 
     # client options
     api_key: str | None
@@ -79,7 +79,7 @@ class MobilerunCloud(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous MobilerunCloud client instance.
+        """Construct a new synchronous Mobilerun client instance.
 
         This automatically infers the `api_key` argument from the `MOBILERUN_CLOUD_API_KEY` environment variable if it is not provided.
         """
@@ -88,7 +88,7 @@ class MobilerunCloud(SyncAPIClient):
         self.api_key = api_key
 
         if base_url is None:
-            base_url = os.environ.get("MOBILERUN_CLOUD_BASE_URL")
+            base_url = os.environ.get("MOBILERUN_BASE_URL")
         if base_url is None:
             base_url = f"https://api.mobilerun.ai/v1"
 
@@ -107,8 +107,8 @@ class MobilerunCloud(SyncAPIClient):
         self.apps = apps.AppsResource(self)
         self.credentials = credentials.CredentialsResource(self)
         self.hooks = hooks.HooksResource(self)
-        self.with_raw_response = MobilerunCloudWithRawResponse(self)
-        self.with_streaming_response = MobilerunCloudWithStreamedResponse(self)
+        self.with_raw_response = MobilerunWithRawResponse(self)
+        self.with_streaming_response = MobilerunWithStreamedResponse(self)
 
     @property
     @override
@@ -228,13 +228,13 @@ class MobilerunCloud(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncMobilerunCloud(AsyncAPIClient):
+class AsyncMobilerun(AsyncAPIClient):
     tasks: tasks.AsyncTasksResource
     apps: apps.AsyncAppsResource
     credentials: credentials.AsyncCredentialsResource
     hooks: hooks.AsyncHooksResource
-    with_raw_response: AsyncMobilerunCloudWithRawResponse
-    with_streaming_response: AsyncMobilerunCloudWithStreamedResponse
+    with_raw_response: AsyncMobilerunWithRawResponse
+    with_streaming_response: AsyncMobilerunWithStreamedResponse
 
     # client options
     api_key: str | None
@@ -262,7 +262,7 @@ class AsyncMobilerunCloud(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncMobilerunCloud client instance.
+        """Construct a new async AsyncMobilerun client instance.
 
         This automatically infers the `api_key` argument from the `MOBILERUN_CLOUD_API_KEY` environment variable if it is not provided.
         """
@@ -271,7 +271,7 @@ class AsyncMobilerunCloud(AsyncAPIClient):
         self.api_key = api_key
 
         if base_url is None:
-            base_url = os.environ.get("MOBILERUN_CLOUD_BASE_URL")
+            base_url = os.environ.get("MOBILERUN_BASE_URL")
         if base_url is None:
             base_url = f"https://api.mobilerun.ai/v1"
 
@@ -290,8 +290,8 @@ class AsyncMobilerunCloud(AsyncAPIClient):
         self.apps = apps.AsyncAppsResource(self)
         self.credentials = credentials.AsyncCredentialsResource(self)
         self.hooks = hooks.AsyncHooksResource(self)
-        self.with_raw_response = AsyncMobilerunCloudWithRawResponse(self)
-        self.with_streaming_response = AsyncMobilerunCloudWithStreamedResponse(self)
+        self.with_raw_response = AsyncMobilerunWithRawResponse(self)
+        self.with_streaming_response = AsyncMobilerunWithStreamedResponse(self)
 
     @property
     @override
@@ -411,38 +411,38 @@ class AsyncMobilerunCloud(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class MobilerunCloudWithRawResponse:
-    def __init__(self, client: MobilerunCloud) -> None:
+class MobilerunWithRawResponse:
+    def __init__(self, client: Mobilerun) -> None:
         self.tasks = tasks.TasksResourceWithRawResponse(client.tasks)
         self.apps = apps.AppsResourceWithRawResponse(client.apps)
         self.credentials = credentials.CredentialsResourceWithRawResponse(client.credentials)
         self.hooks = hooks.HooksResourceWithRawResponse(client.hooks)
 
 
-class AsyncMobilerunCloudWithRawResponse:
-    def __init__(self, client: AsyncMobilerunCloud) -> None:
+class AsyncMobilerunWithRawResponse:
+    def __init__(self, client: AsyncMobilerun) -> None:
         self.tasks = tasks.AsyncTasksResourceWithRawResponse(client.tasks)
         self.apps = apps.AsyncAppsResourceWithRawResponse(client.apps)
         self.credentials = credentials.AsyncCredentialsResourceWithRawResponse(client.credentials)
         self.hooks = hooks.AsyncHooksResourceWithRawResponse(client.hooks)
 
 
-class MobilerunCloudWithStreamedResponse:
-    def __init__(self, client: MobilerunCloud) -> None:
+class MobilerunWithStreamedResponse:
+    def __init__(self, client: Mobilerun) -> None:
         self.tasks = tasks.TasksResourceWithStreamingResponse(client.tasks)
         self.apps = apps.AppsResourceWithStreamingResponse(client.apps)
         self.credentials = credentials.CredentialsResourceWithStreamingResponse(client.credentials)
         self.hooks = hooks.HooksResourceWithStreamingResponse(client.hooks)
 
 
-class AsyncMobilerunCloudWithStreamedResponse:
-    def __init__(self, client: AsyncMobilerunCloud) -> None:
+class AsyncMobilerunWithStreamedResponse:
+    def __init__(self, client: AsyncMobilerun) -> None:
         self.tasks = tasks.AsyncTasksResourceWithStreamingResponse(client.tasks)
         self.apps = apps.AsyncAppsResourceWithStreamingResponse(client.apps)
         self.credentials = credentials.AsyncCredentialsResourceWithStreamingResponse(client.credentials)
         self.hooks = hooks.AsyncHooksResourceWithStreamingResponse(client.hooks)
 
 
-Client = MobilerunCloud
+Client = Mobilerun
 
-AsyncClient = AsyncMobilerunCloud
+AsyncClient = AsyncMobilerun

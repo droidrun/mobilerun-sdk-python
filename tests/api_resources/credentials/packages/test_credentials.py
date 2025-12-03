@@ -8,7 +8,7 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from droidrun_cloud import MobilerunCloud, AsyncMobilerunCloud
+from droidrun_cloud import Mobilerun, AsyncMobilerun
 from droidrun_cloud.types.credentials.packages import (
     CredentialCreateResponse,
     CredentialDeleteResponse,
@@ -23,7 +23,7 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create(self, client: MobilerunCloud) -> None:
+    def test_method_create(self, client: Mobilerun) -> None:
         credential = client.credentials.packages.credentials.create(
             package_name="packageName",
             credential_name="26f1kl_-n-71",
@@ -38,7 +38,7 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create(self, client: MobilerunCloud) -> None:
+    def test_raw_response_create(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.with_raw_response.create(
             package_name="packageName",
             credential_name="26f1kl_-n-71",
@@ -57,7 +57,7 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create(self, client: MobilerunCloud) -> None:
+    def test_streaming_response_create(self, client: Mobilerun) -> None:
         with client.credentials.packages.credentials.with_streaming_response.create(
             package_name="packageName",
             credential_name="26f1kl_-n-71",
@@ -78,7 +78,7 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_create(self, client: MobilerunCloud) -> None:
+    def test_path_params_create(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             client.credentials.packages.credentials.with_raw_response.create(
                 package_name="",
@@ -93,7 +93,7 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve(self, client: MobilerunCloud) -> None:
+    def test_method_retrieve(self, client: Mobilerun) -> None:
         credential = client.credentials.packages.credentials.retrieve(
             credential_name="credentialName",
             package_name="packageName",
@@ -102,7 +102,7 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_retrieve(self, client: MobilerunCloud) -> None:
+    def test_raw_response_retrieve(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.with_raw_response.retrieve(
             credential_name="credentialName",
             package_name="packageName",
@@ -115,7 +115,7 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_retrieve(self, client: MobilerunCloud) -> None:
+    def test_streaming_response_retrieve(self, client: Mobilerun) -> None:
         with client.credentials.packages.credentials.with_streaming_response.retrieve(
             credential_name="credentialName",
             package_name="packageName",
@@ -130,7 +130,7 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_retrieve(self, client: MobilerunCloud) -> None:
+    def test_path_params_retrieve(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             client.credentials.packages.credentials.with_raw_response.retrieve(
                 credential_name="credentialName",
@@ -145,7 +145,7 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_delete(self, client: MobilerunCloud) -> None:
+    def test_method_delete(self, client: Mobilerun) -> None:
         credential = client.credentials.packages.credentials.delete(
             credential_name="credentialName",
             package_name="packageName",
@@ -154,7 +154,7 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_delete(self, client: MobilerunCloud) -> None:
+    def test_raw_response_delete(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.with_raw_response.delete(
             credential_name="credentialName",
             package_name="packageName",
@@ -167,7 +167,7 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_delete(self, client: MobilerunCloud) -> None:
+    def test_streaming_response_delete(self, client: Mobilerun) -> None:
         with client.credentials.packages.credentials.with_streaming_response.delete(
             credential_name="credentialName",
             package_name="packageName",
@@ -182,7 +182,7 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_delete(self, client: MobilerunCloud) -> None:
+    def test_path_params_delete(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             client.credentials.packages.credentials.with_raw_response.delete(
                 credential_name="credentialName",
@@ -203,7 +203,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_create(self, async_client: AsyncMobilerun) -> None:
         credential = await async_client.credentials.packages.credentials.create(
             package_name="packageName",
             credential_name="26f1kl_-n-71",
@@ -218,7 +218,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.credentials.with_raw_response.create(
             package_name="packageName",
             credential_name="26f1kl_-n-71",
@@ -237,7 +237,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.credentials.with_streaming_response.create(
             package_name="packageName",
             credential_name="26f1kl_-n-71",
@@ -258,7 +258,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_create(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_path_params_create(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             await async_client.credentials.packages.credentials.with_raw_response.create(
                 package_name="",
@@ -273,7 +273,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_retrieve(self, async_client: AsyncMobilerun) -> None:
         credential = await async_client.credentials.packages.credentials.retrieve(
             credential_name="credentialName",
             package_name="packageName",
@@ -282,7 +282,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.credentials.with_raw_response.retrieve(
             credential_name="credentialName",
             package_name="packageName",
@@ -295,7 +295,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.credentials.with_streaming_response.retrieve(
             credential_name="credentialName",
             package_name="packageName",
@@ -310,7 +310,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             await async_client.credentials.packages.credentials.with_raw_response.retrieve(
                 credential_name="credentialName",
@@ -325,7 +325,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_delete(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_delete(self, async_client: AsyncMobilerun) -> None:
         credential = await async_client.credentials.packages.credentials.delete(
             credential_name="credentialName",
             package_name="packageName",
@@ -334,7 +334,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.credentials.with_raw_response.delete(
             credential_name="credentialName",
             package_name="packageName",
@@ -347,7 +347,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.credentials.with_streaming_response.delete(
             credential_name="credentialName",
             package_name="packageName",
@@ -362,7 +362,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_delete(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_path_params_delete(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             await async_client.credentials.packages.credentials.with_raw_response.delete(
                 credential_name="credentialName",

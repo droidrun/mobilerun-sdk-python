@@ -8,7 +8,7 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from droidrun_cloud import MobilerunCloud, AsyncMobilerunCloud
+from droidrun_cloud import Mobilerun, AsyncMobilerun
 from droidrun_cloud.types import (
     TaskRunResponse,
     TaskListResponse,
@@ -26,7 +26,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve(self, client: MobilerunCloud) -> None:
+    def test_method_retrieve(self, client: Mobilerun) -> None:
         task = client.tasks.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -34,7 +34,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_retrieve(self, client: MobilerunCloud) -> None:
+    def test_raw_response_retrieve(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -46,7 +46,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_retrieve(self, client: MobilerunCloud) -> None:
+    def test_streaming_response_retrieve(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
@@ -60,7 +60,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_retrieve(self, client: MobilerunCloud) -> None:
+    def test_path_params_retrieve(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
             client.tasks.with_raw_response.retrieve(
                 "",
@@ -68,13 +68,13 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list(self, client: MobilerunCloud) -> None:
+    def test_method_list(self, client: Mobilerun) -> None:
         task = client.tasks.list()
         assert_matches_type(TaskListResponse, task, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list_with_all_params(self, client: MobilerunCloud) -> None:
+    def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         task = client.tasks.list(
             order_by="id",
             order_by_direction="asc",
@@ -87,7 +87,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_list(self, client: MobilerunCloud) -> None:
+    def test_raw_response_list(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.list()
 
         assert response.is_closed is True
@@ -97,7 +97,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_list(self, client: MobilerunCloud) -> None:
+    def test_streaming_response_list(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -109,7 +109,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_attach(self, client: MobilerunCloud) -> None:
+    def test_method_attach(self, client: Mobilerun) -> None:
         task = client.tasks.attach(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -117,7 +117,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_attach(self, client: MobilerunCloud) -> None:
+    def test_raw_response_attach(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.attach(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -129,7 +129,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_attach(self, client: MobilerunCloud) -> None:
+    def test_streaming_response_attach(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.attach(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
@@ -143,7 +143,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_attach(self, client: MobilerunCloud) -> None:
+    def test_path_params_attach(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
             client.tasks.with_raw_response.attach(
                 "",
@@ -151,7 +151,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_get_status(self, client: MobilerunCloud) -> None:
+    def test_method_get_status(self, client: Mobilerun) -> None:
         task = client.tasks.get_status(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -159,7 +159,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_get_status(self, client: MobilerunCloud) -> None:
+    def test_raw_response_get_status(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.get_status(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -171,7 +171,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_get_status(self, client: MobilerunCloud) -> None:
+    def test_streaming_response_get_status(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.get_status(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
@@ -185,7 +185,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_get_status(self, client: MobilerunCloud) -> None:
+    def test_path_params_get_status(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
             client.tasks.with_raw_response.get_status(
                 "",
@@ -193,7 +193,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_get_trajectory(self, client: MobilerunCloud) -> None:
+    def test_method_get_trajectory(self, client: Mobilerun) -> None:
         task = client.tasks.get_trajectory(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -201,7 +201,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_get_trajectory(self, client: MobilerunCloud) -> None:
+    def test_raw_response_get_trajectory(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.get_trajectory(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -213,7 +213,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_get_trajectory(self, client: MobilerunCloud) -> None:
+    def test_streaming_response_get_trajectory(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.get_trajectory(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
@@ -227,7 +227,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_get_trajectory(self, client: MobilerunCloud) -> None:
+    def test_path_params_get_trajectory(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
             client.tasks.with_raw_response.get_trajectory(
                 "",
@@ -235,7 +235,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_run(self, client: MobilerunCloud) -> None:
+    def test_method_run(self, client: Mobilerun) -> None:
         task = client.tasks.run(
             llm_model="openai/gpt-5",
             task="x",
@@ -244,7 +244,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_run_with_all_params(self, client: MobilerunCloud) -> None:
+    def test_method_run_with_all_params(self, client: Mobilerun) -> None:
         task = client.tasks.run(
             llm_model="openai/gpt-5",
             task="x",
@@ -268,7 +268,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_run(self, client: MobilerunCloud) -> None:
+    def test_raw_response_run(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.run(
             llm_model="openai/gpt-5",
             task="x",
@@ -281,7 +281,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_run(self, client: MobilerunCloud) -> None:
+    def test_streaming_response_run(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.run(
             llm_model="openai/gpt-5",
             task="x",
@@ -296,7 +296,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_run_streamed(self, client: MobilerunCloud) -> None:
+    def test_method_run_streamed(self, client: Mobilerun) -> None:
         task = client.tasks.run_streamed(
             llm_model="openai/gpt-5",
             task="x",
@@ -305,7 +305,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_run_streamed_with_all_params(self, client: MobilerunCloud) -> None:
+    def test_method_run_streamed_with_all_params(self, client: Mobilerun) -> None:
         task = client.tasks.run_streamed(
             llm_model="openai/gpt-5",
             task="x",
@@ -329,7 +329,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_run_streamed(self, client: MobilerunCloud) -> None:
+    def test_raw_response_run_streamed(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.run_streamed(
             llm_model="openai/gpt-5",
             task="x",
@@ -342,7 +342,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_run_streamed(self, client: MobilerunCloud) -> None:
+    def test_streaming_response_run_streamed(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.run_streamed(
             llm_model="openai/gpt-5",
             task="x",
@@ -357,7 +357,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_stop(self, client: MobilerunCloud) -> None:
+    def test_method_stop(self, client: Mobilerun) -> None:
         task = client.tasks.stop(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -365,7 +365,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_stop(self, client: MobilerunCloud) -> None:
+    def test_raw_response_stop(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.stop(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -377,7 +377,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_stop(self, client: MobilerunCloud) -> None:
+    def test_streaming_response_stop(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.stop(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
@@ -391,7 +391,7 @@ class TestTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_stop(self, client: MobilerunCloud) -> None:
+    def test_path_params_stop(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
             client.tasks.with_raw_response.stop(
                 "",
@@ -405,7 +405,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_retrieve(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -413,7 +413,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -425,7 +425,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
@@ -439,7 +439,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
             await async_client.tasks.with_raw_response.retrieve(
                 "",
@@ -447,13 +447,13 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_list(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.list()
         assert_matches_type(TaskListResponse, task, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.list(
             order_by="id",
             order_by_direction="asc",
@@ -466,7 +466,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.list()
 
         assert response.is_closed is True
@@ -476,7 +476,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -488,7 +488,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_attach(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_attach(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.attach(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -496,7 +496,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_attach(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_raw_response_attach(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.attach(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -508,7 +508,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_attach(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_streaming_response_attach(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.attach(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
@@ -522,7 +522,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_attach(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_path_params_attach(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
             await async_client.tasks.with_raw_response.attach(
                 "",
@@ -530,7 +530,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_get_status(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_get_status(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.get_status(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -538,7 +538,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_get_status(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_raw_response_get_status(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.get_status(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -550,7 +550,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_get_status(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_streaming_response_get_status(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.get_status(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
@@ -564,7 +564,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_get_status(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_path_params_get_status(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
             await async_client.tasks.with_raw_response.get_status(
                 "",
@@ -572,7 +572,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_get_trajectory(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_get_trajectory(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.get_trajectory(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -580,7 +580,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_get_trajectory(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_raw_response_get_trajectory(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.get_trajectory(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -592,7 +592,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_get_trajectory(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_streaming_response_get_trajectory(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.get_trajectory(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
@@ -606,7 +606,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_get_trajectory(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_path_params_get_trajectory(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
             await async_client.tasks.with_raw_response.get_trajectory(
                 "",
@@ -614,7 +614,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_run(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_run(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run(
             llm_model="openai/gpt-5",
             task="x",
@@ -623,7 +623,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_run_with_all_params(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_run_with_all_params(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run(
             llm_model="openai/gpt-5",
             task="x",
@@ -647,7 +647,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_run(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_raw_response_run(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.run(
             llm_model="openai/gpt-5",
             task="x",
@@ -660,7 +660,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_run(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_streaming_response_run(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.run(
             llm_model="openai/gpt-5",
             task="x",
@@ -675,7 +675,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_run_streamed(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_run_streamed(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run_streamed(
             llm_model="openai/gpt-5",
             task="x",
@@ -684,7 +684,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_run_streamed_with_all_params(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_run_streamed_with_all_params(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run_streamed(
             llm_model="openai/gpt-5",
             task="x",
@@ -708,7 +708,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_run_streamed(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_raw_response_run_streamed(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.run_streamed(
             llm_model="openai/gpt-5",
             task="x",
@@ -721,7 +721,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_run_streamed(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_streaming_response_run_streamed(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.run_streamed(
             llm_model="openai/gpt-5",
             task="x",
@@ -736,7 +736,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_stop(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_method_stop(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.stop(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -744,7 +744,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_stop(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_raw_response_stop(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.stop(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -756,7 +756,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_stop(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_streaming_response_stop(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.stop(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
@@ -770,7 +770,7 @@ class TestAsyncTasks:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_stop(self, async_client: AsyncMobilerunCloud) -> None:
+    async def test_path_params_stop(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
             await async_client.tasks.with_raw_response.stop(
                 "",
