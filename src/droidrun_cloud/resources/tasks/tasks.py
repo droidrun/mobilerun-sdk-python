@@ -62,7 +62,7 @@ class TasksResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/droidrun-cloud-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
         """
         return TasksResourceWithRawResponse(self)
 
@@ -71,7 +71,7 @@ class TasksResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/droidrun-cloud-python#with_streaming_response
+        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
         """
         return TasksResourceWithStreamingResponse(self)
 
@@ -435,7 +435,7 @@ class AsyncTasksResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/droidrun-cloud-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
         """
         return AsyncTasksResourceWithRawResponse(self)
 
@@ -444,7 +444,7 @@ class AsyncTasksResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/droidrun-cloud-python#with_streaming_response
+        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
         """
         return AsyncTasksResourceWithStreamingResponse(self)
 
