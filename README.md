@@ -86,6 +86,7 @@ pip install 'droidrun_cloud[aiohttp] @ git+ssh://git@github.com/stainless-sdks/d
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
+import os
 import asyncio
 from droidrun_cloud import DefaultAioHttpClient
 from droidrun_cloud import AsyncMobilerunCloud
@@ -93,7 +94,7 @@ from droidrun_cloud import AsyncMobilerunCloud
 
 async def main() -> None:
     async with AsyncMobilerunCloud(
-        api_key="My API Key",
+        api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         tasks = await client.tasks.list()
