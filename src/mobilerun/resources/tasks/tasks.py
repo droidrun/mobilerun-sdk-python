@@ -274,6 +274,7 @@ class TasksResource(SyncAPIResource):
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_params.Credential] | Omit = omit,
+        device_id: Optional[str] | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         max_steps: int | Omit = omit,
@@ -293,6 +294,8 @@ class TasksResource(SyncAPIResource):
         Run Task
 
         Args:
+          device_id: The ID of the device to run the task on.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -309,6 +312,7 @@ class TasksResource(SyncAPIResource):
                     "task": task,
                     "apps": apps,
                     "credentials": credentials,
+                    "device_id": device_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "max_steps": max_steps,
@@ -333,6 +337,7 @@ class TasksResource(SyncAPIResource):
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
+        device_id: Optional[str] | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         max_steps: int | Omit = omit,
@@ -352,6 +357,8 @@ class TasksResource(SyncAPIResource):
         Run Streamed Task
 
         Args:
+          device_id: The ID of the device to run the task on.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -369,6 +376,7 @@ class TasksResource(SyncAPIResource):
                     "task": task,
                     "apps": apps,
                     "credentials": credentials,
+                    "device_id": device_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "max_steps": max_steps,
@@ -647,6 +655,7 @@ class AsyncTasksResource(AsyncAPIResource):
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_params.Credential] | Omit = omit,
+        device_id: Optional[str] | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         max_steps: int | Omit = omit,
@@ -666,6 +675,8 @@ class AsyncTasksResource(AsyncAPIResource):
         Run Task
 
         Args:
+          device_id: The ID of the device to run the task on.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -682,6 +693,7 @@ class AsyncTasksResource(AsyncAPIResource):
                     "task": task,
                     "apps": apps,
                     "credentials": credentials,
+                    "device_id": device_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "max_steps": max_steps,
@@ -706,6 +718,7 @@ class AsyncTasksResource(AsyncAPIResource):
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
+        device_id: Optional[str] | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         max_steps: int | Omit = omit,
@@ -725,6 +738,8 @@ class AsyncTasksResource(AsyncAPIResource):
         Run Streamed Task
 
         Args:
+          device_id: The ID of the device to run the task on.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -742,6 +757,7 @@ class AsyncTasksResource(AsyncAPIResource):
                     "task": task,
                     "apps": apps,
                     "credentials": credentials,
+                    "device_id": device_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "max_steps": max_steps,

@@ -255,6 +255,7 @@ class TestTasks:
                     "package_name": "packageName",
                 }
             ],
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             execution_timeout=0,
             files=["string"],
             max_steps=0,
@@ -316,6 +317,7 @@ class TestTasks:
                     "package_name": "packageName",
                 }
             ],
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             execution_timeout=0,
             files=["string"],
             max_steps=0,
@@ -634,6 +636,7 @@ class TestAsyncTasks:
                     "package_name": "packageName",
                 }
             ],
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             execution_timeout=0,
             files=["string"],
             max_steps=0,
@@ -695,6 +698,7 @@ class TestAsyncTasks:
                     "package_name": "packageName",
                 }
             ],
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             execution_timeout=0,
             files=["string"],
             max_steps=0,
