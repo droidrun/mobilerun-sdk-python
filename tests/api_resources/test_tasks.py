@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
+from mobilerun import Mobilerun, AsyncMobilerun
 from tests.utils import assert_matches_type
-from droidrun_cloud import Mobilerun, AsyncMobilerun
-from droidrun_cloud.types import (
+from mobilerun.types import (
     TaskRunResponse,
     TaskListResponse,
     TaskStopResponse,

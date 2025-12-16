@@ -10,15 +10,15 @@ import httpx
 import pytest
 from pytest_asyncio import is_async_test
 
-from droidrun_cloud import Mobilerun, AsyncMobilerun, DefaultAioHttpClient
-from droidrun_cloud._utils import is_dict
+from mobilerun import Mobilerun, AsyncMobilerun, DefaultAioHttpClient
+from mobilerun._utils import is_dict
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest  # pyright: ignore[reportPrivateImportUsage]
 
 pytest.register_assert_rewrite("tests.utils")
 
-logging.getLogger("droidrun_cloud").setLevel(logging.DEBUG)
+logging.getLogger("mobilerun").setLevel(logging.DEBUG)
 
 
 # automatically add `pytest.mark.asyncio()` to all of our async tests

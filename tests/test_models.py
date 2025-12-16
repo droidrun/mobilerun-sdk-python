@@ -7,9 +7,9 @@ import pytest
 import pydantic
 from pydantic import Field
 
-from droidrun_cloud._utils import PropertyInfo
-from droidrun_cloud._compat import PYDANTIC_V1, parse_obj, model_dump, model_json
-from droidrun_cloud._models import DISCRIMINATOR_CACHE, BaseModel, construct_type
+from mobilerun._utils import PropertyInfo
+from mobilerun._compat import PYDANTIC_V1, parse_obj, model_dump, model_json
+from mobilerun._models import DISCRIMINATOR_CACHE, BaseModel, construct_type
 
 
 class BasicModel(BaseModel):

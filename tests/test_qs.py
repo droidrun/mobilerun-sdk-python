@@ -4,7 +4,7 @@ from urllib.parse import unquote
 
 import pytest
 
-from droidrun_cloud._qs import Querystring, stringify
+from mobilerun._qs import Querystring, stringify
 
 
 def test_empty() -> None:
