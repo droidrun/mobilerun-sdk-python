@@ -31,6 +31,7 @@ from ._base_client import (
     AsyncAPIClient,
 )
 from .resources.tasks import tasks
+from .resources.devices import devices
 from .resources.credentials import credentials
 
 __all__ = [
@@ -47,6 +48,7 @@ __all__ = [
 
 class Mobilerun(SyncAPIClient):
     tasks: tasks.TasksResource
+    devices: devices.DevicesResource
     apps: apps.AppsResource
     credentials: credentials.CredentialsResource
     hooks: hooks.HooksResource
@@ -104,6 +106,7 @@ class Mobilerun(SyncAPIClient):
         )
 
         self.tasks = tasks.TasksResource(self)
+        self.devices = devices.DevicesResource(self)
         self.apps = apps.AppsResource(self)
         self.credentials = credentials.CredentialsResource(self)
         self.hooks = hooks.HooksResource(self)
@@ -230,6 +233,7 @@ class Mobilerun(SyncAPIClient):
 
 class AsyncMobilerun(AsyncAPIClient):
     tasks: tasks.AsyncTasksResource
+    devices: devices.AsyncDevicesResource
     apps: apps.AsyncAppsResource
     credentials: credentials.AsyncCredentialsResource
     hooks: hooks.AsyncHooksResource
@@ -287,6 +291,7 @@ class AsyncMobilerun(AsyncAPIClient):
         )
 
         self.tasks = tasks.AsyncTasksResource(self)
+        self.devices = devices.AsyncDevicesResource(self)
         self.apps = apps.AsyncAppsResource(self)
         self.credentials = credentials.AsyncCredentialsResource(self)
         self.hooks = hooks.AsyncHooksResource(self)
@@ -414,6 +419,7 @@ class AsyncMobilerun(AsyncAPIClient):
 class MobilerunWithRawResponse:
     def __init__(self, client: Mobilerun) -> None:
         self.tasks = tasks.TasksResourceWithRawResponse(client.tasks)
+        self.devices = devices.DevicesResourceWithRawResponse(client.devices)
         self.apps = apps.AppsResourceWithRawResponse(client.apps)
         self.credentials = credentials.CredentialsResourceWithRawResponse(client.credentials)
         self.hooks = hooks.HooksResourceWithRawResponse(client.hooks)
@@ -422,6 +428,7 @@ class MobilerunWithRawResponse:
 class AsyncMobilerunWithRawResponse:
     def __init__(self, client: AsyncMobilerun) -> None:
         self.tasks = tasks.AsyncTasksResourceWithRawResponse(client.tasks)
+        self.devices = devices.AsyncDevicesResourceWithRawResponse(client.devices)
         self.apps = apps.AsyncAppsResourceWithRawResponse(client.apps)
         self.credentials = credentials.AsyncCredentialsResourceWithRawResponse(client.credentials)
         self.hooks = hooks.AsyncHooksResourceWithRawResponse(client.hooks)
@@ -430,6 +437,7 @@ class AsyncMobilerunWithRawResponse:
 class MobilerunWithStreamedResponse:
     def __init__(self, client: Mobilerun) -> None:
         self.tasks = tasks.TasksResourceWithStreamingResponse(client.tasks)
+        self.devices = devices.DevicesResourceWithStreamingResponse(client.devices)
         self.apps = apps.AppsResourceWithStreamingResponse(client.apps)
         self.credentials = credentials.CredentialsResourceWithStreamingResponse(client.credentials)
         self.hooks = hooks.HooksResourceWithStreamingResponse(client.hooks)
@@ -438,6 +446,7 @@ class MobilerunWithStreamedResponse:
 class AsyncMobilerunWithStreamedResponse:
     def __init__(self, client: AsyncMobilerun) -> None:
         self.tasks = tasks.AsyncTasksResourceWithStreamingResponse(client.tasks)
+        self.devices = devices.AsyncDevicesResourceWithStreamingResponse(client.devices)
         self.apps = apps.AsyncAppsResourceWithStreamingResponse(client.apps)
         self.credentials = credentials.AsyncCredentialsResourceWithStreamingResponse(client.credentials)
         self.hooks = hooks.AsyncHooksResourceWithStreamingResponse(client.hooks)
