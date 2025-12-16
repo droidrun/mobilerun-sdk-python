@@ -47,7 +47,6 @@ class PackagesResource(SyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         include_system_packages: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -70,7 +69,6 @@ class PackagesResource(SyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return self._get(
             f"/devices/{device_id}/packages",
             options=make_request_options(
@@ -110,7 +108,6 @@ class AsyncPackagesResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         include_system_packages: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -133,7 +130,6 @@ class AsyncPackagesResource(AsyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return await self._get(
             f"/devices/{device_id}/packages",
             options=make_request_options(

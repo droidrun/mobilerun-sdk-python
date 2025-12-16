@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
@@ -10,6 +10,4 @@ __all__ = ["StateScreenshotParams"]
 
 
 class StateScreenshotParams(TypedDict, total=False):
-    x_user_id: Required[Annotated[str, PropertyInfo(alias="X-User-ID")]]
-
     hide_overlay: Annotated[bool, PropertyInfo(alias="hideOverlay")]

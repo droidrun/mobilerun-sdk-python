@@ -22,7 +22,6 @@ class TestApps:
     def test_method_list(self, client: Mobilerun) -> None:
         app = client.devices.apps.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
         assert_matches_type(Optional[AppListResponse], app, path=["response"])
 
@@ -31,7 +30,6 @@ class TestApps:
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         app = client.devices.apps.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
             include_system_apps=True,
         )
         assert_matches_type(Optional[AppListResponse], app, path=["response"])
@@ -41,7 +39,6 @@ class TestApps:
     def test_raw_response_list(self, client: Mobilerun) -> None:
         response = client.devices.apps.with_raw_response.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -54,7 +51,6 @@ class TestApps:
     def test_streaming_response_list(self, client: Mobilerun) -> None:
         with client.devices.apps.with_streaming_response.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -70,7 +66,6 @@ class TestApps:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.apps.with_raw_response.list(
                 device_id="",
-                x_user_id="X-User-ID",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -79,7 +74,6 @@ class TestApps:
         app = client.devices.apps.delete(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
         assert app is None
 
@@ -89,7 +83,6 @@ class TestApps:
         response = client.devices.apps.with_raw_response.delete(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -103,7 +96,6 @@ class TestApps:
         with client.devices.apps.with_streaming_response.delete(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -120,14 +112,12 @@ class TestApps:
             client.devices.apps.with_raw_response.delete(
                 package_name="packageName",
                 device_id="",
-                x_user_id="X-User-ID",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             client.devices.apps.with_raw_response.delete(
                 package_name="",
                 device_id="deviceId",
-                x_user_id="X-User-ID",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -136,7 +126,6 @@ class TestApps:
         app = client.devices.apps.install(
             device_id="deviceId",
             package_name="packageName",
-            x_user_id="X-User-ID",
         )
         assert app is None
 
@@ -146,7 +135,6 @@ class TestApps:
         response = client.devices.apps.with_raw_response.install(
             device_id="deviceId",
             package_name="packageName",
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -160,7 +148,6 @@ class TestApps:
         with client.devices.apps.with_streaming_response.install(
             device_id="deviceId",
             package_name="packageName",
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -177,7 +164,6 @@ class TestApps:
             client.devices.apps.with_raw_response.install(
                 device_id="",
                 package_name="packageName",
-                x_user_id="X-User-ID",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -186,7 +172,6 @@ class TestApps:
         app = client.devices.apps.start(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
         assert app is None
 
@@ -196,7 +181,6 @@ class TestApps:
         app = client.devices.apps.start(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
             activity="activity",
         )
         assert app is None
@@ -207,7 +191,6 @@ class TestApps:
         response = client.devices.apps.with_raw_response.start(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -221,7 +204,6 @@ class TestApps:
         with client.devices.apps.with_streaming_response.start(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -238,14 +220,12 @@ class TestApps:
             client.devices.apps.with_raw_response.start(
                 package_name="packageName",
                 device_id="",
-                x_user_id="X-User-ID",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             client.devices.apps.with_raw_response.start(
                 package_name="",
                 device_id="deviceId",
-                x_user_id="X-User-ID",
             )
 
 
@@ -259,7 +239,6 @@ class TestAsyncApps:
     async def test_method_list(self, async_client: AsyncMobilerun) -> None:
         app = await async_client.devices.apps.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
         assert_matches_type(Optional[AppListResponse], app, path=["response"])
 
@@ -268,7 +247,6 @@ class TestAsyncApps:
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         app = await async_client.devices.apps.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
             include_system_apps=True,
         )
         assert_matches_type(Optional[AppListResponse], app, path=["response"])
@@ -278,7 +256,6 @@ class TestAsyncApps:
     async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.apps.with_raw_response.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -291,7 +268,6 @@ class TestAsyncApps:
     async def test_streaming_response_list(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.apps.with_streaming_response.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -307,7 +283,6 @@ class TestAsyncApps:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.apps.with_raw_response.list(
                 device_id="",
-                x_user_id="X-User-ID",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -316,7 +291,6 @@ class TestAsyncApps:
         app = await async_client.devices.apps.delete(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
         assert app is None
 
@@ -326,7 +300,6 @@ class TestAsyncApps:
         response = await async_client.devices.apps.with_raw_response.delete(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -340,7 +313,6 @@ class TestAsyncApps:
         async with async_client.devices.apps.with_streaming_response.delete(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -357,14 +329,12 @@ class TestAsyncApps:
             await async_client.devices.apps.with_raw_response.delete(
                 package_name="packageName",
                 device_id="",
-                x_user_id="X-User-ID",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             await async_client.devices.apps.with_raw_response.delete(
                 package_name="",
                 device_id="deviceId",
-                x_user_id="X-User-ID",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -373,7 +343,6 @@ class TestAsyncApps:
         app = await async_client.devices.apps.install(
             device_id="deviceId",
             package_name="packageName",
-            x_user_id="X-User-ID",
         )
         assert app is None
 
@@ -383,7 +352,6 @@ class TestAsyncApps:
         response = await async_client.devices.apps.with_raw_response.install(
             device_id="deviceId",
             package_name="packageName",
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -397,7 +365,6 @@ class TestAsyncApps:
         async with async_client.devices.apps.with_streaming_response.install(
             device_id="deviceId",
             package_name="packageName",
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -414,7 +381,6 @@ class TestAsyncApps:
             await async_client.devices.apps.with_raw_response.install(
                 device_id="",
                 package_name="packageName",
-                x_user_id="X-User-ID",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -423,7 +389,6 @@ class TestAsyncApps:
         app = await async_client.devices.apps.start(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
         assert app is None
 
@@ -433,7 +398,6 @@ class TestAsyncApps:
         app = await async_client.devices.apps.start(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
             activity="activity",
         )
         assert app is None
@@ -444,7 +408,6 @@ class TestAsyncApps:
         response = await async_client.devices.apps.with_raw_response.start(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -458,7 +421,6 @@ class TestAsyncApps:
         async with async_client.devices.apps.with_streaming_response.start(
             package_name="packageName",
             device_id="deviceId",
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -475,12 +437,10 @@ class TestAsyncApps:
             await async_client.devices.apps.with_raw_response.start(
                 package_name="packageName",
                 device_id="",
-                x_user_id="X-User-ID",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             await async_client.devices.apps.with_raw_response.start(
                 package_name="",
                 device_id="deviceId",
-                x_user_id="X-User-ID",
             )

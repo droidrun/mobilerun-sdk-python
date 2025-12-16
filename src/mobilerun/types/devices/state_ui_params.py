@@ -2,14 +2,10 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, Annotated, TypedDict
-
-from ..._utils import PropertyInfo
+from typing_extensions import TypedDict
 
 __all__ = ["StateUiParams"]
 
 
 class StateUiParams(TypedDict, total=False):
-    x_user_id: Required[Annotated[str, PropertyInfo(alias="X-User-ID")]]
-
     filter: bool

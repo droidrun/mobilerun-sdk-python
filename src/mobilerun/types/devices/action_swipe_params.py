@@ -19,5 +19,3 @@ class ActionSwipeParams(TypedDict, total=False):
     start_x: Required[Annotated[int, PropertyInfo(alias="startX")]]
 
     start_y: Required[Annotated[int, PropertyInfo(alias="startY")]]
-
-    x_user_id: Required[Annotated[str, PropertyInfo(alias="X-User-ID")]]
