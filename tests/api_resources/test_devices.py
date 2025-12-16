@@ -23,7 +23,6 @@ class TestDevices:
         device = client.devices.create(
             apps=["string"],
             files=["string"],
-            x_user_id="X-User-ID",
         )
         assert_matches_type(Device, device, path=["response"])
 
@@ -33,7 +32,6 @@ class TestDevices:
         device = client.devices.create(
             apps=["string"],
             files=["string"],
-            x_user_id="X-User-ID",
             country="country",
             name="name",
         )
@@ -45,7 +43,6 @@ class TestDevices:
         response = client.devices.with_raw_response.create(
             apps=["string"],
             files=["string"],
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -59,7 +56,6 @@ class TestDevices:
         with client.devices.with_streaming_response.create(
             apps=["string"],
             files=["string"],
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -73,8 +69,7 @@ class TestDevices:
     @parametrize
     def test_method_retrieve(self, client: Mobilerun) -> None:
         device = client.devices.retrieve(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         )
         assert_matches_type(Device, device, path=["response"])
 
@@ -82,8 +77,7 @@ class TestDevices:
     @parametrize
     def test_raw_response_retrieve(self, client: Mobilerun) -> None:
         response = client.devices.with_raw_response.retrieve(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         )
 
         assert response.is_closed is True
@@ -95,8 +89,7 @@ class TestDevices:
     @parametrize
     def test_streaming_response_retrieve(self, client: Mobilerun) -> None:
         with client.devices.with_streaming_response.retrieve(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -111,23 +104,19 @@ class TestDevices:
     def test_path_params_retrieve(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.with_raw_response.retrieve(
-                device_id="",
-                x_user_id="X-User-ID",
+                "",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list(self, client: Mobilerun) -> None:
-        device = client.devices.list(
-            x_user_id="X-User-ID",
-        )
+        device = client.devices.list()
         assert_matches_type(DeviceListResponse, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         device = client.devices.list(
-            x_user_id="X-User-ID",
             country="country",
             order_by="id",
             order_by_direction="asc",
@@ -140,9 +129,7 @@ class TestDevices:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Mobilerun) -> None:
-        response = client.devices.with_raw_response.list(
-            x_user_id="X-User-ID",
-        )
+        response = client.devices.with_raw_response.list()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -152,9 +139,7 @@ class TestDevices:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Mobilerun) -> None:
-        with client.devices.with_streaming_response.list(
-            x_user_id="X-User-ID",
-        ) as response:
+        with client.devices.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -167,8 +152,7 @@ class TestDevices:
     @parametrize
     def test_method_terminate(self, client: Mobilerun) -> None:
         device = client.devices.terminate(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         )
         assert device is None
 
@@ -176,8 +160,7 @@ class TestDevices:
     @parametrize
     def test_raw_response_terminate(self, client: Mobilerun) -> None:
         response = client.devices.with_raw_response.terminate(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         )
 
         assert response.is_closed is True
@@ -189,8 +172,7 @@ class TestDevices:
     @parametrize
     def test_streaming_response_terminate(self, client: Mobilerun) -> None:
         with client.devices.with_streaming_response.terminate(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -205,16 +187,14 @@ class TestDevices:
     def test_path_params_terminate(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.with_raw_response.terminate(
-                device_id="",
-                x_user_id="X-User-ID",
+                "",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_wait_ready(self, client: Mobilerun) -> None:
         device = client.devices.wait_ready(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         )
         assert_matches_type(Device, device, path=["response"])
 
@@ -222,8 +202,7 @@ class TestDevices:
     @parametrize
     def test_raw_response_wait_ready(self, client: Mobilerun) -> None:
         response = client.devices.with_raw_response.wait_ready(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         )
 
         assert response.is_closed is True
@@ -235,8 +214,7 @@ class TestDevices:
     @parametrize
     def test_streaming_response_wait_ready(self, client: Mobilerun) -> None:
         with client.devices.with_streaming_response.wait_ready(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -251,8 +229,7 @@ class TestDevices:
     def test_path_params_wait_ready(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.with_raw_response.wait_ready(
-                device_id="",
-                x_user_id="X-User-ID",
+                "",
             )
 
 
@@ -267,7 +244,6 @@ class TestAsyncDevices:
         device = await async_client.devices.create(
             apps=["string"],
             files=["string"],
-            x_user_id="X-User-ID",
         )
         assert_matches_type(Device, device, path=["response"])
 
@@ -277,7 +253,6 @@ class TestAsyncDevices:
         device = await async_client.devices.create(
             apps=["string"],
             files=["string"],
-            x_user_id="X-User-ID",
             country="country",
             name="name",
         )
@@ -289,7 +264,6 @@ class TestAsyncDevices:
         response = await async_client.devices.with_raw_response.create(
             apps=["string"],
             files=["string"],
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -303,7 +277,6 @@ class TestAsyncDevices:
         async with async_client.devices.with_streaming_response.create(
             apps=["string"],
             files=["string"],
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -317,8 +290,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.retrieve(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         )
         assert_matches_type(Device, device, path=["response"])
 
@@ -326,8 +298,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.with_raw_response.retrieve(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         )
 
         assert response.is_closed is True
@@ -339,8 +310,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.with_streaming_response.retrieve(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -355,23 +325,19 @@ class TestAsyncDevices:
     async def test_path_params_retrieve(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.with_raw_response.retrieve(
-                device_id="",
-                x_user_id="X-User-ID",
+                "",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncMobilerun) -> None:
-        device = await async_client.devices.list(
-            x_user_id="X-User-ID",
-        )
+        device = await async_client.devices.list()
         assert_matches_type(DeviceListResponse, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.list(
-            x_user_id="X-User-ID",
             country="country",
             order_by="id",
             order_by_direction="asc",
@@ -384,9 +350,7 @@ class TestAsyncDevices:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.devices.with_raw_response.list(
-            x_user_id="X-User-ID",
-        )
+        response = await async_client.devices.with_raw_response.list()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -396,9 +360,7 @@ class TestAsyncDevices:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.devices.with_streaming_response.list(
-            x_user_id="X-User-ID",
-        ) as response:
+        async with async_client.devices.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -411,8 +373,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_method_terminate(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.terminate(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         )
         assert device is None
 
@@ -420,8 +381,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_raw_response_terminate(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.with_raw_response.terminate(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         )
 
         assert response.is_closed is True
@@ -433,8 +393,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_streaming_response_terminate(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.with_streaming_response.terminate(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -449,16 +408,14 @@ class TestAsyncDevices:
     async def test_path_params_terminate(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.with_raw_response.terminate(
-                device_id="",
-                x_user_id="X-User-ID",
+                "",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_wait_ready(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.wait_ready(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         )
         assert_matches_type(Device, device, path=["response"])
 
@@ -466,8 +423,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_raw_response_wait_ready(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.with_raw_response.wait_ready(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         )
 
         assert response.is_closed is True
@@ -479,8 +435,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_streaming_response_wait_ready(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.with_streaming_response.wait_ready(
-            device_id="deviceId",
-            x_user_id="X-User-ID",
+            "deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -495,6 +450,5 @@ class TestAsyncDevices:
     async def test_path_params_wait_ready(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.with_raw_response.wait_ready(
-                device_id="",
-                x_user_id="X-User-ID",
+                "",
             )

@@ -11,5 +11,3 @@ __all__ = ["AppInstallParams"]
 
 class AppInstallParams(TypedDict, total=False):
     package_name: Required[Annotated[str, PropertyInfo(alias="packageName")]]
-
-    x_user_id: Required[Annotated[str, PropertyInfo(alias="X-User-ID")]]

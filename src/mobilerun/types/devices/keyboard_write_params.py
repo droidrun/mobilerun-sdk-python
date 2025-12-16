@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, Annotated, TypedDict
-
-from ..._utils import PropertyInfo
+from typing_extensions import Required, TypedDict
 
 __all__ = ["KeyboardWriteParams"]
 
@@ -13,5 +11,3 @@ class KeyboardWriteParams(TypedDict, total=False):
     clear: Required[bool]
 
     text: Required[str]
-
-    x_user_id: Required[Annotated[str, PropertyInfo(alias="X-User-ID")]]

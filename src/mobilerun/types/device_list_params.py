@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing_extensions import Literal, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
@@ -10,8 +10,6 @@ __all__ = ["DeviceListParams"]
 
 
 class DeviceListParams(TypedDict, total=False):
-    x_user_id: Required[Annotated[str, PropertyInfo(alias="X-User-ID")]]
-
     country: str
 
     order_by: Annotated[Literal["id", "createdAt", "updatedAt", "assignedAt"], PropertyInfo(alias="orderBy")]

@@ -49,7 +49,6 @@ class ActionsResource(SyncAPIResource):
         end_y: int,
         start_x: int,
         start_y: int,
-        x_user_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -72,7 +71,6 @@ class ActionsResource(SyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers.update({"X-User-ID": x_user_id})
         return self._post(
             f"/devices/{device_id}/swipe",
             body=maybe_transform(
@@ -97,7 +95,6 @@ class ActionsResource(SyncAPIResource):
         *,
         x: int,
         y: int,
-        x_user_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -120,7 +117,6 @@ class ActionsResource(SyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers.update({"X-User-ID": x_user_id})
         return self._post(
             f"/devices/{device_id}/tap",
             body=maybe_transform(
@@ -166,7 +162,6 @@ class AsyncActionsResource(AsyncAPIResource):
         end_y: int,
         start_x: int,
         start_y: int,
-        x_user_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -189,7 +184,6 @@ class AsyncActionsResource(AsyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers.update({"X-User-ID": x_user_id})
         return await self._post(
             f"/devices/{device_id}/swipe",
             body=await async_maybe_transform(
@@ -214,7 +208,6 @@ class AsyncActionsResource(AsyncAPIResource):
         *,
         x: int,
         y: int,
-        x_user_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -237,7 +230,6 @@ class AsyncActionsResource(AsyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers.update({"X-User-ID": x_user_id})
         return await self._post(
             f"/devices/{device_id}/tap",
             body=await async_maybe_transform(

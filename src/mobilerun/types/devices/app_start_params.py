@@ -12,6 +12,4 @@ __all__ = ["AppStartParams"]
 class AppStartParams(TypedDict, total=False):
     device_id: Required[Annotated[str, PropertyInfo(alias="deviceId")]]
 
-    x_user_id: Required[Annotated[str, PropertyInfo(alias="X-User-ID")]]
-
     activity: str

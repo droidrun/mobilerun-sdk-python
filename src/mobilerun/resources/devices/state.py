@@ -45,7 +45,6 @@ class StateResource(SyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         hide_overlay: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -68,7 +67,6 @@ class StateResource(SyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return self._get(
             f"/devices/{device_id}/screenshot",
             options=make_request_options(
@@ -85,7 +83,6 @@ class StateResource(SyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -107,7 +104,6 @@ class StateResource(SyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return self._get(
             f"/devices/{device_id}/time",
             options=make_request_options(
@@ -120,7 +116,6 @@ class StateResource(SyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         filter: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -143,7 +138,6 @@ class StateResource(SyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return self._get(
             f"/devices/{device_id}/ui-state",
             options=make_request_options(
@@ -181,7 +175,6 @@ class AsyncStateResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         hide_overlay: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -204,7 +197,6 @@ class AsyncStateResource(AsyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return await self._get(
             f"/devices/{device_id}/screenshot",
             options=make_request_options(
@@ -223,7 +215,6 @@ class AsyncStateResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -245,7 +236,6 @@ class AsyncStateResource(AsyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return await self._get(
             f"/devices/{device_id}/time",
             options=make_request_options(
@@ -258,7 +248,6 @@ class AsyncStateResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         filter: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -281,7 +270,6 @@ class AsyncStateResource(AsyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return await self._get(
             f"/devices/{device_id}/ui-state",
             options=make_request_options(

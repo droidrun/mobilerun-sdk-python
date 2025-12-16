@@ -22,7 +22,6 @@ class TestPackages:
     def test_method_list(self, client: Mobilerun) -> None:
         package = client.devices.packages.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
         assert_matches_type(Optional[PackageListResponse], package, path=["response"])
 
@@ -31,7 +30,6 @@ class TestPackages:
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         package = client.devices.packages.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
             include_system_packages=True,
         )
         assert_matches_type(Optional[PackageListResponse], package, path=["response"])
@@ -41,7 +39,6 @@ class TestPackages:
     def test_raw_response_list(self, client: Mobilerun) -> None:
         response = client.devices.packages.with_raw_response.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -54,7 +51,6 @@ class TestPackages:
     def test_streaming_response_list(self, client: Mobilerun) -> None:
         with client.devices.packages.with_streaming_response.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -70,7 +66,6 @@ class TestPackages:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.packages.with_raw_response.list(
                 device_id="",
-                x_user_id="X-User-ID",
             )
 
 
@@ -84,7 +79,6 @@ class TestAsyncPackages:
     async def test_method_list(self, async_client: AsyncMobilerun) -> None:
         package = await async_client.devices.packages.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
         assert_matches_type(Optional[PackageListResponse], package, path=["response"])
 
@@ -93,7 +87,6 @@ class TestAsyncPackages:
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         package = await async_client.devices.packages.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
             include_system_packages=True,
         )
         assert_matches_type(Optional[PackageListResponse], package, path=["response"])
@@ -103,7 +96,6 @@ class TestAsyncPackages:
     async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.packages.with_raw_response.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -116,7 +108,6 @@ class TestAsyncPackages:
     async def test_streaming_response_list(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.packages.with_streaming_response.list(
             device_id="deviceId",
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -132,5 +123,4 @@ class TestAsyncPackages:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.packages.with_raw_response.list(
                 device_id="",
-                x_user_id="X-User-ID",
             )

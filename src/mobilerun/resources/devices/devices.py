@@ -110,7 +110,6 @@ class DevicesResource(SyncAPIResource):
         *,
         apps: Optional[SequenceNotStr[str]],
         files: Optional[SequenceNotStr[str]],
-        x_user_id: str,
         country: str | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -132,7 +131,6 @@ class DevicesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return self._post(
             "/devices",
             body=maybe_transform(
@@ -154,7 +152,6 @@ class DevicesResource(SyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -176,7 +173,6 @@ class DevicesResource(SyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return self._get(
             f"/devices/{device_id}",
             options=make_request_options(
@@ -188,7 +184,6 @@ class DevicesResource(SyncAPIResource):
     def list(
         self,
         *,
-        x_user_id: str,
         country: str | Omit = omit,
         order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
@@ -214,7 +209,6 @@ class DevicesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return self._get(
             "/devices",
             options=make_request_options(
@@ -241,7 +235,6 @@ class DevicesResource(SyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -264,7 +257,6 @@ class DevicesResource(SyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers.update({"X-User-ID": x_user_id})
         return self._delete(
             f"/devices/{device_id}",
             options=make_request_options(
@@ -277,7 +269,6 @@ class DevicesResource(SyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -299,7 +290,6 @@ class DevicesResource(SyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return self._get(
             f"/devices/{device_id}/wait",
             options=make_request_options(
@@ -354,7 +344,6 @@ class AsyncDevicesResource(AsyncAPIResource):
         *,
         apps: Optional[SequenceNotStr[str]],
         files: Optional[SequenceNotStr[str]],
-        x_user_id: str,
         country: str | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -376,7 +365,6 @@ class AsyncDevicesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return await self._post(
             "/devices",
             body=await async_maybe_transform(
@@ -398,7 +386,6 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -420,7 +407,6 @@ class AsyncDevicesResource(AsyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return await self._get(
             f"/devices/{device_id}",
             options=make_request_options(
@@ -432,7 +418,6 @@ class AsyncDevicesResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        x_user_id: str,
         country: str | Omit = omit,
         order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
@@ -458,7 +443,6 @@ class AsyncDevicesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return await self._get(
             "/devices",
             options=make_request_options(
@@ -485,7 +469,6 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -508,7 +491,6 @@ class AsyncDevicesResource(AsyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers.update({"X-User-ID": x_user_id})
         return await self._delete(
             f"/devices/{device_id}",
             options=make_request_options(
@@ -521,7 +503,6 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
-        x_user_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -543,7 +524,6 @@ class AsyncDevicesResource(AsyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"X-User-ID": x_user_id, **(extra_headers or {})}
         return await self._get(
             f"/devices/{device_id}/wait",
             options=make_request_options(

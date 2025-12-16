@@ -25,7 +25,6 @@ class TestActions:
             end_y=0,
             start_x=0,
             start_y=0,
-            x_user_id="X-User-ID",
         )
         assert action is None
 
@@ -39,7 +38,6 @@ class TestActions:
             end_y=0,
             start_x=0,
             start_y=0,
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -57,7 +55,6 @@ class TestActions:
             end_y=0,
             start_x=0,
             start_y=0,
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -78,7 +75,6 @@ class TestActions:
                 end_y=0,
                 start_x=0,
                 start_y=0,
-                x_user_id="X-User-ID",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -88,7 +84,6 @@ class TestActions:
             device_id="deviceId",
             x=0,
             y=0,
-            x_user_id="X-User-ID",
         )
         assert action is None
 
@@ -99,7 +94,6 @@ class TestActions:
             device_id="deviceId",
             x=0,
             y=0,
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -114,7 +108,6 @@ class TestActions:
             device_id="deviceId",
             x=0,
             y=0,
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -132,7 +125,6 @@ class TestActions:
                 device_id="",
                 x=0,
                 y=0,
-                x_user_id="X-User-ID",
             )
 
 
@@ -151,7 +143,6 @@ class TestAsyncActions:
             end_y=0,
             start_x=0,
             start_y=0,
-            x_user_id="X-User-ID",
         )
         assert action is None
 
@@ -165,7 +156,6 @@ class TestAsyncActions:
             end_y=0,
             start_x=0,
             start_y=0,
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -183,7 +173,6 @@ class TestAsyncActions:
             end_y=0,
             start_x=0,
             start_y=0,
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -204,7 +193,6 @@ class TestAsyncActions:
                 end_y=0,
                 start_x=0,
                 start_y=0,
-                x_user_id="X-User-ID",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -214,7 +202,6 @@ class TestAsyncActions:
             device_id="deviceId",
             x=0,
             y=0,
-            x_user_id="X-User-ID",
         )
         assert action is None
 
@@ -225,7 +212,6 @@ class TestAsyncActions:
             device_id="deviceId",
             x=0,
             y=0,
-            x_user_id="X-User-ID",
         )
 
         assert response.is_closed is True
@@ -240,7 +226,6 @@ class TestAsyncActions:
             device_id="deviceId",
             x=0,
             y=0,
-            x_user_id="X-User-ID",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -258,5 +243,4 @@ class TestAsyncActions:
                 device_id="",
                 x=0,
                 y=0,
-                x_user_id="X-User-ID",
             )
