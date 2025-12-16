@@ -21,6 +21,9 @@ class TaskRunStreamedParams(TypedDict, total=False):
 
     credentials: Iterable[Credential]
 
+    device_id: Annotated[Optional[str], PropertyInfo(alias="deviceId")]
+    """The ID of the device to run the task on."""
+
     execution_timeout: Annotated[int, PropertyInfo(alias="executionTimeout")]
 
     files: SequenceNotStr[str]
