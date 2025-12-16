@@ -61,6 +61,6 @@
   ],
   "release-type": "python",
   "extra-files": [
-    "src/droidrun_cloud/_version.py"
+    "src/mobilerun/_version.py"
   ]
 }

@@ -22,6 +22,7 @@ from .._base_client import make_request_options
 from ..types.hook_list_response import HookListResponse
 from ..types.hook_update_response import HookUpdateResponse
 from ..types.hook_perform_response import HookPerformResponse
+from ..types.hook_retrieve_response import HookRetrieveResponse
 from ..types.hook_subscribe_response import HookSubscribeResponse
 from ..types.hook_unsubscribe_response import HookUnsubscribeResponse
 from ..types.hook_get_sample_data_response import HookGetSampleDataResponse
@@ -48,6 +49,39 @@ class HooksResource(SyncAPIResource):
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
         """
         return HooksResourceWithStreamingResponse(self)
+
+    def retrieve(
+        self,
+        hook_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> HookRetrieveResponse:
+        """
+        Get a hook subscription by id.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not hook_id:
+            raise ValueError(f"Expected a non-empty value for `hook_id` but received {hook_id!r}")
+        return self._get(
+            f"/hooks/{hook_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=HookRetrieveResponse,
+        )
 
     def update(
         self,
@@ -286,6 +320,39 @@ class AsyncHooksResource(AsyncAPIResource):
         """
         return AsyncHooksResourceWithStreamingResponse(self)
 
+    async def retrieve(
+        self,
+        hook_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> HookRetrieveResponse:
+        """
+        Get a hook subscription by id.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not hook_id:
+            raise ValueError(f"Expected a non-empty value for `hook_id` but received {hook_id!r}")
+        return await self._get(
+            f"/hooks/{hook_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=HookRetrieveResponse,
+        )
+
     async def update(
         self,
         hook_id: str,
@@ -507,6 +574,9 @@ class HooksResourceWithRawResponse:
     def __init__(self, hooks: HooksResource) -> None:
         self._hooks = hooks
 
+        self.retrieve = to_raw_response_wrapper(
+            hooks.retrieve,
+        )
         self.update = to_raw_response_wrapper(
             hooks.update,
         )
@@ -531,6 +601,9 @@ class AsyncHooksResourceWithRawResponse:
     def __init__(self, hooks: AsyncHooksResource) -> None:
         self._hooks = hooks
 
+        self.retrieve = async_to_raw_response_wrapper(
+            hooks.retrieve,
+        )
         self.update = async_to_raw_response_wrapper(
             hooks.update,
         )
@@ -555,6 +628,9 @@ class HooksResourceWithStreamingResponse:
     def __init__(self, hooks: HooksResource) -> None:
         self._hooks = hooks
 
+        self.retrieve = to_streamed_response_wrapper(
+            hooks.retrieve,
+        )
         self.update = to_streamed_response_wrapper(
             hooks.update,
         )
@@ -579,6 +655,9 @@ class AsyncHooksResourceWithStreamingResponse:
     def __init__(self, hooks: AsyncHooksResource) -> None:
         self._hooks = hooks
 
+        self.retrieve = async_to_streamed_response_wrapper(
+            hooks.retrieve,
+        )
         self.update = async_to_streamed_response_wrapper(
             hooks.update,
         )

@@ -5,8 +5,8 @@ from typing import Iterator, AsyncIterator
 import httpx
 import pytest
 
-from droidrun_cloud import Mobilerun, AsyncMobilerun
-from droidrun_cloud._streaming import Stream, AsyncStream, ServerSentEvent
+from mobilerun import Mobilerun, AsyncMobilerun
+from mobilerun._streaming import Stream, AsyncStream, ServerSentEvent
 
 
 @pytest.mark.asyncio

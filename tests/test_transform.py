@@ -8,15 +8,15 @@ from typing_extensions import Required, Annotated, TypedDict
 
 import pytest
 
-from droidrun_cloud._types import Base64FileInput, omit, not_given
-from droidrun_cloud._utils import (
+from mobilerun._types import Base64FileInput, omit, not_given
+from mobilerun._utils import (
     PropertyInfo,
     transform as _transform,
     parse_datetime,
     async_transform as _async_transform,
 )
-from droidrun_cloud._compat import PYDANTIC_V1
-from droidrun_cloud._models import BaseModel
+from mobilerun._compat import PYDANTIC_V1
+from mobilerun._models import BaseModel
 
 _T = TypeVar("_T")
 

@@ -18,6 +18,7 @@ from .task_stop_response import TaskStopResponse as TaskStopResponse
 from .hook_update_response import HookUpdateResponse as HookUpdateResponse
 from .hook_perform_response import HookPerformResponse as HookPerformResponse
 from .hook_subscribe_params import HookSubscribeParams as HookSubscribeParams
+from .hook_retrieve_response import HookRetrieveResponse as HookRetrieveResponse
 from .task_retrieve_response import TaskRetrieveResponse as TaskRetrieveResponse
 from .hook_subscribe_response import HookSubscribeResponse as HookSubscribeResponse
 from .credential_list_response import CredentialListResponse as CredentialListResponse
