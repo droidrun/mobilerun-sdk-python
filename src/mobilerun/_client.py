@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 from typing_extensions import Self, override
 
 import httpx
@@ -21,8 +21,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import apps, hooks
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
@@ -30,9 +30,14 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.tasks import tasks
-from .resources.devices import devices
-from .resources.credentials import credentials
+
+if TYPE_CHECKING:
+    from .resources import apps, hooks, tasks, devices, credentials
+    from .resources.apps import AppsResource, AsyncAppsResource
+    from .resources.hooks import HooksResource, AsyncHooksResource
+    from .resources.tasks.tasks import TasksResource, AsyncTasksResource
+    from .resources.devices.devices import DevicesResource, AsyncDevicesResource
+    from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
 
 __all__ = [
     "Timeout",
@@ -47,14 +52,6 @@ __all__ = [
 
 
 class Mobilerun(SyncAPIClient):
-    tasks: tasks.TasksResource
-    devices: devices.DevicesResource
-    apps: apps.AppsResource
-    credentials: credentials.CredentialsResource
-    hooks: hooks.HooksResource
-    with_raw_response: MobilerunWithRawResponse
-    with_streaming_response: MobilerunWithStreamedResponse
-
     # client options
     api_key: str | None
 
@@ -105,13 +102,43 @@ class Mobilerun(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.tasks = tasks.TasksResource(self)
-        self.devices = devices.DevicesResource(self)
-        self.apps = apps.AppsResource(self)
-        self.credentials = credentials.CredentialsResource(self)
-        self.hooks = hooks.HooksResource(self)
-        self.with_raw_response = MobilerunWithRawResponse(self)
-        self.with_streaming_response = MobilerunWithStreamedResponse(self)
+    @cached_property
+    def tasks(self) -> TasksResource:
+        from .resources.tasks import TasksResource
+
+        return TasksResource(self)
+
+    @cached_property
+    def devices(self) -> DevicesResource:
+        from .resources.devices import DevicesResource
+
+        return DevicesResource(self)
+
+    @cached_property
+    def apps(self) -> AppsResource:
+        from .resources.apps import AppsResource
+
+        return AppsResource(self)
+
+    @cached_property
+    def credentials(self) -> CredentialsResource:
+        from .resources.credentials import CredentialsResource
+
+        return CredentialsResource(self)
+
+    @cached_property
+    def hooks(self) -> HooksResource:
+        from .resources.hooks import HooksResource
+
+        return HooksResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> MobilerunWithRawResponse:
+        return MobilerunWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> MobilerunWithStreamedResponse:
+        return MobilerunWithStreamedResponse(self)
 
     @property
     @override
@@ -232,14 +259,6 @@ class Mobilerun(SyncAPIClient):
 
 
 class AsyncMobilerun(AsyncAPIClient):
-    tasks: tasks.AsyncTasksResource
-    devices: devices.AsyncDevicesResource
-    apps: apps.AsyncAppsResource
-    credentials: credentials.AsyncCredentialsResource
-    hooks: hooks.AsyncHooksResource
-    with_raw_response: AsyncMobilerunWithRawResponse
-    with_streaming_response: AsyncMobilerunWithStreamedResponse
-
     # client options
     api_key: str | None
 
@@ -290,13 +309,43 @@ class AsyncMobilerun(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.tasks = tasks.AsyncTasksResource(self)
-        self.devices = devices.AsyncDevicesResource(self)
-        self.apps = apps.AsyncAppsResource(self)
-        self.credentials = credentials.AsyncCredentialsResource(self)
-        self.hooks = hooks.AsyncHooksResource(self)
-        self.with_raw_response = AsyncMobilerunWithRawResponse(self)
-        self.with_streaming_response = AsyncMobilerunWithStreamedResponse(self)
+    @cached_property
+    def tasks(self) -> AsyncTasksResource:
+        from .resources.tasks import AsyncTasksResource
+
+        return AsyncTasksResource(self)
+
+    @cached_property
+    def devices(self) -> AsyncDevicesResource:
+        from .resources.devices import AsyncDevicesResource
+
+        return AsyncDevicesResource(self)
+
+    @cached_property
+    def apps(self) -> AsyncAppsResource:
+        from .resources.apps import AsyncAppsResource
+
+        return AsyncAppsResource(self)
+
+    @cached_property
+    def credentials(self) -> AsyncCredentialsResource:
+        from .resources.credentials import AsyncCredentialsResource
+
+        return AsyncCredentialsResource(self)
+
+    @cached_property
+    def hooks(self) -> AsyncHooksResource:
+        from .resources.hooks import AsyncHooksResource
+
+        return AsyncHooksResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncMobilerunWithRawResponse:
+        return AsyncMobilerunWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncMobilerunWithStreamedResponse:
+        return AsyncMobilerunWithStreamedResponse(self)
 
     @property
     @override
@@ -417,39 +466,151 @@ class AsyncMobilerun(AsyncAPIClient):
 
 
 class MobilerunWithRawResponse:
+    _client: Mobilerun
+
     def __init__(self, client: Mobilerun) -> None:
-        self.tasks = tasks.TasksResourceWithRawResponse(client.tasks)
-        self.devices = devices.DevicesResourceWithRawResponse(client.devices)
-        self.apps = apps.AppsResourceWithRawResponse(client.apps)
-        self.credentials = credentials.CredentialsResourceWithRawResponse(client.credentials)
-        self.hooks = hooks.HooksResourceWithRawResponse(client.hooks)
+        self._client = client
+
+    @cached_property
+    def tasks(self) -> tasks.TasksResourceWithRawResponse:
+        from .resources.tasks import TasksResourceWithRawResponse
+
+        return TasksResourceWithRawResponse(self._client.tasks)
+
+    @cached_property
+    def devices(self) -> devices.DevicesResourceWithRawResponse:
+        from .resources.devices import DevicesResourceWithRawResponse
+
+        return DevicesResourceWithRawResponse(self._client.devices)
+
+    @cached_property
+    def apps(self) -> apps.AppsResourceWithRawResponse:
+        from .resources.apps import AppsResourceWithRawResponse
+
+        return AppsResourceWithRawResponse(self._client.apps)
+
+    @cached_property
+    def credentials(self) -> credentials.CredentialsResourceWithRawResponse:
+        from .resources.credentials import CredentialsResourceWithRawResponse
+
+        return CredentialsResourceWithRawResponse(self._client.credentials)
+
+    @cached_property
+    def hooks(self) -> hooks.HooksResourceWithRawResponse:
+        from .resources.hooks import HooksResourceWithRawResponse
+
+        return HooksResourceWithRawResponse(self._client.hooks)
 
 
 class AsyncMobilerunWithRawResponse:
+    _client: AsyncMobilerun
+
     def __init__(self, client: AsyncMobilerun) -> None:
-        self.tasks = tasks.AsyncTasksResourceWithRawResponse(client.tasks)
-        self.devices = devices.AsyncDevicesResourceWithRawResponse(client.devices)
-        self.apps = apps.AsyncAppsResourceWithRawResponse(client.apps)
-        self.credentials = credentials.AsyncCredentialsResourceWithRawResponse(client.credentials)
-        self.hooks = hooks.AsyncHooksResourceWithRawResponse(client.hooks)
+        self._client = client
+
+    @cached_property
+    def tasks(self) -> tasks.AsyncTasksResourceWithRawResponse:
+        from .resources.tasks import AsyncTasksResourceWithRawResponse
+
+        return AsyncTasksResourceWithRawResponse(self._client.tasks)
+
+    @cached_property
+    def devices(self) -> devices.AsyncDevicesResourceWithRawResponse:
+        from .resources.devices import AsyncDevicesResourceWithRawResponse
+
+        return AsyncDevicesResourceWithRawResponse(self._client.devices)
+
+    @cached_property
+    def apps(self) -> apps.AsyncAppsResourceWithRawResponse:
+        from .resources.apps import AsyncAppsResourceWithRawResponse
+
+        return AsyncAppsResourceWithRawResponse(self._client.apps)
+
+    @cached_property
+    def credentials(self) -> credentials.AsyncCredentialsResourceWithRawResponse:
+        from .resources.credentials import AsyncCredentialsResourceWithRawResponse
+
+        return AsyncCredentialsResourceWithRawResponse(self._client.credentials)
+
+    @cached_property
+    def hooks(self) -> hooks.AsyncHooksResourceWithRawResponse:
+        from .resources.hooks import AsyncHooksResourceWithRawResponse
+
+        return AsyncHooksResourceWithRawResponse(self._client.hooks)
 
 
 class MobilerunWithStreamedResponse:
+    _client: Mobilerun
+
     def __init__(self, client: Mobilerun) -> None:
-        self.tasks = tasks.TasksResourceWithStreamingResponse(client.tasks)
-        self.devices = devices.DevicesResourceWithStreamingResponse(client.devices)
-        self.apps = apps.AppsResourceWithStreamingResponse(client.apps)
-        self.credentials = credentials.CredentialsResourceWithStreamingResponse(client.credentials)
-        self.hooks = hooks.HooksResourceWithStreamingResponse(client.hooks)
+        self._client = client
+
+    @cached_property
+    def tasks(self) -> tasks.TasksResourceWithStreamingResponse:
+        from .resources.tasks import TasksResourceWithStreamingResponse
+
+        return TasksResourceWithStreamingResponse(self._client.tasks)
+
+    @cached_property
+    def devices(self) -> devices.DevicesResourceWithStreamingResponse:
+        from .resources.devices import DevicesResourceWithStreamingResponse
+
+        return DevicesResourceWithStreamingResponse(self._client.devices)
+
+    @cached_property
+    def apps(self) -> apps.AppsResourceWithStreamingResponse:
+        from .resources.apps import AppsResourceWithStreamingResponse
+
+        return AppsResourceWithStreamingResponse(self._client.apps)
+
+    @cached_property
+    def credentials(self) -> credentials.CredentialsResourceWithStreamingResponse:
+        from .resources.credentials import CredentialsResourceWithStreamingResponse
+
+        return CredentialsResourceWithStreamingResponse(self._client.credentials)
+
+    @cached_property
+    def hooks(self) -> hooks.HooksResourceWithStreamingResponse:
+        from .resources.hooks import HooksResourceWithStreamingResponse
+
+        return HooksResourceWithStreamingResponse(self._client.hooks)
 
 
 class AsyncMobilerunWithStreamedResponse:
+    _client: AsyncMobilerun
+
     def __init__(self, client: AsyncMobilerun) -> None:
-        self.tasks = tasks.AsyncTasksResourceWithStreamingResponse(client.tasks)
-        self.devices = devices.AsyncDevicesResourceWithStreamingResponse(client.devices)
-        self.apps = apps.AsyncAppsResourceWithStreamingResponse(client.apps)
-        self.credentials = credentials.AsyncCredentialsResourceWithStreamingResponse(client.credentials)
-        self.hooks = hooks.AsyncHooksResourceWithStreamingResponse(client.hooks)
+        self._client = client
+
+    @cached_property
+    def tasks(self) -> tasks.AsyncTasksResourceWithStreamingResponse:
+        from .resources.tasks import AsyncTasksResourceWithStreamingResponse
+
+        return AsyncTasksResourceWithStreamingResponse(self._client.tasks)
+
+    @cached_property
+    def devices(self) -> devices.AsyncDevicesResourceWithStreamingResponse:
+        from .resources.devices import AsyncDevicesResourceWithStreamingResponse
+
+        return AsyncDevicesResourceWithStreamingResponse(self._client.devices)
+
+    @cached_property
+    def apps(self) -> apps.AsyncAppsResourceWithStreamingResponse:
+        from .resources.apps import AsyncAppsResourceWithStreamingResponse
+
+        return AsyncAppsResourceWithStreamingResponse(self._client.apps)
+
+    @cached_property
+    def credentials(self) -> credentials.AsyncCredentialsResourceWithStreamingResponse:
+        from .resources.credentials import AsyncCredentialsResourceWithStreamingResponse
+
+        return AsyncCredentialsResourceWithStreamingResponse(self._client.credentials)
+
+    @cached_property
+    def hooks(self) -> hooks.AsyncHooksResourceWithStreamingResponse:
+        from .resources.hooks import AsyncHooksResourceWithStreamingResponse
+
+        return AsyncHooksResourceWithStreamingResponse(self._client.hooks)
 
 
 Client = Mobilerun
