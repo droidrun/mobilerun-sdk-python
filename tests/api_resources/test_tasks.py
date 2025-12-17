@@ -256,6 +256,7 @@ class TestTasks:
                 }
             ],
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            display_id=0,
             execution_timeout=0,
             files=["string"],
             max_steps=0,
@@ -318,6 +319,7 @@ class TestTasks:
                 }
             ],
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            display_id=0,
             execution_timeout=0,
             files=["string"],
             max_steps=0,
@@ -637,6 +639,7 @@ class TestAsyncTasks:
                 }
             ],
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            display_id=0,
             execution_timeout=0,
             files=["string"],
             max_steps=0,
@@ -699,6 +702,7 @@ class TestAsyncTasks:
                 }
             ],
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            display_id=0,
             execution_timeout=0,
             files=["string"],
             max_steps=0,
