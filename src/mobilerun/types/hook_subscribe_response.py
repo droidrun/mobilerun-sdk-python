@@ -8,6 +8,8 @@ __all__ = ["HookSubscribeResponse"]
 
 
 class HookSubscribeResponse(BaseModel):
+    """Response model after successful subscription."""
+
     id: str
     """The subscription ID"""
 
