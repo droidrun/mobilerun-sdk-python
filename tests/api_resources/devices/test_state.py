@@ -30,6 +30,7 @@ class TestState:
         state = client.devices.state.screenshot(
             device_id="deviceId",
             hide_overlay=True,
+            x_device_display_id="X-Device-Display-ID",
         )
         assert_matches_type(str, state, path=["response"])
 
@@ -71,7 +72,16 @@ class TestState:
     @parametrize
     def test_method_time(self, client: Mobilerun) -> None:
         state = client.devices.state.time(
-            "deviceId",
+            device_id="deviceId",
+        )
+        assert_matches_type(str, state, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_time_with_all_params(self, client: Mobilerun) -> None:
+        state = client.devices.state.time(
+            device_id="deviceId",
+            x_device_display_id="X-Device-Display-ID",
         )
         assert_matches_type(str, state, path=["response"])
 
@@ -79,7 +89,7 @@ class TestState:
     @parametrize
     def test_raw_response_time(self, client: Mobilerun) -> None:
         response = client.devices.state.with_raw_response.time(
-            "deviceId",
+            device_id="deviceId",
         )
 
         assert response.is_closed is True
@@ -91,7 +101,7 @@ class TestState:
     @parametrize
     def test_streaming_response_time(self, client: Mobilerun) -> None:
         with client.devices.state.with_streaming_response.time(
-            "deviceId",
+            device_id="deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -106,7 +116,7 @@ class TestState:
     def test_path_params_time(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.state.with_raw_response.time(
-                "",
+                device_id="",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -123,6 +133,7 @@ class TestState:
         state = client.devices.state.ui(
             device_id="deviceId",
             filter=True,
+            x_device_display_id="X-Device-Display-ID",
         )
         assert_matches_type(object, state, path=["response"])
 
@@ -180,6 +191,7 @@ class TestAsyncState:
         state = await async_client.devices.state.screenshot(
             device_id="deviceId",
             hide_overlay=True,
+            x_device_display_id="X-Device-Display-ID",
         )
         assert_matches_type(str, state, path=["response"])
 
@@ -221,7 +233,16 @@ class TestAsyncState:
     @parametrize
     async def test_method_time(self, async_client: AsyncMobilerun) -> None:
         state = await async_client.devices.state.time(
-            "deviceId",
+            device_id="deviceId",
+        )
+        assert_matches_type(str, state, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_time_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        state = await async_client.devices.state.time(
+            device_id="deviceId",
+            x_device_display_id="X-Device-Display-ID",
         )
         assert_matches_type(str, state, path=["response"])
 
@@ -229,7 +250,7 @@ class TestAsyncState:
     @parametrize
     async def test_raw_response_time(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.state.with_raw_response.time(
-            "deviceId",
+            device_id="deviceId",
         )
 
         assert response.is_closed is True
@@ -241,7 +262,7 @@ class TestAsyncState:
     @parametrize
     async def test_streaming_response_time(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.state.with_streaming_response.time(
-            "deviceId",
+            device_id="deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -256,7 +277,7 @@ class TestAsyncState:
     async def test_path_params_time(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.state.with_raw_response.time(
-                "",
+                device_id="",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -273,6 +294,7 @@ class TestAsyncState:
         state = await async_client.devices.state.ui(
             device_id="deviceId",
             filter=True,
+            x_device_display_id="X-Device-Display-ID",
         )
         assert_matches_type(object, state, path=["response"])
 

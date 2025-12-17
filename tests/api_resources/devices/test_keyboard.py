@@ -19,7 +19,16 @@ class TestKeyboard:
     @parametrize
     def test_method_clear(self, client: Mobilerun) -> None:
         keyboard = client.devices.keyboard.clear(
-            "deviceId",
+            device_id="deviceId",
+        )
+        assert keyboard is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_clear_with_all_params(self, client: Mobilerun) -> None:
+        keyboard = client.devices.keyboard.clear(
+            device_id="deviceId",
+            x_device_display_id="X-Device-Display-ID",
         )
         assert keyboard is None
 
@@ -27,7 +36,7 @@ class TestKeyboard:
     @parametrize
     def test_raw_response_clear(self, client: Mobilerun) -> None:
         response = client.devices.keyboard.with_raw_response.clear(
-            "deviceId",
+            device_id="deviceId",
         )
 
         assert response.is_closed is True
@@ -39,7 +48,7 @@ class TestKeyboard:
     @parametrize
     def test_streaming_response_clear(self, client: Mobilerun) -> None:
         with client.devices.keyboard.with_streaming_response.clear(
-            "deviceId",
+            device_id="deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -54,7 +63,7 @@ class TestKeyboard:
     def test_path_params_clear(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.keyboard.with_raw_response.clear(
-                "",
+                device_id="",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -63,6 +72,16 @@ class TestKeyboard:
         keyboard = client.devices.keyboard.key(
             device_id="deviceId",
             key=0,
+        )
+        assert keyboard is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_key_with_all_params(self, client: Mobilerun) -> None:
+        keyboard = client.devices.keyboard.key(
+            device_id="deviceId",
+            key=0,
+            x_device_display_id="X-Device-Display-ID",
         )
         assert keyboard is None
 
@@ -110,6 +129,17 @@ class TestKeyboard:
             device_id="deviceId",
             clear=True,
             text="text",
+        )
+        assert keyboard is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_write_with_all_params(self, client: Mobilerun) -> None:
+        keyboard = client.devices.keyboard.write(
+            device_id="deviceId",
+            clear=True,
+            text="text",
+            x_device_display_id="X-Device-Display-ID",
         )
         assert keyboard is None
 
@@ -163,7 +193,16 @@ class TestAsyncKeyboard:
     @parametrize
     async def test_method_clear(self, async_client: AsyncMobilerun) -> None:
         keyboard = await async_client.devices.keyboard.clear(
-            "deviceId",
+            device_id="deviceId",
+        )
+        assert keyboard is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_clear_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        keyboard = await async_client.devices.keyboard.clear(
+            device_id="deviceId",
+            x_device_display_id="X-Device-Display-ID",
         )
         assert keyboard is None
 
@@ -171,7 +210,7 @@ class TestAsyncKeyboard:
     @parametrize
     async def test_raw_response_clear(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.keyboard.with_raw_response.clear(
-            "deviceId",
+            device_id="deviceId",
         )
 
         assert response.is_closed is True
@@ -183,7 +222,7 @@ class TestAsyncKeyboard:
     @parametrize
     async def test_streaming_response_clear(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.keyboard.with_streaming_response.clear(
-            "deviceId",
+            device_id="deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -198,7 +237,7 @@ class TestAsyncKeyboard:
     async def test_path_params_clear(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.keyboard.with_raw_response.clear(
-                "",
+                device_id="",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -207,6 +246,16 @@ class TestAsyncKeyboard:
         keyboard = await async_client.devices.keyboard.key(
             device_id="deviceId",
             key=0,
+        )
+        assert keyboard is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_key_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        keyboard = await async_client.devices.keyboard.key(
+            device_id="deviceId",
+            key=0,
+            x_device_display_id="X-Device-Display-ID",
         )
         assert keyboard is None
 
@@ -254,6 +303,17 @@ class TestAsyncKeyboard:
             device_id="deviceId",
             clear=True,
             text="text",
+        )
+        assert keyboard is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_write_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        keyboard = await async_client.devices.keyboard.write(
+            device_id="deviceId",
+            clear=True,
+            text="text",
+            x_device_display_id="X-Device-Display-ID",
         )
         assert keyboard is None
 

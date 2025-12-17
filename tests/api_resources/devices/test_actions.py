@@ -30,6 +30,20 @@ class TestActions:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    def test_method_swipe_with_all_params(self, client: Mobilerun) -> None:
+        action = client.devices.actions.swipe(
+            device_id="deviceId",
+            duration=0,
+            end_x=0,
+            end_y=0,
+            start_x=0,
+            start_y=0,
+            x_device_display_id="X-Device-Display-ID",
+        )
+        assert action is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     def test_raw_response_swipe(self, client: Mobilerun) -> None:
         response = client.devices.actions.with_raw_response.swipe(
             device_id="deviceId",
@@ -84,6 +98,17 @@ class TestActions:
             device_id="deviceId",
             x=0,
             y=0,
+        )
+        assert action is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_tap_with_all_params(self, client: Mobilerun) -> None:
+        action = client.devices.actions.tap(
+            device_id="deviceId",
+            x=0,
+            y=0,
+            x_device_display_id="X-Device-Display-ID",
         )
         assert action is None
 
@@ -148,6 +173,20 @@ class TestAsyncActions:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    async def test_method_swipe_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        action = await async_client.devices.actions.swipe(
+            device_id="deviceId",
+            duration=0,
+            end_x=0,
+            end_y=0,
+            start_x=0,
+            start_y=0,
+            x_device_display_id="X-Device-Display-ID",
+        )
+        assert action is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     async def test_raw_response_swipe(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.actions.with_raw_response.swipe(
             device_id="deviceId",
@@ -202,6 +241,17 @@ class TestAsyncActions:
             device_id="deviceId",
             x=0,
             y=0,
+        )
+        assert action is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_tap_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        action = await async_client.devices.actions.tap(
+            device_id="deviceId",
+            x=0,
+            y=0,
+            x_device_display_id="X-Device-Display-ID",
         )
         assert action is None
 

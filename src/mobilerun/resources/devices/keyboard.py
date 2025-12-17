@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import Body, Query, Headers, NoneType, NotGiven, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ..._utils import maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -44,6 +44,7 @@ class KeyboardResource(SyncAPIResource):
         self,
         device_id: str,
         *,
+        x_device_display_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -66,6 +67,7 @@ class KeyboardResource(SyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
         return self._delete(
             f"/devices/{device_id}/keyboard",
             options=make_request_options(
@@ -79,6 +81,7 @@ class KeyboardResource(SyncAPIResource):
         device_id: str,
         *,
         key: int,
+        x_device_display_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -101,6 +104,7 @@ class KeyboardResource(SyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
         return self._put(
             f"/devices/{device_id}/keyboard",
             body=maybe_transform({"key": key}, keyboard_key_params.KeyboardKeyParams),
@@ -116,6 +120,7 @@ class KeyboardResource(SyncAPIResource):
         *,
         clear: bool,
         text: str,
+        x_device_display_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -138,6 +143,7 @@ class KeyboardResource(SyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
         return self._post(
             f"/devices/{device_id}/keyboard",
             body=maybe_transform(
@@ -178,6 +184,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
+        x_device_display_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -200,6 +207,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
         return await self._delete(
             f"/devices/{device_id}/keyboard",
             options=make_request_options(
@@ -213,6 +221,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
         device_id: str,
         *,
         key: int,
+        x_device_display_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -235,6 +244,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
         return await self._put(
             f"/devices/{device_id}/keyboard",
             body=await async_maybe_transform({"key": key}, keyboard_key_params.KeyboardKeyParams),
@@ -250,6 +260,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
         *,
         clear: bool,
         text: str,
+        x_device_display_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -272,6 +283,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
         return await self._post(
             f"/devices/{device_id}/keyboard",
             body=await async_maybe_transform(
