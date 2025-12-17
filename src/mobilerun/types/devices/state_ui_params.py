@@ -12,4 +12,4 @@ __all__ = ["StateUiParams"]
 class StateUiParams(TypedDict, total=False):
     filter: bool
 
-    x_device_display_id: Annotated[str, PropertyInfo(alias="X-Device-Display-ID")]
+    x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

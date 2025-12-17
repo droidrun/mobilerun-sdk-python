@@ -7,7 +7,7 @@ from typing import Optional
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ..._utils import maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -48,7 +48,7 @@ class AppsResource(SyncAPIResource):
         device_id: str,
         *,
         include_system_apps: bool | Omit = omit,
-        x_device_display_id: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -70,7 +70,12 @@ class AppsResource(SyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
         return self._get(
             f"/devices/{device_id}/apps",
             options=make_request_options(
@@ -88,7 +93,7 @@ class AppsResource(SyncAPIResource):
         package_name: str,
         *,
         device_id: str,
-        x_device_display_id: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -113,7 +118,12 @@ class AppsResource(SyncAPIResource):
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
         return self._delete(
             f"/devices/{device_id}/apps/{package_name}",
             options=make_request_options(
@@ -127,7 +137,7 @@ class AppsResource(SyncAPIResource):
         device_id: str,
         *,
         package_name: str,
-        x_device_display_id: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -150,7 +160,12 @@ class AppsResource(SyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
         return self._post(
             f"/devices/{device_id}/apps",
             body=maybe_transform({"package_name": package_name}, app_install_params.AppInstallParams),
@@ -166,7 +181,7 @@ class AppsResource(SyncAPIResource):
         *,
         device_id: str,
         activity: str | Omit = omit,
-        x_device_display_id: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -191,7 +206,12 @@ class AppsResource(SyncAPIResource):
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
         return self._put(
             f"/devices/{device_id}/apps/{package_name}",
             body=maybe_transform({"activity": activity}, app_start_params.AppStartParams),
@@ -227,7 +247,7 @@ class AsyncAppsResource(AsyncAPIResource):
         device_id: str,
         *,
         include_system_apps: bool | Omit = omit,
-        x_device_display_id: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -249,7 +269,12 @@ class AsyncAppsResource(AsyncAPIResource):
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
         return await self._get(
             f"/devices/{device_id}/apps",
             options=make_request_options(
@@ -269,7 +294,7 @@ class AsyncAppsResource(AsyncAPIResource):
         package_name: str,
         *,
         device_id: str,
-        x_device_display_id: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -294,7 +319,12 @@ class AsyncAppsResource(AsyncAPIResource):
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
         return await self._delete(
             f"/devices/{device_id}/apps/{package_name}",
             options=make_request_options(
@@ -308,7 +338,7 @@ class AsyncAppsResource(AsyncAPIResource):
         device_id: str,
         *,
         package_name: str,
-        x_device_display_id: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -331,7 +361,12 @@ class AsyncAppsResource(AsyncAPIResource):
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
         return await self._post(
             f"/devices/{device_id}/apps",
             body=await async_maybe_transform({"package_name": package_name}, app_install_params.AppInstallParams),
@@ -347,7 +382,7 @@ class AsyncAppsResource(AsyncAPIResource):
         *,
         device_id: str,
         activity: str | Omit = omit,
-        x_device_display_id: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -372,7 +407,12 @@ class AsyncAppsResource(AsyncAPIResource):
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {**strip_not_given({"X-Device-Display-ID": x_device_display_id}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
         return await self._put(
             f"/devices/{device_id}/apps/{package_name}",
             body=await async_maybe_transform({"activity": activity}, app_start_params.AppStartParams),

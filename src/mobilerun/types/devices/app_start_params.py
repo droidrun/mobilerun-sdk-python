@@ -14,4 +14,4 @@ class AppStartParams(TypedDict, total=False):
 
     activity: str
 
-    x_device_display_id: Annotated[str, PropertyInfo(alias="X-Device-Display-ID")]
+    x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
