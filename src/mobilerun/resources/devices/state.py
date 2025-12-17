@@ -16,7 +16,6 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.devices import state_ui_params, state_screenshot_params
-from ...types.devices.state_time_response import StateTimeResponse
 
 __all__ = ["StateResource", "AsyncStateResource"]
 
@@ -89,7 +88,7 @@ class StateResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> StateTimeResponse:
+    ) -> str:
         """
         Device time
 
@@ -109,7 +108,7 @@ class StateResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=StateTimeResponse,
+            cast_to=str,
         )
 
     def ui(
@@ -221,7 +220,7 @@ class AsyncStateResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> StateTimeResponse:
+    ) -> str:
         """
         Device time
 
@@ -241,7 +240,7 @@ class AsyncStateResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=StateTimeResponse,
+            cast_to=str,
         )
 
     async def ui(
