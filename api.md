@@ -88,7 +88,7 @@ from mobilerun.types.devices import StateScreenshotResponse, StateTimeResponse
 Methods:
 
 - <code title="get /devices/{deviceId}/screenshot">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">screenshot</a>(device_id, \*\*<a href="src/mobilerun/types/devices/state_screenshot_params.py">params</a>) -> str</code>
-- <code title="get /devices/{deviceId}/time">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">time</a>(device_id) -> StateTimeResponse</code>
+- <code title="get /devices/{deviceId}/time">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">time</a>(device_id) -> str</code>
 - <code title="get /devices/{deviceId}/ui-state">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">ui</a>(device_id, \*\*<a href="src/mobilerun/types/devices/state_ui_params.py">params</a>) -> object</code>
 
 ## Apps

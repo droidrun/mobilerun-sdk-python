@@ -9,7 +9,6 @@ import pytest
 
 from mobilerun import Mobilerun, AsyncMobilerun
 from tests.utils import assert_matches_type
-from mobilerun.types.devices import StateTimeResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -74,7 +73,7 @@ class TestState:
         state = client.devices.state.time(
             "deviceId",
         )
-        assert_matches_type(StateTimeResponse, state, path=["response"])
+        assert_matches_type(str, state, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -86,7 +85,7 @@ class TestState:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         state = response.parse()
-        assert_matches_type(StateTimeResponse, state, path=["response"])
+        assert_matches_type(str, state, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -98,7 +97,7 @@ class TestState:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             state = response.parse()
-            assert_matches_type(StateTimeResponse, state, path=["response"])
+            assert_matches_type(str, state, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -224,7 +223,7 @@ class TestAsyncState:
         state = await async_client.devices.state.time(
             "deviceId",
         )
-        assert_matches_type(StateTimeResponse, state, path=["response"])
+        assert_matches_type(str, state, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -236,7 +235,7 @@ class TestAsyncState:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         state = await response.parse()
-        assert_matches_type(StateTimeResponse, state, path=["response"])
+        assert_matches_type(str, state, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -248,7 +247,7 @@ class TestAsyncState:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             state = await response.parse()
-            assert_matches_type(StateTimeResponse, state, path=["response"])
+            assert_matches_type(str, state, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
