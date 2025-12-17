@@ -11,6 +11,8 @@ __all__ = ["HookGetSampleDataResponse", "HookGetSampleDataResponseItem"]
 
 
 class HookGetSampleDataResponseItem(BaseModel):
+    """Sample webhook event data for testing/mapping in Zapier."""
+
     id: str
     """The subscription ID"""
 

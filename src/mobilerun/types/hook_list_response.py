@@ -31,6 +31,8 @@ class Item(BaseModel):
 
 
 class Pagination(BaseModel):
+    """Pagination metadata"""
+
     has_next: bool = FieldInfo(alias="hasNext")
     """Whether there is a next page"""
 

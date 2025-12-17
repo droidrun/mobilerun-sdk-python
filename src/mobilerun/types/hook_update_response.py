@@ -8,6 +8,8 @@ __all__ = ["HookUpdateResponse"]
 
 
 class HookUpdateResponse(BaseModel):
+    """Response model after successfully editing a hook."""
+
     id: str
     """The subscription ID"""
 

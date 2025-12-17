@@ -6,6 +6,8 @@ __all__ = ["HookUnsubscribeResponse"]
 
 
 class HookUnsubscribeResponse(BaseModel):
+    """Response model after successful unsubscription."""
+
     id: str
     """The subscription ID"""
 

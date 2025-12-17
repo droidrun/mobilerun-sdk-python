@@ -210,6 +210,12 @@ class TrajectoryTrajectoryManagerInputEvent(BaseModel):
 
 
 class TrajectoryTrajectoryManagerPlanEventData(BaseModel):
+    """Coordination event from ManagerAgent to DroidAgent.
+
+    Used for workflow step routing only (NOT streamed to frontend).
+    For internal events with memory_update metadata, see ManagerPlanDetailsEvent.
+    """
+
     current_subgoal: str
 
     plan: str
@@ -233,6 +239,8 @@ class TrajectoryTrajectoryManagerPlanEvent(BaseModel):
 
 
 class TrajectoryTrajectoryExecutorInputEventData(BaseModel):
+    """Trigger Executor workflow for action execution"""
+
     current_subgoal: str
 
 
@@ -244,6 +252,12 @@ class TrajectoryTrajectoryExecutorInputEvent(BaseModel):
 
 
 class TrajectoryTrajectoryExecutorResultEventData(BaseModel):
+    """Coordination event from ExecutorAgent to DroidAgent.
+
+    Used for workflow step routing only (NOT streamed to frontend).
+    For internal events with thought/action_json metadata, see ExecutorActionResultEvent.
+    """
+
     action: Dict[str, object]
 
     error: str
@@ -267,6 +281,8 @@ class TrajectoryTrajectoryExecutorResultEvent(BaseModel):
 
 
 class TrajectoryTrajectoryScripterExecutorInputEventData(BaseModel):
+    """Trigger ScripterAgent workflow for off-device operations"""
+
     task: str
 
 
@@ -278,6 +294,11 @@ class TrajectoryTrajectoryScripterExecutorInputEvent(BaseModel):
 
 
 class TrajectoryTrajectoryScripterExecutorResultEventData(BaseModel):
+    """Coordination event from ScripterAgent to DroidAgent.
+
+    Used for workflow step routing only (NOT streamed to frontend).
+    """
+
     code_executions: int
 
     message: str
@@ -400,6 +421,8 @@ class TrajectoryTrajectoryCodeActResultEvent(BaseModel):
 
 
 class TrajectoryTrajectoryTapActionEventData(BaseModel):
+    """Event for tap actions with coordinates"""
+
     action_type: str
 
     description: str
@@ -423,6 +446,8 @@ class TrajectoryTrajectoryTapActionEvent(BaseModel):
 
 
 class TrajectoryTrajectorySwipeActionEventData(BaseModel):
+    """Event for swipe actions with coordinates"""
+
     action_type: str
 
     description: str
@@ -446,6 +471,8 @@ class TrajectoryTrajectorySwipeActionEvent(BaseModel):
 
 
 class TrajectoryTrajectoryDragActionEventData(BaseModel):
+    """Event for drag actions with coordinates"""
+
     action_type: str
 
     description: str
@@ -469,6 +496,8 @@ class TrajectoryTrajectoryDragActionEvent(BaseModel):
 
 
 class TrajectoryTrajectoryInputTextActionEventData(BaseModel):
+    """Event for text input actions"""
+
     action_type: str
 
     description: str
@@ -484,6 +513,8 @@ class TrajectoryTrajectoryInputTextActionEvent(BaseModel):
 
 
 class TrajectoryTrajectoryKeyPressActionEventData(BaseModel):
+    """Event for key press actions"""
+
     action_type: str
 
     description: str
@@ -501,6 +532,8 @@ class TrajectoryTrajectoryKeyPressActionEvent(BaseModel):
 
 
 class TrajectoryTrajectoryStartAppEventData(BaseModel):
+    """\"Event for starting an app"""
+
     action_type: str
 
     description: str
@@ -530,6 +563,8 @@ class TrajectoryTrajectoryRecordUiStateEvent(BaseModel):
 
 
 class TrajectoryTrajectoryWaitEventData(BaseModel):
+    """Event for wait/sleep actions"""
+
     action_type: str
 
     description: str
@@ -562,6 +597,11 @@ class TrajectoryTrajectoryManagerResponseEventDataUsage(BaseModel):
 
 
 class TrajectoryTrajectoryManagerResponseEventData(BaseModel):
+    """Manager has received LLM response, ready for parsing.
+
+    This event carries the raw validated LLM output before parsing.
+    """
+
     output_planning: str
 
     usage: Optional[TrajectoryTrajectoryManagerResponseEventDataUsage] = None
@@ -578,6 +618,14 @@ class TrajectoryTrajectoryManagerResponseEvent(BaseModel):
 
 
 class TrajectoryTrajectoryManagerPlanDetailsEventData(BaseModel):
+    """Manager planning event with full state and metadata.
+
+    This event is streamed to frontend/logging but NOT used for
+    workflow coordination between ManagerAgent and DroidAgent.
+
+    For workflow coordination, see ManagerPlanEvent in droid/events.py
+    """
+
     current_subgoal: str
 
     plan: str
@@ -607,6 +655,8 @@ class TrajectoryTrajectoryManagerPlanDetailsEvent(BaseModel):
 
 
 class TrajectoryTrajectoryExecutorContextEventData(BaseModel):
+    """Executor context prepared, ready for LLM call"""
+
     messages: List[object]
 
     subgoal: str
@@ -630,6 +680,11 @@ class TrajectoryTrajectoryExecutorResponseEventDataUsage(BaseModel):
 
 
 class TrajectoryTrajectoryExecutorResponseEventData(BaseModel):
+    """Executor has received LLM response, ready for parsing.
+
+    This event carries the raw LLM output before parsing.
+    """
+
     response_text: str
 
     usage: Optional[TrajectoryTrajectoryExecutorResponseEventDataUsage] = None
@@ -646,6 +701,14 @@ class TrajectoryTrajectoryExecutorResponseEvent(BaseModel):
 
 
 class TrajectoryTrajectoryExecutorActionEventData(BaseModel):
+    """Executor action selection event with thought process.
+
+    This event is streamed to frontend/logging but NOT used for
+    workflow coordination between ExecutorAgent and DroidAgent.
+
+    For workflow coordination, see ExecutorInputEvent in droid/events.py
+    """
+
     action_json: str
 
     description: str
@@ -669,6 +732,14 @@ class TrajectoryTrajectoryExecutorActionEvent(BaseModel):
 
 
 class TrajectoryTrajectoryExecutorActionResultEventData(BaseModel):
+    """Executor action result event with full debug information.
+
+    This event is streamed to frontend/logging but NOT used for
+    workflow coordination between ExecutorAgent and DroidAgent.
+
+    For workflow coordination, see ExecutorResultEvent in droid/events.py
+    """
+
     action: Dict[str, object]
 
     error: str
@@ -698,6 +769,8 @@ class TrajectoryTrajectoryExecutorActionResultEvent(BaseModel):
 
 
 class TrajectoryTrajectoryScripterInputEventData(BaseModel):
+    """Input to LLM (chat history)."""
+
     input: List[object]
 
 
@@ -719,6 +792,8 @@ class TrajectoryTrajectoryScripterThinkingEventDataUsage(BaseModel):
 
 
 class TrajectoryTrajectoryScripterThinkingEventData(BaseModel):
+    """LLM generated thought + code."""
+
     thoughts: str
 
     code: Optional[str] = None
@@ -736,6 +811,8 @@ class TrajectoryTrajectoryScripterThinkingEvent(BaseModel):
 
 
 class TrajectoryTrajectoryScripterExecutionEventData(BaseModel):
+    """Trigger code execution."""
+
     code: str
 
 
@@ -747,6 +824,8 @@ class TrajectoryTrajectoryScripterExecutionEvent(BaseModel):
 
 
 class TrajectoryTrajectoryScripterExecutionResultEventData(BaseModel):
+    """Code execution result."""
+
     output: str
 
 
@@ -758,6 +837,8 @@ class TrajectoryTrajectoryScripterExecutionResultEvent(BaseModel):
 
 
 class TrajectoryTrajectoryScripterEndEventData(BaseModel):
+    """Script agent finished."""
+
     message: str
 
     success: bool
@@ -773,6 +854,8 @@ class TrajectoryTrajectoryScripterEndEvent(BaseModel):
 
 
 class TrajectoryTrajectoryTextManipulatorInputEventData(BaseModel):
+    """Trigger TextManipulatorAgent workflow for text manipulation"""
+
     task: str
 
 

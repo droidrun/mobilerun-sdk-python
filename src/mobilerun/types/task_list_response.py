@@ -11,6 +11,8 @@ __all__ = ["TaskListResponse", "Pagination"]
 
 
 class Pagination(BaseModel):
+    """Pagination metadata"""
+
     has_next: bool = FieldInfo(alias="hasNext")
     """Whether there is a next page"""
 
