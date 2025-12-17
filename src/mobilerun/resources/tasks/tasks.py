@@ -275,6 +275,7 @@ class TasksResource(SyncAPIResource):
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_params.Credential] | Omit = omit,
         device_id: Optional[str] | Omit = omit,
+        display_id: Optional[int] | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         max_steps: int | Omit = omit,
@@ -296,6 +297,8 @@ class TasksResource(SyncAPIResource):
         Args:
           device_id: The ID of the device to run the task on.
 
+          display_id: The display ID of the device to run the task on.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -313,6 +316,7 @@ class TasksResource(SyncAPIResource):
                     "apps": apps,
                     "credentials": credentials,
                     "device_id": device_id,
+                    "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "max_steps": max_steps,
@@ -338,6 +342,7 @@ class TasksResource(SyncAPIResource):
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
         device_id: Optional[str] | Omit = omit,
+        display_id: Optional[int] | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         max_steps: int | Omit = omit,
@@ -359,6 +364,8 @@ class TasksResource(SyncAPIResource):
         Args:
           device_id: The ID of the device to run the task on.
 
+          display_id: The display ID of the device to run the task on.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -377,6 +384,7 @@ class TasksResource(SyncAPIResource):
                     "apps": apps,
                     "credentials": credentials,
                     "device_id": device_id,
+                    "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "max_steps": max_steps,
@@ -656,6 +664,7 @@ class AsyncTasksResource(AsyncAPIResource):
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_params.Credential] | Omit = omit,
         device_id: Optional[str] | Omit = omit,
+        display_id: Optional[int] | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         max_steps: int | Omit = omit,
@@ -677,6 +686,8 @@ class AsyncTasksResource(AsyncAPIResource):
         Args:
           device_id: The ID of the device to run the task on.
 
+          display_id: The display ID of the device to run the task on.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -694,6 +705,7 @@ class AsyncTasksResource(AsyncAPIResource):
                     "apps": apps,
                     "credentials": credentials,
                     "device_id": device_id,
+                    "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "max_steps": max_steps,
@@ -719,6 +731,7 @@ class AsyncTasksResource(AsyncAPIResource):
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
         device_id: Optional[str] | Omit = omit,
+        display_id: Optional[int] | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         max_steps: int | Omit = omit,
@@ -740,6 +753,8 @@ class AsyncTasksResource(AsyncAPIResource):
         Args:
           device_id: The ID of the device to run the task on.
 
+          display_id: The display ID of the device to run the task on.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -758,6 +773,7 @@ class AsyncTasksResource(AsyncAPIResource):
                     "apps": apps,
                     "credentials": credentials,
                     "device_id": device_id,
+                    "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "max_steps": max_steps,
