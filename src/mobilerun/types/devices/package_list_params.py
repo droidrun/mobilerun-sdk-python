@@ -11,3 +11,5 @@ __all__ = ["PackageListParams"]
 
 class PackageListParams(TypedDict, total=False):
     include_system_packages: Annotated[bool, PropertyInfo(alias="includeSystemPackages")]
+
+    x_device_display_id: Annotated[str, PropertyInfo(alias="X-Device-Display-ID")]

@@ -13,3 +13,5 @@ class AppStartParams(TypedDict, total=False):
     device_id: Required[Annotated[str, PropertyInfo(alias="deviceId")]]
 
     activity: str
+
+    x_device_display_id: Annotated[str, PropertyInfo(alias="X-Device-Display-ID")]

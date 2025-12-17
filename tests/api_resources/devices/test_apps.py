@@ -31,6 +31,7 @@ class TestApps:
         app = client.devices.apps.list(
             device_id="deviceId",
             include_system_apps=True,
+            x_device_display_id="X-Device-Display-ID",
         )
         assert_matches_type(Optional[AppListResponse], app, path=["response"])
 
@@ -74,6 +75,16 @@ class TestApps:
         app = client.devices.apps.delete(
             package_name="packageName",
             device_id="deviceId",
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_delete_with_all_params(self, client: Mobilerun) -> None:
+        app = client.devices.apps.delete(
+            package_name="packageName",
+            device_id="deviceId",
+            x_device_display_id="X-Device-Display-ID",
         )
         assert app is None
 
@@ -131,6 +142,16 @@ class TestApps:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    def test_method_install_with_all_params(self, client: Mobilerun) -> None:
+        app = client.devices.apps.install(
+            device_id="deviceId",
+            package_name="packageName",
+            x_device_display_id="X-Device-Display-ID",
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     def test_raw_response_install(self, client: Mobilerun) -> None:
         response = client.devices.apps.with_raw_response.install(
             device_id="deviceId",
@@ -182,6 +203,7 @@ class TestApps:
             package_name="packageName",
             device_id="deviceId",
             activity="activity",
+            x_device_display_id="X-Device-Display-ID",
         )
         assert app is None
 
@@ -248,6 +270,7 @@ class TestAsyncApps:
         app = await async_client.devices.apps.list(
             device_id="deviceId",
             include_system_apps=True,
+            x_device_display_id="X-Device-Display-ID",
         )
         assert_matches_type(Optional[AppListResponse], app, path=["response"])
 
@@ -291,6 +314,16 @@ class TestAsyncApps:
         app = await async_client.devices.apps.delete(
             package_name="packageName",
             device_id="deviceId",
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_delete_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.devices.apps.delete(
+            package_name="packageName",
+            device_id="deviceId",
+            x_device_display_id="X-Device-Display-ID",
         )
         assert app is None
 
@@ -348,6 +381,16 @@ class TestAsyncApps:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    async def test_method_install_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.devices.apps.install(
+            device_id="deviceId",
+            package_name="packageName",
+            x_device_display_id="X-Device-Display-ID",
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     async def test_raw_response_install(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.apps.with_raw_response.install(
             device_id="deviceId",
@@ -399,6 +442,7 @@ class TestAsyncApps:
             package_name="packageName",
             device_id="deviceId",
             activity="activity",
+            x_device_display_id="X-Device-Display-ID",
         )
         assert app is None
 

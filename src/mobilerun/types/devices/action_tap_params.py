@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, TypedDict
+from typing_extensions import Required, Annotated, TypedDict
+
+from ..._utils import PropertyInfo
 
 __all__ = ["ActionTapParams"]
 
@@ -11,3 +13,5 @@ class ActionTapParams(TypedDict, total=False):
     x: Required[int]
 
     y: Required[int]
+
+    x_device_display_id: Annotated[str, PropertyInfo(alias="X-Device-Display-ID")]
