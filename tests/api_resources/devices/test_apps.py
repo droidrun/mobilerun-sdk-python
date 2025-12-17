@@ -31,7 +31,7 @@ class TestApps:
         app = client.devices.apps.list(
             device_id="deviceId",
             include_system_apps=True,
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert_matches_type(Optional[AppListResponse], app, path=["response"])
 
@@ -84,7 +84,7 @@ class TestApps:
         app = client.devices.apps.delete(
             package_name="packageName",
             device_id="deviceId",
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert app is None
 
@@ -146,7 +146,7 @@ class TestApps:
         app = client.devices.apps.install(
             device_id="deviceId",
             package_name="packageName",
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert app is None
 
@@ -203,7 +203,7 @@ class TestApps:
             package_name="packageName",
             device_id="deviceId",
             activity="activity",
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert app is None
 
@@ -270,7 +270,7 @@ class TestAsyncApps:
         app = await async_client.devices.apps.list(
             device_id="deviceId",
             include_system_apps=True,
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert_matches_type(Optional[AppListResponse], app, path=["response"])
 
@@ -323,7 +323,7 @@ class TestAsyncApps:
         app = await async_client.devices.apps.delete(
             package_name="packageName",
             device_id="deviceId",
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert app is None
 
@@ -385,7 +385,7 @@ class TestAsyncApps:
         app = await async_client.devices.apps.install(
             device_id="deviceId",
             package_name="packageName",
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert app is None
 
@@ -442,7 +442,7 @@ class TestAsyncApps:
             package_name="packageName",
             device_id="deviceId",
             activity="activity",
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert app is None
 

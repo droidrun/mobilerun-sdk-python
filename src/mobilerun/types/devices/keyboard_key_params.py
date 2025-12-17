@@ -12,4 +12,4 @@ __all__ = ["KeyboardKeyParams"]
 class KeyboardKeyParams(TypedDict, total=False):
     key: Required[int]
 
-    x_device_display_id: Annotated[str, PropertyInfo(alias="X-Device-Display-ID")]
+    x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

@@ -30,7 +30,7 @@ class TestState:
         state = client.devices.state.screenshot(
             device_id="deviceId",
             hide_overlay=True,
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert_matches_type(str, state, path=["response"])
 
@@ -81,7 +81,7 @@ class TestState:
     def test_method_time_with_all_params(self, client: Mobilerun) -> None:
         state = client.devices.state.time(
             device_id="deviceId",
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert_matches_type(str, state, path=["response"])
 
@@ -133,7 +133,7 @@ class TestState:
         state = client.devices.state.ui(
             device_id="deviceId",
             filter=True,
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert_matches_type(object, state, path=["response"])
 
@@ -191,7 +191,7 @@ class TestAsyncState:
         state = await async_client.devices.state.screenshot(
             device_id="deviceId",
             hide_overlay=True,
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert_matches_type(str, state, path=["response"])
 
@@ -242,7 +242,7 @@ class TestAsyncState:
     async def test_method_time_with_all_params(self, async_client: AsyncMobilerun) -> None:
         state = await async_client.devices.state.time(
             device_id="deviceId",
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert_matches_type(str, state, path=["response"])
 
@@ -294,7 +294,7 @@ class TestAsyncState:
         state = await async_client.devices.state.ui(
             device_id="deviceId",
             filter=True,
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert_matches_type(object, state, path=["response"])
 

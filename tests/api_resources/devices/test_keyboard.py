@@ -28,7 +28,7 @@ class TestKeyboard:
     def test_method_clear_with_all_params(self, client: Mobilerun) -> None:
         keyboard = client.devices.keyboard.clear(
             device_id="deviceId",
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert keyboard is None
 
@@ -81,7 +81,7 @@ class TestKeyboard:
         keyboard = client.devices.keyboard.key(
             device_id="deviceId",
             key=0,
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert keyboard is None
 
@@ -139,7 +139,7 @@ class TestKeyboard:
             device_id="deviceId",
             clear=True,
             text="text",
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert keyboard is None
 
@@ -202,7 +202,7 @@ class TestAsyncKeyboard:
     async def test_method_clear_with_all_params(self, async_client: AsyncMobilerun) -> None:
         keyboard = await async_client.devices.keyboard.clear(
             device_id="deviceId",
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert keyboard is None
 
@@ -255,7 +255,7 @@ class TestAsyncKeyboard:
         keyboard = await async_client.devices.keyboard.key(
             device_id="deviceId",
             key=0,
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert keyboard is None
 
@@ -313,7 +313,7 @@ class TestAsyncKeyboard:
             device_id="deviceId",
             clear=True,
             text="text",
-            x_device_display_id="X-Device-Display-ID",
+            x_device_display_id=0,
         )
         assert keyboard is None
 
