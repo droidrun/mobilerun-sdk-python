@@ -48,7 +48,7 @@ class AppsResource(SyncAPIResource):
         device_id: str,
         *,
         include_system_apps: bool | Omit = omit,
-        x_device_display_id: Optional[int] | Omit = omit,
+        x_device_display_id_omitempty: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -72,7 +72,11 @@ class AppsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {
             **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+                {
+                    "X-Device-Display-ID,omitempty": str(x_device_display_id_omitempty)
+                    if is_given(x_device_display_id_omitempty)
+                    else not_given
+                }
             ),
             **(extra_headers or {}),
         }
@@ -93,7 +97,7 @@ class AppsResource(SyncAPIResource):
         package_name: str,
         *,
         device_id: str,
-        x_device_display_id: Optional[int] | Omit = omit,
+        x_device_display_id_omitempty: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -120,7 +124,11 @@ class AppsResource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+                {
+                    "X-Device-Display-ID,omitempty": str(x_device_display_id_omitempty)
+                    if is_given(x_device_display_id_omitempty)
+                    else not_given
+                }
             ),
             **(extra_headers or {}),
         }
@@ -137,7 +145,7 @@ class AppsResource(SyncAPIResource):
         device_id: str,
         *,
         package_name: str,
-        x_device_display_id: Optional[int] | Omit = omit,
+        x_device_display_id_omitempty: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -162,7 +170,11 @@ class AppsResource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+                {
+                    "X-Device-Display-ID,omitempty": str(x_device_display_id_omitempty)
+                    if is_given(x_device_display_id_omitempty)
+                    else not_given
+                }
             ),
             **(extra_headers or {}),
         }
@@ -181,7 +193,7 @@ class AppsResource(SyncAPIResource):
         *,
         device_id: str,
         activity: str | Omit = omit,
-        x_device_display_id: Optional[int] | Omit = omit,
+        x_device_display_id_omitempty: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -208,7 +220,11 @@ class AppsResource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+                {
+                    "X-Device-Display-ID,omitempty": str(x_device_display_id_omitempty)
+                    if is_given(x_device_display_id_omitempty)
+                    else not_given
+                }
             ),
             **(extra_headers or {}),
         }
@@ -247,7 +263,7 @@ class AsyncAppsResource(AsyncAPIResource):
         device_id: str,
         *,
         include_system_apps: bool | Omit = omit,
-        x_device_display_id: Optional[int] | Omit = omit,
+        x_device_display_id_omitempty: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -271,7 +287,11 @@ class AsyncAppsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {
             **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+                {
+                    "X-Device-Display-ID,omitempty": str(x_device_display_id_omitempty)
+                    if is_given(x_device_display_id_omitempty)
+                    else not_given
+                }
             ),
             **(extra_headers or {}),
         }
@@ -294,7 +314,7 @@ class AsyncAppsResource(AsyncAPIResource):
         package_name: str,
         *,
         device_id: str,
-        x_device_display_id: Optional[int] | Omit = omit,
+        x_device_display_id_omitempty: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -321,7 +341,11 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+                {
+                    "X-Device-Display-ID,omitempty": str(x_device_display_id_omitempty)
+                    if is_given(x_device_display_id_omitempty)
+                    else not_given
+                }
             ),
             **(extra_headers or {}),
         }
@@ -338,7 +362,7 @@ class AsyncAppsResource(AsyncAPIResource):
         device_id: str,
         *,
         package_name: str,
-        x_device_display_id: Optional[int] | Omit = omit,
+        x_device_display_id_omitempty: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -363,7 +387,11 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+                {
+                    "X-Device-Display-ID,omitempty": str(x_device_display_id_omitempty)
+                    if is_given(x_device_display_id_omitempty)
+                    else not_given
+                }
             ),
             **(extra_headers or {}),
         }
@@ -382,7 +410,7 @@ class AsyncAppsResource(AsyncAPIResource):
         *,
         device_id: str,
         activity: str | Omit = omit,
-        x_device_display_id: Optional[int] | Omit = omit,
+        x_device_display_id_omitempty: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -409,7 +437,11 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+                {
+                    "X-Device-Display-ID,omitempty": str(x_device_display_id_omitempty)
+                    if is_given(x_device_display_id_omitempty)
+                    else not_given
+                }
             ),
             **(extra_headers or {}),
         }

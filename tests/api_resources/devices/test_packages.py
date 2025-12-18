@@ -31,7 +31,7 @@ class TestPackages:
         package = client.devices.packages.list(
             device_id="deviceId",
             include_system_packages=True,
-            x_device_display_id=0,
+            x_device_display_id_omitempty=0,
         )
         assert_matches_type(Optional[PackageListResponse], package, path=["response"])
 
@@ -89,7 +89,7 @@ class TestAsyncPackages:
         package = await async_client.devices.packages.list(
             device_id="deviceId",
             include_system_packages=True,
-            x_device_display_id=0,
+            x_device_display_id_omitempty=0,
         )
         assert_matches_type(Optional[PackageListResponse], package, path=["response"])
 

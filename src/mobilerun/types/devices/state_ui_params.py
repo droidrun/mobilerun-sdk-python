@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
 from typing_extensions import Annotated, TypedDict
 
 from ..._utils import PropertyInfo
@@ -13,4 +12,4 @@ __all__ = ["StateUiParams"]
 class StateUiParams(TypedDict, total=False):
     filter: bool
 
-    x_device_display_id: Annotated[Optional[int], PropertyInfo(alias="X-Device-Display-ID")]
+    x_device_display_id_omitempty: Annotated[int, PropertyInfo(alias="X-Device-Display-ID,omitempty")]
