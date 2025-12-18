@@ -12,4 +12,4 @@ __all__ = ["StateScreenshotParams"]
 class StateScreenshotParams(TypedDict, total=False):
     hide_overlay: Annotated[bool, PropertyInfo(alias="hideOverlay")]
 
-    x_device_display_id_omitempty: Annotated[int, PropertyInfo(alias="X-Device-Display-ID,omitempty")]
+    x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

@@ -12,4 +12,4 @@ __all__ = ["AppInstallParams"]
 class AppInstallParams(TypedDict, total=False):
     package_name: Required[Annotated[str, PropertyInfo(alias="packageName")]]
 
-    x_device_display_id_omitempty: Annotated[int, PropertyInfo(alias="X-Device-Display-ID,omitempty")]
+    x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
