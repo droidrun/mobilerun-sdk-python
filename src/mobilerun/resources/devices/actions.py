@@ -108,6 +108,8 @@ class ActionsResource(SyncAPIResource):
         Swipe
 
         Args:
+          duration: Swipe duration in milliseconds
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -290,6 +292,8 @@ class AsyncActionsResource(AsyncAPIResource):
         Swipe
 
         Args:
+          duration: Swipe duration in milliseconds
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
