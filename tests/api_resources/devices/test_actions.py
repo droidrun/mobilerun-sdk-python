@@ -76,7 +76,7 @@ class TestActions:
     def test_method_swipe(self, client: Mobilerun) -> None:
         action = client.devices.actions.swipe(
             device_id="deviceId",
-            duration=0,
+            duration=10,
             end_x=0,
             end_y=0,
             start_x=0,
@@ -89,7 +89,7 @@ class TestActions:
     def test_method_swipe_with_all_params(self, client: Mobilerun) -> None:
         action = client.devices.actions.swipe(
             device_id="deviceId",
-            duration=0,
+            duration=10,
             end_x=0,
             end_y=0,
             start_x=0,
@@ -103,7 +103,7 @@ class TestActions:
     def test_raw_response_swipe(self, client: Mobilerun) -> None:
         response = client.devices.actions.with_raw_response.swipe(
             device_id="deviceId",
-            duration=0,
+            duration=10,
             end_x=0,
             end_y=0,
             start_x=0,
@@ -120,7 +120,7 @@ class TestActions:
     def test_streaming_response_swipe(self, client: Mobilerun) -> None:
         with client.devices.actions.with_streaming_response.swipe(
             device_id="deviceId",
-            duration=0,
+            duration=10,
             end_x=0,
             end_y=0,
             start_x=0,
@@ -140,7 +140,7 @@ class TestActions:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.actions.with_raw_response.swipe(
                 device_id="",
-                duration=0,
+                duration=10,
                 end_x=0,
                 end_y=0,
                 start_x=0,
@@ -275,7 +275,7 @@ class TestAsyncActions:
     async def test_method_swipe(self, async_client: AsyncMobilerun) -> None:
         action = await async_client.devices.actions.swipe(
             device_id="deviceId",
-            duration=0,
+            duration=10,
             end_x=0,
             end_y=0,
             start_x=0,
@@ -288,7 +288,7 @@ class TestAsyncActions:
     async def test_method_swipe_with_all_params(self, async_client: AsyncMobilerun) -> None:
         action = await async_client.devices.actions.swipe(
             device_id="deviceId",
-            duration=0,
+            duration=10,
             end_x=0,
             end_y=0,
             start_x=0,
@@ -302,7 +302,7 @@ class TestAsyncActions:
     async def test_raw_response_swipe(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.actions.with_raw_response.swipe(
             device_id="deviceId",
-            duration=0,
+            duration=10,
             end_x=0,
             end_y=0,
             start_x=0,
@@ -319,7 +319,7 @@ class TestAsyncActions:
     async def test_streaming_response_swipe(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.actions.with_streaming_response.swipe(
             device_id="deviceId",
-            duration=0,
+            duration=10,
             end_x=0,
             end_y=0,
             start_x=0,
@@ -339,7 +339,7 @@ class TestAsyncActions:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.actions.with_raw_response.swipe(
                 device_id="",
-                duration=0,
+                duration=10,
                 end_x=0,
                 end_y=0,
                 start_x=0,

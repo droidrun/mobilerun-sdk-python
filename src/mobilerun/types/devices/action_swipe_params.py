@@ -11,6 +11,7 @@ __all__ = ["ActionSwipeParams"]
 
 class ActionSwipeParams(TypedDict, total=False):
     duration: Required[int]
+    """Swipe duration in milliseconds"""
 
     end_x: Required[Annotated[int, PropertyInfo(alias="endX")]]
 
