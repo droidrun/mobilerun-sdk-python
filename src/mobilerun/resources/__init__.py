@@ -8,6 +8,22 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
+from .hooks import (
+    HooksResource,
+    AsyncHooksResource,
+    HooksResourceWithRawResponse,
+    AsyncHooksResourceWithRawResponse,
+    HooksResourceWithStreamingResponse,
+    AsyncHooksResourceWithStreamingResponse,
+)
+from .tasks import (
+    TasksResource,
+    AsyncTasksResource,
+    TasksResourceWithRawResponse,
+    AsyncTasksResourceWithRawResponse,
+    TasksResourceWithStreamingResponse,
+    AsyncTasksResourceWithStreamingResponse,
+)
 from .devices import (
     DevicesResource,
     AsyncDevicesResource,
@@ -26,6 +42,12 @@ from .credentials import (
 )
 
 __all__ = [
+    "TasksResource",
+    "AsyncTasksResource",
+    "TasksResourceWithRawResponse",
+    "AsyncTasksResourceWithRawResponse",
+    "TasksResourceWithStreamingResponse",
+    "AsyncTasksResourceWithStreamingResponse",
     "DevicesResource",
     "AsyncDevicesResource",
     "DevicesResourceWithRawResponse",
@@ -44,4 +66,10 @@ __all__ = [
     "AsyncCredentialsResourceWithRawResponse",
     "CredentialsResourceWithStreamingResponse",
     "AsyncCredentialsResourceWithStreamingResponse",
+    "HooksResource",
+    "AsyncHooksResource",
+    "HooksResourceWithRawResponse",
+    "AsyncHooksResourceWithRawResponse",
+    "HooksResourceWithStreamingResponse",
+    "AsyncHooksResourceWithStreamingResponse",
 ]
