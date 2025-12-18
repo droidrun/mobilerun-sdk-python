@@ -48,7 +48,7 @@ class PackagesResource(SyncAPIResource):
         device_id: str,
         *,
         include_system_packages: bool | Omit = omit,
-        x_device_display_id: int | Omit = omit,
+        x_device_display_id: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -116,7 +116,7 @@ class AsyncPackagesResource(AsyncAPIResource):
         device_id: str,
         *,
         include_system_packages: bool | Omit = omit,
-        x_device_display_id: int | Omit = omit,
+        x_device_display_id: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

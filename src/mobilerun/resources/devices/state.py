@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
@@ -45,7 +47,7 @@ class StateResource(SyncAPIResource):
         device_id: str,
         *,
         hide_overlay: bool | Omit = omit,
-        x_device_display_id: int | Omit = omit,
+        x_device_display_id: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -89,7 +91,7 @@ class StateResource(SyncAPIResource):
         self,
         device_id: str,
         *,
-        x_device_display_id: int | Omit = omit,
+        x_device_display_id: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -130,7 +132,7 @@ class StateResource(SyncAPIResource):
         device_id: str,
         *,
         filter: bool | Omit = omit,
-        x_device_display_id: int | Omit = omit,
+        x_device_display_id: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -196,7 +198,7 @@ class AsyncStateResource(AsyncAPIResource):
         device_id: str,
         *,
         hide_overlay: bool | Omit = omit,
-        x_device_display_id: int | Omit = omit,
+        x_device_display_id: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -242,7 +244,7 @@ class AsyncStateResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
-        x_device_display_id: int | Omit = omit,
+        x_device_display_id: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -283,7 +285,7 @@ class AsyncStateResource(AsyncAPIResource):
         device_id: str,
         *,
         filter: bool | Omit = omit,
-        x_device_display_id: int | Omit = omit,
+        x_device_display_id: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
