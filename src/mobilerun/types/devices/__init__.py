@@ -12,6 +12,7 @@ from .action_swipe_params import ActionSwipeParams as ActionSwipeParams
 from .keyboard_key_params import KeyboardKeyParams as KeyboardKeyParams
 from .package_list_params import PackageListParams as PackageListParams
 from .state_time_response import StateTimeResponse as StateTimeResponse
+from .action_global_params import ActionGlobalParams as ActionGlobalParams
 from .keyboard_write_params import KeyboardWriteParams as KeyboardWriteParams
 from .package_list_response import PackageListResponse as PackageListResponse
 from .state_screenshot_params import StateScreenshotParams as StateScreenshotParams
