@@ -278,7 +278,7 @@ class HooksResource(SyncAPIResource):
         """
         Unsubscribe a previously created subscription by id.
 
-        Marks the subscription as DELETED if it belongs to the user.
+        Permanently deletes the subscription if it belongs to the user.
 
         Args:
           extra_headers: Send extra headers
@@ -548,7 +548,7 @@ class AsyncHooksResource(AsyncAPIResource):
         """
         Unsubscribe a previously created subscription by id.
 
-        Marks the subscription as DELETED if it belongs to the user.
+        Permanently deletes the subscription if it belongs to the user.
 
         Args:
           extra_headers: Send extra headers
