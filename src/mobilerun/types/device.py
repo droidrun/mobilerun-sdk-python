@@ -31,9 +31,9 @@ class Device(BaseModel):
 
     stream_url: str = FieldInfo(alias="streamUrl")
 
+    task_count: int = FieldInfo(alias="taskCount")
+
     updated_at: datetime = FieldInfo(alias="updatedAt")
 
     schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
     """A URL to the JSON Schema for this object."""
-
-    task_id: Optional[str] = FieldInfo(alias="taskId", default=None)
