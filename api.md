@@ -54,6 +54,79 @@ Methods:
 - <code title="get /tasks/{task_id}/ui_states/{index}">client.tasks.ui_states.<a href="./src/mobilerun/resources/tasks/ui_states.py">retrieve</a>(index, \*, task_id) -> <a href="./src/mobilerun/types/tasks/media_response.py">MediaResponse</a></code>
 - <code title="get /tasks/{task_id}/ui_states">client.tasks.ui_states.<a href="./src/mobilerun/resources/tasks/ui_states.py">list</a>(task_id) -> <a href="./src/mobilerun/types/tasks/ui_state_list_response.py">UiStateListResponse</a></code>
 
+# Devices
+
+Types:
+
+```python
+from mobilerun.types import Device, DeviceListResponse
+```
+
+Methods:
+
+- <code title="post /devices">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">create</a>(\*\*<a href="src/mobilerun/types/device_create_params.py">params</a>) -> <a href="./src/mobilerun/types/device.py">Device</a></code>
+- <code title="get /devices/{deviceId}">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">retrieve</a>(device_id) -> <a href="./src/mobilerun/types/device.py">Device</a></code>
+- <code title="get /devices">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">list</a>(\*\*<a href="src/mobilerun/types/device_list_params.py">params</a>) -> <a href="./src/mobilerun/types/device_list_response.py">DeviceListResponse</a></code>
+- <code title="delete /devices/{deviceId}">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">terminate</a>(device_id) -> None</code>
+- <code title="get /devices/{deviceId}/wait">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">wait_ready</a>(device_id) -> <a href="./src/mobilerun/types/device.py">Device</a></code>
+
+## Actions
+
+Methods:
+
+- <code title="post /devices/{deviceId}/global">client.devices.actions.<a href="./src/mobilerun/resources/devices/actions.py">global\_</a>(device_id, \*\*<a href="src/mobilerun/types/devices/action_global_params.py">params</a>) -> None</code>
+- <code title="post /devices/{deviceId}/swipe">client.devices.actions.<a href="./src/mobilerun/resources/devices/actions.py">swipe</a>(device_id, \*\*<a href="src/mobilerun/types/devices/action_swipe_params.py">params</a>) -> None</code>
+- <code title="post /devices/{deviceId}/tap">client.devices.actions.<a href="./src/mobilerun/resources/devices/actions.py">tap</a>(device_id, \*\*<a href="src/mobilerun/types/devices/action_tap_params.py">params</a>) -> None</code>
+
+## State
+
+Types:
+
+```python
+from mobilerun.types.devices import StateScreenshotResponse, StateTimeResponse
+```
+
+Methods:
+
+- <code title="get /devices/{deviceId}/screenshot">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">screenshot</a>(device_id, \*\*<a href="src/mobilerun/types/devices/state_screenshot_params.py">params</a>) -> str</code>
+- <code title="get /devices/{deviceId}/time">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">time</a>(device_id) -> str</code>
+- <code title="get /devices/{deviceId}/ui-state">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">ui</a>(device_id, \*\*<a href="src/mobilerun/types/devices/state_ui_params.py">params</a>) -> object</code>
+
+## Apps
+
+Types:
+
+```python
+from mobilerun.types.devices import AppListResponse
+```
+
+Methods:
+
+- <code title="get /devices/{deviceId}/apps">client.devices.apps.<a href="./src/mobilerun/resources/devices/apps.py">list</a>(device_id, \*\*<a href="src/mobilerun/types/devices/app_list_params.py">params</a>) -> <a href="./src/mobilerun/types/devices/app_list_response.py">Optional[AppListResponse]</a></code>
+- <code title="delete /devices/{deviceId}/apps/{packageName}">client.devices.apps.<a href="./src/mobilerun/resources/devices/apps.py">delete</a>(package_name, \*, device_id) -> None</code>
+- <code title="post /devices/{deviceId}/apps">client.devices.apps.<a href="./src/mobilerun/resources/devices/apps.py">install</a>(device_id, \*\*<a href="src/mobilerun/types/devices/app_install_params.py">params</a>) -> None</code>
+- <code title="put /devices/{deviceId}/apps/{packageName}">client.devices.apps.<a href="./src/mobilerun/resources/devices/apps.py">start</a>(package_name, \*, device_id, \*\*<a href="src/mobilerun/types/devices/app_start_params.py">params</a>) -> None</code>
+
+## Packages
+
+Types:
+
+```python
+from mobilerun.types.devices import PackageListResponse
+```
+
+Methods:
+
+- <code title="get /devices/{deviceId}/packages">client.devices.packages.<a href="./src/mobilerun/resources/devices/packages.py">list</a>(device_id, \*\*<a href="src/mobilerun/types/devices/package_list_params.py">params</a>) -> <a href="./src/mobilerun/types/devices/package_list_response.py">Optional[PackageListResponse]</a></code>
+
+## Keyboard
+
+Methods:
+
+- <code title="delete /devices/{deviceId}/keyboard">client.devices.keyboard.<a href="./src/mobilerun/resources/devices/keyboard.py">clear</a>(device_id) -> None</code>
+- <code title="put /devices/{deviceId}/keyboard">client.devices.keyboard.<a href="./src/mobilerun/resources/devices/keyboard.py">key</a>(device_id, \*\*<a href="src/mobilerun/types/devices/keyboard_key_params.py">params</a>) -> None</code>
+- <code title="post /devices/{deviceId}/keyboard">client.devices.keyboard.<a href="./src/mobilerun/resources/devices/keyboard.py">write</a>(device_id, \*\*<a href="src/mobilerun/types/devices/keyboard_write_params.py">params</a>) -> None</code>
+
 # Apps
 
 Types:
