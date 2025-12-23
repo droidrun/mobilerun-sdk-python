@@ -24,7 +24,7 @@ class TaskRunParams(TypedDict, total=False):
     device_id: Annotated[Optional[str], PropertyInfo(alias="deviceId")]
     """The ID of the device to run the task on."""
 
-    display_id: Annotated[Optional[int], PropertyInfo(alias="displayId")]
+    display_id: Annotated[int, PropertyInfo(alias="displayId")]
     """The display ID of the device to run the task on."""
 
     execution_timeout: Annotated[int, PropertyInfo(alias="executionTimeout")]
