@@ -27,6 +27,8 @@ class Device(BaseModel):
 
     state: str
 
+    state_message: str = FieldInfo(alias="stateMessage")
+
     stream_token: str = FieldInfo(alias="streamToken")
 
     stream_url: str = FieldInfo(alias="streamUrl")
