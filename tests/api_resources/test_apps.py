@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
+from mobilerun import Mobilerun, AsyncMobilerun
 from tests.utils import assert_matches_type
-from droidrun_cloud import Mobilerun, AsyncMobilerun
-from droidrun_cloud.types import AppListResponse
+from mobilerun.types import AppListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

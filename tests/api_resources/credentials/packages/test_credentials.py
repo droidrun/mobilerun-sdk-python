@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
+from mobilerun import Mobilerun, AsyncMobilerun
 from tests.utils import assert_matches_type
-from droidrun_cloud import Mobilerun, AsyncMobilerun
-from droidrun_cloud.types.credentials.packages import (
+from mobilerun.types.credentials.packages import (
     CredentialCreateResponse,
     CredentialDeleteResponse,
     CredentialRetrieveResponse,

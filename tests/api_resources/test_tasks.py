@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
+from mobilerun import Mobilerun, AsyncMobilerun
 from tests.utils import assert_matches_type
-from droidrun_cloud import Mobilerun, AsyncMobilerun
-from droidrun_cloud.types import (
+from mobilerun.types import (
     TaskRunResponse,
     TaskListResponse,
     TaskStopResponse,
@@ -255,6 +255,8 @@ class TestTasks:
                     "package_name": "packageName",
                 }
             ],
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            display_id=0,
             execution_timeout=0,
             files=["string"],
             max_steps=0,
@@ -316,6 +318,8 @@ class TestTasks:
                     "package_name": "packageName",
                 }
             ],
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            display_id=0,
             execution_timeout=0,
             files=["string"],
             max_steps=0,
@@ -634,6 +638,8 @@ class TestAsyncTasks:
                     "package_name": "packageName",
                 }
             ],
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            display_id=0,
             execution_timeout=0,
             files=["string"],
             max_steps=0,
@@ -695,6 +701,8 @@ class TestAsyncTasks:
                     "package_name": "packageName",
                 }
             ],
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            display_id=0,
             execution_timeout=0,
             files=["string"],
             max_steps=0,
