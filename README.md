@@ -25,15 +25,15 @@ pip install mobilerun-sdk
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-import os
 from mobilerun import Mobilerun
 
-client = Mobilerun(
-    api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
-)
+client = Mobilerun()
 
-tasks = client.tasks.list()
-print(tasks.items)
+device = client.devices.create(
+    apps=["string"],
+    files=["string"],
+)
+print(device.id)
 ```
 
 While you can provide a `api_key` keyword argument,
@@ -46,18 +46,18 @@ so that your API Key is not stored in source control.
 Simply import `AsyncMobilerun` instead of `Mobilerun` and use `await` with each API call:
 
 ```python
-import os
 import asyncio
 from mobilerun import AsyncMobilerun
 
-client = AsyncMobilerun(
-    api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
-)
+client = AsyncMobilerun()
 
 
 async def main() -> None:
-    tasks = await client.tasks.list()
-    print(tasks.items)
+    device = await client.devices.create(
+        apps=["string"],
+        files=["string"],
+    )
+    print(device.id)
 
 
 asyncio.run(main())
@@ -79,7 +79,6 @@ pip install mobilerun-sdk[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
-import os
 import asyncio
 from mobilerun import DefaultAioHttpClient
 from mobilerun import AsyncMobilerun
@@ -87,11 +86,13 @@ from mobilerun import AsyncMobilerun
 
 async def main() -> None:
     async with AsyncMobilerun(
-        api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
-        tasks = await client.tasks.list()
-        print(tasks.items)
+        device = await client.devices.create(
+            apps=["string"],
+            files=["string"],
+        )
+        print(device.id)
 
 
 asyncio.run(main())
@@ -122,7 +123,10 @@ from mobilerun import Mobilerun
 client = Mobilerun()
 
 try:
-    client.tasks.list()
+    client.devices.create(
+        apps=["string"],
+        files=["string"],
+    )
 except mobilerun.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -165,7 +169,10 @@ client = Mobilerun(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).tasks.list()
+client.with_options(max_retries=5).devices.create(
+    apps=["string"],
+    files=["string"],
+)
 ```
 
 ### Timeouts
@@ -188,7 +195,10 @@ client = Mobilerun(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).tasks.list()
+client.with_options(timeout=5.0).devices.create(
+    apps=["string"],
+    files=["string"],
+)
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -229,11 +239,14 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from mobilerun import Mobilerun
 
 client = Mobilerun()
-response = client.tasks.with_raw_response.list()
+response = client.devices.with_raw_response.create(
+    apps=["string"],
+    files=["string"],
+)
 print(response.headers.get('X-My-Header'))
 
-task = response.parse()  # get the object that `tasks.list()` would have returned
-print(task.items)
+device = response.parse()  # get the object that `devices.create()` would have returned
+print(device.id)
 ```
 
 These methods return an [`APIResponse`](https://github.com/droidrun/mobilerun-sdk-python/tree/main/src/mobilerun/_response.py) object.
@@ -247,7 +260,10 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.tasks.with_streaming_response.list() as response:
+with client.devices.with_streaming_response.create(
+    apps=["string"],
+    files=["string"],
+) as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
