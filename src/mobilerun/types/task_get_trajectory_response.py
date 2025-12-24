@@ -19,6 +19,8 @@ __all__ = [
     "TrajectoryTrajectoryScreenshotEvent",
     "TrajectoryTrajectoryScreenshotEventData",
     "TrajectoryTrajectoryStartEvent",
+    "TrajectoryTrajectoryFinalizeEvent",
+    "TrajectoryTrajectoryFinalizeEventData",
     "TrajectoryTrajectoryStopEvent",
     "TrajectoryTrajectoryResultEvent",
     "TrajectoryTrajectoryManagerInputEvent",
@@ -148,6 +150,21 @@ class TrajectoryTrajectoryStartEvent(BaseModel):
     """Implicit entry event sent to kick off a `Workflow.run()`."""
 
     event: Literal["StartEvent"]
+
+
+class TrajectoryTrajectoryFinalizeEventData(BaseModel):
+    """Trigger finalization."""
+
+    reason: str
+
+    success: bool
+
+
+class TrajectoryTrajectoryFinalizeEvent(BaseModel):
+    data: TrajectoryTrajectoryFinalizeEventData
+    """Trigger finalization."""
+
+    event: Literal["FinalizeEvent"]
 
 
 class TrajectoryTrajectoryStopEvent(BaseModel):
@@ -810,6 +827,7 @@ Trajectory: TypeAlias = Union[
     TrajectoryTrajectoryCancelEvent,
     TrajectoryTrajectoryScreenshotEvent,
     TrajectoryTrajectoryStartEvent,
+    TrajectoryTrajectoryFinalizeEvent,
     TrajectoryTrajectoryStopEvent,
     TrajectoryTrajectoryResultEvent,
     TrajectoryTrajectoryManagerInputEvent,
