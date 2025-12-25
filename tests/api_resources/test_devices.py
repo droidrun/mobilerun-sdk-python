@@ -32,6 +32,8 @@ class TestDevices:
         device = client.devices.create(
             apps=["string"],
             files=["string"],
+            device_type="temporary_personal_phone",
+            provider="limrun",
             country="country",
             name="name",
         )
@@ -253,6 +255,8 @@ class TestAsyncDevices:
         device = await async_client.devices.create(
             apps=["string"],
             files=["string"],
+            device_type="temporary_personal_phone",
+            provider="limrun",
             country="country",
             name="name",
         )

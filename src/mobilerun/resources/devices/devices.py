@@ -110,6 +110,8 @@ class DevicesResource(SyncAPIResource):
         *,
         apps: Optional[SequenceNotStr[str]],
         files: Optional[SequenceNotStr[str]],
+        device_type: Literal["temporary_personal_phone", "physical_phone"] | Omit = omit,
+        provider: Literal["limrun", "remote"] | Omit = omit,
         country: str | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -143,7 +145,17 @@ class DevicesResource(SyncAPIResource):
                 device_create_params.DeviceCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "device_type": device_type,
+                        "provider": provider,
+                    },
+                    device_create_params.DeviceCreateParams,
+                ),
             ),
             cast_to=Device,
         )
@@ -344,6 +356,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         *,
         apps: Optional[SequenceNotStr[str]],
         files: Optional[SequenceNotStr[str]],
+        device_type: Literal["temporary_personal_phone", "physical_phone"] | Omit = omit,
+        provider: Literal["limrun", "remote"] | Omit = omit,
         country: str | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -377,7 +391,17 @@ class AsyncDevicesResource(AsyncAPIResource):
                 device_create_params.DeviceCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "device_type": device_type,
+                        "provider": provider,
+                    },
+                    device_create_params.DeviceCreateParams,
+                ),
             ),
             cast_to=Device,
         )
