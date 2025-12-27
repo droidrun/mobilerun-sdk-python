@@ -23,6 +23,14 @@ from .state import (
     StateResourceWithStreamingResponse,
     AsyncStateResourceWithStreamingResponse,
 )
+from .tasks import (
+    TasksResource,
+    AsyncTasksResource,
+    TasksResourceWithRawResponse,
+    AsyncTasksResourceWithRawResponse,
+    TasksResourceWithStreamingResponse,
+    AsyncTasksResourceWithStreamingResponse,
+)
 from ...types import device_list_params, device_create_params
 from .actions import (
     ActionsResource,
@@ -85,6 +93,10 @@ class DevicesResource(SyncAPIResource):
     @cached_property
     def keyboard(self) -> KeyboardResource:
         return KeyboardResource(self._client)
+
+    @cached_property
+    def tasks(self) -> TasksResource:
+        return TasksResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> DevicesResourceWithRawResponse:
@@ -331,6 +343,10 @@ class AsyncDevicesResource(AsyncAPIResource):
     @cached_property
     def keyboard(self) -> AsyncKeyboardResource:
         return AsyncKeyboardResource(self._client)
+
+    @cached_property
+    def tasks(self) -> AsyncTasksResource:
+        return AsyncTasksResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncDevicesResourceWithRawResponse:
@@ -597,6 +613,10 @@ class DevicesResourceWithRawResponse:
     def keyboard(self) -> KeyboardResourceWithRawResponse:
         return KeyboardResourceWithRawResponse(self._devices.keyboard)
 
+    @cached_property
+    def tasks(self) -> TasksResourceWithRawResponse:
+        return TasksResourceWithRawResponse(self._devices.tasks)
+
 
 class AsyncDevicesResourceWithRawResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -637,6 +657,10 @@ class AsyncDevicesResourceWithRawResponse:
     @cached_property
     def keyboard(self) -> AsyncKeyboardResourceWithRawResponse:
         return AsyncKeyboardResourceWithRawResponse(self._devices.keyboard)
+
+    @cached_property
+    def tasks(self) -> AsyncTasksResourceWithRawResponse:
+        return AsyncTasksResourceWithRawResponse(self._devices.tasks)
 
 
 class DevicesResourceWithStreamingResponse:
@@ -679,6 +703,10 @@ class DevicesResourceWithStreamingResponse:
     def keyboard(self) -> KeyboardResourceWithStreamingResponse:
         return KeyboardResourceWithStreamingResponse(self._devices.keyboard)
 
+    @cached_property
+    def tasks(self) -> TasksResourceWithStreamingResponse:
+        return TasksResourceWithStreamingResponse(self._devices.tasks)
+
 
 class AsyncDevicesResourceWithStreamingResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -719,3 +747,7 @@ class AsyncDevicesResourceWithStreamingResponse:
     @cached_property
     def keyboard(self) -> AsyncKeyboardResourceWithStreamingResponse:
         return AsyncKeyboardResourceWithStreamingResponse(self._devices.keyboard)
+
+    @cached_property
+    def tasks(self) -> AsyncTasksResourceWithStreamingResponse:
+        return AsyncTasksResourceWithStreamingResponse(self._devices.tasks)
