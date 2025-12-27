@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.0 (2025-12-27)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* **api:** add devices.tasks.list ([797024f](https://github.com/droidrun/mobilerun-sdk-python/commit/797024fbae9d474897ecb70a368e0615b683d8e8))
+* **api:** api update ([4f46d03](https://github.com/droidrun/mobilerun-sdk-python/commit/4f46d0391dcdb93d2468021ab20628ab669e97dc))
+* **api:** api update ([8a1adbe](https://github.com/droidrun/mobilerun-sdk-python/commit/8a1adbed5f6aeb665545717c907085c40c4f008d))
+* **api:** api update ([29e7952](https://github.com/droidrun/mobilerun-sdk-python/commit/29e79521aa0057d0f3b929f9c963348ec0b4125a))
+* **api:** api update ([280aa69](https://github.com/droidrun/mobilerun-sdk-python/commit/280aa699acae6a368ad7ab1d7e04a15b4b8bb97b))
+* **api:** api update ([6473505](https://github.com/droidrun/mobilerun-sdk-python/commit/64735056155d700df59aca2f17e366778e83bd44))
+
 ## 0.1.0 (2025-12-23)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v0.0.1...v0.1.0)

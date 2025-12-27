@@ -23,6 +23,14 @@ from .state import (
     StateResourceWithStreamingResponse,
     AsyncStateResourceWithStreamingResponse,
 )
+from .tasks import (
+    TasksResource,
+    AsyncTasksResource,
+    TasksResourceWithRawResponse,
+    AsyncTasksResourceWithRawResponse,
+    TasksResourceWithStreamingResponse,
+    AsyncTasksResourceWithStreamingResponse,
+)
 from ...types import device_list_params, device_create_params
 from .actions import (
     ActionsResource,
@@ -87,6 +95,10 @@ class DevicesResource(SyncAPIResource):
         return KeyboardResource(self._client)
 
     @cached_property
+    def tasks(self) -> TasksResource:
+        return TasksResource(self._client)
+
+    @cached_property
     def with_raw_response(self) -> DevicesResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
@@ -110,6 +122,8 @@ class DevicesResource(SyncAPIResource):
         *,
         apps: Optional[SequenceNotStr[str]],
         files: Optional[SequenceNotStr[str]],
+        device_type: Literal["temporary_personal_phone", "physical_phone"] | Omit = omit,
+        provider: Literal["limrun", "remote"] | Omit = omit,
         country: str | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -143,7 +157,17 @@ class DevicesResource(SyncAPIResource):
                 device_create_params.DeviceCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "device_type": device_type,
+                        "provider": provider,
+                    },
+                    device_create_params.DeviceCreateParams,
+                ),
             ),
             cast_to=Device,
         )
@@ -321,6 +345,10 @@ class AsyncDevicesResource(AsyncAPIResource):
         return AsyncKeyboardResource(self._client)
 
     @cached_property
+    def tasks(self) -> AsyncTasksResource:
+        return AsyncTasksResource(self._client)
+
+    @cached_property
     def with_raw_response(self) -> AsyncDevicesResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
@@ -344,6 +372,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         *,
         apps: Optional[SequenceNotStr[str]],
         files: Optional[SequenceNotStr[str]],
+        device_type: Literal["temporary_personal_phone", "physical_phone"] | Omit = omit,
+        provider: Literal["limrun", "remote"] | Omit = omit,
         country: str | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -377,7 +407,17 @@ class AsyncDevicesResource(AsyncAPIResource):
                 device_create_params.DeviceCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "device_type": device_type,
+                        "provider": provider,
+                    },
+                    device_create_params.DeviceCreateParams,
+                ),
             ),
             cast_to=Device,
         )
@@ -573,6 +613,10 @@ class DevicesResourceWithRawResponse:
     def keyboard(self) -> KeyboardResourceWithRawResponse:
         return KeyboardResourceWithRawResponse(self._devices.keyboard)
 
+    @cached_property
+    def tasks(self) -> TasksResourceWithRawResponse:
+        return TasksResourceWithRawResponse(self._devices.tasks)
+
 
 class AsyncDevicesResourceWithRawResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -613,6 +657,10 @@ class AsyncDevicesResourceWithRawResponse:
     @cached_property
     def keyboard(self) -> AsyncKeyboardResourceWithRawResponse:
         return AsyncKeyboardResourceWithRawResponse(self._devices.keyboard)
+
+    @cached_property
+    def tasks(self) -> AsyncTasksResourceWithRawResponse:
+        return AsyncTasksResourceWithRawResponse(self._devices.tasks)
 
 
 class DevicesResourceWithStreamingResponse:
@@ -655,6 +703,10 @@ class DevicesResourceWithStreamingResponse:
     def keyboard(self) -> KeyboardResourceWithStreamingResponse:
         return KeyboardResourceWithStreamingResponse(self._devices.keyboard)
 
+    @cached_property
+    def tasks(self) -> TasksResourceWithStreamingResponse:
+        return TasksResourceWithStreamingResponse(self._devices.tasks)
+
 
 class AsyncDevicesResourceWithStreamingResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -695,3 +747,7 @@ class AsyncDevicesResourceWithStreamingResponse:
     @cached_property
     def keyboard(self) -> AsyncKeyboardResourceWithStreamingResponse:
         return AsyncKeyboardResourceWithStreamingResponse(self._devices.keyboard)
+
+    @cached_property
+    def tasks(self) -> AsyncTasksResourceWithStreamingResponse:
+        return AsyncTasksResourceWithStreamingResponse(self._devices.tasks)
