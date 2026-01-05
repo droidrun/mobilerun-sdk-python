@@ -17,7 +17,8 @@ class DeviceCreateParams(TypedDict, total=False):
     files: Required[Optional[SequenceNotStr[str]]]
 
     device_type: Annotated[
-        Literal["temporary_personal_phone", "physical_phone", "roidrun_phone"], PropertyInfo(alias="deviceType")
+        Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"],
+        PropertyInfo(alias="deviceType"),
     ]
 
     provider: Literal["limrun", "remote", "roidrun"]
