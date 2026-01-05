@@ -122,8 +122,8 @@ class DevicesResource(SyncAPIResource):
         *,
         apps: Optional[SequenceNotStr[str]],
         files: Optional[SequenceNotStr[str]],
-        device_type: Literal["temporary_personal_phone", "physical_phone"] | Omit = omit,
-        provider: Literal["limrun", "remote"] | Omit = omit,
+        device_type: Literal["temporary_personal_phone", "physical_phone", "roidrun_phone"] | Omit = omit,
+        provider: Literal["limrun", "remote", "roidrun"] | Omit = omit,
         country: str | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -372,8 +372,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         *,
         apps: Optional[SequenceNotStr[str]],
         files: Optional[SequenceNotStr[str]],
-        device_type: Literal["temporary_personal_phone", "physical_phone"] | Omit = omit,
-        provider: Literal["limrun", "remote"] | Omit = omit,
+        device_type: Literal["temporary_personal_phone", "physical_phone", "roidrun_phone"] | Omit = omit,
+        provider: Literal["limrun", "remote", "roidrun"] | Omit = omit,
         country: str | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
