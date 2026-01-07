@@ -21,9 +21,13 @@ class Device(BaseModel):
 
     created_at: datetime = FieldInfo(alias="createdAt")
 
+    device_type: str = FieldInfo(alias="deviceType")
+
     files: Optional[List[str]] = None
 
     name: str
+
+    provider: str
 
     state: str
 
