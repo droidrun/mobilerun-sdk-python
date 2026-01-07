@@ -8,6 +8,7 @@ from .app_start_params import AppStartParams as AppStartParams
 from .task_list_params import TaskListParams as TaskListParams
 from .action_tap_params import ActionTapParams as ActionTapParams
 from .app_list_response import AppListResponse as AppListResponse
+from .state_ui_response import StateUiResponse as StateUiResponse
 from .app_install_params import AppInstallParams as AppInstallParams
 from .task_list_response import TaskListResponse as TaskListResponse
 from .action_swipe_params import ActionSwipeParams as ActionSwipeParams
