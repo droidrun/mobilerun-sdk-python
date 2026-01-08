@@ -4,6 +4,7 @@ Types:
 
 ```python
 from mobilerun.types import (
+    ElementNode,
     LlmModel,
     Task,
     TaskCreate,
