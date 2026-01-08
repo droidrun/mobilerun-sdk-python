@@ -8,10 +8,22 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["AppListResponse", "App"]
+__all__ = ["AppListResponse", "Count", "Item", "Pagination"]
 
 
-class App(BaseModel):
+class Count(BaseModel):
+    available_count: float = FieldInfo(alias="availableCount")
+
+    queued_count: float = FieldInfo(alias="queuedCount")
+
+    store_count: float = FieldInfo(alias="storeCount")
+
+    total_count: float = FieldInfo(alias="totalCount")
+
+    upload_count: float = FieldInfo(alias="uploadCount")
+
+
+class Item(BaseModel):
     id: str
 
     category_name: Optional[str] = FieldInfo(alias="categoryName", default=None)
@@ -308,15 +320,23 @@ class App(BaseModel):
     version_name: str = FieldInfo(alias="versionName")
 
 
+class Pagination(BaseModel):
+    has_next: bool = FieldInfo(alias="hasNext")
+
+    has_prev: bool = FieldInfo(alias="hasPrev")
+
+    page: int
+
+    pages: int
+
+    page_size: int = FieldInfo(alias="pageSize")
+
+    total: int
+
+
 class AppListResponse(BaseModel):
-    apps: List[App]
+    count: Count
 
-    available_count: float = FieldInfo(alias="availableCount")
+    items: List[Item]
 
-    queued_count: float = FieldInfo(alias="queuedCount")
-
-    store_count: float = FieldInfo(alias="storeCount")
-
-    total_count: float = FieldInfo(alias="totalCount")
-
-    upload_count: float = FieldInfo(alias="uploadCount")
+    pagination: Pagination
