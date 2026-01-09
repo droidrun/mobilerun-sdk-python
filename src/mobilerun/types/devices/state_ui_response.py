@@ -1,7 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from __future__ import annotations
-
 from typing import Optional
 
 from pydantic import Field as FieldInfo
@@ -83,7 +81,7 @@ class PhoneState(BaseModel):
 
 
 class StateUiResponse(BaseModel):
-    a11y_tree: "ElementNode"
+    a11y_tree: object
 
     device_context: DeviceContext
 
@@ -91,6 +89,3 @@ class StateUiResponse(BaseModel):
 
     schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
     """A URL to the JSON Schema for this object."""
-
-
-from ..element_node import ElementNode
