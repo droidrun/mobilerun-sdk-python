@@ -2,13 +2,10 @@
 
 from __future__ import annotations
 
-from . import devices, element_node
-from .. import _compat
 from .task import Task as Task
 from .device import Device as Device
 from .llm_model import LlmModel as LlmModel
 from .task_status import TaskStatus as TaskStatus
-from .element_node import ElementNode as ElementNode
 from .app_list_params import AppListParams as AppListParams
 from .task_run_params import TaskRunParams as TaskRunParams
 from .hook_list_params import HookListParams as HookListParams
@@ -34,14 +31,3 @@ from .task_run_streamed_params import TaskRunStreamedParams as TaskRunStreamedPa
 from .hook_unsubscribe_response import HookUnsubscribeResponse as HookUnsubscribeResponse
 from .task_get_trajectory_response import TaskGetTrajectoryResponse as TaskGetTrajectoryResponse
 from .hook_get_sample_data_response import HookGetSampleDataResponse as HookGetSampleDataResponse
-
-# Rebuild cyclical models only after all modules are imported.
-# This ensures that, when building the deferred (due to cyclical references) model schema,
-# Pydantic can resolve the necessary references.
-# See: https://github.com/pydantic/pydantic/issues/11250 for more context.
-if _compat.PYDANTIC_V1:
-    element_node.ElementNode.update_forward_refs()  # type: ignore
-    devices.state_ui_response.StateUiResponse.update_forward_refs()  # type: ignore
-else:
-    element_node.ElementNode.model_rebuild(_parent_namespace_depth=0)
-    devices.state_ui_response.StateUiResponse.model_rebuild(_parent_namespace_depth=0)
