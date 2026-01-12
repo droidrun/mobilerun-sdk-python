@@ -120,12 +120,13 @@ class DevicesResource(SyncAPIResource):
     def create(
         self,
         *,
-        apps: Optional[SequenceNotStr[str]],
-        files: Optional[SequenceNotStr[str]],
         device_type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
         provider: Literal["limrun", "remote", "roidrun"] | Omit = omit,
+        apps: Optional[SequenceNotStr[str]] | Omit = omit,
         country: str | Omit = omit,
+        files: Optional[SequenceNotStr[str]] | Omit = omit,
         name: str | Omit = omit,
+        proxy: device_create_params.Proxy | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -150,9 +151,10 @@ class DevicesResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "apps": apps,
-                    "files": files,
                     "country": country,
+                    "files": files,
                     "name": name,
+                    "proxy": proxy,
                 },
                 device_create_params.DeviceCreateParams,
             ),
@@ -209,11 +211,14 @@ class DevicesResource(SyncAPIResource):
         self,
         *,
         country: str | Omit = omit,
+        name: str | Omit = omit,
         order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        provider: Literal["limrun", "personal", "remote", "roidrun"] | Omit = omit,
         state: Literal["creating", "assigned", "ready", "terminated", "unknown"] | Omit = omit,
+        type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -243,11 +248,14 @@ class DevicesResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "country": country,
+                        "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
+                        "provider": provider,
                         "state": state,
+                        "type": type,
                     },
                     device_list_params.DeviceListParams,
                 ),
@@ -370,12 +378,13 @@ class AsyncDevicesResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        apps: Optional[SequenceNotStr[str]],
-        files: Optional[SequenceNotStr[str]],
         device_type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
         provider: Literal["limrun", "remote", "roidrun"] | Omit = omit,
+        apps: Optional[SequenceNotStr[str]] | Omit = omit,
         country: str | Omit = omit,
+        files: Optional[SequenceNotStr[str]] | Omit = omit,
         name: str | Omit = omit,
+        proxy: device_create_params.Proxy | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -400,9 +409,10 @@ class AsyncDevicesResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "apps": apps,
-                    "files": files,
                     "country": country,
+                    "files": files,
                     "name": name,
+                    "proxy": proxy,
                 },
                 device_create_params.DeviceCreateParams,
             ),
@@ -459,11 +469,14 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         *,
         country: str | Omit = omit,
+        name: str | Omit = omit,
         order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        provider: Literal["limrun", "personal", "remote", "roidrun"] | Omit = omit,
         state: Literal["creating", "assigned", "ready", "terminated", "unknown"] | Omit = omit,
+        type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -493,11 +506,14 @@ class AsyncDevicesResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "country": country,
+                        "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
+                        "provider": provider,
                         "state": state,
+                        "type": type,
                     },
                     device_list_params.DeviceListParams,
                 ),

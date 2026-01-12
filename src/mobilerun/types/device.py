@@ -43,3 +43,5 @@ class Device(BaseModel):
 
     schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
     """A URL to the JSON Schema for this object."""
+
+    user_id: Optional[str] = FieldInfo(alias="userId", default=None)
