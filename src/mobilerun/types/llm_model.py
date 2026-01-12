@@ -12,4 +12,5 @@ LlmModel: TypeAlias = Literal[
     "anthropic/claude-sonnet-4.5",
     "minimax/minimax-m2",
     "moonshotai/kimi-k2-thinking",
+    "qwen/qwen3-8b",
 ]

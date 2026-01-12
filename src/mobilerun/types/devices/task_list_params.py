@@ -4,16 +4,12 @@ from __future__ import annotations
 
 from typing_extensions import Literal, Annotated, TypedDict
 
-from .._utils import PropertyInfo
+from ..._utils import PropertyInfo
 
-__all__ = ["DeviceListParams"]
+__all__ = ["TaskListParams"]
 
 
-class DeviceListParams(TypedDict, total=False):
-    country: str
-
-    name: str
-
+class TaskListParams(TypedDict, total=False):
     order_by: Annotated[Literal["id", "createdAt", "updatedAt", "assignedAt"], PropertyInfo(alias="orderBy")]
 
     order_by_direction: Annotated[Literal["asc", "desc"], PropertyInfo(alias="orderByDirection")]
@@ -21,9 +17,3 @@ class DeviceListParams(TypedDict, total=False):
     page: int
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
-
-    provider: Literal["limrun", "personal", "remote", "roidrun"]
-
-    state: Literal["creating", "assigned", "ready", "terminated", "unknown"]
-
-    type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"]

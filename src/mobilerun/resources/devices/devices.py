@@ -23,6 +23,14 @@ from .state import (
     StateResourceWithStreamingResponse,
     AsyncStateResourceWithStreamingResponse,
 )
+from .tasks import (
+    TasksResource,
+    AsyncTasksResource,
+    TasksResourceWithRawResponse,
+    AsyncTasksResourceWithRawResponse,
+    TasksResourceWithStreamingResponse,
+    AsyncTasksResourceWithStreamingResponse,
+)
 from ...types import device_list_params, device_create_params
 from .actions import (
     ActionsResource,
@@ -87,6 +95,10 @@ class DevicesResource(SyncAPIResource):
         return KeyboardResource(self._client)
 
     @cached_property
+    def tasks(self) -> TasksResource:
+        return TasksResource(self._client)
+
+    @cached_property
     def with_raw_response(self) -> DevicesResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
@@ -108,10 +120,13 @@ class DevicesResource(SyncAPIResource):
     def create(
         self,
         *,
-        apps: Optional[SequenceNotStr[str]],
-        files: Optional[SequenceNotStr[str]],
+        device_type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
+        provider: Literal["limrun", "remote", "roidrun"] | Omit = omit,
+        apps: Optional[SequenceNotStr[str]] | Omit = omit,
         country: str | Omit = omit,
+        files: Optional[SequenceNotStr[str]] | Omit = omit,
         name: str | Omit = omit,
+        proxy: device_create_params.Proxy | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -136,14 +151,25 @@ class DevicesResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "apps": apps,
-                    "files": files,
                     "country": country,
+                    "files": files,
                     "name": name,
+                    "proxy": proxy,
                 },
                 device_create_params.DeviceCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "device_type": device_type,
+                        "provider": provider,
+                    },
+                    device_create_params.DeviceCreateParams,
+                ),
             ),
             cast_to=Device,
         )
@@ -185,11 +211,14 @@ class DevicesResource(SyncAPIResource):
         self,
         *,
         country: str | Omit = omit,
+        name: str | Omit = omit,
         order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        provider: Literal["limrun", "personal", "remote", "roidrun"] | Omit = omit,
         state: Literal["creating", "assigned", "ready", "terminated", "unknown"] | Omit = omit,
+        type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -219,11 +248,14 @@ class DevicesResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "country": country,
+                        "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
+                        "provider": provider,
                         "state": state,
+                        "type": type,
                     },
                     device_list_params.DeviceListParams,
                 ),
@@ -321,6 +353,10 @@ class AsyncDevicesResource(AsyncAPIResource):
         return AsyncKeyboardResource(self._client)
 
     @cached_property
+    def tasks(self) -> AsyncTasksResource:
+        return AsyncTasksResource(self._client)
+
+    @cached_property
     def with_raw_response(self) -> AsyncDevicesResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
@@ -342,10 +378,13 @@ class AsyncDevicesResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        apps: Optional[SequenceNotStr[str]],
-        files: Optional[SequenceNotStr[str]],
+        device_type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
+        provider: Literal["limrun", "remote", "roidrun"] | Omit = omit,
+        apps: Optional[SequenceNotStr[str]] | Omit = omit,
         country: str | Omit = omit,
+        files: Optional[SequenceNotStr[str]] | Omit = omit,
         name: str | Omit = omit,
+        proxy: device_create_params.Proxy | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -370,14 +409,25 @@ class AsyncDevicesResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "apps": apps,
-                    "files": files,
                     "country": country,
+                    "files": files,
                     "name": name,
+                    "proxy": proxy,
                 },
                 device_create_params.DeviceCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "device_type": device_type,
+                        "provider": provider,
+                    },
+                    device_create_params.DeviceCreateParams,
+                ),
             ),
             cast_to=Device,
         )
@@ -419,11 +469,14 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         *,
         country: str | Omit = omit,
+        name: str | Omit = omit,
         order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        provider: Literal["limrun", "personal", "remote", "roidrun"] | Omit = omit,
         state: Literal["creating", "assigned", "ready", "terminated", "unknown"] | Omit = omit,
+        type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -453,11 +506,14 @@ class AsyncDevicesResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "country": country,
+                        "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
+                        "provider": provider,
                         "state": state,
+                        "type": type,
                     },
                     device_list_params.DeviceListParams,
                 ),
@@ -573,6 +629,10 @@ class DevicesResourceWithRawResponse:
     def keyboard(self) -> KeyboardResourceWithRawResponse:
         return KeyboardResourceWithRawResponse(self._devices.keyboard)
 
+    @cached_property
+    def tasks(self) -> TasksResourceWithRawResponse:
+        return TasksResourceWithRawResponse(self._devices.tasks)
+
 
 class AsyncDevicesResourceWithRawResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -613,6 +673,10 @@ class AsyncDevicesResourceWithRawResponse:
     @cached_property
     def keyboard(self) -> AsyncKeyboardResourceWithRawResponse:
         return AsyncKeyboardResourceWithRawResponse(self._devices.keyboard)
+
+    @cached_property
+    def tasks(self) -> AsyncTasksResourceWithRawResponse:
+        return AsyncTasksResourceWithRawResponse(self._devices.tasks)
 
 
 class DevicesResourceWithStreamingResponse:
@@ -655,6 +719,10 @@ class DevicesResourceWithStreamingResponse:
     def keyboard(self) -> KeyboardResourceWithStreamingResponse:
         return KeyboardResourceWithStreamingResponse(self._devices.keyboard)
 
+    @cached_property
+    def tasks(self) -> TasksResourceWithStreamingResponse:
+        return TasksResourceWithStreamingResponse(self._devices.tasks)
+
 
 class AsyncDevicesResourceWithStreamingResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -695,3 +763,7 @@ class AsyncDevicesResourceWithStreamingResponse:
     @cached_property
     def keyboard(self) -> AsyncKeyboardResourceWithStreamingResponse:
         return AsyncKeyboardResourceWithStreamingResponse(self._devices.keyboard)
+
+    @cached_property
+    def tasks(self) -> AsyncTasksResourceWithStreamingResponse:
+        return AsyncTasksResourceWithStreamingResponse(self._devices.tasks)

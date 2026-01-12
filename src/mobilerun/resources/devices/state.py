@@ -16,6 +16,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.devices import state_ui_params, state_screenshot_params
+from ...types.devices.state_ui_response import StateUiResponse
 
 __all__ = ["StateResource", "AsyncStateResource"]
 
@@ -137,7 +138,7 @@ class StateResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> StateUiResponse:
         """
         UI state
 
@@ -167,7 +168,7 @@ class StateResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"filter": filter}, state_ui_params.StateUiParams),
             ),
-            cast_to=object,
+            cast_to=StateUiResponse,
         )
 
 
@@ -290,7 +291,7 @@ class AsyncStateResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> StateUiResponse:
         """
         UI state
 
@@ -320,7 +321,7 @@ class AsyncStateResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform({"filter": filter}, state_ui_params.StateUiParams),
             ),
-            cast_to=object,
+            cast_to=StateUiResponse,
         )
 
 

@@ -20,30 +20,32 @@ class TestDevices:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create(self, client: Mobilerun) -> None:
-        device = client.devices.create(
-            apps=["string"],
-            files=["string"],
-        )
+        device = client.devices.create()
         assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Mobilerun) -> None:
         device = client.devices.create(
+            device_type="device_slot",
+            provider="limrun",
             apps=["string"],
-            files=["string"],
             country="country",
+            files=["string"],
             name="name",
+            proxy={
+                "host": "host",
+                "password": "password",
+                "port": 0,
+                "user": "user",
+            },
         )
         assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Mobilerun) -> None:
-        response = client.devices.with_raw_response.create(
-            apps=["string"],
-            files=["string"],
-        )
+        response = client.devices.with_raw_response.create()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -53,10 +55,7 @@ class TestDevices:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Mobilerun) -> None:
-        with client.devices.with_streaming_response.create(
-            apps=["string"],
-            files=["string"],
-        ) as response:
+        with client.devices.with_streaming_response.create() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -118,11 +117,14 @@ class TestDevices:
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         device = client.devices.list(
             country="country",
+            name="name",
             order_by="id",
             order_by_direction="asc",
             page=0,
             page_size=0,
+            provider="limrun",
             state="creating",
+            type="device_slot",
         )
         assert_matches_type(DeviceListResponse, device, path=["response"])
 
@@ -241,30 +243,32 @@ class TestAsyncDevices:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncMobilerun) -> None:
-        device = await async_client.devices.create(
-            apps=["string"],
-            files=["string"],
-        )
+        device = await async_client.devices.create()
         assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.create(
+            device_type="device_slot",
+            provider="limrun",
             apps=["string"],
-            files=["string"],
             country="country",
+            files=["string"],
             name="name",
+            proxy={
+                "host": "host",
+                "password": "password",
+                "port": 0,
+                "user": "user",
+            },
         )
         assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.devices.with_raw_response.create(
-            apps=["string"],
-            files=["string"],
-        )
+        response = await async_client.devices.with_raw_response.create()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -274,10 +278,7 @@ class TestAsyncDevices:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.devices.with_streaming_response.create(
-            apps=["string"],
-            files=["string"],
-        ) as response:
+        async with async_client.devices.with_streaming_response.create() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -339,11 +340,14 @@ class TestAsyncDevices:
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.list(
             country="country",
+            name="name",
             order_by="id",
             order_by_direction="asc",
             page=0,
             page_size=0,
+            provider="limrun",
             state="creating",
+            type="device_slot",
         )
         assert_matches_type(DeviceListResponse, device, path=["response"])
 

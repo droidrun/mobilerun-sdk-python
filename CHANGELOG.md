@@ -1,5 +1,40 @@
 # Changelog
 
+## 2.0.0 (2026-01-12)
+
+Full Changelog: [v0.1.0...v2.0.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v0.1.0...v2.0.0)
+
+### Features
+
+* **api:** add devices.tasks.list ([797024f](https://github.com/droidrun/mobilerun-sdk-python/commit/797024fbae9d474897ecb70a368e0615b683d8e8))
+* **api:** api update ([5eb4b01](https://github.com/droidrun/mobilerun-sdk-python/commit/5eb4b0159d48560cda44789cb6225dd42c543314))
+* **api:** api update ([b816d3d](https://github.com/droidrun/mobilerun-sdk-python/commit/b816d3d9547b2f2544d4609d27ddc67a789fa968))
+* **api:** api update ([3362213](https://github.com/droidrun/mobilerun-sdk-python/commit/3362213819e07ec63854f7f6dc1caaed5f2424ba))
+* **api:** api update ([173b208](https://github.com/droidrun/mobilerun-sdk-python/commit/173b208d9d76f5392423276f663dff6a97ac67de))
+* **api:** api update ([4d02912](https://github.com/droidrun/mobilerun-sdk-python/commit/4d029123152d3901ddfab5024bb99bcc0a606ed0))
+* **api:** api update ([0c20a35](https://github.com/droidrun/mobilerun-sdk-python/commit/0c20a35249ffa0f4ae48c9cded6e4ea1fa377a71))
+* **api:** api update ([ca58e17](https://github.com/droidrun/mobilerun-sdk-python/commit/ca58e17885d6d9ba48a869445b974b0e7158e877))
+* **api:** api update ([de292ad](https://github.com/droidrun/mobilerun-sdk-python/commit/de292ad6e5c7809c4902d6aee59c8d23c9ab2da8))
+* **api:** api update ([d101779](https://github.com/droidrun/mobilerun-sdk-python/commit/d101779d3dfc333b1f0cafc85c6ab663dd407a55))
+* **api:** api update ([63686e1](https://github.com/droidrun/mobilerun-sdk-python/commit/63686e1f4aab1fd67d61d62b51969b757d4b3011))
+* **api:** api update ([82f0b5d](https://github.com/droidrun/mobilerun-sdk-python/commit/82f0b5dad385fc5da9fafa5940eed7c483f83d38))
+* **api:** api update ([4f46d03](https://github.com/droidrun/mobilerun-sdk-python/commit/4f46d0391dcdb93d2468021ab20628ab669e97dc))
+* **api:** api update ([8a1adbe](https://github.com/droidrun/mobilerun-sdk-python/commit/8a1adbed5f6aeb665545717c907085c40c4f008d))
+* **api:** api update ([29e7952](https://github.com/droidrun/mobilerun-sdk-python/commit/29e79521aa0057d0f3b929f9c963348ec0b4125a))
+* **api:** api update ([280aa69](https://github.com/droidrun/mobilerun-sdk-python/commit/280aa699acae6a368ad7ab1d7e04a15b4b8bb97b))
+* **api:** api update ([6473505](https://github.com/droidrun/mobilerun-sdk-python/commit/64735056155d700df59aca2f17e366778e83bd44))
+
+
+### Bug Fixes
+
+* **client:** loosen auth header validation ([2f47451](https://github.com/droidrun/mobilerun-sdk-python/commit/2f474519c1b196c69acda9f5b4bf256847cdccdf))
+* **models:** add element node stainless config ([64a27e6](https://github.com/droidrun/mobilerun-sdk-python/commit/64a27e6a852ec43c757e6d1d7b3cff6367f7ee28))
+
+
+### Documentation
+
+* prominently feature MCP server setup in root SDK readmes ([c521873](https://github.com/droidrun/mobilerun-sdk-python/commit/c521873828d181c3e5a9761742ca70c1185dc28c))
+
 ## 0.1.0 (2025-12-23)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v0.0.1...v0.1.0)

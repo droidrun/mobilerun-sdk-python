@@ -83,14 +83,14 @@ Methods:
 Types:
 
 ```python
-from mobilerun.types.devices import StateScreenshotResponse, StateTimeResponse
+from mobilerun.types.devices import StateScreenshotResponse, StateTimeResponse, StateUiResponse
 ```
 
 Methods:
 
 - <code title="get /devices/{deviceId}/screenshot">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">screenshot</a>(device_id, \*\*<a href="src/mobilerun/types/devices/state_screenshot_params.py">params</a>) -> str</code>
 - <code title="get /devices/{deviceId}/time">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">time</a>(device_id) -> str</code>
-- <code title="get /devices/{deviceId}/ui-state">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">ui</a>(device_id, \*\*<a href="src/mobilerun/types/devices/state_ui_params.py">params</a>) -> object</code>
+- <code title="get /devices/{deviceId}/ui-state">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">ui</a>(device_id, \*\*<a href="src/mobilerun/types/devices/state_ui_params.py">params</a>) -> <a href="./src/mobilerun/types/devices/state_ui_response.py">StateUiResponse</a></code>
 
 ## Apps
 
@@ -126,6 +126,18 @@ Methods:
 - <code title="delete /devices/{deviceId}/keyboard">client.devices.keyboard.<a href="./src/mobilerun/resources/devices/keyboard.py">clear</a>(device_id) -> None</code>
 - <code title="put /devices/{deviceId}/keyboard">client.devices.keyboard.<a href="./src/mobilerun/resources/devices/keyboard.py">key</a>(device_id, \*\*<a href="src/mobilerun/types/devices/keyboard_key_params.py">params</a>) -> None</code>
 - <code title="post /devices/{deviceId}/keyboard">client.devices.keyboard.<a href="./src/mobilerun/resources/devices/keyboard.py">write</a>(device_id, \*\*<a href="src/mobilerun/types/devices/keyboard_write_params.py">params</a>) -> None</code>
+
+## Tasks
+
+Types:
+
+```python
+from mobilerun.types.devices import TaskListResponse
+```
+
+Methods:
+
+- <code title="get /devices/{deviceId}/tasks">client.devices.tasks.<a href="./src/mobilerun/resources/devices/tasks.py">list</a>(device_id, \*\*<a href="src/mobilerun/types/devices/task_list_params.py">params</a>) -> <a href="./src/mobilerun/types/devices/task_list_response.py">TaskListResponse</a></code>
 
 # Apps
 

@@ -19,6 +19,8 @@ __all__ = [
     "TrajectoryTrajectoryScreenshotEvent",
     "TrajectoryTrajectoryScreenshotEventData",
     "TrajectoryTrajectoryStartEvent",
+    "TrajectoryTrajectoryFinalizeEvent",
+    "TrajectoryTrajectoryFinalizeEventData",
     "TrajectoryTrajectoryStopEvent",
     "TrajectoryTrajectoryResultEvent",
     "TrajectoryTrajectoryManagerInputEvent",
@@ -35,15 +37,16 @@ __all__ = [
     "TrajectoryTrajectoryPlanCreatedEvent",
     "TrajectoryTrajectoryPlanInputEvent",
     "TrajectoryTrajectoryPlanThinkingEvent",
-    "TrajectoryTrajectoryTaskThinkingEvent",
-    "TrajectoryTrajectoryTaskThinkingEventData",
-    "TrajectoryTrajectoryTaskThinkingEventDataUsage",
-    "TrajectoryTrajectoryTaskExecutionEvent",
-    "TrajectoryTrajectoryTaskExecutionEventData",
-    "TrajectoryTrajectoryTaskExecutionResultEvent",
-    "TrajectoryTrajectoryTaskExecutionResultEventData",
-    "TrajectoryTrajectoryTaskEndEvent",
-    "TrajectoryTrajectoryTaskEndEventData",
+    "TrajectoryTrajectoryCodeActInputEvent",
+    "TrajectoryTrajectoryCodeActResponseEvent",
+    "TrajectoryTrajectoryCodeActResponseEventData",
+    "TrajectoryTrajectoryCodeActResponseEventDataUsage",
+    "TrajectoryTrajectoryCodeActCodeEvent",
+    "TrajectoryTrajectoryCodeActCodeEventData",
+    "TrajectoryTrajectoryCodeActOutputEvent",
+    "TrajectoryTrajectoryCodeActOutputEventData",
+    "TrajectoryTrajectoryCodeActEndEvent",
+    "TrajectoryTrajectoryCodeActEndEventData",
     "TrajectoryTrajectoryCodeActExecuteEvent",
     "TrajectoryTrajectoryCodeActExecuteEventData",
     "TrajectoryTrajectoryCodeActResultEvent",
@@ -147,6 +150,21 @@ class TrajectoryTrajectoryStartEvent(BaseModel):
     """Implicit entry event sent to kick off a `Workflow.run()`."""
 
     event: Literal["StartEvent"]
+
+
+class TrajectoryTrajectoryFinalizeEventData(BaseModel):
+    """Trigger finalization."""
+
+    reason: str
+
+    success: bool
+
+
+class TrajectoryTrajectoryFinalizeEvent(BaseModel):
+    data: TrajectoryTrajectoryFinalizeEventData
+    """Trigger finalization."""
+
+    event: Literal["FinalizeEvent"]
 
 
 class TrajectoryTrajectoryStopEvent(BaseModel):
@@ -298,7 +316,14 @@ class TrajectoryTrajectoryPlanThinkingEvent(BaseModel):
     event: Literal["PlanThinkingEvent"]
 
 
-class TrajectoryTrajectoryTaskThinkingEventDataUsage(BaseModel):
+class TrajectoryTrajectoryCodeActInputEvent(BaseModel):
+    data: object
+    """Input ready for LLM."""
+
+    event: Literal["CodeActInputEvent"]
+
+
+class TrajectoryTrajectoryCodeActResponseEventDataUsage(BaseModel):
     request_tokens: int
 
     requests: int
@@ -308,50 +333,50 @@ class TrajectoryTrajectoryTaskThinkingEventDataUsage(BaseModel):
     total_tokens: int
 
 
-class TrajectoryTrajectoryTaskThinkingEventData(BaseModel):
+class TrajectoryTrajectoryCodeActResponseEventData(BaseModel):
     """LLM response received."""
 
     thought: str
 
     code: Optional[str] = None
 
-    usage: Optional[TrajectoryTrajectoryTaskThinkingEventDataUsage] = None
+    usage: Optional[TrajectoryTrajectoryCodeActResponseEventDataUsage] = None
 
 
-class TrajectoryTrajectoryTaskThinkingEvent(BaseModel):
-    data: TrajectoryTrajectoryTaskThinkingEventData
+class TrajectoryTrajectoryCodeActResponseEvent(BaseModel):
+    data: TrajectoryTrajectoryCodeActResponseEventData
     """LLM response received."""
 
-    event: Literal["TaskThinkingEvent"]
+    event: Literal["CodeActResponseEvent"]
 
 
-class TrajectoryTrajectoryTaskExecutionEventData(BaseModel):
+class TrajectoryTrajectoryCodeActCodeEventData(BaseModel):
     """Code ready to execute (internal event)."""
 
     code: str
 
 
-class TrajectoryTrajectoryTaskExecutionEvent(BaseModel):
-    data: TrajectoryTrajectoryTaskExecutionEventData
+class TrajectoryTrajectoryCodeActCodeEvent(BaseModel):
+    data: TrajectoryTrajectoryCodeActCodeEventData
     """Code ready to execute (internal event)."""
 
-    event: Literal["TaskExecutionEvent"]
+    event: Literal["CodeActCodeEvent"]
 
 
-class TrajectoryTrajectoryTaskExecutionResultEventData(BaseModel):
+class TrajectoryTrajectoryCodeActOutputEventData(BaseModel):
     """Code execution result (internal event)."""
 
     output: str
 
 
-class TrajectoryTrajectoryTaskExecutionResultEvent(BaseModel):
-    data: TrajectoryTrajectoryTaskExecutionResultEventData
+class TrajectoryTrajectoryCodeActOutputEvent(BaseModel):
+    data: TrajectoryTrajectoryCodeActOutputEventData
     """Code execution result (internal event)."""
 
-    event: Literal["TaskExecutionResultEvent"]
+    event: Literal["CodeActOutputEvent"]
 
 
-class TrajectoryTrajectoryTaskEndEventData(BaseModel):
+class TrajectoryTrajectoryCodeActEndEventData(BaseModel):
     """CodeAct finished."""
 
     reason: str
@@ -361,11 +386,11 @@ class TrajectoryTrajectoryTaskEndEventData(BaseModel):
     code_executions: Optional[int] = None
 
 
-class TrajectoryTrajectoryTaskEndEvent(BaseModel):
-    data: TrajectoryTrajectoryTaskEndEventData
+class TrajectoryTrajectoryCodeActEndEvent(BaseModel):
+    data: TrajectoryTrajectoryCodeActEndEventData
     """CodeAct finished."""
 
-    event: Literal["TaskEndEvent"]
+    event: Literal["CodeActEndEvent"]
 
 
 class TrajectoryTrajectoryCodeActExecuteEventData(BaseModel):
@@ -802,6 +827,7 @@ Trajectory: TypeAlias = Union[
     TrajectoryTrajectoryCancelEvent,
     TrajectoryTrajectoryScreenshotEvent,
     TrajectoryTrajectoryStartEvent,
+    TrajectoryTrajectoryFinalizeEvent,
     TrajectoryTrajectoryStopEvent,
     TrajectoryTrajectoryResultEvent,
     TrajectoryTrajectoryManagerInputEvent,
@@ -813,10 +839,11 @@ Trajectory: TypeAlias = Union[
     TrajectoryTrajectoryPlanCreatedEvent,
     TrajectoryTrajectoryPlanInputEvent,
     TrajectoryTrajectoryPlanThinkingEvent,
-    TrajectoryTrajectoryTaskThinkingEvent,
-    TrajectoryTrajectoryTaskExecutionEvent,
-    TrajectoryTrajectoryTaskExecutionResultEvent,
-    TrajectoryTrajectoryTaskEndEvent,
+    TrajectoryTrajectoryCodeActInputEvent,
+    TrajectoryTrajectoryCodeActResponseEvent,
+    TrajectoryTrajectoryCodeActCodeEvent,
+    TrajectoryTrajectoryCodeActOutputEvent,
+    TrajectoryTrajectoryCodeActEndEvent,
     TrajectoryTrajectoryCodeActExecuteEvent,
     TrajectoryTrajectoryCodeActResultEvent,
     TrajectoryTrajectoryTapActionEvent,
