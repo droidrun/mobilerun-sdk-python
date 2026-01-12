@@ -12,6 +12,8 @@ __all__ = ["DeviceListParams"]
 class DeviceListParams(TypedDict, total=False):
     country: str
 
+    name: str
+
     order_by: Annotated[Literal["id", "createdAt", "updatedAt", "assignedAt"], PropertyInfo(alias="orderBy")]
 
     order_by_direction: Annotated[Literal["asc", "desc"], PropertyInfo(alias="orderByDirection")]
@@ -20,4 +22,8 @@ class DeviceListParams(TypedDict, total=False):
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
 
+    provider: Literal["limrun", "personal", "remote", "roidrun"]
+
     state: Literal["creating", "assigned", "ready", "terminated", "unknown"]
+
+    type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"]
