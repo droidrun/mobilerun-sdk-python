@@ -59,7 +59,7 @@ Methods:
 Types:
 
 ```python
-from mobilerun.types import Device, DeviceListResponse
+from mobilerun.types import Device, DeviceListResponse, DeviceCountResponse
 ```
 
 Methods:
@@ -67,6 +67,7 @@ Methods:
 - <code title="post /devices">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">create</a>(\*\*<a href="src/mobilerun/types/device_create_params.py">params</a>) -> <a href="./src/mobilerun/types/device.py">Device</a></code>
 - <code title="get /devices/{deviceId}">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">retrieve</a>(device_id) -> <a href="./src/mobilerun/types/device.py">Device</a></code>
 - <code title="get /devices">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">list</a>(\*\*<a href="src/mobilerun/types/device_list_params.py">params</a>) -> <a href="./src/mobilerun/types/device_list_response.py">DeviceListResponse</a></code>
+- <code title="get /devices/count">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">count</a>() -> <a href="./src/mobilerun/types/device_count_response.py">DeviceCountResponse</a></code>
 - <code title="delete /devices/{deviceId}">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">terminate</a>(device_id) -> None</code>
 - <code title="get /devices/{deviceId}/wait">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">wait_ready</a>(device_id) -> <a href="./src/mobilerun/types/device.py">Device</a></code>
 

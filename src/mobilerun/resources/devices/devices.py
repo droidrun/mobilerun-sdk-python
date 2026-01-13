@@ -69,6 +69,7 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.device import Device
 from ...types.device_list_response import DeviceListResponse
+from ...types.device_count_response import DeviceCountResponse
 
 __all__ = ["DevicesResource", "AsyncDevicesResource"]
 
@@ -261,6 +262,25 @@ class DevicesResource(SyncAPIResource):
                 ),
             ),
             cast_to=DeviceListResponse,
+        )
+
+    def count(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> DeviceCountResponse:
+        """Count claimed devices"""
+        return self._get(
+            "/devices/count",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeviceCountResponse,
         )
 
     def terminate(
@@ -521,6 +541,25 @@ class AsyncDevicesResource(AsyncAPIResource):
             cast_to=DeviceListResponse,
         )
 
+    async def count(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> DeviceCountResponse:
+        """Count claimed devices"""
+        return await self._get(
+            "/devices/count",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeviceCountResponse,
+        )
+
     async def terminate(
         self,
         device_id: str,
@@ -602,6 +641,9 @@ class DevicesResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             devices.list,
         )
+        self.count = to_raw_response_wrapper(
+            devices.count,
+        )
         self.terminate = to_raw_response_wrapper(
             devices.terminate,
         )
@@ -646,6 +688,9 @@ class AsyncDevicesResourceWithRawResponse:
         )
         self.list = async_to_raw_response_wrapper(
             devices.list,
+        )
+        self.count = async_to_raw_response_wrapper(
+            devices.count,
         )
         self.terminate = async_to_raw_response_wrapper(
             devices.terminate,
@@ -692,6 +737,9 @@ class DevicesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             devices.list,
         )
+        self.count = to_streamed_response_wrapper(
+            devices.count,
+        )
         self.terminate = to_streamed_response_wrapper(
             devices.terminate,
         )
@@ -736,6 +784,9 @@ class AsyncDevicesResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             devices.list,
+        )
+        self.count = async_to_streamed_response_wrapper(
+            devices.count,
         )
         self.terminate = async_to_streamed_response_wrapper(
             devices.terminate,
