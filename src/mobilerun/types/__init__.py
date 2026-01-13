@@ -20,6 +20,7 @@ from .task_stop_response import TaskStopResponse as TaskStopResponse
 from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse
 from .hook_update_response import HookUpdateResponse as HookUpdateResponse
+from .device_count_response import DeviceCountResponse as DeviceCountResponse
 from .hook_perform_response import HookPerformResponse as HookPerformResponse
 from .hook_subscribe_params import HookSubscribeParams as HookSubscribeParams
 from .hook_retrieve_response import HookRetrieveResponse as HookRetrieveResponse
