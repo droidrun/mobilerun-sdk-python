@@ -5,9 +5,11 @@ from typing_extensions import Literal, TypeAlias
 __all__ = ["LlmModel"]
 
 LlmModel: TypeAlias = Literal[
-    "openai/gpt-5",
+    "openai/gpt-5.1",
+    "openai/gpt-5.2",
     "google/gemini-2.5-flash",
     "google/gemini-2.5-pro",
+    "google/gemini-3-flash",
     "google/gemini-3-pro-preview",
     "anthropic/claude-sonnet-4.5",
     "minimax/minimax-m2",
