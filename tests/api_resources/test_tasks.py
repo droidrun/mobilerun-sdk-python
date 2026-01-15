@@ -237,7 +237,7 @@ class TestTasks:
     @parametrize
     def test_method_run(self, client: Mobilerun) -> None:
         task = client.tasks.run(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
@@ -246,7 +246,7 @@ class TestTasks:
     @parametrize
     def test_method_run_with_all_params(self, client: Mobilerun) -> None:
         task = client.tasks.run(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
             apps=["string"],
             credentials=[
@@ -272,7 +272,7 @@ class TestTasks:
     @parametrize
     def test_raw_response_run(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.run(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
         )
 
@@ -285,7 +285,7 @@ class TestTasks:
     @parametrize
     def test_streaming_response_run(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.run(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
         ) as response:
             assert not response.is_closed
@@ -300,7 +300,7 @@ class TestTasks:
     @parametrize
     def test_method_run_streamed(self, client: Mobilerun) -> None:
         task = client.tasks.run_streamed(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
         )
         assert task is None
@@ -309,7 +309,7 @@ class TestTasks:
     @parametrize
     def test_method_run_streamed_with_all_params(self, client: Mobilerun) -> None:
         task = client.tasks.run_streamed(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
             apps=["string"],
             credentials=[
@@ -335,7 +335,7 @@ class TestTasks:
     @parametrize
     def test_raw_response_run_streamed(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.run_streamed(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
         )
 
@@ -348,7 +348,7 @@ class TestTasks:
     @parametrize
     def test_streaming_response_run_streamed(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.run_streamed(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
         ) as response:
             assert not response.is_closed
@@ -620,7 +620,7 @@ class TestAsyncTasks:
     @parametrize
     async def test_method_run(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
@@ -629,7 +629,7 @@ class TestAsyncTasks:
     @parametrize
     async def test_method_run_with_all_params(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
             apps=["string"],
             credentials=[
@@ -655,7 +655,7 @@ class TestAsyncTasks:
     @parametrize
     async def test_raw_response_run(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.run(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
         )
 
@@ -668,7 +668,7 @@ class TestAsyncTasks:
     @parametrize
     async def test_streaming_response_run(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.run(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
         ) as response:
             assert not response.is_closed
@@ -683,7 +683,7 @@ class TestAsyncTasks:
     @parametrize
     async def test_method_run_streamed(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run_streamed(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
         )
         assert task is None
@@ -692,7 +692,7 @@ class TestAsyncTasks:
     @parametrize
     async def test_method_run_streamed_with_all_params(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run_streamed(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
             apps=["string"],
             credentials=[
@@ -718,7 +718,7 @@ class TestAsyncTasks:
     @parametrize
     async def test_raw_response_run_streamed(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.run_streamed(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
         )
 
@@ -731,7 +731,7 @@ class TestAsyncTasks:
     @parametrize
     async def test_streaming_response_run_streamed(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.run_streamed(
-            llm_model="openai/gpt-5",
+            llm_model="openai/gpt-5.1",
             task="x",
         ) as response:
             assert not response.is_closed
