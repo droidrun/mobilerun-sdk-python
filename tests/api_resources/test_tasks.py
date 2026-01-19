@@ -236,45 +236,13 @@ class TestTasks:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_run(self, client: Mobilerun) -> None:
-        task = client.tasks.run(
-            llm_model="openai/gpt-5.1",
-            task="x",
-        )
-        assert_matches_type(TaskRunResponse, task, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_run_with_all_params(self, client: Mobilerun) -> None:
-        task = client.tasks.run(
-            llm_model="openai/gpt-5.1",
-            task="x",
-            apps=["string"],
-            credentials=[
-                {
-                    "credential_names": ["string"],
-                    "package_name": "packageName",
-                }
-            ],
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            display_id=0,
-            execution_timeout=0,
-            files=["string"],
-            max_steps=0,
-            output_schema={"foo": "bar"},
-            reasoning=True,
-            temperature=0,
-            vision=True,
-            vpn_country="US",
-        )
+        task = client.tasks.run()
         assert_matches_type(TaskRunResponse, task, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_run(self, client: Mobilerun) -> None:
-        response = client.tasks.with_raw_response.run(
-            llm_model="openai/gpt-5.1",
-            task="x",
-        )
+        response = client.tasks.with_raw_response.run()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -284,10 +252,7 @@ class TestTasks:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_run(self, client: Mobilerun) -> None:
-        with client.tasks.with_streaming_response.run(
-            llm_model="openai/gpt-5.1",
-            task="x",
-        ) as response:
+        with client.tasks.with_streaming_response.run() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -619,45 +584,13 @@ class TestAsyncTasks:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_run(self, async_client: AsyncMobilerun) -> None:
-        task = await async_client.tasks.run(
-            llm_model="openai/gpt-5.1",
-            task="x",
-        )
-        assert_matches_type(TaskRunResponse, task, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_run_with_all_params(self, async_client: AsyncMobilerun) -> None:
-        task = await async_client.tasks.run(
-            llm_model="openai/gpt-5.1",
-            task="x",
-            apps=["string"],
-            credentials=[
-                {
-                    "credential_names": ["string"],
-                    "package_name": "packageName",
-                }
-            ],
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            display_id=0,
-            execution_timeout=0,
-            files=["string"],
-            max_steps=0,
-            output_schema={"foo": "bar"},
-            reasoning=True,
-            temperature=0,
-            vision=True,
-            vpn_country="US",
-        )
+        task = await async_client.tasks.run()
         assert_matches_type(TaskRunResponse, task, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_run(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.tasks.with_raw_response.run(
-            llm_model="openai/gpt-5.1",
-            task="x",
-        )
+        response = await async_client.tasks.with_raw_response.run()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -667,10 +600,7 @@ class TestAsyncTasks:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_run(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.tasks.with_streaming_response.run(
-            llm_model="openai/gpt-5.1",
-            task="x",
-        ) as response:
+        async with async_client.tasks.with_streaming_response.run() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
