@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Union, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 import httpx
@@ -31,7 +32,7 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
-from ...types import device_list_params, device_create_params
+from ...types import device_list_params, device_create_params, device_terminate_params
 from .actions import (
     ActionsResource,
     AsyncActionsResource,
@@ -287,6 +288,8 @@ class DevicesResource(SyncAPIResource):
         self,
         device_id: str,
         *,
+        previous_device_id: str | Omit = omit,
+        terminate_at: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -311,6 +314,13 @@ class DevicesResource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/devices/{device_id}",
+            body=maybe_transform(
+                {
+                    "previous_device_id": previous_device_id,
+                    "terminate_at": terminate_at,
+                },
+                device_terminate_params.DeviceTerminateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -564,6 +574,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
+        previous_device_id: str | Omit = omit,
+        terminate_at: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -588,6 +600,13 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/devices/{device_id}",
+            body=await async_maybe_transform(
+                {
+                    "previous_device_id": previous_device_id,
+                    "terminate_at": terminate_at,
+                },
+                device_terminate_params.DeviceTerminateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

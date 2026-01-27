@@ -25,6 +25,15 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    def test_method_list_with_all_params(self, client: Mobilerun) -> None:
+        credential = client.credentials.list(
+            page=1,
+            page_size=1,
+        )
+        assert_matches_type(CredentialListResponse, credential, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     def test_raw_response_list(self, client: Mobilerun) -> None:
         response = client.credentials.with_raw_response.list()
 
@@ -55,6 +64,15 @@ class TestAsyncCredentials:
     @parametrize
     async def test_method_list(self, async_client: AsyncMobilerun) -> None:
         credential = await async_client.credentials.list()
+        assert_matches_type(CredentialListResponse, credential, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        credential = await async_client.credentials.list(
+            page=1,
+            page_size=1,
+        )
         assert_matches_type(CredentialListResponse, credential, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
