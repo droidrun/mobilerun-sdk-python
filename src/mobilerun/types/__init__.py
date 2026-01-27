@@ -22,8 +22,10 @@ from .hook_update_response import HookUpdateResponse as HookUpdateResponse
 from .device_count_response import DeviceCountResponse as DeviceCountResponse
 from .hook_perform_response import HookPerformResponse as HookPerformResponse
 from .hook_subscribe_params import HookSubscribeParams as HookSubscribeParams
+from .credential_list_params import CredentialListParams as CredentialListParams
 from .hook_retrieve_response import HookRetrieveResponse as HookRetrieveResponse
 from .task_retrieve_response import TaskRetrieveResponse as TaskRetrieveResponse
+from .device_terminate_params import DeviceTerminateParams as DeviceTerminateParams
 from .hook_subscribe_response import HookSubscribeResponse as HookSubscribeResponse
 from .credential_list_response import CredentialListResponse as CredentialListResponse
 from .task_get_status_response import TaskGetStatusResponse as TaskGetStatusResponse
