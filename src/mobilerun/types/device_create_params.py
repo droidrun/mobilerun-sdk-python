@@ -13,11 +13,11 @@ __all__ = ["DeviceCreateParams", "Proxy"]
 
 class DeviceCreateParams(TypedDict, total=False):
     device_type: Annotated[
-        Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"],
+        Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device", "dedicated_premium_device"],
         PropertyInfo(alias="deviceType"),
     ]
 
-    provider: Literal["limrun", "remote", "roidrun"]
+    provider: Literal["limrun", "physical", "premium", "roidrun"]
 
     apps: Optional[SequenceNotStr[str]]
 

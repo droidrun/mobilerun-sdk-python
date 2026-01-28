@@ -122,8 +122,11 @@ class DevicesResource(SyncAPIResource):
     def create(
         self,
         *,
-        device_type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
-        provider: Literal["limrun", "remote", "roidrun"] | Omit = omit,
+        device_type: Literal[
+            "device_slot", "dedicated_emulated_device", "dedicated_physical_device", "dedicated_premium_device"
+        ]
+        | Omit = omit,
+        provider: Literal["limrun", "physical", "premium", "roidrun"] | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         country: str | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -408,8 +411,11 @@ class AsyncDevicesResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        device_type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
-        provider: Literal["limrun", "remote", "roidrun"] | Omit = omit,
+        device_type: Literal[
+            "device_slot", "dedicated_emulated_device", "dedicated_physical_device", "dedicated_premium_device"
+        ]
+        | Omit = omit,
+        provider: Literal["limrun", "physical", "premium", "roidrun"] | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         country: str | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
