@@ -36,6 +36,8 @@ class Task(BaseModel):
 
     credentials: Optional[List[Credential]] = None
 
+    display_id: Optional[int] = FieldInfo(alias="displayId", default=None)
+
     execution_timeout: Optional[int] = FieldInfo(alias="executionTimeout", default=None)
 
     files: Optional[List[str]] = None
@@ -50,6 +52,8 @@ class Task(BaseModel):
 
     reasoning: Optional[bool] = None
 
+    sandbox_id: Optional[str] = FieldInfo(alias="sandboxId", default=None)
+
     status: Optional[TaskStatus] = None
 
     steps: Optional[int] = None
@@ -57,6 +61,8 @@ class Task(BaseModel):
     succeeded: Optional[bool] = None
 
     temperature: Optional[float] = None
+
+    tmp_device: Optional[bool] = FieldInfo(alias="tmpDevice", default=None)
 
     trajectory: Optional[List[Dict[str, object]]] = None
 

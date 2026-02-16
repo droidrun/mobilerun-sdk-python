@@ -23,6 +23,7 @@ __all__ = [
     "TrajectoryTrajectoryFinalizeEventData",
     "TrajectoryTrajectoryStopEvent",
     "TrajectoryTrajectoryResultEvent",
+    "TrajectoryTrajectoryResultEventData",
     "TrajectoryTrajectoryManagerInputEvent",
     "TrajectoryTrajectoryManagerPlanEvent",
     "TrajectoryTrajectoryManagerPlanEventData",
@@ -192,8 +193,28 @@ class TrajectoryTrajectoryStopEvent(BaseModel):
     event: Literal["StopEvent"]
 
 
+class TrajectoryTrajectoryResultEventData(BaseModel):
+    """Lazy wrapper — avoids importing droidrun at module level.
+
+    The worker uses droidrun's ResultEvent directly; this model only
+    exists so the API OpenAPI schema can reference it without the heavy
+    droidrun import.
+    """
+
+    steps: Optional[int] = None
+
+    structured_output: Union[Dict[str, object], object, None] = None
+
+    success: Optional[bool] = None
+
+
 class TrajectoryTrajectoryResultEvent(BaseModel):
-    data: Dict[str, object]
+    data: TrajectoryTrajectoryResultEventData
+    """Lazy wrapper — avoids importing droidrun at module level.
+
+    The worker uses droidrun's ResultEvent directly; this model only exists so the
+    API OpenAPI schema can reference it without the heavy droidrun import.
+    """
 
     event: Literal["ResultEvent"]
 

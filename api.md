@@ -6,13 +6,10 @@ Types:
 from mobilerun.types import (
     LlmModel,
     Task,
-    TaskCreate,
     TaskStatus,
     TaskRetrieveResponse,
-    TaskListResponse,
     TaskGetStatusResponse,
     TaskGetTrajectoryResponse,
-    TaskRunResponse,
     TaskStopResponse,
 )
 ```
@@ -20,12 +17,10 @@ from mobilerun.types import (
 Methods:
 
 - <code title="get /tasks/{task_id}">client.tasks.<a href="./src/mobilerun/resources/tasks/tasks.py">retrieve</a>(task_id) -> <a href="./src/mobilerun/types/task_retrieve_response.py">TaskRetrieveResponse</a></code>
-- <code title="get /tasks/">client.tasks.<a href="./src/mobilerun/resources/tasks/tasks.py">list</a>(\*\*<a href="src/mobilerun/types/task_list_params.py">params</a>) -> <a href="./src/mobilerun/types/task_list_response.py">TaskListResponse</a></code>
 - <code title="get /tasks/{task_id}/attach">client.tasks.<a href="./src/mobilerun/resources/tasks/tasks.py">attach</a>(task_id) -> None</code>
 - <code title="get /tasks/{task_id}/status">client.tasks.<a href="./src/mobilerun/resources/tasks/tasks.py">get_status</a>(task_id) -> <a href="./src/mobilerun/types/task_get_status_response.py">TaskGetStatusResponse</a></code>
 - <code title="get /tasks/{task_id}/trajectory">client.tasks.<a href="./src/mobilerun/resources/tasks/tasks.py">get_trajectory</a>(task_id) -> <a href="./src/mobilerun/types/task_get_trajectory_response.py">TaskGetTrajectoryResponse</a></code>
-- <code title="post /tasks/">client.tasks.<a href="./src/mobilerun/resources/tasks/tasks.py">run</a>() -> <a href="./src/mobilerun/types/task_run_response.py">TaskRunResponse</a></code>
-- <code title="post /tasks/stream">client.tasks.<a href="./src/mobilerun/resources/tasks/tasks.py">run_streamed</a>(\*\*<a href="src/mobilerun/types/task_run_streamed_params.py">params</a>) -> None</code>
+- <code title="post /tasks/stream">client.tasks.<a href="./src/mobilerun/resources/tasks/tasks.py">run_streamed</a>() -> None</code>
 - <code title="post /tasks/{task_id}/cancel">client.tasks.<a href="./src/mobilerun/resources/tasks/tasks.py">stop</a>(task_id) -> <a href="./src/mobilerun/types/task_stop_response.py">TaskStopResponse</a></code>
 
 ## Screenshots
@@ -222,7 +217,6 @@ Types:
 from mobilerun.types import (
     HookRetrieveResponse,
     HookUpdateResponse,
-    HookListResponse,
     HookGetSampleDataResponse,
     HookPerformResponse,
     HookSubscribeResponse,
@@ -234,7 +228,6 @@ Methods:
 
 - <code title="get /hooks/{hook_id}">client.hooks.<a href="./src/mobilerun/resources/hooks.py">retrieve</a>(hook_id) -> <a href="./src/mobilerun/types/hook_retrieve_response.py">HookRetrieveResponse</a></code>
 - <code title="post /hooks/{hook_id}/edit">client.hooks.<a href="./src/mobilerun/resources/hooks.py">update</a>(hook_id, \*\*<a href="src/mobilerun/types/hook_update_params.py">params</a>) -> <a href="./src/mobilerun/types/hook_update_response.py">HookUpdateResponse</a></code>
-- <code title="get /hooks/">client.hooks.<a href="./src/mobilerun/resources/hooks.py">list</a>(\*\*<a href="src/mobilerun/types/hook_list_params.py">params</a>) -> <a href="./src/mobilerun/types/hook_list_response.py">HookListResponse</a></code>
 - <code title="get /hooks/sample">client.hooks.<a href="./src/mobilerun/resources/hooks.py">get_sample_data</a>() -> <a href="./src/mobilerun/types/hook_get_sample_data_response.py">HookGetSampleDataResponse</a></code>
 - <code title="post /hooks/perform">client.hooks.<a href="./src/mobilerun/resources/hooks.py">perform</a>() -> <a href="./src/mobilerun/types/hook_perform_response.py">HookPerformResponse</a></code>
 - <code title="post /hooks/subscribe">client.hooks.<a href="./src/mobilerun/resources/hooks.py">subscribe</a>(\*\*<a href="src/mobilerun/types/hook_subscribe_params.py">params</a>) -> <a href="./src/mobilerun/types/hook_subscribe_response.py">HookSubscribeResponse</a></code>

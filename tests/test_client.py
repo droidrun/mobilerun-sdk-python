@@ -860,20 +860,22 @@ class TestMobilerun:
     @mock.patch("mobilerun._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: Mobilerun) -> None:
-        respx_mock.get("/tasks/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.get("/tasks/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(
+            side_effect=httpx.TimeoutException("Test timeout error")
+        )
 
         with pytest.raises(APITimeoutError):
-            client.tasks.with_streaming_response.list().__enter__()
+            client.tasks.with_streaming_response.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").__enter__()
 
         assert _get_open_connections(client) == 0
 
     @mock.patch("mobilerun._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: Mobilerun) -> None:
-        respx_mock.get("/tasks/").mock(return_value=httpx.Response(500))
+        respx_mock.get("/tasks/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            client.tasks.with_streaming_response.list().__enter__()
+            client.tasks.with_streaming_response.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").__enter__()
         assert _get_open_connections(client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -900,9 +902,9 @@ class TestMobilerun:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/tasks/").mock(side_effect=retry_handler)
+        respx_mock.get("/tasks/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(side_effect=retry_handler)
 
-        response = client.tasks.with_raw_response.list()
+        response = client.tasks.with_raw_response.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -924,9 +926,11 @@ class TestMobilerun:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/tasks/").mock(side_effect=retry_handler)
+        respx_mock.get("/tasks/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(side_effect=retry_handler)
 
-        response = client.tasks.with_raw_response.list(extra_headers={"x-stainless-retry-count": Omit()})
+        response = client.tasks.with_raw_response.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", extra_headers={"x-stainless-retry-count": Omit()}
+        )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
@@ -947,9 +951,11 @@ class TestMobilerun:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/tasks/").mock(side_effect=retry_handler)
+        respx_mock.get("/tasks/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(side_effect=retry_handler)
 
-        response = client.tasks.with_raw_response.list(extra_headers={"x-stainless-retry-count": "42"})
+        response = client.tasks.with_raw_response.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", extra_headers={"x-stainless-retry-count": "42"}
+        )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
@@ -1769,10 +1775,14 @@ class TestAsyncMobilerun:
     async def test_retrying_timeout_errors_doesnt_leak(
         self, respx_mock: MockRouter, async_client: AsyncMobilerun
     ) -> None:
-        respx_mock.get("/tasks/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.get("/tasks/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(
+            side_effect=httpx.TimeoutException("Test timeout error")
+        )
 
         with pytest.raises(APITimeoutError):
-            await async_client.tasks.with_streaming_response.list().__aenter__()
+            await async_client.tasks.with_streaming_response.retrieve(
+                "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+            ).__aenter__()
 
         assert _get_open_connections(async_client) == 0
 
@@ -1781,10 +1791,12 @@ class TestAsyncMobilerun:
     async def test_retrying_status_errors_doesnt_leak(
         self, respx_mock: MockRouter, async_client: AsyncMobilerun
     ) -> None:
-        respx_mock.get("/tasks/").mock(return_value=httpx.Response(500))
+        respx_mock.get("/tasks/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await async_client.tasks.with_streaming_response.list().__aenter__()
+            await async_client.tasks.with_streaming_response.retrieve(
+                "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"
+            ).__aenter__()
         assert _get_open_connections(async_client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -1811,9 +1823,9 @@ class TestAsyncMobilerun:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/tasks/").mock(side_effect=retry_handler)
+        respx_mock.get("/tasks/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(side_effect=retry_handler)
 
-        response = await client.tasks.with_raw_response.list()
+        response = await client.tasks.with_raw_response.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1835,9 +1847,11 @@ class TestAsyncMobilerun:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/tasks/").mock(side_effect=retry_handler)
+        respx_mock.get("/tasks/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(side_effect=retry_handler)
 
-        response = await client.tasks.with_raw_response.list(extra_headers={"x-stainless-retry-count": Omit()})
+        response = await client.tasks.with_raw_response.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", extra_headers={"x-stainless-retry-count": Omit()}
+        )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
@@ -1858,9 +1872,11 @@ class TestAsyncMobilerun:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/tasks/").mock(side_effect=retry_handler)
+        respx_mock.get("/tasks/182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").mock(side_effect=retry_handler)
 
-        response = await client.tasks.with_raw_response.list(extra_headers={"x-stainless-retry-count": "42"})
+        response = await client.tasks.with_raw_response.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e", extra_headers={"x-stainless-retry-count": "42"}
+        )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
