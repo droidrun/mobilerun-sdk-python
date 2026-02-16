@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Optional
-from datetime import date
+from datetime import datetime
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -285,7 +285,7 @@ class Item(BaseModel):
         ]
     ] = None
 
-    created_at: Optional[date] = FieldInfo(alias="createdAt", default=None)
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     description: Optional[str] = None
 
@@ -299,7 +299,9 @@ class Item(BaseModel):
 
     package_name: str = FieldInfo(alias="packageName")
 
-    queued_at: Optional[date] = FieldInfo(alias="queuedAt", default=None)
+    privacy_policy_url: Optional[str] = FieldInfo(alias="privacyPolicyUrl", default=None)
+
+    queued_at: Optional[datetime] = FieldInfo(alias="queuedAt", default=None)
 
     rating_count: Optional[int] = FieldInfo(alias="ratingCount", default=None)
 
@@ -311,7 +313,7 @@ class Item(BaseModel):
 
     target_sdk: Optional[int] = FieldInfo(alias="targetSdk", default=None)
 
-    updated_at: Optional[date] = FieldInfo(alias="updatedAt", default=None)
+    updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
     user_id: Optional[str] = FieldInfo(alias="userId", default=None)
 

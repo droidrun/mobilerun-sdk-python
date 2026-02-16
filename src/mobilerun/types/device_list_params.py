@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from typing import List, Optional
 from typing_extensions import Literal, Annotated, TypedDict
 
 from .._utils import PropertyInfo
@@ -24,6 +25,6 @@ class DeviceListParams(TypedDict, total=False):
 
     provider: Literal["limrun", "personal", "remote", "roidrun"]
 
-    state: Literal["creating", "assigned", "ready", "terminated", "unknown"]
+    state: Optional[List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "unknown"]]]
 
     type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"]
