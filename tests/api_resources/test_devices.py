@@ -128,7 +128,7 @@ class TestDevices:
             page=0,
             page_size=0,
             provider="limrun",
-            state="creating",
+            state=["creating"],
             type="device_slot",
         )
         assert_matches_type(DeviceListResponse, device, path=["response"])
@@ -389,7 +389,7 @@ class TestAsyncDevices:
             page=0,
             page_size=0,
             provider="limrun",
-            state="creating",
+            state=["creating"],
             type="device_slot",
         )
         assert_matches_type(DeviceListResponse, device, path=["response"])
