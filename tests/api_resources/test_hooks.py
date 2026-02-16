@@ -10,7 +10,6 @@ import pytest
 from mobilerun import Mobilerun, AsyncMobilerun
 from tests.utils import assert_matches_type
 from mobilerun.types import (
-    HookListResponse,
     HookUpdateResponse,
     HookPerformResponse,
     HookRetrieveResponse,
@@ -118,45 +117,6 @@ class TestHooks:
             client.hooks.with_raw_response.update(
                 hook_id="",
             )
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_list(self, client: Mobilerun) -> None:
-        hook = client.hooks.list()
-        assert_matches_type(HookListResponse, hook, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_list_with_all_params(self, client: Mobilerun) -> None:
-        hook = client.hooks.list(
-            order_by="orderBy",
-            order_by_direction="asc",
-            page=1,
-            page_size=1,
-        )
-        assert_matches_type(HookListResponse, hook, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_raw_response_list(self, client: Mobilerun) -> None:
-        response = client.hooks.with_raw_response.list()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        hook = response.parse()
-        assert_matches_type(HookListResponse, hook, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_streaming_response_list(self, client: Mobilerun) -> None:
-        with client.hooks.with_streaming_response.list() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            hook = response.parse()
-            assert_matches_type(HookListResponse, hook, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -399,45 +359,6 @@ class TestAsyncHooks:
             await async_client.hooks.with_raw_response.update(
                 hook_id="",
             )
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_list(self, async_client: AsyncMobilerun) -> None:
-        hook = await async_client.hooks.list()
-        assert_matches_type(HookListResponse, hook, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
-        hook = await async_client.hooks.list(
-            order_by="orderBy",
-            order_by_direction="asc",
-            page=1,
-            page_size=1,
-        )
-        assert_matches_type(HookListResponse, hook, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.hooks.with_raw_response.list()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        hook = await response.parse()
-        assert_matches_type(HookListResponse, hook, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.hooks.with_streaming_response.list() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            hook = await response.parse()
-            assert_matches_type(HookListResponse, hook, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize

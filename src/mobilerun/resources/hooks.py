@@ -3,11 +3,10 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Literal
 
 import httpx
 
-from ..types import hook_list_params, hook_update_params, hook_subscribe_params
+from ..types import hook_update_params, hook_subscribe_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -19,7 +18,6 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.hook_list_response import HookListResponse
 from ..types.hook_update_response import HookUpdateResponse
 from ..types.hook_perform_response import HookPerformResponse
 from ..types.hook_retrieve_response import HookRetrieveResponse
@@ -129,52 +127,6 @@ class HooksResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=HookUpdateResponse,
-        )
-
-    def list(
-        self,
-        *,
-        order_by: Optional[str] | Omit = omit,
-        order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> HookListResponse:
-        """
-        List hooks belonging to the requesting user (paginated).
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._get(
-            "/hooks/",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "order_by": order_by,
-                        "order_by_direction": order_by_direction,
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                    hook_list_params.HookListParams,
-                ),
-            ),
-            cast_to=HookListResponse,
         )
 
     def get_sample_data(
@@ -401,52 +353,6 @@ class AsyncHooksResource(AsyncAPIResource):
             cast_to=HookUpdateResponse,
         )
 
-    async def list(
-        self,
-        *,
-        order_by: Optional[str] | Omit = omit,
-        order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> HookListResponse:
-        """
-        List hooks belonging to the requesting user (paginated).
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._get(
-            "/hooks/",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "order_by": order_by,
-                        "order_by_direction": order_by_direction,
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                    hook_list_params.HookListParams,
-                ),
-            ),
-            cast_to=HookListResponse,
-        )
-
     async def get_sample_data(
         self,
         *,
@@ -580,9 +486,6 @@ class HooksResourceWithRawResponse:
         self.update = to_raw_response_wrapper(
             hooks.update,
         )
-        self.list = to_raw_response_wrapper(
-            hooks.list,
-        )
         self.get_sample_data = to_raw_response_wrapper(
             hooks.get_sample_data,
         )
@@ -606,9 +509,6 @@ class AsyncHooksResourceWithRawResponse:
         )
         self.update = async_to_raw_response_wrapper(
             hooks.update,
-        )
-        self.list = async_to_raw_response_wrapper(
-            hooks.list,
         )
         self.get_sample_data = async_to_raw_response_wrapper(
             hooks.get_sample_data,
@@ -634,9 +534,6 @@ class HooksResourceWithStreamingResponse:
         self.update = to_streamed_response_wrapper(
             hooks.update,
         )
-        self.list = to_streamed_response_wrapper(
-            hooks.list,
-        )
         self.get_sample_data = to_streamed_response_wrapper(
             hooks.get_sample_data,
         )
@@ -660,9 +557,6 @@ class AsyncHooksResourceWithStreamingResponse:
         )
         self.update = async_to_streamed_response_wrapper(
             hooks.update,
-        )
-        self.list = async_to_streamed_response_wrapper(
-            hooks.list,
         )
         self.get_sample_data = async_to_streamed_response_wrapper(
             hooks.get_sample_data,
