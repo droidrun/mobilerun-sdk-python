@@ -34,9 +34,12 @@ pip install mobilerun-sdk
 The full API of this library can be found in [api.md](api.md).
 
 ```python
+import os
 from mobilerun import Mobilerun
 
-client = Mobilerun()
+client = Mobilerun(
+    api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
+)
 
 task = client.tasks.retrieve(
     "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -54,10 +57,13 @@ so that your API Key is not stored in source control.
 Simply import `AsyncMobilerun` instead of `Mobilerun` and use `await` with each API call:
 
 ```python
+import os
 import asyncio
 from mobilerun import AsyncMobilerun
 
-client = AsyncMobilerun()
+client = AsyncMobilerun(
+    api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
+)
 
 
 async def main() -> None:
@@ -86,6 +92,7 @@ pip install mobilerun-sdk[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
+import os
 import asyncio
 from mobilerun import DefaultAioHttpClient
 from mobilerun import AsyncMobilerun
@@ -93,6 +100,7 @@ from mobilerun import AsyncMobilerun
 
 async def main() -> None:
     async with AsyncMobilerun(
+        api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         task = await client.tasks.retrieve(
