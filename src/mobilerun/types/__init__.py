@@ -7,6 +7,7 @@ from .device import Device as Device
 from .llm_model import LlmModel as LlmModel
 from .task_status import TaskStatus as TaskStatus
 from .app_list_params import AppListParams as AppListParams
+from .task_run_params import TaskRunParams as TaskRunParams
 from .hook_list_params import HookListParams as HookListParams
 from .task_list_params import TaskListParams as TaskListParams
 from .app_list_response import AppListResponse as AppListResponse
@@ -29,6 +30,7 @@ from .device_terminate_params import DeviceTerminateParams as DeviceTerminatePar
 from .hook_subscribe_response import HookSubscribeResponse as HookSubscribeResponse
 from .credential_list_response import CredentialListResponse as CredentialListResponse
 from .task_get_status_response import TaskGetStatusResponse as TaskGetStatusResponse
+from .task_run_streamed_params import TaskRunStreamedParams as TaskRunStreamedParams
 from .hook_unsubscribe_response import HookUnsubscribeResponse as HookUnsubscribeResponse
 from .task_get_trajectory_response import TaskGetTrajectoryResponse as TaskGetTrajectoryResponse
 from .hook_get_sample_data_response import HookGetSampleDataResponse as HookGetSampleDataResponse

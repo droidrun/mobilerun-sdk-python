@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Dict, Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
 
-from ...types import TaskStatus, task_list_params
-from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ...types import LlmModel, TaskStatus, task_run_params, task_list_params, task_run_streamed_params
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from .ui_states import (
@@ -35,6 +35,7 @@ from .screenshots import (
     AsyncScreenshotsResourceWithStreamingResponse,
 )
 from ..._base_client import make_request_options
+from ...types.llm_model import LlmModel
 from ...types.task_status import TaskStatus
 from ...types.task_run_response import TaskRunResponse
 from ...types.task_list_response import TaskListResponse
@@ -267,6 +268,21 @@ class TasksResource(SyncAPIResource):
     def run(
         self,
         *,
+        llm_model: LlmModel,
+        task: str,
+        apps: SequenceNotStr[str] | Omit = omit,
+        credentials: Iterable[task_run_params.Credential] | Omit = omit,
+        device_id: Optional[str] | Omit = omit,
+        display_id: int | Omit = omit,
+        execution_timeout: int | Omit = omit,
+        files: SequenceNotStr[str] | Omit = omit,
+        max_steps: int | Omit = omit,
+        output_schema: Optional[Dict[str, object]] | Omit = omit,
+        reasoning: bool | Omit = omit,
+        stealth: bool | Omit = omit,
+        temperature: float | Omit = omit,
+        vision: bool | Omit = omit,
+        vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -274,9 +290,44 @@ class TasksResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRunResponse:
-        """Run Task"""
+        """
+        Run Task
+
+        Args:
+          device_id: The ID of the device to run the task on.
+
+          display_id: The display ID of the device to run the task on.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return self._post(
             "/tasks",
+            body=maybe_transform(
+                {
+                    "llm_model": llm_model,
+                    "task": task,
+                    "apps": apps,
+                    "credentials": credentials,
+                    "device_id": device_id,
+                    "display_id": display_id,
+                    "execution_timeout": execution_timeout,
+                    "files": files,
+                    "max_steps": max_steps,
+                    "output_schema": output_schema,
+                    "reasoning": reasoning,
+                    "stealth": stealth,
+                    "temperature": temperature,
+                    "vision": vision,
+                    "vpn_country": vpn_country,
+                },
+                task_run_params.TaskRunParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -286,6 +337,21 @@ class TasksResource(SyncAPIResource):
     def run_streamed(
         self,
         *,
+        llm_model: LlmModel,
+        task: str,
+        apps: SequenceNotStr[str] | Omit = omit,
+        credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
+        device_id: Optional[str] | Omit = omit,
+        display_id: int | Omit = omit,
+        execution_timeout: int | Omit = omit,
+        files: SequenceNotStr[str] | Omit = omit,
+        max_steps: int | Omit = omit,
+        output_schema: Optional[Dict[str, object]] | Omit = omit,
+        reasoning: bool | Omit = omit,
+        stealth: bool | Omit = omit,
+        temperature: float | Omit = omit,
+        vision: bool | Omit = omit,
+        vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -293,10 +359,45 @@ class TasksResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Run Streamed Task"""
+        """
+        Run Streamed Task
+
+        Args:
+          device_id: The ID of the device to run the task on.
+
+          display_id: The display ID of the device to run the task on.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             "/tasks/stream",
+            body=maybe_transform(
+                {
+                    "llm_model": llm_model,
+                    "task": task,
+                    "apps": apps,
+                    "credentials": credentials,
+                    "device_id": device_id,
+                    "display_id": display_id,
+                    "execution_timeout": execution_timeout,
+                    "files": files,
+                    "max_steps": max_steps,
+                    "output_schema": output_schema,
+                    "reasoning": reasoning,
+                    "stealth": stealth,
+                    "temperature": temperature,
+                    "vision": vision,
+                    "vpn_country": vpn_country,
+                },
+                task_run_streamed_params.TaskRunStreamedParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -558,6 +659,21 @@ class AsyncTasksResource(AsyncAPIResource):
     async def run(
         self,
         *,
+        llm_model: LlmModel,
+        task: str,
+        apps: SequenceNotStr[str] | Omit = omit,
+        credentials: Iterable[task_run_params.Credential] | Omit = omit,
+        device_id: Optional[str] | Omit = omit,
+        display_id: int | Omit = omit,
+        execution_timeout: int | Omit = omit,
+        files: SequenceNotStr[str] | Omit = omit,
+        max_steps: int | Omit = omit,
+        output_schema: Optional[Dict[str, object]] | Omit = omit,
+        reasoning: bool | Omit = omit,
+        stealth: bool | Omit = omit,
+        temperature: float | Omit = omit,
+        vision: bool | Omit = omit,
+        vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -565,9 +681,44 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRunResponse:
-        """Run Task"""
+        """
+        Run Task
+
+        Args:
+          device_id: The ID of the device to run the task on.
+
+          display_id: The display ID of the device to run the task on.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return await self._post(
             "/tasks",
+            body=await async_maybe_transform(
+                {
+                    "llm_model": llm_model,
+                    "task": task,
+                    "apps": apps,
+                    "credentials": credentials,
+                    "device_id": device_id,
+                    "display_id": display_id,
+                    "execution_timeout": execution_timeout,
+                    "files": files,
+                    "max_steps": max_steps,
+                    "output_schema": output_schema,
+                    "reasoning": reasoning,
+                    "stealth": stealth,
+                    "temperature": temperature,
+                    "vision": vision,
+                    "vpn_country": vpn_country,
+                },
+                task_run_params.TaskRunParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -577,6 +728,21 @@ class AsyncTasksResource(AsyncAPIResource):
     async def run_streamed(
         self,
         *,
+        llm_model: LlmModel,
+        task: str,
+        apps: SequenceNotStr[str] | Omit = omit,
+        credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
+        device_id: Optional[str] | Omit = omit,
+        display_id: int | Omit = omit,
+        execution_timeout: int | Omit = omit,
+        files: SequenceNotStr[str] | Omit = omit,
+        max_steps: int | Omit = omit,
+        output_schema: Optional[Dict[str, object]] | Omit = omit,
+        reasoning: bool | Omit = omit,
+        stealth: bool | Omit = omit,
+        temperature: float | Omit = omit,
+        vision: bool | Omit = omit,
+        vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -584,10 +750,45 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Run Streamed Task"""
+        """
+        Run Streamed Task
+
+        Args:
+          device_id: The ID of the device to run the task on.
+
+          display_id: The display ID of the device to run the task on.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             "/tasks/stream",
+            body=await async_maybe_transform(
+                {
+                    "llm_model": llm_model,
+                    "task": task,
+                    "apps": apps,
+                    "credentials": credentials,
+                    "device_id": device_id,
+                    "display_id": display_id,
+                    "execution_timeout": execution_timeout,
+                    "files": files,
+                    "max_steps": max_steps,
+                    "output_schema": output_schema,
+                    "reasoning": reasoning,
+                    "stealth": stealth,
+                    "temperature": temperature,
+                    "vision": vision,
+                    "vpn_country": vpn_country,
+                },
+                task_run_streamed_params.TaskRunStreamedParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
