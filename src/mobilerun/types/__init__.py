@@ -17,6 +17,7 @@ from .hook_list_response import HookListResponse as HookListResponse
 from .hook_update_params import HookUpdateParams as HookUpdateParams
 from .task_list_response import TaskListResponse as TaskListResponse
 from .task_stop_response import TaskStopResponse as TaskStopResponse
+from .model_list_response import ModelListResponse as ModelListResponse
 from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse
 from .hook_update_response import HookUpdateResponse as HookUpdateResponse

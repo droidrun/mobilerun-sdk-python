@@ -32,9 +32,10 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import apps, hooks, tasks, devices, credentials
+    from .resources import apps, hooks, tasks, models, devices, credentials
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.hooks import HooksResource, AsyncHooksResource
+    from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
     from .resources.devices.devices import DevicesResource, AsyncDevicesResource
     from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
@@ -131,6 +132,12 @@ class Mobilerun(SyncAPIClient):
         from .resources.hooks import HooksResource
 
         return HooksResource(self)
+
+    @cached_property
+    def models(self) -> ModelsResource:
+        from .resources.models import ModelsResource
+
+        return ModelsResource(self)
 
     @cached_property
     def with_raw_response(self) -> MobilerunWithRawResponse:
@@ -338,6 +345,12 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncHooksResource(self)
 
     @cached_property
+    def models(self) -> AsyncModelsResource:
+        from .resources.models import AsyncModelsResource
+
+        return AsyncModelsResource(self)
+
+    @cached_property
     def with_raw_response(self) -> AsyncMobilerunWithRawResponse:
         return AsyncMobilerunWithRawResponse(self)
 
@@ -497,6 +510,12 @@ class MobilerunWithRawResponse:
 
         return HooksResourceWithRawResponse(self._client.hooks)
 
+    @cached_property
+    def models(self) -> models.ModelsResourceWithRawResponse:
+        from .resources.models import ModelsResourceWithRawResponse
+
+        return ModelsResourceWithRawResponse(self._client.models)
+
 
 class AsyncMobilerunWithRawResponse:
     _client: AsyncMobilerun
@@ -533,6 +552,12 @@ class AsyncMobilerunWithRawResponse:
         from .resources.hooks import AsyncHooksResourceWithRawResponse
 
         return AsyncHooksResourceWithRawResponse(self._client.hooks)
+
+    @cached_property
+    def models(self) -> models.AsyncModelsResourceWithRawResponse:
+        from .resources.models import AsyncModelsResourceWithRawResponse
+
+        return AsyncModelsResourceWithRawResponse(self._client.models)
 
 
 class MobilerunWithStreamedResponse:
@@ -571,6 +596,12 @@ class MobilerunWithStreamedResponse:
 
         return HooksResourceWithStreamingResponse(self._client.hooks)
 
+    @cached_property
+    def models(self) -> models.ModelsResourceWithStreamingResponse:
+        from .resources.models import ModelsResourceWithStreamingResponse
+
+        return ModelsResourceWithStreamingResponse(self._client.models)
+
 
 class AsyncMobilerunWithStreamedResponse:
     _client: AsyncMobilerun
@@ -607,6 +638,12 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.hooks import AsyncHooksResourceWithStreamingResponse
 
         return AsyncHooksResourceWithStreamingResponse(self._client.hooks)
+
+    @cached_property
+    def models(self) -> models.AsyncModelsResourceWithStreamingResponse:
+        from .resources.models import AsyncModelsResourceWithStreamingResponse
+
+        return AsyncModelsResourceWithStreamingResponse(self._client.models)
 
 
 Client = Mobilerun
