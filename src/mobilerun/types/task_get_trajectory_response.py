@@ -31,43 +31,24 @@ __all__ = [
     "TrajectoryTrajectoryExecutorInputEventData",
     "TrajectoryTrajectoryExecutorResultEvent",
     "TrajectoryTrajectoryExecutorResultEventData",
-    "TrajectoryTrajectoryScripterExecutorInputEvent",
-    "TrajectoryTrajectoryScripterExecutorInputEventData",
-    "TrajectoryTrajectoryScripterExecutorResultEvent",
-    "TrajectoryTrajectoryScripterExecutorResultEventData",
-    "TrajectoryTrajectoryPlanCreatedEvent",
-    "TrajectoryTrajectoryPlanInputEvent",
-    "TrajectoryTrajectoryPlanThinkingEvent",
-    "TrajectoryTrajectoryCodeActInputEvent",
-    "TrajectoryTrajectoryCodeActResponseEvent",
-    "TrajectoryTrajectoryCodeActResponseEventData",
-    "TrajectoryTrajectoryCodeActResponseEventDataUsage",
-    "TrajectoryTrajectoryCodeActCodeEvent",
-    "TrajectoryTrajectoryCodeActCodeEventData",
-    "TrajectoryTrajectoryCodeActOutputEvent",
-    "TrajectoryTrajectoryCodeActOutputEventData",
-    "TrajectoryTrajectoryCodeActEndEvent",
-    "TrajectoryTrajectoryCodeActEndEventData",
-    "TrajectoryTrajectoryCodeActExecuteEvent",
-    "TrajectoryTrajectoryCodeActExecuteEventData",
-    "TrajectoryTrajectoryCodeActResultEvent",
-    "TrajectoryTrajectoryCodeActResultEventData",
-    "TrajectoryTrajectoryTapActionEvent",
-    "TrajectoryTrajectoryTapActionEventData",
-    "TrajectoryTrajectorySwipeActionEvent",
-    "TrajectoryTrajectorySwipeActionEventData",
-    "TrajectoryTrajectoryDragActionEvent",
-    "TrajectoryTrajectoryDragActionEventData",
-    "TrajectoryTrajectoryInputTextActionEvent",
-    "TrajectoryTrajectoryInputTextActionEventData",
-    "TrajectoryTrajectoryKeyPressActionEvent",
-    "TrajectoryTrajectoryKeyPressActionEventData",
-    "TrajectoryTrajectoryStartAppEvent",
-    "TrajectoryTrajectoryStartAppEventData",
+    "TrajectoryTrajectoryFastAgentInputEvent",
+    "TrajectoryTrajectoryFastAgentResponseEvent",
+    "TrajectoryTrajectoryFastAgentResponseEventData",
+    "TrajectoryTrajectoryFastAgentResponseEventDataUsage",
+    "TrajectoryTrajectoryFastAgentToolCallEvent",
+    "TrajectoryTrajectoryFastAgentToolCallEventData",
+    "TrajectoryTrajectoryFastAgentOutputEvent",
+    "TrajectoryTrajectoryFastAgentOutputEventData",
+    "TrajectoryTrajectoryFastAgentEndEvent",
+    "TrajectoryTrajectoryFastAgentEndEventData",
+    "TrajectoryTrajectoryFastAgentExecuteEvent",
+    "TrajectoryTrajectoryFastAgentExecuteEventData",
+    "TrajectoryTrajectoryFastAgentResultEvent",
+    "TrajectoryTrajectoryFastAgentResultEventData",
+    "TrajectoryTrajectoryToolExecutionEvent",
+    "TrajectoryTrajectoryToolExecutionEventData",
     "TrajectoryTrajectoryRecordUiStateEvent",
     "TrajectoryTrajectoryRecordUiStateEventData",
-    "TrajectoryTrajectoryWaitEvent",
-    "TrajectoryTrajectoryWaitEventData",
     "TrajectoryTrajectoryManagerContextEvent",
     "TrajectoryTrajectoryManagerResponseEvent",
     "TrajectoryTrajectoryManagerResponseEventData",
@@ -83,20 +64,7 @@ __all__ = [
     "TrajectoryTrajectoryExecutorActionEventData",
     "TrajectoryTrajectoryExecutorActionResultEvent",
     "TrajectoryTrajectoryExecutorActionResultEventData",
-    "TrajectoryTrajectoryScripterInputEvent",
-    "TrajectoryTrajectoryScripterThinkingEvent",
-    "TrajectoryTrajectoryScripterThinkingEventData",
-    "TrajectoryTrajectoryScripterThinkingEventDataUsage",
-    "TrajectoryTrajectoryScripterExecutionEvent",
-    "TrajectoryTrajectoryScripterExecutionEventData",
-    "TrajectoryTrajectoryScripterExecutionResultEvent",
-    "TrajectoryTrajectoryScripterExecutionResultEventData",
-    "TrajectoryTrajectoryScripterEndEvent",
-    "TrajectoryTrajectoryScripterEndEventData",
-    "TrajectoryTrajectoryTextManipulatorInputEvent",
-    "TrajectoryTrajectoryTextManipulatorInputEventData",
-    "TrajectoryTrajectoryTextManipulatorResultEvent",
-    "TrajectoryTrajectoryTextManipulatorResultEventData",
+    "TrajectoryTrajectoryUnknownEvent",
 ]
 
 
@@ -203,7 +171,7 @@ class TrajectoryTrajectoryResultEventData(BaseModel):
 
     steps: Optional[int] = None
 
-    structured_output: Union[Dict[str, object], object, None] = None
+    structured_output: Optional[Dict[str, object]] = None
 
     success: Optional[bool] = None
 
@@ -239,7 +207,7 @@ class TrajectoryTrajectoryManagerPlanEventData(BaseModel):
 
     thought: str
 
-    manager_answer: Optional[str] = None
+    answer: Optional[str] = None
 
     success: Optional[bool] = None
 
@@ -287,64 +255,14 @@ class TrajectoryTrajectoryExecutorResultEvent(BaseModel):
     event: Literal["ExecutorResultEvent"]
 
 
-class TrajectoryTrajectoryScripterExecutorInputEventData(BaseModel):
-    """Trigger ScripterAgent workflow for off-device operations"""
-
-    task: str
-
-
-class TrajectoryTrajectoryScripterExecutorInputEvent(BaseModel):
-    data: TrajectoryTrajectoryScripterExecutorInputEventData
-    """Trigger ScripterAgent workflow for off-device operations"""
-
-    event: Literal["ScripterExecutorInputEvent"]
-
-
-class TrajectoryTrajectoryScripterExecutorResultEventData(BaseModel):
-    """Scripter finished."""
-
-    code_executions: int
-
-    message: str
-
-    success: bool
-
-    task: str
-
-
-class TrajectoryTrajectoryScripterExecutorResultEvent(BaseModel):
-    data: TrajectoryTrajectoryScripterExecutorResultEventData
-    """Scripter finished."""
-
-    event: Literal["ScripterExecutorResultEvent"]
-
-
-class TrajectoryTrajectoryPlanCreatedEvent(BaseModel):
-    data: Dict[str, object]
-
-    event: Literal["PlanCreatedEvent"]
-
-
-class TrajectoryTrajectoryPlanInputEvent(BaseModel):
-    data: Dict[str, object]
-
-    event: Literal["PlanInputEvent"]
-
-
-class TrajectoryTrajectoryPlanThinkingEvent(BaseModel):
-    data: Dict[str, object]
-
-    event: Literal["PlanThinkingEvent"]
-
-
-class TrajectoryTrajectoryCodeActInputEvent(BaseModel):
+class TrajectoryTrajectoryFastAgentInputEvent(BaseModel):
     data: object
     """Input ready for LLM."""
 
-    event: Literal["CodeActInputEvent"]
+    event: Literal["FastAgentInputEvent"]
 
 
-class TrajectoryTrajectoryCodeActResponseEventDataUsage(BaseModel):
+class TrajectoryTrajectoryFastAgentResponseEventDataUsage(BaseModel):
     request_tokens: int
 
     requests: int
@@ -354,218 +272,107 @@ class TrajectoryTrajectoryCodeActResponseEventDataUsage(BaseModel):
     total_tokens: int
 
 
-class TrajectoryTrajectoryCodeActResponseEventData(BaseModel):
+class TrajectoryTrajectoryFastAgentResponseEventData(BaseModel):
     """LLM response received."""
 
     thought: str
 
     code: Optional[str] = None
 
-    usage: Optional[TrajectoryTrajectoryCodeActResponseEventDataUsage] = None
+    usage: Optional[TrajectoryTrajectoryFastAgentResponseEventDataUsage] = None
 
 
-class TrajectoryTrajectoryCodeActResponseEvent(BaseModel):
-    data: TrajectoryTrajectoryCodeActResponseEventData
+class TrajectoryTrajectoryFastAgentResponseEvent(BaseModel):
+    data: TrajectoryTrajectoryFastAgentResponseEventData
     """LLM response received."""
 
-    event: Literal["CodeActResponseEvent"]
+    event: Literal["FastAgentResponseEvent"]
 
 
-class TrajectoryTrajectoryCodeActCodeEventData(BaseModel):
-    """Code ready to execute (internal event)."""
+class TrajectoryTrajectoryFastAgentToolCallEventData(BaseModel):
+    """Tool calls ready to execute."""
 
-    code: str
-
-
-class TrajectoryTrajectoryCodeActCodeEvent(BaseModel):
-    data: TrajectoryTrajectoryCodeActCodeEventData
-    """Code ready to execute (internal event)."""
-
-    event: Literal["CodeActCodeEvent"]
+    tool_calls_repr: str
 
 
-class TrajectoryTrajectoryCodeActOutputEventData(BaseModel):
-    """Code execution result (internal event)."""
+class TrajectoryTrajectoryFastAgentToolCallEvent(BaseModel):
+    data: TrajectoryTrajectoryFastAgentToolCallEventData
+    """Tool calls ready to execute."""
+
+    event: Literal["FastAgentToolCallEvent"]
+
+
+class TrajectoryTrajectoryFastAgentOutputEventData(BaseModel):
+    """Tool execution result."""
 
     output: str
 
 
-class TrajectoryTrajectoryCodeActOutputEvent(BaseModel):
-    data: TrajectoryTrajectoryCodeActOutputEventData
-    """Code execution result (internal event)."""
+class TrajectoryTrajectoryFastAgentOutputEvent(BaseModel):
+    data: TrajectoryTrajectoryFastAgentOutputEventData
+    """Tool execution result."""
 
-    event: Literal["CodeActOutputEvent"]
-
-
-class TrajectoryTrajectoryCodeActEndEventData(BaseModel):
-    """CodeAct finished."""
-
-    reason: str
-
-    success: bool
-
-    code_executions: Optional[int] = None
+    event: Literal["FastAgentOutputEvent"]
 
 
-class TrajectoryTrajectoryCodeActEndEvent(BaseModel):
-    data: TrajectoryTrajectoryCodeActEndEventData
-    """CodeAct finished."""
-
-    event: Literal["CodeActEndEvent"]
-
-
-class TrajectoryTrajectoryCodeActExecuteEventData(BaseModel):
-    instruction: str
-
-
-class TrajectoryTrajectoryCodeActExecuteEvent(BaseModel):
-    data: TrajectoryTrajectoryCodeActExecuteEventData
-
-    event: Literal["CodeActExecuteEvent"]
-
-
-class TrajectoryTrajectoryCodeActResultEventData(BaseModel):
-    instruction: str
+class TrajectoryTrajectoryFastAgentEndEventData(BaseModel):
+    """FastAgent finished."""
 
     reason: str
 
     success: bool
 
+    tool_call_count: Optional[int] = None
 
-class TrajectoryTrajectoryCodeActResultEvent(BaseModel):
-    data: TrajectoryTrajectoryCodeActResultEventData
 
-    event: Literal["CodeActResultEvent"]
+class TrajectoryTrajectoryFastAgentEndEvent(BaseModel):
+    data: TrajectoryTrajectoryFastAgentEndEventData
+    """FastAgent finished."""
 
+    event: Literal["FastAgentEndEvent"]
 
-class TrajectoryTrajectoryTapActionEventData(BaseModel):
-    """Event for tap actions with coordinates"""
 
-    action_type: str
+class TrajectoryTrajectoryFastAgentExecuteEventData(BaseModel):
+    instruction: str
 
-    description: str
 
-    x: int
+class TrajectoryTrajectoryFastAgentExecuteEvent(BaseModel):
+    data: TrajectoryTrajectoryFastAgentExecuteEventData
 
-    y: int
+    event: Literal["FastAgentExecuteEvent"]
 
-    element_bounds: Optional[str] = None
 
-    element_index: Optional[int] = None
+class TrajectoryTrajectoryFastAgentResultEventData(BaseModel):
+    instruction: str
 
-    element_text: Optional[str] = None
+    reason: str
 
+    success: bool
 
-class TrajectoryTrajectoryTapActionEvent(BaseModel):
-    data: TrajectoryTrajectoryTapActionEventData
-    """Event for tap actions with coordinates"""
 
-    event: Literal["TapActionEvent"]
+class TrajectoryTrajectoryFastAgentResultEvent(BaseModel):
+    data: TrajectoryTrajectoryFastAgentResultEventData
 
+    event: Literal["FastAgentResultEvent"]
 
-class TrajectoryTrajectorySwipeActionEventData(BaseModel):
-    """Event for swipe actions with coordinates"""
 
-    action_type: str
+class TrajectoryTrajectoryToolExecutionEventData(BaseModel):
+    """Emitted after every tool call dispatched through ToolRegistry."""
 
-    description: str
+    success: bool
 
-    duration_ms: int
+    summary: str
 
-    end_x: int
+    tool_args: Dict[str, object]
 
-    end_y: int
+    tool_name: str
 
-    start_x: int
 
-    start_y: int
+class TrajectoryTrajectoryToolExecutionEvent(BaseModel):
+    data: TrajectoryTrajectoryToolExecutionEventData
+    """Emitted after every tool call dispatched through ToolRegistry."""
 
-
-class TrajectoryTrajectorySwipeActionEvent(BaseModel):
-    data: TrajectoryTrajectorySwipeActionEventData
-    """Event for swipe actions with coordinates"""
-
-    event: Literal["SwipeActionEvent"]
-
-
-class TrajectoryTrajectoryDragActionEventData(BaseModel):
-    """Event for drag actions with coordinates"""
-
-    action_type: str
-
-    description: str
-
-    duration_ms: int
-
-    end_x: int
-
-    end_y: int
-
-    start_x: int
-
-    start_y: int
-
-
-class TrajectoryTrajectoryDragActionEvent(BaseModel):
-    data: TrajectoryTrajectoryDragActionEventData
-    """Event for drag actions with coordinates"""
-
-    event: Literal["DragActionEvent"]
-
-
-class TrajectoryTrajectoryInputTextActionEventData(BaseModel):
-    """Event for text input actions"""
-
-    action_type: str
-
-    description: str
-
-    text: str
-
-
-class TrajectoryTrajectoryInputTextActionEvent(BaseModel):
-    data: TrajectoryTrajectoryInputTextActionEventData
-    """Event for text input actions"""
-
-    event: Literal["InputTextActionEvent"]
-
-
-class TrajectoryTrajectoryKeyPressActionEventData(BaseModel):
-    """Event for key press actions"""
-
-    action_type: str
-
-    description: str
-
-    keycode: int
-
-    key_name: Optional[str] = None
-
-
-class TrajectoryTrajectoryKeyPressActionEvent(BaseModel):
-    data: TrajectoryTrajectoryKeyPressActionEventData
-    """Event for key press actions"""
-
-    event: Literal["KeyPressActionEvent"]
-
-
-class TrajectoryTrajectoryStartAppEventData(BaseModel):
-    """\"Event for starting an app"""
-
-    action_type: str
-
-    description: str
-
-    package: str
-
-    activity: Optional[str] = None
-
-
-class TrajectoryTrajectoryStartAppEvent(BaseModel):
-    data: TrajectoryTrajectoryStartAppEventData
-    """\"Event for starting an app"""
-
-    event: Literal["StartAppEvent"]
+    event: Literal["ToolExecutionEvent"]
 
 
 class TrajectoryTrajectoryRecordUiStateEventData(BaseModel):
@@ -578,23 +385,6 @@ class TrajectoryTrajectoryRecordUiStateEvent(BaseModel):
     data: TrajectoryTrajectoryRecordUiStateEventData
 
     event: Literal["RecordUIStateEvent"]
-
-
-class TrajectoryTrajectoryWaitEventData(BaseModel):
-    """Event for wait/sleep actions"""
-
-    action_type: str
-
-    description: str
-
-    duration: float
-
-
-class TrajectoryTrajectoryWaitEvent(BaseModel):
-    data: TrajectoryTrajectoryWaitEventData
-    """Event for wait/sleep actions"""
-
-    event: Literal["WaitEvent"]
 
 
 class TrajectoryTrajectoryManagerContextEvent(BaseModel):
@@ -736,110 +526,10 @@ class TrajectoryTrajectoryExecutorActionResultEvent(BaseModel):
     event: Literal["ExecutorActionResultEvent"]
 
 
-class TrajectoryTrajectoryScripterInputEvent(BaseModel):
-    data: object
-    """Input ready for LLM."""
+class TrajectoryTrajectoryUnknownEvent(BaseModel):
+    event: str
 
-    event: Literal["ScripterInputEvent"]
-
-
-class TrajectoryTrajectoryScripterThinkingEventDataUsage(BaseModel):
-    request_tokens: int
-
-    requests: int
-
-    response_tokens: int
-
-    total_tokens: int
-
-
-class TrajectoryTrajectoryScripterThinkingEventData(BaseModel):
-    """LLM response received."""
-
-    thought: str
-
-    code: Optional[str] = None
-
-    full_response: Optional[str] = None
-
-    usage: Optional[TrajectoryTrajectoryScripterThinkingEventDataUsage] = None
-
-
-class TrajectoryTrajectoryScripterThinkingEvent(BaseModel):
-    data: TrajectoryTrajectoryScripterThinkingEventData
-    """LLM response received."""
-
-    event: Literal["ScripterThinkingEvent"]
-
-
-class TrajectoryTrajectoryScripterExecutionEventData(BaseModel):
-    """Code ready to execute."""
-
-    code: str
-
-
-class TrajectoryTrajectoryScripterExecutionEvent(BaseModel):
-    data: TrajectoryTrajectoryScripterExecutionEventData
-    """Code ready to execute."""
-
-    event: Literal["ScripterExecutionEvent"]
-
-
-class TrajectoryTrajectoryScripterExecutionResultEventData(BaseModel):
-    """Code execution result."""
-
-    output: str
-
-
-class TrajectoryTrajectoryScripterExecutionResultEvent(BaseModel):
-    data: TrajectoryTrajectoryScripterExecutionResultEventData
-    """Code execution result."""
-
-    event: Literal["ScripterExecutionResultEvent"]
-
-
-class TrajectoryTrajectoryScripterEndEventData(BaseModel):
-    """Scripter finished."""
-
-    message: str
-
-    success: bool
-
-    code_executions: Optional[int] = None
-
-
-class TrajectoryTrajectoryScripterEndEvent(BaseModel):
-    data: TrajectoryTrajectoryScripterEndEventData
-    """Scripter finished."""
-
-    event: Literal["ScripterEndEvent"]
-
-
-class TrajectoryTrajectoryTextManipulatorInputEventData(BaseModel):
-    """Trigger TextManipulatorAgent workflow for text manipulation"""
-
-    task: str
-
-
-class TrajectoryTrajectoryTextManipulatorInputEvent(BaseModel):
-    data: TrajectoryTrajectoryTextManipulatorInputEventData
-    """Trigger TextManipulatorAgent workflow for text manipulation"""
-
-    event: Literal["TextManipulatorInputEvent"]
-
-
-class TrajectoryTrajectoryTextManipulatorResultEventData(BaseModel):
-    code_ran: str
-
-    task: str
-
-    text_to_type: str
-
-
-class TrajectoryTrajectoryTextManipulatorResultEvent(BaseModel):
-    data: TrajectoryTrajectoryTextManipulatorResultEventData
-
-    event: Literal["TextManipulatorResultEvent"]
+    data: Optional[Dict[str, object]] = None
 
 
 Trajectory: TypeAlias = Union[
@@ -855,26 +545,15 @@ Trajectory: TypeAlias = Union[
     TrajectoryTrajectoryManagerPlanEvent,
     TrajectoryTrajectoryExecutorInputEvent,
     TrajectoryTrajectoryExecutorResultEvent,
-    TrajectoryTrajectoryScripterExecutorInputEvent,
-    TrajectoryTrajectoryScripterExecutorResultEvent,
-    TrajectoryTrajectoryPlanCreatedEvent,
-    TrajectoryTrajectoryPlanInputEvent,
-    TrajectoryTrajectoryPlanThinkingEvent,
-    TrajectoryTrajectoryCodeActInputEvent,
-    TrajectoryTrajectoryCodeActResponseEvent,
-    TrajectoryTrajectoryCodeActCodeEvent,
-    TrajectoryTrajectoryCodeActOutputEvent,
-    TrajectoryTrajectoryCodeActEndEvent,
-    TrajectoryTrajectoryCodeActExecuteEvent,
-    TrajectoryTrajectoryCodeActResultEvent,
-    TrajectoryTrajectoryTapActionEvent,
-    TrajectoryTrajectorySwipeActionEvent,
-    TrajectoryTrajectoryDragActionEvent,
-    TrajectoryTrajectoryInputTextActionEvent,
-    TrajectoryTrajectoryKeyPressActionEvent,
-    TrajectoryTrajectoryStartAppEvent,
+    TrajectoryTrajectoryFastAgentInputEvent,
+    TrajectoryTrajectoryFastAgentResponseEvent,
+    TrajectoryTrajectoryFastAgentToolCallEvent,
+    TrajectoryTrajectoryFastAgentOutputEvent,
+    TrajectoryTrajectoryFastAgentEndEvent,
+    TrajectoryTrajectoryFastAgentExecuteEvent,
+    TrajectoryTrajectoryFastAgentResultEvent,
+    TrajectoryTrajectoryToolExecutionEvent,
     TrajectoryTrajectoryRecordUiStateEvent,
-    TrajectoryTrajectoryWaitEvent,
     TrajectoryTrajectoryManagerContextEvent,
     TrajectoryTrajectoryManagerResponseEvent,
     TrajectoryTrajectoryManagerPlanDetailsEvent,
@@ -882,13 +561,7 @@ Trajectory: TypeAlias = Union[
     TrajectoryTrajectoryExecutorResponseEvent,
     TrajectoryTrajectoryExecutorActionEvent,
     TrajectoryTrajectoryExecutorActionResultEvent,
-    TrajectoryTrajectoryScripterInputEvent,
-    TrajectoryTrajectoryScripterThinkingEvent,
-    TrajectoryTrajectoryScripterExecutionEvent,
-    TrajectoryTrajectoryScripterExecutionResultEvent,
-    TrajectoryTrajectoryScripterEndEvent,
-    TrajectoryTrajectoryTextManipulatorInputEvent,
-    TrajectoryTrajectoryTextManipulatorResultEvent,
+    TrajectoryTrajectoryUnknownEvent,
 ]
 
 

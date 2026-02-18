@@ -52,9 +52,9 @@ class Task(BaseModel):
 
     reasoning: Optional[bool] = None
 
-    sandbox_id: Optional[str] = FieldInfo(alias="sandboxId", default=None)
-
     status: Optional[TaskStatus] = None
+
+    stealth: Optional[bool] = None
 
     steps: Optional[int] = None
 
