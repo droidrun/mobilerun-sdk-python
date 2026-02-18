@@ -239,3 +239,15 @@ Methods:
 - <code title="post /hooks/perform">client.hooks.<a href="./src/mobilerun/resources/hooks.py">perform</a>() -> <a href="./src/mobilerun/types/hook_perform_response.py">HookPerformResponse</a></code>
 - <code title="post /hooks/subscribe">client.hooks.<a href="./src/mobilerun/resources/hooks.py">subscribe</a>(\*\*<a href="src/mobilerun/types/hook_subscribe_params.py">params</a>) -> <a href="./src/mobilerun/types/hook_subscribe_response.py">HookSubscribeResponse</a></code>
 - <code title="post /hooks/{hook_id}/unsubscribe">client.hooks.<a href="./src/mobilerun/resources/hooks.py">unsubscribe</a>(hook_id) -> <a href="./src/mobilerun/types/hook_unsubscribe_response.py">HookUnsubscribeResponse</a></code>
+
+# Models
+
+Types:
+
+```python
+from mobilerun.types import ModelListResponse
+```
+
+Methods:
+
+- <code title="get /models">client.models.<a href="./src/mobilerun/resources/models.py">list</a>() -> <a href="./src/mobilerun/types/model_list_response.py">ModelListResponse</a></code>
