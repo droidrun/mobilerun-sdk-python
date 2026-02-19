@@ -53,7 +53,7 @@ class UiStatesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MediaResponse:
         """
-        Get Task Ui State
+        Get a specific UI state by index.
 
         Args:
           extra_headers: Send extra headers
@@ -86,7 +86,7 @@ class UiStatesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UiStateListResponse:
         """
-        Get Task Ui States
+        List all UI state URLs for a task.
 
         Args:
           extra_headers: Send extra headers
@@ -141,7 +141,7 @@ class AsyncUiStatesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MediaResponse:
         """
-        Get Task Ui State
+        Get a specific UI state by index.
 
         Args:
           extra_headers: Send extra headers
@@ -174,7 +174,7 @@ class AsyncUiStatesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UiStateListResponse:
         """
-        Get Task Ui States
+        List all UI state URLs for a task.
 
         Args:
           extra_headers: Send extra headers

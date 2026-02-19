@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from .task import Task as Task
 from .device import Device as Device
-from .llm_model import LlmModel as LlmModel
 from .task_status import TaskStatus as TaskStatus
 from .app_list_params import AppListParams as AppListParams
 from .task_run_params import TaskRunParams as TaskRunParams
@@ -17,6 +16,7 @@ from .hook_list_response import HookListResponse as HookListResponse
 from .hook_update_params import HookUpdateParams as HookUpdateParams
 from .task_list_response import TaskListResponse as TaskListResponse
 from .task_stop_response import TaskStopResponse as TaskStopResponse
+from .hook_perform_params import HookPerformParams as HookPerformParams
 from .model_list_response import ModelListResponse as ModelListResponse
 from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse

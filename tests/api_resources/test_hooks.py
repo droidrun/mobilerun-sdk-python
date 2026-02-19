@@ -189,13 +189,17 @@ class TestHooks:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_perform(self, client: Mobilerun) -> None:
-        hook = client.hooks.perform()
+        hook = client.hooks.perform(
+            body={"foo": "bar"},
+        )
         assert_matches_type(HookPerformResponse, hook, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_perform(self, client: Mobilerun) -> None:
-        response = client.hooks.with_raw_response.perform()
+        response = client.hooks.with_raw_response.perform(
+            body={"foo": "bar"},
+        )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -205,7 +209,9 @@ class TestHooks:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_perform(self, client: Mobilerun) -> None:
-        with client.hooks.with_streaming_response.perform() as response:
+        with client.hooks.with_streaming_response.perform(
+            body={"foo": "bar"},
+        ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -470,13 +476,17 @@ class TestAsyncHooks:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_perform(self, async_client: AsyncMobilerun) -> None:
-        hook = await async_client.hooks.perform()
+        hook = await async_client.hooks.perform(
+            body={"foo": "bar"},
+        )
         assert_matches_type(HookPerformResponse, hook, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_perform(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.hooks.with_raw_response.perform()
+        response = await async_client.hooks.with_raw_response.perform(
+            body={"foo": "bar"},
+        )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -486,7 +496,9 @@ class TestAsyncHooks:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_perform(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.hooks.with_streaming_response.perform() as response:
+        async with async_client.hooks.with_streaming_response.perform(
+            body={"foo": "bar"},
+        ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 

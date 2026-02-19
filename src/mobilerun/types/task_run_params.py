@@ -7,13 +7,13 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
-from .llm_model import LlmModel
 
 __all__ = ["TaskRunParams", "Credential"]
 
 
 class TaskRunParams(TypedDict, total=False):
-    llm_model: Required[Annotated[LlmModel, PropertyInfo(alias="llmModel")]]
+    llm_model: Required[Annotated[str, PropertyInfo(alias="llmModel")]]
+    """The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')"""
 
     task: Required[str]
 
