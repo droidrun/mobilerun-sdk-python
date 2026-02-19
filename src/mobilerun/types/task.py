@@ -8,14 +8,9 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 from .task_status import TaskStatus
+from .package_credentials import PackageCredentials
 
-__all__ = ["Task", "Credential"]
-
-
-class Credential(BaseModel):
-    credential_names: List[str] = FieldInfo(alias="credentialNames")
-
-    package_name: str = FieldInfo(alias="packageName")
+__all__ = ["Task"]
 
 
 class Task(BaseModel):
@@ -34,7 +29,7 @@ class Task(BaseModel):
 
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
-    credentials: Optional[List[Credential]] = None
+    credentials: Optional[List[PackageCredentials]] = None
 
     display_id: Optional[int] = FieldInfo(alias="displayId", default=None)
 
