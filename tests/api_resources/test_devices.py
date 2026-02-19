@@ -9,7 +9,12 @@ import pytest
 
 from mobilerun import Mobilerun, AsyncMobilerun
 from tests.utils import assert_matches_type
-from mobilerun.types import Device, DeviceListResponse
+from mobilerun.types import (
+    Device,
+    DeviceListResponse,
+    DeviceCountResponse,
+)
+from mobilerun._utils import parse_datetime
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -123,7 +128,7 @@ class TestDevices:
             page=0,
             page_size=0,
             provider="limrun",
-            state="creating",
+            state=["creating"],
             type="device_slot",
         )
         assert_matches_type(DeviceListResponse, device, path=["response"])
@@ -152,9 +157,47 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    def test_method_count(self, client: Mobilerun) -> None:
+        device = client.devices.count()
+        assert_matches_type(DeviceCountResponse, device, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_count(self, client: Mobilerun) -> None:
+        response = client.devices.with_raw_response.count()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        device = response.parse()
+        assert_matches_type(DeviceCountResponse, device, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_count(self, client: Mobilerun) -> None:
+        with client.devices.with_streaming_response.count() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            device = response.parse()
+            assert_matches_type(DeviceCountResponse, device, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     def test_method_terminate(self, client: Mobilerun) -> None:
         device = client.devices.terminate(
-            "deviceId",
+            device_id="deviceId",
+        )
+        assert device is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_terminate_with_all_params(self, client: Mobilerun) -> None:
+        device = client.devices.terminate(
+            device_id="deviceId",
+            previous_device_id="previousDeviceId",
+            terminate_at=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert device is None
 
@@ -162,7 +205,7 @@ class TestDevices:
     @parametrize
     def test_raw_response_terminate(self, client: Mobilerun) -> None:
         response = client.devices.with_raw_response.terminate(
-            "deviceId",
+            device_id="deviceId",
         )
 
         assert response.is_closed is True
@@ -174,7 +217,7 @@ class TestDevices:
     @parametrize
     def test_streaming_response_terminate(self, client: Mobilerun) -> None:
         with client.devices.with_streaming_response.terminate(
-            "deviceId",
+            device_id="deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -189,7 +232,7 @@ class TestDevices:
     def test_path_params_terminate(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.with_raw_response.terminate(
-                "",
+                device_id="",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -346,7 +389,7 @@ class TestAsyncDevices:
             page=0,
             page_size=0,
             provider="limrun",
-            state="creating",
+            state=["creating"],
             type="device_slot",
         )
         assert_matches_type(DeviceListResponse, device, path=["response"])
@@ -375,9 +418,47 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    async def test_method_count(self, async_client: AsyncMobilerun) -> None:
+        device = await async_client.devices.count()
+        assert_matches_type(DeviceCountResponse, device, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_count(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.with_raw_response.count()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        device = await response.parse()
+        assert_matches_type(DeviceCountResponse, device, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_count(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.with_streaming_response.count() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            device = await response.parse()
+            assert_matches_type(DeviceCountResponse, device, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     async def test_method_terminate(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.terminate(
-            "deviceId",
+            device_id="deviceId",
+        )
+        assert device is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_terminate_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        device = await async_client.devices.terminate(
+            device_id="deviceId",
+            previous_device_id="previousDeviceId",
+            terminate_at=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert device is None
 
@@ -385,7 +466,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_raw_response_terminate(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.with_raw_response.terminate(
-            "deviceId",
+            device_id="deviceId",
         )
 
         assert response.is_closed is True
@@ -397,7 +478,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_streaming_response_terminate(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.with_streaming_response.terminate(
-            "deviceId",
+            device_id="deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -412,7 +493,7 @@ class TestAsyncDevices:
     async def test_path_params_terminate(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.with_raw_response.terminate(
-                "",
+                device_id="",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")

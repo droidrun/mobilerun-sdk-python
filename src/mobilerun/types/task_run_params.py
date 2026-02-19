@@ -7,19 +7,20 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
-from .llm_model import LlmModel
+from .package_credentials_param import PackageCredentialsParam
 
-__all__ = ["TaskRunParams", "Credential"]
+__all__ = ["TaskRunParams"]
 
 
 class TaskRunParams(TypedDict, total=False):
-    llm_model: Required[Annotated[LlmModel, PropertyInfo(alias="llmModel")]]
+    llm_model: Required[Annotated[str, PropertyInfo(alias="llmModel")]]
+    """The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')"""
 
     task: Required[str]
 
     apps: SequenceNotStr[str]
 
-    credentials: Iterable[Credential]
+    credentials: Iterable[PackageCredentialsParam]
 
     device_id: Annotated[Optional[str], PropertyInfo(alias="deviceId")]
     """The ID of the device to run the task on."""
@@ -37,6 +38,8 @@ class TaskRunParams(TypedDict, total=False):
 
     reasoning: bool
 
+    stealth: bool
+
     temperature: float
 
     vision: bool
@@ -44,9 +47,3 @@ class TaskRunParams(TypedDict, total=False):
     vpn_country: Annotated[
         Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]], PropertyInfo(alias="vpnCountry")
     ]
-
-
-class Credential(TypedDict, total=False):
-    credential_names: Required[Annotated[SequenceNotStr[str], PropertyInfo(alias="credentialNames")]]
-
-    package_name: Required[Annotated[str, PropertyInfo(alias="packageName")]]

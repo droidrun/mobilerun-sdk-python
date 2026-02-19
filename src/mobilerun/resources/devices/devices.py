@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import List, Union, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 import httpx
@@ -31,7 +32,7 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
-from ...types import device_list_params, device_create_params
+from ...types import device_list_params, device_create_params, device_terminate_params
 from .actions import (
     ActionsResource,
     AsyncActionsResource,
@@ -69,6 +70,7 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.device import Device
 from ...types.device_list_response import DeviceListResponse
+from ...types.device_count_response import DeviceCountResponse
 
 __all__ = ["DevicesResource", "AsyncDevicesResource"]
 
@@ -120,8 +122,11 @@ class DevicesResource(SyncAPIResource):
     def create(
         self,
         *,
-        device_type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
-        provider: Literal["limrun", "remote", "roidrun"] | Omit = omit,
+        device_type: Literal[
+            "device_slot", "dedicated_emulated_device", "dedicated_physical_device", "dedicated_premium_device"
+        ]
+        | Omit = omit,
+        provider: Literal["limrun", "physical", "premium", "roidrun"] | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         country: str | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -217,7 +222,8 @@ class DevicesResource(SyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         provider: Literal["limrun", "personal", "remote", "roidrun"] | Omit = omit,
-        state: Literal["creating", "assigned", "ready", "terminated", "unknown"] | Omit = omit,
+        state: Optional[List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "unknown"]]]
+        | Omit = omit,
         type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -263,10 +269,31 @@ class DevicesResource(SyncAPIResource):
             cast_to=DeviceListResponse,
         )
 
+    def count(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> DeviceCountResponse:
+        """Count claimed devices"""
+        return self._get(
+            "/devices/count",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeviceCountResponse,
+        )
+
     def terminate(
         self,
         device_id: str,
         *,
+        previous_device_id: str | Omit = omit,
+        terminate_at: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -291,6 +318,13 @@ class DevicesResource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/devices/{device_id}",
+            body=maybe_transform(
+                {
+                    "previous_device_id": previous_device_id,
+                    "terminate_at": terminate_at,
+                },
+                device_terminate_params.DeviceTerminateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -378,8 +412,11 @@ class AsyncDevicesResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        device_type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
-        provider: Literal["limrun", "remote", "roidrun"] | Omit = omit,
+        device_type: Literal[
+            "device_slot", "dedicated_emulated_device", "dedicated_physical_device", "dedicated_premium_device"
+        ]
+        | Omit = omit,
+        provider: Literal["limrun", "physical", "premium", "roidrun"] | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         country: str | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -475,7 +512,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         provider: Literal["limrun", "personal", "remote", "roidrun"] | Omit = omit,
-        state: Literal["creating", "assigned", "ready", "terminated", "unknown"] | Omit = omit,
+        state: Optional[List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "unknown"]]]
+        | Omit = omit,
         type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -521,10 +559,31 @@ class AsyncDevicesResource(AsyncAPIResource):
             cast_to=DeviceListResponse,
         )
 
+    async def count(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> DeviceCountResponse:
+        """Count claimed devices"""
+        return await self._get(
+            "/devices/count",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeviceCountResponse,
+        )
+
     async def terminate(
         self,
         device_id: str,
         *,
+        previous_device_id: str | Omit = omit,
+        terminate_at: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -549,6 +608,13 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/devices/{device_id}",
+            body=await async_maybe_transform(
+                {
+                    "previous_device_id": previous_device_id,
+                    "terminate_at": terminate_at,
+                },
+                device_terminate_params.DeviceTerminateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -602,6 +668,9 @@ class DevicesResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             devices.list,
         )
+        self.count = to_raw_response_wrapper(
+            devices.count,
+        )
         self.terminate = to_raw_response_wrapper(
             devices.terminate,
         )
@@ -646,6 +715,9 @@ class AsyncDevicesResourceWithRawResponse:
         )
         self.list = async_to_raw_response_wrapper(
             devices.list,
+        )
+        self.count = async_to_raw_response_wrapper(
+            devices.count,
         )
         self.terminate = async_to_raw_response_wrapper(
             devices.terminate,
@@ -692,6 +764,9 @@ class DevicesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             devices.list,
         )
+        self.count = to_streamed_response_wrapper(
+            devices.count,
+        )
         self.terminate = to_streamed_response_wrapper(
             devices.terminate,
         )
@@ -736,6 +811,9 @@ class AsyncDevicesResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             devices.list,
+        )
+        self.count = async_to_streamed_response_wrapper(
+            devices.count,
         )
         self.terminate = async_to_streamed_response_wrapper(
             devices.terminate,

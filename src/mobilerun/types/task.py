@@ -7,22 +7,17 @@ from typing_extensions import Literal
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
-from .llm_model import LlmModel
 from .task_status import TaskStatus
+from .package_credentials import PackageCredentials
 
-__all__ = ["Task", "Credential"]
-
-
-class Credential(BaseModel):
-    credential_names: List[str] = FieldInfo(alias="credentialNames")
-
-    package_name: str = FieldInfo(alias="packageName")
+__all__ = ["Task"]
 
 
 class Task(BaseModel):
     device_id: str = FieldInfo(alias="deviceId")
 
-    llm_model: LlmModel = FieldInfo(alias="llmModel")
+    llm_model: str = FieldInfo(alias="llmModel")
+    """The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')"""
 
     task: str
 
@@ -34,7 +29,9 @@ class Task(BaseModel):
 
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
-    credentials: Optional[List[Credential]] = None
+    credentials: Optional[List[PackageCredentials]] = None
+
+    display_id: Optional[int] = FieldInfo(alias="displayId", default=None)
 
     execution_timeout: Optional[int] = FieldInfo(alias="executionTimeout", default=None)
 
@@ -52,11 +49,15 @@ class Task(BaseModel):
 
     status: Optional[TaskStatus] = None
 
+    stealth: Optional[bool] = None
+
     steps: Optional[int] = None
 
     succeeded: Optional[bool] = None
 
     temperature: Optional[float] = None
+
+    tmp_device: Optional[bool] = FieldInfo(alias="tmpDevice", default=None)
 
     trajectory: Optional[List[Dict[str, object]]] = None
 

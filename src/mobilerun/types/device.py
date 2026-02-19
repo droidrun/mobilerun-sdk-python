@@ -39,6 +39,8 @@ class Device(BaseModel):
 
     task_count: int = FieldInfo(alias="taskCount")
 
+    terminates_at: Optional[datetime] = FieldInfo(alias="terminatesAt", default=None)
+
     updated_at: datetime = FieldInfo(alias="updatedAt")
 
     schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
