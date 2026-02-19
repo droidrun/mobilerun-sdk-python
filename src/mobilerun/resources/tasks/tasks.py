@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ...types import LlmModel, TaskStatus, task_run_params, task_list_params, task_run_streamed_params
+from ...types import TaskStatus, task_run_params, task_list_params, task_run_streamed_params
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -35,7 +35,6 @@ from .screenshots import (
     AsyncScreenshotsResourceWithStreamingResponse,
 )
 from ..._base_client import make_request_options
-from ...types.llm_model import LlmModel
 from ...types.task_status import TaskStatus
 from ...types.task_run_response import TaskRunResponse
 from ...types.task_list_response import TaskListResponse
@@ -87,7 +86,7 @@ class TasksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRetrieveResponse:
         """
-        Get Task
+        Get full details of a task by ID.
 
         Args:
           extra_headers: Send extra headers
@@ -124,12 +123,11 @@ class TasksResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskListResponse:
-        """List all tasks you've created so far
+        """
+        List tasks with optional filtering, sorting, and pagination.
 
         Args:
-          page: Page number (1-based).
-
-        If provided, returns paginated results.
+          page: Page number (1-based). If provided, returns paginated results.
 
           page_size: Number of items per page
 
@@ -177,7 +175,7 @@ class TasksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Attach Task
+        Attach to a running task and receive its events as an SSE stream.
 
         Args:
           extra_headers: Send extra headers
@@ -268,7 +266,7 @@ class TasksResource(SyncAPIResource):
     def run(
         self,
         *,
-        llm_model: LlmModel,
+        llm_model: str,
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_params.Credential] | Omit = omit,
@@ -290,10 +288,14 @@ class TasksResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRunResponse:
-        """
-        Run Task
+        """Create and dispatch a new agent task.
+
+        Returns the task ID and device stream
+        details.
 
         Args:
+          llm_model: The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')
+
           device_id: The ID of the device to run the task on.
 
           display_id: The display ID of the device to run the task on.
@@ -337,7 +339,7 @@ class TasksResource(SyncAPIResource):
     def run_streamed(
         self,
         *,
-        llm_model: LlmModel,
+        llm_model: str,
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
@@ -360,9 +362,12 @@ class TasksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Run Streamed Task
+        Create and dispatch a new agent task, returning an SSE stream of task events.
+        Cancels the task if the client disconnects.
 
         Args:
+          llm_model: The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')
+
           device_id: The ID of the device to run the task on.
 
           display_id: The display ID of the device to run the task on.
@@ -415,8 +420,10 @@ class TasksResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskStopResponse:
-        """
-        Stop Task
+        """Cancel a running task.
+
+        Returns an error if the task is already in a terminal
+        state.
 
         Args:
           extra_headers: Send extra headers
@@ -478,7 +485,7 @@ class AsyncTasksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRetrieveResponse:
         """
-        Get Task
+        Get full details of a task by ID.
 
         Args:
           extra_headers: Send extra headers
@@ -515,12 +522,11 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskListResponse:
-        """List all tasks you've created so far
+        """
+        List tasks with optional filtering, sorting, and pagination.
 
         Args:
-          page: Page number (1-based).
-
-        If provided, returns paginated results.
+          page: Page number (1-based). If provided, returns paginated results.
 
           page_size: Number of items per page
 
@@ -568,7 +574,7 @@ class AsyncTasksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Attach Task
+        Attach to a running task and receive its events as an SSE stream.
 
         Args:
           extra_headers: Send extra headers
@@ -659,7 +665,7 @@ class AsyncTasksResource(AsyncAPIResource):
     async def run(
         self,
         *,
-        llm_model: LlmModel,
+        llm_model: str,
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_params.Credential] | Omit = omit,
@@ -681,10 +687,14 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRunResponse:
-        """
-        Run Task
+        """Create and dispatch a new agent task.
+
+        Returns the task ID and device stream
+        details.
 
         Args:
+          llm_model: The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')
+
           device_id: The ID of the device to run the task on.
 
           display_id: The display ID of the device to run the task on.
@@ -728,7 +738,7 @@ class AsyncTasksResource(AsyncAPIResource):
     async def run_streamed(
         self,
         *,
-        llm_model: LlmModel,
+        llm_model: str,
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
@@ -751,9 +761,12 @@ class AsyncTasksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Run Streamed Task
+        Create and dispatch a new agent task, returning an SSE stream of task events.
+        Cancels the task if the client disconnects.
 
         Args:
+          llm_model: The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')
+
           device_id: The ID of the device to run the task on.
 
           display_id: The display ID of the device to run the task on.
@@ -806,8 +819,10 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskStopResponse:
-        """
-        Stop Task
+        """Cancel a running task.
+
+        Returns an error if the task is already in a terminal
+        state.
 
         Args:
           extra_headers: Send extra headers

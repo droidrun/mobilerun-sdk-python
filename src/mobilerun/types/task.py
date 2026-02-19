@@ -7,7 +7,6 @@ from typing_extensions import Literal
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
-from .llm_model import LlmModel
 from .task_status import TaskStatus
 
 __all__ = ["Task", "Credential"]
@@ -22,7 +21,8 @@ class Credential(BaseModel):
 class Task(BaseModel):
     device_id: str = FieldInfo(alias="deviceId")
 
-    llm_model: LlmModel = FieldInfo(alias="llmModel")
+    llm_model: str = FieldInfo(alias="llmModel")
+    """The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')"""
 
     task: str
 

@@ -53,7 +53,7 @@ class ScreenshotsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MediaResponse:
         """
-        Get Task Screenshot
+        Get a specific screenshot by index.
 
         Args:
           extra_headers: Send extra headers
@@ -86,7 +86,7 @@ class ScreenshotsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ScreenshotListResponse:
         """
-        Get Task Screenshots
+        List all screenshot URLs for a task.
 
         Args:
           extra_headers: Send extra headers
@@ -141,7 +141,7 @@ class AsyncScreenshotsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MediaResponse:
         """
-        Get Task Screenshot
+        Get a specific screenshot by index.
 
         Args:
           extra_headers: Send extra headers
@@ -174,7 +174,7 @@ class AsyncScreenshotsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ScreenshotListResponse:
         """
-        Get Task Screenshots
+        List all screenshot URLs for a task.
 
         Args:
           extra_headers: Send extra headers
