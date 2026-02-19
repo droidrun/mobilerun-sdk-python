@@ -4,8 +4,10 @@ Types:
 
 ```python
 from mobilerun.types import (
+    PackageCredentials,
     Task,
     TaskStatus,
+    UsageResult,
     TaskRetrieveResponse,
     TaskListResponse,
     TaskGetStatusResponse,

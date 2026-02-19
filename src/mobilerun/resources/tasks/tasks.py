@@ -41,6 +41,7 @@ from ...types.task_list_response import TaskListResponse
 from ...types.task_stop_response import TaskStopResponse
 from ...types.task_retrieve_response import TaskRetrieveResponse
 from ...types.task_get_status_response import TaskGetStatusResponse
+from ...types.package_credentials_param import PackageCredentialsParam
 from ...types.task_get_trajectory_response import TaskGetTrajectoryResponse
 
 __all__ = ["TasksResource", "AsyncTasksResource"]
@@ -269,7 +270,7 @@ class TasksResource(SyncAPIResource):
         llm_model: str,
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
-        credentials: Iterable[task_run_params.Credential] | Omit = omit,
+        credentials: Iterable[PackageCredentialsParam] | Omit = omit,
         device_id: Optional[str] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
@@ -342,7 +343,7 @@ class TasksResource(SyncAPIResource):
         llm_model: str,
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
-        credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
+        credentials: Iterable[PackageCredentialsParam] | Omit = omit,
         device_id: Optional[str] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
@@ -668,7 +669,7 @@ class AsyncTasksResource(AsyncAPIResource):
         llm_model: str,
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
-        credentials: Iterable[task_run_params.Credential] | Omit = omit,
+        credentials: Iterable[PackageCredentialsParam] | Omit = omit,
         device_id: Optional[str] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
@@ -741,7 +742,7 @@ class AsyncTasksResource(AsyncAPIResource):
         llm_model: str,
         task: str,
         apps: SequenceNotStr[str] | Omit = omit,
-        credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
+        credentials: Iterable[PackageCredentialsParam] | Omit = omit,
         device_id: Optional[str] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,

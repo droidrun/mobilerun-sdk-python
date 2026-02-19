@@ -5,6 +5,7 @@ from __future__ import annotations
 from .task import Task as Task
 from .device import Device as Device
 from .task_status import TaskStatus as TaskStatus
+from .usage_result import UsageResult as UsageResult
 from .app_list_params import AppListParams as AppListParams
 from .task_run_params import TaskRunParams as TaskRunParams
 from .hook_list_params import HookListParams as HookListParams
@@ -18,6 +19,7 @@ from .task_list_response import TaskListResponse as TaskListResponse
 from .task_stop_response import TaskStopResponse as TaskStopResponse
 from .hook_perform_params import HookPerformParams as HookPerformParams
 from .model_list_response import ModelListResponse as ModelListResponse
+from .package_credentials import PackageCredentials as PackageCredentials
 from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse
 from .hook_update_response import HookUpdateResponse as HookUpdateResponse
@@ -33,5 +35,6 @@ from .credential_list_response import CredentialListResponse as CredentialListRe
 from .task_get_status_response import TaskGetStatusResponse as TaskGetStatusResponse
 from .task_run_streamed_params import TaskRunStreamedParams as TaskRunStreamedParams
 from .hook_unsubscribe_response import HookUnsubscribeResponse as HookUnsubscribeResponse
+from .package_credentials_param import PackageCredentialsParam as PackageCredentialsParam
 from .task_get_trajectory_response import TaskGetTrajectoryResponse as TaskGetTrajectoryResponse
 from .hook_get_sample_data_response import HookGetSampleDataResponse as HookGetSampleDataResponse

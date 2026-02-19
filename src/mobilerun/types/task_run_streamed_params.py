@@ -7,8 +7,9 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
+from .package_credentials_param import PackageCredentialsParam
 
-__all__ = ["TaskRunStreamedParams", "Credential"]
+__all__ = ["TaskRunStreamedParams"]
 
 
 class TaskRunStreamedParams(TypedDict, total=False):
@@ -19,7 +20,7 @@ class TaskRunStreamedParams(TypedDict, total=False):
 
     apps: SequenceNotStr[str]
 
-    credentials: Iterable[Credential]
+    credentials: Iterable[PackageCredentialsParam]
 
     device_id: Annotated[Optional[str], PropertyInfo(alias="deviceId")]
     """The ID of the device to run the task on."""
@@ -46,9 +47,3 @@ class TaskRunStreamedParams(TypedDict, total=False):
     vpn_country: Annotated[
         Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]], PropertyInfo(alias="vpnCountry")
     ]
-
-
-class Credential(TypedDict, total=False):
-    credential_names: Required[Annotated[SequenceNotStr[str], PropertyInfo(alias="credentialNames")]]
-
-    package_name: Required[Annotated[str, PropertyInfo(alias="packageName")]]
