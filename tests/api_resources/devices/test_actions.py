@@ -15,7 +15,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestActions:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_global(self, client: Mobilerun) -> None:
         action = client.devices.actions.global_(
@@ -24,7 +24,7 @@ class TestActions:
         )
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_global_with_all_params(self, client: Mobilerun) -> None:
         action = client.devices.actions.global_(
@@ -34,7 +34,7 @@ class TestActions:
         )
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_global(self, client: Mobilerun) -> None:
         response = client.devices.actions.with_raw_response.global_(
@@ -47,7 +47,7 @@ class TestActions:
         action = response.parse()
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_global(self, client: Mobilerun) -> None:
         with client.devices.actions.with_streaming_response.global_(
@@ -62,7 +62,7 @@ class TestActions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_global(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
@@ -71,7 +71,7 @@ class TestActions:
                 action=0,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_swipe(self, client: Mobilerun) -> None:
         action = client.devices.actions.swipe(
@@ -84,7 +84,7 @@ class TestActions:
         )
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_swipe_with_all_params(self, client: Mobilerun) -> None:
         action = client.devices.actions.swipe(
@@ -98,7 +98,7 @@ class TestActions:
         )
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_swipe(self, client: Mobilerun) -> None:
         response = client.devices.actions.with_raw_response.swipe(
@@ -115,7 +115,7 @@ class TestActions:
         action = response.parse()
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_swipe(self, client: Mobilerun) -> None:
         with client.devices.actions.with_streaming_response.swipe(
@@ -134,7 +134,7 @@ class TestActions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_swipe(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
@@ -147,7 +147,7 @@ class TestActions:
                 start_y=0,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_tap(self, client: Mobilerun) -> None:
         action = client.devices.actions.tap(
@@ -157,7 +157,7 @@ class TestActions:
         )
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_tap_with_all_params(self, client: Mobilerun) -> None:
         action = client.devices.actions.tap(
@@ -168,7 +168,7 @@ class TestActions:
         )
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_tap(self, client: Mobilerun) -> None:
         response = client.devices.actions.with_raw_response.tap(
@@ -182,7 +182,7 @@ class TestActions:
         action = response.parse()
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_tap(self, client: Mobilerun) -> None:
         with client.devices.actions.with_streaming_response.tap(
@@ -198,7 +198,7 @@ class TestActions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_tap(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
@@ -214,7 +214,7 @@ class TestAsyncActions:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_global(self, async_client: AsyncMobilerun) -> None:
         action = await async_client.devices.actions.global_(
@@ -223,7 +223,7 @@ class TestAsyncActions:
         )
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_global_with_all_params(self, async_client: AsyncMobilerun) -> None:
         action = await async_client.devices.actions.global_(
@@ -233,7 +233,7 @@ class TestAsyncActions:
         )
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_global(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.actions.with_raw_response.global_(
@@ -246,7 +246,7 @@ class TestAsyncActions:
         action = await response.parse()
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_global(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.actions.with_streaming_response.global_(
@@ -261,7 +261,7 @@ class TestAsyncActions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_global(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
@@ -270,7 +270,7 @@ class TestAsyncActions:
                 action=0,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_swipe(self, async_client: AsyncMobilerun) -> None:
         action = await async_client.devices.actions.swipe(
@@ -283,7 +283,7 @@ class TestAsyncActions:
         )
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_swipe_with_all_params(self, async_client: AsyncMobilerun) -> None:
         action = await async_client.devices.actions.swipe(
@@ -297,7 +297,7 @@ class TestAsyncActions:
         )
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_swipe(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.actions.with_raw_response.swipe(
@@ -314,7 +314,7 @@ class TestAsyncActions:
         action = await response.parse()
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_swipe(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.actions.with_streaming_response.swipe(
@@ -333,7 +333,7 @@ class TestAsyncActions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_swipe(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
@@ -346,7 +346,7 @@ class TestAsyncActions:
                 start_y=0,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_tap(self, async_client: AsyncMobilerun) -> None:
         action = await async_client.devices.actions.tap(
@@ -356,7 +356,7 @@ class TestAsyncActions:
         )
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_tap_with_all_params(self, async_client: AsyncMobilerun) -> None:
         action = await async_client.devices.actions.tap(
@@ -367,7 +367,7 @@ class TestAsyncActions:
         )
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_tap(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.actions.with_raw_response.tap(
@@ -381,7 +381,7 @@ class TestAsyncActions:
         action = await response.parse()
         assert action is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_tap(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.actions.with_streaming_response.tap(
@@ -397,7 +397,7 @@ class TestAsyncActions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_tap(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
