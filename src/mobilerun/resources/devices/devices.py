@@ -126,7 +126,7 @@ class DevicesResource(SyncAPIResource):
             "device_slot", "dedicated_emulated_device", "dedicated_physical_device", "dedicated_premium_device"
         ]
         | Omit = omit,
-        provider: Literal["limrun", "physical", "premium", "roidrun"] | Omit = omit,
+        provider: Literal["limrun", "physical", "premium"] | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         country: str | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -221,7 +221,7 @@ class DevicesResource(SyncAPIResource):
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
-        provider: Literal["limrun", "personal", "remote", "roidrun"] | Omit = omit,
+        provider: Literal["limrun", "personal", "remote"] | Omit = omit,
         state: Optional[List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "unknown"]]]
         | Omit = omit,
         type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
@@ -416,7 +416,7 @@ class AsyncDevicesResource(AsyncAPIResource):
             "device_slot", "dedicated_emulated_device", "dedicated_physical_device", "dedicated_premium_device"
         ]
         | Omit = omit,
-        provider: Literal["limrun", "physical", "premium", "roidrun"] | Omit = omit,
+        provider: Literal["limrun", "physical", "premium"] | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         country: str | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -511,7 +511,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
-        provider: Literal["limrun", "personal", "remote", "roidrun"] | Omit = omit,
+        provider: Literal["limrun", "personal", "remote"] | Omit = omit,
         state: Optional[List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "unknown"]]]
         | Omit = omit,
         type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,

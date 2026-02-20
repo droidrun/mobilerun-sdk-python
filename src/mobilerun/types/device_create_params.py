@@ -17,7 +17,7 @@ class DeviceCreateParams(TypedDict, total=False):
         PropertyInfo(alias="deviceType"),
     ]
 
-    provider: Literal["limrun", "physical", "premium", "roidrun"]
+    provider: Literal["limrun", "physical", "premium"]
 
     apps: Optional[SequenceNotStr[str]]
 

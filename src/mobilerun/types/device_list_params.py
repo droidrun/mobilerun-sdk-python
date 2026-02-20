@@ -23,7 +23,7 @@ class DeviceListParams(TypedDict, total=False):
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
 
-    provider: Literal["limrun", "personal", "remote", "roidrun"]
+    provider: Literal["limrun", "personal", "remote"]
 
     state: Optional[List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "unknown"]]]
 
