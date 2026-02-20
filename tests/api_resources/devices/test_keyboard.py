@@ -15,7 +15,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestKeyboard:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_clear(self, client: Mobilerun) -> None:
         keyboard = client.devices.keyboard.clear(
@@ -23,7 +23,7 @@ class TestKeyboard:
         )
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_clear_with_all_params(self, client: Mobilerun) -> None:
         keyboard = client.devices.keyboard.clear(
@@ -32,7 +32,7 @@ class TestKeyboard:
         )
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_clear(self, client: Mobilerun) -> None:
         response = client.devices.keyboard.with_raw_response.clear(
@@ -44,7 +44,7 @@ class TestKeyboard:
         keyboard = response.parse()
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_clear(self, client: Mobilerun) -> None:
         with client.devices.keyboard.with_streaming_response.clear(
@@ -58,7 +58,7 @@ class TestKeyboard:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_clear(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
@@ -66,7 +66,7 @@ class TestKeyboard:
                 device_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_key(self, client: Mobilerun) -> None:
         keyboard = client.devices.keyboard.key(
@@ -75,7 +75,7 @@ class TestKeyboard:
         )
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_key_with_all_params(self, client: Mobilerun) -> None:
         keyboard = client.devices.keyboard.key(
@@ -85,7 +85,7 @@ class TestKeyboard:
         )
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_key(self, client: Mobilerun) -> None:
         response = client.devices.keyboard.with_raw_response.key(
@@ -98,7 +98,7 @@ class TestKeyboard:
         keyboard = response.parse()
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_key(self, client: Mobilerun) -> None:
         with client.devices.keyboard.with_streaming_response.key(
@@ -113,7 +113,7 @@ class TestKeyboard:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_key(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
@@ -122,7 +122,7 @@ class TestKeyboard:
                 key=0,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_write(self, client: Mobilerun) -> None:
         keyboard = client.devices.keyboard.write(
@@ -132,7 +132,7 @@ class TestKeyboard:
         )
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_write_with_all_params(self, client: Mobilerun) -> None:
         keyboard = client.devices.keyboard.write(
@@ -143,7 +143,7 @@ class TestKeyboard:
         )
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_write(self, client: Mobilerun) -> None:
         response = client.devices.keyboard.with_raw_response.write(
@@ -157,7 +157,7 @@ class TestKeyboard:
         keyboard = response.parse()
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_write(self, client: Mobilerun) -> None:
         with client.devices.keyboard.with_streaming_response.write(
@@ -173,7 +173,7 @@ class TestKeyboard:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_write(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
@@ -189,7 +189,7 @@ class TestAsyncKeyboard:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_clear(self, async_client: AsyncMobilerun) -> None:
         keyboard = await async_client.devices.keyboard.clear(
@@ -197,7 +197,7 @@ class TestAsyncKeyboard:
         )
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_clear_with_all_params(self, async_client: AsyncMobilerun) -> None:
         keyboard = await async_client.devices.keyboard.clear(
@@ -206,7 +206,7 @@ class TestAsyncKeyboard:
         )
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_clear(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.keyboard.with_raw_response.clear(
@@ -218,7 +218,7 @@ class TestAsyncKeyboard:
         keyboard = await response.parse()
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_clear(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.keyboard.with_streaming_response.clear(
@@ -232,7 +232,7 @@ class TestAsyncKeyboard:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_clear(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
@@ -240,7 +240,7 @@ class TestAsyncKeyboard:
                 device_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_key(self, async_client: AsyncMobilerun) -> None:
         keyboard = await async_client.devices.keyboard.key(
@@ -249,7 +249,7 @@ class TestAsyncKeyboard:
         )
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_key_with_all_params(self, async_client: AsyncMobilerun) -> None:
         keyboard = await async_client.devices.keyboard.key(
@@ -259,7 +259,7 @@ class TestAsyncKeyboard:
         )
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_key(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.keyboard.with_raw_response.key(
@@ -272,7 +272,7 @@ class TestAsyncKeyboard:
         keyboard = await response.parse()
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_key(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.keyboard.with_streaming_response.key(
@@ -287,7 +287,7 @@ class TestAsyncKeyboard:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_key(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
@@ -296,7 +296,7 @@ class TestAsyncKeyboard:
                 key=0,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_write(self, async_client: AsyncMobilerun) -> None:
         keyboard = await async_client.devices.keyboard.write(
@@ -306,7 +306,7 @@ class TestAsyncKeyboard:
         )
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_write_with_all_params(self, async_client: AsyncMobilerun) -> None:
         keyboard = await async_client.devices.keyboard.write(
@@ -317,7 +317,7 @@ class TestAsyncKeyboard:
         )
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_write(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.keyboard.with_raw_response.write(
@@ -331,7 +331,7 @@ class TestAsyncKeyboard:
         keyboard = await response.parse()
         assert keyboard is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_write(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.keyboard.with_streaming_response.write(
@@ -347,7 +347,7 @@ class TestAsyncKeyboard:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_write(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
