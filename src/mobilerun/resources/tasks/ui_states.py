@@ -21,6 +21,8 @@ __all__ = ["UiStatesResource", "AsyncUiStatesResource"]
 
 
 class UiStatesResource(SyncAPIResource):
+    """Tasks API"""
+
     @cached_property
     def with_raw_response(self) -> UiStatesResourceWithRawResponse:
         """
@@ -109,6 +111,8 @@ class UiStatesResource(SyncAPIResource):
 
 
 class AsyncUiStatesResource(AsyncAPIResource):
+    """Tasks API"""
+
     @cached_property
     def with_raw_response(self) -> AsyncUiStatesResourceWithRawResponse:
         """
