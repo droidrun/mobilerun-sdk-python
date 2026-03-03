@@ -48,12 +48,16 @@ __all__ = ["TasksResource", "AsyncTasksResource"]
 
 
 class TasksResource(SyncAPIResource):
+    """Tasks API"""
+
     @cached_property
     def screenshots(self) -> ScreenshotsResource:
+        """Tasks API"""
         return ScreenshotsResource(self._client)
 
     @cached_property
     def ui_states(self) -> UiStatesResource:
+        """Tasks API"""
         return UiStatesResource(self._client)
 
     @cached_property
@@ -447,12 +451,16 @@ class TasksResource(SyncAPIResource):
 
 
 class AsyncTasksResource(AsyncAPIResource):
+    """Tasks API"""
+
     @cached_property
     def screenshots(self) -> AsyncScreenshotsResource:
+        """Tasks API"""
         return AsyncScreenshotsResource(self._client)
 
     @cached_property
     def ui_states(self) -> AsyncUiStatesResource:
+        """Tasks API"""
         return AsyncUiStatesResource(self._client)
 
     @cached_property
@@ -876,10 +884,12 @@ class TasksResourceWithRawResponse:
 
     @cached_property
     def screenshots(self) -> ScreenshotsResourceWithRawResponse:
+        """Tasks API"""
         return ScreenshotsResourceWithRawResponse(self._tasks.screenshots)
 
     @cached_property
     def ui_states(self) -> UiStatesResourceWithRawResponse:
+        """Tasks API"""
         return UiStatesResourceWithRawResponse(self._tasks.ui_states)
 
 
@@ -914,10 +924,12 @@ class AsyncTasksResourceWithRawResponse:
 
     @cached_property
     def screenshots(self) -> AsyncScreenshotsResourceWithRawResponse:
+        """Tasks API"""
         return AsyncScreenshotsResourceWithRawResponse(self._tasks.screenshots)
 
     @cached_property
     def ui_states(self) -> AsyncUiStatesResourceWithRawResponse:
+        """Tasks API"""
         return AsyncUiStatesResourceWithRawResponse(self._tasks.ui_states)
 
 
@@ -952,10 +964,12 @@ class TasksResourceWithStreamingResponse:
 
     @cached_property
     def screenshots(self) -> ScreenshotsResourceWithStreamingResponse:
+        """Tasks API"""
         return ScreenshotsResourceWithStreamingResponse(self._tasks.screenshots)
 
     @cached_property
     def ui_states(self) -> UiStatesResourceWithStreamingResponse:
+        """Tasks API"""
         return UiStatesResourceWithStreamingResponse(self._tasks.ui_states)
 
 
@@ -990,8 +1004,10 @@ class AsyncTasksResourceWithStreamingResponse:
 
     @cached_property
     def screenshots(self) -> AsyncScreenshotsResourceWithStreamingResponse:
+        """Tasks API"""
         return AsyncScreenshotsResourceWithStreamingResponse(self._tasks.screenshots)
 
     @cached_property
     def ui_states(self) -> AsyncUiStatesResourceWithStreamingResponse:
+        """Tasks API"""
         return AsyncUiStatesResourceWithStreamingResponse(self._tasks.ui_states)

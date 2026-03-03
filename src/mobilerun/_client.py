@@ -105,6 +105,7 @@ class Mobilerun(SyncAPIClient):
 
     @cached_property
     def tasks(self) -> TasksResource:
+        """Tasks API"""
         from .resources.tasks import TasksResource
 
         return TasksResource(self)
@@ -129,6 +130,7 @@ class Mobilerun(SyncAPIClient):
 
     @cached_property
     def hooks(self) -> HooksResource:
+        """Webhooks API"""
         from .resources.hooks import HooksResource
 
         return HooksResource(self)
@@ -316,6 +318,7 @@ class AsyncMobilerun(AsyncAPIClient):
 
     @cached_property
     def tasks(self) -> AsyncTasksResource:
+        """Tasks API"""
         from .resources.tasks import AsyncTasksResource
 
         return AsyncTasksResource(self)
@@ -340,6 +343,7 @@ class AsyncMobilerun(AsyncAPIClient):
 
     @cached_property
     def hooks(self) -> AsyncHooksResource:
+        """Webhooks API"""
         from .resources.hooks import AsyncHooksResource
 
         return AsyncHooksResource(self)
@@ -482,6 +486,7 @@ class MobilerunWithRawResponse:
 
     @cached_property
     def tasks(self) -> tasks.TasksResourceWithRawResponse:
+        """Tasks API"""
         from .resources.tasks import TasksResourceWithRawResponse
 
         return TasksResourceWithRawResponse(self._client.tasks)
@@ -506,6 +511,7 @@ class MobilerunWithRawResponse:
 
     @cached_property
     def hooks(self) -> hooks.HooksResourceWithRawResponse:
+        """Webhooks API"""
         from .resources.hooks import HooksResourceWithRawResponse
 
         return HooksResourceWithRawResponse(self._client.hooks)
@@ -525,6 +531,7 @@ class AsyncMobilerunWithRawResponse:
 
     @cached_property
     def tasks(self) -> tasks.AsyncTasksResourceWithRawResponse:
+        """Tasks API"""
         from .resources.tasks import AsyncTasksResourceWithRawResponse
 
         return AsyncTasksResourceWithRawResponse(self._client.tasks)
@@ -549,6 +556,7 @@ class AsyncMobilerunWithRawResponse:
 
     @cached_property
     def hooks(self) -> hooks.AsyncHooksResourceWithRawResponse:
+        """Webhooks API"""
         from .resources.hooks import AsyncHooksResourceWithRawResponse
 
         return AsyncHooksResourceWithRawResponse(self._client.hooks)
@@ -568,6 +576,7 @@ class MobilerunWithStreamedResponse:
 
     @cached_property
     def tasks(self) -> tasks.TasksResourceWithStreamingResponse:
+        """Tasks API"""
         from .resources.tasks import TasksResourceWithStreamingResponse
 
         return TasksResourceWithStreamingResponse(self._client.tasks)
@@ -592,6 +601,7 @@ class MobilerunWithStreamedResponse:
 
     @cached_property
     def hooks(self) -> hooks.HooksResourceWithStreamingResponse:
+        """Webhooks API"""
         from .resources.hooks import HooksResourceWithStreamingResponse
 
         return HooksResourceWithStreamingResponse(self._client.hooks)
@@ -611,6 +621,7 @@ class AsyncMobilerunWithStreamedResponse:
 
     @cached_property
     def tasks(self) -> tasks.AsyncTasksResourceWithStreamingResponse:
+        """Tasks API"""
         from .resources.tasks import AsyncTasksResourceWithStreamingResponse
 
         return AsyncTasksResourceWithStreamingResponse(self._client.tasks)
@@ -635,6 +646,7 @@ class AsyncMobilerunWithStreamedResponse:
 
     @cached_property
     def hooks(self) -> hooks.AsyncHooksResourceWithStreamingResponse:
+        """Webhooks API"""
         from .resources.hooks import AsyncHooksResourceWithStreamingResponse
 
         return AsyncHooksResourceWithStreamingResponse(self._client.hooks)

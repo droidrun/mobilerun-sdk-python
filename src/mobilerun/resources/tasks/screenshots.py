@@ -21,6 +21,8 @@ __all__ = ["ScreenshotsResource", "AsyncScreenshotsResource"]
 
 
 class ScreenshotsResource(SyncAPIResource):
+    """Tasks API"""
+
     @cached_property
     def with_raw_response(self) -> ScreenshotsResourceWithRawResponse:
         """
@@ -109,6 +111,8 @@ class ScreenshotsResource(SyncAPIResource):
 
 
 class AsyncScreenshotsResource(AsyncAPIResource):
+    """Tasks API"""
+
     @cached_property
     def with_raw_response(self) -> AsyncScreenshotsResourceWithRawResponse:
         """
