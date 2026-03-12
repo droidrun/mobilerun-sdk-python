@@ -115,6 +115,28 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
 
+## Nested params
+
+Nested parameters are dictionaries, typed using `TypedDict`, for example:
+
+```python
+from mobilerun import Mobilerun
+
+client = Mobilerun()
+
+device = client.devices.create(
+    carrier={
+        "gsm_operator_alpha": "GsmOperatorAlpha",
+        "gsm_operator_numeric": 0,
+        "gsm_sim_operator_alpha": "GsmSimOperatorAlpha",
+        "gsm_sim_operator_iso_country": "GsmSimOperatorIsoCountry",
+        "gsm_sim_operator_numeric": 0,
+        "persist_sys_timezone": "PersistSysTimezone",
+    },
+)
+print(device.carrier)
+```
+
 ## Handling errors
 
 When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `mobilerun.APIConnectionError` is raised.
