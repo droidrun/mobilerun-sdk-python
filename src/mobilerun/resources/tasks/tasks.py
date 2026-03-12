@@ -117,7 +117,7 @@ class TasksResource(SyncAPIResource):
         *,
         order_by: Optional[Literal["id", "createdAt", "finishedAt", "status"]] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        page: Optional[int] | Omit = omit,
+        page: int | Omit = omit,
         page_size: int | Omit = omit,
         query: Optional[str] | Omit = omit,
         status: Optional[TaskStatus] | Omit = omit,
@@ -132,10 +132,6 @@ class TasksResource(SyncAPIResource):
         List tasks with optional filtering, sorting, and pagination.
 
         Args:
-          page: Page number (1-based). If provided, returns paginated results.
-
-          page_size: Number of items per page
-
           query: Search in task description.
 
           extra_headers: Send extra headers
@@ -271,14 +267,15 @@ class TasksResource(SyncAPIResource):
     def run(
         self,
         *,
-        llm_model: str,
+        device_id: str,
         task: str,
+        agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[PackageCredentialsParam] | Omit = omit,
-        device_id: Optional[str] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
+        llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
@@ -299,11 +296,12 @@ class TasksResource(SyncAPIResource):
         details.
 
         Args:
-          llm_model: The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')
-
           device_id: The ID of the device to run the task on.
 
           display_id: The display ID of the device to run the task on.
+
+          llm_model: The LLM model identifier to use for the task (e.g.
+              'google/gemini-3.1-flash-lite-preview')
 
           extra_headers: Send extra headers
 
@@ -317,14 +315,15 @@ class TasksResource(SyncAPIResource):
             "/tasks",
             body=maybe_transform(
                 {
-                    "llm_model": llm_model,
+                    "device_id": device_id,
                     "task": task,
+                    "agent_id": agent_id,
                     "apps": apps,
                     "credentials": credentials,
-                    "device_id": device_id,
                     "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
+                    "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
@@ -344,14 +343,15 @@ class TasksResource(SyncAPIResource):
     def run_streamed(
         self,
         *,
-        llm_model: str,
+        device_id: str,
         task: str,
+        agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[PackageCredentialsParam] | Omit = omit,
-        device_id: Optional[str] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
+        llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
@@ -365,17 +365,18 @@ class TasksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> object:
         """
         Create and dispatch a new agent task, returning an SSE stream of task events.
         Cancels the task if the client disconnects.
 
         Args:
-          llm_model: The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')
-
           device_id: The ID of the device to run the task on.
 
           display_id: The display ID of the device to run the task on.
+
+          llm_model: The LLM model identifier to use for the task (e.g.
+              'google/gemini-3.1-flash-lite-preview')
 
           extra_headers: Send extra headers
 
@@ -385,19 +386,19 @@ class TasksResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             "/tasks/stream",
             body=maybe_transform(
                 {
-                    "llm_model": llm_model,
+                    "device_id": device_id,
                     "task": task,
+                    "agent_id": agent_id,
                     "apps": apps,
                     "credentials": credentials,
-                    "device_id": device_id,
                     "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
+                    "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
@@ -411,7 +412,7 @@ class TasksResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=object,
         )
 
     def stop(
@@ -520,7 +521,7 @@ class AsyncTasksResource(AsyncAPIResource):
         *,
         order_by: Optional[Literal["id", "createdAt", "finishedAt", "status"]] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        page: Optional[int] | Omit = omit,
+        page: int | Omit = omit,
         page_size: int | Omit = omit,
         query: Optional[str] | Omit = omit,
         status: Optional[TaskStatus] | Omit = omit,
@@ -535,10 +536,6 @@ class AsyncTasksResource(AsyncAPIResource):
         List tasks with optional filtering, sorting, and pagination.
 
         Args:
-          page: Page number (1-based). If provided, returns paginated results.
-
-          page_size: Number of items per page
-
           query: Search in task description.
 
           extra_headers: Send extra headers
@@ -674,14 +671,15 @@ class AsyncTasksResource(AsyncAPIResource):
     async def run(
         self,
         *,
-        llm_model: str,
+        device_id: str,
         task: str,
+        agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[PackageCredentialsParam] | Omit = omit,
-        device_id: Optional[str] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
+        llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
@@ -702,11 +700,12 @@ class AsyncTasksResource(AsyncAPIResource):
         details.
 
         Args:
-          llm_model: The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')
-
           device_id: The ID of the device to run the task on.
 
           display_id: The display ID of the device to run the task on.
+
+          llm_model: The LLM model identifier to use for the task (e.g.
+              'google/gemini-3.1-flash-lite-preview')
 
           extra_headers: Send extra headers
 
@@ -720,14 +719,15 @@ class AsyncTasksResource(AsyncAPIResource):
             "/tasks",
             body=await async_maybe_transform(
                 {
-                    "llm_model": llm_model,
+                    "device_id": device_id,
                     "task": task,
+                    "agent_id": agent_id,
                     "apps": apps,
                     "credentials": credentials,
-                    "device_id": device_id,
                     "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
+                    "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
@@ -747,14 +747,15 @@ class AsyncTasksResource(AsyncAPIResource):
     async def run_streamed(
         self,
         *,
-        llm_model: str,
+        device_id: str,
         task: str,
+        agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         credentials: Iterable[PackageCredentialsParam] | Omit = omit,
-        device_id: Optional[str] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
+        llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
@@ -768,17 +769,18 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> object:
         """
         Create and dispatch a new agent task, returning an SSE stream of task events.
         Cancels the task if the client disconnects.
 
         Args:
-          llm_model: The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')
-
           device_id: The ID of the device to run the task on.
 
           display_id: The display ID of the device to run the task on.
+
+          llm_model: The LLM model identifier to use for the task (e.g.
+              'google/gemini-3.1-flash-lite-preview')
 
           extra_headers: Send extra headers
 
@@ -788,19 +790,19 @@ class AsyncTasksResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             "/tasks/stream",
             body=await async_maybe_transform(
                 {
-                    "llm_model": llm_model,
+                    "device_id": device_id,
                     "task": task,
+                    "agent_id": agent_id,
                     "apps": apps,
                     "credentials": credentials,
-                    "device_id": device_id,
                     "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
+                    "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
@@ -814,7 +816,7 @@ class AsyncTasksResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=object,
         )
 
     async def stop(

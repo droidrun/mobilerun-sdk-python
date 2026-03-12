@@ -237,7 +237,7 @@ class TestTasks:
     @parametrize
     def test_method_run(self, client: Mobilerun) -> None:
         task = client.tasks.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
@@ -246,8 +246,9 @@ class TestTasks:
     @parametrize
     def test_method_run_with_all_params(self, client: Mobilerun) -> None:
         task = client.tasks.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
+            agent_id=0,
             apps=["string"],
             credentials=[
                 {
@@ -255,10 +256,10 @@ class TestTasks:
                     "package_name": "packageName",
                 }
             ],
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             display_id=0,
             execution_timeout=0,
             files=["string"],
+            llm_model="llmModel",
             max_steps=0,
             output_schema={"foo": "bar"},
             reasoning=True,
@@ -273,7 +274,7 @@ class TestTasks:
     @parametrize
     def test_raw_response_run(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
 
@@ -286,7 +287,7 @@ class TestTasks:
     @parametrize
     def test_streaming_response_run(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         ) as response:
             assert not response.is_closed
@@ -301,17 +302,18 @@ class TestTasks:
     @parametrize
     def test_method_run_streamed(self, client: Mobilerun) -> None:
         task = client.tasks.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
-        assert task is None
+        assert_matches_type(object, task, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_run_streamed_with_all_params(self, client: Mobilerun) -> None:
         task = client.tasks.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
+            agent_id=0,
             apps=["string"],
             credentials=[
                 {
@@ -319,10 +321,10 @@ class TestTasks:
                     "package_name": "packageName",
                 }
             ],
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             display_id=0,
             execution_timeout=0,
             files=["string"],
+            llm_model="llmModel",
             max_steps=0,
             output_schema={"foo": "bar"},
             reasoning=True,
@@ -331,33 +333,33 @@ class TestTasks:
             vision=True,
             vpn_country="US",
         )
-        assert task is None
+        assert_matches_type(object, task, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_run_streamed(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         task = response.parse()
-        assert task is None
+        assert_matches_type(object, task, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_run_streamed(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             task = response.parse()
-            assert task is None
+            assert_matches_type(object, task, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -622,7 +624,7 @@ class TestAsyncTasks:
     @parametrize
     async def test_method_run(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
@@ -631,8 +633,9 @@ class TestAsyncTasks:
     @parametrize
     async def test_method_run_with_all_params(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
+            agent_id=0,
             apps=["string"],
             credentials=[
                 {
@@ -640,10 +643,10 @@ class TestAsyncTasks:
                     "package_name": "packageName",
                 }
             ],
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             display_id=0,
             execution_timeout=0,
             files=["string"],
+            llm_model="llmModel",
             max_steps=0,
             output_schema={"foo": "bar"},
             reasoning=True,
@@ -658,7 +661,7 @@ class TestAsyncTasks:
     @parametrize
     async def test_raw_response_run(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
 
@@ -671,7 +674,7 @@ class TestAsyncTasks:
     @parametrize
     async def test_streaming_response_run(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         ) as response:
             assert not response.is_closed
@@ -686,17 +689,18 @@ class TestAsyncTasks:
     @parametrize
     async def test_method_run_streamed(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
-        assert task is None
+        assert_matches_type(object, task, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_run_streamed_with_all_params(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
+            agent_id=0,
             apps=["string"],
             credentials=[
                 {
@@ -704,10 +708,10 @@ class TestAsyncTasks:
                     "package_name": "packageName",
                 }
             ],
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             display_id=0,
             execution_timeout=0,
             files=["string"],
+            llm_model="llmModel",
             max_steps=0,
             output_schema={"foo": "bar"},
             reasoning=True,
@@ -716,33 +720,33 @@ class TestAsyncTasks:
             vision=True,
             vpn_country="US",
         )
-        assert task is None
+        assert_matches_type(object, task, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_run_streamed(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         task = await response.parse()
-        assert task is None
+        assert_matches_type(object, task, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_run_streamed(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             task = await response.parse()
-            assert task is None
+            assert_matches_type(object, task, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

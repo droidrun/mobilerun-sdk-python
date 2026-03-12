@@ -25,6 +25,8 @@ class Task(BaseModel):
 
     id: Optional[str] = None
 
+    agent_id: Optional[int] = FieldInfo(alias="agentId", default=None)
+
     apps: Optional[List[str]] = None
 
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
@@ -40,6 +42,8 @@ class Task(BaseModel):
     finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
 
     max_steps: Optional[int] = FieldInfo(alias="maxSteps", default=None)
+
+    message: Optional[str] = None
 
     output: Optional[Dict[str, object]] = None
 

@@ -32,14 +32,6 @@ from .models import (
     ModelsResourceWithStreamingResponse,
     AsyncModelsResourceWithStreamingResponse,
 )
-from .devices import (
-    DevicesResource,
-    AsyncDevicesResource,
-    DevicesResourceWithRawResponse,
-    AsyncDevicesResourceWithRawResponse,
-    DevicesResourceWithStreamingResponse,
-    AsyncDevicesResourceWithStreamingResponse,
-)
 from .credentials import (
     CredentialsResource,
     AsyncCredentialsResource,
@@ -56,12 +48,6 @@ __all__ = [
     "AsyncTasksResourceWithRawResponse",
     "TasksResourceWithStreamingResponse",
     "AsyncTasksResourceWithStreamingResponse",
-    "DevicesResource",
-    "AsyncDevicesResource",
-    "DevicesResourceWithRawResponse",
-    "AsyncDevicesResourceWithRawResponse",
-    "DevicesResourceWithStreamingResponse",
-    "AsyncDevicesResourceWithStreamingResponse",
     "AppsResource",
     "AsyncAppsResource",
     "AppsResourceWithRawResponse",

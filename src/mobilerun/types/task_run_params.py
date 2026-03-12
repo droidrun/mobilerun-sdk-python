@@ -13,17 +13,16 @@ __all__ = ["TaskRunParams"]
 
 
 class TaskRunParams(TypedDict, total=False):
-    llm_model: Required[Annotated[str, PropertyInfo(alias="llmModel")]]
-    """The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')"""
+    device_id: Required[Annotated[str, PropertyInfo(alias="deviceId")]]
+    """The ID of the device to run the task on."""
 
     task: Required[str]
+
+    agent_id: Annotated[int, PropertyInfo(alias="agentId")]
 
     apps: SequenceNotStr[str]
 
     credentials: Iterable[PackageCredentialsParam]
-
-    device_id: Annotated[Optional[str], PropertyInfo(alias="deviceId")]
-    """The ID of the device to run the task on."""
 
     display_id: Annotated[int, PropertyInfo(alias="displayId")]
     """The display ID of the device to run the task on."""
@@ -31,6 +30,12 @@ class TaskRunParams(TypedDict, total=False):
     execution_timeout: Annotated[int, PropertyInfo(alias="executionTimeout")]
 
     files: SequenceNotStr[str]
+
+    llm_model: Annotated[str, PropertyInfo(alias="llmModel")]
+    """The LLM model identifier to use for the task (e.g.
+
+    'google/gemini-3.1-flash-lite-preview')
+    """
 
     max_steps: Annotated[int, PropertyInfo(alias="maxSteps")]
 
