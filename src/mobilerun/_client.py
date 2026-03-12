@@ -32,11 +32,12 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import apps, hooks, tasks, models, credentials
+    from .resources import apps, hooks, tasks, models, devices, credentials
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.hooks import HooksResource, AsyncHooksResource
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
+    from .resources.devices.devices import DevicesResource, AsyncDevicesResource
     from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
 
 __all__ = [
@@ -108,6 +109,12 @@ class Mobilerun(SyncAPIClient):
         from .resources.tasks import TasksResource
 
         return TasksResource(self)
+
+    @cached_property
+    def devices(self) -> DevicesResource:
+        from .resources.devices import DevicesResource
+
+        return DevicesResource(self)
 
     @cached_property
     def apps(self) -> AppsResource:
@@ -317,6 +324,12 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncTasksResource(self)
 
     @cached_property
+    def devices(self) -> AsyncDevicesResource:
+        from .resources.devices import AsyncDevicesResource
+
+        return AsyncDevicesResource(self)
+
+    @cached_property
     def apps(self) -> AsyncAppsResource:
         from .resources.apps import AsyncAppsResource
 
@@ -479,6 +492,12 @@ class MobilerunWithRawResponse:
         return TasksResourceWithRawResponse(self._client.tasks)
 
     @cached_property
+    def devices(self) -> devices.DevicesResourceWithRawResponse:
+        from .resources.devices import DevicesResourceWithRawResponse
+
+        return DevicesResourceWithRawResponse(self._client.devices)
+
+    @cached_property
     def apps(self) -> apps.AppsResourceWithRawResponse:
         from .resources.apps import AppsResourceWithRawResponse
 
@@ -516,6 +535,12 @@ class AsyncMobilerunWithRawResponse:
         from .resources.tasks import AsyncTasksResourceWithRawResponse
 
         return AsyncTasksResourceWithRawResponse(self._client.tasks)
+
+    @cached_property
+    def devices(self) -> devices.AsyncDevicesResourceWithRawResponse:
+        from .resources.devices import AsyncDevicesResourceWithRawResponse
+
+        return AsyncDevicesResourceWithRawResponse(self._client.devices)
 
     @cached_property
     def apps(self) -> apps.AsyncAppsResourceWithRawResponse:
@@ -557,6 +582,12 @@ class MobilerunWithStreamedResponse:
         return TasksResourceWithStreamingResponse(self._client.tasks)
 
     @cached_property
+    def devices(self) -> devices.DevicesResourceWithStreamingResponse:
+        from .resources.devices import DevicesResourceWithStreamingResponse
+
+        return DevicesResourceWithStreamingResponse(self._client.devices)
+
+    @cached_property
     def apps(self) -> apps.AppsResourceWithStreamingResponse:
         from .resources.apps import AppsResourceWithStreamingResponse
 
@@ -594,6 +625,12 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.tasks import AsyncTasksResourceWithStreamingResponse
 
         return AsyncTasksResourceWithStreamingResponse(self._client.tasks)
+
+    @cached_property
+    def devices(self) -> devices.AsyncDevicesResourceWithStreamingResponse:
+        from .resources.devices import AsyncDevicesResourceWithStreamingResponse
+
+        return AsyncDevicesResourceWithStreamingResponse(self._client.devices)
 
     @cached_property
     def apps(self) -> apps.AsyncAppsResourceWithStreamingResponse:
