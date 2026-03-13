@@ -94,6 +94,7 @@ class TestActions:
             end_y=0,
             start_x=0,
             start_y=0,
+            stealth=True,
             x_device_display_id=0,
         )
         assert action is None
@@ -164,6 +165,7 @@ class TestActions:
             device_id="deviceId",
             x=0,
             y=0,
+            stealth=True,
             x_device_display_id=0,
         )
         assert action is None
@@ -293,6 +295,7 @@ class TestAsyncActions:
             end_y=0,
             start_x=0,
             start_y=0,
+            stealth=True,
             x_device_display_id=0,
         )
         assert action is None
@@ -363,6 +366,7 @@ class TestAsyncActions:
             device_id="deviceId",
             x=0,
             y=0,
+            stealth=True,
             x_device_display_id=0,
         )
         assert action is None
