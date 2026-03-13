@@ -92,6 +92,7 @@ class ActionsResource(SyncAPIResource):
         end_y: int,
         start_x: int,
         start_y: int,
+        stealth: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -132,6 +133,7 @@ class ActionsResource(SyncAPIResource):
                     "end_y": end_y,
                     "start_x": start_x,
                     "start_y": start_y,
+                    "stealth": stealth,
                 },
                 action_swipe_params.ActionSwipeParams,
             ),
@@ -147,6 +149,7 @@ class ActionsResource(SyncAPIResource):
         *,
         x: int,
         y: int,
+        stealth: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -182,6 +185,7 @@ class ActionsResource(SyncAPIResource):
                 {
                     "x": x,
                     "y": y,
+                    "stealth": stealth,
                 },
                 action_tap_params.ActionTapParams,
             ),
@@ -264,6 +268,7 @@ class AsyncActionsResource(AsyncAPIResource):
         end_y: int,
         start_x: int,
         start_y: int,
+        stealth: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -304,6 +309,7 @@ class AsyncActionsResource(AsyncAPIResource):
                     "end_y": end_y,
                     "start_x": start_x,
                     "start_y": start_y,
+                    "stealth": stealth,
                 },
                 action_swipe_params.ActionSwipeParams,
             ),
@@ -319,6 +325,7 @@ class AsyncActionsResource(AsyncAPIResource):
         *,
         x: int,
         y: int,
+        stealth: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -354,6 +361,7 @@ class AsyncActionsResource(AsyncAPIResource):
                 {
                     "x": x,
                     "y": y,
+                    "stealth": stealth,
                 },
                 action_tap_params.ActionTapParams,
             ),

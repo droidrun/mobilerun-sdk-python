@@ -14,4 +14,6 @@ class ActionTapParams(TypedDict, total=False):
 
     y: Required[int]
 
+    stealth: bool
+
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
