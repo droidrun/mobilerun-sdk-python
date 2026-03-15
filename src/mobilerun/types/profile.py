@@ -6,12 +6,12 @@ from datetime import datetime
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
-from .device_spec import DeviceSpec
+from .shared.device_spec import DeviceSpec
 
-__all__ = ["ProfileCreateResponse"]
+__all__ = ["Profile"]
 
 
-class ProfileCreateResponse(BaseModel):
+class Profile(BaseModel):
     id: str
 
     created_at: datetime = FieldInfo(alias="createdAt")

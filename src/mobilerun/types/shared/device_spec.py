@@ -4,10 +4,10 @@ from typing import List, Optional
 
 from pydantic import Field as FieldInfo
 
-from .._models import BaseModel
-from .shared.config import Config
-from .shared.device_carrier import DeviceCarrier
-from .shared.device_identifiers import DeviceIdentifiers
+from .config import Config
+from ..._models import BaseModel
+from .device_carrier import DeviceCarrier
+from .device_identifiers import DeviceIdentifiers
 
 __all__ = ["DeviceSpec"]
 

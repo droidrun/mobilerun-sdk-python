@@ -5,16 +5,16 @@ from __future__ import annotations
 from typing import Optional
 from typing_extensions import Annotated, TypedDict
 
-from .._types import SequenceNotStr
-from .._utils import PropertyInfo
-from .shared_params.config import Config
-from .shared_params.device_carrier import DeviceCarrier
-from .shared_params.device_identifiers import DeviceIdentifiers
+from .config import Config
+from ..._types import SequenceNotStr
+from ..._utils import PropertyInfo
+from .device_carrier import DeviceCarrier
+from .device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceSpecParam"]
+__all__ = ["DeviceSpec"]
 
 
-class DeviceSpecParam(TypedDict, total=False):
+class DeviceSpec(TypedDict, total=False):
     apps: Optional[SequenceNotStr[str]]
 
     carrier: DeviceCarrier

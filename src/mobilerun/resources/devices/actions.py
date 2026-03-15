@@ -15,7 +15,13 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.devices import action_tap_params, action_swipe_params, action_global_params
+from ...types.devices import (
+    action_tap_params,
+    action_swipe_params,
+    action_global_params,
+    action_set_overlay_visible_params,
+)
+from ...types.devices.action_overlay_visible_response import ActionOverlayVisibleResponse
 
 __all__ = ["ActionsResource", "AsyncActionsResource"]
 
@@ -77,6 +83,89 @@ class ActionsResource(SyncAPIResource):
         return self._post(
             f"/devices/{device_id}/global",
             body=maybe_transform({"action": action}, action_global_params.ActionGlobalParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def overlay_visible(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ActionOverlayVisibleResponse:
+        """
+        Check if overlay is visible
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            f"/devices/{device_id}/overlay",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ActionOverlayVisibleResponse,
+        )
+
+    def set_overlay_visible(
+        self,
+        device_id: str,
+        *,
+        visible: bool,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Set overlay visibility
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._post(
+            f"/devices/{device_id}/overlay",
+            body=maybe_transform({"visible": visible}, action_set_overlay_visible_params.ActionSetOverlayVisibleParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -259,6 +348,91 @@ class AsyncActionsResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def overlay_visible(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ActionOverlayVisibleResponse:
+        """
+        Check if overlay is visible
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return await self._get(
+            f"/devices/{device_id}/overlay",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ActionOverlayVisibleResponse,
+        )
+
+    async def set_overlay_visible(
+        self,
+        device_id: str,
+        *,
+        visible: bool,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Set overlay visibility
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return await self._post(
+            f"/devices/{device_id}/overlay",
+            body=await async_maybe_transform(
+                {"visible": visible}, action_set_overlay_visible_params.ActionSetOverlayVisibleParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     async def swipe(
         self,
         device_id: str,
@@ -379,6 +553,12 @@ class ActionsResourceWithRawResponse:
         self.global_ = to_raw_response_wrapper(
             actions.global_,
         )
+        self.overlay_visible = to_raw_response_wrapper(
+            actions.overlay_visible,
+        )
+        self.set_overlay_visible = to_raw_response_wrapper(
+            actions.set_overlay_visible,
+        )
         self.swipe = to_raw_response_wrapper(
             actions.swipe,
         )
@@ -393,6 +573,12 @@ class AsyncActionsResourceWithRawResponse:
 
         self.global_ = async_to_raw_response_wrapper(
             actions.global_,
+        )
+        self.overlay_visible = async_to_raw_response_wrapper(
+            actions.overlay_visible,
+        )
+        self.set_overlay_visible = async_to_raw_response_wrapper(
+            actions.set_overlay_visible,
         )
         self.swipe = async_to_raw_response_wrapper(
             actions.swipe,
@@ -409,6 +595,12 @@ class ActionsResourceWithStreamingResponse:
         self.global_ = to_streamed_response_wrapper(
             actions.global_,
         )
+        self.overlay_visible = to_streamed_response_wrapper(
+            actions.overlay_visible,
+        )
+        self.set_overlay_visible = to_streamed_response_wrapper(
+            actions.set_overlay_visible,
+        )
         self.swipe = to_streamed_response_wrapper(
             actions.swipe,
         )
@@ -423,6 +615,12 @@ class AsyncActionsResourceWithStreamingResponse:
 
         self.global_ = async_to_streamed_response_wrapper(
             actions.global_,
+        )
+        self.overlay_visible = async_to_streamed_response_wrapper(
+            actions.overlay_visible,
+        )
+        self.set_overlay_visible = async_to_streamed_response_wrapper(
+            actions.set_overlay_visible,
         )
         self.swipe = async_to_streamed_response_wrapper(
             actions.swipe,

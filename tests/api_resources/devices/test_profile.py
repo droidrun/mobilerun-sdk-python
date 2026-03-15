@@ -17,8 +17,8 @@ class TestProfile:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_apply(self, client: Mobilerun) -> None:
-        profile = client.devices.profile.apply(
+    def test_method_update(self, client: Mobilerun) -> None:
+        profile = client.devices.profile.update(
             device_id="deviceId",
             profile_id="profileId",
         )
@@ -26,8 +26,8 @@ class TestProfile:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_apply_with_all_params(self, client: Mobilerun) -> None:
-        profile = client.devices.profile.apply(
+    def test_method_update_with_all_params(self, client: Mobilerun) -> None:
+        profile = client.devices.profile.update(
             device_id="deviceId",
             profile_id="profileId",
             x_device_display_id=0,
@@ -36,8 +36,8 @@ class TestProfile:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_raw_response_apply(self, client: Mobilerun) -> None:
-        response = client.devices.profile.with_raw_response.apply(
+    def test_raw_response_update(self, client: Mobilerun) -> None:
+        response = client.devices.profile.with_raw_response.update(
             device_id="deviceId",
             profile_id="profileId",
         )
@@ -49,8 +49,8 @@ class TestProfile:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_streaming_response_apply(self, client: Mobilerun) -> None:
-        with client.devices.profile.with_streaming_response.apply(
+    def test_streaming_response_update(self, client: Mobilerun) -> None:
+        with client.devices.profile.with_streaming_response.update(
             device_id="deviceId",
             profile_id="profileId",
         ) as response:
@@ -64,9 +64,9 @@ class TestProfile:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_path_params_apply(self, client: Mobilerun) -> None:
+    def test_path_params_update(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            client.devices.profile.with_raw_response.apply(
+            client.devices.profile.with_raw_response.update(
                 device_id="",
                 profile_id="profileId",
             )
@@ -79,8 +79,8 @@ class TestAsyncProfile:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_apply(self, async_client: AsyncMobilerun) -> None:
-        profile = await async_client.devices.profile.apply(
+    async def test_method_update(self, async_client: AsyncMobilerun) -> None:
+        profile = await async_client.devices.profile.update(
             device_id="deviceId",
             profile_id="profileId",
         )
@@ -88,8 +88,8 @@ class TestAsyncProfile:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_apply_with_all_params(self, async_client: AsyncMobilerun) -> None:
-        profile = await async_client.devices.profile.apply(
+    async def test_method_update_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        profile = await async_client.devices.profile.update(
             device_id="deviceId",
             profile_id="profileId",
             x_device_display_id=0,
@@ -98,8 +98,8 @@ class TestAsyncProfile:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_raw_response_apply(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.devices.profile.with_raw_response.apply(
+    async def test_raw_response_update(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.profile.with_raw_response.update(
             device_id="deviceId",
             profile_id="profileId",
         )
@@ -111,8 +111,8 @@ class TestAsyncProfile:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_streaming_response_apply(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.devices.profile.with_streaming_response.apply(
+    async def test_streaming_response_update(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.profile.with_streaming_response.update(
             device_id="deviceId",
             profile_id="profileId",
         ) as response:
@@ -126,9 +126,9 @@ class TestAsyncProfile:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_path_params_apply(self, async_client: AsyncMobilerun) -> None:
+    async def test_path_params_update(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            await async_client.devices.profile.with_raw_response.apply(
+            await async_client.devices.profile.with_raw_response.update(
                 device_id="",
                 profile_id="profileId",
             )

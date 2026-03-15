@@ -2,15 +2,16 @@
 
 from __future__ import annotations
 
+from typing import Union
+from datetime import datetime
 from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
-__all__ = ["ProfileApplyParams"]
+__all__ = ["TimeSetTimeParams"]
 
 
-class ProfileApplyParams(TypedDict, total=False):
-    profile_id: Required[Annotated[str, PropertyInfo(alias="profileId")]]
-    """ID of the profile to apply"""
+class TimeSetTimeParams(TypedDict, total=False):
+    time: Required[Annotated[Union[str, datetime], PropertyInfo(format="iso8601")]]
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

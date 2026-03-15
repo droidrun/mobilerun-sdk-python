@@ -3,6 +3,7 @@
 from .meta import Meta as Meta
 from .config import Config as Config
 from .pagination import Pagination as Pagination
+from .device_spec import DeviceSpec as DeviceSpec
 from .device_carrier import DeviceCarrier as DeviceCarrier
 from .permission_set import PermissionSet as PermissionSet
 from .pagination_meta import PaginationMeta as PaginationMeta

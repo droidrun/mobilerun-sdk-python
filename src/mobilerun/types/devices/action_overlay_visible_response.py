@@ -6,10 +6,10 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["OverlayRetrieveResponse"]
+__all__ = ["ActionOverlayVisibleResponse"]
 
 
-class OverlayRetrieveResponse(BaseModel):
+class ActionOverlayVisibleResponse(BaseModel):
     visible: bool
 
     schema_: Optional[str] = FieldInfo(alias="$schema", default=None)

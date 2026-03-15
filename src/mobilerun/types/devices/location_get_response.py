@@ -6,11 +6,13 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["TimezoneRetrieveResponse"]
+__all__ = ["LocationGetResponse"]
 
 
-class TimezoneRetrieveResponse(BaseModel):
-    timezone: str
+class LocationGetResponse(BaseModel):
+    latitude: float
+
+    longitude: float
 
     schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
     """A URL to the JSON Schema for this object."""
