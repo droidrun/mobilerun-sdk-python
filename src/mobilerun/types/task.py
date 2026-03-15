@@ -57,6 +57,9 @@ class Task(BaseModel):
 
     steps: Optional[int] = None
 
+    subagent_model: Optional[str] = FieldInfo(alias="subagentModel", default=None)
+    """LLM model used by sub-agent roles: executor, app_opener, structured_output"""
+
     succeeded: Optional[bool] = None
 
     temperature: Optional[float] = None

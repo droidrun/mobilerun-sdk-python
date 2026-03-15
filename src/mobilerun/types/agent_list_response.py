@@ -25,6 +25,8 @@ class AgentListResponseItem(BaseModel):
 
     reasoning: bool
 
+    subagent_model: Optional[str] = FieldInfo(alias="subagentModel", default=None)
+
     vision: bool
 
 
