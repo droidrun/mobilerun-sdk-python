@@ -45,6 +45,9 @@ class TaskRunParams(TypedDict, total=False):
 
     stealth: bool
 
+    subagent_model: Annotated[str, PropertyInfo(alias="subagentModel")]
+    """LLM model used by sub-agent roles: executor, app_opener, structured_output"""
+
     temperature: float
 
     vision: bool

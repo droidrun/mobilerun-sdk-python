@@ -281,6 +281,7 @@ class TasksResource(SyncAPIResource):
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
         stealth: bool | Omit = omit,
+        subagent_model: str | Omit = omit,
         temperature: float | Omit = omit,
         vision: bool | Omit = omit,
         vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
@@ -303,6 +304,8 @@ class TasksResource(SyncAPIResource):
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'google/gemini-3.1-flash-lite-preview')
+
+          subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
 
           extra_headers: Send extra headers
 
@@ -329,6 +332,7 @@ class TasksResource(SyncAPIResource):
                     "output_schema": output_schema,
                     "reasoning": reasoning,
                     "stealth": stealth,
+                    "subagent_model": subagent_model,
                     "temperature": temperature,
                     "vision": vision,
                     "vpn_country": vpn_country,
@@ -357,6 +361,7 @@ class TasksResource(SyncAPIResource):
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
         stealth: bool | Omit = omit,
+        subagent_model: str | Omit = omit,
         temperature: float | Omit = omit,
         vision: bool | Omit = omit,
         vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
@@ -378,6 +383,8 @@ class TasksResource(SyncAPIResource):
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'google/gemini-3.1-flash-lite-preview')
+
+          subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
 
           extra_headers: Send extra headers
 
@@ -404,6 +411,7 @@ class TasksResource(SyncAPIResource):
                     "output_schema": output_schema,
                     "reasoning": reasoning,
                     "stealth": stealth,
+                    "subagent_model": subagent_model,
                     "temperature": temperature,
                     "vision": vision,
                     "vpn_country": vpn_country,
@@ -724,6 +732,7 @@ class AsyncTasksResource(AsyncAPIResource):
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
         stealth: bool | Omit = omit,
+        subagent_model: str | Omit = omit,
         temperature: float | Omit = omit,
         vision: bool | Omit = omit,
         vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
@@ -746,6 +755,8 @@ class AsyncTasksResource(AsyncAPIResource):
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'google/gemini-3.1-flash-lite-preview')
+
+          subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
 
           extra_headers: Send extra headers
 
@@ -772,6 +783,7 @@ class AsyncTasksResource(AsyncAPIResource):
                     "output_schema": output_schema,
                     "reasoning": reasoning,
                     "stealth": stealth,
+                    "subagent_model": subagent_model,
                     "temperature": temperature,
                     "vision": vision,
                     "vpn_country": vpn_country,
@@ -800,6 +812,7 @@ class AsyncTasksResource(AsyncAPIResource):
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
         stealth: bool | Omit = omit,
+        subagent_model: str | Omit = omit,
         temperature: float | Omit = omit,
         vision: bool | Omit = omit,
         vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
@@ -821,6 +834,8 @@ class AsyncTasksResource(AsyncAPIResource):
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'google/gemini-3.1-flash-lite-preview')
+
+          subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
 
           extra_headers: Send extra headers
 
@@ -847,6 +862,7 @@ class AsyncTasksResource(AsyncAPIResource):
                     "output_schema": output_schema,
                     "reasoning": reasoning,
                     "stealth": stealth,
+                    "subagent_model": subagent_model,
                     "temperature": temperature,
                     "vision": vision,
                     "vpn_country": vpn_country,
