@@ -8,8 +8,9 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 from .task_status import TaskStatus
+from .shared.pagination_meta import PaginationMeta
 
-__all__ = ["HookListResponse", "Item", "Pagination"]
+__all__ = ["HookListResponse", "Item"]
 
 
 class Item(BaseModel):
@@ -30,31 +31,9 @@ class Item(BaseModel):
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
 
-class Pagination(BaseModel):
-    """Pagination metadata"""
-
-    has_next: bool = FieldInfo(alias="hasNext")
-    """Whether there is a next page"""
-
-    has_prev: bool = FieldInfo(alias="hasPrev")
-    """Whether there is a previous page"""
-
-    page: int
-    """Current page number (1-based)"""
-
-    pages: int
-    """Total number of pages"""
-
-    page_size: int = FieldInfo(alias="pageSize")
-    """Number of items per page"""
-
-    total: int
-    """Total number of items"""
-
-
 class HookListResponse(BaseModel):
     items: List[Item]
     """The paginated items"""
 
-    pagination: Pagination
+    pagination: PaginationMeta
     """Pagination metadata"""

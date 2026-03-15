@@ -15,6 +15,7 @@ from mobilerun.types import (
     TaskStopResponse,
     TaskRetrieveResponse,
     TaskGetStatusResponse,
+    TaskSendMessageResponse,
     TaskGetTrajectoryResponse,
 )
 
@@ -362,6 +363,52 @@ class TestTasks:
             assert_matches_type(object, task, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_send_message(self, client: Mobilerun) -> None:
+        task = client.tasks.send_message(
+            task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            message="x",
+        )
+        assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_send_message(self, client: Mobilerun) -> None:
+        response = client.tasks.with_raw_response.send_message(
+            task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            message="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        task = response.parse()
+        assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_send_message(self, client: Mobilerun) -> None:
+        with client.tasks.with_streaming_response.send_message(
+            task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            message="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            task = response.parse()
+            assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_send_message(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+            client.tasks.with_raw_response.send_message(
+                task_id="",
+                message="x",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -749,6 +796,52 @@ class TestAsyncTasks:
             assert_matches_type(object, task, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_send_message(self, async_client: AsyncMobilerun) -> None:
+        task = await async_client.tasks.send_message(
+            task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            message="x",
+        )
+        assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_send_message(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.tasks.with_raw_response.send_message(
+            task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            message="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        task = await response.parse()
+        assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_send_message(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.tasks.with_streaming_response.send_message(
+            task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            message="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            task = await response.parse()
+            assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_send_message(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+            await async_client.tasks.with_raw_response.send_message(
+                task_id="",
+                message="x",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize

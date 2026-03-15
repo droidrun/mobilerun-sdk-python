@@ -4,6 +4,7 @@ from typing import Optional
 
 from pydantic import Field as FieldInfo
 
+from .rect import Rect
 from ..._models import BaseModel
 
 __all__ = [
@@ -11,8 +12,6 @@ __all__ = [
     "DeviceContext",
     "DeviceContextDisplayMetrics",
     "DeviceContextFilteringParams",
-    "DeviceContextScreenBounds",
-    "DeviceContextScreenSize",
     "PhoneState",
     "PhoneStateFocusedElement",
 ]
@@ -36,26 +35,14 @@ class DeviceContextFilteringParams(BaseModel):
     overlay_offset: int
 
 
-class DeviceContextScreenBounds(BaseModel):
-    height: int
-
-    width: int
-
-
-class DeviceContextScreenSize(BaseModel):
-    height: int
-
-    width: int
-
-
 class DeviceContext(BaseModel):
     display_metrics: DeviceContextDisplayMetrics
 
     filtering_params: DeviceContextFilteringParams
 
-    screen_bounds: DeviceContextScreenBounds
+    screen_bounds: Rect
 
-    screen_size: DeviceContextScreenSize = FieldInfo(alias="screenSize")
+    screen_size: Rect = FieldInfo(alias="screenSize")
 
 
 class PhoneStateFocusedElement(BaseModel):

@@ -7,8 +7,9 @@ from typing_extensions import Literal
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
+from .shared.pagination import Pagination
 
-__all__ = ["AppListResponse", "Count", "Item", "Pagination"]
+__all__ = ["AppListResponse", "Count", "Item"]
 
 
 class Count(BaseModel):
@@ -326,20 +327,6 @@ class Item(BaseModel):
     version_code: int = FieldInfo(alias="versionCode")
 
     version_name: str = FieldInfo(alias="versionName")
-
-
-class Pagination(BaseModel):
-    has_next: bool = FieldInfo(alias="hasNext")
-
-    has_prev: bool = FieldInfo(alias="hasPrev")
-
-    page: int
-
-    pages: int
-
-    page_size: int = FieldInfo(alias="pageSize")
-
-    total: int
 
 
 class AppListResponse(BaseModel):
