@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ...types import TaskStatus, task_run_params, task_list_params, task_run_streamed_params
+from ...types import TaskStatus, task_run_params, task_list_params, task_run_streamed_params, task_send_message_params
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -42,6 +42,7 @@ from ...types.task_stop_response import TaskStopResponse
 from ...types.task_retrieve_response import TaskRetrieveResponse
 from ...types.task_get_status_response import TaskGetStatusResponse
 from ...types.package_credentials_param import PackageCredentialsParam
+from ...types.task_send_message_response import TaskSendMessageResponse
 from ...types.task_get_trajectory_response import TaskGetTrajectoryResponse
 
 __all__ = ["TasksResource", "AsyncTasksResource"]
@@ -413,6 +414,45 @@ class TasksResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=object,
+        )
+
+    def send_message(
+        self,
+        task_id: str,
+        *,
+        message: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> TaskSendMessageResponse:
+        """Send a message to a running agent task.
+
+        The message ID is delivered via SSE
+        (UserMessageEvent with action=queued).
+
+        Args:
+          message: Message to send to the running agent
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not task_id:
+            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+        return self._post(
+            f"/tasks/{task_id}/message",
+            body=maybe_transform({"message": message}, task_send_message_params.TaskSendMessageParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=TaskSendMessageResponse,
         )
 
     def stop(
@@ -819,6 +859,45 @@ class AsyncTasksResource(AsyncAPIResource):
             cast_to=object,
         )
 
+    async def send_message(
+        self,
+        task_id: str,
+        *,
+        message: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> TaskSendMessageResponse:
+        """Send a message to a running agent task.
+
+        The message ID is delivered via SSE
+        (UserMessageEvent with action=queued).
+
+        Args:
+          message: Message to send to the running agent
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not task_id:
+            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+        return await self._post(
+            f"/tasks/{task_id}/message",
+            body=await async_maybe_transform({"message": message}, task_send_message_params.TaskSendMessageParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=TaskSendMessageResponse,
+        )
+
     async def stop(
         self,
         task_id: str,
@@ -880,6 +959,9 @@ class TasksResourceWithRawResponse:
         self.run_streamed = to_raw_response_wrapper(
             tasks.run_streamed,
         )
+        self.send_message = to_raw_response_wrapper(
+            tasks.send_message,
+        )
         self.stop = to_raw_response_wrapper(
             tasks.stop,
         )
@@ -919,6 +1001,9 @@ class AsyncTasksResourceWithRawResponse:
         )
         self.run_streamed = async_to_raw_response_wrapper(
             tasks.run_streamed,
+        )
+        self.send_message = async_to_raw_response_wrapper(
+            tasks.send_message,
         )
         self.stop = async_to_raw_response_wrapper(
             tasks.stop,
@@ -960,6 +1045,9 @@ class TasksResourceWithStreamingResponse:
         self.run_streamed = to_streamed_response_wrapper(
             tasks.run_streamed,
         )
+        self.send_message = to_streamed_response_wrapper(
+            tasks.send_message,
+        )
         self.stop = to_streamed_response_wrapper(
             tasks.stop,
         )
@@ -999,6 +1087,9 @@ class AsyncTasksResourceWithStreamingResponse:
         )
         self.run_streamed = async_to_streamed_response_wrapper(
             tasks.run_streamed,
+        )
+        self.send_message = async_to_streamed_response_wrapper(
+            tasks.send_message,
         )
         self.stop = async_to_streamed_response_wrapper(
             tasks.stop,

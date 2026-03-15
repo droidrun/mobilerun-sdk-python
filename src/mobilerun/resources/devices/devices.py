@@ -16,6 +16,30 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
+from .time import (
+    TimeResource,
+    AsyncTimeResource,
+    TimeResourceWithRawResponse,
+    AsyncTimeResourceWithRawResponse,
+    TimeResourceWithStreamingResponse,
+    AsyncTimeResourceWithStreamingResponse,
+)
+from .files import (
+    FilesResource,
+    AsyncFilesResource,
+    FilesResourceWithRawResponse,
+    AsyncFilesResourceWithRawResponse,
+    FilesResourceWithStreamingResponse,
+    AsyncFilesResourceWithStreamingResponse,
+)
+from .proxy import (
+    ProxyResource,
+    AsyncProxyResource,
+    ProxyResourceWithRawResponse,
+    AsyncProxyResourceWithRawResponse,
+    ProxyResourceWithStreamingResponse,
+    AsyncProxyResourceWithStreamingResponse,
+)
 from .state import (
     StateResource,
     AsyncStateResource,
@@ -41,6 +65,22 @@ from .actions import (
     ActionsResourceWithStreamingResponse,
     AsyncActionsResourceWithStreamingResponse,
 )
+from .overlay import (
+    OverlayResource,
+    AsyncOverlayResource,
+    OverlayResourceWithRawResponse,
+    AsyncOverlayResourceWithRawResponse,
+    OverlayResourceWithStreamingResponse,
+    AsyncOverlayResourceWithStreamingResponse,
+)
+from .profile import (
+    ProfileResource,
+    AsyncProfileResource,
+    ProfileResourceWithRawResponse,
+    AsyncProfileResourceWithRawResponse,
+    ProfileResourceWithStreamingResponse,
+    AsyncProfileResourceWithStreamingResponse,
+)
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from .keyboard import (
@@ -51,6 +91,14 @@ from .keyboard import (
     KeyboardResourceWithStreamingResponse,
     AsyncKeyboardResourceWithStreamingResponse,
 )
+from .location import (
+    LocationResource,
+    AsyncLocationResource,
+    LocationResourceWithRawResponse,
+    AsyncLocationResourceWithRawResponse,
+    LocationResourceWithStreamingResponse,
+    AsyncLocationResourceWithStreamingResponse,
+)
 from .packages import (
     PackagesResource,
     AsyncPackagesResource,
@@ -58,6 +106,14 @@ from .packages import (
     AsyncPackagesResourceWithRawResponse,
     PackagesResourceWithStreamingResponse,
     AsyncPackagesResourceWithStreamingResponse,
+)
+from .timezone import (
+    TimezoneResource,
+    AsyncTimezoneResource,
+    TimezoneResourceWithRawResponse,
+    AsyncTimezoneResourceWithRawResponse,
+    TimezoneResourceWithStreamingResponse,
+    AsyncTimezoneResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -70,12 +126,43 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.device import Device
 from ...types.device_list_response import DeviceListResponse
+from ...types.shared_params.config import Config
 from ...types.device_count_response import DeviceCountResponse
+from ...types.shared_params.device_carrier import DeviceCarrier
+from ...types.shared_params.device_identifiers import DeviceIdentifiers
 
 __all__ = ["DevicesResource", "AsyncDevicesResource"]
 
 
 class DevicesResource(SyncAPIResource):
+    @cached_property
+    def timezone(self) -> TimezoneResource:
+        return TimezoneResource(self._client)
+
+    @cached_property
+    def time(self) -> TimeResource:
+        return TimeResource(self._client)
+
+    @cached_property
+    def profile(self) -> ProfileResource:
+        return ProfileResource(self._client)
+
+    @cached_property
+    def files(self) -> FilesResource:
+        return FilesResource(self._client)
+
+    @cached_property
+    def proxy(self) -> ProxyResource:
+        return ProxyResource(self._client)
+
+    @cached_property
+    def location(self) -> LocationResource:
+        return LocationResource(self._client)
+
+    @cached_property
+    def overlay(self) -> OverlayResource:
+        return OverlayResource(self._client)
+
     @cached_property
     def actions(self) -> ActionsResource:
         return ActionsResource(self._client)
@@ -125,11 +212,11 @@ class DevicesResource(SyncAPIResource):
         device_type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
         | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
-        carrier: device_create_params.Carrier | Omit = omit,
+        carrier: DeviceCarrier | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
-        identifiers: device_create_params.Identifiers | Omit = omit,
+        identifiers: DeviceIdentifiers | Omit = omit,
         name: str | Omit = omit,
-        proxy: device_create_params.Proxy | Omit = omit,
+        proxy: Config | Omit = omit,
         smart_ip: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -361,6 +448,34 @@ class DevicesResource(SyncAPIResource):
 
 class AsyncDevicesResource(AsyncAPIResource):
     @cached_property
+    def timezone(self) -> AsyncTimezoneResource:
+        return AsyncTimezoneResource(self._client)
+
+    @cached_property
+    def time(self) -> AsyncTimeResource:
+        return AsyncTimeResource(self._client)
+
+    @cached_property
+    def profile(self) -> AsyncProfileResource:
+        return AsyncProfileResource(self._client)
+
+    @cached_property
+    def files(self) -> AsyncFilesResource:
+        return AsyncFilesResource(self._client)
+
+    @cached_property
+    def proxy(self) -> AsyncProxyResource:
+        return AsyncProxyResource(self._client)
+
+    @cached_property
+    def location(self) -> AsyncLocationResource:
+        return AsyncLocationResource(self._client)
+
+    @cached_property
+    def overlay(self) -> AsyncOverlayResource:
+        return AsyncOverlayResource(self._client)
+
+    @cached_property
     def actions(self) -> AsyncActionsResource:
         return AsyncActionsResource(self._client)
 
@@ -409,11 +524,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         device_type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
         | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
-        carrier: device_create_params.Carrier | Omit = omit,
+        carrier: DeviceCarrier | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
-        identifiers: device_create_params.Identifiers | Omit = omit,
+        identifiers: DeviceIdentifiers | Omit = omit,
         name: str | Omit = omit,
-        proxy: device_create_params.Proxy | Omit = omit,
+        proxy: Config | Omit = omit,
         smart_ip: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -669,6 +784,34 @@ class DevicesResourceWithRawResponse:
         )
 
     @cached_property
+    def timezone(self) -> TimezoneResourceWithRawResponse:
+        return TimezoneResourceWithRawResponse(self._devices.timezone)
+
+    @cached_property
+    def time(self) -> TimeResourceWithRawResponse:
+        return TimeResourceWithRawResponse(self._devices.time)
+
+    @cached_property
+    def profile(self) -> ProfileResourceWithRawResponse:
+        return ProfileResourceWithRawResponse(self._devices.profile)
+
+    @cached_property
+    def files(self) -> FilesResourceWithRawResponse:
+        return FilesResourceWithRawResponse(self._devices.files)
+
+    @cached_property
+    def proxy(self) -> ProxyResourceWithRawResponse:
+        return ProxyResourceWithRawResponse(self._devices.proxy)
+
+    @cached_property
+    def location(self) -> LocationResourceWithRawResponse:
+        return LocationResourceWithRawResponse(self._devices.location)
+
+    @cached_property
+    def overlay(self) -> OverlayResourceWithRawResponse:
+        return OverlayResourceWithRawResponse(self._devices.overlay)
+
+    @cached_property
     def actions(self) -> ActionsResourceWithRawResponse:
         return ActionsResourceWithRawResponse(self._devices.actions)
 
@@ -715,6 +858,34 @@ class AsyncDevicesResourceWithRawResponse:
         self.wait_ready = async_to_raw_response_wrapper(
             devices.wait_ready,
         )
+
+    @cached_property
+    def timezone(self) -> AsyncTimezoneResourceWithRawResponse:
+        return AsyncTimezoneResourceWithRawResponse(self._devices.timezone)
+
+    @cached_property
+    def time(self) -> AsyncTimeResourceWithRawResponse:
+        return AsyncTimeResourceWithRawResponse(self._devices.time)
+
+    @cached_property
+    def profile(self) -> AsyncProfileResourceWithRawResponse:
+        return AsyncProfileResourceWithRawResponse(self._devices.profile)
+
+    @cached_property
+    def files(self) -> AsyncFilesResourceWithRawResponse:
+        return AsyncFilesResourceWithRawResponse(self._devices.files)
+
+    @cached_property
+    def proxy(self) -> AsyncProxyResourceWithRawResponse:
+        return AsyncProxyResourceWithRawResponse(self._devices.proxy)
+
+    @cached_property
+    def location(self) -> AsyncLocationResourceWithRawResponse:
+        return AsyncLocationResourceWithRawResponse(self._devices.location)
+
+    @cached_property
+    def overlay(self) -> AsyncOverlayResourceWithRawResponse:
+        return AsyncOverlayResourceWithRawResponse(self._devices.overlay)
 
     @cached_property
     def actions(self) -> AsyncActionsResourceWithRawResponse:
@@ -765,6 +936,34 @@ class DevicesResourceWithStreamingResponse:
         )
 
     @cached_property
+    def timezone(self) -> TimezoneResourceWithStreamingResponse:
+        return TimezoneResourceWithStreamingResponse(self._devices.timezone)
+
+    @cached_property
+    def time(self) -> TimeResourceWithStreamingResponse:
+        return TimeResourceWithStreamingResponse(self._devices.time)
+
+    @cached_property
+    def profile(self) -> ProfileResourceWithStreamingResponse:
+        return ProfileResourceWithStreamingResponse(self._devices.profile)
+
+    @cached_property
+    def files(self) -> FilesResourceWithStreamingResponse:
+        return FilesResourceWithStreamingResponse(self._devices.files)
+
+    @cached_property
+    def proxy(self) -> ProxyResourceWithStreamingResponse:
+        return ProxyResourceWithStreamingResponse(self._devices.proxy)
+
+    @cached_property
+    def location(self) -> LocationResourceWithStreamingResponse:
+        return LocationResourceWithStreamingResponse(self._devices.location)
+
+    @cached_property
+    def overlay(self) -> OverlayResourceWithStreamingResponse:
+        return OverlayResourceWithStreamingResponse(self._devices.overlay)
+
+    @cached_property
     def actions(self) -> ActionsResourceWithStreamingResponse:
         return ActionsResourceWithStreamingResponse(self._devices.actions)
 
@@ -811,6 +1010,34 @@ class AsyncDevicesResourceWithStreamingResponse:
         self.wait_ready = async_to_streamed_response_wrapper(
             devices.wait_ready,
         )
+
+    @cached_property
+    def timezone(self) -> AsyncTimezoneResourceWithStreamingResponse:
+        return AsyncTimezoneResourceWithStreamingResponse(self._devices.timezone)
+
+    @cached_property
+    def time(self) -> AsyncTimeResourceWithStreamingResponse:
+        return AsyncTimeResourceWithStreamingResponse(self._devices.time)
+
+    @cached_property
+    def profile(self) -> AsyncProfileResourceWithStreamingResponse:
+        return AsyncProfileResourceWithStreamingResponse(self._devices.profile)
+
+    @cached_property
+    def files(self) -> AsyncFilesResourceWithStreamingResponse:
+        return AsyncFilesResourceWithStreamingResponse(self._devices.files)
+
+    @cached_property
+    def proxy(self) -> AsyncProxyResourceWithStreamingResponse:
+        return AsyncProxyResourceWithStreamingResponse(self._devices.proxy)
+
+    @cached_property
+    def location(self) -> AsyncLocationResourceWithStreamingResponse:
+        return AsyncLocationResourceWithStreamingResponse(self._devices.location)
+
+    @cached_property
+    def overlay(self) -> AsyncOverlayResourceWithStreamingResponse:
+        return AsyncOverlayResourceWithStreamingResponse(self._devices.overlay)
 
     @cached_property
     def actions(self) -> AsyncActionsResourceWithStreamingResponse:

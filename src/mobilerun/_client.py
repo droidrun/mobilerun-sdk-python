@@ -32,10 +32,14 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import apps, hooks, tasks, models, devices, credentials
+    from .resources import apps, hooks, tasks, agents, models, devices, proxies, carriers, profiles, credentials
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.hooks import HooksResource, AsyncHooksResource
+    from .resources.agents import AgentsResource, AsyncAgentsResource
     from .resources.models import ModelsResource, AsyncModelsResource
+    from .resources.proxies import ProxiesResource, AsyncProxiesResource
+    from .resources.carriers import CarriersResource, AsyncCarriersResource
+    from .resources.profiles import ProfilesResource, AsyncProfilesResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
     from .resources.devices.devices import DevicesResource, AsyncDevicesResource
     from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
@@ -109,6 +113,31 @@ class Mobilerun(SyncAPIClient):
         from .resources.tasks import TasksResource
 
         return TasksResource(self)
+
+    @cached_property
+    def agents(self) -> AgentsResource:
+        """Agents API"""
+        from .resources.agents import AgentsResource
+
+        return AgentsResource(self)
+
+    @cached_property
+    def proxies(self) -> ProxiesResource:
+        from .resources.proxies import ProxiesResource
+
+        return ProxiesResource(self)
+
+    @cached_property
+    def carriers(self) -> CarriersResource:
+        from .resources.carriers import CarriersResource
+
+        return CarriersResource(self)
+
+    @cached_property
+    def profiles(self) -> ProfilesResource:
+        from .resources.profiles import ProfilesResource
+
+        return ProfilesResource(self)
 
     @cached_property
     def devices(self) -> DevicesResource:
@@ -324,6 +353,31 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncTasksResource(self)
 
     @cached_property
+    def agents(self) -> AsyncAgentsResource:
+        """Agents API"""
+        from .resources.agents import AsyncAgentsResource
+
+        return AsyncAgentsResource(self)
+
+    @cached_property
+    def proxies(self) -> AsyncProxiesResource:
+        from .resources.proxies import AsyncProxiesResource
+
+        return AsyncProxiesResource(self)
+
+    @cached_property
+    def carriers(self) -> AsyncCarriersResource:
+        from .resources.carriers import AsyncCarriersResource
+
+        return AsyncCarriersResource(self)
+
+    @cached_property
+    def profiles(self) -> AsyncProfilesResource:
+        from .resources.profiles import AsyncProfilesResource
+
+        return AsyncProfilesResource(self)
+
+    @cached_property
     def devices(self) -> AsyncDevicesResource:
         from .resources.devices import AsyncDevicesResource
 
@@ -492,6 +546,31 @@ class MobilerunWithRawResponse:
         return TasksResourceWithRawResponse(self._client.tasks)
 
     @cached_property
+    def agents(self) -> agents.AgentsResourceWithRawResponse:
+        """Agents API"""
+        from .resources.agents import AgentsResourceWithRawResponse
+
+        return AgentsResourceWithRawResponse(self._client.agents)
+
+    @cached_property
+    def proxies(self) -> proxies.ProxiesResourceWithRawResponse:
+        from .resources.proxies import ProxiesResourceWithRawResponse
+
+        return ProxiesResourceWithRawResponse(self._client.proxies)
+
+    @cached_property
+    def carriers(self) -> carriers.CarriersResourceWithRawResponse:
+        from .resources.carriers import CarriersResourceWithRawResponse
+
+        return CarriersResourceWithRawResponse(self._client.carriers)
+
+    @cached_property
+    def profiles(self) -> profiles.ProfilesResourceWithRawResponse:
+        from .resources.profiles import ProfilesResourceWithRawResponse
+
+        return ProfilesResourceWithRawResponse(self._client.profiles)
+
+    @cached_property
     def devices(self) -> devices.DevicesResourceWithRawResponse:
         from .resources.devices import DevicesResourceWithRawResponse
 
@@ -535,6 +614,31 @@ class AsyncMobilerunWithRawResponse:
         from .resources.tasks import AsyncTasksResourceWithRawResponse
 
         return AsyncTasksResourceWithRawResponse(self._client.tasks)
+
+    @cached_property
+    def agents(self) -> agents.AsyncAgentsResourceWithRawResponse:
+        """Agents API"""
+        from .resources.agents import AsyncAgentsResourceWithRawResponse
+
+        return AsyncAgentsResourceWithRawResponse(self._client.agents)
+
+    @cached_property
+    def proxies(self) -> proxies.AsyncProxiesResourceWithRawResponse:
+        from .resources.proxies import AsyncProxiesResourceWithRawResponse
+
+        return AsyncProxiesResourceWithRawResponse(self._client.proxies)
+
+    @cached_property
+    def carriers(self) -> carriers.AsyncCarriersResourceWithRawResponse:
+        from .resources.carriers import AsyncCarriersResourceWithRawResponse
+
+        return AsyncCarriersResourceWithRawResponse(self._client.carriers)
+
+    @cached_property
+    def profiles(self) -> profiles.AsyncProfilesResourceWithRawResponse:
+        from .resources.profiles import AsyncProfilesResourceWithRawResponse
+
+        return AsyncProfilesResourceWithRawResponse(self._client.profiles)
 
     @cached_property
     def devices(self) -> devices.AsyncDevicesResourceWithRawResponse:
@@ -582,6 +686,31 @@ class MobilerunWithStreamedResponse:
         return TasksResourceWithStreamingResponse(self._client.tasks)
 
     @cached_property
+    def agents(self) -> agents.AgentsResourceWithStreamingResponse:
+        """Agents API"""
+        from .resources.agents import AgentsResourceWithStreamingResponse
+
+        return AgentsResourceWithStreamingResponse(self._client.agents)
+
+    @cached_property
+    def proxies(self) -> proxies.ProxiesResourceWithStreamingResponse:
+        from .resources.proxies import ProxiesResourceWithStreamingResponse
+
+        return ProxiesResourceWithStreamingResponse(self._client.proxies)
+
+    @cached_property
+    def carriers(self) -> carriers.CarriersResourceWithStreamingResponse:
+        from .resources.carriers import CarriersResourceWithStreamingResponse
+
+        return CarriersResourceWithStreamingResponse(self._client.carriers)
+
+    @cached_property
+    def profiles(self) -> profiles.ProfilesResourceWithStreamingResponse:
+        from .resources.profiles import ProfilesResourceWithStreamingResponse
+
+        return ProfilesResourceWithStreamingResponse(self._client.profiles)
+
+    @cached_property
     def devices(self) -> devices.DevicesResourceWithStreamingResponse:
         from .resources.devices import DevicesResourceWithStreamingResponse
 
@@ -625,6 +754,31 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.tasks import AsyncTasksResourceWithStreamingResponse
 
         return AsyncTasksResourceWithStreamingResponse(self._client.tasks)
+
+    @cached_property
+    def agents(self) -> agents.AsyncAgentsResourceWithStreamingResponse:
+        """Agents API"""
+        from .resources.agents import AsyncAgentsResourceWithStreamingResponse
+
+        return AsyncAgentsResourceWithStreamingResponse(self._client.agents)
+
+    @cached_property
+    def proxies(self) -> proxies.AsyncProxiesResourceWithStreamingResponse:
+        from .resources.proxies import AsyncProxiesResourceWithStreamingResponse
+
+        return AsyncProxiesResourceWithStreamingResponse(self._client.proxies)
+
+    @cached_property
+    def carriers(self) -> carriers.AsyncCarriersResourceWithStreamingResponse:
+        from .resources.carriers import AsyncCarriersResourceWithStreamingResponse
+
+        return AsyncCarriersResourceWithStreamingResponse(self._client.carriers)
+
+    @cached_property
+    def profiles(self) -> profiles.AsyncProfilesResourceWithStreamingResponse:
+        from .resources.profiles import AsyncProfilesResourceWithStreamingResponse
+
+        return AsyncProfilesResourceWithStreamingResponse(self._client.profiles)
 
     @cached_property
     def devices(self) -> devices.AsyncDevicesResourceWithStreamingResponse:
