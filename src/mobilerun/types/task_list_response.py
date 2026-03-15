@@ -2,39 +2,16 @@
 
 from typing import List
 
-from pydantic import Field as FieldInfo
-
 from .task import Task
 from .._models import BaseModel
+from .shared.pagination_meta import PaginationMeta
 
-__all__ = ["TaskListResponse", "Pagination"]
-
-
-class Pagination(BaseModel):
-    """Pagination metadata"""
-
-    has_next: bool = FieldInfo(alias="hasNext")
-    """Whether there is a next page"""
-
-    has_prev: bool = FieldInfo(alias="hasPrev")
-    """Whether there is a previous page"""
-
-    page: int
-    """Current page number (1-based)"""
-
-    pages: int
-    """Total number of pages"""
-
-    page_size: int = FieldInfo(alias="pageSize")
-    """Number of items per page"""
-
-    total: int
-    """Total number of items"""
+__all__ = ["TaskListResponse"]
 
 
 class TaskListResponse(BaseModel):
     items: List[Task]
     """The paginated items"""
 
-    pagination: Pagination
+    pagination: PaginationMeta
     """Pagination metadata"""

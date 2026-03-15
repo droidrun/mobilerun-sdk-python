@@ -47,6 +47,7 @@ class PackagesResource(SyncAPIResource):
         self,
         device_id: str,
         *,
+        include_protected_packages: bool | Omit = omit,
         include_system_packages: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -84,7 +85,11 @@ class PackagesResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"include_system_packages": include_system_packages}, package_list_params.PackageListParams
+                    {
+                        "include_protected_packages": include_protected_packages,
+                        "include_system_packages": include_system_packages,
+                    },
+                    package_list_params.PackageListParams,
                 ),
             ),
             cast_to=PackageListResponse,
@@ -115,6 +120,7 @@ class AsyncPackagesResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
+        include_protected_packages: bool | Omit = omit,
         include_system_packages: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -152,7 +158,11 @@ class AsyncPackagesResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"include_system_packages": include_system_packages}, package_list_params.PackageListParams
+                    {
+                        "include_protected_packages": include_protected_packages,
+                        "include_system_packages": include_system_packages,
+                    },
+                    package_list_params.PackageListParams,
                 ),
             ),
             cast_to=PackageListResponse,

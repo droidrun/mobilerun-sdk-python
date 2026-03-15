@@ -25,7 +25,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestHooks:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Mobilerun) -> None:
         hook = client.hooks.retrieve(
@@ -33,7 +33,7 @@ class TestHooks:
         )
         assert_matches_type(HookRetrieveResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Mobilerun) -> None:
         response = client.hooks.with_raw_response.retrieve(
@@ -45,7 +45,7 @@ class TestHooks:
         hook = response.parse()
         assert_matches_type(HookRetrieveResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Mobilerun) -> None:
         with client.hooks.with_streaming_response.retrieve(
@@ -59,7 +59,7 @@ class TestHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `hook_id` but received ''"):
@@ -67,7 +67,7 @@ class TestHooks:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update(self, client: Mobilerun) -> None:
         hook = client.hooks.update(
@@ -75,7 +75,7 @@ class TestHooks:
         )
         assert_matches_type(HookUpdateResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: Mobilerun) -> None:
         hook = client.hooks.update(
@@ -85,7 +85,7 @@ class TestHooks:
         )
         assert_matches_type(HookUpdateResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: Mobilerun) -> None:
         response = client.hooks.with_raw_response.update(
@@ -97,7 +97,7 @@ class TestHooks:
         hook = response.parse()
         assert_matches_type(HookUpdateResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: Mobilerun) -> None:
         with client.hooks.with_streaming_response.update(
@@ -111,7 +111,7 @@ class TestHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `hook_id` but received ''"):
@@ -119,13 +119,13 @@ class TestHooks:
                 hook_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Mobilerun) -> None:
         hook = client.hooks.list()
         assert_matches_type(HookListResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         hook = client.hooks.list(
@@ -136,7 +136,7 @@ class TestHooks:
         )
         assert_matches_type(HookListResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Mobilerun) -> None:
         response = client.hooks.with_raw_response.list()
@@ -146,7 +146,7 @@ class TestHooks:
         hook = response.parse()
         assert_matches_type(HookListResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Mobilerun) -> None:
         with client.hooks.with_streaming_response.list() as response:
@@ -158,13 +158,13 @@ class TestHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get_sample_data(self, client: Mobilerun) -> None:
         hook = client.hooks.get_sample_data()
         assert_matches_type(HookGetSampleDataResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get_sample_data(self, client: Mobilerun) -> None:
         response = client.hooks.with_raw_response.get_sample_data()
@@ -174,7 +174,7 @@ class TestHooks:
         hook = response.parse()
         assert_matches_type(HookGetSampleDataResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get_sample_data(self, client: Mobilerun) -> None:
         with client.hooks.with_streaming_response.get_sample_data() as response:
@@ -186,7 +186,7 @@ class TestHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_perform(self, client: Mobilerun) -> None:
         hook = client.hooks.perform(
@@ -194,7 +194,7 @@ class TestHooks:
         )
         assert_matches_type(HookPerformResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_perform(self, client: Mobilerun) -> None:
         response = client.hooks.with_raw_response.perform(
@@ -206,7 +206,7 @@ class TestHooks:
         hook = response.parse()
         assert_matches_type(HookPerformResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_perform(self, client: Mobilerun) -> None:
         with client.hooks.with_streaming_response.perform(
@@ -220,7 +220,7 @@ class TestHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_subscribe(self, client: Mobilerun) -> None:
         hook = client.hooks.subscribe(
@@ -228,7 +228,7 @@ class TestHooks:
         )
         assert_matches_type(HookSubscribeResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_subscribe_with_all_params(self, client: Mobilerun) -> None:
         hook = client.hooks.subscribe(
@@ -238,7 +238,7 @@ class TestHooks:
         )
         assert_matches_type(HookSubscribeResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_subscribe(self, client: Mobilerun) -> None:
         response = client.hooks.with_raw_response.subscribe(
@@ -250,7 +250,7 @@ class TestHooks:
         hook = response.parse()
         assert_matches_type(HookSubscribeResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_subscribe(self, client: Mobilerun) -> None:
         with client.hooks.with_streaming_response.subscribe(
@@ -264,7 +264,7 @@ class TestHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_unsubscribe(self, client: Mobilerun) -> None:
         hook = client.hooks.unsubscribe(
@@ -272,7 +272,7 @@ class TestHooks:
         )
         assert_matches_type(HookUnsubscribeResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_unsubscribe(self, client: Mobilerun) -> None:
         response = client.hooks.with_raw_response.unsubscribe(
@@ -284,7 +284,7 @@ class TestHooks:
         hook = response.parse()
         assert_matches_type(HookUnsubscribeResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_unsubscribe(self, client: Mobilerun) -> None:
         with client.hooks.with_streaming_response.unsubscribe(
@@ -298,7 +298,7 @@ class TestHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_unsubscribe(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `hook_id` but received ''"):
@@ -312,7 +312,7 @@ class TestAsyncHooks:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncMobilerun) -> None:
         hook = await async_client.hooks.retrieve(
@@ -320,7 +320,7 @@ class TestAsyncHooks:
         )
         assert_matches_type(HookRetrieveResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.hooks.with_raw_response.retrieve(
@@ -332,7 +332,7 @@ class TestAsyncHooks:
         hook = await response.parse()
         assert_matches_type(HookRetrieveResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         async with async_client.hooks.with_streaming_response.retrieve(
@@ -346,7 +346,7 @@ class TestAsyncHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `hook_id` but received ''"):
@@ -354,7 +354,7 @@ class TestAsyncHooks:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncMobilerun) -> None:
         hook = await async_client.hooks.update(
@@ -362,7 +362,7 @@ class TestAsyncHooks:
         )
         assert_matches_type(HookUpdateResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncMobilerun) -> None:
         hook = await async_client.hooks.update(
@@ -372,7 +372,7 @@ class TestAsyncHooks:
         )
         assert_matches_type(HookUpdateResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.hooks.with_raw_response.update(
@@ -384,7 +384,7 @@ class TestAsyncHooks:
         hook = await response.parse()
         assert_matches_type(HookUpdateResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncMobilerun) -> None:
         async with async_client.hooks.with_streaming_response.update(
@@ -398,7 +398,7 @@ class TestAsyncHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `hook_id` but received ''"):
@@ -406,13 +406,13 @@ class TestAsyncHooks:
                 hook_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncMobilerun) -> None:
         hook = await async_client.hooks.list()
         assert_matches_type(HookListResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         hook = await async_client.hooks.list(
@@ -423,7 +423,7 @@ class TestAsyncHooks:
         )
         assert_matches_type(HookListResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.hooks.with_raw_response.list()
@@ -433,7 +433,7 @@ class TestAsyncHooks:
         hook = await response.parse()
         assert_matches_type(HookListResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMobilerun) -> None:
         async with async_client.hooks.with_streaming_response.list() as response:
@@ -445,13 +445,13 @@ class TestAsyncHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get_sample_data(self, async_client: AsyncMobilerun) -> None:
         hook = await async_client.hooks.get_sample_data()
         assert_matches_type(HookGetSampleDataResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get_sample_data(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.hooks.with_raw_response.get_sample_data()
@@ -461,7 +461,7 @@ class TestAsyncHooks:
         hook = await response.parse()
         assert_matches_type(HookGetSampleDataResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get_sample_data(self, async_client: AsyncMobilerun) -> None:
         async with async_client.hooks.with_streaming_response.get_sample_data() as response:
@@ -473,7 +473,7 @@ class TestAsyncHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_perform(self, async_client: AsyncMobilerun) -> None:
         hook = await async_client.hooks.perform(
@@ -481,7 +481,7 @@ class TestAsyncHooks:
         )
         assert_matches_type(HookPerformResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_perform(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.hooks.with_raw_response.perform(
@@ -493,7 +493,7 @@ class TestAsyncHooks:
         hook = await response.parse()
         assert_matches_type(HookPerformResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_perform(self, async_client: AsyncMobilerun) -> None:
         async with async_client.hooks.with_streaming_response.perform(
@@ -507,7 +507,7 @@ class TestAsyncHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_subscribe(self, async_client: AsyncMobilerun) -> None:
         hook = await async_client.hooks.subscribe(
@@ -515,7 +515,7 @@ class TestAsyncHooks:
         )
         assert_matches_type(HookSubscribeResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_subscribe_with_all_params(self, async_client: AsyncMobilerun) -> None:
         hook = await async_client.hooks.subscribe(
@@ -525,7 +525,7 @@ class TestAsyncHooks:
         )
         assert_matches_type(HookSubscribeResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_subscribe(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.hooks.with_raw_response.subscribe(
@@ -537,7 +537,7 @@ class TestAsyncHooks:
         hook = await response.parse()
         assert_matches_type(HookSubscribeResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_subscribe(self, async_client: AsyncMobilerun) -> None:
         async with async_client.hooks.with_streaming_response.subscribe(
@@ -551,7 +551,7 @@ class TestAsyncHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_unsubscribe(self, async_client: AsyncMobilerun) -> None:
         hook = await async_client.hooks.unsubscribe(
@@ -559,7 +559,7 @@ class TestAsyncHooks:
         )
         assert_matches_type(HookUnsubscribeResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_unsubscribe(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.hooks.with_raw_response.unsubscribe(
@@ -571,7 +571,7 @@ class TestAsyncHooks:
         hook = await response.parse()
         assert_matches_type(HookUnsubscribeResponse, hook, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_unsubscribe(self, async_client: AsyncMobilerun) -> None:
         async with async_client.hooks.with_streaming_response.unsubscribe(
@@ -585,7 +585,7 @@ class TestAsyncHooks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_unsubscribe(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `hook_id` but received ''"):

@@ -1,5 +1,30 @@
 # Changelog
 
+## 3.0.0 (2026-03-15)
+
+Full Changelog: [v2.1.0...v3.0.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v2.1.0...v3.0.0)
+
+### Features
+
+* **api:** add missing endpoints ([f626748](https://github.com/droidrun/mobilerun-sdk-python/commit/f6267489f64aec8f09ae41d6858366440acb177c))
+* **api:** align names with device sdk ([eac66f6](https://github.com/droidrun/mobilerun-sdk-python/commit/eac66f6ef66c3cd2d031282ad253ae5e364cfdd0))
+* **api:** api update ([1250506](https://github.com/droidrun/mobilerun-sdk-python/commit/1250506c72caa3c87ea45154eafa1daf7ac3a456))
+* **api:** api update ([349bc52](https://github.com/droidrun/mobilerun-sdk-python/commit/349bc52c712c3bdde72517c37b3439d09c0512f9))
+* **api:** api update ([37b42e5](https://github.com/droidrun/mobilerun-sdk-python/commit/37b42e56b084278803f4ec03229a2c44d1e92c52))
+* **api:** api update ([067ec92](https://github.com/droidrun/mobilerun-sdk-python/commit/067ec9243178049642f47de2772455152d677b39))
+* **api:** api update ([e404031](https://github.com/droidrun/mobilerun-sdk-python/commit/e404031a09ee8dfee4608a2fa3e47a3930866dea))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([2b5a466](https://github.com/droidrun/mobilerun-sdk-python/commit/2b5a466f9ab7de499eecf1b101498dd71d3e6478))
+* **internal:** add request options to SSE classes ([292b42d](https://github.com/droidrun/mobilerun-sdk-python/commit/292b42d2ad5c84a0470749dc5715ca360d36d59a))
+* **internal:** codegen related update ([dfa6be3](https://github.com/droidrun/mobilerun-sdk-python/commit/dfa6be38a9014e0283c7fe1a978feae105b27d49))
+* **internal:** make `test_proxy_environment_variables` more resilient ([8507955](https://github.com/droidrun/mobilerun-sdk-python/commit/8507955fdd11ce358416ada4bf7ccd65c7054ec4))
+* **internal:** make `test_proxy_environment_variables` more resilient to env ([de554a0](https://github.com/droidrun/mobilerun-sdk-python/commit/de554a039546d6363369dad00a79acf4c9431a47))
+* **internal:** remove mock server code ([66af1f3](https://github.com/droidrun/mobilerun-sdk-python/commit/66af1f3e2c961b17547e79918c56c96647481567))
+* update mock server docs ([213ffea](https://github.com/droidrun/mobilerun-sdk-python/commit/213ffea6a38718a522a02c8fadc4dca9efd4af03))
+
 ## 2.1.0 (2026-02-19)
 
 Full Changelog: [v2.0.0...v2.1.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v2.0.0...v2.1.0)

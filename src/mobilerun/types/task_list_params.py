@@ -16,11 +16,9 @@ class TaskListParams(TypedDict, total=False):
 
     order_by_direction: Annotated[Literal["asc", "desc"], PropertyInfo(alias="orderByDirection")]
 
-    page: Optional[int]
-    """Page number (1-based). If provided, returns paginated results."""
+    page: int
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
-    """Number of items per page"""
 
     query: Optional[str]
     """Search in task description."""

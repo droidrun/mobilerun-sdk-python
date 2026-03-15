@@ -11,8 +11,5 @@ class TaskRunResponse(BaseModel):
     id: str
     """The ID of the task"""
 
-    token: str
-    """The token of the stream"""
-
     stream_url: str = FieldInfo(alias="streamUrl")
     """The URL of the stream"""

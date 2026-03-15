@@ -91,6 +91,7 @@ class AppsResource(SyncAPIResource):
         self,
         device_id: str,
         *,
+        include_protected_apps: bool | Omit = omit,
         include_system_apps: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -127,7 +128,13 @@ class AppsResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"include_system_apps": include_system_apps}, app_list_params.AppListParams),
+                query=maybe_transform(
+                    {
+                        "include_protected_apps": include_protected_apps,
+                        "include_system_apps": include_system_apps,
+                    },
+                    app_list_params.AppListParams,
+                ),
             ),
             cast_to=AppListResponse,
         )
@@ -334,6 +341,7 @@ class AsyncAppsResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
+        include_protected_apps: bool | Omit = omit,
         include_system_apps: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -371,7 +379,11 @@ class AsyncAppsResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"include_system_apps": include_system_apps}, app_list_params.AppListParams
+                    {
+                        "include_protected_apps": include_protected_apps,
+                        "include_system_apps": include_system_apps,
+                    },
+                    app_list_params.AppListParams,
                 ),
             ),
             cast_to=AppListResponse,

@@ -10,8 +10,13 @@ __all__ = ["KeyboardWriteParams"]
 
 
 class KeyboardWriteParams(TypedDict, total=False):
-    clear: Required[bool]
-
     text: Required[str]
+
+    clear: bool
+
+    stealth: bool
+
+    wpm: int
+    """Words per minute for stealth typing. 0 uses portal default."""
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

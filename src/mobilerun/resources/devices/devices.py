@@ -16,6 +16,30 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
+from .time import (
+    TimeResource,
+    AsyncTimeResource,
+    TimeResourceWithRawResponse,
+    AsyncTimeResourceWithRawResponse,
+    TimeResourceWithStreamingResponse,
+    AsyncTimeResourceWithStreamingResponse,
+)
+from .files import (
+    FilesResource,
+    AsyncFilesResource,
+    FilesResourceWithRawResponse,
+    AsyncFilesResourceWithRawResponse,
+    FilesResourceWithStreamingResponse,
+    AsyncFilesResourceWithStreamingResponse,
+)
+from .proxy import (
+    ProxyResource,
+    AsyncProxyResource,
+    ProxyResourceWithRawResponse,
+    AsyncProxyResourceWithRawResponse,
+    ProxyResourceWithStreamingResponse,
+    AsyncProxyResourceWithStreamingResponse,
+)
 from .state import (
     StateResource,
     AsyncStateResource,
@@ -41,6 +65,14 @@ from .actions import (
     ActionsResourceWithStreamingResponse,
     AsyncActionsResourceWithStreamingResponse,
 )
+from .profile import (
+    ProfileResource,
+    AsyncProfileResource,
+    ProfileResourceWithRawResponse,
+    AsyncProfileResourceWithRawResponse,
+    ProfileResourceWithStreamingResponse,
+    AsyncProfileResourceWithStreamingResponse,
+)
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from .keyboard import (
@@ -50,6 +82,14 @@ from .keyboard import (
     AsyncKeyboardResourceWithRawResponse,
     KeyboardResourceWithStreamingResponse,
     AsyncKeyboardResourceWithStreamingResponse,
+)
+from .location import (
+    LocationResource,
+    AsyncLocationResource,
+    LocationResourceWithRawResponse,
+    AsyncLocationResourceWithRawResponse,
+    LocationResourceWithStreamingResponse,
+    AsyncLocationResourceWithStreamingResponse,
 )
 from .packages import (
     PackagesResource,
@@ -70,12 +110,35 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.device import Device
 from ...types.device_list_response import DeviceListResponse
+from ...types.shared_params.config import Config
 from ...types.device_count_response import DeviceCountResponse
+from ...types.shared_params.device_carrier import DeviceCarrier
+from ...types.shared_params.device_identifiers import DeviceIdentifiers
 
 __all__ = ["DevicesResource", "AsyncDevicesResource"]
 
 
 class DevicesResource(SyncAPIResource):
+    @cached_property
+    def time(self) -> TimeResource:
+        return TimeResource(self._client)
+
+    @cached_property
+    def profile(self) -> ProfileResource:
+        return ProfileResource(self._client)
+
+    @cached_property
+    def files(self) -> FilesResource:
+        return FilesResource(self._client)
+
+    @cached_property
+    def proxy(self) -> ProxyResource:
+        return ProxyResource(self._client)
+
+    @cached_property
+    def location(self) -> LocationResource:
+        return LocationResource(self._client)
+
     @cached_property
     def actions(self) -> ActionsResource:
         return ActionsResource(self._client)
@@ -122,16 +185,15 @@ class DevicesResource(SyncAPIResource):
     def create(
         self,
         *,
-        device_type: Literal[
-            "device_slot", "dedicated_emulated_device", "dedicated_physical_device", "dedicated_premium_device"
-        ]
+        device_type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
         | Omit = omit,
-        provider: Literal["limrun", "physical", "premium", "roidrun"] | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
-        country: str | Omit = omit,
+        carrier: DeviceCarrier | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
+        identifiers: DeviceIdentifiers | Omit = omit,
         name: str | Omit = omit,
-        proxy: device_create_params.Proxy | Omit = omit,
+        proxy: Config | Omit = omit,
+        smart_ip: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -156,10 +218,12 @@ class DevicesResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "apps": apps,
-                    "country": country,
+                    "carrier": carrier,
                     "files": files,
+                    "identifiers": identifiers,
                     "name": name,
                     "proxy": proxy,
+                    "smart_ip": smart_ip,
                 },
                 device_create_params.DeviceCreateParams,
             ),
@@ -168,13 +232,7 @@ class DevicesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "device_type": device_type,
-                        "provider": provider,
-                    },
-                    device_create_params.DeviceCreateParams,
-                ),
+                query=maybe_transform({"device_type": device_type}, device_create_params.DeviceCreateParams),
             ),
             cast_to=Device,
         )
@@ -221,10 +279,10 @@ class DevicesResource(SyncAPIResource):
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
-        provider: Literal["limrun", "personal", "remote", "roidrun"] | Omit = omit,
         state: Optional[List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "unknown"]]]
         | Omit = omit,
-        type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
+        type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -259,7 +317,6 @@ class DevicesResource(SyncAPIResource):
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
-                        "provider": provider,
                         "state": state,
                         "type": type,
                     },
@@ -367,6 +424,26 @@ class DevicesResource(SyncAPIResource):
 
 class AsyncDevicesResource(AsyncAPIResource):
     @cached_property
+    def time(self) -> AsyncTimeResource:
+        return AsyncTimeResource(self._client)
+
+    @cached_property
+    def profile(self) -> AsyncProfileResource:
+        return AsyncProfileResource(self._client)
+
+    @cached_property
+    def files(self) -> AsyncFilesResource:
+        return AsyncFilesResource(self._client)
+
+    @cached_property
+    def proxy(self) -> AsyncProxyResource:
+        return AsyncProxyResource(self._client)
+
+    @cached_property
+    def location(self) -> AsyncLocationResource:
+        return AsyncLocationResource(self._client)
+
+    @cached_property
     def actions(self) -> AsyncActionsResource:
         return AsyncActionsResource(self._client)
 
@@ -412,16 +489,15 @@ class AsyncDevicesResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        device_type: Literal[
-            "device_slot", "dedicated_emulated_device", "dedicated_physical_device", "dedicated_premium_device"
-        ]
+        device_type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
         | Omit = omit,
-        provider: Literal["limrun", "physical", "premium", "roidrun"] | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
-        country: str | Omit = omit,
+        carrier: DeviceCarrier | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
+        identifiers: DeviceIdentifiers | Omit = omit,
         name: str | Omit = omit,
-        proxy: device_create_params.Proxy | Omit = omit,
+        proxy: Config | Omit = omit,
+        smart_ip: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -446,10 +522,12 @@ class AsyncDevicesResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "apps": apps,
-                    "country": country,
+                    "carrier": carrier,
                     "files": files,
+                    "identifiers": identifiers,
                     "name": name,
                     "proxy": proxy,
+                    "smart_ip": smart_ip,
                 },
                 device_create_params.DeviceCreateParams,
             ),
@@ -459,11 +537,7 @@ class AsyncDevicesResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {
-                        "device_type": device_type,
-                        "provider": provider,
-                    },
-                    device_create_params.DeviceCreateParams,
+                    {"device_type": device_type}, device_create_params.DeviceCreateParams
                 ),
             ),
             cast_to=Device,
@@ -511,10 +585,10 @@ class AsyncDevicesResource(AsyncAPIResource):
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
-        provider: Literal["limrun", "personal", "remote", "roidrun"] | Omit = omit,
         state: Optional[List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "unknown"]]]
         | Omit = omit,
-        type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"] | Omit = omit,
+        type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -549,7 +623,6 @@ class AsyncDevicesResource(AsyncAPIResource):
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
-                        "provider": provider,
                         "state": state,
                         "type": type,
                     },
@@ -679,6 +752,26 @@ class DevicesResourceWithRawResponse:
         )
 
     @cached_property
+    def time(self) -> TimeResourceWithRawResponse:
+        return TimeResourceWithRawResponse(self._devices.time)
+
+    @cached_property
+    def profile(self) -> ProfileResourceWithRawResponse:
+        return ProfileResourceWithRawResponse(self._devices.profile)
+
+    @cached_property
+    def files(self) -> FilesResourceWithRawResponse:
+        return FilesResourceWithRawResponse(self._devices.files)
+
+    @cached_property
+    def proxy(self) -> ProxyResourceWithRawResponse:
+        return ProxyResourceWithRawResponse(self._devices.proxy)
+
+    @cached_property
+    def location(self) -> LocationResourceWithRawResponse:
+        return LocationResourceWithRawResponse(self._devices.location)
+
+    @cached_property
     def actions(self) -> ActionsResourceWithRawResponse:
         return ActionsResourceWithRawResponse(self._devices.actions)
 
@@ -725,6 +818,26 @@ class AsyncDevicesResourceWithRawResponse:
         self.wait_ready = async_to_raw_response_wrapper(
             devices.wait_ready,
         )
+
+    @cached_property
+    def time(self) -> AsyncTimeResourceWithRawResponse:
+        return AsyncTimeResourceWithRawResponse(self._devices.time)
+
+    @cached_property
+    def profile(self) -> AsyncProfileResourceWithRawResponse:
+        return AsyncProfileResourceWithRawResponse(self._devices.profile)
+
+    @cached_property
+    def files(self) -> AsyncFilesResourceWithRawResponse:
+        return AsyncFilesResourceWithRawResponse(self._devices.files)
+
+    @cached_property
+    def proxy(self) -> AsyncProxyResourceWithRawResponse:
+        return AsyncProxyResourceWithRawResponse(self._devices.proxy)
+
+    @cached_property
+    def location(self) -> AsyncLocationResourceWithRawResponse:
+        return AsyncLocationResourceWithRawResponse(self._devices.location)
 
     @cached_property
     def actions(self) -> AsyncActionsResourceWithRawResponse:
@@ -775,6 +888,26 @@ class DevicesResourceWithStreamingResponse:
         )
 
     @cached_property
+    def time(self) -> TimeResourceWithStreamingResponse:
+        return TimeResourceWithStreamingResponse(self._devices.time)
+
+    @cached_property
+    def profile(self) -> ProfileResourceWithStreamingResponse:
+        return ProfileResourceWithStreamingResponse(self._devices.profile)
+
+    @cached_property
+    def files(self) -> FilesResourceWithStreamingResponse:
+        return FilesResourceWithStreamingResponse(self._devices.files)
+
+    @cached_property
+    def proxy(self) -> ProxyResourceWithStreamingResponse:
+        return ProxyResourceWithStreamingResponse(self._devices.proxy)
+
+    @cached_property
+    def location(self) -> LocationResourceWithStreamingResponse:
+        return LocationResourceWithStreamingResponse(self._devices.location)
+
+    @cached_property
     def actions(self) -> ActionsResourceWithStreamingResponse:
         return ActionsResourceWithStreamingResponse(self._devices.actions)
 
@@ -821,6 +954,26 @@ class AsyncDevicesResourceWithStreamingResponse:
         self.wait_ready = async_to_streamed_response_wrapper(
             devices.wait_ready,
         )
+
+    @cached_property
+    def time(self) -> AsyncTimeResourceWithStreamingResponse:
+        return AsyncTimeResourceWithStreamingResponse(self._devices.time)
+
+    @cached_property
+    def profile(self) -> AsyncProfileResourceWithStreamingResponse:
+        return AsyncProfileResourceWithStreamingResponse(self._devices.profile)
+
+    @cached_property
+    def files(self) -> AsyncFilesResourceWithStreamingResponse:
+        return AsyncFilesResourceWithStreamingResponse(self._devices.files)
+
+    @cached_property
+    def proxy(self) -> AsyncProxyResourceWithStreamingResponse:
+        return AsyncProxyResourceWithStreamingResponse(self._devices.proxy)
+
+    @cached_property
+    def location(self) -> AsyncLocationResourceWithStreamingResponse:
+        return AsyncLocationResourceWithStreamingResponse(self._devices.location)
 
     @cached_property
     def actions(self) -> AsyncActionsResourceWithStreamingResponse:

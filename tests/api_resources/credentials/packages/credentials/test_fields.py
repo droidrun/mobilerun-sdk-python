@@ -21,7 +21,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestFields:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Mobilerun) -> None:
         field = client.credentials.packages.credentials.fields.create(
@@ -32,7 +32,7 @@ class TestFields:
         )
         assert_matches_type(FieldCreateResponse, field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.fields.with_raw_response.create(
@@ -47,7 +47,7 @@ class TestFields:
         field = response.parse()
         assert_matches_type(FieldCreateResponse, field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Mobilerun) -> None:
         with client.credentials.packages.credentials.fields.with_streaming_response.create(
@@ -64,7 +64,7 @@ class TestFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_create(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
@@ -83,7 +83,7 @@ class TestFields:
                 value="x",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update(self, client: Mobilerun) -> None:
         field = client.credentials.packages.credentials.fields.update(
@@ -94,7 +94,7 @@ class TestFields:
         )
         assert_matches_type(FieldUpdateResponse, field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.fields.with_raw_response.update(
@@ -109,7 +109,7 @@ class TestFields:
         field = response.parse()
         assert_matches_type(FieldUpdateResponse, field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: Mobilerun) -> None:
         with client.credentials.packages.credentials.fields.with_streaming_response.update(
@@ -126,7 +126,7 @@ class TestFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
@@ -145,7 +145,7 @@ class TestFields:
                 value="x",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: Mobilerun) -> None:
         field = client.credentials.packages.credentials.fields.delete(
@@ -155,7 +155,7 @@ class TestFields:
         )
         assert_matches_type(FieldDeleteResponse, field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.fields.with_raw_response.delete(
@@ -169,7 +169,7 @@ class TestFields:
         field = response.parse()
         assert_matches_type(FieldDeleteResponse, field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Mobilerun) -> None:
         with client.credentials.packages.credentials.fields.with_streaming_response.delete(
@@ -185,7 +185,7 @@ class TestFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
@@ -208,7 +208,7 @@ class TestAsyncFields:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncMobilerun) -> None:
         field = await async_client.credentials.packages.credentials.fields.create(
@@ -219,7 +219,7 @@ class TestAsyncFields:
         )
         assert_matches_type(FieldCreateResponse, field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.credentials.fields.with_raw_response.create(
@@ -234,7 +234,7 @@ class TestAsyncFields:
         field = await response.parse()
         assert_matches_type(FieldCreateResponse, field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.credentials.fields.with_streaming_response.create(
@@ -251,7 +251,7 @@ class TestAsyncFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_create(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
@@ -270,7 +270,7 @@ class TestAsyncFields:
                 value="x",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncMobilerun) -> None:
         field = await async_client.credentials.packages.credentials.fields.update(
@@ -281,7 +281,7 @@ class TestAsyncFields:
         )
         assert_matches_type(FieldUpdateResponse, field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.credentials.fields.with_raw_response.update(
@@ -296,7 +296,7 @@ class TestAsyncFields:
         field = await response.parse()
         assert_matches_type(FieldUpdateResponse, field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.credentials.fields.with_streaming_response.update(
@@ -313,7 +313,7 @@ class TestAsyncFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
@@ -332,7 +332,7 @@ class TestAsyncFields:
                 value="x",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncMobilerun) -> None:
         field = await async_client.credentials.packages.credentials.fields.delete(
@@ -342,7 +342,7 @@ class TestAsyncFields:
         )
         assert_matches_type(FieldDeleteResponse, field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.credentials.fields.with_raw_response.delete(
@@ -356,7 +356,7 @@ class TestAsyncFields:
         field = await response.parse()
         assert_matches_type(FieldDeleteResponse, field, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.credentials.fields.with_streaming_response.delete(
@@ -372,7 +372,7 @@ class TestAsyncFields:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):

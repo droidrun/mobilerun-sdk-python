@@ -10,6 +10,8 @@ __all__ = ["PackageListParams"]
 
 
 class PackageListParams(TypedDict, total=False):
+    include_protected_packages: Annotated[bool, PropertyInfo(alias="includeProtectedPackages")]
+
     include_system_packages: Annotated[bool, PropertyInfo(alias="includeSystemPackages")]
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

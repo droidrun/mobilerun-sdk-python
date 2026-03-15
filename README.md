@@ -124,16 +124,31 @@ from mobilerun import Mobilerun
 
 client = Mobilerun()
 
-device = client.devices.create(
-    proxy={
-        "host": "host",
-        "password": "password",
-        "port": 0,
-        "user": "user",
-    },
+profile = client.profiles.create(
+    name="x",
+    spec={},
 )
-print(device.proxy)
+print(profile.spec)
 ```
+
+## File uploads
+
+Request parameters that correspond to file uploads can be passed as `bytes`, or a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance or a tuple of `(filename, contents, media type)`.
+
+```python
+from pathlib import Path
+from mobilerun import Mobilerun
+
+client = Mobilerun()
+
+client.devices.files.upload(
+    device_id="deviceId",
+    path="path",
+    file=Path("/path/to/file"),
+)
+```
+
+The async client uses the exact same interface. If you pass a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance, the file contents will be read asynchronously automatically.
 
 ## Handling errors
 

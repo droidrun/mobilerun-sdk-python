@@ -24,6 +24,14 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
+from .agents import (
+    AgentsResource,
+    AsyncAgentsResource,
+    AgentsResourceWithRawResponse,
+    AsyncAgentsResourceWithRawResponse,
+    AgentsResourceWithStreamingResponse,
+    AsyncAgentsResourceWithStreamingResponse,
+)
 from .models import (
     ModelsResource,
     AsyncModelsResource,
@@ -39,6 +47,30 @@ from .devices import (
     AsyncDevicesResourceWithRawResponse,
     DevicesResourceWithStreamingResponse,
     AsyncDevicesResourceWithStreamingResponse,
+)
+from .proxies import (
+    ProxiesResource,
+    AsyncProxiesResource,
+    ProxiesResourceWithRawResponse,
+    AsyncProxiesResourceWithRawResponse,
+    ProxiesResourceWithStreamingResponse,
+    AsyncProxiesResourceWithStreamingResponse,
+)
+from .carriers import (
+    CarriersResource,
+    AsyncCarriersResource,
+    CarriersResourceWithRawResponse,
+    AsyncCarriersResourceWithRawResponse,
+    CarriersResourceWithStreamingResponse,
+    AsyncCarriersResourceWithStreamingResponse,
+)
+from .profiles import (
+    ProfilesResource,
+    AsyncProfilesResource,
+    ProfilesResourceWithRawResponse,
+    AsyncProfilesResourceWithRawResponse,
+    ProfilesResourceWithStreamingResponse,
+    AsyncProfilesResourceWithStreamingResponse,
 )
 from .credentials import (
     CredentialsResource,
@@ -56,6 +88,30 @@ __all__ = [
     "AsyncTasksResourceWithRawResponse",
     "TasksResourceWithStreamingResponse",
     "AsyncTasksResourceWithStreamingResponse",
+    "AgentsResource",
+    "AsyncAgentsResource",
+    "AgentsResourceWithRawResponse",
+    "AsyncAgentsResourceWithRawResponse",
+    "AgentsResourceWithStreamingResponse",
+    "AsyncAgentsResourceWithStreamingResponse",
+    "ProxiesResource",
+    "AsyncProxiesResource",
+    "ProxiesResourceWithRawResponse",
+    "AsyncProxiesResourceWithRawResponse",
+    "ProxiesResourceWithStreamingResponse",
+    "AsyncProxiesResourceWithStreamingResponse",
+    "CarriersResource",
+    "AsyncCarriersResource",
+    "CarriersResourceWithRawResponse",
+    "AsyncCarriersResourceWithRawResponse",
+    "CarriersResourceWithStreamingResponse",
+    "AsyncCarriersResourceWithStreamingResponse",
+    "ProfilesResource",
+    "AsyncProfilesResource",
+    "ProfilesResourceWithRawResponse",
+    "AsyncProfilesResourceWithRawResponse",
+    "ProfilesResourceWithStreamingResponse",
+    "AsyncProfilesResourceWithStreamingResponse",
     "DevicesResource",
     "AsyncDevicesResource",
     "DevicesResourceWithRawResponse",

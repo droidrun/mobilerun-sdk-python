@@ -15,6 +15,7 @@ from mobilerun.types import (
     TaskStopResponse,
     TaskRetrieveResponse,
     TaskGetStatusResponse,
+    TaskSendMessageResponse,
     TaskGetTrajectoryResponse,
 )
 
@@ -24,7 +25,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestTasks:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Mobilerun) -> None:
         task = client.tasks.retrieve(
@@ -32,7 +33,7 @@ class TestTasks:
         )
         assert_matches_type(TaskRetrieveResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.retrieve(
@@ -44,7 +45,7 @@ class TestTasks:
         task = response.parse()
         assert_matches_type(TaskRetrieveResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.retrieve(
@@ -58,7 +59,7 @@ class TestTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
@@ -66,13 +67,13 @@ class TestTasks:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Mobilerun) -> None:
         task = client.tasks.list()
         assert_matches_type(TaskListResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         task = client.tasks.list(
@@ -85,7 +86,7 @@ class TestTasks:
         )
         assert_matches_type(TaskListResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.list()
@@ -95,7 +96,7 @@ class TestTasks:
         task = response.parse()
         assert_matches_type(TaskListResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.list() as response:
@@ -107,7 +108,7 @@ class TestTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_attach(self, client: Mobilerun) -> None:
         task = client.tasks.attach(
@@ -115,7 +116,7 @@ class TestTasks:
         )
         assert task is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_attach(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.attach(
@@ -127,7 +128,7 @@ class TestTasks:
         task = response.parse()
         assert task is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_attach(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.attach(
@@ -141,7 +142,7 @@ class TestTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_attach(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
@@ -149,7 +150,7 @@ class TestTasks:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get_status(self, client: Mobilerun) -> None:
         task = client.tasks.get_status(
@@ -157,7 +158,7 @@ class TestTasks:
         )
         assert_matches_type(TaskGetStatusResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get_status(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.get_status(
@@ -169,7 +170,7 @@ class TestTasks:
         task = response.parse()
         assert_matches_type(TaskGetStatusResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get_status(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.get_status(
@@ -183,7 +184,7 @@ class TestTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_get_status(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
@@ -191,7 +192,7 @@ class TestTasks:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get_trajectory(self, client: Mobilerun) -> None:
         task = client.tasks.get_trajectory(
@@ -199,7 +200,7 @@ class TestTasks:
         )
         assert_matches_type(TaskGetTrajectoryResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get_trajectory(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.get_trajectory(
@@ -211,7 +212,7 @@ class TestTasks:
         task = response.parse()
         assert_matches_type(TaskGetTrajectoryResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get_trajectory(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.get_trajectory(
@@ -225,7 +226,7 @@ class TestTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_get_trajectory(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
@@ -233,21 +234,22 @@ class TestTasks:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_run(self, client: Mobilerun) -> None:
         task = client.tasks.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_run_with_all_params(self, client: Mobilerun) -> None:
         task = client.tasks.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
+            agent_id=0,
             apps=["string"],
             credentials=[
                 {
@@ -255,10 +257,10 @@ class TestTasks:
                     "package_name": "packageName",
                 }
             ],
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             display_id=0,
             execution_timeout=0,
             files=["string"],
+            llm_model="llmModel",
             max_steps=0,
             output_schema={"foo": "bar"},
             reasoning=True,
@@ -269,11 +271,11 @@ class TestTasks:
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_run(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
 
@@ -282,11 +284,11 @@ class TestTasks:
         task = response.parse()
         assert_matches_type(TaskRunResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_run(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         ) as response:
             assert not response.is_closed
@@ -297,21 +299,22 @@ class TestTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_run_streamed(self, client: Mobilerun) -> None:
         task = client.tasks.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
-        assert task is None
+        assert_matches_type(object, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_run_streamed_with_all_params(self, client: Mobilerun) -> None:
         task = client.tasks.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
+            agent_id=0,
             apps=["string"],
             credentials=[
                 {
@@ -319,10 +322,10 @@ class TestTasks:
                     "package_name": "packageName",
                 }
             ],
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             display_id=0,
             execution_timeout=0,
             files=["string"],
+            llm_model="llmModel",
             max_steps=0,
             output_schema={"foo": "bar"},
             reasoning=True,
@@ -331,37 +334,83 @@ class TestTasks:
             vision=True,
             vpn_country="US",
         )
-        assert task is None
+        assert_matches_type(object, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_run_streamed(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         task = response.parse()
-        assert task is None
+        assert_matches_type(object, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_run_streamed(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             task = response.parse()
-            assert task is None
+            assert_matches_type(object, task, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_send_message(self, client: Mobilerun) -> None:
+        task = client.tasks.send_message(
+            task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            message="x",
+        )
+        assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_send_message(self, client: Mobilerun) -> None:
+        response = client.tasks.with_raw_response.send_message(
+            task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            message="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        task = response.parse()
+        assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_send_message(self, client: Mobilerun) -> None:
+        with client.tasks.with_streaming_response.send_message(
+            task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            message="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            task = response.parse()
+            assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_send_message(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+            client.tasks.with_raw_response.send_message(
+                task_id="",
+                message="x",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_stop(self, client: Mobilerun) -> None:
         task = client.tasks.stop(
@@ -369,7 +418,7 @@ class TestTasks:
         )
         assert_matches_type(TaskStopResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_stop(self, client: Mobilerun) -> None:
         response = client.tasks.with_raw_response.stop(
@@ -381,7 +430,7 @@ class TestTasks:
         task = response.parse()
         assert_matches_type(TaskStopResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_stop(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.stop(
@@ -395,7 +444,7 @@ class TestTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_stop(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
@@ -409,7 +458,7 @@ class TestAsyncTasks:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.retrieve(
@@ -417,7 +466,7 @@ class TestAsyncTasks:
         )
         assert_matches_type(TaskRetrieveResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.retrieve(
@@ -429,7 +478,7 @@ class TestAsyncTasks:
         task = await response.parse()
         assert_matches_type(TaskRetrieveResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.retrieve(
@@ -443,7 +492,7 @@ class TestAsyncTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
@@ -451,13 +500,13 @@ class TestAsyncTasks:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.list()
         assert_matches_type(TaskListResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.list(
@@ -470,7 +519,7 @@ class TestAsyncTasks:
         )
         assert_matches_type(TaskListResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.list()
@@ -480,7 +529,7 @@ class TestAsyncTasks:
         task = await response.parse()
         assert_matches_type(TaskListResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.list() as response:
@@ -492,7 +541,7 @@ class TestAsyncTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_attach(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.attach(
@@ -500,7 +549,7 @@ class TestAsyncTasks:
         )
         assert task is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_attach(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.attach(
@@ -512,7 +561,7 @@ class TestAsyncTasks:
         task = await response.parse()
         assert task is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_attach(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.attach(
@@ -526,7 +575,7 @@ class TestAsyncTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_attach(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
@@ -534,7 +583,7 @@ class TestAsyncTasks:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get_status(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.get_status(
@@ -542,7 +591,7 @@ class TestAsyncTasks:
         )
         assert_matches_type(TaskGetStatusResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get_status(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.get_status(
@@ -554,7 +603,7 @@ class TestAsyncTasks:
         task = await response.parse()
         assert_matches_type(TaskGetStatusResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get_status(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.get_status(
@@ -568,7 +617,7 @@ class TestAsyncTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_get_status(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
@@ -576,7 +625,7 @@ class TestAsyncTasks:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get_trajectory(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.get_trajectory(
@@ -584,7 +633,7 @@ class TestAsyncTasks:
         )
         assert_matches_type(TaskGetTrajectoryResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get_trajectory(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.get_trajectory(
@@ -596,7 +645,7 @@ class TestAsyncTasks:
         task = await response.parse()
         assert_matches_type(TaskGetTrajectoryResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get_trajectory(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.get_trajectory(
@@ -610,7 +659,7 @@ class TestAsyncTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_get_trajectory(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
@@ -618,21 +667,22 @@ class TestAsyncTasks:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_run(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_run_with_all_params(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
+            agent_id=0,
             apps=["string"],
             credentials=[
                 {
@@ -640,10 +690,10 @@ class TestAsyncTasks:
                     "package_name": "packageName",
                 }
             ],
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             display_id=0,
             execution_timeout=0,
             files=["string"],
+            llm_model="llmModel",
             max_steps=0,
             output_schema={"foo": "bar"},
             reasoning=True,
@@ -654,11 +704,11 @@ class TestAsyncTasks:
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_run(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
 
@@ -667,11 +717,11 @@ class TestAsyncTasks:
         task = await response.parse()
         assert_matches_type(TaskRunResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_run(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.run(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         ) as response:
             assert not response.is_closed
@@ -682,21 +732,22 @@ class TestAsyncTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_run_streamed(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
-        assert task is None
+        assert_matches_type(object, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_run_streamed_with_all_params(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
+            agent_id=0,
             apps=["string"],
             credentials=[
                 {
@@ -704,10 +755,10 @@ class TestAsyncTasks:
                     "package_name": "packageName",
                 }
             ],
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             display_id=0,
             execution_timeout=0,
             files=["string"],
+            llm_model="llmModel",
             max_steps=0,
             output_schema={"foo": "bar"},
             reasoning=True,
@@ -716,37 +767,83 @@ class TestAsyncTasks:
             vision=True,
             vpn_country="US",
         )
-        assert task is None
+        assert_matches_type(object, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_run_streamed(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         task = await response.parse()
-        assert task is None
+        assert_matches_type(object, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_run_streamed(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.run_streamed(
-            llm_model="llmModel",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             task = await response.parse()
-            assert task is None
+            assert_matches_type(object, task, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_send_message(self, async_client: AsyncMobilerun) -> None:
+        task = await async_client.tasks.send_message(
+            task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            message="x",
+        )
+        assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_send_message(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.tasks.with_raw_response.send_message(
+            task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            message="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        task = await response.parse()
+        assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_send_message(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.tasks.with_streaming_response.send_message(
+            task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            message="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            task = await response.parse()
+            assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_send_message(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
+            await async_client.tasks.with_raw_response.send_message(
+                task_id="",
+                message="x",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_stop(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.stop(
@@ -754,7 +851,7 @@ class TestAsyncTasks:
         )
         assert_matches_type(TaskStopResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_stop(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.tasks.with_raw_response.stop(
@@ -766,7 +863,7 @@ class TestAsyncTasks:
         task = await response.parse()
         assert_matches_type(TaskStopResponse, task, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_stop(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.stop(
@@ -780,7 +877,7 @@ class TestAsyncTasks:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_stop(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):

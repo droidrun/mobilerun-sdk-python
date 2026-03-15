@@ -23,8 +23,6 @@ class DeviceListParams(TypedDict, total=False):
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
 
-    provider: Literal["limrun", "personal", "remote", "roidrun"]
-
     state: Optional[List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "unknown"]]]
 
-    type: Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device"]
+    type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]

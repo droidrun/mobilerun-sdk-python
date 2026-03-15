@@ -128,8 +128,10 @@ class KeyboardResource(SyncAPIResource):
         self,
         device_id: str,
         *,
-        clear: bool,
         text: str,
+        clear: bool | Omit = omit,
+        stealth: bool | Omit = omit,
+        wpm: int | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -138,10 +140,13 @@ class KeyboardResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Input text
+        """Input text
 
         Args:
+          wpm: Words per minute for stealth typing.
+
+        0 uses portal default.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -163,8 +168,10 @@ class KeyboardResource(SyncAPIResource):
             f"/devices/{device_id}/keyboard",
             body=maybe_transform(
                 {
-                    "clear": clear,
                     "text": text,
+                    "clear": clear,
+                    "stealth": stealth,
+                    "wpm": wpm,
                 },
                 keyboard_write_params.KeyboardWriteParams,
             ),
@@ -283,8 +290,10 @@ class AsyncKeyboardResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
-        clear: bool,
         text: str,
+        clear: bool | Omit = omit,
+        stealth: bool | Omit = omit,
+        wpm: int | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -293,10 +302,13 @@ class AsyncKeyboardResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Input text
+        """Input text
 
         Args:
+          wpm: Words per minute for stealth typing.
+
+        0 uses portal default.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -318,8 +330,10 @@ class AsyncKeyboardResource(AsyncAPIResource):
             f"/devices/{device_id}/keyboard",
             body=await async_maybe_transform(
                 {
-                    "clear": clear,
                     "text": text,
+                    "clear": clear,
+                    "stealth": stealth,
+                    "wpm": wpm,
                 },
                 keyboard_write_params.KeyboardWriteParams,
             ),

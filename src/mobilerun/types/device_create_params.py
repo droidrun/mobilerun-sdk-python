@@ -3,38 +3,33 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing_extensions import Literal, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
+from .shared_params.config import Config
+from .shared_params.device_carrier import DeviceCarrier
+from .shared_params.device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceCreateParams", "Proxy"]
+__all__ = ["DeviceCreateParams"]
 
 
 class DeviceCreateParams(TypedDict, total=False):
     device_type: Annotated[
-        Literal["device_slot", "dedicated_emulated_device", "dedicated_physical_device", "dedicated_premium_device"],
+        Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"],
         PropertyInfo(alias="deviceType"),
     ]
 
-    provider: Literal["limrun", "physical", "premium", "roidrun"]
-
     apps: Optional[SequenceNotStr[str]]
 
-    country: str
+    carrier: DeviceCarrier
 
     files: Optional[SequenceNotStr[str]]
 
+    identifiers: DeviceIdentifiers
+
     name: str
 
-    proxy: Proxy
+    proxy: Config
 
-
-class Proxy(TypedDict, total=False):
-    host: Required[str]
-
-    password: Required[str]
-
-    port: Required[int]
-
-    user: Required[str]
+    smart_ip: Annotated[bool, PropertyInfo(alias="smartIp")]

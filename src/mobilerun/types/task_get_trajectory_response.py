@@ -62,14 +62,14 @@ __all__ = [
     "TrajectoryTrajectoryExecutorActionEventData",
     "TrajectoryTrajectoryExecutorActionResultEvent",
     "TrajectoryTrajectoryExecutorActionResultEventData",
+    "TrajectoryTrajectoryUserMessageEvent",
+    "TrajectoryTrajectoryUserMessageEventData",
     "TrajectoryTrajectoryUnknownEvent",
 ]
 
 
 class TrajectoryTrajectoryCreatedEventData(BaseModel):
     id: str
-
-    token: str
 
     stream_url: str = FieldInfo(alias="streamUrl")
 
@@ -166,6 +166,8 @@ class TrajectoryTrajectoryResultEventData(BaseModel):
     exists so the API OpenAPI schema can reference it without the heavy
     droidrun import.
     """
+
+    message: Optional[str] = None
 
     steps: Optional[int] = None
 
@@ -494,6 +496,27 @@ class TrajectoryTrajectoryExecutorActionResultEvent(BaseModel):
     event: Literal["ExecutorActionResultEvent"]
 
 
+class TrajectoryTrajectoryUserMessageEventData(BaseModel):
+    """Tracks the lifecycle of an external user message: queued → applied | dropped."""
+
+    action: str
+
+    message_ids: List[str]
+
+    consumer: Optional[str] = None
+
+    reason: Optional[str] = None
+
+    step_number: Optional[int] = None
+
+
+class TrajectoryTrajectoryUserMessageEvent(BaseModel):
+    data: TrajectoryTrajectoryUserMessageEventData
+    """Tracks the lifecycle of an external user message: queued → applied | dropped."""
+
+    event: Literal["UserMessageEvent"]
+
+
 class TrajectoryTrajectoryUnknownEvent(BaseModel):
     event: str
 
@@ -529,6 +552,7 @@ Trajectory: TypeAlias = Union[
     TrajectoryTrajectoryExecutorResponseEvent,
     TrajectoryTrajectoryExecutorActionEvent,
     TrajectoryTrajectoryExecutorActionResultEvent,
+    TrajectoryTrajectoryUserMessageEvent,
     TrajectoryTrajectoryUnknownEvent,
 ]
 

@@ -10,6 +10,8 @@ __all__ = ["AppListParams"]
 
 
 class AppListParams(TypedDict, total=False):
+    include_protected_apps: Annotated[bool, PropertyInfo(alias="includeProtectedApps")]
+
     include_system_apps: Annotated[bool, PropertyInfo(alias="includeSystemApps")]
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
