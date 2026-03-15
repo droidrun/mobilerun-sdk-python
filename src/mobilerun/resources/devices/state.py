@@ -86,46 +86,6 @@ class StateResource(SyncAPIResource):
             cast_to=str,
         )
 
-    def time(
-        self,
-        device_id: str,
-        *,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> str:
-        """
-        Device time
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
-        return self._get(
-            f"/devices/{device_id}/time",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=str,
-        )
-
     def ui(
         self,
         device_id: str,
@@ -239,46 +199,6 @@ class AsyncStateResource(AsyncAPIResource):
             cast_to=str,
         )
 
-    async def time(
-        self,
-        device_id: str,
-        *,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> str:
-        """
-        Device time
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
-        return await self._get(
-            f"/devices/{device_id}/time",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=str,
-        )
-
     async def ui(
         self,
         device_id: str,
@@ -332,9 +252,6 @@ class StateResourceWithRawResponse:
         self.screenshot = to_raw_response_wrapper(
             state.screenshot,
         )
-        self.time = to_raw_response_wrapper(
-            state.time,
-        )
         self.ui = to_raw_response_wrapper(
             state.ui,
         )
@@ -346,9 +263,6 @@ class AsyncStateResourceWithRawResponse:
 
         self.screenshot = async_to_raw_response_wrapper(
             state.screenshot,
-        )
-        self.time = async_to_raw_response_wrapper(
-            state.time,
         )
         self.ui = async_to_raw_response_wrapper(
             state.ui,
@@ -362,9 +276,6 @@ class StateResourceWithStreamingResponse:
         self.screenshot = to_streamed_response_wrapper(
             state.screenshot,
         )
-        self.time = to_streamed_response_wrapper(
-            state.time,
-        )
         self.ui = to_streamed_response_wrapper(
             state.ui,
         )
@@ -376,9 +287,6 @@ class AsyncStateResourceWithStreamingResponse:
 
         self.screenshot = async_to_streamed_response_wrapper(
             state.screenshot,
-        )
-        self.time = async_to_streamed_response_wrapper(
-            state.time,
         )
         self.ui = async_to_streamed_response_wrapper(
             state.ui,

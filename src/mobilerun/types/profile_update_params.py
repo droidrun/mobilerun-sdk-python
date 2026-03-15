@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing_extensions import Required, TypedDict
 
-from .device_spec_param import DeviceSpecParam
+from .shared_params.device_spec import DeviceSpec
 
 __all__ = ["ProfileUpdateParams"]
 
@@ -13,5 +13,5 @@ class ProfileUpdateParams(TypedDict, total=False):
     name: Required[str]
     """Profile name"""
 
-    spec: Required[DeviceSpecParam]
+    spec: Required[DeviceSpec]
     """Device specification"""

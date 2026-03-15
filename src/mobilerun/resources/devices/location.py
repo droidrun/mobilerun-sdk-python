@@ -15,8 +15,8 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.devices import location_update_params
-from ...types.devices.location_retrieve_response import LocationRetrieveResponse
+from ...types.devices import location_set_params
+from ...types.devices.location_get_response import LocationGetResponse
 
 __all__ = ["LocationResource", "AsyncLocationResource"]
 
@@ -41,7 +41,7 @@ class LocationResource(SyncAPIResource):
         """
         return LocationResourceWithStreamingResponse(self)
 
-    def retrieve(
+    def get(
         self,
         device_id: str,
         *,
@@ -52,7 +52,7 @@ class LocationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> LocationRetrieveResponse:
+    ) -> LocationGetResponse:
         """
         Get device location
 
@@ -78,10 +78,10 @@ class LocationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=LocationRetrieveResponse,
+            cast_to=LocationGetResponse,
         )
 
-    def update(
+    def set(
         self,
         device_id: str,
         *,
@@ -123,7 +123,7 @@ class LocationResource(SyncAPIResource):
                     "latitude": latitude,
                     "longitude": longitude,
                 },
-                location_update_params.LocationUpdateParams,
+                location_set_params.LocationSetParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -152,7 +152,7 @@ class AsyncLocationResource(AsyncAPIResource):
         """
         return AsyncLocationResourceWithStreamingResponse(self)
 
-    async def retrieve(
+    async def get(
         self,
         device_id: str,
         *,
@@ -163,7 +163,7 @@ class AsyncLocationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> LocationRetrieveResponse:
+    ) -> LocationGetResponse:
         """
         Get device location
 
@@ -189,10 +189,10 @@ class AsyncLocationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=LocationRetrieveResponse,
+            cast_to=LocationGetResponse,
         )
 
-    async def update(
+    async def set(
         self,
         device_id: str,
         *,
@@ -234,7 +234,7 @@ class AsyncLocationResource(AsyncAPIResource):
                     "latitude": latitude,
                     "longitude": longitude,
                 },
-                location_update_params.LocationUpdateParams,
+                location_set_params.LocationSetParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -247,11 +247,11 @@ class LocationResourceWithRawResponse:
     def __init__(self, location: LocationResource) -> None:
         self._location = location
 
-        self.retrieve = to_raw_response_wrapper(
-            location.retrieve,
+        self.get = to_raw_response_wrapper(
+            location.get,
         )
-        self.update = to_raw_response_wrapper(
-            location.update,
+        self.set = to_raw_response_wrapper(
+            location.set,
         )
 
 
@@ -259,11 +259,11 @@ class AsyncLocationResourceWithRawResponse:
     def __init__(self, location: AsyncLocationResource) -> None:
         self._location = location
 
-        self.retrieve = async_to_raw_response_wrapper(
-            location.retrieve,
+        self.get = async_to_raw_response_wrapper(
+            location.get,
         )
-        self.update = async_to_raw_response_wrapper(
-            location.update,
+        self.set = async_to_raw_response_wrapper(
+            location.set,
         )
 
 
@@ -271,11 +271,11 @@ class LocationResourceWithStreamingResponse:
     def __init__(self, location: LocationResource) -> None:
         self._location = location
 
-        self.retrieve = to_streamed_response_wrapper(
-            location.retrieve,
+        self.get = to_streamed_response_wrapper(
+            location.get,
         )
-        self.update = to_streamed_response_wrapper(
-            location.update,
+        self.set = to_streamed_response_wrapper(
+            location.set,
         )
 
 
@@ -283,9 +283,9 @@ class AsyncLocationResourceWithStreamingResponse:
     def __init__(self, location: AsyncLocationResource) -> None:
         self._location = location
 
-        self.retrieve = async_to_streamed_response_wrapper(
-            location.retrieve,
+        self.get = async_to_streamed_response_wrapper(
+            location.get,
         )
-        self.update = async_to_streamed_response_wrapper(
-            location.update,
+        self.set = async_to_streamed_response_wrapper(
+            location.set,
         )

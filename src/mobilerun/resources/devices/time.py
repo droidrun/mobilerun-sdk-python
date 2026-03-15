@@ -18,7 +18,8 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.devices import time_update_params
+from ...types.devices import time_set_time_params, time_set_timezone_params
+from ...types.devices.time_timezone_response import TimeTimezoneResponse
 
 __all__ = ["TimeResource", "AsyncTimeResource"]
 
@@ -43,7 +44,7 @@ class TimeResource(SyncAPIResource):
         """
         return TimeResourceWithStreamingResponse(self)
 
-    def update(
+    def set_time(
         self,
         device_id: str,
         *,
@@ -79,11 +80,134 @@ class TimeResource(SyncAPIResource):
         }
         return self._post(
             f"/devices/{device_id}/time",
-            body=maybe_transform({"time": time}, time_update_params.TimeUpdateParams),
+            body=maybe_transform({"time": time}, time_set_time_params.TimeSetTimeParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
+        )
+
+    def set_timezone(
+        self,
+        device_id: str,
+        *,
+        timezone: str,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Set device timezone
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._post(
+            f"/devices/{device_id}/timezone",
+            body=maybe_transform({"timezone": timezone}, time_set_timezone_params.TimeSetTimezoneParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def time(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> str:
+        """
+        Device time
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            f"/devices/{device_id}/time",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=str,
+        )
+
+    def timezone(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> TimeTimezoneResponse:
+        """
+        Get device timezone
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            f"/devices/{device_id}/timezone",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=TimeTimezoneResponse,
         )
 
 
@@ -107,7 +231,7 @@ class AsyncTimeResource(AsyncAPIResource):
         """
         return AsyncTimeResourceWithStreamingResponse(self)
 
-    async def update(
+    async def set_time(
         self,
         device_id: str,
         *,
@@ -143,11 +267,134 @@ class AsyncTimeResource(AsyncAPIResource):
         }
         return await self._post(
             f"/devices/{device_id}/time",
-            body=await async_maybe_transform({"time": time}, time_update_params.TimeUpdateParams),
+            body=await async_maybe_transform({"time": time}, time_set_time_params.TimeSetTimeParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
+        )
+
+    async def set_timezone(
+        self,
+        device_id: str,
+        *,
+        timezone: str,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Set device timezone
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return await self._post(
+            f"/devices/{device_id}/timezone",
+            body=await async_maybe_transform({"timezone": timezone}, time_set_timezone_params.TimeSetTimezoneParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    async def time(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> str:
+        """
+        Device time
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return await self._get(
+            f"/devices/{device_id}/time",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=str,
+        )
+
+    async def timezone(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> TimeTimezoneResponse:
+        """
+        Get device timezone
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return await self._get(
+            f"/devices/{device_id}/timezone",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=TimeTimezoneResponse,
         )
 
 
@@ -155,8 +402,17 @@ class TimeResourceWithRawResponse:
     def __init__(self, time: TimeResource) -> None:
         self._time = time
 
-        self.update = to_raw_response_wrapper(
-            time.update,
+        self.set_time = to_raw_response_wrapper(
+            time.set_time,
+        )
+        self.set_timezone = to_raw_response_wrapper(
+            time.set_timezone,
+        )
+        self.time = to_raw_response_wrapper(
+            time.time,
+        )
+        self.timezone = to_raw_response_wrapper(
+            time.timezone,
         )
 
 
@@ -164,8 +420,17 @@ class AsyncTimeResourceWithRawResponse:
     def __init__(self, time: AsyncTimeResource) -> None:
         self._time = time
 
-        self.update = async_to_raw_response_wrapper(
-            time.update,
+        self.set_time = async_to_raw_response_wrapper(
+            time.set_time,
+        )
+        self.set_timezone = async_to_raw_response_wrapper(
+            time.set_timezone,
+        )
+        self.time = async_to_raw_response_wrapper(
+            time.time,
+        )
+        self.timezone = async_to_raw_response_wrapper(
+            time.timezone,
         )
 
 
@@ -173,8 +438,17 @@ class TimeResourceWithStreamingResponse:
     def __init__(self, time: TimeResource) -> None:
         self._time = time
 
-        self.update = to_streamed_response_wrapper(
-            time.update,
+        self.set_time = to_streamed_response_wrapper(
+            time.set_time,
+        )
+        self.set_timezone = to_streamed_response_wrapper(
+            time.set_timezone,
+        )
+        self.time = to_streamed_response_wrapper(
+            time.time,
+        )
+        self.timezone = to_streamed_response_wrapper(
+            time.timezone,
         )
 
 
@@ -182,6 +456,15 @@ class AsyncTimeResourceWithStreamingResponse:
     def __init__(self, time: AsyncTimeResource) -> None:
         self._time = time
 
-        self.update = async_to_streamed_response_wrapper(
-            time.update,
+        self.set_time = async_to_streamed_response_wrapper(
+            time.set_time,
+        )
+        self.set_timezone = async_to_streamed_response_wrapper(
+            time.set_timezone,
+        )
+        self.time = async_to_streamed_response_wrapper(
+            time.time,
+        )
+        self.timezone = async_to_streamed_response_wrapper(
+            time.timezone,
         )

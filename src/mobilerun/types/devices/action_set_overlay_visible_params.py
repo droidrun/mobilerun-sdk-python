@@ -6,12 +6,10 @@ from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
-__all__ = ["LocationUpdateParams"]
+__all__ = ["ActionSetOverlayVisibleParams"]
 
 
-class LocationUpdateParams(TypedDict, total=False):
-    latitude: Required[float]
-
-    longitude: Required[float]
+class ActionSetOverlayVisibleParams(TypedDict, total=False):
+    visible: Required[bool]
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

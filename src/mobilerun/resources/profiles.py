@@ -18,12 +18,10 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.device_spec_param import DeviceSpecParam
+from ..types.profile import Profile
 from ..types.profile_list_response import ProfileListResponse
-from ..types.profile_create_response import ProfileCreateResponse
 from ..types.profile_delete_response import ProfileDeleteResponse
-from ..types.profile_update_response import ProfileUpdateResponse
-from ..types.profile_retrieve_response import ProfileRetrieveResponse
+from ..types.shared_params.device_spec import DeviceSpec
 
 __all__ = ["ProfilesResource", "AsyncProfilesResource"]
 
@@ -52,14 +50,14 @@ class ProfilesResource(SyncAPIResource):
         self,
         *,
         name: str,
-        spec: DeviceSpecParam,
+        spec: DeviceSpec,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileCreateResponse:
+    ) -> Profile:
         """
         Create a new device profile
 
@@ -88,7 +86,7 @@ class ProfilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ProfileCreateResponse,
+            cast_to=Profile,
         )
 
     def retrieve(
@@ -101,7 +99,7 @@ class ProfilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileRetrieveResponse:
+    ) -> Profile:
         """
         Get device profile by ID
 
@@ -121,7 +119,7 @@ class ProfilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ProfileRetrieveResponse,
+            cast_to=Profile,
         )
 
     def update(
@@ -129,14 +127,14 @@ class ProfilesResource(SyncAPIResource):
         profile_id: str,
         *,
         name: str,
-        spec: DeviceSpecParam,
+        spec: DeviceSpec,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileUpdateResponse:
+    ) -> Profile:
         """
         Update a device profile
 
@@ -167,7 +165,7 @@ class ProfilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ProfileUpdateResponse,
+            cast_to=Profile,
         )
 
     def list(
@@ -276,14 +274,14 @@ class AsyncProfilesResource(AsyncAPIResource):
         self,
         *,
         name: str,
-        spec: DeviceSpecParam,
+        spec: DeviceSpec,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileCreateResponse:
+    ) -> Profile:
         """
         Create a new device profile
 
@@ -312,7 +310,7 @@ class AsyncProfilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ProfileCreateResponse,
+            cast_to=Profile,
         )
 
     async def retrieve(
@@ -325,7 +323,7 @@ class AsyncProfilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileRetrieveResponse:
+    ) -> Profile:
         """
         Get device profile by ID
 
@@ -345,7 +343,7 @@ class AsyncProfilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ProfileRetrieveResponse,
+            cast_to=Profile,
         )
 
     async def update(
@@ -353,14 +351,14 @@ class AsyncProfilesResource(AsyncAPIResource):
         profile_id: str,
         *,
         name: str,
-        spec: DeviceSpecParam,
+        spec: DeviceSpec,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileUpdateResponse:
+    ) -> Profile:
         """
         Update a device profile
 
@@ -391,7 +389,7 @@ class AsyncProfilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ProfileUpdateResponse,
+            cast_to=Profile,
         )
 
     async def list(

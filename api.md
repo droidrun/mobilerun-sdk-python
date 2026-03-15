@@ -5,6 +5,7 @@ from mobilerun.types import (
     Config,
     DeviceCarrier,
     DeviceIdentifiers,
+    DeviceSpec,
     Meta,
     Pagination,
     PaginationMeta,
@@ -110,45 +111,31 @@ Methods:
 Types:
 
 ```python
-from mobilerun.types import (
-    CarrierCreateResponse,
-    CarrierRetrieveResponse,
-    CarrierUpdateResponse,
-    CarrierListResponse,
-    CarrierDeleteResponse,
-    CarrierLookupResponse,
-)
+from mobilerun.types import Carrier, CarrierListResponse, CarrierDeleteResponse
 ```
 
 Methods:
 
-- <code title="post /carriers">client.carriers.<a href="./src/mobilerun/resources/carriers.py">create</a>(\*\*<a href="src/mobilerun/types/carrier_create_params.py">params</a>) -> <a href="./src/mobilerun/types/carrier_create_response.py">CarrierCreateResponse</a></code>
-- <code title="get /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun/resources/carriers.py">retrieve</a>(carrier_id) -> <a href="./src/mobilerun/types/carrier_retrieve_response.py">CarrierRetrieveResponse</a></code>
-- <code title="patch /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun/resources/carriers.py">update</a>(carrier_id, \*\*<a href="src/mobilerun/types/carrier_update_params.py">params</a>) -> <a href="./src/mobilerun/types/carrier_update_response.py">CarrierUpdateResponse</a></code>
+- <code title="post /carriers">client.carriers.<a href="./src/mobilerun/resources/carriers.py">create</a>(\*\*<a href="src/mobilerun/types/carrier_create_params.py">params</a>) -> <a href="./src/mobilerun/types/carrier.py">Carrier</a></code>
+- <code title="get /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun/resources/carriers.py">retrieve</a>(carrier_id) -> <a href="./src/mobilerun/types/carrier.py">Carrier</a></code>
+- <code title="patch /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun/resources/carriers.py">update</a>(carrier_id, \*\*<a href="src/mobilerun/types/carrier_update_params.py">params</a>) -> <a href="./src/mobilerun/types/carrier.py">Carrier</a></code>
 - <code title="get /carriers">client.carriers.<a href="./src/mobilerun/resources/carriers.py">list</a>(\*\*<a href="src/mobilerun/types/carrier_list_params.py">params</a>) -> <a href="./src/mobilerun/types/carrier_list_response.py">CarrierListResponse</a></code>
 - <code title="delete /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun/resources/carriers.py">delete</a>(carrier_id) -> <a href="./src/mobilerun/types/carrier_delete_response.py">CarrierDeleteResponse</a></code>
-- <code title="get /carriers/lookup">client.carriers.<a href="./src/mobilerun/resources/carriers.py">lookup</a>(\*\*<a href="src/mobilerun/types/carrier_lookup_params.py">params</a>) -> <a href="./src/mobilerun/types/carrier_lookup_response.py">CarrierLookupResponse</a></code>
+- <code title="get /carriers/lookup">client.carriers.<a href="./src/mobilerun/resources/carriers.py">lookup</a>(\*\*<a href="src/mobilerun/types/carrier_lookup_params.py">params</a>) -> <a href="./src/mobilerun/types/carrier.py">Carrier</a></code>
 
 # Profiles
 
 Types:
 
 ```python
-from mobilerun.types import (
-    DeviceSpec,
-    ProfileCreateResponse,
-    ProfileRetrieveResponse,
-    ProfileUpdateResponse,
-    ProfileListResponse,
-    ProfileDeleteResponse,
-)
+from mobilerun.types import Profile, ProfileListResponse, ProfileDeleteResponse
 ```
 
 Methods:
 
-- <code title="post /profiles">client.profiles.<a href="./src/mobilerun/resources/profiles.py">create</a>(\*\*<a href="src/mobilerun/types/profile_create_params.py">params</a>) -> <a href="./src/mobilerun/types/profile_create_response.py">ProfileCreateResponse</a></code>
-- <code title="get /profiles/{profileId}">client.profiles.<a href="./src/mobilerun/resources/profiles.py">retrieve</a>(profile_id) -> <a href="./src/mobilerun/types/profile_retrieve_response.py">ProfileRetrieveResponse</a></code>
-- <code title="put /profiles/{profileId}">client.profiles.<a href="./src/mobilerun/resources/profiles.py">update</a>(profile_id, \*\*<a href="src/mobilerun/types/profile_update_params.py">params</a>) -> <a href="./src/mobilerun/types/profile_update_response.py">ProfileUpdateResponse</a></code>
+- <code title="post /profiles">client.profiles.<a href="./src/mobilerun/resources/profiles.py">create</a>(\*\*<a href="src/mobilerun/types/profile_create_params.py">params</a>) -> <a href="./src/mobilerun/types/profile.py">Profile</a></code>
+- <code title="get /profiles/{profileId}">client.profiles.<a href="./src/mobilerun/resources/profiles.py">retrieve</a>(profile_id) -> <a href="./src/mobilerun/types/profile.py">Profile</a></code>
+- <code title="put /profiles/{profileId}">client.profiles.<a href="./src/mobilerun/resources/profiles.py">update</a>(profile_id, \*\*<a href="src/mobilerun/types/profile_update_params.py">params</a>) -> <a href="./src/mobilerun/types/profile.py">Profile</a></code>
 - <code title="get /profiles">client.profiles.<a href="./src/mobilerun/resources/profiles.py">list</a>(\*\*<a href="src/mobilerun/types/profile_list_params.py">params</a>) -> <a href="./src/mobilerun/types/profile_list_response.py">ProfileListResponse</a></code>
 - <code title="delete /profiles/{profileId}">client.profiles.<a href="./src/mobilerun/resources/profiles.py">delete</a>(profile_id) -> <a href="./src/mobilerun/types/profile_delete_response.py">ProfileDeleteResponse</a></code>
 
@@ -169,37 +156,33 @@ Methods:
 - <code title="delete /devices/{deviceId}">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">terminate</a>(device_id, \*\*<a href="src/mobilerun/types/device_terminate_params.py">params</a>) -> None</code>
 - <code title="get /devices/{deviceId}/wait">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">wait_ready</a>(device_id) -> <a href="./src/mobilerun/types/device.py">Device</a></code>
 
-## Timezone
+## Time
 
 Types:
 
 ```python
-from mobilerun.types.devices import TimezoneRetrieveResponse
+from mobilerun.types.devices import TimeTimeResponse, TimeTimezoneResponse
 ```
 
 Methods:
 
-- <code title="get /devices/{deviceId}/timezone">client.devices.timezone.<a href="./src/mobilerun/resources/devices/timezone.py">retrieve</a>(device_id) -> <a href="./src/mobilerun/types/devices/timezone_retrieve_response.py">TimezoneRetrieveResponse</a></code>
-- <code title="post /devices/{deviceId}/timezone">client.devices.timezone.<a href="./src/mobilerun/resources/devices/timezone.py">update</a>(device_id, \*\*<a href="src/mobilerun/types/devices/timezone_update_params.py">params</a>) -> None</code>
-
-## Time
-
-Methods:
-
-- <code title="post /devices/{deviceId}/time">client.devices.time.<a href="./src/mobilerun/resources/devices/time.py">update</a>(device_id, \*\*<a href="src/mobilerun/types/devices/time_update_params.py">params</a>) -> None</code>
+- <code title="post /devices/{deviceId}/time">client.devices.time.<a href="./src/mobilerun/resources/devices/time.py">set_time</a>(device_id, \*\*<a href="src/mobilerun/types/devices/time_set_time_params.py">params</a>) -> None</code>
+- <code title="post /devices/{deviceId}/timezone">client.devices.time.<a href="./src/mobilerun/resources/devices/time.py">set_timezone</a>(device_id, \*\*<a href="src/mobilerun/types/devices/time_set_timezone_params.py">params</a>) -> None</code>
+- <code title="get /devices/{deviceId}/time">client.devices.time.<a href="./src/mobilerun/resources/devices/time.py">time</a>(device_id) -> str</code>
+- <code title="get /devices/{deviceId}/timezone">client.devices.time.<a href="./src/mobilerun/resources/devices/time.py">timezone</a>(device_id) -> <a href="./src/mobilerun/types/devices/time_timezone_response.py">TimeTimezoneResponse</a></code>
 
 ## Profile
 
 Methods:
 
-- <code title="put /devices/{deviceId}/profile">client.devices.profile.<a href="./src/mobilerun/resources/devices/profile.py">apply</a>(device_id, \*\*<a href="src/mobilerun/types/devices/profile_apply_params.py">params</a>) -> None</code>
+- <code title="put /devices/{deviceId}/profile">client.devices.profile.<a href="./src/mobilerun/resources/devices/profile.py">update</a>(device_id, \*\*<a href="src/mobilerun/types/devices/profile_update_params.py">params</a>) -> None</code>
 
 ## Files
 
 Types:
 
 ```python
-from mobilerun.types.devices import FileListResponse, FileDownloadResponse
+from mobilerun.types.devices import FileInfo, FileListResponse, FileDownloadResponse
 ```
 
 Methods:
@@ -221,32 +204,27 @@ Methods:
 Types:
 
 ```python
-from mobilerun.types.devices import LocationRetrieveResponse
+from mobilerun.types.devices import LocationGetResponse
 ```
 
 Methods:
 
-- <code title="get /devices/{deviceId}/location">client.devices.location.<a href="./src/mobilerun/resources/devices/location.py">retrieve</a>(device_id) -> <a href="./src/mobilerun/types/devices/location_retrieve_response.py">LocationRetrieveResponse</a></code>
-- <code title="post /devices/{deviceId}/location">client.devices.location.<a href="./src/mobilerun/resources/devices/location.py">update</a>(device_id, \*\*<a href="src/mobilerun/types/devices/location_update_params.py">params</a>) -> None</code>
+- <code title="get /devices/{deviceId}/location">client.devices.location.<a href="./src/mobilerun/resources/devices/location.py">get</a>(device_id) -> <a href="./src/mobilerun/types/devices/location_get_response.py">LocationGetResponse</a></code>
+- <code title="post /devices/{deviceId}/location">client.devices.location.<a href="./src/mobilerun/resources/devices/location.py">set</a>(device_id, \*\*<a href="src/mobilerun/types/devices/location_set_params.py">params</a>) -> None</code>
 
-## Overlay
+## Actions
 
 Types:
 
 ```python
-from mobilerun.types.devices import OverlayRetrieveResponse
+from mobilerun.types.devices import ActionOverlayVisibleResponse
 ```
 
 Methods:
 
-- <code title="get /devices/{deviceId}/overlay">client.devices.overlay.<a href="./src/mobilerun/resources/devices/overlay.py">retrieve</a>(device_id) -> <a href="./src/mobilerun/types/devices/overlay_retrieve_response.py">OverlayRetrieveResponse</a></code>
-- <code title="post /devices/{deviceId}/overlay">client.devices.overlay.<a href="./src/mobilerun/resources/devices/overlay.py">update</a>(device_id, \*\*<a href="src/mobilerun/types/devices/overlay_update_params.py">params</a>) -> None</code>
-
-## Actions
-
-Methods:
-
 - <code title="post /devices/{deviceId}/global">client.devices.actions.<a href="./src/mobilerun/resources/devices/actions.py">global\_</a>(device_id, \*\*<a href="src/mobilerun/types/devices/action_global_params.py">params</a>) -> None</code>
+- <code title="get /devices/{deviceId}/overlay">client.devices.actions.<a href="./src/mobilerun/resources/devices/actions.py">overlay_visible</a>(device_id) -> <a href="./src/mobilerun/types/devices/action_overlay_visible_response.py">ActionOverlayVisibleResponse</a></code>
+- <code title="post /devices/{deviceId}/overlay">client.devices.actions.<a href="./src/mobilerun/resources/devices/actions.py">set_overlay_visible</a>(device_id, \*\*<a href="src/mobilerun/types/devices/action_set_overlay_visible_params.py">params</a>) -> None</code>
 - <code title="post /devices/{deviceId}/swipe">client.devices.actions.<a href="./src/mobilerun/resources/devices/actions.py">swipe</a>(device_id, \*\*<a href="src/mobilerun/types/devices/action_swipe_params.py">params</a>) -> None</code>
 - <code title="post /devices/{deviceId}/tap">client.devices.actions.<a href="./src/mobilerun/resources/devices/actions.py">tap</a>(device_id, \*\*<a href="src/mobilerun/types/devices/action_tap_params.py">params</a>) -> None</code>
 
@@ -255,18 +233,12 @@ Methods:
 Types:
 
 ```python
-from mobilerun.types.devices import (
-    Rect,
-    StateScreenshotResponse,
-    StateTimeResponse,
-    StateUiResponse,
-)
+from mobilerun.types.devices import Rect, StateScreenshotResponse, StateUiResponse
 ```
 
 Methods:
 
 - <code title="get /devices/{deviceId}/screenshot">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">screenshot</a>(device_id, \*\*<a href="src/mobilerun/types/devices/state_screenshot_params.py">params</a>) -> str</code>
-- <code title="get /devices/{deviceId}/time">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">time</a>(device_id) -> str</code>
 - <code title="get /devices/{deviceId}/ui-state">client.devices.state.<a href="./src/mobilerun/resources/devices/state.py">ui</a>(device_id, \*\*<a href="src/mobilerun/types/devices/state_ui_params.py">params</a>) -> <a href="./src/mobilerun/types/devices/state_ui_response.py">StateUiResponse</a></code>
 
 ## Apps

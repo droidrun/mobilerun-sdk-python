@@ -10,12 +10,9 @@ import pytest
 from mobilerun import Mobilerun, AsyncMobilerun
 from tests.utils import assert_matches_type
 from mobilerun.types import (
+    Carrier,
     CarrierListResponse,
-    CarrierCreateResponse,
     CarrierDeleteResponse,
-    CarrierLookupResponse,
-    CarrierUpdateResponse,
-    CarrierRetrieveResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -33,7 +30,7 @@ class TestCarriers:
             mnc="x",
             operator="x",
         )
-        assert_matches_type(CarrierCreateResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -56,7 +53,7 @@ class TestCarriers:
             umts_bands="umts_bands",
             website="website",
         )
-        assert_matches_type(CarrierCreateResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -71,7 +68,7 @@ class TestCarriers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         carrier = response.parse()
-        assert_matches_type(CarrierCreateResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -86,7 +83,7 @@ class TestCarriers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             carrier = response.parse()
-            assert_matches_type(CarrierCreateResponse, carrier, path=["response"])
+            assert_matches_type(Carrier, carrier, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -96,7 +93,7 @@ class TestCarriers:
         carrier = client.carriers.retrieve(
             1,
         )
-        assert_matches_type(CarrierRetrieveResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -108,7 +105,7 @@ class TestCarriers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         carrier = response.parse()
-        assert_matches_type(CarrierRetrieveResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -120,7 +117,7 @@ class TestCarriers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             carrier = response.parse()
-            assert_matches_type(CarrierRetrieveResponse, carrier, path=["response"])
+            assert_matches_type(Carrier, carrier, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -130,7 +127,7 @@ class TestCarriers:
         carrier = client.carriers.update(
             carrier_id=1,
         )
-        assert_matches_type(CarrierUpdateResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -152,7 +149,7 @@ class TestCarriers:
             umts_bands="umts_bands",
             website="website",
         )
-        assert_matches_type(CarrierUpdateResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -164,7 +161,7 @@ class TestCarriers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         carrier = response.parse()
-        assert_matches_type(CarrierUpdateResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -176,7 +173,7 @@ class TestCarriers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             carrier = response.parse()
-            assert_matches_type(CarrierUpdateResponse, carrier, path=["response"])
+            assert_matches_type(Carrier, carrier, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -262,7 +259,7 @@ class TestCarriers:
             mcc="x",
             mnc="x",
         )
-        assert_matches_type(CarrierLookupResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -275,7 +272,7 @@ class TestCarriers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         carrier = response.parse()
-        assert_matches_type(CarrierLookupResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -288,7 +285,7 @@ class TestCarriers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             carrier = response.parse()
-            assert_matches_type(CarrierLookupResponse, carrier, path=["response"])
+            assert_matches_type(Carrier, carrier, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -307,7 +304,7 @@ class TestAsyncCarriers:
             mnc="x",
             operator="x",
         )
-        assert_matches_type(CarrierCreateResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -330,7 +327,7 @@ class TestAsyncCarriers:
             umts_bands="umts_bands",
             website="website",
         )
-        assert_matches_type(CarrierCreateResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -345,7 +342,7 @@ class TestAsyncCarriers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         carrier = await response.parse()
-        assert_matches_type(CarrierCreateResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -360,7 +357,7 @@ class TestAsyncCarriers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             carrier = await response.parse()
-            assert_matches_type(CarrierCreateResponse, carrier, path=["response"])
+            assert_matches_type(Carrier, carrier, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -370,7 +367,7 @@ class TestAsyncCarriers:
         carrier = await async_client.carriers.retrieve(
             1,
         )
-        assert_matches_type(CarrierRetrieveResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -382,7 +379,7 @@ class TestAsyncCarriers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         carrier = await response.parse()
-        assert_matches_type(CarrierRetrieveResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -394,7 +391,7 @@ class TestAsyncCarriers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             carrier = await response.parse()
-            assert_matches_type(CarrierRetrieveResponse, carrier, path=["response"])
+            assert_matches_type(Carrier, carrier, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -404,7 +401,7 @@ class TestAsyncCarriers:
         carrier = await async_client.carriers.update(
             carrier_id=1,
         )
-        assert_matches_type(CarrierUpdateResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -426,7 +423,7 @@ class TestAsyncCarriers:
             umts_bands="umts_bands",
             website="website",
         )
-        assert_matches_type(CarrierUpdateResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -438,7 +435,7 @@ class TestAsyncCarriers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         carrier = await response.parse()
-        assert_matches_type(CarrierUpdateResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -450,7 +447,7 @@ class TestAsyncCarriers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             carrier = await response.parse()
-            assert_matches_type(CarrierUpdateResponse, carrier, path=["response"])
+            assert_matches_type(Carrier, carrier, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -536,7 +533,7 @@ class TestAsyncCarriers:
             mcc="x",
             mnc="x",
         )
-        assert_matches_type(CarrierLookupResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -549,7 +546,7 @@ class TestAsyncCarriers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         carrier = await response.parse()
-        assert_matches_type(CarrierLookupResponse, carrier, path=["response"])
+        assert_matches_type(Carrier, carrier, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -562,6 +559,6 @@ class TestAsyncCarriers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             carrier = await response.parse()
-            assert_matches_type(CarrierLookupResponse, carrier, path=["response"])
+            assert_matches_type(Carrier, carrier, path=["response"])
 
         assert cast(Any, response.is_closed) is True

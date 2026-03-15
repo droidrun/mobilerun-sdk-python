@@ -2,6 +2,6 @@
 
 from typing_extensions import TypeAlias
 
-__all__ = ["StateTimeResponse"]
+__all__ = ["TimeTimeResponse"]
 
-StateTimeResponse: TypeAlias = str
+TimeTimeResponse: TypeAlias = str

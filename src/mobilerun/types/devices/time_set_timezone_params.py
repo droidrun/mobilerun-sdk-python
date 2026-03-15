@@ -6,10 +6,10 @@ from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
-__all__ = ["TimezoneUpdateParams"]
+__all__ = ["TimeSetTimezoneParams"]
 
 
-class TimezoneUpdateParams(TypedDict, total=False):
+class TimeSetTimezoneParams(TypedDict, total=False):
     timezone: Required[str]
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

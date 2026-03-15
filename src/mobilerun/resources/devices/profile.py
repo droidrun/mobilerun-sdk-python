@@ -15,7 +15,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.devices import profile_apply_params
+from ...types.devices import profile_update_params
 
 __all__ = ["ProfileResource", "AsyncProfileResource"]
 
@@ -40,7 +40,7 @@ class ProfileResource(SyncAPIResource):
         """
         return ProfileResourceWithStreamingResponse(self)
 
-    def apply(
+    def update(
         self,
         device_id: str,
         *,
@@ -78,7 +78,7 @@ class ProfileResource(SyncAPIResource):
         }
         return self._put(
             f"/devices/{device_id}/profile",
-            body=maybe_transform({"profile_id": profile_id}, profile_apply_params.ProfileApplyParams),
+            body=maybe_transform({"profile_id": profile_id}, profile_update_params.ProfileUpdateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -106,7 +106,7 @@ class AsyncProfileResource(AsyncAPIResource):
         """
         return AsyncProfileResourceWithStreamingResponse(self)
 
-    async def apply(
+    async def update(
         self,
         device_id: str,
         *,
@@ -144,7 +144,7 @@ class AsyncProfileResource(AsyncAPIResource):
         }
         return await self._put(
             f"/devices/{device_id}/profile",
-            body=await async_maybe_transform({"profile_id": profile_id}, profile_apply_params.ProfileApplyParams),
+            body=await async_maybe_transform({"profile_id": profile_id}, profile_update_params.ProfileUpdateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -156,8 +156,8 @@ class ProfileResourceWithRawResponse:
     def __init__(self, profile: ProfileResource) -> None:
         self._profile = profile
 
-        self.apply = to_raw_response_wrapper(
-            profile.apply,
+        self.update = to_raw_response_wrapper(
+            profile.update,
         )
 
 
@@ -165,8 +165,8 @@ class AsyncProfileResourceWithRawResponse:
     def __init__(self, profile: AsyncProfileResource) -> None:
         self._profile = profile
 
-        self.apply = async_to_raw_response_wrapper(
-            profile.apply,
+        self.update = async_to_raw_response_wrapper(
+            profile.update,
         )
 
 
@@ -174,8 +174,8 @@ class ProfileResourceWithStreamingResponse:
     def __init__(self, profile: ProfileResource) -> None:
         self._profile = profile
 
-        self.apply = to_streamed_response_wrapper(
-            profile.apply,
+        self.update = to_streamed_response_wrapper(
+            profile.update,
         )
 
 
@@ -183,6 +183,6 @@ class AsyncProfileResourceWithStreamingResponse:
     def __init__(self, profile: AsyncProfileResource) -> None:
         self._profile = profile
 
-        self.apply = async_to_streamed_response_wrapper(
-            profile.apply,
+        self.update = async_to_streamed_response_wrapper(
+            profile.update,
         )

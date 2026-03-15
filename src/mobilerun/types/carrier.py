@@ -7,10 +7,10 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["CarrierCreateResponse"]
+__all__ = ["Carrier"]
 
 
-class CarrierCreateResponse(BaseModel):
+class Carrier(BaseModel):
     id: int
 
     company: str

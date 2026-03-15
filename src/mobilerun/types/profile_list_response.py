@@ -1,36 +1,18 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Optional
-from datetime import datetime
 
 from pydantic import Field as FieldInfo
 
+from .profile import Profile
 from .._models import BaseModel
-from .device_spec import DeviceSpec
 from .shared.meta import Meta
 
-__all__ = ["ProfileListResponse", "Item"]
-
-
-class Item(BaseModel):
-    id: str
-
-    created_at: datetime = FieldInfo(alias="createdAt")
-
-    name: str
-
-    spec: DeviceSpec
-
-    updated_at: datetime = FieldInfo(alias="updatedAt")
-
-    user_id: str = FieldInfo(alias="userId")
-
-    schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
-    """A URL to the JSON Schema for this object."""
+__all__ = ["ProfileListResponse"]
 
 
 class ProfileListResponse(BaseModel):
-    items: Optional[List[Item]] = None
+    items: Optional[List[Profile]] = None
 
     pagination: Meta
 

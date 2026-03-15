@@ -65,14 +65,6 @@ from .actions import (
     ActionsResourceWithStreamingResponse,
     AsyncActionsResourceWithStreamingResponse,
 )
-from .overlay import (
-    OverlayResource,
-    AsyncOverlayResource,
-    OverlayResourceWithRawResponse,
-    AsyncOverlayResourceWithRawResponse,
-    OverlayResourceWithStreamingResponse,
-    AsyncOverlayResourceWithStreamingResponse,
-)
 from .profile import (
     ProfileResource,
     AsyncProfileResource,
@@ -107,14 +99,6 @@ from .packages import (
     PackagesResourceWithStreamingResponse,
     AsyncPackagesResourceWithStreamingResponse,
 )
-from .timezone import (
-    TimezoneResource,
-    AsyncTimezoneResource,
-    TimezoneResourceWithRawResponse,
-    AsyncTimezoneResourceWithRawResponse,
-    TimezoneResourceWithStreamingResponse,
-    AsyncTimezoneResourceWithStreamingResponse,
-)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -136,10 +120,6 @@ __all__ = ["DevicesResource", "AsyncDevicesResource"]
 
 class DevicesResource(SyncAPIResource):
     @cached_property
-    def timezone(self) -> TimezoneResource:
-        return TimezoneResource(self._client)
-
-    @cached_property
     def time(self) -> TimeResource:
         return TimeResource(self._client)
 
@@ -158,10 +138,6 @@ class DevicesResource(SyncAPIResource):
     @cached_property
     def location(self) -> LocationResource:
         return LocationResource(self._client)
-
-    @cached_property
-    def overlay(self) -> OverlayResource:
-        return OverlayResource(self._client)
 
     @cached_property
     def actions(self) -> ActionsResource:
@@ -448,10 +424,6 @@ class DevicesResource(SyncAPIResource):
 
 class AsyncDevicesResource(AsyncAPIResource):
     @cached_property
-    def timezone(self) -> AsyncTimezoneResource:
-        return AsyncTimezoneResource(self._client)
-
-    @cached_property
     def time(self) -> AsyncTimeResource:
         return AsyncTimeResource(self._client)
 
@@ -470,10 +442,6 @@ class AsyncDevicesResource(AsyncAPIResource):
     @cached_property
     def location(self) -> AsyncLocationResource:
         return AsyncLocationResource(self._client)
-
-    @cached_property
-    def overlay(self) -> AsyncOverlayResource:
-        return AsyncOverlayResource(self._client)
 
     @cached_property
     def actions(self) -> AsyncActionsResource:
@@ -784,10 +752,6 @@ class DevicesResourceWithRawResponse:
         )
 
     @cached_property
-    def timezone(self) -> TimezoneResourceWithRawResponse:
-        return TimezoneResourceWithRawResponse(self._devices.timezone)
-
-    @cached_property
     def time(self) -> TimeResourceWithRawResponse:
         return TimeResourceWithRawResponse(self._devices.time)
 
@@ -806,10 +770,6 @@ class DevicesResourceWithRawResponse:
     @cached_property
     def location(self) -> LocationResourceWithRawResponse:
         return LocationResourceWithRawResponse(self._devices.location)
-
-    @cached_property
-    def overlay(self) -> OverlayResourceWithRawResponse:
-        return OverlayResourceWithRawResponse(self._devices.overlay)
 
     @cached_property
     def actions(self) -> ActionsResourceWithRawResponse:
@@ -860,10 +820,6 @@ class AsyncDevicesResourceWithRawResponse:
         )
 
     @cached_property
-    def timezone(self) -> AsyncTimezoneResourceWithRawResponse:
-        return AsyncTimezoneResourceWithRawResponse(self._devices.timezone)
-
-    @cached_property
     def time(self) -> AsyncTimeResourceWithRawResponse:
         return AsyncTimeResourceWithRawResponse(self._devices.time)
 
@@ -882,10 +838,6 @@ class AsyncDevicesResourceWithRawResponse:
     @cached_property
     def location(self) -> AsyncLocationResourceWithRawResponse:
         return AsyncLocationResourceWithRawResponse(self._devices.location)
-
-    @cached_property
-    def overlay(self) -> AsyncOverlayResourceWithRawResponse:
-        return AsyncOverlayResourceWithRawResponse(self._devices.overlay)
 
     @cached_property
     def actions(self) -> AsyncActionsResourceWithRawResponse:
@@ -936,10 +888,6 @@ class DevicesResourceWithStreamingResponse:
         )
 
     @cached_property
-    def timezone(self) -> TimezoneResourceWithStreamingResponse:
-        return TimezoneResourceWithStreamingResponse(self._devices.timezone)
-
-    @cached_property
     def time(self) -> TimeResourceWithStreamingResponse:
         return TimeResourceWithStreamingResponse(self._devices.time)
 
@@ -958,10 +906,6 @@ class DevicesResourceWithStreamingResponse:
     @cached_property
     def location(self) -> LocationResourceWithStreamingResponse:
         return LocationResourceWithStreamingResponse(self._devices.location)
-
-    @cached_property
-    def overlay(self) -> OverlayResourceWithStreamingResponse:
-        return OverlayResourceWithStreamingResponse(self._devices.overlay)
 
     @cached_property
     def actions(self) -> ActionsResourceWithStreamingResponse:
@@ -1012,10 +956,6 @@ class AsyncDevicesResourceWithStreamingResponse:
         )
 
     @cached_property
-    def timezone(self) -> AsyncTimezoneResourceWithStreamingResponse:
-        return AsyncTimezoneResourceWithStreamingResponse(self._devices.timezone)
-
-    @cached_property
     def time(self) -> AsyncTimeResourceWithStreamingResponse:
         return AsyncTimeResourceWithStreamingResponse(self._devices.time)
 
@@ -1034,10 +974,6 @@ class AsyncDevicesResourceWithStreamingResponse:
     @cached_property
     def location(self) -> AsyncLocationResourceWithStreamingResponse:
         return AsyncLocationResourceWithStreamingResponse(self._devices.location)
-
-    @cached_property
-    def overlay(self) -> AsyncOverlayResourceWithStreamingResponse:
-        return AsyncOverlayResourceWithStreamingResponse(self._devices.overlay)
 
     @cached_property
     def actions(self) -> AsyncActionsResourceWithStreamingResponse:

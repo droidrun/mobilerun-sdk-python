@@ -64,14 +64,6 @@ from .devices import (
     DevicesResourceWithStreamingResponse,
     AsyncDevicesResourceWithStreamingResponse,
 )
-from .overlay import (
-    OverlayResource,
-    AsyncOverlayResource,
-    OverlayResourceWithRawResponse,
-    AsyncOverlayResourceWithRawResponse,
-    OverlayResourceWithStreamingResponse,
-    AsyncOverlayResourceWithStreamingResponse,
-)
 from .profile import (
     ProfileResource,
     AsyncProfileResource,
@@ -104,22 +96,8 @@ from .packages import (
     PackagesResourceWithStreamingResponse,
     AsyncPackagesResourceWithStreamingResponse,
 )
-from .timezone import (
-    TimezoneResource,
-    AsyncTimezoneResource,
-    TimezoneResourceWithRawResponse,
-    AsyncTimezoneResourceWithRawResponse,
-    TimezoneResourceWithStreamingResponse,
-    AsyncTimezoneResourceWithStreamingResponse,
-)
 
 __all__ = [
-    "TimezoneResource",
-    "AsyncTimezoneResource",
-    "TimezoneResourceWithRawResponse",
-    "AsyncTimezoneResourceWithRawResponse",
-    "TimezoneResourceWithStreamingResponse",
-    "AsyncTimezoneResourceWithStreamingResponse",
     "TimeResource",
     "AsyncTimeResource",
     "TimeResourceWithRawResponse",
@@ -150,12 +128,6 @@ __all__ = [
     "AsyncLocationResourceWithRawResponse",
     "LocationResourceWithStreamingResponse",
     "AsyncLocationResourceWithStreamingResponse",
-    "OverlayResource",
-    "AsyncOverlayResource",
-    "OverlayResourceWithRawResponse",
-    "AsyncOverlayResourceWithRawResponse",
-    "OverlayResourceWithStreamingResponse",
-    "AsyncOverlayResourceWithStreamingResponse",
     "ActionsResource",
     "AsyncActionsResource",
     "ActionsResourceWithRawResponse",
