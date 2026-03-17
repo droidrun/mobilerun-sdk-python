@@ -10,7 +10,7 @@ __all__ = ["TimeTimezoneResponse"]
 
 
 class TimeTimezoneResponse(BaseModel):
-    timezone: str
+    timezone: Optional[str] = None
 
     schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
     """A URL to the JSON Schema for this object."""
