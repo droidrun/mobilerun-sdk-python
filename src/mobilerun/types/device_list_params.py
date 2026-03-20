@@ -23,6 +23,8 @@ class DeviceListParams(TypedDict, total=False):
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
 
-    state: Optional[List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "unknown"]]]
+    state: Optional[
+        List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "maintenance", "unknown"]]
+    ]
 
     type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
