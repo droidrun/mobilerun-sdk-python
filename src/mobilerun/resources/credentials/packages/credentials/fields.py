@@ -7,7 +7,7 @@ from typing_extensions import Literal
 import httpx
 
 from ....._types import Body, Query, Headers, NotGiven, not_given
-from ....._utils import maybe_transform, async_maybe_transform
+from ....._utils import path_template, maybe_transform, async_maybe_transform
 from ....._compat import cached_property
 from ....._resource import SyncAPIResource, AsyncAPIResource
 from ....._response import (
@@ -78,7 +78,11 @@ class FieldsResource(SyncAPIResource):
         if not credential_name:
             raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
         return self._post(
-            f"/credentials/packages/{package_name}/credentials/{credential_name}/fields",
+            path_template(
+                "/credentials/packages/{package_name}/credentials/{credential_name}/fields",
+                package_name=package_name,
+                credential_name=credential_name,
+            ),
             body=maybe_transform(
                 {
                     "field_type": field_type,
@@ -127,7 +131,12 @@ class FieldsResource(SyncAPIResource):
         if not field_type:
             raise ValueError(f"Expected a non-empty value for `field_type` but received {field_type!r}")
         return self._patch(
-            f"/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}",
+            path_template(
+                "/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}",
+                package_name=package_name,
+                credential_name=credential_name,
+                field_type=field_type,
+            ),
             body=maybe_transform({"value": value}, field_update_params.FieldUpdateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -169,7 +178,12 @@ class FieldsResource(SyncAPIResource):
         if not field_type:
             raise ValueError(f"Expected a non-empty value for `field_type` but received {field_type!r}")
         return self._delete(
-            f"/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}",
+            path_template(
+                "/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}",
+                package_name=package_name,
+                credential_name=credential_name,
+                field_type=field_type,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -230,7 +244,11 @@ class AsyncFieldsResource(AsyncAPIResource):
         if not credential_name:
             raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
         return await self._post(
-            f"/credentials/packages/{package_name}/credentials/{credential_name}/fields",
+            path_template(
+                "/credentials/packages/{package_name}/credentials/{credential_name}/fields",
+                package_name=package_name,
+                credential_name=credential_name,
+            ),
             body=await async_maybe_transform(
                 {
                     "field_type": field_type,
@@ -279,7 +297,12 @@ class AsyncFieldsResource(AsyncAPIResource):
         if not field_type:
             raise ValueError(f"Expected a non-empty value for `field_type` but received {field_type!r}")
         return await self._patch(
-            f"/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}",
+            path_template(
+                "/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}",
+                package_name=package_name,
+                credential_name=credential_name,
+                field_type=field_type,
+            ),
             body=await async_maybe_transform({"value": value}, field_update_params.FieldUpdateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -321,7 +344,12 @@ class AsyncFieldsResource(AsyncAPIResource):
         if not field_type:
             raise ValueError(f"Expected a non-empty value for `field_type` but received {field_type!r}")
         return await self._delete(
-            f"/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}",
+            path_template(
+                "/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}",
+                package_name=package_name,
+                credential_name=credential_name,
+                field_type=field_type,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

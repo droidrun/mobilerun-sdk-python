@@ -7,7 +7,15 @@ from typing import Mapping, cast
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, FileTypes, omit, not_given
-from ..._utils import is_given, extract_files, maybe_transform, strip_not_given, deepcopy_minimal, async_maybe_transform
+from ..._utils import (
+    is_given,
+    extract_files,
+    path_template,
+    maybe_transform,
+    strip_not_given,
+    deepcopy_minimal,
+    async_maybe_transform,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -77,7 +85,7 @@ class FilesResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            f"/devices/{device_id}/files",
+            path_template("/devices/{device_id}/files", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -123,7 +131,7 @@ class FilesResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._delete(
-            f"/devices/{device_id}/files",
+            path_template("/devices/{device_id}/files", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -168,7 +176,7 @@ class FilesResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            f"/devices/{device_id}/files/download",
+            path_template("/devices/{device_id}/files/download", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -221,7 +229,7 @@ class FilesResource(SyncAPIResource):
         # multipart/form-data; boundary=---abc--
         extra_headers["Content-Type"] = "multipart/form-data"
         return self._post(
-            f"/devices/{device_id}/files",
+            path_template("/devices/{device_id}/files", device_id=device_id),
             body=maybe_transform(body, file_upload_params.FileUploadParams),
             files=files,
             options=make_request_options(
@@ -289,7 +297,7 @@ class AsyncFilesResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            f"/devices/{device_id}/files",
+            path_template("/devices/{device_id}/files", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -335,7 +343,7 @@ class AsyncFilesResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._delete(
-            f"/devices/{device_id}/files",
+            path_template("/devices/{device_id}/files", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -380,7 +388,7 @@ class AsyncFilesResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            f"/devices/{device_id}/files/download",
+            path_template("/devices/{device_id}/files/download", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -433,7 +441,7 @@ class AsyncFilesResource(AsyncAPIResource):
         # multipart/form-data; boundary=---abc--
         extra_headers["Content-Type"] = "multipart/form-data"
         return await self._post(
-            f"/devices/{device_id}/files",
+            path_template("/devices/{device_id}/files", device_id=device_id),
             body=await async_maybe_transform(body, file_upload_params.FileUploadParams),
             files=files,
             options=make_request_options(

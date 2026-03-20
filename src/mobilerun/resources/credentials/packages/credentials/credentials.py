@@ -15,7 +15,7 @@ from .fields import (
     AsyncFieldsResourceWithStreamingResponse,
 )
 from ....._types import Body, Query, Headers, NotGiven, not_given
-from ....._utils import maybe_transform, async_maybe_transform
+from ....._utils import path_template, maybe_transform, async_maybe_transform
 from ....._compat import cached_property
 from ....._resource import SyncAPIResource, AsyncAPIResource
 from ....._response import (
@@ -85,7 +85,7 @@ class CredentialsResource(SyncAPIResource):
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
         return self._post(
-            f"/credentials/packages/{package_name}",
+            path_template("/credentials/packages/{package_name}", package_name=package_name),
             body=maybe_transform(
                 {
                     "credential_name": credential_name,
@@ -128,7 +128,11 @@ class CredentialsResource(SyncAPIResource):
         if not credential_name:
             raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
         return self._get(
-            f"/credentials/packages/{package_name}/credentials/{credential_name}",
+            path_template(
+                "/credentials/packages/{package_name}/credentials/{credential_name}",
+                package_name=package_name,
+                credential_name=credential_name,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -164,7 +168,11 @@ class CredentialsResource(SyncAPIResource):
         if not credential_name:
             raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
         return self._delete(
-            f"/credentials/packages/{package_name}/credentials/{credential_name}",
+            path_template(
+                "/credentials/packages/{package_name}/credentials/{credential_name}",
+                package_name=package_name,
+                credential_name=credential_name,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -224,7 +232,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
         return await self._post(
-            f"/credentials/packages/{package_name}",
+            path_template("/credentials/packages/{package_name}", package_name=package_name),
             body=await async_maybe_transform(
                 {
                     "credential_name": credential_name,
@@ -267,7 +275,11 @@ class AsyncCredentialsResource(AsyncAPIResource):
         if not credential_name:
             raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
         return await self._get(
-            f"/credentials/packages/{package_name}/credentials/{credential_name}",
+            path_template(
+                "/credentials/packages/{package_name}/credentials/{credential_name}",
+                package_name=package_name,
+                credential_name=credential_name,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -303,7 +315,11 @@ class AsyncCredentialsResource(AsyncAPIResource):
         if not credential_name:
             raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
         return await self._delete(
-            f"/credentials/packages/{package_name}/credentials/{credential_name}",
+            path_template(
+                "/credentials/packages/{package_name}/credentials/{credential_name}",
+                package_name=package_name,
+                credential_name=credential_name,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
