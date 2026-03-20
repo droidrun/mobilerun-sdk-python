@@ -280,7 +280,11 @@ class DevicesResource(SyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         state: Optional[
-            List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "maintenance", "unknown"]]
+            List[
+                Literal[
+                    "creating", "assigned", "ready", "rebooting", "migrating", "terminated", "maintenance", "unknown"
+                ]
+            ]
         ]
         | Omit = omit,
         type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
@@ -588,7 +592,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         state: Optional[
-            List[Literal["creating", "assigned", "ready", "disconnected", "terminated", "maintenance", "unknown"]]
+            List[
+                Literal[
+                    "creating", "assigned", "ready", "rebooting", "migrating", "terminated", "maintenance", "unknown"
+                ]
+            ]
         ]
         | Omit = omit,
         type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
