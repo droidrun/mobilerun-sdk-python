@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -82,7 +82,7 @@ class ProxyResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            f"/devices/{device_id}/proxy",
+            path_template("/devices/{device_id}/proxy", device_id=device_id),
             body=maybe_transform(
                 {
                     "host": host,
@@ -134,7 +134,7 @@ class ProxyResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._delete(
-            f"/devices/{device_id}/proxy",
+            path_template("/devices/{device_id}/proxy", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -204,7 +204,7 @@ class AsyncProxyResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            f"/devices/{device_id}/proxy",
+            path_template("/devices/{device_id}/proxy", device_id=device_id),
             body=await async_maybe_transform(
                 {
                     "host": host,
@@ -256,7 +256,7 @@ class AsyncProxyResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._delete(
-            f"/devices/{device_id}/proxy",
+            path_template("/devices/{device_id}/proxy", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

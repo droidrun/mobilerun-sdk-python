@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -81,7 +81,7 @@ class ActionsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            f"/devices/{device_id}/global",
+            path_template("/devices/{device_id}/global", device_id=device_id),
             body=maybe_transform({"action": action}, action_global_params.ActionGlobalParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -122,7 +122,7 @@ class ActionsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            f"/devices/{device_id}/overlay",
+            path_template("/devices/{device_id}/overlay", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -164,7 +164,7 @@ class ActionsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            f"/devices/{device_id}/overlay",
+            path_template("/devices/{device_id}/overlay", device_id=device_id),
             body=maybe_transform({"visible": visible}, action_set_overlay_visible_params.ActionSetOverlayVisibleParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -214,7 +214,7 @@ class ActionsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            f"/devices/{device_id}/swipe",
+            path_template("/devices/{device_id}/swipe", device_id=device_id),
             body=maybe_transform(
                 {
                     "duration": duration,
@@ -269,7 +269,7 @@ class ActionsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._post(
-            f"/devices/{device_id}/tap",
+            path_template("/devices/{device_id}/tap", device_id=device_id),
             body=maybe_transform(
                 {
                     "x": x,
@@ -340,7 +340,7 @@ class AsyncActionsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            f"/devices/{device_id}/global",
+            path_template("/devices/{device_id}/global", device_id=device_id),
             body=await async_maybe_transform({"action": action}, action_global_params.ActionGlobalParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -381,7 +381,7 @@ class AsyncActionsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            f"/devices/{device_id}/overlay",
+            path_template("/devices/{device_id}/overlay", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -423,7 +423,7 @@ class AsyncActionsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            f"/devices/{device_id}/overlay",
+            path_template("/devices/{device_id}/overlay", device_id=device_id),
             body=await async_maybe_transform(
                 {"visible": visible}, action_set_overlay_visible_params.ActionSetOverlayVisibleParams
             ),
@@ -475,7 +475,7 @@ class AsyncActionsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            f"/devices/{device_id}/swipe",
+            path_template("/devices/{device_id}/swipe", device_id=device_id),
             body=await async_maybe_transform(
                 {
                     "duration": duration,
@@ -530,7 +530,7 @@ class AsyncActionsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._post(
-            f"/devices/{device_id}/tap",
+            path_template("/devices/{device_id}/tap", device_id=device_id),
             body=await async_maybe_transform(
                 {
                     "x": x,

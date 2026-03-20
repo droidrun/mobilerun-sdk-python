@@ -9,7 +9,7 @@ import httpx
 
 from ..types import hook_list_params, hook_update_params, hook_perform_params, hook_subscribe_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -78,7 +78,7 @@ class HooksResource(SyncAPIResource):
         if not hook_id:
             raise ValueError(f"Expected a non-empty value for `hook_id` but received {hook_id!r}")
         return self._get(
-            f"/hooks/{hook_id}",
+            path_template("/hooks/{hook_id}", hook_id=hook_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -119,7 +119,7 @@ class HooksResource(SyncAPIResource):
         if not hook_id:
             raise ValueError(f"Expected a non-empty value for `hook_id` but received {hook_id!r}")
         return self._post(
-            f"/hooks/{hook_id}/edit",
+            path_template("/hooks/{hook_id}/edit", hook_id=hook_id),
             body=maybe_transform(
                 {
                     "events": events,
@@ -307,7 +307,7 @@ class HooksResource(SyncAPIResource):
         if not hook_id:
             raise ValueError(f"Expected a non-empty value for `hook_id` but received {hook_id!r}")
         return self._post(
-            f"/hooks/{hook_id}/unsubscribe",
+            path_template("/hooks/{hook_id}/unsubscribe", hook_id=hook_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -363,7 +363,7 @@ class AsyncHooksResource(AsyncAPIResource):
         if not hook_id:
             raise ValueError(f"Expected a non-empty value for `hook_id` but received {hook_id!r}")
         return await self._get(
-            f"/hooks/{hook_id}",
+            path_template("/hooks/{hook_id}", hook_id=hook_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -404,7 +404,7 @@ class AsyncHooksResource(AsyncAPIResource):
         if not hook_id:
             raise ValueError(f"Expected a non-empty value for `hook_id` but received {hook_id!r}")
         return await self._post(
-            f"/hooks/{hook_id}/edit",
+            path_template("/hooks/{hook_id}/edit", hook_id=hook_id),
             body=await async_maybe_transform(
                 {
                     "events": events,
@@ -592,7 +592,7 @@ class AsyncHooksResource(AsyncAPIResource):
         if not hook_id:
             raise ValueError(f"Expected a non-empty value for `hook_id` but received {hook_id!r}")
         return await self._post(
-            f"/hooks/{hook_id}/unsubscribe",
+            path_template("/hooks/{hook_id}/unsubscribe", hook_id=hook_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

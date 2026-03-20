@@ -7,7 +7,7 @@ from typing import Optional
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -78,7 +78,7 @@ class PackagesResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            f"/devices/{device_id}/packages",
+            path_template("/devices/{device_id}/packages", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -151,7 +151,7 @@ class AsyncPackagesResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            f"/devices/{device_id}/packages",
+            path_template("/devices/{device_id}/packages", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
