@@ -103,7 +103,7 @@ Methods:
 - <code title="post /proxies">client.proxies.<a href="./src/mobilerun/resources/proxies.py">create</a>(\*\*<a href="src/mobilerun/types/proxy_create_params.py">params</a>) -> <a href="./src/mobilerun/types/proxy_create_response.py">ProxyCreateResponse</a></code>
 - <code title="get /proxies/{proxyId}">client.proxies.<a href="./src/mobilerun/resources/proxies.py">retrieve</a>(proxy_id) -> <a href="./src/mobilerun/types/proxy_retrieve_response.py">ProxyRetrieveResponse</a></code>
 - <code title="put /proxies/{proxyId}">client.proxies.<a href="./src/mobilerun/resources/proxies.py">update</a>(proxy_id, \*\*<a href="src/mobilerun/types/proxy_update_params.py">params</a>) -> <a href="./src/mobilerun/types/proxy_update_response.py">ProxyUpdateResponse</a></code>
-- <code title="get /proxies">client.proxies.<a href="./src/mobilerun/resources/proxies.py">list</a>() -> <a href="./src/mobilerun/types/proxy_list_response.py">ProxyListResponse</a></code>
+- <code title="get /proxies">client.proxies.<a href="./src/mobilerun/resources/proxies.py">list</a>(\*\*<a href="src/mobilerun/types/proxy_list_params.py">params</a>) -> <a href="./src/mobilerun/types/proxy_list_response.py">ProxyListResponse</a></code>
 - <code title="delete /proxies/{proxyId}">client.proxies.<a href="./src/mobilerun/resources/proxies.py">delete</a>(proxy_id) -> <a href="./src/mobilerun/types/proxy_delete_response.py">ProxyDeleteResponse</a></code>
 
 # Carriers
