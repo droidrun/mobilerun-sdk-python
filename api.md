@@ -165,7 +165,6 @@ from mobilerun.types.devices import TimeTimeResponse, TimeTimezoneResponse
 
 Methods:
 
-- <code title="post /devices/{deviceId}/time">client.devices.time.<a href="./src/mobilerun/resources/devices/time.py">set_time</a>(device_id, \*\*<a href="src/mobilerun/types/devices/time_set_time_params.py">params</a>) -> None</code>
 - <code title="post /devices/{deviceId}/timezone">client.devices.time.<a href="./src/mobilerun/resources/devices/time.py">set_timezone</a>(device_id, \*\*<a href="src/mobilerun/types/devices/time_set_timezone_params.py">params</a>) -> None</code>
 - <code title="get /devices/{deviceId}/time">client.devices.time.<a href="./src/mobilerun/resources/devices/time.py">time</a>(device_id) -> str</code>
 - <code title="get /devices/{deviceId}/timezone">client.devices.time.<a href="./src/mobilerun/resources/devices/time.py">timezone</a>(device_id) -> <a href="./src/mobilerun/types/devices/time_timezone_response.py">TimeTimezoneResponse</a></code>
