@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+from typing_extensions import Literal, overload
+
 import httpx
 
-from ..types import proxy_create_params, proxy_update_params
-from .._types import Body, Query, Headers, NotGiven, not_given
-from .._utils import path_template, maybe_transform, async_maybe_transform
+from ..types import proxy_list_params, proxy_create_params, proxy_update_params
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._utils import path_template, required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -45,6 +47,7 @@ class ProxiesResource(SyncAPIResource):
         """
         return ProxiesResourceWithStreamingResponse(self)
 
+    @overload
     def create(
         self,
         *,
@@ -52,6 +55,7 @@ class ProxiesResource(SyncAPIResource):
         name: str,
         password: str,
         port: int,
+        protocol: Literal["socks5"],
         user: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -72,6 +76,54 @@ class ProxiesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def create(
+        self,
+        *,
+        config: str,
+        name: str,
+        protocol: Literal["wireguard"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProxyCreateResponse:
+        """
+        Create a new proxy config
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["host", "name", "password", "port", "protocol", "user"], ["config", "name", "protocol"])
+    def create(
+        self,
+        *,
+        host: str | Omit = omit,
+        name: str,
+        password: str | Omit = omit,
+        port: int | Omit = omit,
+        protocol: Literal["socks5"] | Literal["wireguard"],
+        user: str | Omit = omit,
+        config: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProxyCreateResponse:
         return self._post(
             "/proxies",
             body=maybe_transform(
@@ -80,7 +132,9 @@ class ProxiesResource(SyncAPIResource):
                     "name": name,
                     "password": password,
                     "port": port,
+                    "protocol": protocol,
                     "user": user,
+                    "config": config,
                 },
                 proxy_create_params.ProxyCreateParams,
             ),
@@ -123,6 +177,7 @@ class ProxiesResource(SyncAPIResource):
             cast_to=ProxyRetrieveResponse,
         )
 
+    @overload
     def update(
         self,
         proxy_id: str,
@@ -131,6 +186,7 @@ class ProxiesResource(SyncAPIResource):
         name: str,
         password: str,
         port: int,
+        protocol: Literal["socks5"],
         user: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -151,6 +207,56 @@ class ProxiesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def update(
+        self,
+        proxy_id: str,
+        *,
+        config: str,
+        name: str,
+        protocol: Literal["wireguard"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProxyUpdateResponse:
+        """
+        Update a proxy config
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["host", "name", "password", "port", "protocol", "user"], ["config", "name", "protocol"])
+    def update(
+        self,
+        proxy_id: str,
+        *,
+        host: str | Omit = omit,
+        name: str,
+        password: str | Omit = omit,
+        port: int | Omit = omit,
+        protocol: Literal["socks5"] | Literal["wireguard"],
+        user: str | Omit = omit,
+        config: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProxyUpdateResponse:
         if not proxy_id:
             raise ValueError(f"Expected a non-empty value for `proxy_id` but received {proxy_id!r}")
         return self._put(
@@ -161,7 +267,9 @@ class ProxiesResource(SyncAPIResource):
                     "name": name,
                     "password": password,
                     "port": port,
+                    "protocol": protocol,
                     "user": user,
+                    "config": config,
                 },
                 proxy_update_params.ProxyUpdateParams,
             ),
@@ -174,6 +282,7 @@ class ProxiesResource(SyncAPIResource):
     def list(
         self,
         *,
+        protocol: Literal["socks5", "wireguard"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -181,11 +290,26 @@ class ProxiesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyListResponse:
-        """List all proxy configs for the authenticated user"""
+        """
+        List all proxy configs for the authenticated user
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return self._get(
             "/proxies",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"protocol": protocol}, proxy_list_params.ProxyListParams),
             ),
             cast_to=ProxyListResponse,
         )
@@ -244,6 +368,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         """
         return AsyncProxiesResourceWithStreamingResponse(self)
 
+    @overload
     async def create(
         self,
         *,
@@ -251,6 +376,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         name: str,
         password: str,
         port: int,
+        protocol: Literal["socks5"],
         user: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -271,6 +397,54 @@ class AsyncProxiesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def create(
+        self,
+        *,
+        config: str,
+        name: str,
+        protocol: Literal["wireguard"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProxyCreateResponse:
+        """
+        Create a new proxy config
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["host", "name", "password", "port", "protocol", "user"], ["config", "name", "protocol"])
+    async def create(
+        self,
+        *,
+        host: str | Omit = omit,
+        name: str,
+        password: str | Omit = omit,
+        port: int | Omit = omit,
+        protocol: Literal["socks5"] | Literal["wireguard"],
+        user: str | Omit = omit,
+        config: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProxyCreateResponse:
         return await self._post(
             "/proxies",
             body=await async_maybe_transform(
@@ -279,7 +453,9 @@ class AsyncProxiesResource(AsyncAPIResource):
                     "name": name,
                     "password": password,
                     "port": port,
+                    "protocol": protocol,
                     "user": user,
+                    "config": config,
                 },
                 proxy_create_params.ProxyCreateParams,
             ),
@@ -322,6 +498,7 @@ class AsyncProxiesResource(AsyncAPIResource):
             cast_to=ProxyRetrieveResponse,
         )
 
+    @overload
     async def update(
         self,
         proxy_id: str,
@@ -330,6 +507,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         name: str,
         password: str,
         port: int,
+        protocol: Literal["socks5"],
         user: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -350,6 +528,56 @@ class AsyncProxiesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def update(
+        self,
+        proxy_id: str,
+        *,
+        config: str,
+        name: str,
+        protocol: Literal["wireguard"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProxyUpdateResponse:
+        """
+        Update a proxy config
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["host", "name", "password", "port", "protocol", "user"], ["config", "name", "protocol"])
+    async def update(
+        self,
+        proxy_id: str,
+        *,
+        host: str | Omit = omit,
+        name: str,
+        password: str | Omit = omit,
+        port: int | Omit = omit,
+        protocol: Literal["socks5"] | Literal["wireguard"],
+        user: str | Omit = omit,
+        config: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProxyUpdateResponse:
         if not proxy_id:
             raise ValueError(f"Expected a non-empty value for `proxy_id` but received {proxy_id!r}")
         return await self._put(
@@ -360,7 +588,9 @@ class AsyncProxiesResource(AsyncAPIResource):
                     "name": name,
                     "password": password,
                     "port": port,
+                    "protocol": protocol,
                     "user": user,
+                    "config": config,
                 },
                 proxy_update_params.ProxyUpdateParams,
             ),
@@ -373,6 +603,7 @@ class AsyncProxiesResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        protocol: Literal["socks5", "wireguard"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -380,11 +611,26 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyListResponse:
-        """List all proxy configs for the authenticated user"""
+        """
+        List all proxy configs for the authenticated user
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return await self._get(
             "/proxies",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"protocol": protocol}, proxy_list_params.ProxyListParams),
             ),
             cast_to=ProxyListResponse,
         )

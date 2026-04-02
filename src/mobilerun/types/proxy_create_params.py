@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, TypedDict
+from typing import Union
+from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
-__all__ = ["ProxyCreateParams"]
+__all__ = ["ProxyCreateParams", "CreateSocks5Proxy", "CreateWireguardProxy"]
 
 
-class ProxyCreateParams(TypedDict, total=False):
+class CreateSocks5Proxy(TypedDict, total=False):
     host: Required[str]
 
     name: Required[str]
@@ -16,4 +17,17 @@ class ProxyCreateParams(TypedDict, total=False):
 
     port: Required[int]
 
+    protocol: Required[Literal["socks5"]]
+
     user: Required[str]
+
+
+class CreateWireguardProxy(TypedDict, total=False):
+    config: Required[str]
+
+    name: Required[str]
+
+    protocol: Required[Literal["wireguard"]]
+
+
+ProxyCreateParams: TypeAlias = Union[CreateSocks5Proxy, CreateWireguardProxy]
