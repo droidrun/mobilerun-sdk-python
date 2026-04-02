@@ -6,33 +6,39 @@ from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
-__all__ = ["ProxyConnectParams", "Proxy"]
+__all__ = ["ProxyConnectParams", "Socks5"]
 
 
 class ProxyConnectParams(TypedDict, total=False):
     host: str
 
+    name: str
+    """Proxy name (used for wireguard tunnel name)"""
+
     password: str
 
     port: int
 
-    proxy: Proxy
-    """Preferred new format."""
-
     smart_ip: Annotated[bool, PropertyInfo(alias="smartIp")]
 
+    socks5: Socks5
+    """SOCKS5 proxy configuration (required for socks5)."""
+
     user: str
+
+    wireguard: str
+    """WireGuard tunnel configuration file content (required for wireguard)."""
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
 
 
-class Proxy(TypedDict, total=False):
-    """Preferred new format."""
+class Socks5(TypedDict, total=False):
+    """SOCKS5 proxy configuration (required for socks5)."""
 
     host: Required[str]
 
-    password: Required[str]
-
     port: Required[int]
 
-    user: Required[str]
+    password: str
+
+    user: str

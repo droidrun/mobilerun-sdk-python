@@ -11,6 +11,8 @@ from .usage_result import UsageResult
 __all__ = [
     "TaskGetTrajectoryResponse",
     "Trajectory",
+    "TrajectoryTrajectoryQueuedEvent",
+    "TrajectoryTrajectoryQueuedEventData",
     "TrajectoryTrajectoryCreatedEvent",
     "TrajectoryTrajectoryCreatedEventData",
     "TrajectoryTrajectoryExceptionEvent",
@@ -66,6 +68,21 @@ __all__ = [
     "TrajectoryTrajectoryUserMessageEventData",
     "TrajectoryTrajectoryUnknownEvent",
 ]
+
+
+class TrajectoryTrajectoryQueuedEventData(BaseModel):
+    """Emitted to SSE clients when the task is waiting in the device queue."""
+
+    id: str
+
+    status: Optional[str] = None
+
+
+class TrajectoryTrajectoryQueuedEvent(BaseModel):
+    data: TrajectoryTrajectoryQueuedEventData
+    """Emitted to SSE clients when the task is waiting in the device queue."""
+
+    event: Literal["QueuedEvent"]
 
 
 class TrajectoryTrajectoryCreatedEventData(BaseModel):
@@ -524,6 +541,7 @@ class TrajectoryTrajectoryUnknownEvent(BaseModel):
 
 
 Trajectory: TypeAlias = Union[
+    TrajectoryTrajectoryQueuedEvent,
     TrajectoryTrajectoryCreatedEvent,
     TrajectoryTrajectoryExceptionEvent,
     TrajectoryTrajectoryCancelEvent,

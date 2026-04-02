@@ -13,6 +13,8 @@ __all__ = ["Device"]
 class Device(BaseModel):
     id: str
 
+    active_task_id: str = FieldInfo(alias="activeTaskId")
+
     assigned_at: Optional[datetime] = FieldInfo(alias="assignedAt", default=None)
 
     created_at: datetime = FieldInfo(alias="createdAt")

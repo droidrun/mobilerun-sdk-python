@@ -29,16 +29,18 @@ class TestProxy:
         proxy = client.devices.proxy.connect(
             device_id="deviceId",
             host="host",
+            name="name",
             password="password",
             port=1,
-            proxy={
+            smart_ip=True,
+            socks5={
                 "host": "host",
-                "password": "password",
                 "port": 1,
+                "password": "password",
                 "user": "user",
             },
-            smart_ip=True,
             user="user",
+            wireguard="wireguard",
             x_device_display_id=0,
         )
         assert proxy is None
@@ -148,16 +150,18 @@ class TestAsyncProxy:
         proxy = await async_client.devices.proxy.connect(
             device_id="deviceId",
             host="host",
+            name="name",
             password="password",
             port=1,
-            proxy={
+            smart_ip=True,
+            socks5={
                 "host": "host",
-                "password": "password",
                 "port": 1,
+                "password": "password",
                 "user": "user",
             },
-            smart_ip=True,
             user="user",
+            wireguard="wireguard",
             x_device_display_id=0,
         )
         assert proxy is None

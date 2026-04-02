@@ -272,12 +272,14 @@ class TasksResource(SyncAPIResource):
         task: str,
         agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
+        continue_on_failure: bool | Omit = omit,
         credentials: Iterable[PackageCredentialsParam] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
+        memory_namespace: str | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
         stealth: bool | Omit = omit,
@@ -305,6 +307,8 @@ class TasksResource(SyncAPIResource):
           llm_model: The LLM model identifier to use for the task (e.g.
               'google/gemini-3.1-flash-lite-preview')
 
+          memory_namespace: Memory namespace for cross-task personalization
+
           subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
 
           extra_headers: Send extra headers
@@ -323,12 +327,14 @@ class TasksResource(SyncAPIResource):
                     "task": task,
                     "agent_id": agent_id,
                     "apps": apps,
+                    "continue_on_failure": continue_on_failure,
                     "credentials": credentials,
                     "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
+                    "memory_namespace": memory_namespace,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
                     "stealth": stealth,
@@ -352,12 +358,14 @@ class TasksResource(SyncAPIResource):
         task: str,
         agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
+        continue_on_failure: bool | Omit = omit,
         credentials: Iterable[PackageCredentialsParam] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
+        memory_namespace: str | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
         stealth: bool | Omit = omit,
@@ -384,6 +392,8 @@ class TasksResource(SyncAPIResource):
           llm_model: The LLM model identifier to use for the task (e.g.
               'google/gemini-3.1-flash-lite-preview')
 
+          memory_namespace: Memory namespace for cross-task personalization
+
           subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
 
           extra_headers: Send extra headers
@@ -402,12 +412,14 @@ class TasksResource(SyncAPIResource):
                     "task": task,
                     "agent_id": agent_id,
                     "apps": apps,
+                    "continue_on_failure": continue_on_failure,
                     "credentials": credentials,
                     "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
+                    "memory_namespace": memory_namespace,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
                     "stealth": stealth,
@@ -723,12 +735,14 @@ class AsyncTasksResource(AsyncAPIResource):
         task: str,
         agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
+        continue_on_failure: bool | Omit = omit,
         credentials: Iterable[PackageCredentialsParam] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
+        memory_namespace: str | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
         stealth: bool | Omit = omit,
@@ -756,6 +770,8 @@ class AsyncTasksResource(AsyncAPIResource):
           llm_model: The LLM model identifier to use for the task (e.g.
               'google/gemini-3.1-flash-lite-preview')
 
+          memory_namespace: Memory namespace for cross-task personalization
+
           subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
 
           extra_headers: Send extra headers
@@ -774,12 +790,14 @@ class AsyncTasksResource(AsyncAPIResource):
                     "task": task,
                     "agent_id": agent_id,
                     "apps": apps,
+                    "continue_on_failure": continue_on_failure,
                     "credentials": credentials,
                     "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
+                    "memory_namespace": memory_namespace,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
                     "stealth": stealth,
@@ -803,12 +821,14 @@ class AsyncTasksResource(AsyncAPIResource):
         task: str,
         agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
+        continue_on_failure: bool | Omit = omit,
         credentials: Iterable[PackageCredentialsParam] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
+        memory_namespace: str | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
         stealth: bool | Omit = omit,
@@ -835,6 +855,8 @@ class AsyncTasksResource(AsyncAPIResource):
           llm_model: The LLM model identifier to use for the task (e.g.
               'google/gemini-3.1-flash-lite-preview')
 
+          memory_namespace: Memory namespace for cross-task personalization
+
           subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
 
           extra_headers: Send extra headers
@@ -853,12 +875,14 @@ class AsyncTasksResource(AsyncAPIResource):
                     "task": task,
                     "agent_id": agent_id,
                     "apps": apps,
+                    "continue_on_failure": continue_on_failure,
                     "credentials": credentials,
                     "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
+                    "memory_namespace": memory_namespace,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
                     "stealth": stealth,
