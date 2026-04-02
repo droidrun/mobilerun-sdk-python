@@ -2,7 +2,6 @@
 
 ```python
 from mobilerun.types import (
-    Config,
     DeviceCarrier,
     DeviceIdentifiers,
     DeviceSpec,

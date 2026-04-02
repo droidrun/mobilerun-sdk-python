@@ -22,6 +22,8 @@ class TaskRunStreamedParams(TypedDict, total=False):
 
     apps: SequenceNotStr[str]
 
+    continue_on_failure: Annotated[bool, PropertyInfo(alias="continueOnFailure")]
+
     credentials: Iterable[PackageCredentialsParam]
 
     display_id: Annotated[int, PropertyInfo(alias="displayId")]
@@ -38,6 +40,9 @@ class TaskRunStreamedParams(TypedDict, total=False):
     """
 
     max_steps: Annotated[int, PropertyInfo(alias="maxSteps")]
+
+    memory_namespace: Annotated[str, PropertyInfo(alias="memoryNamespace")]
+    """Memory namespace for cross-task personalization"""
 
     output_schema: Annotated[Optional[Dict[str, object]], PropertyInfo(alias="outputSchema")]
 

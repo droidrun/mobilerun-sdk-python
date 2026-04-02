@@ -45,11 +45,13 @@ class ProxyResource(SyncAPIResource):
         device_id: str,
         *,
         host: str | Omit = omit,
+        name: str | Omit = omit,
         password: str | Omit = omit,
         port: int | Omit = omit,
-        proxy: proxy_connect_params.Proxy | Omit = omit,
         smart_ip: bool | Omit = omit,
+        socks5: proxy_connect_params.Socks5 | Omit = omit,
         user: str | Omit = omit,
+        wireguard: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -62,7 +64,11 @@ class ProxyResource(SyncAPIResource):
         Connect proxy
 
         Args:
-          proxy: Preferred new format.
+          name: Proxy name (used for wireguard tunnel name)
+
+          socks5: SOCKS5 proxy configuration (required for socks5).
+
+          wireguard: WireGuard tunnel configuration file content (required for wireguard).
 
           extra_headers: Send extra headers
 
@@ -86,11 +92,13 @@ class ProxyResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "host": host,
+                    "name": name,
                     "password": password,
                     "port": port,
-                    "proxy": proxy,
                     "smart_ip": smart_ip,
+                    "socks5": socks5,
                     "user": user,
+                    "wireguard": wireguard,
                 },
                 proxy_connect_params.ProxyConnectParams,
             ),
@@ -167,11 +175,13 @@ class AsyncProxyResource(AsyncAPIResource):
         device_id: str,
         *,
         host: str | Omit = omit,
+        name: str | Omit = omit,
         password: str | Omit = omit,
         port: int | Omit = omit,
-        proxy: proxy_connect_params.Proxy | Omit = omit,
         smart_ip: bool | Omit = omit,
+        socks5: proxy_connect_params.Socks5 | Omit = omit,
         user: str | Omit = omit,
+        wireguard: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -184,7 +194,11 @@ class AsyncProxyResource(AsyncAPIResource):
         Connect proxy
 
         Args:
-          proxy: Preferred new format.
+          name: Proxy name (used for wireguard tunnel name)
+
+          socks5: SOCKS5 proxy configuration (required for socks5).
+
+          wireguard: WireGuard tunnel configuration file content (required for wireguard).
 
           extra_headers: Send extra headers
 
@@ -208,11 +222,13 @@ class AsyncProxyResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "host": host,
+                    "name": name,
                     "password": password,
                     "port": port,
-                    "proxy": proxy,
                     "smart_ip": smart_ip,
+                    "socks5": socks5,
                     "user": user,
+                    "wireguard": wireguard,
                 },
                 proxy_connect_params.ProxyConnectParams,
             ),

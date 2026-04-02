@@ -29,9 +29,17 @@ class Task(BaseModel):
 
     apps: Optional[List[str]] = None
 
+    cancel_requested_at: Optional[datetime] = FieldInfo(alias="cancelRequestedAt", default=None)
+
+    claimed_at: Optional[datetime] = FieldInfo(alias="claimedAt", default=None)
+
+    continue_on_failure: Optional[bool] = FieldInfo(alias="continueOnFailure", default=None)
+
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     credentials: Optional[List[PackageCredentials]] = None
+
+    dispatched_at: Optional[datetime] = FieldInfo(alias="dispatchedAt", default=None)
 
     display_id: Optional[int] = FieldInfo(alias="displayId", default=None)
 
@@ -42,6 +50,9 @@ class Task(BaseModel):
     finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
 
     max_steps: Optional[int] = FieldInfo(alias="maxSteps", default=None)
+
+    memory_namespace: Optional[str] = FieldInfo(alias="memoryNamespace", default=None)
+    """Memory namespace for cross-task personalization"""
 
     message: Optional[str] = None
 
@@ -56,6 +67,8 @@ class Task(BaseModel):
     stealth: Optional[bool] = None
 
     steps: Optional[int] = None
+
+    stream_url: Optional[str] = FieldInfo(alias="streamUrl", default=None)
 
     subagent_model: Optional[str] = FieldInfo(alias="subagentModel", default=None)
     """LLM model used by sub-agent roles: executor, app_opener, structured_output"""

@@ -110,7 +110,6 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.device import Device
 from ...types.device_list_response import DeviceListResponse
-from ...types.shared_params.config import Config
 from ...types.device_count_response import DeviceCountResponse
 from ...types.shared_params.device_carrier import DeviceCarrier
 from ...types.shared_params.device_identifiers import DeviceIdentifiers
@@ -192,8 +191,7 @@ class DevicesResource(SyncAPIResource):
         files: Optional[SequenceNotStr[str]] | Omit = omit,
         identifiers: DeviceIdentifiers | Omit = omit,
         name: str | Omit = omit,
-        proxy: Config | Omit = omit,
-        smart_ip: bool | Omit = omit,
+        proxy: device_create_params.Proxy | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -223,7 +221,6 @@ class DevicesResource(SyncAPIResource):
                     "identifiers": identifiers,
                     "name": name,
                     "proxy": proxy,
-                    "smart_ip": smart_ip,
                 },
                 device_create_params.DeviceCreateParams,
             ),
@@ -502,8 +499,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         files: Optional[SequenceNotStr[str]] | Omit = omit,
         identifiers: DeviceIdentifiers | Omit = omit,
         name: str | Omit = omit,
-        proxy: Config | Omit = omit,
-        smart_ip: bool | Omit = omit,
+        proxy: device_create_params.Proxy | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -533,7 +529,6 @@ class AsyncDevicesResource(AsyncAPIResource):
                     "identifiers": identifiers,
                     "name": name,
                     "proxy": proxy,
-                    "smart_ip": smart_ip,
                 },
                 device_create_params.DeviceCreateParams,
             ),

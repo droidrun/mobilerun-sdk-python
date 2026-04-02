@@ -62,12 +62,16 @@ class TestDevices:
             },
             name="name",
             proxy={
-                "host": "host",
-                "password": "password",
-                "port": 0,
-                "user": "user",
+                "name": "name",
+                "smart_ip": True,
+                "socks5": {
+                    "host": "host",
+                    "password": "password",
+                    "port": 0,
+                    "user": "user",
+                },
+                "wireguard": "wireguard",
             },
-            smart_ip=True,
         )
         assert_matches_type(Device, device, path=["response"])
 
@@ -346,12 +350,16 @@ class TestAsyncDevices:
             },
             name="name",
             proxy={
-                "host": "host",
-                "password": "password",
-                "port": 0,
-                "user": "user",
+                "name": "name",
+                "smart_ip": True,
+                "socks5": {
+                    "host": "host",
+                    "password": "password",
+                    "port": 0,
+                    "user": "user",
+                },
+                "wireguard": "wireguard",
             },
-            smart_ip=True,
         )
         assert_matches_type(Device, device, path=["response"])
 
