@@ -212,6 +212,52 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_set_name(self, client: Mobilerun) -> None:
+        device = client.devices.set_name(
+            device_id="deviceId",
+            name="x",
+        )
+        assert_matches_type(Device, device, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_set_name(self, client: Mobilerun) -> None:
+        response = client.devices.with_raw_response.set_name(
+            device_id="deviceId",
+            name="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        device = response.parse()
+        assert_matches_type(Device, device, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_set_name(self, client: Mobilerun) -> None:
+        with client.devices.with_streaming_response.set_name(
+            device_id="deviceId",
+            name="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            device = response.parse()
+            assert_matches_type(Device, device, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_set_name(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            client.devices.with_raw_response.set_name(
+                device_id="",
+                name="x",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_method_terminate(self, client: Mobilerun) -> None:
         device = client.devices.terminate(
             device_id="deviceId",
@@ -497,6 +543,52 @@ class TestAsyncDevices:
             assert_matches_type(DeviceCountResponse, device, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_set_name(self, async_client: AsyncMobilerun) -> None:
+        device = await async_client.devices.set_name(
+            device_id="deviceId",
+            name="x",
+        )
+        assert_matches_type(Device, device, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_set_name(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.with_raw_response.set_name(
+            device_id="deviceId",
+            name="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        device = await response.parse()
+        assert_matches_type(Device, device, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_set_name(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.with_streaming_response.set_name(
+            device_id="deviceId",
+            name="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            device = await response.parse()
+            assert_matches_type(Device, device, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_set_name(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            await async_client.devices.with_raw_response.set_name(
+                device_id="",
+                name="x",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize

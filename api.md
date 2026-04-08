@@ -152,6 +152,7 @@ Methods:
 - <code title="get /devices/{deviceId}">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">retrieve</a>(device_id) -> <a href="./src/mobilerun/types/device.py">Device</a></code>
 - <code title="get /devices">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">list</a>(\*\*<a href="src/mobilerun/types/device_list_params.py">params</a>) -> <a href="./src/mobilerun/types/device_list_response.py">DeviceListResponse</a></code>
 - <code title="get /devices/count">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">count</a>() -> <a href="./src/mobilerun/types/device_count_response.py">DeviceCountResponse</a></code>
+- <code title="put /devices/{deviceId}/name">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">set_name</a>(device_id, \*\*<a href="src/mobilerun/types/device_set_name_params.py">params</a>) -> <a href="./src/mobilerun/types/device.py">Device</a></code>
 - <code title="delete /devices/{deviceId}">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">terminate</a>(device_id, \*\*<a href="src/mobilerun/types/device_terminate_params.py">params</a>) -> None</code>
 - <code title="get /devices/{deviceId}/wait">client.devices.<a href="./src/mobilerun/resources/devices/devices.py">wait_ready</a>(device_id) -> <a href="./src/mobilerun/types/device.py">Device</a></code>
 
@@ -192,10 +193,17 @@ Methods:
 
 ## Proxy
 
+Types:
+
+```python
+from mobilerun.types.devices import ProxyStatusResponse
+```
+
 Methods:
 
 - <code title="post /devices/{deviceId}/proxy">client.devices.proxy.<a href="./src/mobilerun/resources/devices/proxy.py">connect</a>(device_id, \*\*<a href="src/mobilerun/types/devices/proxy_connect_params.py">params</a>) -> None</code>
 - <code title="delete /devices/{deviceId}/proxy">client.devices.proxy.<a href="./src/mobilerun/resources/devices/proxy.py">disconnect</a>(device_id) -> None</code>
+- <code title="get /devices/{deviceId}/proxy">client.devices.proxy.<a href="./src/mobilerun/resources/devices/proxy.py">status</a>(device_id) -> <a href="./src/mobilerun/types/devices/proxy_status_response.py">ProxyStatusResponse</a></code>
 
 ## Location
 
@@ -286,6 +294,21 @@ from mobilerun.types.devices import TaskListResponse
 Methods:
 
 - <code title="get /devices/{deviceId}/tasks">client.devices.tasks.<a href="./src/mobilerun/resources/devices/tasks.py">list</a>(device_id, \*\*<a href="src/mobilerun/types/devices/task_list_params.py">params</a>) -> <a href="./src/mobilerun/types/devices/task_list_response.py">TaskListResponse</a></code>
+
+## Esim
+
+Types:
+
+```python
+from mobilerun.types.devices import EsimListResponse, EsimActivateResponse
+```
+
+Methods:
+
+- <code title="get /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun/resources/devices/esim.py">list</a>(device_id) -> <a href="./src/mobilerun/types/devices/esim_list_response.py">Optional[EsimListResponse]</a></code>
+- <code title="post /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun/resources/devices/esim.py">activate</a>(device_id, \*\*<a href="src/mobilerun/types/devices/esim_activate_params.py">params</a>) -> <a href="./src/mobilerun/types/devices/esim_activate_response.py">EsimActivateResponse</a></code>
+- <code title="put /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun/resources/devices/esim.py">enable</a>(device_id, \*\*<a href="src/mobilerun/types/devices/esim_enable_params.py">params</a>) -> None</code>
+- <code title="delete /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun/resources/devices/esim.py">remove</a>(device_id, \*\*<a href="src/mobilerun/types/devices/esim_remove_params.py">params</a>) -> None</code>
 
 # Apps
 

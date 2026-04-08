@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
@@ -15,44 +17,129 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.devices import proxy_connect_params
-from ...types.devices.proxy_status_response import ProxyStatusResponse
+from ...types.devices import esim_enable_params, esim_remove_params, esim_activate_params
+from ...types.devices.esim_list_response import EsimListResponse
+from ...types.devices.esim_activate_response import EsimActivateResponse
 
-__all__ = ["ProxyResource", "AsyncProxyResource"]
+__all__ = ["EsimResource", "AsyncEsimResource"]
 
 
-class ProxyResource(SyncAPIResource):
+class EsimResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> ProxyResourceWithRawResponse:
+    def with_raw_response(self) -> EsimResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
         """
-        return ProxyResourceWithRawResponse(self)
+        return EsimResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> ProxyResourceWithStreamingResponse:
+    def with_streaming_response(self) -> EsimResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
         """
-        return ProxyResourceWithStreamingResponse(self)
+        return EsimResourceWithStreamingResponse(self)
 
-    def connect(
+    def list(
         self,
         device_id: str,
         *,
-        host: str | Omit = omit,
-        name: str | Omit = omit,
-        password: str | Omit = omit,
-        port: int | Omit = omit,
-        smart_ip: bool | Omit = omit,
-        socks5: proxy_connect_params.Socks5 | Omit = omit,
-        user: str | Omit = omit,
-        wireguard: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Optional[EsimListResponse]:
+        """
+        List eSIM subscriptions
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            path_template("/devices/{device_id}/esim", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EsimListResponse,
+        )
+
+    def activate(
+        self,
+        device_id: str,
+        *,
+        enable: bool,
+        matching_id: str,
+        sm_dp_addr: str,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EsimActivateResponse:
+        """
+        Configure eSIM (download profile and/or enable subscription)
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._post(
+            path_template("/devices/{device_id}/esim", device_id=device_id),
+            body=maybe_transform(
+                {
+                    "enable": enable,
+                    "matching_id": matching_id,
+                    "sm_dp_addr": sm_dp_addr,
+                },
+                esim_activate_params.EsimActivateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EsimActivateResponse,
+        )
+
+    def enable(
+        self,
+        device_id: str,
+        *,
+        sub_id: int,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -62,15 +149,9 @@ class ProxyResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Connect proxy
+        Enable an eSIM subscription
 
         Args:
-          name: Proxy name (used for wireguard tunnel name)
-
-          socks5: SOCKS5 proxy configuration (required for socks5).
-
-          wireguard: WireGuard tunnel configuration file content (required for wireguard).
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -88,31 +169,20 @@ class ProxyResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._post(
-            path_template("/devices/{device_id}/proxy", device_id=device_id),
-            body=maybe_transform(
-                {
-                    "host": host,
-                    "name": name,
-                    "password": password,
-                    "port": port,
-                    "smart_ip": smart_ip,
-                    "socks5": socks5,
-                    "user": user,
-                    "wireguard": wireguard,
-                },
-                proxy_connect_params.ProxyConnectParams,
-            ),
+        return self._put(
+            path_template("/devices/{device_id}/esim", device_id=device_id),
+            body=maybe_transform({"sub_id": sub_id}, esim_enable_params.EsimEnableParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
         )
 
-    def disconnect(
+    def remove(
         self,
         device_id: str,
         *,
+        sub_id: int,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -122,7 +192,7 @@ class ProxyResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Disconnect proxy
+        Delete eSIM subscription
 
         Args:
           extra_headers: Send extra headers
@@ -143,14 +213,39 @@ class ProxyResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._delete(
-            path_template("/devices/{device_id}/proxy", device_id=device_id),
+            path_template("/devices/{device_id}/esim", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"sub_id": sub_id}, esim_remove_params.EsimRemoveParams),
             ),
             cast_to=NoneType,
         )
 
-    def status(
+
+class AsyncEsimResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncEsimResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
+        """
+        return AsyncEsimResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncEsimResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
+        """
+        return AsyncEsimResourceWithStreamingResponse(self)
+
+    async def list(
         self,
         device_id: str,
         *,
@@ -161,9 +256,9 @@ class ProxyResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProxyStatusResponse:
+    ) -> Optional[EsimListResponse]:
         """
-        Get proxy connection state
+        List eSIM subscriptions
 
         Args:
           extra_headers: Send extra headers
@@ -182,47 +277,70 @@ class ProxyResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._get(
-            path_template("/devices/{device_id}/proxy", device_id=device_id),
+        return await self._get(
+            path_template("/devices/{device_id}/esim", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ProxyStatusResponse,
+            cast_to=EsimListResponse,
         )
 
-
-class AsyncProxyResource(AsyncAPIResource):
-    @cached_property
-    def with_raw_response(self) -> AsyncProxyResourceWithRawResponse:
-        """
-        This property can be used as a prefix for any HTTP method call to return
-        the raw response object instead of the parsed content.
-
-        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
-        """
-        return AsyncProxyResourceWithRawResponse(self)
-
-    @cached_property
-    def with_streaming_response(self) -> AsyncProxyResourceWithStreamingResponse:
-        """
-        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
-
-        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
-        """
-        return AsyncProxyResourceWithStreamingResponse(self)
-
-    async def connect(
+    async def activate(
         self,
         device_id: str,
         *,
-        host: str | Omit = omit,
-        name: str | Omit = omit,
-        password: str | Omit = omit,
-        port: int | Omit = omit,
-        smart_ip: bool | Omit = omit,
-        socks5: proxy_connect_params.Socks5 | Omit = omit,
-        user: str | Omit = omit,
-        wireguard: str | Omit = omit,
+        enable: bool,
+        matching_id: str,
+        sm_dp_addr: str,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EsimActivateResponse:
+        """
+        Configure eSIM (download profile and/or enable subscription)
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return await self._post(
+            path_template("/devices/{device_id}/esim", device_id=device_id),
+            body=await async_maybe_transform(
+                {
+                    "enable": enable,
+                    "matching_id": matching_id,
+                    "sm_dp_addr": sm_dp_addr,
+                },
+                esim_activate_params.EsimActivateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EsimActivateResponse,
+        )
+
+    async def enable(
+        self,
+        device_id: str,
+        *,
+        sub_id: int,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -232,15 +350,9 @@ class AsyncProxyResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Connect proxy
+        Enable an eSIM subscription
 
         Args:
-          name: Proxy name (used for wireguard tunnel name)
-
-          socks5: SOCKS5 proxy configuration (required for socks5).
-
-          wireguard: WireGuard tunnel configuration file content (required for wireguard).
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -258,31 +370,20 @@ class AsyncProxyResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return await self._post(
-            path_template("/devices/{device_id}/proxy", device_id=device_id),
-            body=await async_maybe_transform(
-                {
-                    "host": host,
-                    "name": name,
-                    "password": password,
-                    "port": port,
-                    "smart_ip": smart_ip,
-                    "socks5": socks5,
-                    "user": user,
-                    "wireguard": wireguard,
-                },
-                proxy_connect_params.ProxyConnectParams,
-            ),
+        return await self._put(
+            path_template("/devices/{device_id}/esim", device_id=device_id),
+            body=await async_maybe_transform({"sub_id": sub_id}, esim_enable_params.EsimEnableParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
         )
 
-    async def disconnect(
+    async def remove(
         self,
         device_id: str,
         *,
+        sub_id: int,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -292,7 +393,7 @@ class AsyncProxyResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Disconnect proxy
+        Delete eSIM subscription
 
         Args:
           extra_headers: Send extra headers
@@ -313,109 +414,85 @@ class AsyncProxyResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._delete(
-            path_template("/devices/{device_id}/proxy", device_id=device_id),
+            path_template("/devices/{device_id}/esim", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"sub_id": sub_id}, esim_remove_params.EsimRemoveParams),
             ),
             cast_to=NoneType,
         )
 
-    async def status(
-        self,
-        device_id: str,
-        *,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProxyStatusResponse:
-        """
-        Get proxy connection state
 
-        Args:
-          extra_headers: Send extra headers
+class EsimResourceWithRawResponse:
+    def __init__(self, esim: EsimResource) -> None:
+        self._esim = esim
 
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
-        return await self._get(
-            path_template("/devices/{device_id}/proxy", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ProxyStatusResponse,
+        self.list = to_raw_response_wrapper(
+            esim.list,
+        )
+        self.activate = to_raw_response_wrapper(
+            esim.activate,
+        )
+        self.enable = to_raw_response_wrapper(
+            esim.enable,
+        )
+        self.remove = to_raw_response_wrapper(
+            esim.remove,
         )
 
 
-class ProxyResourceWithRawResponse:
-    def __init__(self, proxy: ProxyResource) -> None:
-        self._proxy = proxy
+class AsyncEsimResourceWithRawResponse:
+    def __init__(self, esim: AsyncEsimResource) -> None:
+        self._esim = esim
 
-        self.connect = to_raw_response_wrapper(
-            proxy.connect,
+        self.list = async_to_raw_response_wrapper(
+            esim.list,
         )
-        self.disconnect = to_raw_response_wrapper(
-            proxy.disconnect,
+        self.activate = async_to_raw_response_wrapper(
+            esim.activate,
         )
-        self.status = to_raw_response_wrapper(
-            proxy.status,
+        self.enable = async_to_raw_response_wrapper(
+            esim.enable,
         )
-
-
-class AsyncProxyResourceWithRawResponse:
-    def __init__(self, proxy: AsyncProxyResource) -> None:
-        self._proxy = proxy
-
-        self.connect = async_to_raw_response_wrapper(
-            proxy.connect,
-        )
-        self.disconnect = async_to_raw_response_wrapper(
-            proxy.disconnect,
-        )
-        self.status = async_to_raw_response_wrapper(
-            proxy.status,
+        self.remove = async_to_raw_response_wrapper(
+            esim.remove,
         )
 
 
-class ProxyResourceWithStreamingResponse:
-    def __init__(self, proxy: ProxyResource) -> None:
-        self._proxy = proxy
+class EsimResourceWithStreamingResponse:
+    def __init__(self, esim: EsimResource) -> None:
+        self._esim = esim
 
-        self.connect = to_streamed_response_wrapper(
-            proxy.connect,
+        self.list = to_streamed_response_wrapper(
+            esim.list,
         )
-        self.disconnect = to_streamed_response_wrapper(
-            proxy.disconnect,
+        self.activate = to_streamed_response_wrapper(
+            esim.activate,
         )
-        self.status = to_streamed_response_wrapper(
-            proxy.status,
+        self.enable = to_streamed_response_wrapper(
+            esim.enable,
+        )
+        self.remove = to_streamed_response_wrapper(
+            esim.remove,
         )
 
 
-class AsyncProxyResourceWithStreamingResponse:
-    def __init__(self, proxy: AsyncProxyResource) -> None:
-        self._proxy = proxy
+class AsyncEsimResourceWithStreamingResponse:
+    def __init__(self, esim: AsyncEsimResource) -> None:
+        self._esim = esim
 
-        self.connect = async_to_streamed_response_wrapper(
-            proxy.connect,
+        self.list = async_to_streamed_response_wrapper(
+            esim.list,
         )
-        self.disconnect = async_to_streamed_response_wrapper(
-            proxy.disconnect,
+        self.activate = async_to_streamed_response_wrapper(
+            esim.activate,
         )
-        self.status = async_to_streamed_response_wrapper(
-            proxy.status,
+        self.enable = async_to_streamed_response_wrapper(
+            esim.enable,
+        )
+        self.remove = async_to_streamed_response_wrapper(
+            esim.remove,
         )

@@ -8,6 +8,14 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
+from .esim import (
+    EsimResource,
+    AsyncEsimResource,
+    EsimResourceWithRawResponse,
+    AsyncEsimResourceWithRawResponse,
+    EsimResourceWithStreamingResponse,
+    AsyncEsimResourceWithStreamingResponse,
+)
 from .time import (
     TimeResource,
     AsyncTimeResource,
@@ -164,6 +172,12 @@ __all__ = [
     "AsyncTasksResourceWithRawResponse",
     "TasksResourceWithStreamingResponse",
     "AsyncTasksResourceWithStreamingResponse",
+    "EsimResource",
+    "AsyncEsimResource",
+    "EsimResourceWithRawResponse",
+    "AsyncEsimResourceWithRawResponse",
+    "EsimResourceWithStreamingResponse",
+    "AsyncEsimResourceWithStreamingResponse",
     "DevicesResource",
     "AsyncDevicesResource",
     "DevicesResourceWithRawResponse",

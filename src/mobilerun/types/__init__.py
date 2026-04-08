@@ -56,6 +56,7 @@ from .proxy_create_response import ProxyCreateResponse as ProxyCreateResponse
 from .proxy_delete_response import ProxyDeleteResponse as ProxyDeleteResponse
 from .proxy_update_response import ProxyUpdateResponse as ProxyUpdateResponse
 from .credential_list_params import CredentialListParams as CredentialListParams
+from .device_set_name_params import DeviceSetNameParams as DeviceSetNameParams
 from .hook_retrieve_response import HookRetrieveResponse as HookRetrieveResponse
 from .task_retrieve_response import TaskRetrieveResponse as TaskRetrieveResponse
 from .carrier_delete_response import CarrierDeleteResponse as CarrierDeleteResponse
