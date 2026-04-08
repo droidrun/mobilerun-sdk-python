@@ -16,6 +16,14 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
+from .esim import (
+    EsimResource,
+    AsyncEsimResource,
+    EsimResourceWithRawResponse,
+    AsyncEsimResourceWithRawResponse,
+    EsimResourceWithStreamingResponse,
+    AsyncEsimResourceWithStreamingResponse,
+)
 from .time import (
     TimeResource,
     AsyncTimeResource,
@@ -56,7 +64,7 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
-from ...types import device_list_params, device_create_params, device_terminate_params
+from ...types import device_list_params, device_create_params, device_set_name_params, device_terminate_params
 from .actions import (
     ActionsResource,
     AsyncActionsResource,
@@ -161,6 +169,10 @@ class DevicesResource(SyncAPIResource):
     @cached_property
     def tasks(self) -> TasksResource:
         return TasksResource(self._client)
+
+    @cached_property
+    def esim(self) -> EsimResource:
+        return EsimResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> DevicesResourceWithRawResponse:
@@ -348,6 +360,41 @@ class DevicesResource(SyncAPIResource):
             cast_to=DeviceCountResponse,
         )
 
+    def set_name(
+        self,
+        device_id: str,
+        *,
+        name: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Device:
+        """
+        Update device name
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        return self._put(
+            path_template("/devices/{device_id}/name", device_id=device_id),
+            body=maybe_transform({"name": name}, device_set_name_params.DeviceSetNameParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Device,
+        )
+
     def terminate(
         self,
         device_id: str,
@@ -469,6 +516,10 @@ class AsyncDevicesResource(AsyncAPIResource):
     @cached_property
     def tasks(self) -> AsyncTasksResource:
         return AsyncTasksResource(self._client)
+
+    @cached_property
+    def esim(self) -> AsyncEsimResource:
+        return AsyncEsimResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncDevicesResourceWithRawResponse:
@@ -658,6 +709,41 @@ class AsyncDevicesResource(AsyncAPIResource):
             cast_to=DeviceCountResponse,
         )
 
+    async def set_name(
+        self,
+        device_id: str,
+        *,
+        name: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Device:
+        """
+        Update device name
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        return await self._put(
+            path_template("/devices/{device_id}/name", device_id=device_id),
+            body=await async_maybe_transform({"name": name}, device_set_name_params.DeviceSetNameParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Device,
+        )
+
     async def terminate(
         self,
         device_id: str,
@@ -751,6 +837,9 @@ class DevicesResourceWithRawResponse:
         self.count = to_raw_response_wrapper(
             devices.count,
         )
+        self.set_name = to_raw_response_wrapper(
+            devices.set_name,
+        )
         self.terminate = to_raw_response_wrapper(
             devices.terminate,
         )
@@ -802,6 +891,10 @@ class DevicesResourceWithRawResponse:
     def tasks(self) -> TasksResourceWithRawResponse:
         return TasksResourceWithRawResponse(self._devices.tasks)
 
+    @cached_property
+    def esim(self) -> EsimResourceWithRawResponse:
+        return EsimResourceWithRawResponse(self._devices.esim)
+
 
 class AsyncDevicesResourceWithRawResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -818,6 +911,9 @@ class AsyncDevicesResourceWithRawResponse:
         )
         self.count = async_to_raw_response_wrapper(
             devices.count,
+        )
+        self.set_name = async_to_raw_response_wrapper(
+            devices.set_name,
         )
         self.terminate = async_to_raw_response_wrapper(
             devices.terminate,
@@ -870,6 +966,10 @@ class AsyncDevicesResourceWithRawResponse:
     def tasks(self) -> AsyncTasksResourceWithRawResponse:
         return AsyncTasksResourceWithRawResponse(self._devices.tasks)
 
+    @cached_property
+    def esim(self) -> AsyncEsimResourceWithRawResponse:
+        return AsyncEsimResourceWithRawResponse(self._devices.esim)
+
 
 class DevicesResourceWithStreamingResponse:
     def __init__(self, devices: DevicesResource) -> None:
@@ -886,6 +986,9 @@ class DevicesResourceWithStreamingResponse:
         )
         self.count = to_streamed_response_wrapper(
             devices.count,
+        )
+        self.set_name = to_streamed_response_wrapper(
+            devices.set_name,
         )
         self.terminate = to_streamed_response_wrapper(
             devices.terminate,
@@ -938,6 +1041,10 @@ class DevicesResourceWithStreamingResponse:
     def tasks(self) -> TasksResourceWithStreamingResponse:
         return TasksResourceWithStreamingResponse(self._devices.tasks)
 
+    @cached_property
+    def esim(self) -> EsimResourceWithStreamingResponse:
+        return EsimResourceWithStreamingResponse(self._devices.esim)
+
 
 class AsyncDevicesResourceWithStreamingResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -954,6 +1061,9 @@ class AsyncDevicesResourceWithStreamingResponse:
         )
         self.count = async_to_streamed_response_wrapper(
             devices.count,
+        )
+        self.set_name = async_to_streamed_response_wrapper(
+            devices.set_name,
         )
         self.terminate = async_to_streamed_response_wrapper(
             devices.terminate,
@@ -1005,3 +1115,7 @@ class AsyncDevicesResourceWithStreamingResponse:
     @cached_property
     def tasks(self) -> AsyncTasksResourceWithStreamingResponse:
         return AsyncTasksResourceWithStreamingResponse(self._devices.tasks)
+
+    @cached_property
+    def esim(self) -> AsyncEsimResourceWithStreamingResponse:
+        return AsyncEsimResourceWithStreamingResponse(self._devices.esim)

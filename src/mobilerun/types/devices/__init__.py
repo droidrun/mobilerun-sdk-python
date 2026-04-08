@@ -13,6 +13,9 @@ from .action_tap_params import ActionTapParams as ActionTapParams
 from .app_list_response import AppListResponse as AppListResponse
 from .state_ui_response import StateUiResponse as StateUiResponse
 from .app_install_params import AppInstallParams as AppInstallParams
+from .esim_enable_params import EsimEnableParams as EsimEnableParams
+from .esim_list_response import EsimListResponse as EsimListResponse
+from .esim_remove_params import EsimRemoveParams as EsimRemoveParams
 from .file_delete_params import FileDeleteParams as FileDeleteParams
 from .file_list_response import FileListResponse as FileListResponse
 from .file_upload_params import FileUploadParams as FileUploadParams
@@ -23,12 +26,15 @@ from .keyboard_key_params import KeyboardKeyParams as KeyboardKeyParams
 from .location_set_params import LocationSetParams as LocationSetParams
 from .package_list_params import PackageListParams as PackageListParams
 from .action_global_params import ActionGlobalParams as ActionGlobalParams
+from .esim_activate_params import EsimActivateParams as EsimActivateParams
 from .file_download_params import FileDownloadParams as FileDownloadParams
 from .proxy_connect_params import ProxyConnectParams as ProxyConnectParams
 from .keyboard_write_params import KeyboardWriteParams as KeyboardWriteParams
 from .location_get_response import LocationGetResponse as LocationGetResponse
 from .package_list_response import PackageListResponse as PackageListResponse
 from .profile_update_params import ProfileUpdateParams as ProfileUpdateParams
+from .proxy_status_response import ProxyStatusResponse as ProxyStatusResponse
+from .esim_activate_response import EsimActivateResponse as EsimActivateResponse
 from .file_download_response import FileDownloadResponse as FileDownloadResponse
 from .time_timezone_response import TimeTimezoneResponse as TimeTimezoneResponse
 from .state_screenshot_params import StateScreenshotParams as StateScreenshotParams
