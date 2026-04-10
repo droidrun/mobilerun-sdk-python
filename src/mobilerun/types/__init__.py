@@ -18,9 +18,11 @@ from .profile import Profile as Profile
 from .task_status import TaskStatus as TaskStatus
 from .proxy_config import ProxyConfig as ProxyConfig
 from .usage_result import UsageResult as UsageResult
+from .app_list_params import AppListParams as AppListParams
 from .task_run_params import TaskRunParams as TaskRunParams
 from .hook_list_params import HookListParams as HookListParams
 from .task_list_params import TaskListParams as TaskListParams
+from .app_list_response import AppListResponse as AppListResponse
 from .proxy_list_params import ProxyListParams as ProxyListParams
 from .task_run_response import TaskRunResponse as TaskRunResponse
 from .device_list_params import DeviceListParams as DeviceListParams
