@@ -48,14 +48,6 @@ from .devices import (
     DevicesResourceWithStreamingResponse,
     AsyncDevicesResourceWithStreamingResponse,
 )
-from .proxies import (
-    ProxiesResource,
-    AsyncProxiesResource,
-    ProxiesResourceWithRawResponse,
-    AsyncProxiesResourceWithRawResponse,
-    ProxiesResourceWithStreamingResponse,
-    AsyncProxiesResourceWithStreamingResponse,
-)
 from .carriers import (
     CarriersResource,
     AsyncCarriersResource,
@@ -72,14 +64,6 @@ from .profiles import (
     ProfilesResourceWithStreamingResponse,
     AsyncProfilesResourceWithStreamingResponse,
 )
-from .credentials import (
-    CredentialsResource,
-    AsyncCredentialsResource,
-    CredentialsResourceWithRawResponse,
-    AsyncCredentialsResourceWithRawResponse,
-    CredentialsResourceWithStreamingResponse,
-    AsyncCredentialsResourceWithStreamingResponse,
-)
 
 __all__ = [
     "TasksResource",
@@ -94,12 +78,6 @@ __all__ = [
     "AsyncAgentsResourceWithRawResponse",
     "AgentsResourceWithStreamingResponse",
     "AsyncAgentsResourceWithStreamingResponse",
-    "ProxiesResource",
-    "AsyncProxiesResource",
-    "ProxiesResourceWithRawResponse",
-    "AsyncProxiesResourceWithRawResponse",
-    "ProxiesResourceWithStreamingResponse",
-    "AsyncProxiesResourceWithStreamingResponse",
     "CarriersResource",
     "AsyncCarriersResource",
     "CarriersResourceWithRawResponse",
@@ -124,12 +102,6 @@ __all__ = [
     "AsyncAppsResourceWithRawResponse",
     "AppsResourceWithStreamingResponse",
     "AsyncAppsResourceWithStreamingResponse",
-    "CredentialsResource",
-    "AsyncCredentialsResource",
-    "CredentialsResourceWithRawResponse",
-    "AsyncCredentialsResourceWithRawResponse",
-    "CredentialsResourceWithStreamingResponse",
-    "AsyncCredentialsResourceWithStreamingResponse",
     "HooksResource",
     "AsyncHooksResource",
     "HooksResourceWithRawResponse",
