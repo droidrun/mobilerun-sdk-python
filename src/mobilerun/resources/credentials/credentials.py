@@ -2,65 +2,71 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal
-
 import httpx
 
-from ..types import app_list_params
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
-from .._compat import cached_property
-from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import (
+from ...types import credential_list_params
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._utils import maybe_transform, async_maybe_transform
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
-from ..types.app_list_response import AppListResponse
+from ..._base_client import make_request_options
+from .packages.packages import (
+    PackagesResource,
+    AsyncPackagesResource,
+    PackagesResourceWithRawResponse,
+    AsyncPackagesResourceWithRawResponse,
+    PackagesResourceWithStreamingResponse,
+    AsyncPackagesResourceWithStreamingResponse,
+)
+from ...types.credential_list_response import CredentialListResponse
 
-__all__ = ["AppsResource", "AsyncAppsResource"]
+__all__ = ["CredentialsResource", "AsyncCredentialsResource"]
 
 
-class AppsResource(SyncAPIResource):
+class CredentialsResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AppsResourceWithRawResponse:
+    def packages(self) -> PackagesResource:
+        return PackagesResource(self._client)
+
+    @cached_property
+    def with_raw_response(self) -> CredentialsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
         """
-        return AppsResourceWithRawResponse(self)
+        return CredentialsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AppsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> CredentialsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
         """
-        return AppsResourceWithStreamingResponse(self)
+        return CredentialsResourceWithStreamingResponse(self)
 
     def list(
         self,
         *,
-        order: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
-        query: str | Omit = omit,
-        sort_by: Literal["createdAt", "name"] | Omit = omit,
-        source: Literal["all", "uploaded", "store", "queued"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppListResponse:
+    ) -> CredentialListResponse:
         """
-        Retrieves a paginated list of apps with filtering and search capabilities
+        List all credentials for the authenticated user
 
         Args:
           extra_headers: Send extra headers
@@ -72,7 +78,7 @@ class AppsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._get(
-            "/apps",
+            "/credentials",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -80,58 +86,54 @@ class AppsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
-                        "order": order,
                         "page": page,
                         "page_size": page_size,
-                        "query": query,
-                        "sort_by": sort_by,
-                        "source": source,
                     },
-                    app_list_params.AppListParams,
+                    credential_list_params.CredentialListParams,
                 ),
             ),
-            cast_to=AppListResponse,
+            cast_to=CredentialListResponse,
         )
 
 
-class AsyncAppsResource(AsyncAPIResource):
+class AsyncCredentialsResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncAppsResourceWithRawResponse:
+    def packages(self) -> AsyncPackagesResource:
+        return AsyncPackagesResource(self._client)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncCredentialsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncAppsResourceWithRawResponse(self)
+        return AsyncCredentialsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncAppsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncCredentialsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
         """
-        return AsyncAppsResourceWithStreamingResponse(self)
+        return AsyncCredentialsResourceWithStreamingResponse(self)
 
     async def list(
         self,
         *,
-        order: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
-        query: str | Omit = omit,
-        sort_by: Literal["createdAt", "name"] | Omit = omit,
-        source: Literal["all", "uploaded", "store", "queued"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppListResponse:
+    ) -> CredentialListResponse:
         """
-        Retrieves a paginated list of apps with filtering and search capabilities
+        List all credentials for the authenticated user
 
         Args:
           extra_headers: Send extra headers
@@ -143,7 +145,7 @@ class AsyncAppsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._get(
-            "/apps",
+            "/credentials",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -151,51 +153,63 @@ class AsyncAppsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
-                        "order": order,
                         "page": page,
                         "page_size": page_size,
-                        "query": query,
-                        "sort_by": sort_by,
-                        "source": source,
                     },
-                    app_list_params.AppListParams,
+                    credential_list_params.CredentialListParams,
                 ),
             ),
-            cast_to=AppListResponse,
+            cast_to=CredentialListResponse,
         )
 
 
-class AppsResourceWithRawResponse:
-    def __init__(self, apps: AppsResource) -> None:
-        self._apps = apps
+class CredentialsResourceWithRawResponse:
+    def __init__(self, credentials: CredentialsResource) -> None:
+        self._credentials = credentials
 
         self.list = to_raw_response_wrapper(
-            apps.list,
+            credentials.list,
         )
 
+    @cached_property
+    def packages(self) -> PackagesResourceWithRawResponse:
+        return PackagesResourceWithRawResponse(self._credentials.packages)
 
-class AsyncAppsResourceWithRawResponse:
-    def __init__(self, apps: AsyncAppsResource) -> None:
-        self._apps = apps
+
+class AsyncCredentialsResourceWithRawResponse:
+    def __init__(self, credentials: AsyncCredentialsResource) -> None:
+        self._credentials = credentials
 
         self.list = async_to_raw_response_wrapper(
-            apps.list,
+            credentials.list,
         )
 
+    @cached_property
+    def packages(self) -> AsyncPackagesResourceWithRawResponse:
+        return AsyncPackagesResourceWithRawResponse(self._credentials.packages)
 
-class AppsResourceWithStreamingResponse:
-    def __init__(self, apps: AppsResource) -> None:
-        self._apps = apps
+
+class CredentialsResourceWithStreamingResponse:
+    def __init__(self, credentials: CredentialsResource) -> None:
+        self._credentials = credentials
 
         self.list = to_streamed_response_wrapper(
-            apps.list,
+            credentials.list,
         )
 
+    @cached_property
+    def packages(self) -> PackagesResourceWithStreamingResponse:
+        return PackagesResourceWithStreamingResponse(self._credentials.packages)
 
-class AsyncAppsResourceWithStreamingResponse:
-    def __init__(self, apps: AsyncAppsResource) -> None:
-        self._apps = apps
+
+class AsyncCredentialsResourceWithStreamingResponse:
+    def __init__(self, credentials: AsyncCredentialsResource) -> None:
+        self._credentials = credentials
 
         self.list = async_to_streamed_response_wrapper(
-            apps.list,
+            credentials.list,
         )
+
+    @cached_property
+    def packages(self) -> AsyncPackagesResourceWithStreamingResponse:
+        return AsyncPackagesResourceWithStreamingResponse(self._credentials.packages)
