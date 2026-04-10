@@ -3,15 +3,14 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Literal, Annotated, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
-from .proxy_config_param import ProxyConfigParam
 from .shared_params.device_carrier import DeviceCarrier
 from .shared_params.device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceCreateParams"]
+__all__ = ["DeviceCreateParams", "Proxy", "ProxySocks5"]
 
 
 class DeviceCreateParams(TypedDict, total=False):
@@ -30,4 +29,24 @@ class DeviceCreateParams(TypedDict, total=False):
 
     name: str
 
-    proxy: ProxyConfigParam
+    proxy: Proxy
+
+
+class ProxySocks5(TypedDict, total=False):
+    host: Required[str]
+
+    password: Required[str]
+
+    port: Required[int]
+
+    user: Required[str]
+
+
+class Proxy(TypedDict, total=False):
+    name: str
+
+    smart_ip: Annotated[bool, PropertyInfo(alias="smartIp")]
+
+    socks5: ProxySocks5
+
+    wireguard: str
