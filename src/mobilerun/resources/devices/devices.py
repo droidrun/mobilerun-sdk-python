@@ -64,7 +64,12 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
-from ...types import device_list_params, device_create_params, device_set_name_params, device_terminate_params
+from ...types import (
+    device_list_params,
+    device_create_params,
+    device_set_name_params,
+    device_terminate_params,
+)
 from .actions import (
     ActionsResource,
     AsyncActionsResource,
@@ -117,6 +122,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.device import Device
+from ...types.proxy_config_param import ProxyConfigParam
 from ...types.device_list_response import DeviceListResponse
 from ...types.device_count_response import DeviceCountResponse
 from ...types.shared_params.device_carrier import DeviceCarrier
@@ -203,7 +209,7 @@ class DevicesResource(SyncAPIResource):
         files: Optional[SequenceNotStr[str]] | Omit = omit,
         identifiers: DeviceIdentifiers | Omit = omit,
         name: str | Omit = omit,
-        proxy: device_create_params.Proxy | Omit = omit,
+        proxy: ProxyConfigParam | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -550,7 +556,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         files: Optional[SequenceNotStr[str]] | Omit = omit,
         identifiers: DeviceIdentifiers | Omit = omit,
         name: str | Omit = omit,
-        proxy: device_create_params.Proxy | Omit = omit,
+        proxy: ProxyConfigParam | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
