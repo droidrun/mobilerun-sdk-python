@@ -310,6 +310,18 @@ Methods:
 - <code title="put /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun/resources/devices/esim.py">enable</a>(device_id, \*\*<a href="src/mobilerun/types/devices/esim_enable_params.py">params</a>) -> None</code>
 - <code title="delete /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun/resources/devices/esim.py">remove</a>(device_id, \*\*<a href="src/mobilerun/types/devices/esim_remove_params.py">params</a>) -> None</code>
 
+# Apps
+
+Types:
+
+```python
+from mobilerun.types import AppListResponse
+```
+
+Methods:
+
+- <code title="get /apps">client.apps.<a href="./src/mobilerun/resources/apps.py">list</a>(\*\*<a href="src/mobilerun/types/app_list_params.py">params</a>) -> <a href="./src/mobilerun/types/app_list_response.py">AppListResponse</a></code>
+
 # Credentials
 
 Types:
