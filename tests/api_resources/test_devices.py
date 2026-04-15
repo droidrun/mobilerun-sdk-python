@@ -155,6 +155,7 @@ class TestDevices:
             order_by_direction="asc",
             page=0,
             page_size=0,
+            provider_id="providerId",
             state=["creating"],
             type="dedicated_physical_device",
         )
@@ -489,6 +490,7 @@ class TestAsyncDevices:
             order_by_direction="asc",
             page=0,
             page_size=0,
+            provider_id="providerId",
             state=["creating"],
             type="dedicated_physical_device",
         )

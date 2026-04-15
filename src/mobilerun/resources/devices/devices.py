@@ -196,7 +196,9 @@ class DevicesResource(SyncAPIResource):
     def create(
         self,
         *,
-        device_type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
+        device_type: Literal[
+            "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
+        ]
         | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         carrier: DeviceCarrier | Omit = omit,
@@ -288,6 +290,7 @@ class DevicesResource(SyncAPIResource):
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        provider_id: str | Omit = omit,
         state: Optional[
             List[
                 Literal[
@@ -296,7 +299,9 @@ class DevicesResource(SyncAPIResource):
             ]
         ]
         | Omit = omit,
-        type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
+        type: Literal[
+            "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
+        ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -332,6 +337,7 @@ class DevicesResource(SyncAPIResource):
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
+                        "provider_id": provider_id,
                         "state": state,
                         "type": type,
                     },
@@ -543,7 +549,9 @@ class AsyncDevicesResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        device_type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
+        device_type: Literal[
+            "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
+        ]
         | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         carrier: DeviceCarrier | Omit = omit,
@@ -637,6 +645,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        provider_id: str | Omit = omit,
         state: Optional[
             List[
                 Literal[
@@ -645,7 +654,9 @@ class AsyncDevicesResource(AsyncAPIResource):
             ]
         ]
         | Omit = omit,
-        type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device"]
+        type: Literal[
+            "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
+        ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -681,6 +692,7 @@ class AsyncDevicesResource(AsyncAPIResource):
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
+                        "provider_id": provider_id,
                         "state": state,
                         "type": type,
                     },
