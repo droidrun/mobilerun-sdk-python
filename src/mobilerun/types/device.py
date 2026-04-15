@@ -38,6 +38,8 @@ class Device(BaseModel):
     schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
     """A URL to the JSON Schema for this object."""
 
+    provider_id: Optional[str] = FieldInfo(alias="providerId", default=None)
+
     stream_token: Optional[str] = FieldInfo(alias="streamToken", default=None)
 
     user_id: Optional[str] = FieldInfo(alias="userId", default=None)
