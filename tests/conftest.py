@@ -10,15 +10,15 @@ import httpx
 import pytest
 from pytest_asyncio import is_async_test
 
-from mobilerun import Mobilerun, AsyncMobilerun, DefaultAioHttpClient
-from mobilerun._utils import is_dict
+from mobilerun_sdk import Mobilerun, AsyncMobilerun, DefaultAioHttpClient
+from mobilerun_sdk._utils import is_dict
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest  # pyright: ignore[reportPrivateImportUsage]
 
 pytest.register_assert_rewrite("tests.utils")
 
-logging.getLogger("mobilerun").setLevel(logging.DEBUG)
+logging.getLogger("mobilerun_sdk").setLevel(logging.DEBUG)
 
 
 # automatically add `pytest.mark.asyncio()` to all of our async tests

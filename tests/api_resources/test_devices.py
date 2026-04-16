@@ -7,14 +7,14 @@ from typing import Any, cast
 
 import pytest
 
-from mobilerun import Mobilerun, AsyncMobilerun
 from tests.utils import assert_matches_type
-from mobilerun.types import (
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from mobilerun_sdk.types import (
     Device,
     DeviceListResponse,
     DeviceCountResponse,
 )
-from mobilerun._utils import parse_datetime
+from mobilerun_sdk._utils import parse_datetime
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
