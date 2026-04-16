@@ -4,7 +4,7 @@ from typing import Any
 
 import pytest
 
-from mobilerun._utils._path import path_template
+from mobilerun_sdk._utils._path import path_template
 
 
 @pytest.mark.parametrize(

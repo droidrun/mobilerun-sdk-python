@@ -7,9 +7,9 @@ import pytest
 import pydantic
 from pydantic import Field
 
-from mobilerun._utils import PropertyInfo
-from mobilerun._compat import PYDANTIC_V1, parse_obj, model_dump, model_json
-from mobilerun._models import DISCRIMINATOR_CACHE, BaseModel, construct_type
+from mobilerun_sdk._utils import PropertyInfo
+from mobilerun_sdk._compat import PYDANTIC_V1, parse_obj, model_dump, model_json
+from mobilerun_sdk._models import DISCRIMINATOR_CACHE, BaseModel, construct_type
 
 
 class BasicModel(BaseModel):

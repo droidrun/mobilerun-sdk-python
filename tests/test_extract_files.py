@@ -4,8 +4,8 @@ from typing import Sequence
 
 import pytest
 
-from mobilerun._types import FileTypes
-from mobilerun._utils import extract_files
+from mobilerun_sdk._types import FileTypes
+from mobilerun_sdk._utils import extract_files
 
 
 def test_removes_files_from_input() -> None:

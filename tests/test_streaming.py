@@ -5,8 +5,8 @@ from typing import Iterator, AsyncIterator
 import httpx
 import pytest
 
-from mobilerun import Mobilerun, AsyncMobilerun
-from mobilerun._streaming import Stream, AsyncStream, ServerSentEvent
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from mobilerun_sdk._streaming import Stream, AsyncStream, ServerSentEvent
 
 
 @pytest.mark.asyncio

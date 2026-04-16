@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from mobilerun import Mobilerun, AsyncMobilerun
 from tests.utils import assert_matches_type
-from mobilerun.types.credentials.packages.credentials import (
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from mobilerun_sdk.types.credentials.packages.credentials import (
     FieldCreateResponse,
     FieldDeleteResponse,
     FieldUpdateResponse,

@@ -19,12 +19,12 @@ import pytest
 from respx import MockRouter
 from pydantic import ValidationError
 
-from mobilerun import Mobilerun, AsyncMobilerun, APIResponseValidationError
-from mobilerun._types import Omit
-from mobilerun._utils import asyncify
-from mobilerun._models import BaseModel, FinalRequestOptions
-from mobilerun._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
-from mobilerun._base_client import (
+from mobilerun_sdk import Mobilerun, AsyncMobilerun, APIResponseValidationError
+from mobilerun_sdk._types import Omit
+from mobilerun_sdk._utils import asyncify
+from mobilerun_sdk._models import BaseModel, FinalRequestOptions
+from mobilerun_sdk._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
+from mobilerun_sdk._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
     BaseClient,
@@ -286,10 +286,10 @@ class TestMobilerun:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "mobilerun/_legacy_response.py",
-                        "mobilerun/_response.py",
+                        "mobilerun_sdk/_legacy_response.py",
+                        "mobilerun_sdk/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "mobilerun/_compat.py",
+                        "mobilerun_sdk/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -881,7 +881,7 @@ class TestMobilerun:
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("mobilerun._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mobilerun_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: Mobilerun) -> None:
         respx_mock.get("/tasks").mock(side_effect=httpx.TimeoutException("Test timeout error"))
@@ -891,7 +891,7 @@ class TestMobilerun:
 
         assert _get_open_connections(client) == 0
 
-    @mock.patch("mobilerun._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mobilerun_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: Mobilerun) -> None:
         respx_mock.get("/tasks").mock(return_value=httpx.Response(500))
@@ -901,7 +901,7 @@ class TestMobilerun:
         assert _get_open_connections(client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("mobilerun._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mobilerun_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     def test_retries_taken(
@@ -932,7 +932,7 @@ class TestMobilerun:
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("mobilerun._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mobilerun_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_omit_retry_count_header(
         self, client: Mobilerun, failures_before_success: int, respx_mock: MockRouter
@@ -955,7 +955,7 @@ class TestMobilerun:
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("mobilerun._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mobilerun_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_overwrite_retry_count_header(
         self, client: Mobilerun, failures_before_success: int, respx_mock: MockRouter
@@ -1208,10 +1208,10 @@ class TestAsyncMobilerun:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "mobilerun/_legacy_response.py",
-                        "mobilerun/_response.py",
+                        "mobilerun_sdk/_legacy_response.py",
+                        "mobilerun_sdk/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "mobilerun/_compat.py",
+                        "mobilerun_sdk/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -1820,7 +1820,7 @@ class TestAsyncMobilerun:
         calculated = async_client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("mobilerun._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mobilerun_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(
         self, respx_mock: MockRouter, async_client: AsyncMobilerun
@@ -1832,7 +1832,7 @@ class TestAsyncMobilerun:
 
         assert _get_open_connections(async_client) == 0
 
-    @mock.patch("mobilerun._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mobilerun_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(
         self, respx_mock: MockRouter, async_client: AsyncMobilerun
@@ -1844,7 +1844,7 @@ class TestAsyncMobilerun:
         assert _get_open_connections(async_client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("mobilerun._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mobilerun_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     async def test_retries_taken(
@@ -1875,7 +1875,7 @@ class TestAsyncMobilerun:
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("mobilerun._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mobilerun_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_omit_retry_count_header(
         self, async_client: AsyncMobilerun, failures_before_success: int, respx_mock: MockRouter
@@ -1898,7 +1898,7 @@ class TestAsyncMobilerun:
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("mobilerun._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mobilerun_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_overwrite_retry_count_header(
         self, async_client: AsyncMobilerun, failures_before_success: int, respx_mock: MockRouter
