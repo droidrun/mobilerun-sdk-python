@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from mobilerun import Mobilerun, AsyncMobilerun
 from tests.utils import assert_matches_type
-from mobilerun.types import (
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from mobilerun_sdk.types import (
     TaskRunResponse,
     TaskListResponse,
     TaskStopResponse,
@@ -82,7 +82,7 @@ class TestTasks:
             page=1,
             page_size=1,
             query="query",
-            status="created",
+            status="queued",
         )
         assert_matches_type(TaskListResponse, task, path=["response"])
 
@@ -251,6 +251,7 @@ class TestTasks:
             task="x",
             agent_id=0,
             apps=["string"],
+            continue_on_failure=True,
             credentials=[
                 {
                     "credential_names": ["string"],
@@ -262,9 +263,11 @@ class TestTasks:
             files=["string"],
             llm_model="llmModel",
             max_steps=0,
+            memory_namespace="memoryNamespace",
             output_schema={"foo": "bar"},
             reasoning=True,
             stealth=True,
+            subagent_model="subagentModel",
             temperature=0,
             vision=True,
             vpn_country="US",
@@ -316,6 +319,7 @@ class TestTasks:
             task="x",
             agent_id=0,
             apps=["string"],
+            continue_on_failure=True,
             credentials=[
                 {
                     "credential_names": ["string"],
@@ -327,9 +331,11 @@ class TestTasks:
             files=["string"],
             llm_model="llmModel",
             max_steps=0,
+            memory_namespace="memoryNamespace",
             output_schema={"foo": "bar"},
             reasoning=True,
             stealth=True,
+            subagent_model="subagentModel",
             temperature=0,
             vision=True,
             vpn_country="US",
@@ -515,7 +521,7 @@ class TestAsyncTasks:
             page=1,
             page_size=1,
             query="query",
-            status="created",
+            status="queued",
         )
         assert_matches_type(TaskListResponse, task, path=["response"])
 
@@ -684,6 +690,7 @@ class TestAsyncTasks:
             task="x",
             agent_id=0,
             apps=["string"],
+            continue_on_failure=True,
             credentials=[
                 {
                     "credential_names": ["string"],
@@ -695,9 +702,11 @@ class TestAsyncTasks:
             files=["string"],
             llm_model="llmModel",
             max_steps=0,
+            memory_namespace="memoryNamespace",
             output_schema={"foo": "bar"},
             reasoning=True,
             stealth=True,
+            subagent_model="subagentModel",
             temperature=0,
             vision=True,
             vpn_country="US",
@@ -749,6 +758,7 @@ class TestAsyncTasks:
             task="x",
             agent_id=0,
             apps=["string"],
+            continue_on_failure=True,
             credentials=[
                 {
                     "credential_names": ["string"],
@@ -760,9 +770,11 @@ class TestAsyncTasks:
             files=["string"],
             llm_model="llmModel",
             max_steps=0,
+            memory_namespace="memoryNamespace",
             output_schema={"foo": "bar"},
             reasoning=True,
             stealth=True,
+            subagent_model="subagentModel",
             temperature=0,
             vision=True,
             vpn_country="US",

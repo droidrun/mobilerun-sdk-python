@@ -5,8 +5,8 @@ from typing import Union
 
 import pydantic
 
-from mobilerun import _compat
-from mobilerun._utils._json import openapi_dumps
+from mobilerun_sdk import _compat
+from mobilerun_sdk._utils._json import openapi_dumps
 
 
 class TestOpenapiDumps:

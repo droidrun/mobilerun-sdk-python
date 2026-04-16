@@ -1,5 +1,43 @@
 # Changelog
 
+## 3.1.0 (2026-04-16)
+
+Full Changelog: [v3.0.0...v3.1.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v3.0.0...v3.1.0)
+
+### Features
+
+* **api:** add esim + update name endpoints ([ef39f25](https://github.com/droidrun/mobilerun-sdk-python/commit/ef39f25408689c67357e7f83d7b45e4708bb726f))
+* **api:** api update ([611ce59](https://github.com/droidrun/mobilerun-sdk-python/commit/611ce5947d512e5a977e7993f420593ec584def6))
+* **api:** api update ([ed0c1ff](https://github.com/droidrun/mobilerun-sdk-python/commit/ed0c1ff3d6dfae7b6d58e9558e76b3e834304218))
+* **api:** api update ([4414455](https://github.com/droidrun/mobilerun-sdk-python/commit/4414455ada27ceef5219783f3a5c359fc01d045e))
+* **api:** api update ([a200c8e](https://github.com/droidrun/mobilerun-sdk-python/commit/a200c8e7f2d0f27e91ca50a20dd572f81af1aeba))
+* **api:** api update ([bd96644](https://github.com/droidrun/mobilerun-sdk-python/commit/bd9664417db04abc4117f56d5fa1bb8fcf502c71))
+* **api:** api update ([ddd4628](https://github.com/droidrun/mobilerun-sdk-python/commit/ddd4628e1a0387e7c7f129bb0f3b3c9e48af743e))
+* **api:** api update ([ca1ff6e](https://github.com/droidrun/mobilerun-sdk-python/commit/ca1ff6e9663eb72fd642cf64d131e7ca79f03c7f))
+* **api:** api update ([33e9171](https://github.com/droidrun/mobilerun-sdk-python/commit/33e91716cd6d16798e3cd2d21b0c5a41cdc16260))
+* **api:** api update ([5a3495e](https://github.com/droidrun/mobilerun-sdk-python/commit/5a3495e3dffb8d5d8251ae5ff32c529a82dfb6da))
+* **api:** api update ([6eb34d8](https://github.com/droidrun/mobilerun-sdk-python/commit/6eb34d80a85d1bb428a2e143d879cfb40c9dcc67))
+* **api:** api update ([8950157](https://github.com/droidrun/mobilerun-sdk-python/commit/8950157a39d357a5f4ba52454f558c67fb7f5a6f))
+* **api:** rename mobilerun_sdk on python package ([49b126a](https://github.com/droidrun/mobilerun-sdk-python/commit/49b126ab105b5658d7cfc1cc92146ad481a94401))
+* **internal:** implement indices array format for query and form serialization ([9804af6](https://github.com/droidrun/mobilerun-sdk-python/commit/9804af62e22fc18cab3c09a558255f0c537ff8e7))
+
+
+### Bug Fixes
+
+* **client:** preserve hardcoded query params when merging with user params ([5d7ff01](https://github.com/droidrun/mobilerun-sdk-python/commit/5d7ff0187f514fb0e354202f548db24ae19a9894))
+* **deps:** bump minimum typing-extensions version ([e5ee758](https://github.com/droidrun/mobilerun-sdk-python/commit/e5ee7584ab8e87a070dc8a33d27b41278a1d046a))
+* ensure file data are only sent as 1 parameter ([3dfa838](https://github.com/droidrun/mobilerun-sdk-python/commit/3dfa838374a3b2948b7ec20f0457b257af9b69cb))
+* **pydantic:** do not pass `by_alias` unless set ([8ef6593](https://github.com/droidrun/mobilerun-sdk-python/commit/8ef6593e4873afe4ac6d3504aa9f53b9f6cf3b2b))
+* sanitize endpoint path params ([eb0325a](https://github.com/droidrun/mobilerun-sdk-python/commit/eb0325aa2bd878f09c4511502fb0270ade01ac05))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([00b1f5f](https://github.com/droidrun/mobilerun-sdk-python/commit/00b1f5f1a8fa66ff01b094d3f53edbc3b7cce8d0))
+* configure new SDK language ([140b7f4](https://github.com/droidrun/mobilerun-sdk-python/commit/140b7f44d948b0b7471fcdd7e8a7c4419f06b4f0))
+* **internal:** tweak CI branches ([094cdf3](https://github.com/droidrun/mobilerun-sdk-python/commit/094cdf30b65e93bc28bb7b3167d391b2b3524193))
+* **internal:** update gitignore ([ac2923c](https://github.com/droidrun/mobilerun-sdk-python/commit/ac2923c6ae1b304b644f1a4f2638442b297f7dec))
+
 ## 3.0.0 (2026-03-15)
 
 Full Changelog: [v2.1.0...v3.0.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v2.1.0...v3.0.0)

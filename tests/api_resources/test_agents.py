@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from mobilerun import Mobilerun, AsyncMobilerun
 from tests.utils import assert_matches_type
-from mobilerun.types import AgentListResponse
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from mobilerun_sdk.types import AgentListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

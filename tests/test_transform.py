@@ -8,15 +8,15 @@ from typing_extensions import Required, Annotated, TypedDict
 
 import pytest
 
-from mobilerun._types import Base64FileInput, omit, not_given
-from mobilerun._utils import (
+from mobilerun_sdk._types import Base64FileInput, omit, not_given
+from mobilerun_sdk._utils import (
     PropertyInfo,
     transform as _transform,
     parse_datetime,
     async_transform as _async_transform,
 )
-from mobilerun._compat import PYDANTIC_V1
-from mobilerun._models import BaseModel
+from mobilerun_sdk._compat import PYDANTIC_V1
+from mobilerun_sdk._models import BaseModel
 
 _T = TypeVar("_T")
 
