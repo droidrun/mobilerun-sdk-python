@@ -16,7 +16,7 @@ class ProxyStatusResponse(BaseModel):
     """Active proxy name"""
 
     protocol: Optional[str] = None
-    """Active proxy protocol (socks5 or wireguard)."""
+    """Active proxy protocol (socks5)."""
 
     schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
     """A URL to the JSON Schema for this object."""

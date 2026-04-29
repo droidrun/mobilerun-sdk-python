@@ -10,7 +10,13 @@ from ..._utils import PropertyInfo
 from .device_carrier import DeviceCarrier
 from .device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceSpec", "Proxy", "ProxySocks5"]
+__all__ = ["DeviceSpec", "Location", "Proxy", "ProxySocks5"]
+
+
+class Location(TypedDict, total=False):
+    latitude: Required[float]
+
+    longitude: Required[float]
 
 
 class ProxySocks5(TypedDict, total=False):
@@ -30,18 +36,26 @@ class Proxy(TypedDict, total=False):
 
     socks5: ProxySocks5
 
-    wireguard: str
-
 
 class DeviceSpec(TypedDict, total=False):
+    android_version: Annotated[int, PropertyInfo(alias="androidVersion")]
+
     apps: Optional[SequenceNotStr[str]]
 
     carrier: DeviceCarrier
+
+    country: str
 
     files: Optional[SequenceNotStr[str]]
 
     identifiers: DeviceIdentifiers
 
+    locale: str
+
+    location: Location
+
     name: str
 
     proxy: Proxy
+
+    timezone: str
