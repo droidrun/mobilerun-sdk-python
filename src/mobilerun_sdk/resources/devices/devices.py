@@ -196,16 +196,22 @@ class DevicesResource(SyncAPIResource):
     def create(
         self,
         *,
+        query_country: str | Omit = omit,
         device_type: Literal[
             "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
         ]
         | Omit = omit,
+        android_version: int | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         carrier: DeviceCarrier | Omit = omit,
+        body_country: str | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
         identifiers: DeviceIdentifiers | Omit = omit,
+        locale: str | Omit = omit,
+        location: device_create_params.Location | Omit = omit,
         name: str | Omit = omit,
         proxy: device_create_params.Proxy | Omit = omit,
+        timezone: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -213,10 +219,14 @@ class DevicesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Device:
-        """
-        Provision a new device
+        """Provision a new device
 
         Args:
+          query_country: ISO 3166-1 alpha-2 country code.
+
+        If omitted the system picks the country with
+              the most availability.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -229,12 +239,17 @@ class DevicesResource(SyncAPIResource):
             "/devices",
             body=maybe_transform(
                 {
+                    "android_version": android_version,
                     "apps": apps,
                     "carrier": carrier,
+                    "body_country": body_country,
                     "files": files,
                     "identifiers": identifiers,
+                    "locale": locale,
+                    "location": location,
                     "name": name,
                     "proxy": proxy,
+                    "timezone": timezone,
                 },
                 device_create_params.DeviceCreateParams,
             ),
@@ -243,7 +258,13 @@ class DevicesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"device_type": device_type}, device_create_params.DeviceCreateParams),
+                query=maybe_transform(
+                    {
+                        "query_country": query_country,
+                        "device_type": device_type,
+                    },
+                    device_create_params.DeviceCreateParams,
+                ),
             ),
             cast_to=Device,
         )
@@ -549,16 +570,22 @@ class AsyncDevicesResource(AsyncAPIResource):
     async def create(
         self,
         *,
+        query_country: str | Omit = omit,
         device_type: Literal[
             "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
         ]
         | Omit = omit,
+        android_version: int | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         carrier: DeviceCarrier | Omit = omit,
+        body_country: str | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
         identifiers: DeviceIdentifiers | Omit = omit,
+        locale: str | Omit = omit,
+        location: device_create_params.Location | Omit = omit,
         name: str | Omit = omit,
         proxy: device_create_params.Proxy | Omit = omit,
+        timezone: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -566,10 +593,14 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Device:
-        """
-        Provision a new device
+        """Provision a new device
 
         Args:
+          query_country: ISO 3166-1 alpha-2 country code.
+
+        If omitted the system picks the country with
+              the most availability.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -582,12 +613,17 @@ class AsyncDevicesResource(AsyncAPIResource):
             "/devices",
             body=await async_maybe_transform(
                 {
+                    "android_version": android_version,
                     "apps": apps,
                     "carrier": carrier,
+                    "body_country": body_country,
                     "files": files,
                     "identifiers": identifiers,
+                    "locale": locale,
+                    "location": location,
                     "name": name,
                     "proxy": proxy,
+                    "timezone": timezone,
                 },
                 device_create_params.DeviceCreateParams,
             ),
@@ -597,7 +633,11 @@ class AsyncDevicesResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"device_type": device_type}, device_create_params.DeviceCreateParams
+                    {
+                        "query_country": query_country,
+                        "device_type": device_type,
+                    },
+                    device_create_params.DeviceCreateParams,
                 ),
             ),
             cast_to=Device,

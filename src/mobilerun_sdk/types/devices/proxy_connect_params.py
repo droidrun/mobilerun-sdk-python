@@ -13,7 +13,7 @@ class ProxyConnectParams(TypedDict, total=False):
     host: str
 
     name: str
-    """Proxy name (used for wireguard tunnel name)"""
+    """Proxy name"""
 
     password: str
 
@@ -25,9 +25,6 @@ class ProxyConnectParams(TypedDict, total=False):
     """SOCKS5 proxy configuration (required for socks5)."""
 
     user: str
-
-    wireguard: str
-    """WireGuard tunnel configuration file content (required for wireguard)."""
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
 
