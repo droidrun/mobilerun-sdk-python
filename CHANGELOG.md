@@ -1,5 +1,33 @@
 # Changelog
 
+## 3.2.0 (2026-05-05)
+
+Full Changelog: [v3.1.0...v3.2.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v3.1.0...v3.2.0)
+
+### Features
+
+* **api:** api update ([75bbc88](https://github.com/droidrun/mobilerun-sdk-python/commit/75bbc88550c6f53e16c25c692ea0febc2ed07acd))
+* **api:** labels for objects ([0b8ee8c](https://github.com/droidrun/mobilerun-sdk-python/commit/0b8ee8c2cd690761a249fb97ac22c393a574f8f3))
+* **api:** manual updates ([7861088](https://github.com/droidrun/mobilerun-sdk-python/commit/786108846d965ae14d619615b1d991d0cf937cb1))
+* **api:** manual updates ([4579552](https://github.com/droidrun/mobilerun-sdk-python/commit/4579552f608c8de6aeab1731f512509ff049b6a4))
+* support setting headers via env ([273abbc](https://github.com/droidrun/mobilerun-sdk-python/commit/273abbc5339e39f57f59d885a9bfdf5df5d2e4fe))
+
+
+### Bug Fixes
+
+* use correct field name format for multipart file arrays ([7ad94ce](https://github.com/droidrun/mobilerun-sdk-python/commit/7ad94ce83e73be25a9dc55c91aabe36065594480))
+
+
+### Performance Improvements
+
+* **client:** optimize file structure copying in multipart requests ([b6562d3](https://github.com/droidrun/mobilerun-sdk-python/commit/b6562d3c3c02a73d9e7e36f26bfd6d86728993d2))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([d8ed809](https://github.com/droidrun/mobilerun-sdk-python/commit/d8ed809f6aec7556e96cd697a8b517120cd4ebff))
+* **internal:** reformat pyproject.toml ([d108c45](https://github.com/droidrun/mobilerun-sdk-python/commit/d108c45430e484b935c7ee5bd17138c2bc998d0f))
+
 ## 3.1.0 (2026-04-16)
 
 Full Changelog: [v3.0.0...v3.1.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v3.0.0...v3.1.0)
