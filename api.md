@@ -55,17 +55,24 @@ Methods:
 Types:
 
 ```python
-from mobilerun_sdk.types import Carrier, CarrierListResponse, CarrierDeleteResponse
+from mobilerun_sdk.types import (
+    CarrierCreateResponse,
+    CarrierRetrieveResponse,
+    CarrierUpdateResponse,
+    CarrierListResponse,
+    CarrierDeleteResponse,
+    CarrierLookupResponse,
+)
 ```
 
 Methods:
 
-- <code title="post /carriers">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/carrier_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/carrier.py">Carrier</a></code>
-- <code title="get /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">retrieve</a>(carrier_id) -> <a href="./src/mobilerun_sdk/types/carrier.py">Carrier</a></code>
-- <code title="patch /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">update</a>(carrier_id, \*\*<a href="src/mobilerun_sdk/types/carrier_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/carrier.py">Carrier</a></code>
+- <code title="post /carriers">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/carrier_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/carrier_create_response.py">CarrierCreateResponse</a></code>
+- <code title="get /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">retrieve</a>(carrier_id) -> <a href="./src/mobilerun_sdk/types/carrier_retrieve_response.py">CarrierRetrieveResponse</a></code>
+- <code title="patch /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">update</a>(carrier_id, \*\*<a href="src/mobilerun_sdk/types/carrier_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/carrier_update_response.py">CarrierUpdateResponse</a></code>
 - <code title="get /carriers">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/carrier_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/carrier_list_response.py">CarrierListResponse</a></code>
 - <code title="delete /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">delete</a>(carrier_id) -> <a href="./src/mobilerun_sdk/types/carrier_delete_response.py">CarrierDeleteResponse</a></code>
-- <code title="get /carriers/lookup">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">lookup</a>(\*\*<a href="src/mobilerun_sdk/types/carrier_lookup_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/carrier.py">Carrier</a></code>
+- <code title="get /carriers/lookup">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">lookup</a>(\*\*<a href="src/mobilerun_sdk/types/carrier_lookup_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/carrier_lookup_response.py">CarrierLookupResponse</a></code>
 
 # Credentials
 
