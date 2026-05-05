@@ -33,6 +33,7 @@ from .hook_update_params import HookUpdateParams as HookUpdateParams
 from .task_list_response import TaskListResponse as TaskListResponse
 from .task_stop_response import TaskStopResponse as TaskStopResponse
 from .agent_list_response import AgentListResponse as AgentListResponse
+from .app_delete_response import AppDeleteResponse as AppDeleteResponse
 from .carrier_list_params import CarrierListParams as CarrierListParams
 from .hook_perform_params import HookPerformParams as HookPerformParams
 from .model_list_response import ModelListResponse as ModelListResponse
@@ -44,6 +45,7 @@ from .proxy_update_params import ProxyUpdateParams as ProxyUpdateParams
 from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse
 from .hook_update_response import HookUpdateResponse as HookUpdateResponse
+from .app_retrieve_response import AppRetrieveResponse as AppRetrieveResponse
 from .carrier_create_params import CarrierCreateParams as CarrierCreateParams
 from .carrier_list_response import CarrierListResponse as CarrierListResponse
 from .carrier_lookup_params import CarrierLookupParams as CarrierLookupParams
@@ -66,6 +68,7 @@ from .device_terminate_params import DeviceTerminateParams as DeviceTerminatePar
 from .hook_subscribe_response import HookSubscribeResponse as HookSubscribeResponse
 from .profile_delete_response import ProfileDeleteResponse as ProfileDeleteResponse
 from .proxy_retrieve_response import ProxyRetrieveResponse as ProxyRetrieveResponse
+from .app_mark_failed_response import AppMarkFailedResponse as AppMarkFailedResponse
 from .credential_list_response import CredentialListResponse as CredentialListResponse
 from .task_get_status_response import TaskGetStatusResponse as TaskGetStatusResponse
 from .task_run_streamed_params import TaskRunStreamedParams as TaskRunStreamedParams
@@ -73,5 +76,8 @@ from .task_send_message_params import TaskSendMessageParams as TaskSendMessagePa
 from .hook_unsubscribe_response import HookUnsubscribeResponse as HookUnsubscribeResponse
 from .package_credentials_param import PackageCredentialsParam as PackageCredentialsParam
 from .task_send_message_response import TaskSendMessageResponse as TaskSendMessageResponse
+from .app_confirm_upload_response import AppConfirmUploadResponse as AppConfirmUploadResponse
 from .task_get_trajectory_response import TaskGetTrajectoryResponse as TaskGetTrajectoryResponse
 from .hook_get_sample_data_response import HookGetSampleDataResponse as HookGetSampleDataResponse
+from .app_create_signed_upload_url_params import AppCreateSignedUploadURLParams as AppCreateSignedUploadURLParams
+from .app_create_signed_upload_url_response import AppCreateSignedUploadURLResponse as AppCreateSignedUploadURLResponse
