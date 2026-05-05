@@ -4,30 +4,13 @@ from typing import List, Optional
 
 from pydantic import Field as FieldInfo
 
+from .socks5 import Socks5
+from .location import Location
 from ..._models import BaseModel
 from .device_carrier import DeviceCarrier
 from .device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceSpec", "Location", "Proxy", "ProxySocks5"]
-
-
-class Location(BaseModel):
-    latitude: float
-
-    longitude: float
-
-    schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
-    """A URL to the JSON Schema for this object."""
-
-
-class ProxySocks5(BaseModel):
-    host: str
-
-    password: str
-
-    port: int
-
-    user: str
+__all__ = ["DeviceSpec", "Proxy"]
 
 
 class Proxy(BaseModel):
@@ -35,7 +18,7 @@ class Proxy(BaseModel):
 
     smart_ip: Optional[bool] = FieldInfo(alias="smartIp", default=None)
 
-    socks5: Optional[ProxySocks5] = None
+    socks5: Optional[Socks5] = None
 
 
 class DeviceSpec(BaseModel):

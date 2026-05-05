@@ -3,30 +3,16 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Annotated, TypedDict
 
+from .socks5 import Socks5
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
+from .location import Location
 from .device_carrier import DeviceCarrier
 from .device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceSpec", "Location", "Proxy", "ProxySocks5"]
-
-
-class Location(TypedDict, total=False):
-    latitude: Required[float]
-
-    longitude: Required[float]
-
-
-class ProxySocks5(TypedDict, total=False):
-    host: Required[str]
-
-    password: Required[str]
-
-    port: Required[int]
-
-    user: Required[str]
+__all__ = ["DeviceSpec", "Proxy"]
 
 
 class Proxy(TypedDict, total=False):
@@ -34,7 +20,7 @@ class Proxy(TypedDict, total=False):
 
     smart_ip: Annotated[bool, PropertyInfo(alias="smartIp")]
 
-    socks5: ProxySocks5
+    socks5: Socks5
 
 
 class DeviceSpec(TypedDict, total=False):

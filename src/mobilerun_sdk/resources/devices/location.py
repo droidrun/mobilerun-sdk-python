@@ -16,7 +16,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.devices import location_set_params
-from ...types.devices.location_get_response import LocationGetResponse
+from ...types.shared.location import Location
 
 __all__ = ["LocationResource", "AsyncLocationResource"]
 
@@ -52,7 +52,7 @@ class LocationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> LocationGetResponse:
+    ) -> Location:
         """
         Get device location
 
@@ -78,7 +78,7 @@ class LocationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=LocationGetResponse,
+            cast_to=Location,
         )
 
     def set(
@@ -163,7 +163,7 @@ class AsyncLocationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> LocationGetResponse:
+    ) -> Location:
         """
         Get device location
 
@@ -189,7 +189,7 @@ class AsyncLocationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=LocationGetResponse,
+            cast_to=Location,
         )
 
     async def set(

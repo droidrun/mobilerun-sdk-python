@@ -6,10 +6,10 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["LocationGetResponse"]
+__all__ = ["Location"]
 
 
-class LocationGetResponse(BaseModel):
+class Location(BaseModel):
     latitude: float
 
     longitude: float

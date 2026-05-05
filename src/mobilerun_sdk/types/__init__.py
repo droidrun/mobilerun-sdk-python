@@ -6,6 +6,8 @@ from .task import Task as Task
 from .device import Device as Device
 from .shared import (
     Meta as Meta,
+    Socks5 as Socks5,
+    Location as Location,
     DeviceSpec as DeviceSpec,
     Pagination as Pagination,
     DeviceCarrier as DeviceCarrier,

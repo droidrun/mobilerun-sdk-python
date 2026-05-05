@@ -124,11 +124,17 @@ from mobilerun_sdk import Mobilerun
 
 client = Mobilerun()
 
-profile = client.profiles.create(
-    name="x",
-    spec={},
+device = client.devices.create(
+    carrier={
+        "gsm_operator_alpha": "GsmOperatorAlpha",
+        "gsm_operator_numeric": 0,
+        "gsm_sim_operator_alpha": "GsmSimOperatorAlpha",
+        "gsm_sim_operator_iso_country": "GsmSimOperatorIsoCountry",
+        "gsm_sim_operator_numeric": 0,
+        "persist_sys_timezone": "PersistSysTimezone",
+    },
 )
-print(profile.spec)
+print(device.carrier)
 ```
 
 ## File uploads
