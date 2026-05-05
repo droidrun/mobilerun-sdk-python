@@ -31,12 +31,24 @@ Methods:
 Types:
 
 ```python
-from mobilerun_sdk.types import AppListResponse
+from mobilerun_sdk.types import (
+    AppRetrieveResponse,
+    AppListResponse,
+    AppDeleteResponse,
+    AppConfirmUploadResponse,
+    AppCreateSignedUploadURLResponse,
+    AppMarkFailedResponse,
+)
 ```
 
 Methods:
 
+- <code title="get /apps/{id}">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">retrieve</a>(id) -> <a href="./src/mobilerun_sdk/types/app_retrieve_response.py">AppRetrieveResponse</a></code>
 - <code title="get /apps">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/app_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/app_list_response.py">AppListResponse</a></code>
+- <code title="delete /apps/{id}">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">delete</a>(id) -> <a href="./src/mobilerun_sdk/types/app_delete_response.py">AppDeleteResponse</a></code>
+- <code title="post /apps/{id}/confirm-upload">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">confirm_upload</a>(id) -> <a href="./src/mobilerun_sdk/types/app_confirm_upload_response.py">AppConfirmUploadResponse</a></code>
+- <code title="post /apps/create-signed-upload-url">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">create_signed_upload_url</a>(\*\*<a href="src/mobilerun_sdk/types/app_create_signed_upload_url_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/app_create_signed_upload_url_response.py">AppCreateSignedUploadURLResponse</a></code>
+- <code title="post /apps/{id}/mark-failed">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">mark_failed</a>(id) -> <a href="./src/mobilerun_sdk/types/app_mark_failed_response.py">AppMarkFailedResponse</a></code>
 
 # Carriers
 
