@@ -3,24 +3,16 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Annotated, TypedDict
 
+from .socks5 import Socks5
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
+from .location import Location
 from .device_carrier import DeviceCarrier
 from .device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceSpec", "Proxy", "ProxySocks5"]
-
-
-class ProxySocks5(TypedDict, total=False):
-    host: Required[str]
-
-    password: Required[str]
-
-    port: Required[int]
-
-    user: Required[str]
+__all__ = ["DeviceSpec", "Proxy"]
 
 
 class Proxy(TypedDict, total=False):
@@ -28,20 +20,28 @@ class Proxy(TypedDict, total=False):
 
     smart_ip: Annotated[bool, PropertyInfo(alias="smartIp")]
 
-    socks5: ProxySocks5
-
-    wireguard: str
+    socks5: Socks5
 
 
 class DeviceSpec(TypedDict, total=False):
+    android_version: Annotated[int, PropertyInfo(alias="androidVersion")]
+
     apps: Optional[SequenceNotStr[str]]
 
     carrier: DeviceCarrier
+
+    country: str
 
     files: Optional[SequenceNotStr[str]]
 
     identifiers: DeviceIdentifiers
 
+    locale: str
+
+    location: Location
+
     name: str
 
     proxy: Proxy
+
+    timezone: str

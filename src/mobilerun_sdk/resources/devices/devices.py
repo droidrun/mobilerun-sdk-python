@@ -119,6 +119,7 @@ from ..._base_client import make_request_options
 from ...types.device import Device
 from ...types.device_list_response import DeviceListResponse
 from ...types.device_count_response import DeviceCountResponse
+from ...types.shared_params.location import Location
 from ...types.shared_params.device_carrier import DeviceCarrier
 from ...types.shared_params.device_identifiers import DeviceIdentifiers
 
@@ -127,52 +128,52 @@ __all__ = ["DevicesResource", "AsyncDevicesResource"]
 
 class DevicesResource(SyncAPIResource):
     @cached_property
-    def time(self) -> TimeResource:
-        return TimeResource(self._client)
-
-    @cached_property
-    def profile(self) -> ProfileResource:
-        return ProfileResource(self._client)
-
-    @cached_property
-    def files(self) -> FilesResource:
-        return FilesResource(self._client)
-
-    @cached_property
-    def proxy(self) -> ProxyResource:
-        return ProxyResource(self._client)
-
-    @cached_property
-    def location(self) -> LocationResource:
-        return LocationResource(self._client)
-
-    @cached_property
     def actions(self) -> ActionsResource:
         return ActionsResource(self._client)
-
-    @cached_property
-    def state(self) -> StateResource:
-        return StateResource(self._client)
 
     @cached_property
     def apps(self) -> AppsResource:
         return AppsResource(self._client)
 
     @cached_property
-    def packages(self) -> PackagesResource:
-        return PackagesResource(self._client)
+    def esim(self) -> EsimResource:
+        return EsimResource(self._client)
+
+    @cached_property
+    def files(self) -> FilesResource:
+        return FilesResource(self._client)
 
     @cached_property
     def keyboard(self) -> KeyboardResource:
         return KeyboardResource(self._client)
 
     @cached_property
+    def location(self) -> LocationResource:
+        return LocationResource(self._client)
+
+    @cached_property
+    def packages(self) -> PackagesResource:
+        return PackagesResource(self._client)
+
+    @cached_property
+    def profile(self) -> ProfileResource:
+        return ProfileResource(self._client)
+
+    @cached_property
+    def proxy(self) -> ProxyResource:
+        return ProxyResource(self._client)
+
+    @cached_property
+    def state(self) -> StateResource:
+        return StateResource(self._client)
+
+    @cached_property
     def tasks(self) -> TasksResource:
         return TasksResource(self._client)
 
     @cached_property
-    def esim(self) -> EsimResource:
-        return EsimResource(self._client)
+    def time(self) -> TimeResource:
+        return TimeResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> DevicesResourceWithRawResponse:
@@ -196,16 +197,22 @@ class DevicesResource(SyncAPIResource):
     def create(
         self,
         *,
+        query_country: str | Omit = omit,
         device_type: Literal[
             "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
         ]
         | Omit = omit,
+        android_version: int | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         carrier: DeviceCarrier | Omit = omit,
+        body_country: str | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
         identifiers: DeviceIdentifiers | Omit = omit,
+        locale: str | Omit = omit,
+        location: Location | Omit = omit,
         name: str | Omit = omit,
         proxy: device_create_params.Proxy | Omit = omit,
+        timezone: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -213,10 +220,14 @@ class DevicesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Device:
-        """
-        Provision a new device
+        """Provision a new device
 
         Args:
+          query_country: ISO 3166-1 alpha-2 country code.
+
+        If omitted the system picks the country with
+              the most availability.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -229,12 +240,17 @@ class DevicesResource(SyncAPIResource):
             "/devices",
             body=maybe_transform(
                 {
+                    "android_version": android_version,
                     "apps": apps,
                     "carrier": carrier,
+                    "body_country": body_country,
                     "files": files,
                     "identifiers": identifiers,
+                    "locale": locale,
+                    "location": location,
                     "name": name,
                     "proxy": proxy,
+                    "timezone": timezone,
                 },
                 device_create_params.DeviceCreateParams,
             ),
@@ -243,7 +259,13 @@ class DevicesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"device_type": device_type}, device_create_params.DeviceCreateParams),
+                query=maybe_transform(
+                    {
+                        "query_country": query_country,
+                        "device_type": device_type,
+                    },
+                    device_create_params.DeviceCreateParams,
+                ),
             ),
             cast_to=Device,
         )
@@ -480,52 +502,52 @@ class DevicesResource(SyncAPIResource):
 
 class AsyncDevicesResource(AsyncAPIResource):
     @cached_property
-    def time(self) -> AsyncTimeResource:
-        return AsyncTimeResource(self._client)
-
-    @cached_property
-    def profile(self) -> AsyncProfileResource:
-        return AsyncProfileResource(self._client)
-
-    @cached_property
-    def files(self) -> AsyncFilesResource:
-        return AsyncFilesResource(self._client)
-
-    @cached_property
-    def proxy(self) -> AsyncProxyResource:
-        return AsyncProxyResource(self._client)
-
-    @cached_property
-    def location(self) -> AsyncLocationResource:
-        return AsyncLocationResource(self._client)
-
-    @cached_property
     def actions(self) -> AsyncActionsResource:
         return AsyncActionsResource(self._client)
-
-    @cached_property
-    def state(self) -> AsyncStateResource:
-        return AsyncStateResource(self._client)
 
     @cached_property
     def apps(self) -> AsyncAppsResource:
         return AsyncAppsResource(self._client)
 
     @cached_property
-    def packages(self) -> AsyncPackagesResource:
-        return AsyncPackagesResource(self._client)
+    def esim(self) -> AsyncEsimResource:
+        return AsyncEsimResource(self._client)
+
+    @cached_property
+    def files(self) -> AsyncFilesResource:
+        return AsyncFilesResource(self._client)
 
     @cached_property
     def keyboard(self) -> AsyncKeyboardResource:
         return AsyncKeyboardResource(self._client)
 
     @cached_property
+    def location(self) -> AsyncLocationResource:
+        return AsyncLocationResource(self._client)
+
+    @cached_property
+    def packages(self) -> AsyncPackagesResource:
+        return AsyncPackagesResource(self._client)
+
+    @cached_property
+    def profile(self) -> AsyncProfileResource:
+        return AsyncProfileResource(self._client)
+
+    @cached_property
+    def proxy(self) -> AsyncProxyResource:
+        return AsyncProxyResource(self._client)
+
+    @cached_property
+    def state(self) -> AsyncStateResource:
+        return AsyncStateResource(self._client)
+
+    @cached_property
     def tasks(self) -> AsyncTasksResource:
         return AsyncTasksResource(self._client)
 
     @cached_property
-    def esim(self) -> AsyncEsimResource:
-        return AsyncEsimResource(self._client)
+    def time(self) -> AsyncTimeResource:
+        return AsyncTimeResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncDevicesResourceWithRawResponse:
@@ -549,16 +571,22 @@ class AsyncDevicesResource(AsyncAPIResource):
     async def create(
         self,
         *,
+        query_country: str | Omit = omit,
         device_type: Literal[
             "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
         ]
         | Omit = omit,
+        android_version: int | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         carrier: DeviceCarrier | Omit = omit,
+        body_country: str | Omit = omit,
         files: Optional[SequenceNotStr[str]] | Omit = omit,
         identifiers: DeviceIdentifiers | Omit = omit,
+        locale: str | Omit = omit,
+        location: Location | Omit = omit,
         name: str | Omit = omit,
         proxy: device_create_params.Proxy | Omit = omit,
+        timezone: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -566,10 +594,14 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Device:
-        """
-        Provision a new device
+        """Provision a new device
 
         Args:
+          query_country: ISO 3166-1 alpha-2 country code.
+
+        If omitted the system picks the country with
+              the most availability.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -582,12 +614,17 @@ class AsyncDevicesResource(AsyncAPIResource):
             "/devices",
             body=await async_maybe_transform(
                 {
+                    "android_version": android_version,
                     "apps": apps,
                     "carrier": carrier,
+                    "body_country": body_country,
                     "files": files,
                     "identifiers": identifiers,
+                    "locale": locale,
+                    "location": location,
                     "name": name,
                     "proxy": proxy,
+                    "timezone": timezone,
                 },
                 device_create_params.DeviceCreateParams,
             ),
@@ -597,7 +634,11 @@ class AsyncDevicesResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"device_type": device_type}, device_create_params.DeviceCreateParams
+                    {
+                        "query_country": query_country,
+                        "device_type": device_type,
+                    },
+                    device_create_params.DeviceCreateParams,
                 ),
             ),
             cast_to=Device,
@@ -860,52 +901,52 @@ class DevicesResourceWithRawResponse:
         )
 
     @cached_property
-    def time(self) -> TimeResourceWithRawResponse:
-        return TimeResourceWithRawResponse(self._devices.time)
-
-    @cached_property
-    def profile(self) -> ProfileResourceWithRawResponse:
-        return ProfileResourceWithRawResponse(self._devices.profile)
-
-    @cached_property
-    def files(self) -> FilesResourceWithRawResponse:
-        return FilesResourceWithRawResponse(self._devices.files)
-
-    @cached_property
-    def proxy(self) -> ProxyResourceWithRawResponse:
-        return ProxyResourceWithRawResponse(self._devices.proxy)
-
-    @cached_property
-    def location(self) -> LocationResourceWithRawResponse:
-        return LocationResourceWithRawResponse(self._devices.location)
-
-    @cached_property
     def actions(self) -> ActionsResourceWithRawResponse:
         return ActionsResourceWithRawResponse(self._devices.actions)
-
-    @cached_property
-    def state(self) -> StateResourceWithRawResponse:
-        return StateResourceWithRawResponse(self._devices.state)
 
     @cached_property
     def apps(self) -> AppsResourceWithRawResponse:
         return AppsResourceWithRawResponse(self._devices.apps)
 
     @cached_property
-    def packages(self) -> PackagesResourceWithRawResponse:
-        return PackagesResourceWithRawResponse(self._devices.packages)
+    def esim(self) -> EsimResourceWithRawResponse:
+        return EsimResourceWithRawResponse(self._devices.esim)
+
+    @cached_property
+    def files(self) -> FilesResourceWithRawResponse:
+        return FilesResourceWithRawResponse(self._devices.files)
 
     @cached_property
     def keyboard(self) -> KeyboardResourceWithRawResponse:
         return KeyboardResourceWithRawResponse(self._devices.keyboard)
 
     @cached_property
+    def location(self) -> LocationResourceWithRawResponse:
+        return LocationResourceWithRawResponse(self._devices.location)
+
+    @cached_property
+    def packages(self) -> PackagesResourceWithRawResponse:
+        return PackagesResourceWithRawResponse(self._devices.packages)
+
+    @cached_property
+    def profile(self) -> ProfileResourceWithRawResponse:
+        return ProfileResourceWithRawResponse(self._devices.profile)
+
+    @cached_property
+    def proxy(self) -> ProxyResourceWithRawResponse:
+        return ProxyResourceWithRawResponse(self._devices.proxy)
+
+    @cached_property
+    def state(self) -> StateResourceWithRawResponse:
+        return StateResourceWithRawResponse(self._devices.state)
+
+    @cached_property
     def tasks(self) -> TasksResourceWithRawResponse:
         return TasksResourceWithRawResponse(self._devices.tasks)
 
     @cached_property
-    def esim(self) -> EsimResourceWithRawResponse:
-        return EsimResourceWithRawResponse(self._devices.esim)
+    def time(self) -> TimeResourceWithRawResponse:
+        return TimeResourceWithRawResponse(self._devices.time)
 
 
 class AsyncDevicesResourceWithRawResponse:
@@ -935,52 +976,52 @@ class AsyncDevicesResourceWithRawResponse:
         )
 
     @cached_property
-    def time(self) -> AsyncTimeResourceWithRawResponse:
-        return AsyncTimeResourceWithRawResponse(self._devices.time)
-
-    @cached_property
-    def profile(self) -> AsyncProfileResourceWithRawResponse:
-        return AsyncProfileResourceWithRawResponse(self._devices.profile)
-
-    @cached_property
-    def files(self) -> AsyncFilesResourceWithRawResponse:
-        return AsyncFilesResourceWithRawResponse(self._devices.files)
-
-    @cached_property
-    def proxy(self) -> AsyncProxyResourceWithRawResponse:
-        return AsyncProxyResourceWithRawResponse(self._devices.proxy)
-
-    @cached_property
-    def location(self) -> AsyncLocationResourceWithRawResponse:
-        return AsyncLocationResourceWithRawResponse(self._devices.location)
-
-    @cached_property
     def actions(self) -> AsyncActionsResourceWithRawResponse:
         return AsyncActionsResourceWithRawResponse(self._devices.actions)
-
-    @cached_property
-    def state(self) -> AsyncStateResourceWithRawResponse:
-        return AsyncStateResourceWithRawResponse(self._devices.state)
 
     @cached_property
     def apps(self) -> AsyncAppsResourceWithRawResponse:
         return AsyncAppsResourceWithRawResponse(self._devices.apps)
 
     @cached_property
-    def packages(self) -> AsyncPackagesResourceWithRawResponse:
-        return AsyncPackagesResourceWithRawResponse(self._devices.packages)
+    def esim(self) -> AsyncEsimResourceWithRawResponse:
+        return AsyncEsimResourceWithRawResponse(self._devices.esim)
+
+    @cached_property
+    def files(self) -> AsyncFilesResourceWithRawResponse:
+        return AsyncFilesResourceWithRawResponse(self._devices.files)
 
     @cached_property
     def keyboard(self) -> AsyncKeyboardResourceWithRawResponse:
         return AsyncKeyboardResourceWithRawResponse(self._devices.keyboard)
 
     @cached_property
+    def location(self) -> AsyncLocationResourceWithRawResponse:
+        return AsyncLocationResourceWithRawResponse(self._devices.location)
+
+    @cached_property
+    def packages(self) -> AsyncPackagesResourceWithRawResponse:
+        return AsyncPackagesResourceWithRawResponse(self._devices.packages)
+
+    @cached_property
+    def profile(self) -> AsyncProfileResourceWithRawResponse:
+        return AsyncProfileResourceWithRawResponse(self._devices.profile)
+
+    @cached_property
+    def proxy(self) -> AsyncProxyResourceWithRawResponse:
+        return AsyncProxyResourceWithRawResponse(self._devices.proxy)
+
+    @cached_property
+    def state(self) -> AsyncStateResourceWithRawResponse:
+        return AsyncStateResourceWithRawResponse(self._devices.state)
+
+    @cached_property
     def tasks(self) -> AsyncTasksResourceWithRawResponse:
         return AsyncTasksResourceWithRawResponse(self._devices.tasks)
 
     @cached_property
-    def esim(self) -> AsyncEsimResourceWithRawResponse:
-        return AsyncEsimResourceWithRawResponse(self._devices.esim)
+    def time(self) -> AsyncTimeResourceWithRawResponse:
+        return AsyncTimeResourceWithRawResponse(self._devices.time)
 
 
 class DevicesResourceWithStreamingResponse:
@@ -1010,52 +1051,52 @@ class DevicesResourceWithStreamingResponse:
         )
 
     @cached_property
-    def time(self) -> TimeResourceWithStreamingResponse:
-        return TimeResourceWithStreamingResponse(self._devices.time)
-
-    @cached_property
-    def profile(self) -> ProfileResourceWithStreamingResponse:
-        return ProfileResourceWithStreamingResponse(self._devices.profile)
-
-    @cached_property
-    def files(self) -> FilesResourceWithStreamingResponse:
-        return FilesResourceWithStreamingResponse(self._devices.files)
-
-    @cached_property
-    def proxy(self) -> ProxyResourceWithStreamingResponse:
-        return ProxyResourceWithStreamingResponse(self._devices.proxy)
-
-    @cached_property
-    def location(self) -> LocationResourceWithStreamingResponse:
-        return LocationResourceWithStreamingResponse(self._devices.location)
-
-    @cached_property
     def actions(self) -> ActionsResourceWithStreamingResponse:
         return ActionsResourceWithStreamingResponse(self._devices.actions)
-
-    @cached_property
-    def state(self) -> StateResourceWithStreamingResponse:
-        return StateResourceWithStreamingResponse(self._devices.state)
 
     @cached_property
     def apps(self) -> AppsResourceWithStreamingResponse:
         return AppsResourceWithStreamingResponse(self._devices.apps)
 
     @cached_property
-    def packages(self) -> PackagesResourceWithStreamingResponse:
-        return PackagesResourceWithStreamingResponse(self._devices.packages)
+    def esim(self) -> EsimResourceWithStreamingResponse:
+        return EsimResourceWithStreamingResponse(self._devices.esim)
+
+    @cached_property
+    def files(self) -> FilesResourceWithStreamingResponse:
+        return FilesResourceWithStreamingResponse(self._devices.files)
 
     @cached_property
     def keyboard(self) -> KeyboardResourceWithStreamingResponse:
         return KeyboardResourceWithStreamingResponse(self._devices.keyboard)
 
     @cached_property
+    def location(self) -> LocationResourceWithStreamingResponse:
+        return LocationResourceWithStreamingResponse(self._devices.location)
+
+    @cached_property
+    def packages(self) -> PackagesResourceWithStreamingResponse:
+        return PackagesResourceWithStreamingResponse(self._devices.packages)
+
+    @cached_property
+    def profile(self) -> ProfileResourceWithStreamingResponse:
+        return ProfileResourceWithStreamingResponse(self._devices.profile)
+
+    @cached_property
+    def proxy(self) -> ProxyResourceWithStreamingResponse:
+        return ProxyResourceWithStreamingResponse(self._devices.proxy)
+
+    @cached_property
+    def state(self) -> StateResourceWithStreamingResponse:
+        return StateResourceWithStreamingResponse(self._devices.state)
+
+    @cached_property
     def tasks(self) -> TasksResourceWithStreamingResponse:
         return TasksResourceWithStreamingResponse(self._devices.tasks)
 
     @cached_property
-    def esim(self) -> EsimResourceWithStreamingResponse:
-        return EsimResourceWithStreamingResponse(self._devices.esim)
+    def time(self) -> TimeResourceWithStreamingResponse:
+        return TimeResourceWithStreamingResponse(self._devices.time)
 
 
 class AsyncDevicesResourceWithStreamingResponse:
@@ -1085,49 +1126,49 @@ class AsyncDevicesResourceWithStreamingResponse:
         )
 
     @cached_property
-    def time(self) -> AsyncTimeResourceWithStreamingResponse:
-        return AsyncTimeResourceWithStreamingResponse(self._devices.time)
-
-    @cached_property
-    def profile(self) -> AsyncProfileResourceWithStreamingResponse:
-        return AsyncProfileResourceWithStreamingResponse(self._devices.profile)
-
-    @cached_property
-    def files(self) -> AsyncFilesResourceWithStreamingResponse:
-        return AsyncFilesResourceWithStreamingResponse(self._devices.files)
-
-    @cached_property
-    def proxy(self) -> AsyncProxyResourceWithStreamingResponse:
-        return AsyncProxyResourceWithStreamingResponse(self._devices.proxy)
-
-    @cached_property
-    def location(self) -> AsyncLocationResourceWithStreamingResponse:
-        return AsyncLocationResourceWithStreamingResponse(self._devices.location)
-
-    @cached_property
     def actions(self) -> AsyncActionsResourceWithStreamingResponse:
         return AsyncActionsResourceWithStreamingResponse(self._devices.actions)
-
-    @cached_property
-    def state(self) -> AsyncStateResourceWithStreamingResponse:
-        return AsyncStateResourceWithStreamingResponse(self._devices.state)
 
     @cached_property
     def apps(self) -> AsyncAppsResourceWithStreamingResponse:
         return AsyncAppsResourceWithStreamingResponse(self._devices.apps)
 
     @cached_property
-    def packages(self) -> AsyncPackagesResourceWithStreamingResponse:
-        return AsyncPackagesResourceWithStreamingResponse(self._devices.packages)
+    def esim(self) -> AsyncEsimResourceWithStreamingResponse:
+        return AsyncEsimResourceWithStreamingResponse(self._devices.esim)
+
+    @cached_property
+    def files(self) -> AsyncFilesResourceWithStreamingResponse:
+        return AsyncFilesResourceWithStreamingResponse(self._devices.files)
 
     @cached_property
     def keyboard(self) -> AsyncKeyboardResourceWithStreamingResponse:
         return AsyncKeyboardResourceWithStreamingResponse(self._devices.keyboard)
 
     @cached_property
+    def location(self) -> AsyncLocationResourceWithStreamingResponse:
+        return AsyncLocationResourceWithStreamingResponse(self._devices.location)
+
+    @cached_property
+    def packages(self) -> AsyncPackagesResourceWithStreamingResponse:
+        return AsyncPackagesResourceWithStreamingResponse(self._devices.packages)
+
+    @cached_property
+    def profile(self) -> AsyncProfileResourceWithStreamingResponse:
+        return AsyncProfileResourceWithStreamingResponse(self._devices.profile)
+
+    @cached_property
+    def proxy(self) -> AsyncProxyResourceWithStreamingResponse:
+        return AsyncProxyResourceWithStreamingResponse(self._devices.proxy)
+
+    @cached_property
+    def state(self) -> AsyncStateResourceWithStreamingResponse:
+        return AsyncStateResourceWithStreamingResponse(self._devices.state)
+
+    @cached_property
     def tasks(self) -> AsyncTasksResourceWithStreamingResponse:
         return AsyncTasksResourceWithStreamingResponse(self._devices.tasks)
 
     @cached_property
-    def esim(self) -> AsyncEsimResourceWithStreamingResponse:
-        return AsyncEsimResourceWithStreamingResponse(self._devices.esim)
+    def time(self) -> AsyncTimeResourceWithStreamingResponse:
+        return AsyncTimeResourceWithStreamingResponse(self._devices.time)

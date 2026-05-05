@@ -32,7 +32,9 @@ class TestDevices:
     @parametrize
     def test_method_create_with_all_params(self, client: Mobilerun) -> None:
         device = client.devices.create(
+            query_country="country",
             device_type="dedicated_physical_device",
+            android_version=0,
             apps=["string"],
             carrier={
                 "gsm_operator_alpha": "GsmOperatorAlpha",
@@ -42,6 +44,7 @@ class TestDevices:
                 "gsm_sim_operator_numeric": 0,
                 "persist_sys_timezone": "PersistSysTimezone",
             },
+            body_country="country",
             files=["string"],
             identifiers={
                 "bootloader_serial_number": "BootloaderSerialNumber",
@@ -60,6 +63,11 @@ class TestDevices:
                 "identifier_wifi_mac": "IdentifierWifiMAC",
                 "serial_number": "SerialNumber",
             },
+            locale="locale",
+            location={
+                "latitude": 0,
+                "longitude": 0,
+            },
             name="name",
             proxy={
                 "name": "name",
@@ -70,8 +78,8 @@ class TestDevices:
                     "port": 0,
                     "user": "user",
                 },
-                "wireguard": "wireguard",
             },
+            timezone="timezone",
         )
         assert_matches_type(Device, device, path=["response"])
 
@@ -367,7 +375,9 @@ class TestAsyncDevices:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.create(
+            query_country="country",
             device_type="dedicated_physical_device",
+            android_version=0,
             apps=["string"],
             carrier={
                 "gsm_operator_alpha": "GsmOperatorAlpha",
@@ -377,6 +387,7 @@ class TestAsyncDevices:
                 "gsm_sim_operator_numeric": 0,
                 "persist_sys_timezone": "PersistSysTimezone",
             },
+            body_country="country",
             files=["string"],
             identifiers={
                 "bootloader_serial_number": "BootloaderSerialNumber",
@@ -395,6 +406,11 @@ class TestAsyncDevices:
                 "identifier_wifi_mac": "IdentifierWifiMAC",
                 "serial_number": "SerialNumber",
             },
+            locale="locale",
+            location={
+                "latitude": 0,
+                "longitude": 0,
+            },
             name="name",
             proxy={
                 "name": "name",
@@ -405,8 +421,8 @@ class TestAsyncDevices:
                     "port": 0,
                     "user": "user",
                 },
-                "wireguard": "wireguard",
             },
+            timezone="timezone",
         )
         assert_matches_type(Device, device, path=["response"])
 

@@ -130,6 +130,7 @@ class KeyboardResource(SyncAPIResource):
         *,
         text: str,
         clear: bool | Omit = omit,
+        error_rate: float | Omit = omit,
         stealth: bool | Omit = omit,
         wpm: int | Omit = omit,
         x_device_display_id: int | Omit = omit,
@@ -143,9 +144,11 @@ class KeyboardResource(SyncAPIResource):
         """Input text
 
         Args:
-          wpm: Words per minute for stealth typing.
+          error_rate: Per-character mistake rate for humantouch typing.
 
-        0 uses portal default.
+        -1 uses server default.
+
+          wpm: Words per minute for stealth typing. 0 uses portal default.
 
           extra_headers: Send extra headers
 
@@ -170,6 +173,7 @@ class KeyboardResource(SyncAPIResource):
                 {
                     "text": text,
                     "clear": clear,
+                    "error_rate": error_rate,
                     "stealth": stealth,
                     "wpm": wpm,
                 },
@@ -292,6 +296,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
         *,
         text: str,
         clear: bool | Omit = omit,
+        error_rate: float | Omit = omit,
         stealth: bool | Omit = omit,
         wpm: int | Omit = omit,
         x_device_display_id: int | Omit = omit,
@@ -305,9 +310,11 @@ class AsyncKeyboardResource(AsyncAPIResource):
         """Input text
 
         Args:
-          wpm: Words per minute for stealth typing.
+          error_rate: Per-character mistake rate for humantouch typing.
 
-        0 uses portal default.
+        -1 uses server default.
+
+          wpm: Words per minute for stealth typing. 0 uses portal default.
 
           extra_headers: Send extra headers
 
@@ -332,6 +339,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
                 {
                     "text": text,
                     "clear": clear,
+                    "error_rate": error_rate,
                     "stealth": stealth,
                     "wpm": wpm,
                 },
