@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Iterable
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
@@ -11,21 +11,17 @@ __all__ = ["AppCreateSignedUploadURLParams", "File"]
 
 
 class AppCreateSignedUploadURLParams(TypedDict, total=False):
+    bundle_id: Required[Annotated[str, PropertyInfo(alias="bundleId")]]
+
     display_name: Required[Annotated[str, PropertyInfo(alias="displayName")]]
 
     files: Required[Iterable[File]]
 
-    package_name: Required[Annotated[str, PropertyInfo(alias="packageName")]]
-
     size_bytes: Required[Annotated[float, PropertyInfo(alias="sizeBytes")]]
-
-    target_sdk: Required[Annotated[float, PropertyInfo(alias="targetSdk")]]
 
     version_code: Required[Annotated[float, PropertyInfo(alias="versionCode")]]
 
     version_name: Required[Annotated[str, PropertyInfo(alias="versionName")]]
-
-    category_name: Annotated[str, PropertyInfo(alias="categoryName")]
 
     country: str
     """Country code for Search Results"""
@@ -36,12 +32,12 @@ class AppCreateSignedUploadURLParams(TypedDict, total=False):
 
     icon_url: Annotated[str, PropertyInfo(alias="iconURL")]
 
-    rating_count: Annotated[float, PropertyInfo(alias="ratingCount")]
+    platform: Literal["android", "ios"]
 
-    rating_score: Annotated[float, PropertyInfo(alias="ratingScore")]
+    target_sdk: Annotated[float, PropertyInfo(alias="targetSdk")]
 
 
 class File(TypedDict, total=False):
-    file_name: Required[Annotated[str, PropertyInfo(alias="fileName")]]
+    content_type: Required[Annotated[str, PropertyInfo(alias="contentType")]]
 
-    content_type: Annotated[str, PropertyInfo(alias="contentType")]
+    file_name: Required[Annotated[str, PropertyInfo(alias="fileName")]]

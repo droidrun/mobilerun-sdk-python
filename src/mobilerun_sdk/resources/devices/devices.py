@@ -202,6 +202,7 @@ class DevicesResource(SyncAPIResource):
             "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
         ]
         | Omit = omit,
+        profile_id: str | Omit = omit,
         android_version: int | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         carrier: DeviceCarrier | Omit = omit,
@@ -227,6 +228,8 @@ class DevicesResource(SyncAPIResource):
 
         If omitted the system picks the country with
               the most availability.
+
+          profile_id: Profile ID to use as device spec
 
           extra_headers: Send extra headers
 
@@ -263,6 +266,7 @@ class DevicesResource(SyncAPIResource):
                     {
                         "query_country": query_country,
                         "device_type": device_type,
+                        "profile_id": profile_id,
                     },
                     device_create_params.DeviceCreateParams,
                 ),
@@ -576,6 +580,7 @@ class AsyncDevicesResource(AsyncAPIResource):
             "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
         ]
         | Omit = omit,
+        profile_id: str | Omit = omit,
         android_version: int | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         carrier: DeviceCarrier | Omit = omit,
@@ -601,6 +606,8 @@ class AsyncDevicesResource(AsyncAPIResource):
 
         If omitted the system picks the country with
               the most availability.
+
+          profile_id: Profile ID to use as device spec
 
           extra_headers: Send extra headers
 
@@ -637,6 +644,7 @@ class AsyncDevicesResource(AsyncAPIResource):
                     {
                         "query_country": query_country,
                         "device_type": device_type,
+                        "profile_id": profile_id,
                     },
                     device_create_params.DeviceCreateParams,
                 ),

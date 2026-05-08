@@ -79,9 +79,10 @@ class TestApps:
             order="asc",
             page=1,
             page_size=1,
+            platform="all",
             query="query",
             sort_by="createdAt",
-            source="all",
+            status="all",
         )
         assert_matches_type(AppListResponse, app, path=["response"])
 
@@ -195,13 +196,17 @@ class TestApps:
     @parametrize
     def test_method_create_signed_upload_url(self, client: Mobilerun) -> None:
         app = client.apps.create_signed_upload_url(
-            display_name="displayName",
-            files=[{"file_name": "x"}],
-            package_name="packageName",
+            bundle_id="x",
+            display_name="x",
+            files=[
+                {
+                    "content_type": "x",
+                    "file_name": "x",
+                }
+            ],
             size_bytes=0,
-            target_sdk=0,
             version_code=0,
-            version_name="versionName",
+            version_name="x",
         )
         assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
 
@@ -209,25 +214,23 @@ class TestApps:
     @parametrize
     def test_method_create_signed_upload_url_with_all_params(self, client: Mobilerun) -> None:
         app = client.apps.create_signed_upload_url(
-            display_name="displayName",
+            bundle_id="x",
+            display_name="x",
             files=[
                 {
+                    "content_type": "x",
                     "file_name": "x",
-                    "content_type": "contentType",
                 }
             ],
-            package_name="packageName",
             size_bytes=0,
-            target_sdk=0,
             version_code=0,
-            version_name="versionName",
-            category_name="categoryName",
+            version_name="x",
             country="US",
             description="description",
             developer_name="developerName",
             icon_url="iconURL",
-            rating_count=0,
-            rating_score=0,
+            platform="android",
+            target_sdk=0,
         )
         assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
 
@@ -235,13 +238,17 @@ class TestApps:
     @parametrize
     def test_raw_response_create_signed_upload_url(self, client: Mobilerun) -> None:
         response = client.apps.with_raw_response.create_signed_upload_url(
-            display_name="displayName",
-            files=[{"file_name": "x"}],
-            package_name="packageName",
+            bundle_id="x",
+            display_name="x",
+            files=[
+                {
+                    "content_type": "x",
+                    "file_name": "x",
+                }
+            ],
             size_bytes=0,
-            target_sdk=0,
             version_code=0,
-            version_name="versionName",
+            version_name="x",
         )
 
         assert response.is_closed is True
@@ -253,13 +260,17 @@ class TestApps:
     @parametrize
     def test_streaming_response_create_signed_upload_url(self, client: Mobilerun) -> None:
         with client.apps.with_streaming_response.create_signed_upload_url(
-            display_name="displayName",
-            files=[{"file_name": "x"}],
-            package_name="packageName",
+            bundle_id="x",
+            display_name="x",
+            files=[
+                {
+                    "content_type": "x",
+                    "file_name": "x",
+                }
+            ],
             size_bytes=0,
-            target_sdk=0,
             version_code=0,
-            version_name="versionName",
+            version_name="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -372,9 +383,10 @@ class TestAsyncApps:
             order="asc",
             page=1,
             page_size=1,
+            platform="all",
             query="query",
             sort_by="createdAt",
-            source="all",
+            status="all",
         )
         assert_matches_type(AppListResponse, app, path=["response"])
 
@@ -488,13 +500,17 @@ class TestAsyncApps:
     @parametrize
     async def test_method_create_signed_upload_url(self, async_client: AsyncMobilerun) -> None:
         app = await async_client.apps.create_signed_upload_url(
-            display_name="displayName",
-            files=[{"file_name": "x"}],
-            package_name="packageName",
+            bundle_id="x",
+            display_name="x",
+            files=[
+                {
+                    "content_type": "x",
+                    "file_name": "x",
+                }
+            ],
             size_bytes=0,
-            target_sdk=0,
             version_code=0,
-            version_name="versionName",
+            version_name="x",
         )
         assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
 
@@ -502,25 +518,23 @@ class TestAsyncApps:
     @parametrize
     async def test_method_create_signed_upload_url_with_all_params(self, async_client: AsyncMobilerun) -> None:
         app = await async_client.apps.create_signed_upload_url(
-            display_name="displayName",
+            bundle_id="x",
+            display_name="x",
             files=[
                 {
+                    "content_type": "x",
                     "file_name": "x",
-                    "content_type": "contentType",
                 }
             ],
-            package_name="packageName",
             size_bytes=0,
-            target_sdk=0,
             version_code=0,
-            version_name="versionName",
-            category_name="categoryName",
+            version_name="x",
             country="US",
             description="description",
             developer_name="developerName",
             icon_url="iconURL",
-            rating_count=0,
-            rating_score=0,
+            platform="android",
+            target_sdk=0,
         )
         assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
 
@@ -528,13 +542,17 @@ class TestAsyncApps:
     @parametrize
     async def test_raw_response_create_signed_upload_url(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.apps.with_raw_response.create_signed_upload_url(
-            display_name="displayName",
-            files=[{"file_name": "x"}],
-            package_name="packageName",
+            bundle_id="x",
+            display_name="x",
+            files=[
+                {
+                    "content_type": "x",
+                    "file_name": "x",
+                }
+            ],
             size_bytes=0,
-            target_sdk=0,
             version_code=0,
-            version_name="versionName",
+            version_name="x",
         )
 
         assert response.is_closed is True
@@ -546,13 +564,17 @@ class TestAsyncApps:
     @parametrize
     async def test_streaming_response_create_signed_upload_url(self, async_client: AsyncMobilerun) -> None:
         async with async_client.apps.with_streaming_response.create_signed_upload_url(
-            display_name="displayName",
-            files=[{"file_name": "x"}],
-            package_name="packageName",
+            bundle_id="x",
+            display_name="x",
+            files=[
+                {
+                    "content_type": "x",
+                    "file_name": "x",
+                }
+            ],
             size_bytes=0,
-            target_sdk=0,
             version_code=0,
-            version_name="versionName",
+            version_name="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

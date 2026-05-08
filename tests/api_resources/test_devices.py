@@ -34,6 +34,7 @@ class TestDevices:
         device = client.devices.create(
             query_country="country",
             device_type="dedicated_physical_device",
+            profile_id="profileId",
             android_version=0,
             apps=["string"],
             carrier={
@@ -377,6 +378,7 @@ class TestAsyncDevices:
         device = await async_client.devices.create(
             query_country="country",
             device_type="dedicated_physical_device",
+            profile_id="profileId",
             android_version=0,
             apps=["string"],
             carrier={

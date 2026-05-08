@@ -29,6 +29,9 @@ class DeviceCreateParams(TypedDict, total=False):
         PropertyInfo(alias="deviceType"),
     ]
 
+    profile_id: Annotated[str, PropertyInfo(alias="profileId")]
+    """Profile ID to use as device spec"""
+
     android_version: Annotated[int, PropertyInfo(alias="androidVersion")]
 
     apps: Optional[SequenceNotStr[str]]
