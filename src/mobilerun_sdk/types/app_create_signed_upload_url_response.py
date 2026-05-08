@@ -16,8 +16,11 @@ class R2UploadURL(BaseModel):
 
 
 class AppCreateSignedUploadURLResponse(BaseModel):
-    id: str
+    app_id: str = FieldInfo(alias="appId")
     """App ID in the database"""
 
     r2_upload_urls: List[R2UploadURL] = FieldInfo(alias="r2UploadUrls")
-    """Pre-signed Cloudflare R2 URLs for uploading APK files"""
+    """Pre-signed Cloudflare R2 URLs for uploading app files"""
+
+    version_id: str = FieldInfo(alias="versionId")
+    """App version ID in the database"""

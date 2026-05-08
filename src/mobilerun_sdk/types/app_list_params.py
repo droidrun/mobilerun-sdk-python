@@ -16,8 +16,10 @@ class AppListParams(TypedDict, total=False):
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
 
+    platform: Literal["all", "android", "ios"]
+
     query: str
 
     sort_by: Annotated[Literal["createdAt", "name"], PropertyInfo(alias="sortBy")]
 
-    source: Literal["all", "uploaded", "store", "queued"]
+    status: Literal["all", "queued", "available", "failed"]
