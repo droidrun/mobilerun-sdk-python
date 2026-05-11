@@ -28,6 +28,8 @@ __all__ = ["ProxiesResource", "AsyncProxiesResource"]
 
 
 class ProxiesResource(SyncAPIResource):
+    """Network Proxies"""
+
     @cached_property
     def with_raw_response(self) -> ProxiesResourceWithRawResponse:
         """
@@ -349,6 +351,8 @@ class ProxiesResource(SyncAPIResource):
 
 
 class AsyncProxiesResource(AsyncAPIResource):
+    """Network Proxies"""
+
     @cached_property
     def with_raw_response(self) -> AsyncProxiesResourceWithRawResponse:
         """

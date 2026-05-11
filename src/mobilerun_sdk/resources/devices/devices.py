@@ -127,6 +127,8 @@ __all__ = ["DevicesResource", "AsyncDevicesResource"]
 
 
 class DevicesResource(SyncAPIResource):
+    """Device Management"""
+
     @cached_property
     def actions(self) -> ActionsResource:
         return ActionsResource(self._client)
@@ -169,6 +171,7 @@ class DevicesResource(SyncAPIResource):
 
     @cached_property
     def tasks(self) -> TasksResource:
+        """Device Management"""
         return TasksResource(self._client)
 
     @cached_property
@@ -505,6 +508,8 @@ class DevicesResource(SyncAPIResource):
 
 
 class AsyncDevicesResource(AsyncAPIResource):
+    """Device Management"""
+
     @cached_property
     def actions(self) -> AsyncActionsResource:
         return AsyncActionsResource(self._client)
@@ -547,6 +552,7 @@ class AsyncDevicesResource(AsyncAPIResource):
 
     @cached_property
     def tasks(self) -> AsyncTasksResource:
+        """Device Management"""
         return AsyncTasksResource(self._client)
 
     @cached_property
@@ -950,6 +956,7 @@ class DevicesResourceWithRawResponse:
 
     @cached_property
     def tasks(self) -> TasksResourceWithRawResponse:
+        """Device Management"""
         return TasksResourceWithRawResponse(self._devices.tasks)
 
     @cached_property
@@ -1025,6 +1032,7 @@ class AsyncDevicesResourceWithRawResponse:
 
     @cached_property
     def tasks(self) -> AsyncTasksResourceWithRawResponse:
+        """Device Management"""
         return AsyncTasksResourceWithRawResponse(self._devices.tasks)
 
     @cached_property
@@ -1100,6 +1108,7 @@ class DevicesResourceWithStreamingResponse:
 
     @cached_property
     def tasks(self) -> TasksResourceWithStreamingResponse:
+        """Device Management"""
         return TasksResourceWithStreamingResponse(self._devices.tasks)
 
     @cached_property
@@ -1175,6 +1184,7 @@ class AsyncDevicesResourceWithStreamingResponse:
 
     @cached_property
     def tasks(self) -> AsyncTasksResourceWithStreamingResponse:
+        """Device Management"""
         return AsyncTasksResourceWithStreamingResponse(self._devices.tasks)
 
     @cached_property
