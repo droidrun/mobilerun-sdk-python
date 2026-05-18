@@ -77,7 +77,6 @@ class TestEsim:
         esim = client.devices.esim.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
         )
         assert_matches_type(EsimActivateResponse, esim, path=["response"])
@@ -88,8 +87,9 @@ class TestEsim:
         esim = client.devices.esim.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
+            confirmation_code="confirmationCode",
+            matching_id="matchingId",
             x_device_display_id=0,
         )
         assert_matches_type(EsimActivateResponse, esim, path=["response"])
@@ -100,7 +100,6 @@ class TestEsim:
         response = client.devices.esim.with_raw_response.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
         )
 
@@ -115,7 +114,6 @@ class TestEsim:
         with client.devices.esim.with_streaming_response.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
         ) as response:
             assert not response.is_closed
@@ -133,7 +131,6 @@ class TestEsim:
             client.devices.esim.with_raw_response.activate(
                 device_id="",
                 enable=True,
-                matching_id="matchingId",
                 sm_dp_addr="smDpAddr",
             )
 
@@ -312,7 +309,6 @@ class TestAsyncEsim:
         esim = await async_client.devices.esim.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
         )
         assert_matches_type(EsimActivateResponse, esim, path=["response"])
@@ -323,8 +319,9 @@ class TestAsyncEsim:
         esim = await async_client.devices.esim.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
+            confirmation_code="confirmationCode",
+            matching_id="matchingId",
             x_device_display_id=0,
         )
         assert_matches_type(EsimActivateResponse, esim, path=["response"])
@@ -335,7 +332,6 @@ class TestAsyncEsim:
         response = await async_client.devices.esim.with_raw_response.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
         )
 
@@ -350,7 +346,6 @@ class TestAsyncEsim:
         async with async_client.devices.esim.with_streaming_response.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
         ) as response:
             assert not response.is_closed
@@ -368,7 +363,6 @@ class TestAsyncEsim:
             await async_client.devices.esim.with_raw_response.activate(
                 device_id="",
                 enable=True,
-                matching_id="matchingId",
                 sm_dp_addr="smDpAddr",
             )
 

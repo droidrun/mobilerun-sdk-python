@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 from typing import Optional
+from typing_extensions import overload
 
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import is_given, path_template, required_args, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -183,11 +184,13 @@ class AppsResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
+    @overload
     def install(
         self,
         device_id: str,
         *,
-        package_name: str,
+        bundle_id: str,
+        package_name: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -196,10 +199,15 @@ class AppsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Install app
+        """Install app
 
         Args:
+          bundle_id: iOS bundle identifier (e.g.
+
+        com.example.app)
+
+          package_name: Android package name (e.g. com.example.app)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -208,6 +216,57 @@ class AppsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def install(
+        self,
+        device_id: str,
+        *,
+        package_name: str,
+        bundle_id: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """Install app
+
+        Args:
+          package_name: Android package name (e.g.
+
+        com.example.app)
+
+          bundle_id: iOS bundle identifier (e.g. com.example.app)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["bundle_id"], ["package_name"])
+    def install(
+        self,
+        device_id: str,
+        *,
+        bundle_id: str | Omit = omit,
+        package_name: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
@@ -219,7 +278,13 @@ class AppsResource(SyncAPIResource):
         }
         return self._post(
             path_template("/devices/{device_id}/apps", device_id=device_id),
-            body=maybe_transform({"package_name": package_name}, app_install_params.AppInstallParams),
+            body=maybe_transform(
+                {
+                    "bundle_id": bundle_id,
+                    "package_name": package_name,
+                },
+                app_install_params.AppInstallParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -433,11 +498,13 @@ class AsyncAppsResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    @overload
     async def install(
         self,
         device_id: str,
         *,
-        package_name: str,
+        bundle_id: str,
+        package_name: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -446,10 +513,15 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Install app
+        """Install app
 
         Args:
+          bundle_id: iOS bundle identifier (e.g.
+
+        com.example.app)
+
+          package_name: Android package name (e.g. com.example.app)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -458,6 +530,57 @@ class AsyncAppsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def install(
+        self,
+        device_id: str,
+        *,
+        package_name: str,
+        bundle_id: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """Install app
+
+        Args:
+          package_name: Android package name (e.g.
+
+        com.example.app)
+
+          bundle_id: iOS bundle identifier (e.g. com.example.app)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["bundle_id"], ["package_name"])
+    async def install(
+        self,
+        device_id: str,
+        *,
+        bundle_id: str | Omit = omit,
+        package_name: str | Omit = omit,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
@@ -469,7 +592,13 @@ class AsyncAppsResource(AsyncAPIResource):
         }
         return await self._post(
             path_template("/devices/{device_id}/apps", device_id=device_id),
-            body=await async_maybe_transform({"package_name": package_name}, app_install_params.AppInstallParams),
+            body=await async_maybe_transform(
+                {
+                    "bundle_id": bundle_id,
+                    "package_name": package_name,
+                },
+                app_install_params.AppInstallParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
