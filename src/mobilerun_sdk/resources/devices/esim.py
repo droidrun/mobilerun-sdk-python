@@ -89,8 +89,9 @@ class EsimResource(SyncAPIResource):
         device_id: str,
         *,
         enable: bool,
-        matching_id: str,
         sm_dp_addr: str,
+        confirmation_code: str | Omit = omit,
+        matching_id: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -103,6 +104,10 @@ class EsimResource(SyncAPIResource):
         Configure eSIM (download profile and/or enable subscription)
 
         Args:
+          confirmation_code: Optional carrier-issued confirmation code (the 4th LPA segment). Required only
+              for plans whose SM-DP+ challenges the device for one. Requires matchingId — the
+              LPA spec only interprets segment 4 when segment 3 is present.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -124,8 +129,9 @@ class EsimResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "enable": enable,
-                    "matching_id": matching_id,
                     "sm_dp_addr": sm_dp_addr,
+                    "confirmation_code": confirmation_code,
+                    "matching_id": matching_id,
                 },
                 esim_activate_params.EsimActivateParams,
             ),
@@ -290,8 +296,9 @@ class AsyncEsimResource(AsyncAPIResource):
         device_id: str,
         *,
         enable: bool,
-        matching_id: str,
         sm_dp_addr: str,
+        confirmation_code: str | Omit = omit,
+        matching_id: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -304,6 +311,10 @@ class AsyncEsimResource(AsyncAPIResource):
         Configure eSIM (download profile and/or enable subscription)
 
         Args:
+          confirmation_code: Optional carrier-issued confirmation code (the 4th LPA segment). Required only
+              for plans whose SM-DP+ challenges the device for one. Requires matchingId — the
+              LPA spec only interprets segment 4 when segment 3 is present.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -325,8 +336,9 @@ class AsyncEsimResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "enable": enable,
-                    "matching_id": matching_id,
                     "sm_dp_addr": sm_dp_addr,
+                    "confirmation_code": confirmation_code,
+                    "matching_id": matching_id,
                 },
                 esim_activate_params.EsimActivateParams,
             ),

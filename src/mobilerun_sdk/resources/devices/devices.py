@@ -323,7 +323,15 @@ class DevicesResource(SyncAPIResource):
         state: Optional[
             List[
                 Literal[
-                    "creating", "assigned", "ready", "rebooting", "migrating", "terminated", "maintenance", "unknown"
+                    "creating",
+                    "assigned",
+                    "ready",
+                    "rebooting",
+                    "migrating",
+                    "resetting",
+                    "terminated",
+                    "maintenance",
+                    "unknown",
                 ]
             ]
         ]
@@ -704,7 +712,15 @@ class AsyncDevicesResource(AsyncAPIResource):
         state: Optional[
             List[
                 Literal[
-                    "creating", "assigned", "ready", "rebooting", "migrating", "terminated", "maintenance", "unknown"
+                    "creating",
+                    "assigned",
+                    "ready",
+                    "rebooting",
+                    "migrating",
+                    "resetting",
+                    "terminated",
+                    "maintenance",
+                    "unknown",
                 ]
             ]
         ]

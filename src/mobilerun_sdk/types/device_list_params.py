@@ -26,7 +26,19 @@ class DeviceListParams(TypedDict, total=False):
     provider_id: Annotated[str, PropertyInfo(alias="providerId")]
 
     state: Optional[
-        List[Literal["creating", "assigned", "ready", "rebooting", "migrating", "terminated", "maintenance", "unknown"]]
+        List[
+            Literal[
+                "creating",
+                "assigned",
+                "ready",
+                "rebooting",
+                "migrating",
+                "resetting",
+                "terminated",
+                "maintenance",
+                "unknown",
+            ]
+        ]
     ]
 
     type: Literal[
