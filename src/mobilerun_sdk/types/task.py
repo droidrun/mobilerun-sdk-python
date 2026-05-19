@@ -39,6 +39,8 @@ class Task(BaseModel):
 
     credentials: Optional[List[PackageCredentials]] = None
 
+    credits_used: Optional[float] = FieldInfo(alias="creditsUsed", default=None)
+
     dispatched_at: Optional[datetime] = FieldInfo(alias="dispatchedAt", default=None)
 
     display_id: Optional[int] = FieldInfo(alias="displayId", default=None)
