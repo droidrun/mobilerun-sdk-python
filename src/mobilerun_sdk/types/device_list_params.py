@@ -41,6 +41,4 @@ class DeviceListParams(TypedDict, total=False):
         ]
     ]
 
-    type: Literal[
-        "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
-    ]
+    type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device"]
