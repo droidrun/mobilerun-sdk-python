@@ -201,9 +201,7 @@ class DevicesResource(SyncAPIResource):
         self,
         *,
         query_country: str | Omit = omit,
-        device_type: Literal[
-            "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
-        ]
+        device_type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device"]
         | Omit = omit,
         profile_id: str | Omit = omit,
         android_version: int | Omit = omit,
@@ -336,10 +334,7 @@ class DevicesResource(SyncAPIResource):
             ]
         ]
         | Omit = omit,
-        type: Literal[
-            "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
-        ]
-        | Omit = omit,
+        type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -590,9 +585,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         *,
         query_country: str | Omit = omit,
-        device_type: Literal[
-            "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
-        ]
+        device_type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device"]
         | Omit = omit,
         profile_id: str | Omit = omit,
         android_version: int | Omit = omit,
@@ -725,10 +718,7 @@ class AsyncDevicesResource(AsyncAPIResource):
             ]
         ]
         | Omit = omit,
-        type: Literal[
-            "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
-        ]
-        | Omit = omit,
+        type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
