@@ -16,14 +16,6 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
-from .esim import (
-    EsimResource,
-    AsyncEsimResource,
-    EsimResourceWithRawResponse,
-    AsyncEsimResourceWithRawResponse,
-    EsimResourceWithStreamingResponse,
-    AsyncEsimResourceWithStreamingResponse,
-)
 from .files import (
     FilesResource,
     AsyncFilesResource,
@@ -74,7 +66,7 @@ from .profile import (
     AsyncProfileResourceWithStreamingResponse,
 )
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
+from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
 from .keyboard import (
     KeyboardResource,
     AsyncKeyboardResource,
@@ -82,6 +74,14 @@ from .keyboard import (
     AsyncKeyboardResourceWithRawResponse,
     KeyboardResourceWithStreamingResponse,
     AsyncKeyboardResourceWithStreamingResponse,
+)
+from .language import (
+    LanguageResource,
+    AsyncLanguageResource,
+    LanguageResourceWithRawResponse,
+    AsyncLanguageResourceWithRawResponse,
+    LanguageResourceWithStreamingResponse,
+    AsyncLanguageResourceWithStreamingResponse,
 )
 from .location import (
     LocationResource,
@@ -108,6 +108,14 @@ from .timezone import (
     AsyncTimezoneResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
+from .esim.esim import (
+    EsimResource,
+    AsyncEsimResource,
+    EsimResourceWithRawResponse,
+    AsyncEsimResourceWithRawResponse,
+    EsimResourceWithStreamingResponse,
+    AsyncEsimResourceWithStreamingResponse,
+)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
     to_raw_response_wrapper,
@@ -120,6 +128,7 @@ from ...types.device import Device
 from ...types.device_list_response import DeviceListResponse
 from ...types.device_count_response import DeviceCountResponse
 from ...types.shared_params.location import Location
+from ...types.device_fingerprint_response import DeviceFingerprintResponse
 from ...types.shared_params.device_carrier import DeviceCarrier
 from ...types.shared_params.device_identifiers import DeviceIdentifiers
 
@@ -127,8 +136,6 @@ __all__ = ["DevicesResource", "AsyncDevicesResource"]
 
 
 class DevicesResource(SyncAPIResource):
-    """Device Management"""
-
     @cached_property
     def actions(self) -> ActionsResource:
         return ActionsResource(self._client)
@@ -177,6 +184,10 @@ class DevicesResource(SyncAPIResource):
     @cached_property
     def timezone(self) -> TimezoneResource:
         return TimezoneResource(self._client)
+
+    @cached_property
+    def language(self) -> LanguageResource:
+        return LanguageResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> DevicesResourceWithRawResponse:
@@ -398,6 +409,115 @@ class DevicesResource(SyncAPIResource):
             cast_to=DeviceCountResponse,
         )
 
+    def fingerprint(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> DeviceFingerprintResponse:
+        """
+        Device fingerprint snapshot
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            path_template("/devices/{device_id}/fingerprint", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeviceFingerprintResponse,
+        )
+
+    def reboot(
+        self,
+        device_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Reboot a device
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            path_template("/devices/{device_id}/reboot", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def reset(
+        self,
+        device_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Reset a device to a fresh state (VMOS one-click new device; non-VMOS providers
+        return 404)
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            path_template("/devices/{device_id}/reset", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     def set_name(
         self,
         device_id: str,
@@ -511,8 +631,6 @@ class DevicesResource(SyncAPIResource):
 
 
 class AsyncDevicesResource(AsyncAPIResource):
-    """Device Management"""
-
     @cached_property
     def actions(self) -> AsyncActionsResource:
         return AsyncActionsResource(self._client)
@@ -561,6 +679,10 @@ class AsyncDevicesResource(AsyncAPIResource):
     @cached_property
     def timezone(self) -> AsyncTimezoneResource:
         return AsyncTimezoneResource(self._client)
+
+    @cached_property
+    def language(self) -> AsyncLanguageResource:
+        return AsyncLanguageResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncDevicesResourceWithRawResponse:
@@ -782,6 +904,115 @@ class AsyncDevicesResource(AsyncAPIResource):
             cast_to=DeviceCountResponse,
         )
 
+    async def fingerprint(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> DeviceFingerprintResponse:
+        """
+        Device fingerprint snapshot
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return await self._get(
+            path_template("/devices/{device_id}/fingerprint", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeviceFingerprintResponse,
+        )
+
+    async def reboot(
+        self,
+        device_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Reboot a device
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            path_template("/devices/{device_id}/reboot", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    async def reset(
+        self,
+        device_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Reset a device to a fresh state (VMOS one-click new device; non-VMOS providers
+        return 404)
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            path_template("/devices/{device_id}/reset", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     async def set_name(
         self,
         device_id: str,
@@ -910,6 +1141,15 @@ class DevicesResourceWithRawResponse:
         self.count = to_raw_response_wrapper(
             devices.count,
         )
+        self.fingerprint = to_raw_response_wrapper(
+            devices.fingerprint,
+        )
+        self.reboot = to_raw_response_wrapper(
+            devices.reboot,
+        )
+        self.reset = to_raw_response_wrapper(
+            devices.reset,
+        )
         self.set_name = to_raw_response_wrapper(
             devices.set_name,
         )
@@ -969,6 +1209,10 @@ class DevicesResourceWithRawResponse:
     def timezone(self) -> TimezoneResourceWithRawResponse:
         return TimezoneResourceWithRawResponse(self._devices.timezone)
 
+    @cached_property
+    def language(self) -> LanguageResourceWithRawResponse:
+        return LanguageResourceWithRawResponse(self._devices.language)
+
 
 class AsyncDevicesResourceWithRawResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -985,6 +1229,15 @@ class AsyncDevicesResourceWithRawResponse:
         )
         self.count = async_to_raw_response_wrapper(
             devices.count,
+        )
+        self.fingerprint = async_to_raw_response_wrapper(
+            devices.fingerprint,
+        )
+        self.reboot = async_to_raw_response_wrapper(
+            devices.reboot,
+        )
+        self.reset = async_to_raw_response_wrapper(
+            devices.reset,
         )
         self.set_name = async_to_raw_response_wrapper(
             devices.set_name,
@@ -1045,6 +1298,10 @@ class AsyncDevicesResourceWithRawResponse:
     def timezone(self) -> AsyncTimezoneResourceWithRawResponse:
         return AsyncTimezoneResourceWithRawResponse(self._devices.timezone)
 
+    @cached_property
+    def language(self) -> AsyncLanguageResourceWithRawResponse:
+        return AsyncLanguageResourceWithRawResponse(self._devices.language)
+
 
 class DevicesResourceWithStreamingResponse:
     def __init__(self, devices: DevicesResource) -> None:
@@ -1061,6 +1318,15 @@ class DevicesResourceWithStreamingResponse:
         )
         self.count = to_streamed_response_wrapper(
             devices.count,
+        )
+        self.fingerprint = to_streamed_response_wrapper(
+            devices.fingerprint,
+        )
+        self.reboot = to_streamed_response_wrapper(
+            devices.reboot,
+        )
+        self.reset = to_streamed_response_wrapper(
+            devices.reset,
         )
         self.set_name = to_streamed_response_wrapper(
             devices.set_name,
@@ -1121,6 +1387,10 @@ class DevicesResourceWithStreamingResponse:
     def timezone(self) -> TimezoneResourceWithStreamingResponse:
         return TimezoneResourceWithStreamingResponse(self._devices.timezone)
 
+    @cached_property
+    def language(self) -> LanguageResourceWithStreamingResponse:
+        return LanguageResourceWithStreamingResponse(self._devices.language)
+
 
 class AsyncDevicesResourceWithStreamingResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -1137,6 +1407,15 @@ class AsyncDevicesResourceWithStreamingResponse:
         )
         self.count = async_to_streamed_response_wrapper(
             devices.count,
+        )
+        self.fingerprint = async_to_streamed_response_wrapper(
+            devices.fingerprint,
+        )
+        self.reboot = async_to_streamed_response_wrapper(
+            devices.reboot,
+        )
+        self.reset = async_to_streamed_response_wrapper(
+            devices.reset,
         )
         self.set_name = async_to_streamed_response_wrapper(
             devices.set_name,
@@ -1196,3 +1475,7 @@ class AsyncDevicesResourceWithStreamingResponse:
     @cached_property
     def timezone(self) -> AsyncTimezoneResourceWithStreamingResponse:
         return AsyncTimezoneResourceWithStreamingResponse(self._devices.timezone)
+
+    @cached_property
+    def language(self) -> AsyncLanguageResourceWithStreamingResponse:
+        return AsyncLanguageResourceWithStreamingResponse(self._devices.language)

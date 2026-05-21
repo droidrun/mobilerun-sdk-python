@@ -80,6 +80,14 @@ from .keyboard import (
     KeyboardResourceWithStreamingResponse,
     AsyncKeyboardResourceWithStreamingResponse,
 )
+from .language import (
+    LanguageResource,
+    AsyncLanguageResource,
+    LanguageResourceWithRawResponse,
+    AsyncLanguageResourceWithRawResponse,
+    LanguageResourceWithStreamingResponse,
+    AsyncLanguageResourceWithStreamingResponse,
+)
 from .location import (
     LocationResource,
     AsyncLocationResource,
@@ -178,6 +186,12 @@ __all__ = [
     "AsyncTimezoneResourceWithRawResponse",
     "TimezoneResourceWithStreamingResponse",
     "AsyncTimezoneResourceWithStreamingResponse",
+    "LanguageResource",
+    "AsyncLanguageResource",
+    "LanguageResourceWithRawResponse",
+    "AsyncLanguageResourceWithRawResponse",
+    "LanguageResourceWithStreamingResponse",
+    "AsyncLanguageResourceWithStreamingResponse",
     "DevicesResource",
     "AsyncDevicesResource",
     "DevicesResourceWithRawResponse",

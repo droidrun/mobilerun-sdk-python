@@ -141,7 +141,12 @@ Methods:
 Types:
 
 ```python
-from mobilerun_sdk.types import Device, DeviceListResponse, DeviceCountResponse
+from mobilerun_sdk.types import (
+    Device,
+    DeviceListResponse,
+    DeviceCountResponse,
+    DeviceFingerprintResponse,
+)
 ```
 
 Methods:
@@ -150,6 +155,9 @@ Methods:
 - <code title="get /devices/{deviceId}">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">retrieve</a>(device_id) -> <a href="./src/mobilerun_sdk/types/device.py">Device</a></code>
 - <code title="get /devices">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/device_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/device_list_response.py">DeviceListResponse</a></code>
 - <code title="get /devices/count">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">count</a>() -> <a href="./src/mobilerun_sdk/types/device_count_response.py">DeviceCountResponse</a></code>
+- <code title="get /devices/{deviceId}/fingerprint">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">fingerprint</a>(device_id) -> <a href="./src/mobilerun_sdk/types/device_fingerprint_response.py">DeviceFingerprintResponse</a></code>
+- <code title="post /devices/{deviceId}/reboot">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">reboot</a>(device_id) -> None</code>
+- <code title="post /devices/{deviceId}/reset">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">reset</a>(device_id) -> None</code>
 - <code title="put /devices/{deviceId}/name">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">set_name</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/device_set_name_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/device.py">Device</a></code>
 - <code title="delete /devices/{deviceId}">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">terminate</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/device_terminate_params.py">params</a>) -> None</code>
 - <code title="get /devices/{deviceId}/wait">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">wait_ready</a>(device_id) -> <a href="./src/mobilerun_sdk/types/device.py">Device</a></code>
@@ -191,15 +199,31 @@ Methods:
 Types:
 
 ```python
-from mobilerun_sdk.types.devices import EsimListResponse, EsimActivateResponse
+from mobilerun_sdk.types.devices import EsimListResponse, EsimActivateResponse, EsimStatusResponse
 ```
 
 Methods:
 
-- <code title="get /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim.py">list</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/esim_list_response.py">Optional[EsimListResponse]</a></code>
-- <code title="post /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim.py">activate</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_activate_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/esim_activate_response.py">EsimActivateResponse</a></code>
-- <code title="put /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim.py">enable</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_enable_params.py">params</a>) -> None</code>
-- <code title="delete /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim.py">remove</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_remove_params.py">params</a>) -> None</code>
+- <code title="get /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim/esim.py">list</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/esim_list_response.py">Optional[EsimListResponse]</a></code>
+- <code title="post /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim/esim.py">activate</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_activate_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/esim_activate_response.py">EsimActivateResponse</a></code>
+- <code title="put /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim/esim.py">enable</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_enable_params.py">params</a>) -> None</code>
+- <code title="delete /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim/esim.py">remove</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_remove_params.py">params</a>) -> None</code>
+- <code title="put /devices/{deviceId}/esim/roaming">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim/esim.py">set_roaming</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_set_roaming_params.py">params</a>) -> None</code>
+- <code title="get /devices/{deviceId}/esim/status">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim/esim.py">status</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/esim_status_response.py">Optional[EsimStatusResponse]</a></code>
+
+### Apn
+
+Types:
+
+```python
+from mobilerun_sdk.types.devices.esim import ApnListResponse
+```
+
+Methods:
+
+- <code title="post /devices/{deviceId}/esim/apn">client.devices.esim.apn.<a href="./src/mobilerun_sdk/resources/devices/esim/apn.py">create</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim/apn_create_params.py">params</a>) -> None</code>
+- <code title="get /devices/{deviceId}/esim/apn">client.devices.esim.apn.<a href="./src/mobilerun_sdk/resources/devices/esim/apn.py">list</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/esim/apn_list_response.py">Optional[ApnListResponse]</a></code>
+- <code title="put /devices/{deviceId}/esim/apn">client.devices.esim.apn.<a href="./src/mobilerun_sdk/resources/devices/esim/apn.py">select</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim/apn_select_params.py">params</a>) -> None</code>
 
 ## Files
 
@@ -306,6 +330,19 @@ Methods:
 
 - <code title="get /devices/{deviceId}/timezone">client.devices.timezone.<a href="./src/mobilerun_sdk/resources/devices/timezone.py">get</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/timezone_get_response.py">TimezoneGetResponse</a></code>
 - <code title="post /devices/{deviceId}/timezone">client.devices.timezone.<a href="./src/mobilerun_sdk/resources/devices/timezone.py">set</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/timezone_set_params.py">params</a>) -> None</code>
+
+## Language
+
+Types:
+
+```python
+from mobilerun_sdk.types.devices import LanguageGetResponse
+```
+
+Methods:
+
+- <code title="get /devices/{deviceId}/language">client.devices.language.<a href="./src/mobilerun_sdk/resources/devices/language.py">get</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/language_get_response.py">LanguageGetResponse</a></code>
+- <code title="post /devices/{deviceId}/language">client.devices.language.<a href="./src/mobilerun_sdk/resources/devices/language.py">set</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/language_set_params.py">params</a>) -> None</code>
 
 # Hooks
 
