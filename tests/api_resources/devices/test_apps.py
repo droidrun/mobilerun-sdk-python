@@ -196,29 +196,30 @@ class TestApps:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_install(self, client: Mobilerun) -> None:
+    def test_method_install_overload_1(self, client: Mobilerun) -> None:
         app = client.devices.apps.install(
             device_id="deviceId",
-            package_name="packageName",
+            bundle_id="x",
         )
         assert app is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_install_with_all_params(self, client: Mobilerun) -> None:
+    def test_method_install_with_all_params_overload_1(self, client: Mobilerun) -> None:
         app = client.devices.apps.install(
             device_id="deviceId",
-            package_name="packageName",
+            bundle_id="x",
+            package_name="x",
             x_device_display_id=0,
         )
         assert app is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_raw_response_install(self, client: Mobilerun) -> None:
+    def test_raw_response_install_overload_1(self, client: Mobilerun) -> None:
         response = client.devices.apps.with_raw_response.install(
             device_id="deviceId",
-            package_name="packageName",
+            bundle_id="x",
         )
 
         assert response.is_closed is True
@@ -228,10 +229,10 @@ class TestApps:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_streaming_response_install(self, client: Mobilerun) -> None:
+    def test_streaming_response_install_overload_1(self, client: Mobilerun) -> None:
         with client.devices.apps.with_streaming_response.install(
             device_id="deviceId",
-            package_name="packageName",
+            bundle_id="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -243,11 +244,68 @@ class TestApps:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_path_params_install(self, client: Mobilerun) -> None:
+    def test_path_params_install_overload_1(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.apps.with_raw_response.install(
                 device_id="",
-                package_name="packageName",
+                bundle_id="x",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_install_overload_2(self, client: Mobilerun) -> None:
+        app = client.devices.apps.install(
+            device_id="deviceId",
+            package_name="x",
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_install_with_all_params_overload_2(self, client: Mobilerun) -> None:
+        app = client.devices.apps.install(
+            device_id="deviceId",
+            package_name="x",
+            bundle_id="x",
+            x_device_display_id=0,
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_install_overload_2(self, client: Mobilerun) -> None:
+        response = client.devices.apps.with_raw_response.install(
+            device_id="deviceId",
+            package_name="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        app = response.parse()
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_install_overload_2(self, client: Mobilerun) -> None:
+        with client.devices.apps.with_streaming_response.install(
+            device_id="deviceId",
+            package_name="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            app = response.parse()
+            assert app is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_install_overload_2(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            client.devices.apps.with_raw_response.install(
+                device_id="",
+                package_name="x",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -498,29 +556,30 @@ class TestAsyncApps:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_install(self, async_client: AsyncMobilerun) -> None:
+    async def test_method_install_overload_1(self, async_client: AsyncMobilerun) -> None:
         app = await async_client.devices.apps.install(
             device_id="deviceId",
-            package_name="packageName",
+            bundle_id="x",
         )
         assert app is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_install_with_all_params(self, async_client: AsyncMobilerun) -> None:
+    async def test_method_install_with_all_params_overload_1(self, async_client: AsyncMobilerun) -> None:
         app = await async_client.devices.apps.install(
             device_id="deviceId",
-            package_name="packageName",
+            bundle_id="x",
+            package_name="x",
             x_device_display_id=0,
         )
         assert app is None
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_raw_response_install(self, async_client: AsyncMobilerun) -> None:
+    async def test_raw_response_install_overload_1(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.apps.with_raw_response.install(
             device_id="deviceId",
-            package_name="packageName",
+            bundle_id="x",
         )
 
         assert response.is_closed is True
@@ -530,10 +589,10 @@ class TestAsyncApps:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_streaming_response_install(self, async_client: AsyncMobilerun) -> None:
+    async def test_streaming_response_install_overload_1(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.apps.with_streaming_response.install(
             device_id="deviceId",
-            package_name="packageName",
+            bundle_id="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -545,11 +604,68 @@ class TestAsyncApps:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_path_params_install(self, async_client: AsyncMobilerun) -> None:
+    async def test_path_params_install_overload_1(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.apps.with_raw_response.install(
                 device_id="",
-                package_name="packageName",
+                bundle_id="x",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_install_overload_2(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.devices.apps.install(
+            device_id="deviceId",
+            package_name="x",
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_install_with_all_params_overload_2(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.devices.apps.install(
+            device_id="deviceId",
+            package_name="x",
+            bundle_id="x",
+            x_device_display_id=0,
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_install_overload_2(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.apps.with_raw_response.install(
+            device_id="deviceId",
+            package_name="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        app = await response.parse()
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_install_overload_2(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.apps.with_streaming_response.install(
+            device_id="deviceId",
+            package_name="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            app = await response.parse()
+            assert app is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_install_overload_2(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            await async_client.devices.apps.with_raw_response.install(
+                device_id="",
+                package_name="x",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")

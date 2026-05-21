@@ -14,6 +14,9 @@ class KeyboardWriteParams(TypedDict, total=False):
 
     clear: bool
 
+    error_rate: Annotated[float, PropertyInfo(alias="errorRate")]
+    """Per-character mistake rate for humantouch typing. -1 uses server default."""
+
     stealth: bool
 
     wpm: int

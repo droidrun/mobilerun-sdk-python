@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Union, Optional
+from typing import List, Optional
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -9,25 +9,23 @@ from pydantic import Field as FieldInfo
 from .._models import BaseModel
 from .shared.pagination import Pagination
 
-__all__ = ["AppListResponse", "Count", "Item"]
+__all__ = ["AppListResponse", "Count", "Item", "ItemVersion"]
 
 
 class Count(BaseModel):
     available_count: float = FieldInfo(alias="availableCount")
 
-    queued_count: float = FieldInfo(alias="queuedCount")
+    failed_count: float = FieldInfo(alias="failedCount")
 
-    store_count: float = FieldInfo(alias="storeCount")
+    queued_count: float = FieldInfo(alias="queuedCount")
 
     total_count: float = FieldInfo(alias="totalCount")
 
-    upload_count: float = FieldInfo(alias="uploadCount")
 
-
-class Item(BaseModel):
+class ItemVersion(BaseModel):
     id: str
 
-    category_name: Optional[str] = FieldInfo(alias="categoryName", default=None)
+    app_id: str = FieldInfo(alias="appId")
 
     country: Literal[
         "AF",
@@ -286,39 +284,15 @@ class Item(BaseModel):
 
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
-    description: Optional[str] = None
-
-    developer_name: Optional[str] = FieldInfo(alias="developerName", default=None)
-
-    display_name: str = FieldInfo(alias="displayName")
-
-    expected_files: Union[str, float, bool, Dict[str, Optional[object]], List[Optional[object]], None] = FieldInfo(
-        alias="expectedFiles", default=None
-    )
-
-    icon_url: str = FieldInfo(alias="iconURL")
-
-    package_name: str = FieldInfo(alias="packageName")
-
-    privacy_policy_url: Optional[str] = FieldInfo(alias="privacyPolicyUrl", default=None)
-
     queued_at: Optional[datetime] = FieldInfo(alias="queuedAt", default=None)
-
-    rating_count: Optional[int] = FieldInfo(alias="ratingCount", default=None)
-
-    rating_score: Optional[str] = FieldInfo(alias="ratingScore", default=None)
 
     size_bytes: Optional[int] = FieldInfo(alias="sizeBytes", default=None)
 
-    source: Literal["uploaded", "store"]
+    source: Literal["user", "system", "portal"]
 
     status: Literal["queued", "available", "failed"]
 
-    stealth_tier: Optional[Literal["tier1", "tier2", "tier3"]] = FieldInfo(alias="stealthTier", default=None)
-
     target_sdk: Optional[int] = FieldInfo(alias="targetSdk", default=None)
-
-    type: Literal["android", "ios"]
 
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
@@ -327,6 +301,28 @@ class Item(BaseModel):
     version_code: int = FieldInfo(alias="versionCode")
 
     version_name: str = FieldInfo(alias="versionName")
+
+
+class Item(BaseModel):
+    id: str
+
+    bundle_id: str = FieldInfo(alias="bundleId")
+
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
+
+    description: Optional[str] = None
+
+    developer_name: Optional[str] = FieldInfo(alias="developerName", default=None)
+
+    display_name: str = FieldInfo(alias="displayName")
+
+    icon_url: str = FieldInfo(alias="iconURL")
+
+    platform: Literal["android", "ios"]
+
+    updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
+
+    version: ItemVersion
 
 
 class AppListResponse(BaseModel):

@@ -11,6 +11,7 @@ from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
 from mobilerun_sdk.types.devices import (
     EsimListResponse,
+    EsimStatusResponse,
     EsimActivateResponse,
 )
 
@@ -77,7 +78,6 @@ class TestEsim:
         esim = client.devices.esim.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
         )
         assert_matches_type(EsimActivateResponse, esim, path=["response"])
@@ -88,8 +88,9 @@ class TestEsim:
         esim = client.devices.esim.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
+            confirmation_code="confirmationCode",
+            matching_id="matchingId",
             x_device_display_id=0,
         )
         assert_matches_type(EsimActivateResponse, esim, path=["response"])
@@ -100,7 +101,6 @@ class TestEsim:
         response = client.devices.esim.with_raw_response.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
         )
 
@@ -115,7 +115,6 @@ class TestEsim:
         with client.devices.esim.with_streaming_response.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
         ) as response:
             assert not response.is_closed
@@ -133,7 +132,6 @@ class TestEsim:
             client.devices.esim.with_raw_response.activate(
                 device_id="",
                 enable=True,
-                matching_id="matchingId",
                 sm_dp_addr="smDpAddr",
             )
 
@@ -249,6 +247,113 @@ class TestEsim:
                 sub_id=0,
             )
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_set_roaming(self, client: Mobilerun) -> None:
+        esim = client.devices.esim.set_roaming(
+            device_id="deviceId",
+            enabled=True,
+        )
+        assert esim is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_set_roaming_with_all_params(self, client: Mobilerun) -> None:
+        esim = client.devices.esim.set_roaming(
+            device_id="deviceId",
+            enabled=True,
+            x_device_display_id=0,
+        )
+        assert esim is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_set_roaming(self, client: Mobilerun) -> None:
+        response = client.devices.esim.with_raw_response.set_roaming(
+            device_id="deviceId",
+            enabled=True,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        esim = response.parse()
+        assert esim is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_set_roaming(self, client: Mobilerun) -> None:
+        with client.devices.esim.with_streaming_response.set_roaming(
+            device_id="deviceId",
+            enabled=True,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            esim = response.parse()
+            assert esim is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_set_roaming(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            client.devices.esim.with_raw_response.set_roaming(
+                device_id="",
+                enabled=True,
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_status(self, client: Mobilerun) -> None:
+        esim = client.devices.esim.status(
+            device_id="deviceId",
+        )
+        assert_matches_type(Optional[EsimStatusResponse], esim, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_status_with_all_params(self, client: Mobilerun) -> None:
+        esim = client.devices.esim.status(
+            device_id="deviceId",
+            x_device_display_id=0,
+        )
+        assert_matches_type(Optional[EsimStatusResponse], esim, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_status(self, client: Mobilerun) -> None:
+        response = client.devices.esim.with_raw_response.status(
+            device_id="deviceId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        esim = response.parse()
+        assert_matches_type(Optional[EsimStatusResponse], esim, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_status(self, client: Mobilerun) -> None:
+        with client.devices.esim.with_streaming_response.status(
+            device_id="deviceId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            esim = response.parse()
+            assert_matches_type(Optional[EsimStatusResponse], esim, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_status(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            client.devices.esim.with_raw_response.status(
+                device_id="",
+            )
+
 
 class TestAsyncEsim:
     parametrize = pytest.mark.parametrize(
@@ -312,7 +417,6 @@ class TestAsyncEsim:
         esim = await async_client.devices.esim.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
         )
         assert_matches_type(EsimActivateResponse, esim, path=["response"])
@@ -323,8 +427,9 @@ class TestAsyncEsim:
         esim = await async_client.devices.esim.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
+            confirmation_code="confirmationCode",
+            matching_id="matchingId",
             x_device_display_id=0,
         )
         assert_matches_type(EsimActivateResponse, esim, path=["response"])
@@ -335,7 +440,6 @@ class TestAsyncEsim:
         response = await async_client.devices.esim.with_raw_response.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
         )
 
@@ -350,7 +454,6 @@ class TestAsyncEsim:
         async with async_client.devices.esim.with_streaming_response.activate(
             device_id="deviceId",
             enable=True,
-            matching_id="matchingId",
             sm_dp_addr="smDpAddr",
         ) as response:
             assert not response.is_closed
@@ -368,7 +471,6 @@ class TestAsyncEsim:
             await async_client.devices.esim.with_raw_response.activate(
                 device_id="",
                 enable=True,
-                matching_id="matchingId",
                 sm_dp_addr="smDpAddr",
             )
 
@@ -482,4 +584,111 @@ class TestAsyncEsim:
             await async_client.devices.esim.with_raw_response.remove(
                 device_id="",
                 sub_id=0,
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_set_roaming(self, async_client: AsyncMobilerun) -> None:
+        esim = await async_client.devices.esim.set_roaming(
+            device_id="deviceId",
+            enabled=True,
+        )
+        assert esim is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_set_roaming_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        esim = await async_client.devices.esim.set_roaming(
+            device_id="deviceId",
+            enabled=True,
+            x_device_display_id=0,
+        )
+        assert esim is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_set_roaming(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.esim.with_raw_response.set_roaming(
+            device_id="deviceId",
+            enabled=True,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        esim = await response.parse()
+        assert esim is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_set_roaming(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.esim.with_streaming_response.set_roaming(
+            device_id="deviceId",
+            enabled=True,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            esim = await response.parse()
+            assert esim is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_set_roaming(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            await async_client.devices.esim.with_raw_response.set_roaming(
+                device_id="",
+                enabled=True,
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_status(self, async_client: AsyncMobilerun) -> None:
+        esim = await async_client.devices.esim.status(
+            device_id="deviceId",
+        )
+        assert_matches_type(Optional[EsimStatusResponse], esim, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_status_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        esim = await async_client.devices.esim.status(
+            device_id="deviceId",
+            x_device_display_id=0,
+        )
+        assert_matches_type(Optional[EsimStatusResponse], esim, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_status(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.esim.with_raw_response.status(
+            device_id="deviceId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        esim = await response.parse()
+        assert_matches_type(Optional[EsimStatusResponse], esim, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_status(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.esim.with_streaming_response.status(
+            device_id="deviceId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            esim = await response.parse()
+            assert_matches_type(Optional[EsimStatusResponse], esim, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_status(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            await async_client.devices.esim.with_raw_response.status(
+                device_id="",
             )

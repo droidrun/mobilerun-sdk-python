@@ -36,6 +36,7 @@ class TestProfiles:
         profile = client.profiles.create(
             name="x",
             spec={
+                "android_version": 0,
                 "apps": ["string"],
                 "carrier": {
                     "gsm_operator_alpha": "GsmOperatorAlpha",
@@ -45,6 +46,7 @@ class TestProfiles:
                     "gsm_sim_operator_numeric": 0,
                     "persist_sys_timezone": "PersistSysTimezone",
                 },
+                "country": "country",
                 "files": ["string"],
                 "identifiers": {
                     "bootloader_serial_number": "BootloaderSerialNumber",
@@ -63,6 +65,11 @@ class TestProfiles:
                     "identifier_wifi_mac": "IdentifierWifiMAC",
                     "serial_number": "SerialNumber",
                 },
+                "locale": "locale",
+                "location": {
+                    "latitude": 0,
+                    "longitude": 0,
+                },
                 "name": "name",
                 "proxy": {
                     "name": "name",
@@ -73,8 +80,8 @@ class TestProfiles:
                         "port": 0,
                         "user": "user",
                     },
-                    "wireguard": "wireguard",
                 },
+                "timezone": "timezone",
             },
         )
         assert_matches_type(Profile, profile, path=["response"])
@@ -166,6 +173,7 @@ class TestProfiles:
             profile_id="profileId",
             name="x",
             spec={
+                "android_version": 0,
                 "apps": ["string"],
                 "carrier": {
                     "gsm_operator_alpha": "GsmOperatorAlpha",
@@ -175,6 +183,7 @@ class TestProfiles:
                     "gsm_sim_operator_numeric": 0,
                     "persist_sys_timezone": "PersistSysTimezone",
                 },
+                "country": "country",
                 "files": ["string"],
                 "identifiers": {
                     "bootloader_serial_number": "BootloaderSerialNumber",
@@ -193,6 +202,11 @@ class TestProfiles:
                     "identifier_wifi_mac": "IdentifierWifiMAC",
                     "serial_number": "SerialNumber",
                 },
+                "locale": "locale",
+                "location": {
+                    "latitude": 0,
+                    "longitude": 0,
+                },
                 "name": "name",
                 "proxy": {
                     "name": "name",
@@ -203,8 +217,8 @@ class TestProfiles:
                         "port": 0,
                         "user": "user",
                     },
-                    "wireguard": "wireguard",
                 },
+                "timezone": "timezone",
             },
         )
         assert_matches_type(Profile, profile, path=["response"])
@@ -352,6 +366,7 @@ class TestAsyncProfiles:
         profile = await async_client.profiles.create(
             name="x",
             spec={
+                "android_version": 0,
                 "apps": ["string"],
                 "carrier": {
                     "gsm_operator_alpha": "GsmOperatorAlpha",
@@ -361,6 +376,7 @@ class TestAsyncProfiles:
                     "gsm_sim_operator_numeric": 0,
                     "persist_sys_timezone": "PersistSysTimezone",
                 },
+                "country": "country",
                 "files": ["string"],
                 "identifiers": {
                     "bootloader_serial_number": "BootloaderSerialNumber",
@@ -379,6 +395,11 @@ class TestAsyncProfiles:
                     "identifier_wifi_mac": "IdentifierWifiMAC",
                     "serial_number": "SerialNumber",
                 },
+                "locale": "locale",
+                "location": {
+                    "latitude": 0,
+                    "longitude": 0,
+                },
                 "name": "name",
                 "proxy": {
                     "name": "name",
@@ -389,8 +410,8 @@ class TestAsyncProfiles:
                         "port": 0,
                         "user": "user",
                     },
-                    "wireguard": "wireguard",
                 },
+                "timezone": "timezone",
             },
         )
         assert_matches_type(Profile, profile, path=["response"])
@@ -482,6 +503,7 @@ class TestAsyncProfiles:
             profile_id="profileId",
             name="x",
             spec={
+                "android_version": 0,
                 "apps": ["string"],
                 "carrier": {
                     "gsm_operator_alpha": "GsmOperatorAlpha",
@@ -491,6 +513,7 @@ class TestAsyncProfiles:
                     "gsm_sim_operator_numeric": 0,
                     "persist_sys_timezone": "PersistSysTimezone",
                 },
+                "country": "country",
                 "files": ["string"],
                 "identifiers": {
                     "bootloader_serial_number": "BootloaderSerialNumber",
@@ -509,6 +532,11 @@ class TestAsyncProfiles:
                     "identifier_wifi_mac": "IdentifierWifiMAC",
                     "serial_number": "SerialNumber",
                 },
+                "locale": "locale",
+                "location": {
+                    "latitude": 0,
+                    "longitude": 0,
+                },
                 "name": "name",
                 "proxy": {
                     "name": "name",
@@ -519,8 +547,8 @@ class TestAsyncProfiles:
                         "port": 0,
                         "user": "user",
                     },
-                    "wireguard": "wireguard",
                 },
+                "timezone": "timezone",
             },
         )
         assert_matches_type(Profile, profile, path=["response"])

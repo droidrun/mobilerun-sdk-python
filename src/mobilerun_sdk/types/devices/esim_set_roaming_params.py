@@ -6,10 +6,10 @@ from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
-__all__ = ["TimeSetTimezoneParams"]
+__all__ = ["EsimSetRoamingParams"]
 
 
-class TimeSetTimezoneParams(TypedDict, total=False):
-    timezone: Required[str]
+class EsimSetRoamingParams(TypedDict, total=False):
+    enabled: Required[bool]
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

@@ -6,10 +6,10 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["TimeTimezoneResponse"]
+__all__ = ["TimezoneGetResponse"]
 
 
-class TimeTimezoneResponse(BaseModel):
+class TimezoneGetResponse(BaseModel):
     timezone: Optional[str] = None
 
     schema_: Optional[str] = FieldInfo(alias="$schema", default=None)

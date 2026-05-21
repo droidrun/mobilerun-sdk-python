@@ -26,9 +26,19 @@ class DeviceListParams(TypedDict, total=False):
     provider_id: Annotated[str, PropertyInfo(alias="providerId")]
 
     state: Optional[
-        List[Literal["creating", "assigned", "ready", "rebooting", "migrating", "terminated", "maintenance", "unknown"]]
+        List[
+            Literal[
+                "creating",
+                "assigned",
+                "ready",
+                "rebooting",
+                "migrating",
+                "resetting",
+                "terminated",
+                "maintenance",
+                "unknown",
+            ]
+        ]
     ]
 
-    type: Literal[
-        "dedicated_physical_device", "dedicated_premium_device", "dedicated_emulated_device", "dedicated_ios_device"
-    ]
+    type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device"]

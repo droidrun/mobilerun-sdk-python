@@ -42,7 +42,6 @@ class TestProxy:
                 "user": "user",
             },
             user="user",
-            wireguard="wireguard",
             x_device_display_id=0,
         )
         assert proxy is None
@@ -214,7 +213,6 @@ class TestAsyncProxy:
                 "user": "user",
             },
             user="user",
-            wireguard="wireguard",
             x_device_display_id=0,
         )
         assert proxy is None

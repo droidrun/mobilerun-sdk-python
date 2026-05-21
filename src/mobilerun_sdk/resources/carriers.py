@@ -18,14 +18,19 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.carrier import Carrier
 from ..types.carrier_list_response import CarrierListResponse
+from ..types.carrier_create_response import CarrierCreateResponse
 from ..types.carrier_delete_response import CarrierDeleteResponse
+from ..types.carrier_lookup_response import CarrierLookupResponse
+from ..types.carrier_update_response import CarrierUpdateResponse
+from ..types.carrier_retrieve_response import CarrierRetrieveResponse
 
 __all__ = ["CarriersResource", "AsyncCarriersResource"]
 
 
 class CarriersResource(SyncAPIResource):
+    """Mobile Carriers"""
+
     @cached_property
     def with_raw_response(self) -> CarriersResourceWithRawResponse:
         """
@@ -70,7 +75,7 @@ class CarriersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Carrier:
+    ) -> CarrierCreateResponse:
         """
         Create a new carrier
 
@@ -141,7 +146,7 @@ class CarriersResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Carrier,
+            cast_to=CarrierCreateResponse,
         )
 
     def retrieve(
@@ -154,7 +159,7 @@ class CarriersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Carrier:
+    ) -> CarrierRetrieveResponse:
         """
         Get carrier by ID
 
@@ -174,7 +179,7 @@ class CarriersResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Carrier,
+            cast_to=CarrierRetrieveResponse,
         )
 
     def update(
@@ -201,7 +206,7 @@ class CarriersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Carrier:
+    ) -> CarrierUpdateResponse:
         """
         Update a carrier
 
@@ -268,7 +273,7 @@ class CarriersResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Carrier,
+            cast_to=CarrierUpdateResponse,
         )
 
     def list(
@@ -377,7 +382,7 @@ class CarriersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Carrier:
+    ) -> CarrierLookupResponse:
         """
         Get carrier by MCC and MNC
 
@@ -409,11 +414,13 @@ class CarriersResource(SyncAPIResource):
                     carrier_lookup_params.CarrierLookupParams,
                 ),
             ),
-            cast_to=Carrier,
+            cast_to=CarrierLookupResponse,
         )
 
 
 class AsyncCarriersResource(AsyncAPIResource):
+    """Mobile Carriers"""
+
     @cached_property
     def with_raw_response(self) -> AsyncCarriersResourceWithRawResponse:
         """
@@ -458,7 +465,7 @@ class AsyncCarriersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Carrier:
+    ) -> CarrierCreateResponse:
         """
         Create a new carrier
 
@@ -529,7 +536,7 @@ class AsyncCarriersResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Carrier,
+            cast_to=CarrierCreateResponse,
         )
 
     async def retrieve(
@@ -542,7 +549,7 @@ class AsyncCarriersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Carrier:
+    ) -> CarrierRetrieveResponse:
         """
         Get carrier by ID
 
@@ -562,7 +569,7 @@ class AsyncCarriersResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Carrier,
+            cast_to=CarrierRetrieveResponse,
         )
 
     async def update(
@@ -589,7 +596,7 @@ class AsyncCarriersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Carrier:
+    ) -> CarrierUpdateResponse:
         """
         Update a carrier
 
@@ -656,7 +663,7 @@ class AsyncCarriersResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Carrier,
+            cast_to=CarrierUpdateResponse,
         )
 
     async def list(
@@ -765,7 +772,7 @@ class AsyncCarriersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Carrier:
+    ) -> CarrierLookupResponse:
         """
         Get carrier by MCC and MNC
 
@@ -797,7 +804,7 @@ class AsyncCarriersResource(AsyncAPIResource):
                     carrier_lookup_params.CarrierLookupParams,
                 ),
             ),
-            cast_to=Carrier,
+            cast_to=CarrierLookupResponse,
         )
 
 

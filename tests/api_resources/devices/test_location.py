@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
-from mobilerun_sdk.types.devices import LocationGetResponse
+from mobilerun_sdk.types.shared import Location
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -23,7 +23,7 @@ class TestLocation:
         location = client.devices.location.get(
             device_id="deviceId",
         )
-        assert_matches_type(LocationGetResponse, location, path=["response"])
+        assert_matches_type(Location, location, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -32,7 +32,7 @@ class TestLocation:
             device_id="deviceId",
             x_device_display_id=0,
         )
-        assert_matches_type(LocationGetResponse, location, path=["response"])
+        assert_matches_type(Location, location, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -44,7 +44,7 @@ class TestLocation:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         location = response.parse()
-        assert_matches_type(LocationGetResponse, location, path=["response"])
+        assert_matches_type(Location, location, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -56,7 +56,7 @@ class TestLocation:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             location = response.parse()
-            assert_matches_type(LocationGetResponse, location, path=["response"])
+            assert_matches_type(Location, location, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -141,7 +141,7 @@ class TestAsyncLocation:
         location = await async_client.devices.location.get(
             device_id="deviceId",
         )
-        assert_matches_type(LocationGetResponse, location, path=["response"])
+        assert_matches_type(Location, location, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -150,7 +150,7 @@ class TestAsyncLocation:
             device_id="deviceId",
             x_device_display_id=0,
         )
-        assert_matches_type(LocationGetResponse, location, path=["response"])
+        assert_matches_type(Location, location, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -162,7 +162,7 @@ class TestAsyncLocation:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         location = await response.parse()
-        assert_matches_type(LocationGetResponse, location, path=["response"])
+        assert_matches_type(Location, location, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -174,7 +174,7 @@ class TestAsyncLocation:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             location = await response.parse()
-            assert_matches_type(LocationGetResponse, location, path=["response"])
+            assert_matches_type(Location, location, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
