@@ -25,6 +25,7 @@ from .action_swipe_params import ActionSwipeParams as ActionSwipeParams
 from .keyboard_key_params import KeyboardKeyParams as KeyboardKeyParams
 from .location_set_params import LocationSetParams as LocationSetParams
 from .package_list_params import PackageListParams as PackageListParams
+from .state_time_response import StateTimeResponse as StateTimeResponse
 from .action_global_params import ActionGlobalParams as ActionGlobalParams
 from .esim_activate_params import EsimActivateParams as EsimActivateParams
 from .file_download_params import FileDownloadParams as FileDownloadParams
