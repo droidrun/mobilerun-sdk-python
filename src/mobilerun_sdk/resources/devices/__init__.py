@@ -16,14 +16,6 @@ from .esim import (
     EsimResourceWithStreamingResponse,
     AsyncEsimResourceWithStreamingResponse,
 )
-from .time import (
-    TimeResource,
-    AsyncTimeResource,
-    TimeResourceWithRawResponse,
-    AsyncTimeResourceWithRawResponse,
-    TimeResourceWithStreamingResponse,
-    AsyncTimeResourceWithStreamingResponse,
-)
 from .files import (
     FilesResource,
     AsyncFilesResource,
@@ -104,6 +96,14 @@ from .packages import (
     PackagesResourceWithStreamingResponse,
     AsyncPackagesResourceWithStreamingResponse,
 )
+from .timezone import (
+    TimezoneResource,
+    AsyncTimezoneResource,
+    TimezoneResourceWithRawResponse,
+    AsyncTimezoneResourceWithRawResponse,
+    TimezoneResourceWithStreamingResponse,
+    AsyncTimezoneResourceWithStreamingResponse,
+)
 
 __all__ = [
     "ActionsResource",
@@ -172,12 +172,12 @@ __all__ = [
     "AsyncTasksResourceWithRawResponse",
     "TasksResourceWithStreamingResponse",
     "AsyncTasksResourceWithStreamingResponse",
-    "TimeResource",
-    "AsyncTimeResource",
-    "TimeResourceWithRawResponse",
-    "AsyncTimeResourceWithRawResponse",
-    "TimeResourceWithStreamingResponse",
-    "AsyncTimeResourceWithStreamingResponse",
+    "TimezoneResource",
+    "AsyncTimezoneResource",
+    "TimezoneResourceWithRawResponse",
+    "AsyncTimezoneResourceWithRawResponse",
+    "TimezoneResourceWithStreamingResponse",
+    "AsyncTimezoneResourceWithStreamingResponse",
     "DevicesResource",
     "AsyncDevicesResource",
     "DevicesResourceWithRawResponse",
