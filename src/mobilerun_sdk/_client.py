@@ -150,7 +150,6 @@ class Mobilerun(SyncAPIClient):
 
     @cached_property
     def devices(self) -> DevicesResource:
-        """Device Management"""
         from .resources.devices import DevicesResource
 
         return DevicesResource(self)
@@ -402,7 +401,6 @@ class AsyncMobilerun(AsyncAPIClient):
 
     @cached_property
     def devices(self) -> AsyncDevicesResource:
-        """Device Management"""
         from .resources.devices import AsyncDevicesResource
 
         return AsyncDevicesResource(self)
@@ -600,7 +598,6 @@ class MobilerunWithRawResponse:
 
     @cached_property
     def devices(self) -> devices.DevicesResourceWithRawResponse:
-        """Device Management"""
         from .resources.devices import DevicesResourceWithRawResponse
 
         return DevicesResourceWithRawResponse(self._client.devices)
@@ -675,7 +672,6 @@ class AsyncMobilerunWithRawResponse:
 
     @cached_property
     def devices(self) -> devices.AsyncDevicesResourceWithRawResponse:
-        """Device Management"""
         from .resources.devices import AsyncDevicesResourceWithRawResponse
 
         return AsyncDevicesResourceWithRawResponse(self._client.devices)
@@ -750,7 +746,6 @@ class MobilerunWithStreamedResponse:
 
     @cached_property
     def devices(self) -> devices.DevicesResourceWithStreamingResponse:
-        """Device Management"""
         from .resources.devices import DevicesResourceWithStreamingResponse
 
         return DevicesResourceWithStreamingResponse(self._client.devices)
@@ -825,7 +820,6 @@ class AsyncMobilerunWithStreamedResponse:
 
     @cached_property
     def devices(self) -> devices.AsyncDevicesResourceWithStreamingResponse:
-        """Device Management"""
         from .resources.devices import AsyncDevicesResourceWithStreamingResponse
 
         return AsyncDevicesResourceWithStreamingResponse(self._client.devices)
