@@ -294,19 +294,18 @@ Methods:
 
 - <code title="get /devices/{deviceId}/tasks">client.devices.tasks.<a href="./src/mobilerun_sdk/resources/devices/tasks.py">list</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/task_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/task_list_response.py">TaskListResponse</a></code>
 
-## Time
+## Timezone
 
 Types:
 
 ```python
-from mobilerun_sdk.types.devices import TimeTimeResponse, TimeTimezoneResponse
+from mobilerun_sdk.types.devices import TimezoneGetResponse
 ```
 
 Methods:
 
-- <code title="post /devices/{deviceId}/timezone">client.devices.time.<a href="./src/mobilerun_sdk/resources/devices/time.py">set_timezone</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/time_set_timezone_params.py">params</a>) -> None</code>
-- <code title="get /devices/{deviceId}/time">client.devices.time.<a href="./src/mobilerun_sdk/resources/devices/time.py">time</a>(device_id) -> str</code>
-- <code title="get /devices/{deviceId}/timezone">client.devices.time.<a href="./src/mobilerun_sdk/resources/devices/time.py">timezone</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/time_timezone_response.py">TimeTimezoneResponse</a></code>
+- <code title="get /devices/{deviceId}/timezone">client.devices.timezone.<a href="./src/mobilerun_sdk/resources/devices/timezone.py">get</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/timezone_get_response.py">TimezoneGetResponse</a></code>
+- <code title="post /devices/{deviceId}/timezone">client.devices.timezone.<a href="./src/mobilerun_sdk/resources/devices/timezone.py">set</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/timezone_set_params.py">params</a>) -> None</code>
 
 # Hooks
 

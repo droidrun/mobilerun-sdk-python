@@ -24,14 +24,6 @@ from .esim import (
     EsimResourceWithStreamingResponse,
     AsyncEsimResourceWithStreamingResponse,
 )
-from .time import (
-    TimeResource,
-    AsyncTimeResource,
-    TimeResourceWithRawResponse,
-    AsyncTimeResourceWithRawResponse,
-    TimeResourceWithStreamingResponse,
-    AsyncTimeResourceWithStreamingResponse,
-)
 from .files import (
     FilesResource,
     AsyncFilesResource,
@@ -107,6 +99,14 @@ from .packages import (
     PackagesResourceWithStreamingResponse,
     AsyncPackagesResourceWithStreamingResponse,
 )
+from .timezone import (
+    TimezoneResource,
+    AsyncTimezoneResource,
+    TimezoneResourceWithRawResponse,
+    AsyncTimezoneResourceWithRawResponse,
+    TimezoneResourceWithStreamingResponse,
+    AsyncTimezoneResourceWithStreamingResponse,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -175,8 +175,8 @@ class DevicesResource(SyncAPIResource):
         return TasksResource(self._client)
 
     @cached_property
-    def time(self) -> TimeResource:
-        return TimeResource(self._client)
+    def timezone(self) -> TimezoneResource:
+        return TimezoneResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> DevicesResourceWithRawResponse:
@@ -559,8 +559,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         return AsyncTasksResource(self._client)
 
     @cached_property
-    def time(self) -> AsyncTimeResource:
-        return AsyncTimeResource(self._client)
+    def timezone(self) -> AsyncTimezoneResource:
+        return AsyncTimezoneResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncDevicesResourceWithRawResponse:
@@ -966,8 +966,8 @@ class DevicesResourceWithRawResponse:
         return TasksResourceWithRawResponse(self._devices.tasks)
 
     @cached_property
-    def time(self) -> TimeResourceWithRawResponse:
-        return TimeResourceWithRawResponse(self._devices.time)
+    def timezone(self) -> TimezoneResourceWithRawResponse:
+        return TimezoneResourceWithRawResponse(self._devices.timezone)
 
 
 class AsyncDevicesResourceWithRawResponse:
@@ -1042,8 +1042,8 @@ class AsyncDevicesResourceWithRawResponse:
         return AsyncTasksResourceWithRawResponse(self._devices.tasks)
 
     @cached_property
-    def time(self) -> AsyncTimeResourceWithRawResponse:
-        return AsyncTimeResourceWithRawResponse(self._devices.time)
+    def timezone(self) -> AsyncTimezoneResourceWithRawResponse:
+        return AsyncTimezoneResourceWithRawResponse(self._devices.timezone)
 
 
 class DevicesResourceWithStreamingResponse:
@@ -1118,8 +1118,8 @@ class DevicesResourceWithStreamingResponse:
         return TasksResourceWithStreamingResponse(self._devices.tasks)
 
     @cached_property
-    def time(self) -> TimeResourceWithStreamingResponse:
-        return TimeResourceWithStreamingResponse(self._devices.time)
+    def timezone(self) -> TimezoneResourceWithStreamingResponse:
+        return TimezoneResourceWithStreamingResponse(self._devices.timezone)
 
 
 class AsyncDevicesResourceWithStreamingResponse:
@@ -1194,5 +1194,5 @@ class AsyncDevicesResourceWithStreamingResponse:
         return AsyncTasksResourceWithStreamingResponse(self._devices.tasks)
 
     @cached_property
-    def time(self) -> AsyncTimeResourceWithStreamingResponse:
-        return AsyncTimeResourceWithStreamingResponse(self._devices.time)
+    def timezone(self) -> AsyncTimezoneResourceWithStreamingResponse:
+        return AsyncTimezoneResourceWithStreamingResponse(self._devices.timezone)

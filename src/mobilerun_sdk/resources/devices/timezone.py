@@ -15,33 +15,73 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.devices import time_set_timezone_params
-from ...types.devices.time_timezone_response import TimeTimezoneResponse
+from ...types.devices import timezone_set_params
+from ...types.devices.timezone_get_response import TimezoneGetResponse
 
-__all__ = ["TimeResource", "AsyncTimeResource"]
+__all__ = ["TimezoneResource", "AsyncTimezoneResource"]
 
 
-class TimeResource(SyncAPIResource):
+class TimezoneResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> TimeResourceWithRawResponse:
+    def with_raw_response(self) -> TimezoneResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
         """
-        return TimeResourceWithRawResponse(self)
+        return TimezoneResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> TimeResourceWithStreamingResponse:
+    def with_streaming_response(self) -> TimezoneResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
         """
-        return TimeResourceWithStreamingResponse(self)
+        return TimezoneResourceWithStreamingResponse(self)
 
-    def set_timezone(
+    def get(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> TimezoneGetResponse:
+        """
+        Get device timezone
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            path_template("/devices/{device_id}/timezone", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=TimezoneGetResponse,
+        )
+
+    def set(
         self,
         device_id: str,
         *,
@@ -77,14 +117,35 @@ class TimeResource(SyncAPIResource):
         }
         return self._post(
             path_template("/devices/{device_id}/timezone", device_id=device_id),
-            body=maybe_transform({"timezone": timezone}, time_set_timezone_params.TimeSetTimezoneParams),
+            body=maybe_transform({"timezone": timezone}, timezone_set_params.TimezoneSetParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
         )
 
-    def time(
+
+class AsyncTimezoneResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncTimezoneResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
+        """
+        return AsyncTimezoneResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncTimezoneResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
+        """
+        return AsyncTimezoneResourceWithStreamingResponse(self)
+
+    async def get(
         self,
         device_id: str,
         *,
@@ -95,47 +156,7 @@ class TimeResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> str:
-        """
-        Device time
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
-        return self._get(
-            path_template("/devices/{device_id}/time", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=str,
-        )
-
-    def timezone(
-        self,
-        device_id: str,
-        *,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TimeTimezoneResponse:
+    ) -> TimezoneGetResponse:
         """
         Get device timezone
 
@@ -156,36 +177,15 @@ class TimeResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._get(
+        return await self._get(
             path_template("/devices/{device_id}/timezone", device_id=device_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TimeTimezoneResponse,
+            cast_to=TimezoneGetResponse,
         )
 
-
-class AsyncTimeResource(AsyncAPIResource):
-    @cached_property
-    def with_raw_response(self) -> AsyncTimeResourceWithRawResponse:
-        """
-        This property can be used as a prefix for any HTTP method call to return
-        the raw response object instead of the parsed content.
-
-        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
-        """
-        return AsyncTimeResourceWithRawResponse(self)
-
-    @cached_property
-    def with_streaming_response(self) -> AsyncTimeResourceWithStreamingResponse:
-        """
-        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
-
-        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
-        """
-        return AsyncTimeResourceWithStreamingResponse(self)
-
-    async def set_timezone(
+    async def set(
         self,
         device_id: str,
         *,
@@ -221,149 +221,57 @@ class AsyncTimeResource(AsyncAPIResource):
         }
         return await self._post(
             path_template("/devices/{device_id}/timezone", device_id=device_id),
-            body=await async_maybe_transform({"timezone": timezone}, time_set_timezone_params.TimeSetTimezoneParams),
+            body=await async_maybe_transform({"timezone": timezone}, timezone_set_params.TimezoneSetParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
         )
 
-    async def time(
-        self,
-        device_id: str,
-        *,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> str:
-        """
-        Device time
 
-        Args:
-          extra_headers: Send extra headers
+class TimezoneResourceWithRawResponse:
+    def __init__(self, timezone: TimezoneResource) -> None:
+        self._timezone = timezone
 
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
-        return await self._get(
-            path_template("/devices/{device_id}/time", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=str,
+        self.get = to_raw_response_wrapper(
+            timezone.get,
         )
-
-    async def timezone(
-        self,
-        device_id: str,
-        *,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TimeTimezoneResponse:
-        """
-        Get device timezone
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
-        return await self._get(
-            path_template("/devices/{device_id}/timezone", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=TimeTimezoneResponse,
+        self.set = to_raw_response_wrapper(
+            timezone.set,
         )
 
 
-class TimeResourceWithRawResponse:
-    def __init__(self, time: TimeResource) -> None:
-        self._time = time
+class AsyncTimezoneResourceWithRawResponse:
+    def __init__(self, timezone: AsyncTimezoneResource) -> None:
+        self._timezone = timezone
 
-        self.set_timezone = to_raw_response_wrapper(
-            time.set_timezone,
+        self.get = async_to_raw_response_wrapper(
+            timezone.get,
         )
-        self.time = to_raw_response_wrapper(
-            time.time,
-        )
-        self.timezone = to_raw_response_wrapper(
-            time.timezone,
+        self.set = async_to_raw_response_wrapper(
+            timezone.set,
         )
 
 
-class AsyncTimeResourceWithRawResponse:
-    def __init__(self, time: AsyncTimeResource) -> None:
-        self._time = time
+class TimezoneResourceWithStreamingResponse:
+    def __init__(self, timezone: TimezoneResource) -> None:
+        self._timezone = timezone
 
-        self.set_timezone = async_to_raw_response_wrapper(
-            time.set_timezone,
+        self.get = to_streamed_response_wrapper(
+            timezone.get,
         )
-        self.time = async_to_raw_response_wrapper(
-            time.time,
-        )
-        self.timezone = async_to_raw_response_wrapper(
-            time.timezone,
+        self.set = to_streamed_response_wrapper(
+            timezone.set,
         )
 
 
-class TimeResourceWithStreamingResponse:
-    def __init__(self, time: TimeResource) -> None:
-        self._time = time
+class AsyncTimezoneResourceWithStreamingResponse:
+    def __init__(self, timezone: AsyncTimezoneResource) -> None:
+        self._timezone = timezone
 
-        self.set_timezone = to_streamed_response_wrapper(
-            time.set_timezone,
+        self.get = async_to_streamed_response_wrapper(
+            timezone.get,
         )
-        self.time = to_streamed_response_wrapper(
-            time.time,
-        )
-        self.timezone = to_streamed_response_wrapper(
-            time.timezone,
-        )
-
-
-class AsyncTimeResourceWithStreamingResponse:
-    def __init__(self, time: AsyncTimeResource) -> None:
-        self._time = time
-
-        self.set_timezone = async_to_streamed_response_wrapper(
-            time.set_timezone,
-        )
-        self.time = async_to_streamed_response_wrapper(
-            time.time,
-        )
-        self.timezone = async_to_streamed_response_wrapper(
-            time.timezone,
+        self.set = async_to_streamed_response_wrapper(
+            timezone.set,
         )
