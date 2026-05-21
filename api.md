@@ -268,12 +268,18 @@ Methods:
 Types:
 
 ```python
-from mobilerun_sdk.types.devices import Rect, StateScreenshotResponse, StateUiResponse
+from mobilerun_sdk.types.devices import (
+    Rect,
+    StateScreenshotResponse,
+    StateTimeResponse,
+    StateUiResponse,
+)
 ```
 
 Methods:
 
 - <code title="get /devices/{deviceId}/screenshot">client.devices.state.<a href="./src/mobilerun_sdk/resources/devices/state.py">screenshot</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/state_screenshot_params.py">params</a>) -> str</code>
+- <code title="get /devices/{deviceId}/time">client.devices.state.<a href="./src/mobilerun_sdk/resources/devices/state.py">time</a>(device_id) -> str</code>
 - <code title="get /devices/{deviceId}/ui-state">client.devices.state.<a href="./src/mobilerun_sdk/resources/devices/state.py">ui</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/state_ui_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/state_ui_response.py">StateUiResponse</a></code>
 
 ## Tasks
