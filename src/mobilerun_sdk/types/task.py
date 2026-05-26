@@ -25,6 +25,8 @@ class Task(BaseModel):
 
     id: Optional[str] = None
 
+    accessibility: Optional[bool] = None
+
     agent_id: Optional[int] = FieldInfo(alias="agentId", default=None)
 
     apps: Optional[List[str]] = None

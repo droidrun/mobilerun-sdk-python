@@ -212,7 +212,7 @@ class TrajectoryTrajectoryManagerInputEvent(BaseModel):
 
 
 class TrajectoryTrajectoryManagerPlanEventData(BaseModel):
-    """Coordination event from ManagerAgent to DroidAgent.
+    """Coordination event from ManagerAgent to MobileAgent.
 
     Used for workflow step routing only (NOT streamed to frontend).
     For internal events with memory_update metadata, see ManagerPlanDetailsEvent.
@@ -231,7 +231,7 @@ class TrajectoryTrajectoryManagerPlanEventData(BaseModel):
 
 class TrajectoryTrajectoryManagerPlanEvent(BaseModel):
     data: TrajectoryTrajectoryManagerPlanEventData
-    """Coordination event from ManagerAgent to DroidAgent.
+    """Coordination event from ManagerAgent to MobileAgent.
 
     Used for workflow step routing only (NOT streamed to frontend). For internal
     events with memory_update metadata, see ManagerPlanDetailsEvent.

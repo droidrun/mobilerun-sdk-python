@@ -34,6 +34,8 @@ class Item(BaseModel):
 
     user_id: str = FieldInfo(alias="userId")
 
+    accessibility: Optional[bool] = None
+
     agent_id: Optional[int] = FieldInfo(alias="agentId", default=None)
 
     apps: Optional[List[str]] = None
