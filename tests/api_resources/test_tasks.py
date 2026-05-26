@@ -249,6 +249,7 @@ class TestTasks:
         task = client.tasks.run(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
+            accessibility=True,
             agent_id=0,
             apps=["string"],
             continue_on_failure=True,
@@ -317,6 +318,7 @@ class TestTasks:
         task = client.tasks.run_streamed(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
+            accessibility=True,
             agent_id=0,
             apps=["string"],
             continue_on_failure=True,
@@ -688,6 +690,7 @@ class TestAsyncTasks:
         task = await async_client.tasks.run(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
+            accessibility=True,
             agent_id=0,
             apps=["string"],
             continue_on_failure=True,
@@ -756,6 +759,7 @@ class TestAsyncTasks:
         task = await async_client.tasks.run_streamed(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
+            accessibility=True,
             agent_id=0,
             apps=["string"],
             continue_on_failure=True,

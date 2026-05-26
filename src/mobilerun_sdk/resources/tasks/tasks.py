@@ -270,6 +270,7 @@ class TasksResource(SyncAPIResource):
         *,
         device_id: str,
         task: str,
+        accessibility: bool | Omit = omit,
         agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         continue_on_failure: bool | Omit = omit,
@@ -305,7 +306,7 @@ class TasksResource(SyncAPIResource):
           display_id: The display ID of the device to run the task on.
 
           llm_model: The LLM model identifier to use for the task (e.g.
-              'google/gemini-3.1-flash-lite-preview')
+              'google/gemini-3.1-flash-lite')
 
           memory_namespace: Memory namespace for cross-task personalization
 
@@ -325,6 +326,7 @@ class TasksResource(SyncAPIResource):
                 {
                     "device_id": device_id,
                     "task": task,
+                    "accessibility": accessibility,
                     "agent_id": agent_id,
                     "apps": apps,
                     "continue_on_failure": continue_on_failure,
@@ -356,6 +358,7 @@ class TasksResource(SyncAPIResource):
         *,
         device_id: str,
         task: str,
+        accessibility: bool | Omit = omit,
         agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         continue_on_failure: bool | Omit = omit,
@@ -390,7 +393,7 @@ class TasksResource(SyncAPIResource):
           display_id: The display ID of the device to run the task on.
 
           llm_model: The LLM model identifier to use for the task (e.g.
-              'google/gemini-3.1-flash-lite-preview')
+              'google/gemini-3.1-flash-lite')
 
           memory_namespace: Memory namespace for cross-task personalization
 
@@ -410,6 +413,7 @@ class TasksResource(SyncAPIResource):
                 {
                     "device_id": device_id,
                     "task": task,
+                    "accessibility": accessibility,
                     "agent_id": agent_id,
                     "apps": apps,
                     "continue_on_failure": continue_on_failure,
@@ -733,6 +737,7 @@ class AsyncTasksResource(AsyncAPIResource):
         *,
         device_id: str,
         task: str,
+        accessibility: bool | Omit = omit,
         agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         continue_on_failure: bool | Omit = omit,
@@ -768,7 +773,7 @@ class AsyncTasksResource(AsyncAPIResource):
           display_id: The display ID of the device to run the task on.
 
           llm_model: The LLM model identifier to use for the task (e.g.
-              'google/gemini-3.1-flash-lite-preview')
+              'google/gemini-3.1-flash-lite')
 
           memory_namespace: Memory namespace for cross-task personalization
 
@@ -788,6 +793,7 @@ class AsyncTasksResource(AsyncAPIResource):
                 {
                     "device_id": device_id,
                     "task": task,
+                    "accessibility": accessibility,
                     "agent_id": agent_id,
                     "apps": apps,
                     "continue_on_failure": continue_on_failure,
@@ -819,6 +825,7 @@ class AsyncTasksResource(AsyncAPIResource):
         *,
         device_id: str,
         task: str,
+        accessibility: bool | Omit = omit,
         agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         continue_on_failure: bool | Omit = omit,
@@ -853,7 +860,7 @@ class AsyncTasksResource(AsyncAPIResource):
           display_id: The display ID of the device to run the task on.
 
           llm_model: The LLM model identifier to use for the task (e.g.
-              'google/gemini-3.1-flash-lite-preview')
+              'google/gemini-3.1-flash-lite')
 
           memory_namespace: Memory namespace for cross-task personalization
 
@@ -873,6 +880,7 @@ class AsyncTasksResource(AsyncAPIResource):
                 {
                     "device_id": device_id,
                     "task": task,
+                    "accessibility": accessibility,
                     "agent_id": agent_id,
                     "apps": apps,
                     "continue_on_failure": continue_on_failure,
