@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import hook_list_params, hook_update_params, hook_perform_params, hook_subscribe_params
+from ..types import hook_list_params, hook_test_params, hook_update_params, hook_perform_params, hook_subscribe_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -20,6 +20,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.hook_list_response import HookListResponse
+from ..types.hook_test_response import HookTestResponse
 from ..types.hook_update_response import HookUpdateResponse
 from ..types.hook_perform_response import HookPerformResponse
 from ..types.hook_retrieve_response import HookRetrieveResponse
@@ -275,6 +276,46 @@ class HooksResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=HookSubscribeResponse,
+        )
+
+    def test(
+        self,
+        hook_id: str,
+        *,
+        event: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> HookTestResponse:
+        """
+        Send a test event to a webhook endpoint.
+
+        Delivers a sample payload to the hook's URL with a single attempt (no retries)
+        for fast feedback.
+
+        Args:
+          event: Event type to simulate (default: completed)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not hook_id:
+            raise ValueError(f"Expected a non-empty value for `hook_id` but received {hook_id!r}")
+        return self._post(
+            path_template("/hooks/{hook_id}/test", hook_id=hook_id),
+            body=maybe_transform({"event": event}, hook_test_params.HookTestParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=HookTestResponse,
         )
 
     def unsubscribe(
@@ -560,6 +601,46 @@ class AsyncHooksResource(AsyncAPIResource):
             cast_to=HookSubscribeResponse,
         )
 
+    async def test(
+        self,
+        hook_id: str,
+        *,
+        event: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> HookTestResponse:
+        """
+        Send a test event to a webhook endpoint.
+
+        Delivers a sample payload to the hook's URL with a single attempt (no retries)
+        for fast feedback.
+
+        Args:
+          event: Event type to simulate (default: completed)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not hook_id:
+            raise ValueError(f"Expected a non-empty value for `hook_id` but received {hook_id!r}")
+        return await self._post(
+            path_template("/hooks/{hook_id}/test", hook_id=hook_id),
+            body=await async_maybe_transform({"event": event}, hook_test_params.HookTestParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=HookTestResponse,
+        )
+
     async def unsubscribe(
         self,
         hook_id: str,
@@ -618,6 +699,9 @@ class HooksResourceWithRawResponse:
         self.subscribe = to_raw_response_wrapper(
             hooks.subscribe,
         )
+        self.test = to_raw_response_wrapper(
+            hooks.test,
+        )
         self.unsubscribe = to_raw_response_wrapper(
             hooks.unsubscribe,
         )
@@ -644,6 +728,9 @@ class AsyncHooksResourceWithRawResponse:
         )
         self.subscribe = async_to_raw_response_wrapper(
             hooks.subscribe,
+        )
+        self.test = async_to_raw_response_wrapper(
+            hooks.test,
         )
         self.unsubscribe = async_to_raw_response_wrapper(
             hooks.unsubscribe,
@@ -672,6 +759,9 @@ class HooksResourceWithStreamingResponse:
         self.subscribe = to_streamed_response_wrapper(
             hooks.subscribe,
         )
+        self.test = to_streamed_response_wrapper(
+            hooks.test,
+        )
         self.unsubscribe = to_streamed_response_wrapper(
             hooks.unsubscribe,
         )
@@ -698,6 +788,9 @@ class AsyncHooksResourceWithStreamingResponse:
         )
         self.subscribe = async_to_streamed_response_wrapper(
             hooks.subscribe,
+        )
+        self.test = async_to_streamed_response_wrapper(
+            hooks.test,
         )
         self.unsubscribe = async_to_streamed_response_wrapper(
             hooks.unsubscribe,

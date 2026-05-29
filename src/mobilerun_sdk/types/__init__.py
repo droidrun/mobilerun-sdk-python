@@ -22,12 +22,14 @@ from .usage_result import UsageResult as UsageResult
 from .app_list_params import AppListParams as AppListParams
 from .task_run_params import TaskRunParams as TaskRunParams
 from .hook_list_params import HookListParams as HookListParams
+from .hook_test_params import HookTestParams as HookTestParams
 from .task_list_params import TaskListParams as TaskListParams
 from .app_list_response import AppListResponse as AppListResponse
 from .proxy_list_params import ProxyListParams as ProxyListParams
 from .task_run_response import TaskRunResponse as TaskRunResponse
 from .device_list_params import DeviceListParams as DeviceListParams
 from .hook_list_response import HookListResponse as HookListResponse
+from .hook_test_response import HookTestResponse as HookTestResponse
 from .hook_update_params import HookUpdateParams as HookUpdateParams
 from .task_list_response import TaskListResponse as TaskListResponse
 from .task_stop_response import TaskStopResponse as TaskStopResponse
@@ -40,6 +42,7 @@ from .package_credentials import PackageCredentials as PackageCredentials
 from .profile_list_params import ProfileListParams as ProfileListParams
 from .proxy_create_params import ProxyCreateParams as ProxyCreateParams
 from .proxy_list_response import ProxyListResponse as ProxyListResponse
+from .proxy_lookup_params import ProxyLookupParams as ProxyLookupParams
 from .proxy_update_params import ProxyUpdateParams as ProxyUpdateParams
 from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse
@@ -57,6 +60,7 @@ from .profile_list_response import ProfileListResponse as ProfileListResponse
 from .profile_update_params import ProfileUpdateParams as ProfileUpdateParams
 from .proxy_create_response import ProxyCreateResponse as ProxyCreateResponse
 from .proxy_delete_response import ProxyDeleteResponse as ProxyDeleteResponse
+from .proxy_lookup_response import ProxyLookupResponse as ProxyLookupResponse
 from .proxy_update_response import ProxyUpdateResponse as ProxyUpdateResponse
 from .credential_list_params import CredentialListParams as CredentialListParams
 from .device_set_name_params import DeviceSetNameParams as DeviceSetNameParams
@@ -78,6 +82,7 @@ from .task_send_message_params import TaskSendMessageParams as TaskSendMessagePa
 from .carrier_retrieve_response import CarrierRetrieveResponse as CarrierRetrieveResponse
 from .hook_unsubscribe_response import HookUnsubscribeResponse as HookUnsubscribeResponse
 from .package_credentials_param import PackageCredentialsParam as PackageCredentialsParam
+from .app_list_versions_response import AppListVersionsResponse as AppListVersionsResponse
 from .task_send_message_response import TaskSendMessageResponse as TaskSendMessageResponse
 from .app_confirm_upload_response import AppConfirmUploadResponse as AppConfirmUploadResponse
 from .device_fingerprint_response import DeviceFingerprintResponse as DeviceFingerprintResponse
