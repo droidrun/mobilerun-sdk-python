@@ -37,6 +37,7 @@ from mobilerun_sdk.types import (
     AppDeleteResponse,
     AppConfirmUploadResponse,
     AppCreateSignedUploadURLResponse,
+    AppListVersionsResponse,
     AppMarkFailedResponse,
 )
 ```
@@ -48,6 +49,7 @@ Methods:
 - <code title="delete /apps/{id}">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">delete</a>(id) -> <a href="./src/mobilerun_sdk/types/app_delete_response.py">AppDeleteResponse</a></code>
 - <code title="post /apps/{id}/confirm-upload">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">confirm_upload</a>(id) -> <a href="./src/mobilerun_sdk/types/app_confirm_upload_response.py">AppConfirmUploadResponse</a></code>
 - <code title="post /apps/create-signed-upload-url">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">create_signed_upload_url</a>(\*\*<a href="src/mobilerun_sdk/types/app_create_signed_upload_url_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/app_create_signed_upload_url_response.py">AppCreateSignedUploadURLResponse</a></code>
+- <code title="get /apps/{id}/versions">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">list_versions</a>(id) -> <a href="./src/mobilerun_sdk/types/app_list_versions_response.py">AppListVersionsResponse</a></code>
 - <code title="post /apps/{id}/mark-failed">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">mark_failed</a>(id) -> <a href="./src/mobilerun_sdk/types/app_mark_failed_response.py">AppMarkFailedResponse</a></code>
 
 # Carriers
@@ -188,11 +190,11 @@ from mobilerun_sdk.types.devices import AppListResponse
 
 Methods:
 
-- <code title="patch /devices/{deviceId}/apps/{packageName}">client.devices.apps.<a href="./src/mobilerun_sdk/resources/devices/apps.py">update</a>(package_name, \*, device_id) -> None</code>
 - <code title="get /devices/{deviceId}/apps">client.devices.apps.<a href="./src/mobilerun_sdk/resources/devices/apps.py">list</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/app_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/app_list_response.py">Optional[AppListResponse]</a></code>
 - <code title="delete /devices/{deviceId}/apps/{packageName}">client.devices.apps.<a href="./src/mobilerun_sdk/resources/devices/apps.py">delete</a>(package_name, \*, device_id) -> None</code>
 - <code title="post /devices/{deviceId}/apps">client.devices.apps.<a href="./src/mobilerun_sdk/resources/devices/apps.py">install</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/app_install_params.py">params</a>) -> None</code>
 - <code title="put /devices/{deviceId}/apps/{packageName}">client.devices.apps.<a href="./src/mobilerun_sdk/resources/devices/apps.py">start</a>(package_name, \*, device_id, \*\*<a href="src/mobilerun_sdk/types/devices/app_start_params.py">params</a>) -> None</code>
+- <code title="patch /devices/{deviceId}/apps/{packageName}">client.devices.apps.<a href="./src/mobilerun_sdk/resources/devices/apps.py">stop</a>(package_name, \*, device_id) -> None</code>
 
 ## Esim
 
@@ -356,6 +358,7 @@ from mobilerun_sdk.types import (
     HookGetSampleDataResponse,
     HookPerformResponse,
     HookSubscribeResponse,
+    HookTestResponse,
     HookUnsubscribeResponse,
 )
 ```
@@ -368,6 +371,7 @@ Methods:
 - <code title="get /hooks/sample">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">get_sample_data</a>() -> <a href="./src/mobilerun_sdk/types/hook_get_sample_data_response.py">HookGetSampleDataResponse</a></code>
 - <code title="post /hooks/perform">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">perform</a>(\*\*<a href="src/mobilerun_sdk/types/hook_perform_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/hook_perform_response.py">HookPerformResponse</a></code>
 - <code title="post /hooks/subscribe">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">subscribe</a>(\*\*<a href="src/mobilerun_sdk/types/hook_subscribe_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/hook_subscribe_response.py">HookSubscribeResponse</a></code>
+- <code title="post /hooks/{hook_id}/test">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">test</a>(hook_id, \*\*<a href="src/mobilerun_sdk/types/hook_test_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/hook_test_response.py">HookTestResponse</a></code>
 - <code title="post /hooks/{hook_id}/unsubscribe">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">unsubscribe</a>(hook_id) -> <a href="./src/mobilerun_sdk/types/hook_unsubscribe_response.py">HookUnsubscribeResponse</a></code>
 
 # Models
@@ -410,6 +414,7 @@ from mobilerun_sdk.types import (
     ProxyUpdateResponse,
     ProxyListResponse,
     ProxyDeleteResponse,
+    ProxyLookupResponse,
 )
 ```
 
@@ -420,6 +425,7 @@ Methods:
 - <code title="put /proxies/{proxyId}">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">update</a>(proxy_id, \*\*<a href="src/mobilerun_sdk/types/proxy_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/proxy_update_response.py">ProxyUpdateResponse</a></code>
 - <code title="get /proxies">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/proxy_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/proxy_list_response.py">ProxyListResponse</a></code>
 - <code title="delete /proxies/{proxyId}">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">delete</a>(proxy_id) -> <a href="./src/mobilerun_sdk/types/proxy_delete_response.py">ProxyDeleteResponse</a></code>
+- <code title="post /proxies/lookup">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">lookup</a>(\*\*<a href="src/mobilerun_sdk/types/proxy_lookup_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/proxy_lookup_response.py">ProxyLookupResponse</a></code>
 
 # Tasks
 

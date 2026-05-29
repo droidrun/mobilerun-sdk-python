@@ -14,6 +14,7 @@ from mobilerun_sdk.types import (
     AppDeleteResponse,
     AppRetrieveResponse,
     AppMarkFailedResponse,
+    AppListVersionsResponse,
     AppConfirmUploadResponse,
     AppCreateSignedUploadURLResponse,
 )
@@ -279,6 +280,48 @@ class TestApps:
             assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_versions(self, client: Mobilerun) -> None:
+        app = client.apps.list_versions(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(AppListVersionsResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_list_versions(self, client: Mobilerun) -> None:
+        response = client.apps.with_raw_response.list_versions(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        app = response.parse()
+        assert_matches_type(AppListVersionsResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_list_versions(self, client: Mobilerun) -> None:
+        with client.apps.with_streaming_response.list_versions(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            app = response.parse()
+            assert_matches_type(AppListVersionsResponse, app, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_list_versions(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.apps.with_raw_response.list_versions(
+                "",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -583,6 +626,48 @@ class TestAsyncApps:
             assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_versions(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.apps.list_versions(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(AppListVersionsResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_list_versions(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.apps.with_raw_response.list_versions(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        app = await response.parse()
+        assert_matches_type(AppListVersionsResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_list_versions(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.apps.with_streaming_response.list_versions(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            app = await response.parse()
+            assert_matches_type(AppListVersionsResponse, app, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_list_versions(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.apps.with_raw_response.list_versions(
+                "",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
