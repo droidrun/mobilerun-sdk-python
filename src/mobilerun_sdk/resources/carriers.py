@@ -29,6 +29,8 @@ __all__ = ["CarriersResource", "AsyncCarriersResource"]
 
 
 class CarriersResource(SyncAPIResource):
+    """Mobile Carriers"""
+
     @cached_property
     def with_raw_response(self) -> CarriersResourceWithRawResponse:
         """
@@ -417,6 +419,8 @@ class CarriersResource(SyncAPIResource):
 
 
 class AsyncCarriersResource(AsyncAPIResource):
+    """Mobile Carriers"""
+
     @cached_property
     def with_raw_response(self) -> AsyncCarriersResourceWithRawResponse:
         """

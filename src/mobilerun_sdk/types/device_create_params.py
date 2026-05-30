@@ -7,12 +7,12 @@ from typing_extensions import Literal, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
-from .proxy_config_param import ProxyConfigParam
+from .shared_params.socks5 import Socks5
 from .shared_params.location import Location
 from .shared_params.device_carrier import DeviceCarrier
 from .shared_params.device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceCreateParams"]
+__all__ = ["DeviceCreateParams", "Proxy"]
 
 
 class DeviceCreateParams(TypedDict, total=False):
@@ -48,6 +48,14 @@ class DeviceCreateParams(TypedDict, total=False):
 
     name: str
 
-    proxy: ProxyConfigParam
+    proxy: Proxy
 
     timezone: str
+
+
+class Proxy(TypedDict, total=False):
+    name: str
+
+    smart_ip: Annotated[bool, PropertyInfo(alias="smartIp")]
+
+    socks5: Socks5
