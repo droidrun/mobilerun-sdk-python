@@ -4,21 +4,13 @@ from typing import List, Optional
 
 from pydantic import Field as FieldInfo
 
-from .socks5 import Socks5
 from .location import Location
 from ..._models import BaseModel
+from ..proxy_config import ProxyConfig
 from .device_carrier import DeviceCarrier
 from .device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceSpec", "Proxy"]
-
-
-class Proxy(BaseModel):
-    name: Optional[str] = None
-
-    smart_ip: Optional[bool] = FieldInfo(alias="smartIp", default=None)
-
-    socks5: Optional[Socks5] = None
+__all__ = ["DeviceSpec"]
 
 
 class DeviceSpec(BaseModel):
@@ -43,6 +35,6 @@ class DeviceSpec(BaseModel):
 
     name: Optional[str] = None
 
-    proxy: Optional[Proxy] = None
+    proxy: Optional[ProxyConfig] = None
 
     timezone: Optional[str] = None
