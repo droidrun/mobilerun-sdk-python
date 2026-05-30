@@ -20,6 +20,8 @@ __all__ = ["ModelsResource", "AsyncModelsResource"]
 
 
 class ModelsResource(SyncAPIResource):
+    """LLM Models"""
+
     @cached_property
     def with_raw_response(self) -> ModelsResourceWithRawResponse:
         """
@@ -60,6 +62,8 @@ class ModelsResource(SyncAPIResource):
 
 
 class AsyncModelsResource(AsyncAPIResource):
+    """LLM Models"""
+
     @cached_property
     def with_raw_response(self) -> AsyncModelsResourceWithRawResponse:
         """

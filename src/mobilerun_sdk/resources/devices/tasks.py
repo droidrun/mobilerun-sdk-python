@@ -24,6 +24,8 @@ __all__ = ["TasksResource", "AsyncTasksResource"]
 
 
 class TasksResource(SyncAPIResource):
+    """Device Management"""
+
     @cached_property
     def with_raw_response(self) -> TasksResourceWithRawResponse:
         """
@@ -94,6 +96,8 @@ class TasksResource(SyncAPIResource):
 
 
 class AsyncTasksResource(AsyncAPIResource):
+    """Device Management"""
+
     @cached_property
     def with_raw_response(self) -> AsyncTasksResourceWithRawResponse:
         """

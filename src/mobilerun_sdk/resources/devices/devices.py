@@ -48,12 +48,7 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
-from ...types import (
-    device_list_params,
-    device_create_params,
-    device_set_name_params,
-    device_terminate_params,
-)
+from ...types import device_list_params, device_create_params, device_set_name_params, device_terminate_params
 from .actions import (
     ActionsResource,
     AsyncActionsResource,
@@ -130,7 +125,6 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.device import Device
-from ...types.proxy_config_param import ProxyConfigParam
 from ...types.device_list_response import DeviceListResponse
 from ...types.device_count_response import DeviceCountResponse
 from ...types.shared_params.location import Location
@@ -184,6 +178,7 @@ class DevicesResource(SyncAPIResource):
 
     @cached_property
     def tasks(self) -> TasksResource:
+        """Device Management"""
         return TasksResource(self._client)
 
     @cached_property
@@ -229,7 +224,7 @@ class DevicesResource(SyncAPIResource):
         locale: str | Omit = omit,
         location: Location | Omit = omit,
         name: str | Omit = omit,
-        proxy: ProxyConfigParam | Omit = omit,
+        proxy: device_create_params.Proxy | Omit = omit,
         timezone: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -678,6 +673,7 @@ class AsyncDevicesResource(AsyncAPIResource):
 
     @cached_property
     def tasks(self) -> AsyncTasksResource:
+        """Device Management"""
         return AsyncTasksResource(self._client)
 
     @cached_property
@@ -723,7 +719,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         locale: str | Omit = omit,
         location: Location | Omit = omit,
         name: str | Omit = omit,
-        proxy: ProxyConfigParam | Omit = omit,
+        proxy: device_create_params.Proxy | Omit = omit,
         timezone: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1206,6 +1202,7 @@ class DevicesResourceWithRawResponse:
 
     @cached_property
     def tasks(self) -> TasksResourceWithRawResponse:
+        """Device Management"""
         return TasksResourceWithRawResponse(self._devices.tasks)
 
     @cached_property
@@ -1294,6 +1291,7 @@ class AsyncDevicesResourceWithRawResponse:
 
     @cached_property
     def tasks(self) -> AsyncTasksResourceWithRawResponse:
+        """Device Management"""
         return AsyncTasksResourceWithRawResponse(self._devices.tasks)
 
     @cached_property
@@ -1382,6 +1380,7 @@ class DevicesResourceWithStreamingResponse:
 
     @cached_property
     def tasks(self) -> TasksResourceWithStreamingResponse:
+        """Device Management"""
         return TasksResourceWithStreamingResponse(self._devices.tasks)
 
     @cached_property
@@ -1470,6 +1469,7 @@ class AsyncDevicesResourceWithStreamingResponse:
 
     @cached_property
     def tasks(self) -> AsyncTasksResourceWithStreamingResponse:
+        """Device Management"""
         return AsyncTasksResourceWithStreamingResponse(self._devices.tasks)
 
     @cached_property

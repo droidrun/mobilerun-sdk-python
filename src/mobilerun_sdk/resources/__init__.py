@@ -1,5 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from .apps import (
+    AppsResource,
+    AsyncAppsResource,
+    AppsResourceWithRawResponse,
+    AsyncAppsResourceWithRawResponse,
+    AppsResourceWithStreamingResponse,
+    AsyncAppsResourceWithStreamingResponse,
+)
 from .hooks import (
     HooksResource,
     AsyncHooksResource,
@@ -64,6 +72,14 @@ from .profiles import (
     ProfilesResourceWithStreamingResponse,
     AsyncProfilesResourceWithStreamingResponse,
 )
+from .credentials import (
+    CredentialsResource,
+    AsyncCredentialsResource,
+    CredentialsResourceWithRawResponse,
+    AsyncCredentialsResourceWithRawResponse,
+    CredentialsResourceWithStreamingResponse,
+    AsyncCredentialsResourceWithStreamingResponse,
+)
 
 __all__ = [
     "AgentsResource",
@@ -72,12 +88,24 @@ __all__ = [
     "AsyncAgentsResourceWithRawResponse",
     "AgentsResourceWithStreamingResponse",
     "AsyncAgentsResourceWithStreamingResponse",
+    "AppsResource",
+    "AsyncAppsResource",
+    "AppsResourceWithRawResponse",
+    "AsyncAppsResourceWithRawResponse",
+    "AppsResourceWithStreamingResponse",
+    "AsyncAppsResourceWithStreamingResponse",
     "CarriersResource",
     "AsyncCarriersResource",
     "CarriersResourceWithRawResponse",
     "AsyncCarriersResourceWithRawResponse",
     "CarriersResourceWithStreamingResponse",
     "AsyncCarriersResourceWithStreamingResponse",
+    "CredentialsResource",
+    "AsyncCredentialsResource",
+    "CredentialsResourceWithRawResponse",
+    "AsyncCredentialsResourceWithRawResponse",
+    "CredentialsResourceWithStreamingResponse",
+    "AsyncCredentialsResourceWithStreamingResponse",
     "DevicesResource",
     "AsyncDevicesResource",
     "DevicesResourceWithRawResponse",
