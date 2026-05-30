@@ -36,8 +36,7 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import apps, hooks, tasks, agents, models, devices, proxies, carriers, profiles, credentials
-    from .resources.apps import AppsResource, AsyncAppsResource
+    from .resources import hooks, tasks, agents, models, devices, proxies, carriers, profiles
     from .resources.hooks import HooksResource, AsyncHooksResource
     from .resources.agents import AgentsResource, AsyncAgentsResource
     from .resources.models import ModelsResource, AsyncModelsResource
@@ -46,7 +45,6 @@ if TYPE_CHECKING:
     from .resources.profiles import ProfilesResource, AsyncProfilesResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
     from .resources.devices.devices import DevicesResource, AsyncDevicesResource
-    from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
 
 __all__ = [
     "Timeout",
@@ -128,25 +126,10 @@ class Mobilerun(SyncAPIClient):
         return AgentsResource(self)
 
     @cached_property
-    def apps(self) -> AppsResource:
-        """App Management"""
-        from .resources.apps import AppsResource
-
-        return AppsResource(self)
-
-    @cached_property
     def carriers(self) -> CarriersResource:
-        """Mobile Carriers"""
         from .resources.carriers import CarriersResource
 
         return CarriersResource(self)
-
-    @cached_property
-    def credentials(self) -> CredentialsResource:
-        """Vault & Secrets"""
-        from .resources.credentials import CredentialsResource
-
-        return CredentialsResource(self)
 
     @cached_property
     def devices(self) -> DevicesResource:
@@ -156,13 +139,13 @@ class Mobilerun(SyncAPIClient):
 
     @cached_property
     def hooks(self) -> HooksResource:
+        """Webhooks API"""
         from .resources.hooks import HooksResource
 
         return HooksResource(self)
 
     @cached_property
     def models(self) -> ModelsResource:
-        """LLM Models"""
         from .resources.models import ModelsResource
 
         return ModelsResource(self)
@@ -175,7 +158,6 @@ class Mobilerun(SyncAPIClient):
 
     @cached_property
     def proxies(self) -> ProxiesResource:
-        """Network Proxies"""
         from .resources.proxies import ProxiesResource
 
         return ProxiesResource(self)
@@ -379,25 +361,10 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncAgentsResource(self)
 
     @cached_property
-    def apps(self) -> AsyncAppsResource:
-        """App Management"""
-        from .resources.apps import AsyncAppsResource
-
-        return AsyncAppsResource(self)
-
-    @cached_property
     def carriers(self) -> AsyncCarriersResource:
-        """Mobile Carriers"""
         from .resources.carriers import AsyncCarriersResource
 
         return AsyncCarriersResource(self)
-
-    @cached_property
-    def credentials(self) -> AsyncCredentialsResource:
-        """Vault & Secrets"""
-        from .resources.credentials import AsyncCredentialsResource
-
-        return AsyncCredentialsResource(self)
 
     @cached_property
     def devices(self) -> AsyncDevicesResource:
@@ -407,13 +374,13 @@ class AsyncMobilerun(AsyncAPIClient):
 
     @cached_property
     def hooks(self) -> AsyncHooksResource:
+        """Webhooks API"""
         from .resources.hooks import AsyncHooksResource
 
         return AsyncHooksResource(self)
 
     @cached_property
     def models(self) -> AsyncModelsResource:
-        """LLM Models"""
         from .resources.models import AsyncModelsResource
 
         return AsyncModelsResource(self)
@@ -426,7 +393,6 @@ class AsyncMobilerun(AsyncAPIClient):
 
     @cached_property
     def proxies(self) -> AsyncProxiesResource:
-        """Network Proxies"""
         from .resources.proxies import AsyncProxiesResource
 
         return AsyncProxiesResource(self)
@@ -576,25 +542,10 @@ class MobilerunWithRawResponse:
         return AgentsResourceWithRawResponse(self._client.agents)
 
     @cached_property
-    def apps(self) -> apps.AppsResourceWithRawResponse:
-        """App Management"""
-        from .resources.apps import AppsResourceWithRawResponse
-
-        return AppsResourceWithRawResponse(self._client.apps)
-
-    @cached_property
     def carriers(self) -> carriers.CarriersResourceWithRawResponse:
-        """Mobile Carriers"""
         from .resources.carriers import CarriersResourceWithRawResponse
 
         return CarriersResourceWithRawResponse(self._client.carriers)
-
-    @cached_property
-    def credentials(self) -> credentials.CredentialsResourceWithRawResponse:
-        """Vault & Secrets"""
-        from .resources.credentials import CredentialsResourceWithRawResponse
-
-        return CredentialsResourceWithRawResponse(self._client.credentials)
 
     @cached_property
     def devices(self) -> devices.DevicesResourceWithRawResponse:
@@ -604,13 +555,13 @@ class MobilerunWithRawResponse:
 
     @cached_property
     def hooks(self) -> hooks.HooksResourceWithRawResponse:
+        """Webhooks API"""
         from .resources.hooks import HooksResourceWithRawResponse
 
         return HooksResourceWithRawResponse(self._client.hooks)
 
     @cached_property
     def models(self) -> models.ModelsResourceWithRawResponse:
-        """LLM Models"""
         from .resources.models import ModelsResourceWithRawResponse
 
         return ModelsResourceWithRawResponse(self._client.models)
@@ -623,7 +574,6 @@ class MobilerunWithRawResponse:
 
     @cached_property
     def proxies(self) -> proxies.ProxiesResourceWithRawResponse:
-        """Network Proxies"""
         from .resources.proxies import ProxiesResourceWithRawResponse
 
         return ProxiesResourceWithRawResponse(self._client.proxies)
@@ -650,25 +600,10 @@ class AsyncMobilerunWithRawResponse:
         return AsyncAgentsResourceWithRawResponse(self._client.agents)
 
     @cached_property
-    def apps(self) -> apps.AsyncAppsResourceWithRawResponse:
-        """App Management"""
-        from .resources.apps import AsyncAppsResourceWithRawResponse
-
-        return AsyncAppsResourceWithRawResponse(self._client.apps)
-
-    @cached_property
     def carriers(self) -> carriers.AsyncCarriersResourceWithRawResponse:
-        """Mobile Carriers"""
         from .resources.carriers import AsyncCarriersResourceWithRawResponse
 
         return AsyncCarriersResourceWithRawResponse(self._client.carriers)
-
-    @cached_property
-    def credentials(self) -> credentials.AsyncCredentialsResourceWithRawResponse:
-        """Vault & Secrets"""
-        from .resources.credentials import AsyncCredentialsResourceWithRawResponse
-
-        return AsyncCredentialsResourceWithRawResponse(self._client.credentials)
 
     @cached_property
     def devices(self) -> devices.AsyncDevicesResourceWithRawResponse:
@@ -678,13 +613,13 @@ class AsyncMobilerunWithRawResponse:
 
     @cached_property
     def hooks(self) -> hooks.AsyncHooksResourceWithRawResponse:
+        """Webhooks API"""
         from .resources.hooks import AsyncHooksResourceWithRawResponse
 
         return AsyncHooksResourceWithRawResponse(self._client.hooks)
 
     @cached_property
     def models(self) -> models.AsyncModelsResourceWithRawResponse:
-        """LLM Models"""
         from .resources.models import AsyncModelsResourceWithRawResponse
 
         return AsyncModelsResourceWithRawResponse(self._client.models)
@@ -697,7 +632,6 @@ class AsyncMobilerunWithRawResponse:
 
     @cached_property
     def proxies(self) -> proxies.AsyncProxiesResourceWithRawResponse:
-        """Network Proxies"""
         from .resources.proxies import AsyncProxiesResourceWithRawResponse
 
         return AsyncProxiesResourceWithRawResponse(self._client.proxies)
@@ -724,25 +658,10 @@ class MobilerunWithStreamedResponse:
         return AgentsResourceWithStreamingResponse(self._client.agents)
 
     @cached_property
-    def apps(self) -> apps.AppsResourceWithStreamingResponse:
-        """App Management"""
-        from .resources.apps import AppsResourceWithStreamingResponse
-
-        return AppsResourceWithStreamingResponse(self._client.apps)
-
-    @cached_property
     def carriers(self) -> carriers.CarriersResourceWithStreamingResponse:
-        """Mobile Carriers"""
         from .resources.carriers import CarriersResourceWithStreamingResponse
 
         return CarriersResourceWithStreamingResponse(self._client.carriers)
-
-    @cached_property
-    def credentials(self) -> credentials.CredentialsResourceWithStreamingResponse:
-        """Vault & Secrets"""
-        from .resources.credentials import CredentialsResourceWithStreamingResponse
-
-        return CredentialsResourceWithStreamingResponse(self._client.credentials)
 
     @cached_property
     def devices(self) -> devices.DevicesResourceWithStreamingResponse:
@@ -752,13 +671,13 @@ class MobilerunWithStreamedResponse:
 
     @cached_property
     def hooks(self) -> hooks.HooksResourceWithStreamingResponse:
+        """Webhooks API"""
         from .resources.hooks import HooksResourceWithStreamingResponse
 
         return HooksResourceWithStreamingResponse(self._client.hooks)
 
     @cached_property
     def models(self) -> models.ModelsResourceWithStreamingResponse:
-        """LLM Models"""
         from .resources.models import ModelsResourceWithStreamingResponse
 
         return ModelsResourceWithStreamingResponse(self._client.models)
@@ -771,7 +690,6 @@ class MobilerunWithStreamedResponse:
 
     @cached_property
     def proxies(self) -> proxies.ProxiesResourceWithStreamingResponse:
-        """Network Proxies"""
         from .resources.proxies import ProxiesResourceWithStreamingResponse
 
         return ProxiesResourceWithStreamingResponse(self._client.proxies)
@@ -798,25 +716,10 @@ class AsyncMobilerunWithStreamedResponse:
         return AsyncAgentsResourceWithStreamingResponse(self._client.agents)
 
     @cached_property
-    def apps(self) -> apps.AsyncAppsResourceWithStreamingResponse:
-        """App Management"""
-        from .resources.apps import AsyncAppsResourceWithStreamingResponse
-
-        return AsyncAppsResourceWithStreamingResponse(self._client.apps)
-
-    @cached_property
     def carriers(self) -> carriers.AsyncCarriersResourceWithStreamingResponse:
-        """Mobile Carriers"""
         from .resources.carriers import AsyncCarriersResourceWithStreamingResponse
 
         return AsyncCarriersResourceWithStreamingResponse(self._client.carriers)
-
-    @cached_property
-    def credentials(self) -> credentials.AsyncCredentialsResourceWithStreamingResponse:
-        """Vault & Secrets"""
-        from .resources.credentials import AsyncCredentialsResourceWithStreamingResponse
-
-        return AsyncCredentialsResourceWithStreamingResponse(self._client.credentials)
 
     @cached_property
     def devices(self) -> devices.AsyncDevicesResourceWithStreamingResponse:
@@ -826,13 +729,13 @@ class AsyncMobilerunWithStreamedResponse:
 
     @cached_property
     def hooks(self) -> hooks.AsyncHooksResourceWithStreamingResponse:
+        """Webhooks API"""
         from .resources.hooks import AsyncHooksResourceWithStreamingResponse
 
         return AsyncHooksResourceWithStreamingResponse(self._client.hooks)
 
     @cached_property
     def models(self) -> models.AsyncModelsResourceWithStreamingResponse:
-        """LLM Models"""
         from .resources.models import AsyncModelsResourceWithStreamingResponse
 
         return AsyncModelsResourceWithStreamingResponse(self._client.models)
@@ -845,7 +748,6 @@ class AsyncMobilerunWithStreamedResponse:
 
     @cached_property
     def proxies(self) -> proxies.AsyncProxiesResourceWithStreamingResponse:
-        """Network Proxies"""
         from .resources.proxies import AsyncProxiesResourceWithStreamingResponse
 
         return AsyncProxiesResourceWithStreamingResponse(self._client.proxies)

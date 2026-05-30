@@ -1,42 +1,18 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Union
-from typing_extensions import Literal, Annotated, TypeAlias
+from typing import Optional
 
 from pydantic import Field as FieldInfo
 
-from .._utils import PropertyInfo
 from .._models import BaseModel
+from .shared.socks5 import Socks5
 
-__all__ = ["ProxyConfig", "Socks5ProxyConfig", "WireguardProxyConfig"]
-
-
-class Socks5ProxyConfig(BaseModel):
-    host: str
-
-    name: str
-
-    password: str
-
-    port: int
-
-    protocol: Literal["socks5"]
-
-    proxy_id: str = FieldInfo(alias="proxyId")
-
-    user: str
+__all__ = ["ProxyConfig"]
 
 
-class WireguardProxyConfig(BaseModel):
-    config: str
+class ProxyConfig(BaseModel):
+    name: Optional[str] = None
 
-    name: str
+    smart_ip: Optional[bool] = FieldInfo(alias="smartIp", default=None)
 
-    protocol: Literal["wireguard"]
-
-    proxy_id: str = FieldInfo(alias="proxyId")
-
-
-ProxyConfig: TypeAlias = Annotated[
-    Union[Socks5ProxyConfig, WireguardProxyConfig], PropertyInfo(discriminator="protocol")
-]
+    socks5: Optional[Socks5] = None
