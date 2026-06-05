@@ -495,8 +495,7 @@ class DevicesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Reset a device to a fresh state (VMOS one-click new device; non-VMOS providers
-        return 404)
+        Reset a device to a fresh state
 
         Args:
           extra_headers: Send extra headers
@@ -990,8 +989,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Reset a device to a fresh state (VMOS one-click new device; non-VMOS providers
-        return 404)
+        Reset a device to a fresh state
 
         Args:
           extra_headers: Send extra headers
