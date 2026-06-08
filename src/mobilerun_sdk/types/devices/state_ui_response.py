@@ -1,6 +1,8 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from __future__ import annotations
+
+from typing import Optional
 
 from pydantic import Field as FieldInfo
 
@@ -9,62 +11,12 @@ from ..._models import BaseModel
 
 __all__ = [
     "StateUiResponse",
-    "A11yTree",
-    "A11yTreeBoundsInScreen",
     "DeviceContext",
     "DeviceContextDisplayMetrics",
     "DeviceContextFilteringParams",
-    "ImeTree",
-    "ImeTreeBoundsInScreen",
     "PhoneState",
     "PhoneStateFocusedElement",
 ]
-
-
-class A11yTreeBoundsInScreen(BaseModel):
-    bottom: int
-
-    left: int
-
-    right: int
-
-    top: int
-
-
-class A11yTree(BaseModel):
-    bounds_in_screen: A11yTreeBoundsInScreen = FieldInfo(alias="boundsInScreen")
-
-    children: Optional[List[object]] = None
-
-    class_name: str = FieldInfo(alias="className")
-
-    content_description: str = FieldInfo(alias="contentDescription")
-
-    is_checkable: bool = FieldInfo(alias="isCheckable")
-
-    is_checked: bool = FieldInfo(alias="isChecked")
-
-    is_clickable: bool = FieldInfo(alias="isClickable")
-
-    is_enabled: bool = FieldInfo(alias="isEnabled")
-
-    is_focusable: bool = FieldInfo(alias="isFocusable")
-
-    is_focused: bool = FieldInfo(alias="isFocused")
-
-    is_long_clickable: bool = FieldInfo(alias="isLongClickable")
-
-    is_password: bool = FieldInfo(alias="isPassword")
-
-    is_scrollable: bool = FieldInfo(alias="isScrollable")
-
-    is_selected: bool = FieldInfo(alias="isSelected")
-
-    package_name: str = FieldInfo(alias="packageName")
-
-    resource_id: str = FieldInfo(alias="resourceId")
-
-    text: str
 
 
 class DeviceContextDisplayMetrics(BaseModel):
@@ -93,52 +45,6 @@ class DeviceContext(BaseModel):
     screen_bounds: Rect
 
 
-class ImeTreeBoundsInScreen(BaseModel):
-    bottom: int
-
-    left: int
-
-    right: int
-
-    top: int
-
-
-class ImeTree(BaseModel):
-    bounds_in_screen: ImeTreeBoundsInScreen = FieldInfo(alias="boundsInScreen")
-
-    children: Optional[List[object]] = None
-
-    class_name: str = FieldInfo(alias="className")
-
-    content_description: str = FieldInfo(alias="contentDescription")
-
-    is_checkable: bool = FieldInfo(alias="isCheckable")
-
-    is_checked: bool = FieldInfo(alias="isChecked")
-
-    is_clickable: bool = FieldInfo(alias="isClickable")
-
-    is_enabled: bool = FieldInfo(alias="isEnabled")
-
-    is_focusable: bool = FieldInfo(alias="isFocusable")
-
-    is_focused: bool = FieldInfo(alias="isFocused")
-
-    is_long_clickable: bool = FieldInfo(alias="isLongClickable")
-
-    is_password: bool = FieldInfo(alias="isPassword")
-
-    is_scrollable: bool = FieldInfo(alias="isScrollable")
-
-    is_selected: bool = FieldInfo(alias="isSelected")
-
-    package_name: str = FieldInfo(alias="packageName")
-
-    resource_id: str = FieldInfo(alias="resourceId")
-
-    text: str
-
-
 class PhoneStateFocusedElement(BaseModel):
     class_name: Optional[str] = FieldInfo(alias="className", default=None)
 
@@ -162,13 +68,16 @@ class PhoneState(BaseModel):
 
 
 class StateUiResponse(BaseModel):
-    a11y_tree: A11yTree
+    a11y_tree: "A11YNode"
 
     device_context: DeviceContext
 
-    ime_tree: ImeTree
+    ime_tree: "A11YNode"
 
     phone_state: PhoneState
 
     schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
     """A URL to the JSON Schema for this object."""
+
+
+from .a11_y_node import A11YNode
