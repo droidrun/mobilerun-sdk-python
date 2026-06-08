@@ -226,6 +226,7 @@ class TestFlows:
             page=1,
             page_size=1,
             search="search",
+            status=["healthy"],
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(FlowListResponse, flow, path=["response"])
@@ -553,6 +554,7 @@ class TestAsyncFlows:
             page=1,
             page_size=1,
             search="search",
+            status=["healthy"],
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(FlowListResponse, flow, path=["response"])

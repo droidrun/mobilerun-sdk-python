@@ -13,6 +13,10 @@ __all__ = ["Flow"]
 class Flow(BaseModel):
     id: str
 
+    blocked_at: Optional[str] = FieldInfo(alias="blockedAt", default=None)
+
+    consecutive_failures: int = FieldInfo(alias="consecutiveFailures")
+
     cooldown_scope: Literal["flow", "device"] = FieldInfo(alias="cooldownScope")
 
     cooldown_seconds: Optional[int] = FieldInfo(alias="cooldownSeconds", default=None)
@@ -23,9 +27,17 @@ class Flow(BaseModel):
 
     enabled: bool
 
+    last_failure_at: Optional[str] = FieldInfo(alias="lastFailureAt", default=None)
+
+    last_failure_code: Optional[
+        Literal["device_not_found", "permission_denied", "client_error", "transient", "logic"]
+    ] = FieldInfo(alias="lastFailureCode", default=None)
+
     last_triggered_at: Optional[str] = FieldInfo(alias="lastTriggeredAt", default=None)
 
     name: str
+
+    status: Literal["healthy", "failing", "blocked"]
 
     trigger_id: str = FieldInfo(alias="triggerId")
 
