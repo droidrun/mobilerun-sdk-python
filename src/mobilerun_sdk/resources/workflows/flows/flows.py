@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+from typing import List, Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -202,6 +202,7 @@ class FlowsResource(SyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         search: str | Omit = omit,
+        status: List[Literal["healthy", "failing", "blocked"]] | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -237,6 +238,7 @@ class FlowsResource(SyncAPIResource):
                         "page": page,
                         "page_size": page_size,
                         "search": search,
+                        "status": status,
                         "trigger_id": trigger_id,
                     },
                     flow_list_params.FlowListParams,
@@ -479,6 +481,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         search: str | Omit = omit,
+        status: List[Literal["healthy", "failing", "blocked"]] | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -514,6 +517,7 @@ class AsyncFlowsResource(AsyncAPIResource):
                         "page": page,
                         "page_size": page_size,
                         "search": search,
+                        "status": status,
                         "trigger_id": trigger_id,
                     },
                     flow_list_params.FlowListParams,
