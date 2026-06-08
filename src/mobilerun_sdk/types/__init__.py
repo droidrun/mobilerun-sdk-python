@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from . import devices
+from .. import _compat
 from .flow import Flow as Flow
 from .task import Task as Task
 from .device import Device as Device
@@ -91,3 +93,14 @@ from .task_get_trajectory_response import TaskGetTrajectoryResponse as TaskGetTr
 from .hook_get_sample_data_response import HookGetSampleDataResponse as HookGetSampleDataResponse
 from .app_create_signed_upload_url_params import AppCreateSignedUploadURLParams as AppCreateSignedUploadURLParams
 from .app_create_signed_upload_url_response import AppCreateSignedUploadURLResponse as AppCreateSignedUploadURLResponse
+
+# Rebuild cyclical models only after all modules are imported.
+# This ensures that, when building the deferred (due to cyclical references) model schema,
+# Pydantic can resolve the necessary references.
+# See: https://github.com/pydantic/pydantic/issues/11250 for more context.
+if _compat.PYDANTIC_V1:
+    devices.a11_y_node.A11YNode.update_forward_refs()  # type: ignore
+    devices.state_ui_response.StateUiResponse.update_forward_refs()  # type: ignore
+else:
+    devices.a11_y_node.A11YNode.model_rebuild(_parent_namespace_depth=0)
+    devices.state_ui_response.StateUiResponse.model_rebuild(_parent_namespace_depth=0)

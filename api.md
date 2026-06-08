@@ -295,6 +295,7 @@ Types:
 
 ```python
 from mobilerun_sdk.types.devices import (
+    A11YNode,
     Rect,
     StateScreenshotResponse,
     StateTimeResponse,
