@@ -72,6 +72,14 @@ from .profiles import (
     ProfilesResourceWithStreamingResponse,
     AsyncProfilesResourceWithStreamingResponse,
 )
+from .workflows import (
+    WorkflowsResource,
+    AsyncWorkflowsResource,
+    WorkflowsResourceWithRawResponse,
+    AsyncWorkflowsResourceWithRawResponse,
+    WorkflowsResourceWithStreamingResponse,
+    AsyncWorkflowsResourceWithStreamingResponse,
+)
 from .credentials import (
     CredentialsResource,
     AsyncCredentialsResource,
@@ -142,4 +150,10 @@ __all__ = [
     "AsyncTasksResourceWithRawResponse",
     "TasksResourceWithStreamingResponse",
     "AsyncTasksResourceWithStreamingResponse",
+    "WorkflowsResource",
+    "AsyncWorkflowsResource",
+    "WorkflowsResourceWithRawResponse",
+    "AsyncWorkflowsResourceWithRawResponse",
+    "WorkflowsResourceWithStreamingResponse",
+    "AsyncWorkflowsResourceWithStreamingResponse",
 ]
