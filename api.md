@@ -16,15 +16,85 @@ from mobilerun_sdk.types import (
 
 # Agents
 
+## Chat
+
 Types:
 
 ```python
-from mobilerun_sdk.types import AgentListResponse
+from mobilerun_sdk.types.agents import (
+    ChatDeliverPermissionResponse,
+    ChatGetChatStateResponse,
+    ChatListSlashCommandsResponse,
+    ChatRehydrateChatResponse,
+)
 ```
 
 Methods:
 
-- <code title="get /agents">client.agents.<a href="./src/mobilerun_sdk/resources/agents.py">list</a>() -> <a href="./src/mobilerun_sdk/types/agent_list_response.py">AgentListResponse</a></code>
+- <code title="post /agents/chat/permission">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">deliver_permission</a>(\*\*<a href="src/mobilerun_sdk/types/agents/chat_deliver_permission_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/chat_deliver_permission_response.py">ChatDeliverPermissionResponse</a></code>
+- <code title="get /agents/chat/state">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">get_chat_state</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat_get_chat_state_response.py">ChatGetChatStateResponse</a></code>
+- <code title="get /agents/chat/slash-commands">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">list_slash_commands</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat_list_slash_commands_response.py">ChatListSlashCommandsResponse</a></code>
+- <code title="get /agents/chat/messages">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">rehydrate_chat</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat_rehydrate_chat_response.py">ChatRehydrateChatResponse</a></code>
+
+### Abort
+
+Types:
+
+```python
+from mobilerun_sdk.types.agents.chat import AbortForceClearResponse, AbortPerformResponse
+```
+
+Methods:
+
+- <code title="post /agents/chat/abort/force">client.agents.chat.abort.<a href="./src/mobilerun_sdk/resources/agents/chat/abort.py">force_clear</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat/abort_force_clear_response.py">AbortForceClearResponse</a></code>
+- <code title="post /agents/chat/abort">client.agents.chat.abort.<a href="./src/mobilerun_sdk/resources/agents/chat/abort.py">perform</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat/abort_perform_response.py">AbortPerformResponse</a></code>
+
+### Question
+
+Types:
+
+```python
+from mobilerun_sdk.types.agents.chat import QuestionDeliverAnswerResponse, QuestionDismissResponse
+```
+
+Methods:
+
+- <code title="post /agents/chat/question">client.agents.chat.question.<a href="./src/mobilerun_sdk/resources/agents/chat/question.py">deliver_answer</a>(\*\*<a href="src/mobilerun_sdk/types/agents/chat/question_deliver_answer_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/chat/question_deliver_answer_response.py">QuestionDeliverAnswerResponse</a></code>
+- <code title="post /agents/chat/question/reject">client.agents.chat.question.<a href="./src/mobilerun_sdk/resources/agents/chat/question.py">dismiss</a>(\*\*<a href="src/mobilerun_sdk/types/agents/chat/question_dismiss_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/chat/question_dismiss_response.py">QuestionDismissResponse</a></code>
+
+## Files
+
+Types:
+
+```python
+from mobilerun_sdk.types.agents import FileListFilesResponse, FileMintUploadURLResponse
+```
+
+Methods:
+
+- <code title="get /agents/files">client.agents.files.<a href="./src/mobilerun_sdk/resources/agents/files/files.py">list_files</a>(\*\*<a href="src/mobilerun_sdk/types/agents/file_list_files_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/file_list_files_response.py">FileListFilesResponse</a></code>
+- <code title="post /agents/files/upload-url">client.agents.files.<a href="./src/mobilerun_sdk/resources/agents/files/files.py">mint_upload_url</a>(\*\*<a href="src/mobilerun_sdk/types/agents/file_mint_upload_url_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/file_mint_upload_url_response.py">FileMintUploadURLResponse</a></code>
+
+### FileID
+
+Types:
+
+```python
+from mobilerun_sdk.types.agents.files import (
+    FileIDCancelPendingUploadResponse,
+    FileIDConfirmUploadResponse,
+    FileIDDeleteFileResponse,
+    FileIDUpdateMetadataResponse,
+)
+```
+
+Methods:
+
+- <code title="delete /agents/files/:fileId/pending">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">cancel_pending_upload</a>() -> <a href="./src/mobilerun_sdk/types/agents/files/file_id_cancel_pending_upload_response.py">FileIDCancelPendingUploadResponse</a></code>
+- <code title="post /agents/files/:fileId/confirm">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">confirm_upload</a>() -> <a href="./src/mobilerun_sdk/types/agents/files/file_id_confirm_upload_response.py">FileIDConfirmUploadResponse</a></code>
+- <code title="delete /agents/files/:fileId">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">delete_file</a>() -> <a href="./src/mobilerun_sdk/types/agents/files/file_id_delete_file_response.py">FileIDDeleteFileResponse</a></code>
+- <code title="get /agents/files/:fileId/download">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">download_file</a>() -> None</code>
+- <code title="patch /agents/files/:fileId">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">update_metadata</a>(\*\*<a href="src/mobilerun_sdk/types/agents/files/file_id_update_metadata_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/files/file_id_update_metadata_response.py">FileIDUpdateMetadataResponse</a></code>
 
 # Apps
 
@@ -585,6 +655,7 @@ from mobilerun_sdk.types.workflows import (
     FlowListResponse,
     FlowDeleteResponse,
     FlowCloneResponse,
+    FlowUnblockResponse,
 )
 ```
 
@@ -596,6 +667,7 @@ Methods:
 - <code title="get /flows">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/flow_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_list_response.py">FlowListResponse</a></code>
 - <code title="delete /flows/{flowId}">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">delete</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_delete_response.py">FlowDeleteResponse</a></code>
 - <code title="post /flows/{flowId}/clone">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">clone</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_clone_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_clone_response.py">FlowCloneResponse</a></code>
+- <code title="post /flows/{flowId}/unblock">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">unblock</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_unblock_response.py">FlowUnblockResponse</a></code>
 
 ### Actions
 

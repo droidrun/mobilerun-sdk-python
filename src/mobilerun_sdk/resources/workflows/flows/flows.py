@@ -32,6 +32,7 @@ from ....types.workflows.flow_clone_response import FlowCloneResponse
 from ....types.workflows.flow_create_response import FlowCreateResponse
 from ....types.workflows.flow_delete_response import FlowDeleteResponse
 from ....types.workflows.flow_update_response import FlowUpdateResponse
+from ....types.workflows.flow_unblock_response import FlowUnblockResponse
 from ....types.workflows.flow_retrieve_response import FlowRetrieveResponse
 
 __all__ = ["FlowsResource", "AsyncFlowsResource"]
@@ -315,6 +316,41 @@ class FlowsResource(SyncAPIResource):
             cast_to=FlowCloneResponse,
         )
 
+    def unblock(
+        self,
+        flow_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowUnblockResponse:
+        """Clear a flow's blocked status after fixing the underlying issue.
+
+        Idempotent —
+        safe to call on already-healthy flows.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return self._post(
+            path_template("/flows/{flow_id}/unblock", flow_id=flow_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FlowUnblockResponse,
+        )
+
 
 class AsyncFlowsResource(AsyncAPIResource):
     @cached_property
@@ -594,6 +630,41 @@ class AsyncFlowsResource(AsyncAPIResource):
             cast_to=FlowCloneResponse,
         )
 
+    async def unblock(
+        self,
+        flow_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowUnblockResponse:
+        """Clear a flow's blocked status after fixing the underlying issue.
+
+        Idempotent —
+        safe to call on already-healthy flows.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return await self._post(
+            path_template("/flows/{flow_id}/unblock", flow_id=flow_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FlowUnblockResponse,
+        )
+
 
 class FlowsResourceWithRawResponse:
     def __init__(self, flows: FlowsResource) -> None:
@@ -616,6 +687,9 @@ class FlowsResourceWithRawResponse:
         )
         self.clone = to_raw_response_wrapper(
             flows.clone,
+        )
+        self.unblock = to_raw_response_wrapper(
+            flows.unblock,
         )
 
     @cached_property
@@ -645,6 +719,9 @@ class AsyncFlowsResourceWithRawResponse:
         self.clone = async_to_raw_response_wrapper(
             flows.clone,
         )
+        self.unblock = async_to_raw_response_wrapper(
+            flows.unblock,
+        )
 
     @cached_property
     def actions(self) -> AsyncActionsResourceWithRawResponse:
@@ -673,6 +750,9 @@ class FlowsResourceWithStreamingResponse:
         self.clone = to_streamed_response_wrapper(
             flows.clone,
         )
+        self.unblock = to_streamed_response_wrapper(
+            flows.unblock,
+        )
 
     @cached_property
     def actions(self) -> ActionsResourceWithStreamingResponse:
@@ -700,6 +780,9 @@ class AsyncFlowsResourceWithStreamingResponse:
         )
         self.clone = async_to_streamed_response_wrapper(
             flows.clone,
+        )
+        self.unblock = async_to_streamed_response_wrapper(
+            flows.unblock,
         )
 
     @cached_property
