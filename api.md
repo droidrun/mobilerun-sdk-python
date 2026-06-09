@@ -482,6 +482,66 @@ Methods:
 - <code title="delete /proxies/{proxyId}">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">delete</a>(proxy_id) -> <a href="./src/mobilerun_sdk/types/proxy_delete_response.py">ProxyDeleteResponse</a></code>
 - <code title="post /proxies/lookup">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">lookup</a>(\*\*<a href="src/mobilerun_sdk/types/proxy_lookup_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/proxy_lookup_response.py">ProxyLookupResponse</a></code>
 
+# Connect
+
+## Countries
+
+Types:
+
+```python
+from mobilerun_sdk.types.connect import CountryListResponse
+```
+
+Methods:
+
+- <code title="get /connect/countries">client.connect.countries.<a href="./src/mobilerun_sdk/resources/connect/countries.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/connect/country_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/connect/country_list_response.py">CountryListResponse</a></code>
+
+## Proxies
+
+Types:
+
+```python
+from mobilerun_sdk.types.connect import (
+    ProxyRetrieveResponse,
+    ProxyListResponse,
+    ProxyBuyResponse,
+    ProxyListConnectionsResponse,
+    ProxyPingResponse,
+)
+```
+
+Methods:
+
+- <code title="get /connect/proxies/{id}">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">retrieve</a>(id) -> <a href="./src/mobilerun_sdk/types/connect/proxy_retrieve_response.py">ProxyRetrieveResponse</a></code>
+- <code title="get /connect/proxies">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/connect/proxy_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/connect/proxy_list_response.py">ProxyListResponse</a></code>
+- <code title="post /connect/proxies">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">buy</a>(\*\*<a href="src/mobilerun_sdk/types/connect/proxy_buy_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/connect/proxy_buy_response.py">ProxyBuyResponse</a></code>
+- <code title="delete /connect/proxies/{id}">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">cancel</a>(id) -> None</code>
+- <code title="get /connect/proxies/{id}/connections">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">list_connections</a>(id, \*\*<a href="src/mobilerun_sdk/types/connect/proxy_list_connections_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/connect/proxy_list_connections_response.py">ProxyListConnectionsResponse</a></code>
+- <code title="get /connect/proxies/{id}/ping">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">ping</a>(id) -> <a href="./src/mobilerun_sdk/types/connect/proxy_ping_response.py">ProxyPingResponse</a></code>
+
+## Users
+
+Types:
+
+```python
+from mobilerun_sdk.types.connect import (
+    UserCreateResponse,
+    UserRetrieveResponse,
+    UserUpdateResponse,
+    UserListResponse,
+    UserListConnectionsResponse,
+)
+```
+
+Methods:
+
+- <code title="post /connect/users">client.connect.users.<a href="./src/mobilerun_sdk/resources/connect/users.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/connect/user_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/connect/user_create_response.py">UserCreateResponse</a></code>
+- <code title="get /connect/users/{id}">client.connect.users.<a href="./src/mobilerun_sdk/resources/connect/users.py">retrieve</a>(id) -> <a href="./src/mobilerun_sdk/types/connect/user_retrieve_response.py">UserRetrieveResponse</a></code>
+- <code title="patch /connect/users/{id}">client.connect.users.<a href="./src/mobilerun_sdk/resources/connect/users.py">update</a>(id, \*\*<a href="src/mobilerun_sdk/types/connect/user_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/connect/user_update_response.py">UserUpdateResponse</a></code>
+- <code title="get /connect/users">client.connect.users.<a href="./src/mobilerun_sdk/resources/connect/users.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/connect/user_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/connect/user_list_response.py">UserListResponse</a></code>
+- <code title="delete /connect/users/{id}">client.connect.users.<a href="./src/mobilerun_sdk/resources/connect/users.py">delete</a>(id) -> None</code>
+- <code title="get /connect/users/{id}/connections">client.connect.users.<a href="./src/mobilerun_sdk/resources/connect/users.py">list_connections</a>(id, \*\*<a href="src/mobilerun_sdk/types/connect/user_list_connections_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/connect/user_list_connections_response.py">UserListConnectionsResponse</a></code>
+
 # Tasks
 
 Types:
