@@ -36,6 +36,9 @@ from mobilerun_sdk.types.agents import (
     ChatGetChatStateResponse,
     ChatListSlashCommandsResponse,
     ChatRehydrateChatResponse,
+    ChatSendMessageResponse,
+    ChatSendPromptResponse,
+    ChatSubscribeEventsResponse,
 )
 ```
 
@@ -45,6 +48,9 @@ Methods:
 - <code title="get /agents/chat/state">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">get_chat_state</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat_get_chat_state_response.py">ChatGetChatStateResponse</a></code>
 - <code title="get /agents/chat/slash-commands">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">list_slash_commands</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat_list_slash_commands_response.py">ChatListSlashCommandsResponse</a></code>
 - <code title="get /agents/chat/messages">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">rehydrate_chat</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat_rehydrate_chat_response.py">ChatRehydrateChatResponse</a></code>
+- <code title="post /agents/chat/message">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">send_message</a>(\*\*<a href="src/mobilerun_sdk/types/agents/chat_send_message_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/chat_send_message_response.py">ChatSendMessageResponse</a></code>
+- <code title="post /agents/chat/prompt">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">send_prompt</a>(\*\*<a href="src/mobilerun_sdk/types/agents/chat_send_prompt_params.py">params</a>) -> str</code>
+- <code title="get /agents/chat/events">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">subscribe_events</a>() -> str</code>
 
 ### Abort
 
