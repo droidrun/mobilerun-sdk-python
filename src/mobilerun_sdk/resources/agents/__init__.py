@@ -24,14 +24,6 @@ from .agents import (
     AgentsResourceWithStreamingResponse,
     AsyncAgentsResourceWithStreamingResponse,
 )
-from .telegram import (
-    TelegramResource,
-    AsyncTelegramResource,
-    TelegramResourceWithRawResponse,
-    AsyncTelegramResourceWithRawResponse,
-    TelegramResourceWithStreamingResponse,
-    AsyncTelegramResourceWithStreamingResponse,
-)
 
 __all__ = [
     "ChatResource",
@@ -46,12 +38,6 @@ __all__ = [
     "AsyncFilesResourceWithRawResponse",
     "FilesResourceWithStreamingResponse",
     "AsyncFilesResourceWithStreamingResponse",
-    "TelegramResource",
-    "AsyncTelegramResource",
-    "TelegramResourceWithRawResponse",
-    "AsyncTelegramResourceWithRawResponse",
-    "TelegramResourceWithStreamingResponse",
-    "AsyncTelegramResourceWithStreamingResponse",
     "AgentsResource",
     "AsyncAgentsResource",
     "AgentsResourceWithRawResponse",

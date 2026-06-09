@@ -16,16 +16,6 @@ from mobilerun_sdk.types import (
 
 # Agents
 
-Types:
-
-```python
-from mobilerun_sdk.types import AgentListResponse
-```
-
-Methods:
-
-- <code title="get /agents">client.agents.<a href="./src/mobilerun_sdk/resources/agents/agents.py">list</a>() -> <a href="./src/mobilerun_sdk/types/agent_list_response.py">AgentListResponse</a></code>
-
 ## Chat
 
 Types:
@@ -36,9 +26,6 @@ from mobilerun_sdk.types.agents import (
     ChatGetChatStateResponse,
     ChatListSlashCommandsResponse,
     ChatRehydrateChatResponse,
-    ChatSendMessageResponse,
-    ChatSendPromptResponse,
-    ChatSubscribeEventsResponse,
 )
 ```
 
@@ -48,9 +35,6 @@ Methods:
 - <code title="get /agents/chat/state">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">get_chat_state</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat_get_chat_state_response.py">ChatGetChatStateResponse</a></code>
 - <code title="get /agents/chat/slash-commands">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">list_slash_commands</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat_list_slash_commands_response.py">ChatListSlashCommandsResponse</a></code>
 - <code title="get /agents/chat/messages">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">rehydrate_chat</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat_rehydrate_chat_response.py">ChatRehydrateChatResponse</a></code>
-- <code title="post /agents/chat/message">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">send_message</a>(\*\*<a href="src/mobilerun_sdk/types/agents/chat_send_message_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/chat_send_message_response.py">ChatSendMessageResponse</a></code>
-- <code title="post /agents/chat/prompt">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">send_prompt</a>(\*\*<a href="src/mobilerun_sdk/types/agents/chat_send_prompt_params.py">params</a>) -> str</code>
-- <code title="get /agents/chat/events">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">subscribe_events</a>() -> str</code>
 
 ### Abort
 
@@ -111,30 +95,6 @@ Methods:
 - <code title="delete /agents/files/:fileId">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">delete_file</a>() -> <a href="./src/mobilerun_sdk/types/agents/files/file_id_delete_file_response.py">FileIDDeleteFileResponse</a></code>
 - <code title="get /agents/files/:fileId/download">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">download_file</a>() -> None</code>
 - <code title="patch /agents/files/:fileId">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">update_metadata</a>(\*\*<a href="src/mobilerun_sdk/types/agents/files/file_id_update_metadata_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/files/file_id_update_metadata_response.py">FileIDUpdateMetadataResponse</a></code>
-
-## Telegram
-
-Methods:
-
-- <code title="post /agents/telegram/webhook">client.agents.telegram.<a href="./src/mobilerun_sdk/resources/agents/telegram/telegram.py">receive_update</a>(\*\*<a href="src/mobilerun_sdk/types/agents/telegram_receive_update_params.py">params</a>) -> None</code>
-
-### Bots
-
-Types:
-
-```python
-from mobilerun_sdk.types.agents.telegram import (
-    BotListResponse,
-    BotRequestLinkResponse,
-    BotRevokeLinkResponse,
-)
-```
-
-Methods:
-
-- <code title="get /agents/telegram/bots">client.agents.telegram.bots.<a href="./src/mobilerun_sdk/resources/agents/telegram/bots.py">list</a>() -> <a href="./src/mobilerun_sdk/types/agents/telegram/bot_list_response.py">BotListResponse</a></code>
-- <code title="post /agents/telegram/bots/connect">client.agents.telegram.bots.<a href="./src/mobilerun_sdk/resources/agents/telegram/bots.py">request_link</a>() -> <a href="./src/mobilerun_sdk/types/agents/telegram/bot_request_link_response.py">BotRequestLinkResponse</a></code>
-- <code title="post /agents/telegram/bots/{id}/revoke">client.agents.telegram.bots.<a href="./src/mobilerun_sdk/resources/agents/telegram/bots.py">revoke_link</a>(id) -> <a href="./src/mobilerun_sdk/types/agents/telegram/bot_revoke_link_response.py">BotRevokeLinkResponse</a></code>
 
 # Apps
 
@@ -311,31 +271,15 @@ Methods:
 Types:
 
 ```python
-from mobilerun_sdk.types.devices import EsimListResponse, EsimActivateResponse, EsimStatusResponse
+from mobilerun_sdk.types.devices import EsimListResponse, EsimActivateResponse
 ```
 
 Methods:
 
-- <code title="get /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim/esim.py">list</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/esim_list_response.py">Optional[EsimListResponse]</a></code>
-- <code title="post /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim/esim.py">activate</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_activate_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/esim_activate_response.py">EsimActivateResponse</a></code>
-- <code title="put /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim/esim.py">enable</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_enable_params.py">params</a>) -> None</code>
-- <code title="delete /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim/esim.py">remove</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_remove_params.py">params</a>) -> None</code>
-- <code title="put /devices/{deviceId}/esim/roaming">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim/esim.py">set_roaming</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_set_roaming_params.py">params</a>) -> None</code>
-- <code title="get /devices/{deviceId}/esim/status">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim/esim.py">status</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/esim_status_response.py">Optional[EsimStatusResponse]</a></code>
-
-### Apn
-
-Types:
-
-```python
-from mobilerun_sdk.types.devices.esim import ApnListResponse
-```
-
-Methods:
-
-- <code title="post /devices/{deviceId}/esim/apn">client.devices.esim.apn.<a href="./src/mobilerun_sdk/resources/devices/esim/apn.py">create</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim/apn_create_params.py">params</a>) -> None</code>
-- <code title="get /devices/{deviceId}/esim/apn">client.devices.esim.apn.<a href="./src/mobilerun_sdk/resources/devices/esim/apn.py">list</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/esim/apn_list_response.py">Optional[ApnListResponse]</a></code>
-- <code title="put /devices/{deviceId}/esim/apn">client.devices.esim.apn.<a href="./src/mobilerun_sdk/resources/devices/esim/apn.py">select</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim/apn_select_params.py">params</a>) -> None</code>
+- <code title="get /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim.py">list</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/esim_list_response.py">Optional[EsimListResponse]</a></code>
+- <code title="post /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim.py">activate</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_activate_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/esim_activate_response.py">EsimActivateResponse</a></code>
+- <code title="put /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim.py">enable</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_enable_params.py">params</a>) -> None</code>
+- <code title="delete /devices/{deviceId}/esim">client.devices.esim.<a href="./src/mobilerun_sdk/resources/devices/esim.py">remove</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/esim_remove_params.py">params</a>) -> None</code>
 
 ## Files
 

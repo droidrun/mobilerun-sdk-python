@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -23,7 +22,7 @@ from .question import (
     QuestionResourceWithStreamingResponse,
     AsyncQuestionResourceWithStreamingResponse,
 )
-from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
+from ...._types import Body, Query, Headers, NotGiven, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -33,14 +32,10 @@ from ...._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...._streaming import Stream, AsyncStream
 from ...._base_client import make_request_options
-from ....types.agents import chat_send_prompt_params, chat_send_message_params, chat_deliver_permission_params
-from ....types.agents.chat_send_prompt_response import ChatSendPromptResponse
-from ....types.agents.chat_send_message_response import ChatSendMessageResponse
+from ....types.agents import chat_deliver_permission_params
 from ....types.agents.chat_get_chat_state_response import ChatGetChatStateResponse
 from ....types.agents.chat_rehydrate_chat_response import ChatRehydrateChatResponse
-from ....types.agents.chat_subscribe_events_response import ChatSubscribeEventsResponse
 from ....types.agents.chat_deliver_permission_response import ChatDeliverPermissionResponse
 from ....types.agents.chat_list_slash_commands_response import ChatListSlashCommandsResponse
 
@@ -176,120 +171,6 @@ class ChatResource(SyncAPIResource):
             cast_to=ChatRehydrateChatResponse,
         )
 
-    def send_message(
-        self,
-        *,
-        message: str,
-        agent: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ChatSendMessageResponse:
-        """Send a single user message (direct API).
-
-        Content-negotiated: SSE or JSON.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._post(
-            "/agents/chat/message",
-            body=maybe_transform(
-                {
-                    "message": message,
-                    "agent": agent,
-                },
-                chat_send_message_params.ChatSendMessageParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ChatSendMessageResponse,
-        )
-
-    def send_prompt(
-        self,
-        *,
-        messages: Iterable[chat_send_prompt_params.Message],
-        id: str | Omit = omit,
-        agent: str | Omit = omit,
-        context: str | Omit = omit,
-        file_ids: SequenceNotStr[str] | Omit = omit,
-        metadata: Dict[str, Optional[object]] | Omit = omit,
-        trigger: Literal["submit-message", "regenerate-message"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Stream[ChatSendPromptResponse]:
-        """
-        Send a chat prompt; streams agent events.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        return self._post(
-            "/agents/chat/prompt",
-            body=maybe_transform(
-                {
-                    "messages": messages,
-                    "id": id,
-                    "agent": agent,
-                    "context": context,
-                    "file_ids": file_ids,
-                    "metadata": metadata,
-                    "trigger": trigger,
-                },
-                chat_send_prompt_params.ChatSendPromptParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=str,
-            stream=True,
-            stream_cls=Stream[ChatSendPromptResponse],
-        )
-
-    def subscribe_events(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Stream[ChatSubscribeEventsResponse]:
-        """SSE channel for chat-change notifications."""
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        return self._get(
-            "/agents/chat/events",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=str,
-            stream=True,
-            stream_cls=Stream[ChatSubscribeEventsResponse],
-        )
-
 
 class AsyncChatResource(AsyncAPIResource):
     @cached_property
@@ -420,120 +301,6 @@ class AsyncChatResource(AsyncAPIResource):
             cast_to=ChatRehydrateChatResponse,
         )
 
-    async def send_message(
-        self,
-        *,
-        message: str,
-        agent: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ChatSendMessageResponse:
-        """Send a single user message (direct API).
-
-        Content-negotiated: SSE or JSON.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._post(
-            "/agents/chat/message",
-            body=await async_maybe_transform(
-                {
-                    "message": message,
-                    "agent": agent,
-                },
-                chat_send_message_params.ChatSendMessageParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ChatSendMessageResponse,
-        )
-
-    async def send_prompt(
-        self,
-        *,
-        messages: Iterable[chat_send_prompt_params.Message],
-        id: str | Omit = omit,
-        agent: str | Omit = omit,
-        context: str | Omit = omit,
-        file_ids: SequenceNotStr[str] | Omit = omit,
-        metadata: Dict[str, Optional[object]] | Omit = omit,
-        trigger: Literal["submit-message", "regenerate-message"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AsyncStream[ChatSendPromptResponse]:
-        """
-        Send a chat prompt; streams agent events.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        return await self._post(
-            "/agents/chat/prompt",
-            body=await async_maybe_transform(
-                {
-                    "messages": messages,
-                    "id": id,
-                    "agent": agent,
-                    "context": context,
-                    "file_ids": file_ids,
-                    "metadata": metadata,
-                    "trigger": trigger,
-                },
-                chat_send_prompt_params.ChatSendPromptParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=str,
-            stream=True,
-            stream_cls=AsyncStream[ChatSendPromptResponse],
-        )
-
-    async def subscribe_events(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AsyncStream[ChatSubscribeEventsResponse]:
-        """SSE channel for chat-change notifications."""
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        return await self._get(
-            "/agents/chat/events",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=str,
-            stream=True,
-            stream_cls=AsyncStream[ChatSubscribeEventsResponse],
-        )
-
 
 class ChatResourceWithRawResponse:
     def __init__(self, chat: ChatResource) -> None:
@@ -550,15 +317,6 @@ class ChatResourceWithRawResponse:
         )
         self.rehydrate_chat = to_raw_response_wrapper(
             chat.rehydrate_chat,
-        )
-        self.send_message = to_raw_response_wrapper(
-            chat.send_message,
-        )
-        self.send_prompt = to_raw_response_wrapper(
-            chat.send_prompt,
-        )
-        self.subscribe_events = to_raw_response_wrapper(
-            chat.subscribe_events,
         )
 
     @cached_property
@@ -586,15 +344,6 @@ class AsyncChatResourceWithRawResponse:
         self.rehydrate_chat = async_to_raw_response_wrapper(
             chat.rehydrate_chat,
         )
-        self.send_message = async_to_raw_response_wrapper(
-            chat.send_message,
-        )
-        self.send_prompt = async_to_raw_response_wrapper(
-            chat.send_prompt,
-        )
-        self.subscribe_events = async_to_raw_response_wrapper(
-            chat.subscribe_events,
-        )
 
     @cached_property
     def abort(self) -> AsyncAbortResourceWithRawResponse:
@@ -621,15 +370,6 @@ class ChatResourceWithStreamingResponse:
         self.rehydrate_chat = to_streamed_response_wrapper(
             chat.rehydrate_chat,
         )
-        self.send_message = to_streamed_response_wrapper(
-            chat.send_message,
-        )
-        self.send_prompt = to_streamed_response_wrapper(
-            chat.send_prompt,
-        )
-        self.subscribe_events = to_streamed_response_wrapper(
-            chat.subscribe_events,
-        )
 
     @cached_property
     def abort(self) -> AbortResourceWithStreamingResponse:
@@ -655,15 +395,6 @@ class AsyncChatResourceWithStreamingResponse:
         )
         self.rehydrate_chat = async_to_streamed_response_wrapper(
             chat.rehydrate_chat,
-        )
-        self.send_message = async_to_streamed_response_wrapper(
-            chat.send_message,
-        )
-        self.send_prompt = async_to_streamed_response_wrapper(
-            chat.send_prompt,
-        )
-        self.subscribe_events = async_to_streamed_response_wrapper(
-            chat.subscribe_events,
         )
 
     @cached_property
