@@ -40,6 +40,14 @@ from .models import (
     ModelsResourceWithStreamingResponse,
     AsyncModelsResourceWithStreamingResponse,
 )
+from .connect import (
+    ConnectResource,
+    AsyncConnectResource,
+    ConnectResourceWithRawResponse,
+    AsyncConnectResourceWithRawResponse,
+    ConnectResourceWithStreamingResponse,
+    AsyncConnectResourceWithStreamingResponse,
+)
 from .devices import (
     DevicesResource,
     AsyncDevicesResource,
@@ -144,6 +152,12 @@ __all__ = [
     "AsyncProxiesResourceWithRawResponse",
     "ProxiesResourceWithStreamingResponse",
     "AsyncProxiesResourceWithStreamingResponse",
+    "ConnectResource",
+    "AsyncConnectResource",
+    "ConnectResourceWithRawResponse",
+    "AsyncConnectResourceWithRawResponse",
+    "ConnectResourceWithStreamingResponse",
+    "AsyncConnectResourceWithStreamingResponse",
     "TasksResource",
     "AsyncTasksResource",
     "TasksResourceWithRawResponse",
