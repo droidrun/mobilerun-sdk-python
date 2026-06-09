@@ -124,16 +124,17 @@ from mobilerun_sdk import Mobilerun
 
 client = Mobilerun()
 
-client.agents.telegram.receive_update(
-    update_id=0,
-    message={
-        "chat": {
-            "id": 0,
-            "type": "type",
-        },
-        "message_id": 0,
+device = client.devices.create(
+    carrier={
+        "gsm_operator_alpha": "GsmOperatorAlpha",
+        "gsm_operator_numeric": 0,
+        "gsm_sim_operator_alpha": "GsmSimOperatorAlpha",
+        "gsm_sim_operator_iso_country": "GsmSimOperatorIsoCountry",
+        "gsm_sim_operator_numeric": 0,
+        "persist_sys_timezone": "PersistSysTimezone",
     },
 )
+print(device.carrier)
 ```
 
 ## File uploads

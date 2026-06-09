@@ -6,38 +6,25 @@ from typing import Optional
 
 import httpx
 
-from .apn import (
-    ApnResource,
-    AsyncApnResource,
-    ApnResourceWithRawResponse,
-    AsyncApnResourceWithRawResponse,
-    ApnResourceWithStreamingResponse,
-    AsyncApnResourceWithStreamingResponse,
-)
-from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ...._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
-from ...._compat import cached_property
-from ...._resource import SyncAPIResource, AsyncAPIResource
-from ...._response import (
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...._base_client import make_request_options
-from ....types.devices import esim_enable_params, esim_remove_params, esim_activate_params, esim_set_roaming_params
-from ....types.devices.esim_list_response import EsimListResponse
-from ....types.devices.esim_status_response import EsimStatusResponse
-from ....types.devices.esim_activate_response import EsimActivateResponse
+from ..._base_client import make_request_options
+from ...types.devices import esim_enable_params, esim_remove_params, esim_activate_params
+from ...types.devices.esim_list_response import EsimListResponse
+from ...types.devices.esim_activate_response import EsimActivateResponse
 
 __all__ = ["EsimResource", "AsyncEsimResource"]
 
 
 class EsimResource(SyncAPIResource):
-    @cached_property
-    def apn(self) -> ApnResource:
-        return ApnResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> EsimResourceWithRawResponse:
         """
@@ -243,95 +230,8 @@ class EsimResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
-    def set_roaming(
-        self,
-        device_id: str,
-        *,
-        enabled: bool,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        Toggle eSIM data roaming
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
-        return self._put(
-            path_template("/devices/{device_id}/esim/roaming", device_id=device_id),
-            body=maybe_transform({"enabled": enabled}, esim_set_roaming_params.EsimSetRoamingParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
-    def status(
-        self,
-        device_id: str,
-        *,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Optional[EsimStatusResponse]:
-        """
-        Get eSIM connectivity status
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
-        return self._get(
-            path_template("/devices/{device_id}/esim/status", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=EsimStatusResponse,
-        )
-
 
 class AsyncEsimResource(AsyncAPIResource):
-    @cached_property
-    def apn(self) -> AsyncApnResource:
-        return AsyncApnResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> AsyncEsimResourceWithRawResponse:
         """
@@ -537,89 +437,6 @@ class AsyncEsimResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
-    async def set_roaming(
-        self,
-        device_id: str,
-        *,
-        enabled: bool,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        Toggle eSIM data roaming
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
-        return await self._put(
-            path_template("/devices/{device_id}/esim/roaming", device_id=device_id),
-            body=await async_maybe_transform({"enabled": enabled}, esim_set_roaming_params.EsimSetRoamingParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
-    async def status(
-        self,
-        device_id: str,
-        *,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Optional[EsimStatusResponse]:
-        """
-        Get eSIM connectivity status
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
-        return await self._get(
-            path_template("/devices/{device_id}/esim/status", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=EsimStatusResponse,
-        )
-
 
 class EsimResourceWithRawResponse:
     def __init__(self, esim: EsimResource) -> None:
@@ -637,16 +454,6 @@ class EsimResourceWithRawResponse:
         self.remove = to_raw_response_wrapper(
             esim.remove,
         )
-        self.set_roaming = to_raw_response_wrapper(
-            esim.set_roaming,
-        )
-        self.status = to_raw_response_wrapper(
-            esim.status,
-        )
-
-    @cached_property
-    def apn(self) -> ApnResourceWithRawResponse:
-        return ApnResourceWithRawResponse(self._esim.apn)
 
 
 class AsyncEsimResourceWithRawResponse:
@@ -665,16 +472,6 @@ class AsyncEsimResourceWithRawResponse:
         self.remove = async_to_raw_response_wrapper(
             esim.remove,
         )
-        self.set_roaming = async_to_raw_response_wrapper(
-            esim.set_roaming,
-        )
-        self.status = async_to_raw_response_wrapper(
-            esim.status,
-        )
-
-    @cached_property
-    def apn(self) -> AsyncApnResourceWithRawResponse:
-        return AsyncApnResourceWithRawResponse(self._esim.apn)
 
 
 class EsimResourceWithStreamingResponse:
@@ -693,16 +490,6 @@ class EsimResourceWithStreamingResponse:
         self.remove = to_streamed_response_wrapper(
             esim.remove,
         )
-        self.set_roaming = to_streamed_response_wrapper(
-            esim.set_roaming,
-        )
-        self.status = to_streamed_response_wrapper(
-            esim.status,
-        )
-
-    @cached_property
-    def apn(self) -> ApnResourceWithStreamingResponse:
-        return ApnResourceWithStreamingResponse(self._esim.apn)
 
 
 class AsyncEsimResourceWithStreamingResponse:
@@ -721,13 +508,3 @@ class AsyncEsimResourceWithStreamingResponse:
         self.remove = async_to_streamed_response_wrapper(
             esim.remove,
         )
-        self.set_roaming = async_to_streamed_response_wrapper(
-            esim.set_roaming,
-        )
-        self.status = async_to_streamed_response_wrapper(
-            esim.status,
-        )
-
-    @cached_property
-    def apn(self) -> AsyncApnResourceWithStreamingResponse:
-        return AsyncApnResourceWithStreamingResponse(self._esim.apn)

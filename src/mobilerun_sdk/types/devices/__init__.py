@@ -30,7 +30,6 @@ from .state_time_response import StateTimeResponse as StateTimeResponse
 from .timezone_set_params import TimezoneSetParams as TimezoneSetParams
 from .action_global_params import ActionGlobalParams as ActionGlobalParams
 from .esim_activate_params import EsimActivateParams as EsimActivateParams
-from .esim_status_response import EsimStatusResponse as EsimStatusResponse
 from .file_download_params import FileDownloadParams as FileDownloadParams
 from .proxy_connect_params import ProxyConnectParams as ProxyConnectParams
 from .keyboard_write_params import KeyboardWriteParams as KeyboardWriteParams
@@ -41,7 +40,6 @@ from .proxy_status_response import ProxyStatusResponse as ProxyStatusResponse
 from .timezone_get_response import TimezoneGetResponse as TimezoneGetResponse
 from .esim_activate_response import EsimActivateResponse as EsimActivateResponse
 from .file_download_response import FileDownloadResponse as FileDownloadResponse
-from .esim_set_roaming_params import EsimSetRoamingParams as EsimSetRoamingParams
 from .state_screenshot_params import StateScreenshotParams as StateScreenshotParams
 from .state_screenshot_response import StateScreenshotResponse as StateScreenshotResponse
 from .action_overlay_visible_response import ActionOverlayVisibleResponse as ActionOverlayVisibleResponse

@@ -36,7 +36,6 @@ from .hook_test_response import HookTestResponse as HookTestResponse
 from .hook_update_params import HookUpdateParams as HookUpdateParams
 from .task_list_response import TaskListResponse as TaskListResponse
 from .task_stop_response import TaskStopResponse as TaskStopResponse
-from .agent_list_response import AgentListResponse as AgentListResponse
 from .app_delete_response import AppDeleteResponse as AppDeleteResponse
 from .carrier_list_params import CarrierListParams as CarrierListParams
 from .hook_perform_params import HookPerformParams as HookPerformParams
