@@ -16,6 +16,16 @@ from mobilerun_sdk.types import (
 
 # Agents
 
+Types:
+
+```python
+from mobilerun_sdk.types import AgentListResponse
+```
+
+Methods:
+
+- <code title="get /agents">client.agents.<a href="./src/mobilerun_sdk/resources/agents/agents.py">list</a>() -> <a href="./src/mobilerun_sdk/types/agent_list_response.py">AgentListResponse</a></code>
+
 ## Chat
 
 Types:
@@ -95,6 +105,30 @@ Methods:
 - <code title="delete /agents/files/:fileId">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">delete_file</a>() -> <a href="./src/mobilerun_sdk/types/agents/files/file_id_delete_file_response.py">FileIDDeleteFileResponse</a></code>
 - <code title="get /agents/files/:fileId/download">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">download_file</a>() -> None</code>
 - <code title="patch /agents/files/:fileId">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">update_metadata</a>(\*\*<a href="src/mobilerun_sdk/types/agents/files/file_id_update_metadata_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/files/file_id_update_metadata_response.py">FileIDUpdateMetadataResponse</a></code>
+
+## Telegram
+
+Methods:
+
+- <code title="post /agents/telegram/webhook">client.agents.telegram.<a href="./src/mobilerun_sdk/resources/agents/telegram/telegram.py">receive_update</a>(\*\*<a href="src/mobilerun_sdk/types/agents/telegram_receive_update_params.py">params</a>) -> None</code>
+
+### Bots
+
+Types:
+
+```python
+from mobilerun_sdk.types.agents.telegram import (
+    BotListResponse,
+    BotRequestLinkResponse,
+    BotRevokeLinkResponse,
+)
+```
+
+Methods:
+
+- <code title="get /agents/telegram/bots">client.agents.telegram.bots.<a href="./src/mobilerun_sdk/resources/agents/telegram/bots.py">list</a>() -> <a href="./src/mobilerun_sdk/types/agents/telegram/bot_list_response.py">BotListResponse</a></code>
+- <code title="post /agents/telegram/bots/connect">client.agents.telegram.bots.<a href="./src/mobilerun_sdk/resources/agents/telegram/bots.py">request_link</a>() -> <a href="./src/mobilerun_sdk/types/agents/telegram/bot_request_link_response.py">BotRequestLinkResponse</a></code>
+- <code title="post /agents/telegram/bots/{id}/revoke">client.agents.telegram.bots.<a href="./src/mobilerun_sdk/resources/agents/telegram/bots.py">revoke_link</a>(id) -> <a href="./src/mobilerun_sdk/types/agents/telegram/bot_revoke_link_response.py">BotRevokeLinkResponse</a></code>
 
 # Apps
 
