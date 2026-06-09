@@ -135,6 +135,7 @@ class Mobilerun(SyncAPIClient):
 
     @cached_property
     def agents(self) -> AgentsResource:
+        """Agents API"""
         from .resources.agents import AgentsResource
 
         return AgentsResource(self)
@@ -391,6 +392,7 @@ class AsyncMobilerun(AsyncAPIClient):
 
     @cached_property
     def agents(self) -> AsyncAgentsResource:
+        """Agents API"""
         from .resources.agents import AsyncAgentsResource
 
         return AsyncAgentsResource(self)
@@ -593,6 +595,7 @@ class MobilerunWithRawResponse:
 
     @cached_property
     def agents(self) -> agents.AgentsResourceWithRawResponse:
+        """Agents API"""
         from .resources.agents import AgentsResourceWithRawResponse
 
         return AgentsResourceWithRawResponse(self._client.agents)
@@ -672,6 +675,7 @@ class AsyncMobilerunWithRawResponse:
 
     @cached_property
     def agents(self) -> agents.AsyncAgentsResourceWithRawResponse:
+        """Agents API"""
         from .resources.agents import AsyncAgentsResourceWithRawResponse
 
         return AsyncAgentsResourceWithRawResponse(self._client.agents)
@@ -751,6 +755,7 @@ class MobilerunWithStreamedResponse:
 
     @cached_property
     def agents(self) -> agents.AgentsResourceWithStreamingResponse:
+        """Agents API"""
         from .resources.agents import AgentsResourceWithStreamingResponse
 
         return AgentsResourceWithStreamingResponse(self._client.agents)
@@ -830,6 +835,7 @@ class AsyncMobilerunWithStreamedResponse:
 
     @cached_property
     def agents(self) -> agents.AsyncAgentsResourceWithStreamingResponse:
+        """Agents API"""
         from .resources.agents import AsyncAgentsResourceWithStreamingResponse
 
         return AsyncAgentsResourceWithStreamingResponse(self._client.agents)
