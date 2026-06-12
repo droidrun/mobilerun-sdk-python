@@ -7,7 +7,7 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["ChatRehydrateChatResponse", "Message", "MessagePart"]
+__all__ = ["ChatRehydrateChatResponse", "Message", "MessagePart", "MessageMetadata"]
 
 
 class MessagePart(BaseModel):
@@ -26,12 +26,22 @@ class MessagePart(BaseModel):
         __pydantic_extra__: Dict[str, Optional[object]]
 
 
+class MessageMetadata(BaseModel):
+    agent: Optional[str] = None
+
+    agent_message_id: Optional[str] = FieldInfo(alias="agentMessageId", default=None)
+
+    agent_session_id: Optional[str] = FieldInfo(alias="agentSessionId", default=None)
+
+
 class Message(BaseModel):
     id: str
 
     parts: List[MessagePart]
 
     role: Literal["user", "assistant", "system"]
+
+    metadata: Optional[MessageMetadata] = None
 
     source: Optional[Literal["cloud", "telegram", "api", "workflow"]] = None
 

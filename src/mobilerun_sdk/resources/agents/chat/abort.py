@@ -5,6 +5,7 @@ from __future__ import annotations
 import httpx
 
 from ...._types import Body, Query, Headers, NotGiven, not_given
+from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -14,6 +15,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
+from ....types.agents.chat import abort_perform_params
 from ....types.agents.chat.abort_perform_response import AbortPerformResponse
 from ....types.agents.chat.abort_force_clear_response import AbortForceClearResponse
 
@@ -66,6 +68,7 @@ class AbortResource(SyncAPIResource):
     def perform(
         self,
         *,
+        session_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -73,9 +76,23 @@ class AbortResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AbortPerformResponse:
-        """Abort the in-flight chat turn. Idempotent."""
+        """Abort the in-flight chat turn owned by `sessionId`.
+
+        Idempotent. A turn owned by
+        a different session is left untouched (204).
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return self._post(
             "/agents/chat/abort",
+            body=maybe_transform({"session_id": session_id}, abort_perform_params.AbortPerformParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -129,6 +146,7 @@ class AsyncAbortResource(AsyncAPIResource):
     async def perform(
         self,
         *,
+        session_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -136,9 +154,23 @@ class AsyncAbortResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AbortPerformResponse:
-        """Abort the in-flight chat turn. Idempotent."""
+        """Abort the in-flight chat turn owned by `sessionId`.
+
+        Idempotent. A turn owned by
+        a different session is left untouched (204).
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return await self._post(
             "/agents/chat/abort",
+            body=await async_maybe_transform({"session_id": session_id}, abort_perform_params.AbortPerformParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

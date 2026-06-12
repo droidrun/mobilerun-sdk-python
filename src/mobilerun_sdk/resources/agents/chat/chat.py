@@ -22,7 +22,7 @@ from .question import (
     QuestionResourceWithStreamingResponse,
     AsyncQuestionResourceWithStreamingResponse,
 )
-from ...._types import Body, Query, Headers, NotGiven, not_given
+from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -33,7 +33,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.agents import chat_deliver_permission_params
+from ....types.agents import chat_rehydrate_chat_params, chat_deliver_permission_params
 from ....types.agents.chat_get_chat_state_response import ChatGetChatStateResponse
 from ....types.agents.chat_rehydrate_chat_response import ChatRehydrateChatResponse
 from ....types.agents.chat_deliver_permission_response import ChatDeliverPermissionResponse
@@ -155,6 +155,7 @@ class ChatResource(SyncAPIResource):
     def rehydrate_chat(
         self,
         *,
+        session_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -162,11 +163,27 @@ class ChatResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChatRehydrateChatResponse:
-        """Rehydrate the user's chat history. Does not wake a hibernated machine."""
+        """Rehydrate the user's chat history.
+
+        Does not wake a hibernated machine.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return self._get(
             "/agents/chat/messages",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"session_id": session_id}, chat_rehydrate_chat_params.ChatRehydrateChatParams),
             ),
             cast_to=ChatRehydrateChatResponse,
         )
@@ -285,6 +302,7 @@ class AsyncChatResource(AsyncAPIResource):
     async def rehydrate_chat(
         self,
         *,
+        session_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -292,11 +310,29 @@ class AsyncChatResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChatRehydrateChatResponse:
-        """Rehydrate the user's chat history. Does not wake a hibernated machine."""
+        """Rehydrate the user's chat history.
+
+        Does not wake a hibernated machine.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return await self._get(
             "/agents/chat/messages",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"session_id": session_id}, chat_rehydrate_chat_params.ChatRehydrateChatParams
+                ),
             ),
             cast_to=ChatRehydrateChatResponse,
         )

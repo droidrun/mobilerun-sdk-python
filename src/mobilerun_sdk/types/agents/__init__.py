@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from .file_list_files_params import FileListFilesParams as FileListFilesParams
 from .file_list_files_response import FileListFilesResponse as FileListFilesResponse
+from .chat_rehydrate_chat_params import ChatRehydrateChatParams as ChatRehydrateChatParams
 from .file_mint_upload_url_params import FileMintUploadURLParams as FileMintUploadURLParams
 from .chat_get_chat_state_response import ChatGetChatStateResponse as ChatGetChatStateResponse
 from .chat_rehydrate_chat_response import ChatRehydrateChatResponse as ChatRehydrateChatResponse
