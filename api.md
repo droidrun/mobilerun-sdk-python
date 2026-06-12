@@ -34,7 +34,7 @@ Methods:
 - <code title="post /agents/chat/permission">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">deliver_permission</a>(\*\*<a href="src/mobilerun_sdk/types/agents/chat_deliver_permission_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/chat_deliver_permission_response.py">ChatDeliverPermissionResponse</a></code>
 - <code title="get /agents/chat/state">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">get_chat_state</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat_get_chat_state_response.py">ChatGetChatStateResponse</a></code>
 - <code title="get /agents/chat/slash-commands">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">list_slash_commands</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat_list_slash_commands_response.py">ChatListSlashCommandsResponse</a></code>
-- <code title="get /agents/chat/messages">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">rehydrate_chat</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat_rehydrate_chat_response.py">ChatRehydrateChatResponse</a></code>
+- <code title="get /agents/chat/messages">client.agents.chat.<a href="./src/mobilerun_sdk/resources/agents/chat/chat.py">rehydrate_chat</a>(\*\*<a href="src/mobilerun_sdk/types/agents/chat_rehydrate_chat_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/chat_rehydrate_chat_response.py">ChatRehydrateChatResponse</a></code>
 
 ### Abort
 
@@ -47,7 +47,7 @@ from mobilerun_sdk.types.agents.chat import AbortForceClearResponse, AbortPerfor
 Methods:
 
 - <code title="post /agents/chat/abort/force">client.agents.chat.abort.<a href="./src/mobilerun_sdk/resources/agents/chat/abort.py">force_clear</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat/abort_force_clear_response.py">AbortForceClearResponse</a></code>
-- <code title="post /agents/chat/abort">client.agents.chat.abort.<a href="./src/mobilerun_sdk/resources/agents/chat/abort.py">perform</a>() -> <a href="./src/mobilerun_sdk/types/agents/chat/abort_perform_response.py">AbortPerformResponse</a></code>
+- <code title="post /agents/chat/abort">client.agents.chat.abort.<a href="./src/mobilerun_sdk/resources/agents/chat/abort.py">perform</a>(\*\*<a href="src/mobilerun_sdk/types/agents/chat/abort_perform_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/chat/abort_perform_response.py">AbortPerformResponse</a></code>
 
 ### Question
 

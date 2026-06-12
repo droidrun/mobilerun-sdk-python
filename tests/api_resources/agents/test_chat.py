@@ -123,6 +123,14 @@ class TestChat:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_rehydrate_chat_with_all_params(self, client: Mobilerun) -> None:
+        chat = client.agents.chat.rehydrate_chat(
+            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(ChatRehydrateChatResponse, chat, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_raw_response_rehydrate_chat(self, client: Mobilerun) -> None:
         response = client.agents.chat.with_raw_response.rehydrate_chat()
 
@@ -246,6 +254,14 @@ class TestAsyncChat:
     @parametrize
     async def test_method_rehydrate_chat(self, async_client: AsyncMobilerun) -> None:
         chat = await async_client.agents.chat.rehydrate_chat()
+        assert_matches_type(ChatRehydrateChatResponse, chat, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_rehydrate_chat_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        chat = await async_client.agents.chat.rehydrate_chat(
+            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
         assert_matches_type(ChatRehydrateChatResponse, chat, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")

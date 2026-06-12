@@ -56,9 +56,10 @@ class QuestionResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> QuestionDeliverAnswerResponse:
-        """
-        Forward the user's answers to kilo's `/question/{id}/reply` for an in-flight
-        turn. Idempotent via the `idempotency-key` header.
+        """Deliver the user's answers to the agent's pending question for an in-flight
+        turn.
+
+        Idempotent via the `idempotency-key` header.
 
         Args:
           extra_headers: Send extra headers
@@ -95,10 +96,10 @@ class QuestionResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> QuestionDismissResponse:
-        """Forward a reject to kilo's `/question/{id}/reject`.
+        """Dismiss the agent's pending question.
 
-        Already-resolved questions
-        return 200 (no-op) so multi-tab dismiss stays idempotent.
+        Already-resolved questions return 200
+        (no-op) so multi-tab dismiss stays idempotent.
 
         Args:
           extra_headers: Send extra headers
@@ -151,9 +152,10 @@ class AsyncQuestionResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> QuestionDeliverAnswerResponse:
-        """
-        Forward the user's answers to kilo's `/question/{id}/reply` for an in-flight
-        turn. Idempotent via the `idempotency-key` header.
+        """Deliver the user's answers to the agent's pending question for an in-flight
+        turn.
+
+        Idempotent via the `idempotency-key` header.
 
         Args:
           extra_headers: Send extra headers
@@ -190,10 +192,10 @@ class AsyncQuestionResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> QuestionDismissResponse:
-        """Forward a reject to kilo's `/question/{id}/reject`.
+        """Dismiss the agent's pending question.
 
-        Already-resolved questions
-        return 200 (no-op) so multi-tab dismiss stays idempotent.
+        Already-resolved questions return 200
+        (no-op) so multi-tab dismiss stays idempotent.
 
         Args:
           extra_headers: Send extra headers
