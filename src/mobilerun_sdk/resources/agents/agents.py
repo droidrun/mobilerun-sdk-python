@@ -3,14 +3,6 @@
 from __future__ import annotations
 
 from ..._compat import cached_property
-from .chat.chat import (
-    ChatResource,
-    AsyncChatResource,
-    ChatResourceWithRawResponse,
-    AsyncChatResourceWithRawResponse,
-    ChatResourceWithStreamingResponse,
-    AsyncChatResourceWithStreamingResponse,
-)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from .files.files import (
     FilesResource,
@@ -25,10 +17,6 @@ __all__ = ["AgentsResource", "AsyncAgentsResource"]
 
 
 class AgentsResource(SyncAPIResource):
-    @cached_property
-    def chat(self) -> ChatResource:
-        return ChatResource(self._client)
-
     @cached_property
     def files(self) -> FilesResource:
         return FilesResource(self._client)
@@ -54,10 +42,6 @@ class AgentsResource(SyncAPIResource):
 
 
 class AsyncAgentsResource(AsyncAPIResource):
-    @cached_property
-    def chat(self) -> AsyncChatResource:
-        return AsyncChatResource(self._client)
-
     @cached_property
     def files(self) -> AsyncFilesResource:
         return AsyncFilesResource(self._client)
@@ -87,10 +71,6 @@ class AgentsResourceWithRawResponse:
         self._agents = agents
 
     @cached_property
-    def chat(self) -> ChatResourceWithRawResponse:
-        return ChatResourceWithRawResponse(self._agents.chat)
-
-    @cached_property
     def files(self) -> FilesResourceWithRawResponse:
         return FilesResourceWithRawResponse(self._agents.files)
 
@@ -98,10 +78,6 @@ class AgentsResourceWithRawResponse:
 class AsyncAgentsResourceWithRawResponse:
     def __init__(self, agents: AsyncAgentsResource) -> None:
         self._agents = agents
-
-    @cached_property
-    def chat(self) -> AsyncChatResourceWithRawResponse:
-        return AsyncChatResourceWithRawResponse(self._agents.chat)
 
     @cached_property
     def files(self) -> AsyncFilesResourceWithRawResponse:
@@ -113,10 +89,6 @@ class AgentsResourceWithStreamingResponse:
         self._agents = agents
 
     @cached_property
-    def chat(self) -> ChatResourceWithStreamingResponse:
-        return ChatResourceWithStreamingResponse(self._agents.chat)
-
-    @cached_property
     def files(self) -> FilesResourceWithStreamingResponse:
         return FilesResourceWithStreamingResponse(self._agents.files)
 
@@ -124,10 +96,6 @@ class AgentsResourceWithStreamingResponse:
 class AsyncAgentsResourceWithStreamingResponse:
     def __init__(self, agents: AsyncAgentsResource) -> None:
         self._agents = agents
-
-    @cached_property
-    def chat(self) -> AsyncChatResourceWithStreamingResponse:
-        return AsyncChatResourceWithStreamingResponse(self._agents.chat)
 
     @cached_property
     def files(self) -> AsyncFilesResourceWithStreamingResponse:
