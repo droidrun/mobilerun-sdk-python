@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from . import devices
 from .. import _compat
+from .flow import Flow as Flow
 from .task import Task as Task
 from .device import Device as Device
 from .shared import (
