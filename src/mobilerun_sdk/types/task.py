@@ -53,6 +53,8 @@ class Task(BaseModel):
 
     finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
 
+    heartbeat_at: Optional[datetime] = FieldInfo(alias="heartbeatAt", default=None)
+
     max_steps: Optional[int] = FieldInfo(alias="maxSteps", default=None)
 
     memory_namespace: Optional[str] = FieldInfo(alias="memoryNamespace", default=None)
