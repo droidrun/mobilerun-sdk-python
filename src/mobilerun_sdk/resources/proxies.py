@@ -6,7 +6,7 @@ from typing_extensions import Literal, overload
 
 import httpx
 
-from ..types import proxy_list_params, proxy_create_params, proxy_update_params
+from ..types import proxy_list_params, proxy_create_params, proxy_lookup_params, proxy_update_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import path_template, required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -21,6 +21,7 @@ from .._base_client import make_request_options
 from ..types.proxy_list_response import ProxyListResponse
 from ..types.proxy_create_response import ProxyCreateResponse
 from ..types.proxy_delete_response import ProxyDeleteResponse
+from ..types.proxy_lookup_response import ProxyLookupResponse
 from ..types.proxy_update_response import ProxyUpdateResponse
 from ..types.proxy_retrieve_response import ProxyRetrieveResponse
 
@@ -349,6 +350,40 @@ class ProxiesResource(SyncAPIResource):
             cast_to=ProxyDeleteResponse,
         )
 
+    def lookup(
+        self,
+        *,
+        socks5: proxy_lookup_params.Socks5,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProxyLookupResponse:
+        """
+        Lookup proxy location
+
+        Args:
+          socks5: SOCKS5 proxy configuration.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/proxies/lookup",
+            body=maybe_transform({"socks5": socks5}, proxy_lookup_params.ProxyLookupParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ProxyLookupResponse,
+        )
+
 
 class AsyncProxiesResource(AsyncAPIResource):
     """Network Proxies"""
@@ -672,6 +707,40 @@ class AsyncProxiesResource(AsyncAPIResource):
             cast_to=ProxyDeleteResponse,
         )
 
+    async def lookup(
+        self,
+        *,
+        socks5: proxy_lookup_params.Socks5,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProxyLookupResponse:
+        """
+        Lookup proxy location
+
+        Args:
+          socks5: SOCKS5 proxy configuration.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/proxies/lookup",
+            body=await async_maybe_transform({"socks5": socks5}, proxy_lookup_params.ProxyLookupParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ProxyLookupResponse,
+        )
+
 
 class ProxiesResourceWithRawResponse:
     def __init__(self, proxies: ProxiesResource) -> None:
@@ -691,6 +760,9 @@ class ProxiesResourceWithRawResponse:
         )
         self.delete = to_raw_response_wrapper(
             proxies.delete,
+        )
+        self.lookup = to_raw_response_wrapper(
+            proxies.lookup,
         )
 
 
@@ -713,6 +785,9 @@ class AsyncProxiesResourceWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             proxies.delete,
         )
+        self.lookup = async_to_raw_response_wrapper(
+            proxies.lookup,
+        )
 
 
 class ProxiesResourceWithStreamingResponse:
@@ -734,6 +809,9 @@ class ProxiesResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             proxies.delete,
         )
+        self.lookup = to_streamed_response_wrapper(
+            proxies.lookup,
+        )
 
 
 class AsyncProxiesResourceWithStreamingResponse:
@@ -754,4 +832,7 @@ class AsyncProxiesResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             proxies.delete,
+        )
+        self.lookup = async_to_streamed_response_wrapper(
+            proxies.lookup,
         )

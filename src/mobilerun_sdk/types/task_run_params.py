@@ -18,6 +18,8 @@ class TaskRunParams(TypedDict, total=False):
 
     task: Required[str]
 
+    accessibility: bool
+
     agent_id: Annotated[int, PropertyInfo(alias="agentId")]
 
     apps: SequenceNotStr[str]
@@ -36,7 +38,7 @@ class TaskRunParams(TypedDict, total=False):
     llm_model: Annotated[str, PropertyInfo(alias="llmModel")]
     """The LLM model identifier to use for the task (e.g.
 
-    'google/gemini-3.1-flash-lite-preview')
+    'google/gemini-3.1-flash-lite')
     """
 
     max_steps: Annotated[int, PropertyInfo(alias="maxSteps")]

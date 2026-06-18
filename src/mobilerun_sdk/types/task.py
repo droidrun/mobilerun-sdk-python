@@ -25,6 +25,8 @@ class Task(BaseModel):
 
     id: Optional[str] = None
 
+    accessibility: Optional[bool] = None
+
     agent_id: Optional[int] = FieldInfo(alias="agentId", default=None)
 
     apps: Optional[List[str]] = None
@@ -50,6 +52,8 @@ class Task(BaseModel):
     files: Optional[List[str]] = None
 
     finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
+
+    heartbeat_at: Optional[datetime] = FieldInfo(alias="heartbeatAt", default=None)
 
     max_steps: Optional[int] = FieldInfo(alias="maxSteps", default=None)
 

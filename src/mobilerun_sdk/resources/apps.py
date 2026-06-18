@@ -23,6 +23,7 @@ from ..types.app_list_response import AppListResponse
 from ..types.app_delete_response import AppDeleteResponse
 from ..types.app_retrieve_response import AppRetrieveResponse
 from ..types.app_mark_failed_response import AppMarkFailedResponse
+from ..types.app_list_versions_response import AppListVersionsResponse
 from ..types.app_confirm_upload_response import AppConfirmUploadResponse
 from ..types.app_create_signed_upload_url_response import AppCreateSignedUploadURLResponse
 
@@ -264,6 +265,40 @@ class AppsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=AppCreateSignedUploadURLResponse,
+        )
+
+    def list_versions(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AppListVersionsResponse:
+        """
+        Retrieves all versions of an app visible to the user (own uploads + system
+        versions)
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._get(
+            path_template("/apps/{id}/versions", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AppListVersionsResponse,
         )
 
     def mark_failed(
@@ -537,6 +572,40 @@ class AsyncAppsResource(AsyncAPIResource):
             cast_to=AppCreateSignedUploadURLResponse,
         )
 
+    async def list_versions(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AppListVersionsResponse:
+        """
+        Retrieves all versions of an app visible to the user (own uploads + system
+        versions)
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._get(
+            path_template("/apps/{id}/versions", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AppListVersionsResponse,
+        )
+
     async def mark_failed(
         self,
         id: str,
@@ -590,6 +659,9 @@ class AppsResourceWithRawResponse:
         self.create_signed_upload_url = to_raw_response_wrapper(
             apps.create_signed_upload_url,
         )
+        self.list_versions = to_raw_response_wrapper(
+            apps.list_versions,
+        )
         self.mark_failed = to_raw_response_wrapper(
             apps.mark_failed,
         )
@@ -613,6 +685,9 @@ class AsyncAppsResourceWithRawResponse:
         )
         self.create_signed_upload_url = async_to_raw_response_wrapper(
             apps.create_signed_upload_url,
+        )
+        self.list_versions = async_to_raw_response_wrapper(
+            apps.list_versions,
         )
         self.mark_failed = async_to_raw_response_wrapper(
             apps.mark_failed,
@@ -638,6 +713,9 @@ class AppsResourceWithStreamingResponse:
         self.create_signed_upload_url = to_streamed_response_wrapper(
             apps.create_signed_upload_url,
         )
+        self.list_versions = to_streamed_response_wrapper(
+            apps.list_versions,
+        )
         self.mark_failed = to_streamed_response_wrapper(
             apps.mark_failed,
         )
@@ -661,6 +739,9 @@ class AsyncAppsResourceWithStreamingResponse:
         )
         self.create_signed_upload_url = async_to_streamed_response_wrapper(
             apps.create_signed_upload_url,
+        )
+        self.list_versions = async_to_streamed_response_wrapper(
+            apps.list_versions,
         )
         self.mark_failed = async_to_streamed_response_wrapper(
             apps.mark_failed,

@@ -16,6 +16,14 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
+from .esim import (
+    EsimResource,
+    AsyncEsimResource,
+    EsimResourceWithRawResponse,
+    AsyncEsimResourceWithRawResponse,
+    EsimResourceWithStreamingResponse,
+    AsyncEsimResourceWithStreamingResponse,
+)
 from .files import (
     FilesResource,
     AsyncFilesResource,
@@ -108,14 +116,6 @@ from .timezone import (
     AsyncTimezoneResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
-from .esim.esim import (
-    EsimResource,
-    AsyncEsimResource,
-    EsimResourceWithRawResponse,
-    AsyncEsimResourceWithRawResponse,
-    EsimResourceWithStreamingResponse,
-    AsyncEsimResourceWithStreamingResponse,
-)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
     to_raw_response_wrapper,
@@ -495,8 +495,7 @@ class DevicesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Reset a device to a fresh state (VMOS one-click new device; non-VMOS providers
-        return 404)
+        Reset a device to a fresh state
 
         Args:
           extra_headers: Send extra headers
@@ -990,8 +989,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Reset a device to a fresh state (VMOS one-click new device; non-VMOS providers
-        return 404)
+        Reset a device to a fresh state
 
         Args:
           extra_headers: Send extra headers

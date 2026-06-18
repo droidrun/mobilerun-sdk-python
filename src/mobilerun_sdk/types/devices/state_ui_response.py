@@ -1,5 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from __future__ import annotations
+
 from typing import Optional
 
 from pydantic import Field as FieldInfo
@@ -42,8 +44,6 @@ class DeviceContext(BaseModel):
 
     screen_bounds: Rect
 
-    screen_size: Rect = FieldInfo(alias="screenSize")
-
 
 class PhoneStateFocusedElement(BaseModel):
     class_name: Optional[str] = FieldInfo(alias="className", default=None)
@@ -68,13 +68,16 @@ class PhoneState(BaseModel):
 
 
 class StateUiResponse(BaseModel):
-    a11y_tree: object
+    a11y_tree: "A11YNode"
 
     device_context: DeviceContext
+
+    ime_tree: "A11YNode"
 
     phone_state: PhoneState
 
     schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
     """A URL to the JSON Schema for this object."""
 
-    ime_tree: Optional[object] = None
+
+from .a11_y_node import A11YNode

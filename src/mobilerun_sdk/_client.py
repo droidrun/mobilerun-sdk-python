@@ -36,16 +36,31 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import apps, hooks, tasks, agents, models, devices, proxies, carriers, profiles, credentials
+    from .resources import (
+        apps,
+        hooks,
+        tasks,
+        models,
+        connect,
+        devices,
+        proxies,
+        carriers,
+        profiles,
+        webhooks,
+        workflows,
+        credentials,
+    )
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.hooks import HooksResource, AsyncHooksResource
-    from .resources.agents import AgentsResource, AsyncAgentsResource
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
     from .resources.carriers import CarriersResource, AsyncCarriersResource
     from .resources.profiles import ProfilesResource, AsyncProfilesResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
+    from .resources.connect.connect import ConnectResource, AsyncConnectResource
     from .resources.devices.devices import DevicesResource, AsyncDevicesResource
+    from .resources.webhooks.webhooks import WebhooksResource, AsyncWebhooksResource
+    from .resources.workflows.workflows import WorkflowsResource, AsyncWorkflowsResource
     from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
 
 __all__ = [
@@ -121,13 +136,6 @@ class Mobilerun(SyncAPIClient):
         )
 
     @cached_property
-    def agents(self) -> AgentsResource:
-        """Agents API"""
-        from .resources.agents import AgentsResource
-
-        return AgentsResource(self)
-
-    @cached_property
     def apps(self) -> AppsResource:
         """App Management"""
         from .resources.apps import AppsResource
@@ -181,11 +189,29 @@ class Mobilerun(SyncAPIClient):
         return ProxiesResource(self)
 
     @cached_property
+    def connect(self) -> ConnectResource:
+        from .resources.connect import ConnectResource
+
+        return ConnectResource(self)
+
+    @cached_property
     def tasks(self) -> TasksResource:
         """Tasks API"""
         from .resources.tasks import TasksResource
 
         return TasksResource(self)
+
+    @cached_property
+    def workflows(self) -> WorkflowsResource:
+        from .resources.workflows import WorkflowsResource
+
+        return WorkflowsResource(self)
+
+    @cached_property
+    def webhooks(self) -> WebhooksResource:
+        from .resources.webhooks import WebhooksResource
+
+        return WebhooksResource(self)
 
     @cached_property
     def with_raw_response(self) -> MobilerunWithRawResponse:
@@ -372,13 +398,6 @@ class AsyncMobilerun(AsyncAPIClient):
         )
 
     @cached_property
-    def agents(self) -> AsyncAgentsResource:
-        """Agents API"""
-        from .resources.agents import AsyncAgentsResource
-
-        return AsyncAgentsResource(self)
-
-    @cached_property
     def apps(self) -> AsyncAppsResource:
         """App Management"""
         from .resources.apps import AsyncAppsResource
@@ -432,11 +451,29 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncProxiesResource(self)
 
     @cached_property
+    def connect(self) -> AsyncConnectResource:
+        from .resources.connect import AsyncConnectResource
+
+        return AsyncConnectResource(self)
+
+    @cached_property
     def tasks(self) -> AsyncTasksResource:
         """Tasks API"""
         from .resources.tasks import AsyncTasksResource
 
         return AsyncTasksResource(self)
+
+    @cached_property
+    def workflows(self) -> AsyncWorkflowsResource:
+        from .resources.workflows import AsyncWorkflowsResource
+
+        return AsyncWorkflowsResource(self)
+
+    @cached_property
+    def webhooks(self) -> AsyncWebhooksResource:
+        from .resources.webhooks import AsyncWebhooksResource
+
+        return AsyncWebhooksResource(self)
 
     @cached_property
     def with_raw_response(self) -> AsyncMobilerunWithRawResponse:
@@ -569,13 +606,6 @@ class MobilerunWithRawResponse:
         self._client = client
 
     @cached_property
-    def agents(self) -> agents.AgentsResourceWithRawResponse:
-        """Agents API"""
-        from .resources.agents import AgentsResourceWithRawResponse
-
-        return AgentsResourceWithRawResponse(self._client.agents)
-
-    @cached_property
     def apps(self) -> apps.AppsResourceWithRawResponse:
         """App Management"""
         from .resources.apps import AppsResourceWithRawResponse
@@ -629,11 +659,29 @@ class MobilerunWithRawResponse:
         return ProxiesResourceWithRawResponse(self._client.proxies)
 
     @cached_property
+    def connect(self) -> connect.ConnectResourceWithRawResponse:
+        from .resources.connect import ConnectResourceWithRawResponse
+
+        return ConnectResourceWithRawResponse(self._client.connect)
+
+    @cached_property
     def tasks(self) -> tasks.TasksResourceWithRawResponse:
         """Tasks API"""
         from .resources.tasks import TasksResourceWithRawResponse
 
         return TasksResourceWithRawResponse(self._client.tasks)
+
+    @cached_property
+    def workflows(self) -> workflows.WorkflowsResourceWithRawResponse:
+        from .resources.workflows import WorkflowsResourceWithRawResponse
+
+        return WorkflowsResourceWithRawResponse(self._client.workflows)
+
+    @cached_property
+    def webhooks(self) -> webhooks.WebhooksResourceWithRawResponse:
+        from .resources.webhooks import WebhooksResourceWithRawResponse
+
+        return WebhooksResourceWithRawResponse(self._client.webhooks)
 
 
 class AsyncMobilerunWithRawResponse:
@@ -641,13 +689,6 @@ class AsyncMobilerunWithRawResponse:
 
     def __init__(self, client: AsyncMobilerun) -> None:
         self._client = client
-
-    @cached_property
-    def agents(self) -> agents.AsyncAgentsResourceWithRawResponse:
-        """Agents API"""
-        from .resources.agents import AsyncAgentsResourceWithRawResponse
-
-        return AsyncAgentsResourceWithRawResponse(self._client.agents)
 
     @cached_property
     def apps(self) -> apps.AsyncAppsResourceWithRawResponse:
@@ -703,11 +744,29 @@ class AsyncMobilerunWithRawResponse:
         return AsyncProxiesResourceWithRawResponse(self._client.proxies)
 
     @cached_property
+    def connect(self) -> connect.AsyncConnectResourceWithRawResponse:
+        from .resources.connect import AsyncConnectResourceWithRawResponse
+
+        return AsyncConnectResourceWithRawResponse(self._client.connect)
+
+    @cached_property
     def tasks(self) -> tasks.AsyncTasksResourceWithRawResponse:
         """Tasks API"""
         from .resources.tasks import AsyncTasksResourceWithRawResponse
 
         return AsyncTasksResourceWithRawResponse(self._client.tasks)
+
+    @cached_property
+    def workflows(self) -> workflows.AsyncWorkflowsResourceWithRawResponse:
+        from .resources.workflows import AsyncWorkflowsResourceWithRawResponse
+
+        return AsyncWorkflowsResourceWithRawResponse(self._client.workflows)
+
+    @cached_property
+    def webhooks(self) -> webhooks.AsyncWebhooksResourceWithRawResponse:
+        from .resources.webhooks import AsyncWebhooksResourceWithRawResponse
+
+        return AsyncWebhooksResourceWithRawResponse(self._client.webhooks)
 
 
 class MobilerunWithStreamedResponse:
@@ -715,13 +774,6 @@ class MobilerunWithStreamedResponse:
 
     def __init__(self, client: Mobilerun) -> None:
         self._client = client
-
-    @cached_property
-    def agents(self) -> agents.AgentsResourceWithStreamingResponse:
-        """Agents API"""
-        from .resources.agents import AgentsResourceWithStreamingResponse
-
-        return AgentsResourceWithStreamingResponse(self._client.agents)
 
     @cached_property
     def apps(self) -> apps.AppsResourceWithStreamingResponse:
@@ -777,11 +829,29 @@ class MobilerunWithStreamedResponse:
         return ProxiesResourceWithStreamingResponse(self._client.proxies)
 
     @cached_property
+    def connect(self) -> connect.ConnectResourceWithStreamingResponse:
+        from .resources.connect import ConnectResourceWithStreamingResponse
+
+        return ConnectResourceWithStreamingResponse(self._client.connect)
+
+    @cached_property
     def tasks(self) -> tasks.TasksResourceWithStreamingResponse:
         """Tasks API"""
         from .resources.tasks import TasksResourceWithStreamingResponse
 
         return TasksResourceWithStreamingResponse(self._client.tasks)
+
+    @cached_property
+    def workflows(self) -> workflows.WorkflowsResourceWithStreamingResponse:
+        from .resources.workflows import WorkflowsResourceWithStreamingResponse
+
+        return WorkflowsResourceWithStreamingResponse(self._client.workflows)
+
+    @cached_property
+    def webhooks(self) -> webhooks.WebhooksResourceWithStreamingResponse:
+        from .resources.webhooks import WebhooksResourceWithStreamingResponse
+
+        return WebhooksResourceWithStreamingResponse(self._client.webhooks)
 
 
 class AsyncMobilerunWithStreamedResponse:
@@ -789,13 +859,6 @@ class AsyncMobilerunWithStreamedResponse:
 
     def __init__(self, client: AsyncMobilerun) -> None:
         self._client = client
-
-    @cached_property
-    def agents(self) -> agents.AsyncAgentsResourceWithStreamingResponse:
-        """Agents API"""
-        from .resources.agents import AsyncAgentsResourceWithStreamingResponse
-
-        return AsyncAgentsResourceWithStreamingResponse(self._client.agents)
 
     @cached_property
     def apps(self) -> apps.AsyncAppsResourceWithStreamingResponse:
@@ -851,11 +914,29 @@ class AsyncMobilerunWithStreamedResponse:
         return AsyncProxiesResourceWithStreamingResponse(self._client.proxies)
 
     @cached_property
+    def connect(self) -> connect.AsyncConnectResourceWithStreamingResponse:
+        from .resources.connect import AsyncConnectResourceWithStreamingResponse
+
+        return AsyncConnectResourceWithStreamingResponse(self._client.connect)
+
+    @cached_property
     def tasks(self) -> tasks.AsyncTasksResourceWithStreamingResponse:
         """Tasks API"""
         from .resources.tasks import AsyncTasksResourceWithStreamingResponse
 
         return AsyncTasksResourceWithStreamingResponse(self._client.tasks)
+
+    @cached_property
+    def workflows(self) -> workflows.AsyncWorkflowsResourceWithStreamingResponse:
+        from .resources.workflows import AsyncWorkflowsResourceWithStreamingResponse
+
+        return AsyncWorkflowsResourceWithStreamingResponse(self._client.workflows)
+
+    @cached_property
+    def webhooks(self) -> webhooks.AsyncWebhooksResourceWithStreamingResponse:
+        from .resources.webhooks import AsyncWebhooksResourceWithStreamingResponse
+
+        return AsyncWebhooksResourceWithStreamingResponse(self._client.webhooks)
 
 
 Client = Mobilerun

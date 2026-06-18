@@ -24,14 +24,6 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
-from .agents import (
-    AgentsResource,
-    AsyncAgentsResource,
-    AgentsResourceWithRawResponse,
-    AsyncAgentsResourceWithRawResponse,
-    AgentsResourceWithStreamingResponse,
-    AsyncAgentsResourceWithStreamingResponse,
-)
 from .models import (
     ModelsResource,
     AsyncModelsResource,
@@ -39,6 +31,14 @@ from .models import (
     AsyncModelsResourceWithRawResponse,
     ModelsResourceWithStreamingResponse,
     AsyncModelsResourceWithStreamingResponse,
+)
+from .connect import (
+    ConnectResource,
+    AsyncConnectResource,
+    ConnectResourceWithRawResponse,
+    AsyncConnectResourceWithRawResponse,
+    ConnectResourceWithStreamingResponse,
+    AsyncConnectResourceWithStreamingResponse,
 )
 from .devices import (
     DevicesResource,
@@ -72,6 +72,22 @@ from .profiles import (
     ProfilesResourceWithStreamingResponse,
     AsyncProfilesResourceWithStreamingResponse,
 )
+from .webhooks import (
+    WebhooksResource,
+    AsyncWebhooksResource,
+    WebhooksResourceWithRawResponse,
+    AsyncWebhooksResourceWithRawResponse,
+    WebhooksResourceWithStreamingResponse,
+    AsyncWebhooksResourceWithStreamingResponse,
+)
+from .workflows import (
+    WorkflowsResource,
+    AsyncWorkflowsResource,
+    WorkflowsResourceWithRawResponse,
+    AsyncWorkflowsResourceWithRawResponse,
+    WorkflowsResourceWithStreamingResponse,
+    AsyncWorkflowsResourceWithStreamingResponse,
+)
 from .credentials import (
     CredentialsResource,
     AsyncCredentialsResource,
@@ -82,12 +98,6 @@ from .credentials import (
 )
 
 __all__ = [
-    "AgentsResource",
-    "AsyncAgentsResource",
-    "AgentsResourceWithRawResponse",
-    "AsyncAgentsResourceWithRawResponse",
-    "AgentsResourceWithStreamingResponse",
-    "AsyncAgentsResourceWithStreamingResponse",
     "AppsResource",
     "AsyncAppsResource",
     "AppsResourceWithRawResponse",
@@ -136,10 +146,28 @@ __all__ = [
     "AsyncProxiesResourceWithRawResponse",
     "ProxiesResourceWithStreamingResponse",
     "AsyncProxiesResourceWithStreamingResponse",
+    "ConnectResource",
+    "AsyncConnectResource",
+    "ConnectResourceWithRawResponse",
+    "AsyncConnectResourceWithRawResponse",
+    "ConnectResourceWithStreamingResponse",
+    "AsyncConnectResourceWithStreamingResponse",
     "TasksResource",
     "AsyncTasksResource",
     "TasksResourceWithRawResponse",
     "AsyncTasksResourceWithRawResponse",
     "TasksResourceWithStreamingResponse",
     "AsyncTasksResourceWithStreamingResponse",
+    "WorkflowsResource",
+    "AsyncWorkflowsResource",
+    "WorkflowsResourceWithRawResponse",
+    "AsyncWorkflowsResourceWithRawResponse",
+    "WorkflowsResourceWithStreamingResponse",
+    "AsyncWorkflowsResourceWithStreamingResponse",
+    "WebhooksResource",
+    "AsyncWebhooksResource",
+    "WebhooksResourceWithRawResponse",
+    "AsyncWebhooksResourceWithRawResponse",
+    "WebhooksResourceWithStreamingResponse",
+    "AsyncWebhooksResourceWithStreamingResponse",
 ]
