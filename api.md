@@ -727,3 +727,50 @@ Methods:
 - <code title="post /secrets">client.workflows.secrets.<a href="./src/mobilerun_sdk/resources/workflows/secrets.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/secret_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/secret_create_response.py">SecretCreateResponse</a></code>
 - <code title="get /secrets">client.workflows.secrets.<a href="./src/mobilerun_sdk/resources/workflows/secrets.py">list</a>() -> <a href="./src/mobilerun_sdk/types/workflows/secret_list_response.py">SecretListResponse</a></code>
 - <code title="delete /secrets/{secretId}">client.workflows.secrets.<a href="./src/mobilerun_sdk/resources/workflows/secrets.py">delete</a>(secret_id) -> <a href="./src/mobilerun_sdk/types/workflows/secret_delete_response.py">SecretDeleteResponse</a></code>
+
+# Webhooks
+
+Types:
+
+```python
+from mobilerun_sdk.types import (
+    WebhookCreateResponse,
+    WebhookRetrieveResponse,
+    WebhookUpdateResponse,
+    WebhookListResponse,
+    WebhookEventTypesResponse,
+    WebhookRotateSecretResponse,
+    WebhookTestDeliveryResponse,
+)
+```
+
+Methods:
+
+- <code title="post /webhooks">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/webhook_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/webhook_create_response.py">WebhookCreateResponse</a></code>
+- <code title="get /webhooks/{id}">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">retrieve</a>(id) -> <a href="./src/mobilerun_sdk/types/webhook_retrieve_response.py">WebhookRetrieveResponse</a></code>
+- <code title="patch /webhooks/{id}">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">update</a>(id, \*\*<a href="src/mobilerun_sdk/types/webhook_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/webhook_update_response.py">WebhookUpdateResponse</a></code>
+- <code title="get /webhooks">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/webhook_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/webhook_list_response.py">WebhookListResponse</a></code>
+- <code title="delete /webhooks/{id}">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">delete</a>(id) -> None</code>
+- <code title="get /event-types">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">event_types</a>() -> <a href="./src/mobilerun_sdk/types/webhook_event_types_response.py">WebhookEventTypesResponse</a></code>
+- <code title="post /webhooks/{id}/rotate-secret">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">rotate_secret</a>(id) -> <a href="./src/mobilerun_sdk/types/webhook_rotate_secret_response.py">WebhookRotateSecretResponse</a></code>
+- <code title="post /webhooks/{id}/test">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">test_delivery</a>(id) -> <a href="./src/mobilerun_sdk/types/webhook_test_delivery_response.py">WebhookTestDeliveryResponse</a></code>
+
+## Deliveries
+
+Types:
+
+```python
+from mobilerun_sdk.types.webhooks import (
+    DeliveryListResponse,
+    DeliveryListForWebhookResponse,
+    DeliveryRetrieveAttemptsResponse,
+    DeliveryStatsResponse,
+)
+```
+
+Methods:
+
+- <code title="get /webhooks/deliveries">client.webhooks.deliveries.<a href="./src/mobilerun_sdk/resources/webhooks/deliveries.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/webhooks/delivery_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/webhooks/delivery_list_response.py">DeliveryListResponse</a></code>
+- <code title="get /webhooks/{id}/deliveries">client.webhooks.deliveries.<a href="./src/mobilerun_sdk/resources/webhooks/deliveries.py">list_for_webhook</a>(id, \*\*<a href="src/mobilerun_sdk/types/webhooks/delivery_list_for_webhook_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/webhooks/delivery_list_for_webhook_response.py">DeliveryListForWebhookResponse</a></code>
+- <code title="get /webhooks/{id}/deliveries/{deliveryId}">client.webhooks.deliveries.<a href="./src/mobilerun_sdk/resources/webhooks/deliveries.py">retrieve_attempts</a>(delivery_id, \*, id) -> <a href="./src/mobilerun_sdk/types/webhooks/delivery_retrieve_attempts_response.py">DeliveryRetrieveAttemptsResponse</a></code>
+- <code title="get /webhooks/deliveries/stats">client.webhooks.deliveries.<a href="./src/mobilerun_sdk/resources/webhooks/deliveries.py">stats</a>(\*\*<a href="src/mobilerun_sdk/types/webhooks/delivery_stats_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/webhooks/delivery_stats_response.py">DeliveryStatsResponse</a></code>

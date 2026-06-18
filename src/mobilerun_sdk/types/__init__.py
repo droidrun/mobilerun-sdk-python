@@ -46,6 +46,7 @@ from .proxy_create_params import ProxyCreateParams as ProxyCreateParams
 from .proxy_list_response import ProxyListResponse as ProxyListResponse
 from .proxy_lookup_params import ProxyLookupParams as ProxyLookupParams
 from .proxy_update_params import ProxyUpdateParams as ProxyUpdateParams
+from .webhook_list_params import WebhookListParams as WebhookListParams
 from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse
 from .hook_update_response import HookUpdateResponse as HookUpdateResponse
@@ -64,6 +65,9 @@ from .proxy_create_response import ProxyCreateResponse as ProxyCreateResponse
 from .proxy_delete_response import ProxyDeleteResponse as ProxyDeleteResponse
 from .proxy_lookup_response import ProxyLookupResponse as ProxyLookupResponse
 from .proxy_update_response import ProxyUpdateResponse as ProxyUpdateResponse
+from .webhook_create_params import WebhookCreateParams as WebhookCreateParams
+from .webhook_list_response import WebhookListResponse as WebhookListResponse
+from .webhook_update_params import WebhookUpdateParams as WebhookUpdateParams
 from .credential_list_params import CredentialListParams as CredentialListParams
 from .device_set_name_params import DeviceSetNameParams as DeviceSetNameParams
 from .hook_retrieve_response import HookRetrieveResponse as HookRetrieveResponse
@@ -76,6 +80,8 @@ from .device_terminate_params import DeviceTerminateParams as DeviceTerminatePar
 from .hook_subscribe_response import HookSubscribeResponse as HookSubscribeResponse
 from .profile_delete_response import ProfileDeleteResponse as ProfileDeleteResponse
 from .proxy_retrieve_response import ProxyRetrieveResponse as ProxyRetrieveResponse
+from .webhook_create_response import WebhookCreateResponse as WebhookCreateResponse
+from .webhook_update_response import WebhookUpdateResponse as WebhookUpdateResponse
 from .app_mark_failed_response import AppMarkFailedResponse as AppMarkFailedResponse
 from .credential_list_response import CredentialListResponse as CredentialListResponse
 from .task_get_status_response import TaskGetStatusResponse as TaskGetStatusResponse
@@ -84,12 +90,16 @@ from .task_send_message_params import TaskSendMessageParams as TaskSendMessagePa
 from .carrier_retrieve_response import CarrierRetrieveResponse as CarrierRetrieveResponse
 from .hook_unsubscribe_response import HookUnsubscribeResponse as HookUnsubscribeResponse
 from .package_credentials_param import PackageCredentialsParam as PackageCredentialsParam
+from .webhook_retrieve_response import WebhookRetrieveResponse as WebhookRetrieveResponse
 from .app_list_versions_response import AppListVersionsResponse as AppListVersionsResponse
 from .task_send_message_response import TaskSendMessageResponse as TaskSendMessageResponse
 from .app_confirm_upload_response import AppConfirmUploadResponse as AppConfirmUploadResponse
 from .device_fingerprint_response import DeviceFingerprintResponse as DeviceFingerprintResponse
 from .task_get_trajectory_response import TaskGetTrajectoryResponse as TaskGetTrajectoryResponse
+from .webhook_event_types_response import WebhookEventTypesResponse as WebhookEventTypesResponse
 from .hook_get_sample_data_response import HookGetSampleDataResponse as HookGetSampleDataResponse
+from .webhook_rotate_secret_response import WebhookRotateSecretResponse as WebhookRotateSecretResponse
+from .webhook_test_delivery_response import WebhookTestDeliveryResponse as WebhookTestDeliveryResponse
 from .app_create_signed_upload_url_params import AppCreateSignedUploadURLParams as AppCreateSignedUploadURLParams
 from .app_create_signed_upload_url_response import AppCreateSignedUploadURLResponse as AppCreateSignedUploadURLResponse
 
