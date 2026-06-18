@@ -14,42 +14,6 @@ from mobilerun_sdk.types import (
 )
 ```
 
-# Agents
-
-## Files
-
-Types:
-
-```python
-from mobilerun_sdk.types.agents import FileListFilesResponse, FileMintUploadURLResponse
-```
-
-Methods:
-
-- <code title="get /agents/files">client.agents.files.<a href="./src/mobilerun_sdk/resources/agents/files/files.py">list_files</a>(\*\*<a href="src/mobilerun_sdk/types/agents/file_list_files_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/file_list_files_response.py">FileListFilesResponse</a></code>
-- <code title="post /agents/files/upload-url">client.agents.files.<a href="./src/mobilerun_sdk/resources/agents/files/files.py">mint_upload_url</a>(\*\*<a href="src/mobilerun_sdk/types/agents/file_mint_upload_url_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/file_mint_upload_url_response.py">FileMintUploadURLResponse</a></code>
-
-### FileID
-
-Types:
-
-```python
-from mobilerun_sdk.types.agents.files import (
-    FileIDCancelPendingUploadResponse,
-    FileIDConfirmUploadResponse,
-    FileIDDeleteFileResponse,
-    FileIDUpdateMetadataResponse,
-)
-```
-
-Methods:
-
-- <code title="delete /agents/files/:fileId/pending">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">cancel_pending_upload</a>() -> <a href="./src/mobilerun_sdk/types/agents/files/file_id_cancel_pending_upload_response.py">FileIDCancelPendingUploadResponse</a></code>
-- <code title="post /agents/files/:fileId/confirm">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">confirm_upload</a>() -> <a href="./src/mobilerun_sdk/types/agents/files/file_id_confirm_upload_response.py">FileIDConfirmUploadResponse</a></code>
-- <code title="delete /agents/files/:fileId">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">delete_file</a>() -> <a href="./src/mobilerun_sdk/types/agents/files/file_id_delete_file_response.py">FileIDDeleteFileResponse</a></code>
-- <code title="get /agents/files/:fileId/download">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">download_file</a>() -> None</code>
-- <code title="patch /agents/files/:fileId">client.agents.files.file_id.<a href="./src/mobilerun_sdk/resources/agents/files/file_id.py">update_metadata</a>(\*\*<a href="src/mobilerun_sdk/types/agents/files/file_id_update_metadata_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/files/file_id_update_metadata_response.py">FileIDUpdateMetadataResponse</a></code>
-
 # Apps
 
 Types:

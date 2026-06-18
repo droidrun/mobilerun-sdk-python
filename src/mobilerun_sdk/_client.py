@@ -40,7 +40,6 @@ if TYPE_CHECKING:
         apps,
         hooks,
         tasks,
-        agents,
         models,
         connect,
         devices,
@@ -57,7 +56,6 @@ if TYPE_CHECKING:
     from .resources.carriers import CarriersResource, AsyncCarriersResource
     from .resources.profiles import ProfilesResource, AsyncProfilesResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
-    from .resources.agents.agents import AgentsResource, AsyncAgentsResource
     from .resources.connect.connect import ConnectResource, AsyncConnectResource
     from .resources.devices.devices import DevicesResource, AsyncDevicesResource
     from .resources.workflows.workflows import WorkflowsResource, AsyncWorkflowsResource
@@ -134,12 +132,6 @@ class Mobilerun(SyncAPIClient):
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
-
-    @cached_property
-    def agents(self) -> AgentsResource:
-        from .resources.agents import AgentsResource
-
-        return AgentsResource(self)
 
     @cached_property
     def apps(self) -> AppsResource:
@@ -398,12 +390,6 @@ class AsyncMobilerun(AsyncAPIClient):
         )
 
     @cached_property
-    def agents(self) -> AsyncAgentsResource:
-        from .resources.agents import AsyncAgentsResource
-
-        return AsyncAgentsResource(self)
-
-    @cached_property
     def apps(self) -> AsyncAppsResource:
         """App Management"""
         from .resources.apps import AsyncAppsResource
@@ -606,12 +592,6 @@ class MobilerunWithRawResponse:
         self._client = client
 
     @cached_property
-    def agents(self) -> agents.AgentsResourceWithRawResponse:
-        from .resources.agents import AgentsResourceWithRawResponse
-
-        return AgentsResourceWithRawResponse(self._client.agents)
-
-    @cached_property
     def apps(self) -> apps.AppsResourceWithRawResponse:
         """App Management"""
         from .resources.apps import AppsResourceWithRawResponse
@@ -689,12 +669,6 @@ class AsyncMobilerunWithRawResponse:
 
     def __init__(self, client: AsyncMobilerun) -> None:
         self._client = client
-
-    @cached_property
-    def agents(self) -> agents.AsyncAgentsResourceWithRawResponse:
-        from .resources.agents import AsyncAgentsResourceWithRawResponse
-
-        return AsyncAgentsResourceWithRawResponse(self._client.agents)
 
     @cached_property
     def apps(self) -> apps.AsyncAppsResourceWithRawResponse:
@@ -776,12 +750,6 @@ class MobilerunWithStreamedResponse:
         self._client = client
 
     @cached_property
-    def agents(self) -> agents.AgentsResourceWithStreamingResponse:
-        from .resources.agents import AgentsResourceWithStreamingResponse
-
-        return AgentsResourceWithStreamingResponse(self._client.agents)
-
-    @cached_property
     def apps(self) -> apps.AppsResourceWithStreamingResponse:
         """App Management"""
         from .resources.apps import AppsResourceWithStreamingResponse
@@ -859,12 +827,6 @@ class AsyncMobilerunWithStreamedResponse:
 
     def __init__(self, client: AsyncMobilerun) -> None:
         self._client = client
-
-    @cached_property
-    def agents(self) -> agents.AsyncAgentsResourceWithStreamingResponse:
-        from .resources.agents import AsyncAgentsResourceWithStreamingResponse
-
-        return AsyncAgentsResourceWithStreamingResponse(self._client.agents)
 
     @cached_property
     def apps(self) -> apps.AsyncAppsResourceWithStreamingResponse:
