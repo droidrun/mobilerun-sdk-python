@@ -24,14 +24,6 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
-from .agents import (
-    AgentsResource,
-    AsyncAgentsResource,
-    AgentsResourceWithRawResponse,
-    AsyncAgentsResourceWithRawResponse,
-    AgentsResourceWithStreamingResponse,
-    AsyncAgentsResourceWithStreamingResponse,
-)
 from .models import (
     ModelsResource,
     AsyncModelsResource,
@@ -98,12 +90,6 @@ from .credentials import (
 )
 
 __all__ = [
-    "AgentsResource",
-    "AsyncAgentsResource",
-    "AgentsResourceWithRawResponse",
-    "AsyncAgentsResourceWithRawResponse",
-    "AgentsResourceWithStreamingResponse",
-    "AsyncAgentsResourceWithStreamingResponse",
     "AppsResource",
     "AsyncAppsResource",
     "AppsResourceWithRawResponse",
