@@ -25,7 +25,7 @@ class TestCredentials:
     @parametrize
     def test_method_create(self, client: Mobilerun) -> None:
         credential = client.credentials.packages.credentials.create(
-            package_name="packageName",
+            package_name="x",
             credential_name="26f1kl_-n-71",
             fields=[
                 {
@@ -40,7 +40,7 @@ class TestCredentials:
     @parametrize
     def test_raw_response_create(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.with_raw_response.create(
-            package_name="packageName",
+            package_name="x",
             credential_name="26f1kl_-n-71",
             fields=[
                 {
@@ -59,7 +59,7 @@ class TestCredentials:
     @parametrize
     def test_streaming_response_create(self, client: Mobilerun) -> None:
         with client.credentials.packages.credentials.with_streaming_response.create(
-            package_name="packageName",
+            package_name="x",
             credential_name="26f1kl_-n-71",
             fields=[
                 {
@@ -95,8 +95,8 @@ class TestCredentials:
     @parametrize
     def test_method_retrieve(self, client: Mobilerun) -> None:
         credential = client.credentials.packages.credentials.retrieve(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
         )
         assert_matches_type(CredentialRetrieveResponse, credential, path=["response"])
 
@@ -104,8 +104,8 @@ class TestCredentials:
     @parametrize
     def test_raw_response_retrieve(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.with_raw_response.retrieve(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
         )
 
         assert response.is_closed is True
@@ -117,8 +117,8 @@ class TestCredentials:
     @parametrize
     def test_streaming_response_retrieve(self, client: Mobilerun) -> None:
         with client.credentials.packages.credentials.with_streaming_response.retrieve(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -133,22 +133,22 @@ class TestCredentials:
     def test_path_params_retrieve(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             client.credentials.packages.credentials.with_raw_response.retrieve(
-                credential_name="credentialName",
+                credential_name="26f1kl_-n-71",
                 package_name="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             client.credentials.packages.credentials.with_raw_response.retrieve(
                 credential_name="",
-                package_name="packageName",
+                package_name="x",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: Mobilerun) -> None:
         credential = client.credentials.packages.credentials.delete(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
         )
         assert_matches_type(CredentialDeleteResponse, credential, path=["response"])
 
@@ -156,8 +156,8 @@ class TestCredentials:
     @parametrize
     def test_raw_response_delete(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.with_raw_response.delete(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
         )
 
         assert response.is_closed is True
@@ -169,8 +169,8 @@ class TestCredentials:
     @parametrize
     def test_streaming_response_delete(self, client: Mobilerun) -> None:
         with client.credentials.packages.credentials.with_streaming_response.delete(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -185,14 +185,14 @@ class TestCredentials:
     def test_path_params_delete(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             client.credentials.packages.credentials.with_raw_response.delete(
-                credential_name="credentialName",
+                credential_name="26f1kl_-n-71",
                 package_name="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             client.credentials.packages.credentials.with_raw_response.delete(
                 credential_name="",
-                package_name="packageName",
+                package_name="x",
             )
 
 
@@ -205,7 +205,7 @@ class TestAsyncCredentials:
     @parametrize
     async def test_method_create(self, async_client: AsyncMobilerun) -> None:
         credential = await async_client.credentials.packages.credentials.create(
-            package_name="packageName",
+            package_name="x",
             credential_name="26f1kl_-n-71",
             fields=[
                 {
@@ -220,7 +220,7 @@ class TestAsyncCredentials:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.credentials.with_raw_response.create(
-            package_name="packageName",
+            package_name="x",
             credential_name="26f1kl_-n-71",
             fields=[
                 {
@@ -239,7 +239,7 @@ class TestAsyncCredentials:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.credentials.with_streaming_response.create(
-            package_name="packageName",
+            package_name="x",
             credential_name="26f1kl_-n-71",
             fields=[
                 {
@@ -275,8 +275,8 @@ class TestAsyncCredentials:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncMobilerun) -> None:
         credential = await async_client.credentials.packages.credentials.retrieve(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
         )
         assert_matches_type(CredentialRetrieveResponse, credential, path=["response"])
 
@@ -284,8 +284,8 @@ class TestAsyncCredentials:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.credentials.with_raw_response.retrieve(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
         )
 
         assert response.is_closed is True
@@ -297,8 +297,8 @@ class TestAsyncCredentials:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.credentials.with_streaming_response.retrieve(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -313,22 +313,22 @@ class TestAsyncCredentials:
     async def test_path_params_retrieve(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             await async_client.credentials.packages.credentials.with_raw_response.retrieve(
-                credential_name="credentialName",
+                credential_name="26f1kl_-n-71",
                 package_name="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             await async_client.credentials.packages.credentials.with_raw_response.retrieve(
                 credential_name="",
-                package_name="packageName",
+                package_name="x",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncMobilerun) -> None:
         credential = await async_client.credentials.packages.credentials.delete(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
         )
         assert_matches_type(CredentialDeleteResponse, credential, path=["response"])
 
@@ -336,8 +336,8 @@ class TestAsyncCredentials:
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.credentials.with_raw_response.delete(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
         )
 
         assert response.is_closed is True
@@ -349,8 +349,8 @@ class TestAsyncCredentials:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.credentials.with_streaming_response.delete(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -365,12 +365,12 @@ class TestAsyncCredentials:
     async def test_path_params_delete(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             await async_client.credentials.packages.credentials.with_raw_response.delete(
-                credential_name="credentialName",
+                credential_name="26f1kl_-n-71",
                 package_name="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             await async_client.credentials.packages.credentials.with_raw_response.delete(
                 credential_name="",
-                package_name="packageName",
+                package_name="x",
             )
