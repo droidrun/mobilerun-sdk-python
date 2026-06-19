@@ -47,6 +47,7 @@ if TYPE_CHECKING:
         carriers,
         profiles,
         webhooks,
+        workflows,
         credentials,
     )
     from .resources.apps import AppsResource, AsyncAppsResource
@@ -59,6 +60,7 @@ if TYPE_CHECKING:
     from .resources.connect.connect import ConnectResource, AsyncConnectResource
     from .resources.devices.devices import DevicesResource, AsyncDevicesResource
     from .resources.webhooks.webhooks import WebhooksResource, AsyncWebhooksResource
+    from .resources.workflows.workflows import WorkflowsResource, AsyncWorkflowsResource
     from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
 
 __all__ = [
@@ -198,6 +200,12 @@ class Mobilerun(SyncAPIClient):
         from .resources.tasks import TasksResource
 
         return TasksResource(self)
+
+    @cached_property
+    def workflows(self) -> WorkflowsResource:
+        from .resources.workflows import WorkflowsResource
+
+        return WorkflowsResource(self)
 
     @cached_property
     def webhooks(self) -> WebhooksResource:
@@ -456,6 +464,12 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncTasksResource(self)
 
     @cached_property
+    def workflows(self) -> AsyncWorkflowsResource:
+        from .resources.workflows import AsyncWorkflowsResource
+
+        return AsyncWorkflowsResource(self)
+
+    @cached_property
     def webhooks(self) -> AsyncWebhooksResource:
         from .resources.webhooks import AsyncWebhooksResource
 
@@ -658,6 +672,12 @@ class MobilerunWithRawResponse:
         return TasksResourceWithRawResponse(self._client.tasks)
 
     @cached_property
+    def workflows(self) -> workflows.WorkflowsResourceWithRawResponse:
+        from .resources.workflows import WorkflowsResourceWithRawResponse
+
+        return WorkflowsResourceWithRawResponse(self._client.workflows)
+
+    @cached_property
     def webhooks(self) -> webhooks.WebhooksResourceWithRawResponse:
         from .resources.webhooks import WebhooksResourceWithRawResponse
 
@@ -735,6 +755,12 @@ class AsyncMobilerunWithRawResponse:
         from .resources.tasks import AsyncTasksResourceWithRawResponse
 
         return AsyncTasksResourceWithRawResponse(self._client.tasks)
+
+    @cached_property
+    def workflows(self) -> workflows.AsyncWorkflowsResourceWithRawResponse:
+        from .resources.workflows import AsyncWorkflowsResourceWithRawResponse
+
+        return AsyncWorkflowsResourceWithRawResponse(self._client.workflows)
 
     @cached_property
     def webhooks(self) -> webhooks.AsyncWebhooksResourceWithRawResponse:
@@ -816,6 +842,12 @@ class MobilerunWithStreamedResponse:
         return TasksResourceWithStreamingResponse(self._client.tasks)
 
     @cached_property
+    def workflows(self) -> workflows.WorkflowsResourceWithStreamingResponse:
+        from .resources.workflows import WorkflowsResourceWithStreamingResponse
+
+        return WorkflowsResourceWithStreamingResponse(self._client.workflows)
+
+    @cached_property
     def webhooks(self) -> webhooks.WebhooksResourceWithStreamingResponse:
         from .resources.webhooks import WebhooksResourceWithStreamingResponse
 
@@ -893,6 +925,12 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.tasks import AsyncTasksResourceWithStreamingResponse
 
         return AsyncTasksResourceWithStreamingResponse(self._client.tasks)
+
+    @cached_property
+    def workflows(self) -> workflows.AsyncWorkflowsResourceWithStreamingResponse:
+        from .resources.workflows import AsyncWorkflowsResourceWithStreamingResponse
+
+        return AsyncWorkflowsResourceWithStreamingResponse(self._client.workflows)
 
     @cached_property
     def webhooks(self) -> webhooks.AsyncWebhooksResourceWithStreamingResponse:
