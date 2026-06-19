@@ -80,14 +80,6 @@ from .webhooks import (
     WebhooksResourceWithStreamingResponse,
     AsyncWebhooksResourceWithStreamingResponse,
 )
-from .workflows import (
-    WorkflowsResource,
-    AsyncWorkflowsResource,
-    WorkflowsResourceWithRawResponse,
-    AsyncWorkflowsResourceWithRawResponse,
-    WorkflowsResourceWithStreamingResponse,
-    AsyncWorkflowsResourceWithStreamingResponse,
-)
 from .credentials import (
     CredentialsResource,
     AsyncCredentialsResource,
@@ -158,12 +150,6 @@ __all__ = [
     "AsyncTasksResourceWithRawResponse",
     "TasksResourceWithStreamingResponse",
     "AsyncTasksResourceWithStreamingResponse",
-    "WorkflowsResource",
-    "AsyncWorkflowsResource",
-    "WorkflowsResourceWithRawResponse",
-    "AsyncWorkflowsResourceWithRawResponse",
-    "WorkflowsResourceWithStreamingResponse",
-    "AsyncWorkflowsResourceWithStreamingResponse",
     "WebhooksResource",
     "AsyncWebhooksResource",
     "WebhooksResourceWithRawResponse",

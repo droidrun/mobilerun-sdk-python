@@ -197,12 +197,12 @@ class TestApps:
     @parametrize
     def test_method_create_signed_upload_url(self, client: Mobilerun) -> None:
         app = client.apps.create_signed_upload_url(
-            bundle_id="x",
+            bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
             files=[
                 {
-                    "content_type": "x",
-                    "file_name": "x",
+                    "content_type": "application/vnd.android.package-archive",
+                    "file_name": "J!Q0Ok0bzJb7.apk/i",
                 }
             ],
             size_bytes=0,
@@ -215,12 +215,13 @@ class TestApps:
     @parametrize
     def test_method_create_signed_upload_url_with_all_params(self, client: Mobilerun) -> None:
         app = client.apps.create_signed_upload_url(
-            bundle_id="x",
+            bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
             files=[
                 {
-                    "content_type": "x",
-                    "file_name": "x",
+                    "content_type": "application/vnd.android.package-archive",
+                    "file_name": "J!Q0Ok0bzJb7.apk/i",
+                    "sha256": "210b9798eb53baa4e69d31c1071cf03d212b8ad0ca30cf321e0ea82e120aac26/i",
                 }
             ],
             size_bytes=0,
@@ -239,12 +240,12 @@ class TestApps:
     @parametrize
     def test_raw_response_create_signed_upload_url(self, client: Mobilerun) -> None:
         response = client.apps.with_raw_response.create_signed_upload_url(
-            bundle_id="x",
+            bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
             files=[
                 {
-                    "content_type": "x",
-                    "file_name": "x",
+                    "content_type": "application/vnd.android.package-archive",
+                    "file_name": "J!Q0Ok0bzJb7.apk/i",
                 }
             ],
             size_bytes=0,
@@ -261,12 +262,12 @@ class TestApps:
     @parametrize
     def test_streaming_response_create_signed_upload_url(self, client: Mobilerun) -> None:
         with client.apps.with_streaming_response.create_signed_upload_url(
-            bundle_id="x",
+            bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
             files=[
                 {
-                    "content_type": "x",
-                    "file_name": "x",
+                    "content_type": "application/vnd.android.package-archive",
+                    "file_name": "J!Q0Ok0bzJb7.apk/i",
                 }
             ],
             size_bytes=0,
@@ -543,12 +544,12 @@ class TestAsyncApps:
     @parametrize
     async def test_method_create_signed_upload_url(self, async_client: AsyncMobilerun) -> None:
         app = await async_client.apps.create_signed_upload_url(
-            bundle_id="x",
+            bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
             files=[
                 {
-                    "content_type": "x",
-                    "file_name": "x",
+                    "content_type": "application/vnd.android.package-archive",
+                    "file_name": "J!Q0Ok0bzJb7.apk/i",
                 }
             ],
             size_bytes=0,
@@ -561,12 +562,13 @@ class TestAsyncApps:
     @parametrize
     async def test_method_create_signed_upload_url_with_all_params(self, async_client: AsyncMobilerun) -> None:
         app = await async_client.apps.create_signed_upload_url(
-            bundle_id="x",
+            bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
             files=[
                 {
-                    "content_type": "x",
-                    "file_name": "x",
+                    "content_type": "application/vnd.android.package-archive",
+                    "file_name": "J!Q0Ok0bzJb7.apk/i",
+                    "sha256": "210b9798eb53baa4e69d31c1071cf03d212b8ad0ca30cf321e0ea82e120aac26/i",
                 }
             ],
             size_bytes=0,
@@ -585,12 +587,12 @@ class TestAsyncApps:
     @parametrize
     async def test_raw_response_create_signed_upload_url(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.apps.with_raw_response.create_signed_upload_url(
-            bundle_id="x",
+            bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
             files=[
                 {
-                    "content_type": "x",
-                    "file_name": "x",
+                    "content_type": "application/vnd.android.package-archive",
+                    "file_name": "J!Q0Ok0bzJb7.apk/i",
                 }
             ],
             size_bytes=0,
@@ -607,12 +609,12 @@ class TestAsyncApps:
     @parametrize
     async def test_streaming_response_create_signed_upload_url(self, async_client: AsyncMobilerun) -> None:
         async with async_client.apps.with_streaming_response.create_signed_upload_url(
-            bundle_id="x",
+            bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
             files=[
                 {
-                    "content_type": "x",
-                    "file_name": "x",
+                    "content_type": "application/vnd.android.package-archive",
+                    "file_name": "J!Q0Ok0bzJb7.apk/i",
                 }
             ],
             size_bytes=0,

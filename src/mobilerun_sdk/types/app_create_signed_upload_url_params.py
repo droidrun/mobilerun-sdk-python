@@ -38,6 +38,13 @@ class AppCreateSignedUploadURLParams(TypedDict, total=False):
 
 
 class File(TypedDict, total=False):
-    content_type: Required[Annotated[str, PropertyInfo(alias="contentType")]]
+    content_type: Required[
+        Annotated[
+            Literal["application/vnd.android.package-archive", "application/octet-stream", "application/zip"],
+            PropertyInfo(alias="contentType"),
+        ]
+    ]
 
     file_name: Required[Annotated[str, PropertyInfo(alias="fileName")]]
+
+    sha256: str

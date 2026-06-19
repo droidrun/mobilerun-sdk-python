@@ -25,8 +25,8 @@ class TestFields:
     @parametrize
     def test_method_create(self, client: Mobilerun) -> None:
         field = client.credentials.packages.credentials.fields.create(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
             field_type="email",
             value="x",
         )
@@ -36,8 +36,8 @@ class TestFields:
     @parametrize
     def test_raw_response_create(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.fields.with_raw_response.create(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
             field_type="email",
             value="x",
         )
@@ -51,8 +51,8 @@ class TestFields:
     @parametrize
     def test_streaming_response_create(self, client: Mobilerun) -> None:
         with client.credentials.packages.credentials.fields.with_streaming_response.create(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
             field_type="email",
             value="x",
         ) as response:
@@ -69,7 +69,7 @@ class TestFields:
     def test_path_params_create(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             client.credentials.packages.credentials.fields.with_raw_response.create(
-                credential_name="credentialName",
+                credential_name="26f1kl_-n-71",
                 package_name="",
                 field_type="email",
                 value="x",
@@ -78,7 +78,7 @@ class TestFields:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             client.credentials.packages.credentials.fields.with_raw_response.create(
                 credential_name="",
-                package_name="packageName",
+                package_name="x",
                 field_type="email",
                 value="x",
             )
@@ -88,8 +88,8 @@ class TestFields:
     def test_method_update(self, client: Mobilerun) -> None:
         field = client.credentials.packages.credentials.fields.update(
             field_type="email",
-            package_name="packageName",
-            credential_name="credentialName",
+            package_name="x",
+            credential_name="26f1kl_-n-71",
             value="x",
         )
         assert_matches_type(FieldUpdateResponse, field, path=["response"])
@@ -99,8 +99,8 @@ class TestFields:
     def test_raw_response_update(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.fields.with_raw_response.update(
             field_type="email",
-            package_name="packageName",
-            credential_name="credentialName",
+            package_name="x",
+            credential_name="26f1kl_-n-71",
             value="x",
         )
 
@@ -114,8 +114,8 @@ class TestFields:
     def test_streaming_response_update(self, client: Mobilerun) -> None:
         with client.credentials.packages.credentials.fields.with_streaming_response.update(
             field_type="email",
-            package_name="packageName",
-            credential_name="credentialName",
+            package_name="x",
+            credential_name="26f1kl_-n-71",
             value="x",
         ) as response:
             assert not response.is_closed
@@ -133,14 +133,14 @@ class TestFields:
             client.credentials.packages.credentials.fields.with_raw_response.update(
                 field_type="email",
                 package_name="",
-                credential_name="credentialName",
+                credential_name="26f1kl_-n-71",
                 value="x",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             client.credentials.packages.credentials.fields.with_raw_response.update(
                 field_type="email",
-                package_name="packageName",
+                package_name="x",
                 credential_name="",
                 value="x",
             )
@@ -150,8 +150,8 @@ class TestFields:
     def test_method_delete(self, client: Mobilerun) -> None:
         field = client.credentials.packages.credentials.fields.delete(
             field_type="email",
-            package_name="packageName",
-            credential_name="credentialName",
+            package_name="x",
+            credential_name="26f1kl_-n-71",
         )
         assert_matches_type(FieldDeleteResponse, field, path=["response"])
 
@@ -160,8 +160,8 @@ class TestFields:
     def test_raw_response_delete(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.fields.with_raw_response.delete(
             field_type="email",
-            package_name="packageName",
-            credential_name="credentialName",
+            package_name="x",
+            credential_name="26f1kl_-n-71",
         )
 
         assert response.is_closed is True
@@ -174,8 +174,8 @@ class TestFields:
     def test_streaming_response_delete(self, client: Mobilerun) -> None:
         with client.credentials.packages.credentials.fields.with_streaming_response.delete(
             field_type="email",
-            package_name="packageName",
-            credential_name="credentialName",
+            package_name="x",
+            credential_name="26f1kl_-n-71",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -192,13 +192,13 @@ class TestFields:
             client.credentials.packages.credentials.fields.with_raw_response.delete(
                 field_type="email",
                 package_name="",
-                credential_name="credentialName",
+                credential_name="26f1kl_-n-71",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             client.credentials.packages.credentials.fields.with_raw_response.delete(
                 field_type="email",
-                package_name="packageName",
+                package_name="x",
                 credential_name="",
             )
 
@@ -212,8 +212,8 @@ class TestAsyncFields:
     @parametrize
     async def test_method_create(self, async_client: AsyncMobilerun) -> None:
         field = await async_client.credentials.packages.credentials.fields.create(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
             field_type="email",
             value="x",
         )
@@ -223,8 +223,8 @@ class TestAsyncFields:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.credentials.fields.with_raw_response.create(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
             field_type="email",
             value="x",
         )
@@ -238,8 +238,8 @@ class TestAsyncFields:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.credentials.fields.with_streaming_response.create(
-            credential_name="credentialName",
-            package_name="packageName",
+            credential_name="26f1kl_-n-71",
+            package_name="x",
             field_type="email",
             value="x",
         ) as response:
@@ -256,7 +256,7 @@ class TestAsyncFields:
     async def test_path_params_create(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             await async_client.credentials.packages.credentials.fields.with_raw_response.create(
-                credential_name="credentialName",
+                credential_name="26f1kl_-n-71",
                 package_name="",
                 field_type="email",
                 value="x",
@@ -265,7 +265,7 @@ class TestAsyncFields:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             await async_client.credentials.packages.credentials.fields.with_raw_response.create(
                 credential_name="",
-                package_name="packageName",
+                package_name="x",
                 field_type="email",
                 value="x",
             )
@@ -275,8 +275,8 @@ class TestAsyncFields:
     async def test_method_update(self, async_client: AsyncMobilerun) -> None:
         field = await async_client.credentials.packages.credentials.fields.update(
             field_type="email",
-            package_name="packageName",
-            credential_name="credentialName",
+            package_name="x",
+            credential_name="26f1kl_-n-71",
             value="x",
         )
         assert_matches_type(FieldUpdateResponse, field, path=["response"])
@@ -286,8 +286,8 @@ class TestAsyncFields:
     async def test_raw_response_update(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.credentials.fields.with_raw_response.update(
             field_type="email",
-            package_name="packageName",
-            credential_name="credentialName",
+            package_name="x",
+            credential_name="26f1kl_-n-71",
             value="x",
         )
 
@@ -301,8 +301,8 @@ class TestAsyncFields:
     async def test_streaming_response_update(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.credentials.fields.with_streaming_response.update(
             field_type="email",
-            package_name="packageName",
-            credential_name="credentialName",
+            package_name="x",
+            credential_name="26f1kl_-n-71",
             value="x",
         ) as response:
             assert not response.is_closed
@@ -320,14 +320,14 @@ class TestAsyncFields:
             await async_client.credentials.packages.credentials.fields.with_raw_response.update(
                 field_type="email",
                 package_name="",
-                credential_name="credentialName",
+                credential_name="26f1kl_-n-71",
                 value="x",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             await async_client.credentials.packages.credentials.fields.with_raw_response.update(
                 field_type="email",
-                package_name="packageName",
+                package_name="x",
                 credential_name="",
                 value="x",
             )
@@ -337,8 +337,8 @@ class TestAsyncFields:
     async def test_method_delete(self, async_client: AsyncMobilerun) -> None:
         field = await async_client.credentials.packages.credentials.fields.delete(
             field_type="email",
-            package_name="packageName",
-            credential_name="credentialName",
+            package_name="x",
+            credential_name="26f1kl_-n-71",
         )
         assert_matches_type(FieldDeleteResponse, field, path=["response"])
 
@@ -347,8 +347,8 @@ class TestAsyncFields:
     async def test_raw_response_delete(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.credentials.fields.with_raw_response.delete(
             field_type="email",
-            package_name="packageName",
-            credential_name="credentialName",
+            package_name="x",
+            credential_name="26f1kl_-n-71",
         )
 
         assert response.is_closed is True
@@ -361,8 +361,8 @@ class TestAsyncFields:
     async def test_streaming_response_delete(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.credentials.fields.with_streaming_response.delete(
             field_type="email",
-            package_name="packageName",
-            credential_name="credentialName",
+            package_name="x",
+            credential_name="26f1kl_-n-71",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -379,12 +379,12 @@ class TestAsyncFields:
             await async_client.credentials.packages.credentials.fields.with_raw_response.delete(
                 field_type="email",
                 package_name="",
-                credential_name="credentialName",
+                credential_name="26f1kl_-n-71",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             await async_client.credentials.packages.credentials.fields.with_raw_response.delete(
                 field_type="email",
-                package_name="packageName",
+                package_name="x",
                 credential_name="",
             )
