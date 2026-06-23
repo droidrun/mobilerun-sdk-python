@@ -24,14 +24,6 @@ from .actions import (
     ActionsResourceWithStreamingResponse,
     AsyncActionsResourceWithStreamingResponse,
 )
-from .secrets import (
-    SecretsResource,
-    AsyncSecretsResource,
-    SecretsResourceWithRawResponse,
-    AsyncSecretsResourceWithRawResponse,
-    SecretsResourceWithStreamingResponse,
-    AsyncSecretsResourceWithStreamingResponse,
-)
 from .triggers import (
     TriggersResource,
     AsyncTriggersResource,
@@ -116,12 +108,6 @@ __all__ = [
     "AsyncTimezonesResourceWithRawResponse",
     "TimezonesResourceWithStreamingResponse",
     "AsyncTimezonesResourceWithStreamingResponse",
-    "SecretsResource",
-    "AsyncSecretsResource",
-    "SecretsResourceWithRawResponse",
-    "AsyncSecretsResourceWithRawResponse",
-    "SecretsResourceWithStreamingResponse",
-    "AsyncSecretsResourceWithStreamingResponse",
     "WorkflowsResource",
     "AsyncWorkflowsResource",
     "WorkflowsResourceWithRawResponse",

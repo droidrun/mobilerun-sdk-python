@@ -10,11 +10,17 @@ __all__ = ["ExecutionGetMetricsResponse", "Data", "DataByStatus"]
 
 
 class DataByStatus(BaseModel):
+    cancelled: int
+
     failed: int
+
+    invalid: int
 
     pending: int
 
     running: int
+
+    skipped: int
 
     success: int
 

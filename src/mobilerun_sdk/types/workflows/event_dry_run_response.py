@@ -13,6 +13,7 @@ __all__ = [
     "Data",
     "DataMatchedFlow",
     "DataMatchedFlowAction",
+    "DataMatchedFlowGates",
     "DataMatchedFlowTrigger",
     "DataMatchedFlowTriggerScheduleRule",
     "DataValidation",
@@ -29,9 +30,25 @@ class DataMatchedFlowAction(BaseModel):
 
     service: Literal["tasks_api", "devices_api", "agents_api", "webhooks"]
 
-    device_id: Optional[str] = FieldInfo(alias="deviceId", default=None)
+    children: Optional[List[Optional[object]]] = None
+    """
+    Nested child actions (loop/branch bodies), each the same shape as a
+    ResolvedAction.
+    """
 
     params: Optional[Dict[str, Optional[object]]] = None
+
+
+class DataMatchedFlowGates(BaseModel):
+    blocked: bool
+
+    cooldown_active: Optional[bool] = FieldInfo(alias="cooldownActive", default=None)
+
+    device_attached: bool = FieldInfo(alias="deviceAttached")
+
+    device_ids: List[str] = FieldInfo(alias="deviceIds")
+
+    enabled: bool
 
 
 class DataMatchedFlowTriggerScheduleRule(BaseModel):
@@ -80,7 +97,11 @@ class DataMatchedFlow(BaseModel):
 
     flow: Flow
 
+    gates: DataMatchedFlowGates
+
     trigger: DataMatchedFlowTrigger
+
+    would_fire: bool = FieldInfo(alias="wouldFire")
 
 
 class DataValidationError(BaseModel):

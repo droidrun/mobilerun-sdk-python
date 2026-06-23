@@ -281,7 +281,6 @@ class TriggersResource(SyncAPIResource):
         trigger_id: str,
         *,
         payload: Dict[str, object],
-        device_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -313,10 +312,6 @@ class TriggersResource(SyncAPIResource):
               Validated against the trigger's customPayloadSchema when one is configured;
               otherwise only "must be a JSON object" is enforced.
 
-          device_id: Optional device scope. When supplied, ownership is verified for the calling user
-              and the value is passed through to each enqueued execution as the default device
-              context.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -329,13 +324,7 @@ class TriggersResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
         return self._post(
             path_template("/triggers/{trigger_id}/fire", trigger_id=trigger_id),
-            body=maybe_transform(
-                {
-                    "payload": payload,
-                    "device_id": device_id,
-                },
-                trigger_fire_params.TriggerFireParams,
-            ),
+            body=maybe_transform({"payload": payload}, trigger_fire_params.TriggerFireParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -595,7 +584,6 @@ class AsyncTriggersResource(AsyncAPIResource):
         trigger_id: str,
         *,
         payload: Dict[str, object],
-        device_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -627,10 +615,6 @@ class AsyncTriggersResource(AsyncAPIResource):
               Validated against the trigger's customPayloadSchema when one is configured;
               otherwise only "must be a JSON object" is enforced.
 
-          device_id: Optional device scope. When supplied, ownership is verified for the calling user
-              and the value is passed through to each enqueued execution as the default device
-              context.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -643,13 +627,7 @@ class AsyncTriggersResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
         return await self._post(
             path_template("/triggers/{trigger_id}/fire", trigger_id=trigger_id),
-            body=await async_maybe_transform(
-                {
-                    "payload": payload,
-                    "device_id": device_id,
-                },
-                trigger_fire_params.TriggerFireParams,
-            ),
+            body=await async_maybe_transform({"payload": payload}, trigger_fire_params.TriggerFireParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

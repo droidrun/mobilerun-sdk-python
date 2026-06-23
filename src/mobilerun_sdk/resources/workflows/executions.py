@@ -89,7 +89,7 @@ class ExecutionsResource(SyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         search: str | Omit = omit,
-        status: Literal["pending", "running", "success", "failed"] | Omit = omit,
+        status: Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"] | Omit = omit,
         to: Optional[str] | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -247,7 +247,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         search: str | Omit = omit,
-        status: Literal["pending", "running", "success", "failed"] | Omit = omit,
+        status: Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"] | Omit = omit,
         to: Optional[str] | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.

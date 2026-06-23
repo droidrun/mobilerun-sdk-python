@@ -53,13 +53,11 @@ class TestFlows:
                             "action_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                             "position": 0,
                             "continue_on_error": True,
-                            "device_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                             "name_override": "x",
                             "overrides": {"params": {"foo": "bar"}},
                         }
                     ],
                     "continue_on_error": True,
-                    "device_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "name_override": "x",
                     "overrides": {"params": {"foo": "bar"}},
                 }
@@ -69,7 +67,11 @@ class TestFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             description="description",
+            device_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             enabled=True,
+            notify_on_failure=True,
+            notify_on_success=True,
+            notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(FlowCreateResponse, flow, path=["response"])
 
@@ -171,8 +173,12 @@ class TestFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             description="description",
+            device_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             enabled=True,
             name="x",
+            notify_on_failure=True,
+            notify_on_success=True,
+            notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(FlowUpdateResponse, flow, path=["response"])
@@ -309,6 +315,7 @@ class TestFlows:
     def test_method_clone_with_all_params(self, client: Mobilerun) -> None:
         flow = client.workflows.flows.clone(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            device_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             name="x",
         )
         assert_matches_type(FlowCloneResponse, flow, path=["response"])
@@ -423,13 +430,11 @@ class TestAsyncFlows:
                             "action_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                             "position": 0,
                             "continue_on_error": True,
-                            "device_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                             "name_override": "x",
                             "overrides": {"params": {"foo": "bar"}},
                         }
                     ],
                     "continue_on_error": True,
-                    "device_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
                     "name_override": "x",
                     "overrides": {"params": {"foo": "bar"}},
                 }
@@ -439,7 +444,11 @@ class TestAsyncFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             description="description",
+            device_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             enabled=True,
+            notify_on_failure=True,
+            notify_on_success=True,
+            notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(FlowCreateResponse, flow, path=["response"])
 
@@ -541,8 +550,12 @@ class TestAsyncFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             description="description",
+            device_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             enabled=True,
             name="x",
+            notify_on_failure=True,
+            notify_on_success=True,
+            notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(FlowUpdateResponse, flow, path=["response"])
@@ -679,6 +692,7 @@ class TestAsyncFlows:
     async def test_method_clone_with_all_params(self, async_client: AsyncMobilerun) -> None:
         flow = await async_client.workflows.flows.clone(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            device_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             name="x",
         )
         assert_matches_type(FlowCloneResponse, flow, path=["response"])

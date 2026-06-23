@@ -25,7 +25,7 @@ class ExecutionListParams(TypedDict, total=False):
 
     search: str
 
-    status: Literal["pending", "running", "success", "failed"]
+    status: Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"]
 
     to: Optional[str]
 

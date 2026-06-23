@@ -22,8 +22,6 @@ class FlowAction(BaseModel):
 
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
 
-    device_id: Optional[str] = FieldInfo(alias="deviceId", default=None)
-
     flow_id: str = FieldInfo(alias="flowId")
 
     name_override: Optional[str] = FieldInfo(alias="nameOverride", default=None)

@@ -23,9 +23,11 @@ class FlowExecution(BaseModel):
 
     flow_name: Optional[str] = FieldInfo(alias="flowName", default=None)
 
+    kind: Literal["live", "dry_run"]
+
     started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
 
-    status: Optional[Literal["pending", "running", "success", "failed"]] = None
+    status: Optional[Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"]] = None
 
     trigger_id: str = FieldInfo(alias="triggerId")
 

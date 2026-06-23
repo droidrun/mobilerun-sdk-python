@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
+from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 from .flow_action_overrides_param import FlowActionOverridesParam
 from .flow_child_action_input_param import FlowChildActionInputParam
@@ -25,7 +26,15 @@ class FlowCreateParams(TypedDict, total=False):
 
     description: str
 
+    device_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="deviceIds")]
+
     enabled: bool
+
+    notify_on_failure: Annotated[bool, PropertyInfo(alias="notifyOnFailure")]
+
+    notify_on_success: Annotated[bool, PropertyInfo(alias="notifyOnSuccess")]
+
+    notify_webhook_id: Annotated[Optional[str], PropertyInfo(alias="notifyWebhookId")]
 
 
 class Action(TypedDict, total=False):
@@ -36,8 +45,6 @@ class Action(TypedDict, total=False):
     children: Iterable[FlowChildActionInputParam]
 
     continue_on_error: Annotated[bool, PropertyInfo(alias="continueOnError")]
-
-    device_id: Annotated[str, PropertyInfo(alias="deviceId")]
 
     name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
 

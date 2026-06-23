@@ -21,7 +21,7 @@ class TestPackages:
     @parametrize
     def test_method_create(self, client: Mobilerun) -> None:
         package = client.credentials.packages.create(
-            package_name="packageName",
+            package_name="x",
         )
         assert_matches_type(PackageCreateResponse, package, path=["response"])
 
@@ -29,7 +29,7 @@ class TestPackages:
     @parametrize
     def test_raw_response_create(self, client: Mobilerun) -> None:
         response = client.credentials.packages.with_raw_response.create(
-            package_name="packageName",
+            package_name="x",
         )
 
         assert response.is_closed is True
@@ -41,7 +41,7 @@ class TestPackages:
     @parametrize
     def test_streaming_response_create(self, client: Mobilerun) -> None:
         with client.credentials.packages.with_streaming_response.create(
-            package_name="packageName",
+            package_name="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -55,7 +55,7 @@ class TestPackages:
     @parametrize
     def test_method_list(self, client: Mobilerun) -> None:
         package = client.credentials.packages.list(
-            "packageName",
+            "x",
         )
         assert_matches_type(PackageListResponse, package, path=["response"])
 
@@ -63,7 +63,7 @@ class TestPackages:
     @parametrize
     def test_raw_response_list(self, client: Mobilerun) -> None:
         response = client.credentials.packages.with_raw_response.list(
-            "packageName",
+            "x",
         )
 
         assert response.is_closed is True
@@ -75,7 +75,7 @@ class TestPackages:
     @parametrize
     def test_streaming_response_list(self, client: Mobilerun) -> None:
         with client.credentials.packages.with_streaming_response.list(
-            "packageName",
+            "x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -103,7 +103,7 @@ class TestAsyncPackages:
     @parametrize
     async def test_method_create(self, async_client: AsyncMobilerun) -> None:
         package = await async_client.credentials.packages.create(
-            package_name="packageName",
+            package_name="x",
         )
         assert_matches_type(PackageCreateResponse, package, path=["response"])
 
@@ -111,7 +111,7 @@ class TestAsyncPackages:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.with_raw_response.create(
-            package_name="packageName",
+            package_name="x",
         )
 
         assert response.is_closed is True
@@ -123,7 +123,7 @@ class TestAsyncPackages:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.with_streaming_response.create(
-            package_name="packageName",
+            package_name="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -137,7 +137,7 @@ class TestAsyncPackages:
     @parametrize
     async def test_method_list(self, async_client: AsyncMobilerun) -> None:
         package = await async_client.credentials.packages.list(
-            "packageName",
+            "x",
         )
         assert_matches_type(PackageListResponse, package, path=["response"])
 
@@ -145,7 +145,7 @@ class TestAsyncPackages:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.with_raw_response.list(
-            "packageName",
+            "x",
         )
 
         assert response.is_closed is True
@@ -157,7 +157,7 @@ class TestAsyncPackages:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.with_streaming_response.list(
-            "packageName",
+            "x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

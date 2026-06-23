@@ -15,7 +15,7 @@ from .actions import (
     ActionsResourceWithStreamingResponse,
     AsyncActionsResourceWithStreamingResponse,
 )
-from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ...._utils import path_template, maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -71,7 +71,11 @@ class FlowsResource(SyncAPIResource):
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
         description: str | Omit = omit,
+        device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
+        notify_on_failure: bool | Omit = omit,
+        notify_on_success: bool | Omit = omit,
+        notify_webhook_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -101,7 +105,11 @@ class FlowsResource(SyncAPIResource):
                     "cooldown_scope": cooldown_scope,
                     "cooldown_seconds": cooldown_seconds,
                     "description": description,
+                    "device_ids": device_ids,
                     "enabled": enabled,
+                    "notify_on_failure": notify_on_failure,
+                    "notify_on_success": notify_on_success,
+                    "notify_webhook_id": notify_webhook_id,
                 },
                 flow_create_params.FlowCreateParams,
             ),
@@ -151,8 +159,12 @@ class FlowsResource(SyncAPIResource):
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
         description: str | Omit = omit,
+        device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
         name: str | Omit = omit,
+        notify_on_failure: bool | Omit = omit,
+        notify_on_success: bool | Omit = omit,
+        notify_webhook_id: Optional[str] | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -182,8 +194,12 @@ class FlowsResource(SyncAPIResource):
                     "cooldown_scope": cooldown_scope,
                     "cooldown_seconds": cooldown_seconds,
                     "description": description,
+                    "device_ids": device_ids,
                     "enabled": enabled,
                     "name": name,
+                    "notify_on_failure": notify_on_failure,
+                    "notify_on_success": notify_on_success,
+                    "notify_webhook_id": notify_webhook_id,
                     "trigger_id": trigger_id,
                 },
                 flow_update_params.FlowUpdateParams,
@@ -285,6 +301,7 @@ class FlowsResource(SyncAPIResource):
         self,
         flow_id: str,
         *,
+        device_ids: SequenceNotStr[str] | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -309,7 +326,13 @@ class FlowsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
         return self._post(
             path_template("/flows/{flow_id}/clone", flow_id=flow_id),
-            body=maybe_transform({"name": name}, flow_clone_params.FlowCloneParams),
+            body=maybe_transform(
+                {
+                    "device_ids": device_ids,
+                    "name": name,
+                },
+                flow_clone_params.FlowCloneParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -385,7 +408,11 @@ class AsyncFlowsResource(AsyncAPIResource):
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
         description: str | Omit = omit,
+        device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
+        notify_on_failure: bool | Omit = omit,
+        notify_on_success: bool | Omit = omit,
+        notify_webhook_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -415,7 +442,11 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "cooldown_scope": cooldown_scope,
                     "cooldown_seconds": cooldown_seconds,
                     "description": description,
+                    "device_ids": device_ids,
                     "enabled": enabled,
+                    "notify_on_failure": notify_on_failure,
+                    "notify_on_success": notify_on_success,
+                    "notify_webhook_id": notify_webhook_id,
                 },
                 flow_create_params.FlowCreateParams,
             ),
@@ -465,8 +496,12 @@ class AsyncFlowsResource(AsyncAPIResource):
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
         description: str | Omit = omit,
+        device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
         name: str | Omit = omit,
+        notify_on_failure: bool | Omit = omit,
+        notify_on_success: bool | Omit = omit,
+        notify_webhook_id: Optional[str] | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -496,8 +531,12 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "cooldown_scope": cooldown_scope,
                     "cooldown_seconds": cooldown_seconds,
                     "description": description,
+                    "device_ids": device_ids,
                     "enabled": enabled,
                     "name": name,
+                    "notify_on_failure": notify_on_failure,
+                    "notify_on_success": notify_on_success,
+                    "notify_webhook_id": notify_webhook_id,
                     "trigger_id": trigger_id,
                 },
                 flow_update_params.FlowUpdateParams,
@@ -599,6 +638,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         self,
         flow_id: str,
         *,
+        device_ids: SequenceNotStr[str] | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -623,7 +663,13 @@ class AsyncFlowsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
         return await self._post(
             path_template("/flows/{flow_id}/clone", flow_id=flow_id),
-            body=await async_maybe_transform({"name": name}, flow_clone_params.FlowCloneParams),
+            body=await async_maybe_transform(
+                {
+                    "device_ids": device_ids,
+                    "name": name,
+                },
+                flow_clone_params.FlowCloneParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

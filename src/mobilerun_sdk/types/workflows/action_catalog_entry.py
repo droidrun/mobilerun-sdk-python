@@ -17,8 +17,6 @@ class ActionCatalogEntry(BaseModel):
 
     description: Optional[str] = None
 
-    is_async: bool = FieldInfo(alias="isAsync")
-
     method: str
 
     name: str

@@ -18,8 +18,6 @@ class FlowChildActionInputParam(TypedDict, total=False):
 
     continue_on_error: Annotated[bool, PropertyInfo(alias="continueOnError")]
 
-    device_id: Annotated[str, PropertyInfo(alias="deviceId")]
-
     name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
 
     overrides: Optional[FlowActionOverridesParam]

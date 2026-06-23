@@ -2,14 +2,6 @@
 
 from __future__ import annotations
 
-from .secrets import (
-    SecretsResource,
-    AsyncSecretsResource,
-    SecretsResourceWithRawResponse,
-    AsyncSecretsResourceWithRawResponse,
-    SecretsResourceWithStreamingResponse,
-    AsyncSecretsResourceWithStreamingResponse,
-)
 from .triggers import (
     TriggersResource,
     AsyncTriggersResource,
@@ -102,10 +94,6 @@ class WorkflowsResource(SyncAPIResource):
         return TimezonesResource(self._client)
 
     @cached_property
-    def secrets(self) -> SecretsResource:
-        return SecretsResource(self._client)
-
-    @cached_property
     def with_raw_response(self) -> WorkflowsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
@@ -153,10 +141,6 @@ class AsyncWorkflowsResource(AsyncAPIResource):
     @cached_property
     def timezones(self) -> AsyncTimezonesResource:
         return AsyncTimezonesResource(self._client)
-
-    @cached_property
-    def secrets(self) -> AsyncSecretsResource:
-        return AsyncSecretsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncWorkflowsResourceWithRawResponse:
@@ -210,10 +194,6 @@ class WorkflowsResourceWithRawResponse:
     def timezones(self) -> TimezonesResourceWithRawResponse:
         return TimezonesResourceWithRawResponse(self._workflows.timezones)
 
-    @cached_property
-    def secrets(self) -> SecretsResourceWithRawResponse:
-        return SecretsResourceWithRawResponse(self._workflows.secrets)
-
 
 class AsyncWorkflowsResourceWithRawResponse:
     def __init__(self, workflows: AsyncWorkflowsResource) -> None:
@@ -246,10 +226,6 @@ class AsyncWorkflowsResourceWithRawResponse:
     @cached_property
     def timezones(self) -> AsyncTimezonesResourceWithRawResponse:
         return AsyncTimezonesResourceWithRawResponse(self._workflows.timezones)
-
-    @cached_property
-    def secrets(self) -> AsyncSecretsResourceWithRawResponse:
-        return AsyncSecretsResourceWithRawResponse(self._workflows.secrets)
 
 
 class WorkflowsResourceWithStreamingResponse:
@@ -284,10 +260,6 @@ class WorkflowsResourceWithStreamingResponse:
     def timezones(self) -> TimezonesResourceWithStreamingResponse:
         return TimezonesResourceWithStreamingResponse(self._workflows.timezones)
 
-    @cached_property
-    def secrets(self) -> SecretsResourceWithStreamingResponse:
-        return SecretsResourceWithStreamingResponse(self._workflows.secrets)
-
 
 class AsyncWorkflowsResourceWithStreamingResponse:
     def __init__(self, workflows: AsyncWorkflowsResource) -> None:
@@ -320,7 +292,3 @@ class AsyncWorkflowsResourceWithStreamingResponse:
     @cached_property
     def timezones(self) -> AsyncTimezonesResourceWithStreamingResponse:
         return AsyncTimezonesResourceWithStreamingResponse(self._workflows.timezones)
-
-    @cached_property
-    def secrets(self) -> AsyncSecretsResourceWithStreamingResponse:
-        return AsyncSecretsResourceWithStreamingResponse(self._workflows.secrets)

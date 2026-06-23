@@ -3,8 +3,6 @@
 from typing import List, Optional
 from typing_extensions import Literal
 
-from pydantic import Field as FieldInfo
-
 from ...._models import BaseModel
 
 __all__ = ["ServiceListMethodsResponse", "Data", "DataParam"]
@@ -25,13 +23,9 @@ class DataParam(BaseModel):
 
 
 class Data(BaseModel):
-    is_async: bool = FieldInfo(alias="isAsync")
-
     method: str
 
     params: List[DataParam]
-
-    requires_target: bool = FieldInfo(alias="requiresTarget")
 
 
 class ServiceListMethodsResponse(BaseModel):

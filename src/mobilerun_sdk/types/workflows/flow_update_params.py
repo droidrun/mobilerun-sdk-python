@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Optional
 from typing_extensions import Literal, Annotated, TypedDict
 
+from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 
 __all__ = ["FlowUpdateParams"]
@@ -17,8 +18,16 @@ class FlowUpdateParams(TypedDict, total=False):
 
     description: str
 
+    device_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="deviceIds")]
+
     enabled: bool
 
     name: str
+
+    notify_on_failure: Annotated[bool, PropertyInfo(alias="notifyOnFailure")]
+
+    notify_on_success: Annotated[bool, PropertyInfo(alias="notifyOnSuccess")]
+
+    notify_webhook_id: Annotated[Optional[str], PropertyInfo(alias="notifyWebhookId")]
 
     trigger_id: Annotated[str, PropertyInfo(alias="triggerId")]

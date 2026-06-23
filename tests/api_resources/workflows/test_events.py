@@ -33,7 +33,6 @@ class TestEvents:
     def test_method_dry_run_with_all_params(self, client: Mobilerun) -> None:
         event = client.workflows.events.dry_run(
             event_type="x",
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             payload={"foo": "bar"},
         )
         assert_matches_type(EventDryRunResponse, event, path=["response"])
@@ -77,7 +76,6 @@ class TestEvents:
     def test_method_ingest_with_all_params(self, client: Mobilerun) -> None:
         event = client.workflows.events.ingest(
             event_type="x",
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             payload={"foo": "bar"},
         )
         assert_matches_type(EventIngestResponse, event, path=["response"])
@@ -127,7 +125,6 @@ class TestAsyncEvents:
     async def test_method_dry_run_with_all_params(self, async_client: AsyncMobilerun) -> None:
         event = await async_client.workflows.events.dry_run(
             event_type="x",
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             payload={"foo": "bar"},
         )
         assert_matches_type(EventDryRunResponse, event, path=["response"])
@@ -171,7 +168,6 @@ class TestAsyncEvents:
     async def test_method_ingest_with_all_params(self, async_client: AsyncMobilerun) -> None:
         event = await async_client.workflows.events.ingest(
             event_type="x",
-            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             payload={"foo": "bar"},
         )
         assert_matches_type(EventIngestResponse, event, path=["response"])

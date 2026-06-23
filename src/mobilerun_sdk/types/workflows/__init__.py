@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from .action import Action as Action
-from .user_secret import UserSecret as UserSecret
 from .flow_execution import FlowExecution as FlowExecution
 from .flow_list_params import FlowListParams as FlowListParams
 from .flow_clone_params import FlowCloneParams as FlowCloneParams
@@ -23,8 +22,6 @@ from .event_dry_run_params import EventDryRunParams as EventDryRunParams
 from .flow_create_response import FlowCreateResponse as FlowCreateResponse
 from .flow_delete_response import FlowDeleteResponse as FlowDeleteResponse
 from .flow_update_response import FlowUpdateResponse as FlowUpdateResponse
-from .secret_create_params import SecretCreateParams as SecretCreateParams
-from .secret_list_response import SecretListResponse as SecretListResponse
 from .event_ingest_response import EventIngestResponse as EventIngestResponse
 from .execution_list_params import ExecutionListParams as ExecutionListParams
 from .flow_unblock_response import FlowUnblockResponse as FlowUnblockResponse
@@ -37,8 +34,6 @@ from .action_delete_response import ActionDeleteResponse as ActionDeleteResponse
 from .action_update_response import ActionUpdateResponse as ActionUpdateResponse
 from .event_dry_run_response import EventDryRunResponse as EventDryRunResponse
 from .flow_retrieve_response import FlowRetrieveResponse as FlowRetrieveResponse
-from .secret_create_response import SecretCreateResponse as SecretCreateResponse
-from .secret_delete_response import SecretDeleteResponse as SecretDeleteResponse
 from .timezone_list_response import TimezoneListResponse as TimezoneListResponse
 from .execution_list_response import ExecutionListResponse as ExecutionListResponse
 from .trigger_create_response import TriggerCreateResponse as TriggerCreateResponse

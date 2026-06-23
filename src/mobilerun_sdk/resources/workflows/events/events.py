@@ -60,7 +60,6 @@ class EventsResource(SyncAPIResource):
         self,
         *,
         event_type: str,
-        device_id: str | Omit = omit,
         payload: Dict[str, Optional[object]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -88,7 +87,6 @@ class EventsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "event_type": event_type,
-                    "device_id": device_id,
                     "payload": payload,
                 },
                 event_dry_run_params.EventDryRunParams,
@@ -103,7 +101,6 @@ class EventsResource(SyncAPIResource):
         self,
         *,
         event_type: str,
-        device_id: str | Omit = omit,
         payload: Dict[str, Optional[object]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -130,7 +127,6 @@ class EventsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "event_type": event_type,
-                    "device_id": device_id,
                     "payload": payload,
                 },
                 event_ingest_params.EventIngestParams,
@@ -170,7 +166,6 @@ class AsyncEventsResource(AsyncAPIResource):
         self,
         *,
         event_type: str,
-        device_id: str | Omit = omit,
         payload: Dict[str, Optional[object]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -198,7 +193,6 @@ class AsyncEventsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "event_type": event_type,
-                    "device_id": device_id,
                     "payload": payload,
                 },
                 event_dry_run_params.EventDryRunParams,
@@ -213,7 +207,6 @@ class AsyncEventsResource(AsyncAPIResource):
         self,
         *,
         event_type: str,
-        device_id: str | Omit = omit,
         payload: Dict[str, Optional[object]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -240,7 +233,6 @@ class AsyncEventsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "event_type": event_type,
-                    "device_id": device_id,
                     "payload": payload,
                 },
                 event_ingest_params.EventIngestParams,

@@ -709,25 +709,6 @@ Methods:
 
 - <code title="get /timezones">client.workflows.timezones.<a href="./src/mobilerun_sdk/resources/workflows/timezones.py">list</a>() -> <a href="./src/mobilerun_sdk/types/workflows/timezone_list_response.py">TimezoneListResponse</a></code>
 
-## Secrets
-
-Types:
-
-```python
-from mobilerun_sdk.types.workflows import (
-    UserSecret,
-    SecretCreateResponse,
-    SecretListResponse,
-    SecretDeleteResponse,
-)
-```
-
-Methods:
-
-- <code title="post /secrets">client.workflows.secrets.<a href="./src/mobilerun_sdk/resources/workflows/secrets.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/secret_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/secret_create_response.py">SecretCreateResponse</a></code>
-- <code title="get /secrets">client.workflows.secrets.<a href="./src/mobilerun_sdk/resources/workflows/secrets.py">list</a>() -> <a href="./src/mobilerun_sdk/types/workflows/secret_list_response.py">SecretListResponse</a></code>
-- <code title="delete /secrets/{secretId}">client.workflows.secrets.<a href="./src/mobilerun_sdk/resources/workflows/secrets.py">delete</a>(secret_id) -> <a href="./src/mobilerun_sdk/types/workflows/secret_delete_response.py">SecretDeleteResponse</a></code>
-
 # Webhooks
 
 Types:

@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -25,17 +25,25 @@ class Flow(BaseModel):
 
     description: Optional[str] = None
 
+    device_ids: List[str] = FieldInfo(alias="deviceIds")
+
     enabled: bool
 
     last_failure_at: Optional[str] = FieldInfo(alias="lastFailureAt", default=None)
 
     last_failure_code: Optional[
-        Literal["device_not_found", "permission_denied", "client_error", "transient", "logic"]
+        Literal["device_not_found", "permission_denied", "client_error", "transient", "logic", "invalid_config"]
     ] = FieldInfo(alias="lastFailureCode", default=None)
 
     last_triggered_at: Optional[str] = FieldInfo(alias="lastTriggeredAt", default=None)
 
     name: str
+
+    notify_on_failure: bool = FieldInfo(alias="notifyOnFailure")
+
+    notify_on_success: bool = FieldInfo(alias="notifyOnSuccess")
+
+    notify_webhook_id: Optional[str] = FieldInfo(alias="notifyWebhookId", default=None)
 
     status: Literal["healthy", "failing", "blocked"]
 
