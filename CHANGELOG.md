@@ -1,5 +1,14 @@
 # Changelog
 
+## 5.1.0 (2026-06-23)
+
+Full Changelog: [v5.0.0...v5.1.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.0.0...v5.1.0)
+
+### Features
+
+* **api:** api update ([458209a](https://github.com/droidrun/mobilerun-sdk-python/commit/458209a064d4be4eedfceab7f680bc9329e5de73))
+* **api:** api update ([93a672c](https://github.com/droidrun/mobilerun-sdk-python/commit/93a672ceb48abc041a26ea744d797048ebc894b0))
+
 ## 5.0.0 (2026-06-18)
 
 Full Changelog: [v3.2.0...v5.0.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v3.2.0...v5.0.0)
