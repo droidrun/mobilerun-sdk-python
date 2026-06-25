@@ -39,7 +39,7 @@ class TestWebhooks:
         webhook = client.webhooks.create(
             url="https://example.com/webhooks/droidrun",
             description="description",
-            event_types=["task.completed", "task.failed"],
+            event_types=["task.run.completed", "task.run.failed"],
         )
         assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
 
@@ -376,7 +376,7 @@ class TestAsyncWebhooks:
         webhook = await async_client.webhooks.create(
             url="https://example.com/webhooks/droidrun",
             description="description",
-            event_types=["task.completed", "task.failed"],
+            event_types=["task.run.completed", "task.run.failed"],
         )
         assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
 

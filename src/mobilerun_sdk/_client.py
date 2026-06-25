@@ -38,7 +38,6 @@ from ._base_client import (
 if TYPE_CHECKING:
     from .resources import (
         apps,
-        hooks,
         tasks,
         models,
         connect,
@@ -51,7 +50,6 @@ if TYPE_CHECKING:
         credentials,
     )
     from .resources.apps import AppsResource, AsyncAppsResource
-    from .resources.hooks import HooksResource, AsyncHooksResource
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
     from .resources.carriers import CarriersResource, AsyncCarriersResource
@@ -161,12 +159,6 @@ class Mobilerun(SyncAPIClient):
         from .resources.devices import DevicesResource
 
         return DevicesResource(self)
-
-    @cached_property
-    def hooks(self) -> HooksResource:
-        from .resources.hooks import HooksResource
-
-        return HooksResource(self)
 
     @cached_property
     def models(self) -> ModelsResource:
@@ -425,12 +417,6 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncDevicesResource(self)
 
     @cached_property
-    def hooks(self) -> AsyncHooksResource:
-        from .resources.hooks import AsyncHooksResource
-
-        return AsyncHooksResource(self)
-
-    @cached_property
     def models(self) -> AsyncModelsResource:
         """LLM Models"""
         from .resources.models import AsyncModelsResource
@@ -633,12 +619,6 @@ class MobilerunWithRawResponse:
         return DevicesResourceWithRawResponse(self._client.devices)
 
     @cached_property
-    def hooks(self) -> hooks.HooksResourceWithRawResponse:
-        from .resources.hooks import HooksResourceWithRawResponse
-
-        return HooksResourceWithRawResponse(self._client.hooks)
-
-    @cached_property
     def models(self) -> models.ModelsResourceWithRawResponse:
         """LLM Models"""
         from .resources.models import ModelsResourceWithRawResponse
@@ -716,12 +696,6 @@ class AsyncMobilerunWithRawResponse:
         from .resources.devices import AsyncDevicesResourceWithRawResponse
 
         return AsyncDevicesResourceWithRawResponse(self._client.devices)
-
-    @cached_property
-    def hooks(self) -> hooks.AsyncHooksResourceWithRawResponse:
-        from .resources.hooks import AsyncHooksResourceWithRawResponse
-
-        return AsyncHooksResourceWithRawResponse(self._client.hooks)
 
     @cached_property
     def models(self) -> models.AsyncModelsResourceWithRawResponse:
@@ -803,12 +777,6 @@ class MobilerunWithStreamedResponse:
         return DevicesResourceWithStreamingResponse(self._client.devices)
 
     @cached_property
-    def hooks(self) -> hooks.HooksResourceWithStreamingResponse:
-        from .resources.hooks import HooksResourceWithStreamingResponse
-
-        return HooksResourceWithStreamingResponse(self._client.hooks)
-
-    @cached_property
     def models(self) -> models.ModelsResourceWithStreamingResponse:
         """LLM Models"""
         from .resources.models import ModelsResourceWithStreamingResponse
@@ -886,12 +854,6 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.devices import AsyncDevicesResourceWithStreamingResponse
 
         return AsyncDevicesResourceWithStreamingResponse(self._client.devices)
-
-    @cached_property
-    def hooks(self) -> hooks.AsyncHooksResourceWithStreamingResponse:
-        from .resources.hooks import AsyncHooksResourceWithStreamingResponse
-
-        return AsyncHooksResourceWithStreamingResponse(self._client.hooks)
 
     @cached_property
     def models(self) -> models.AsyncModelsResourceWithStreamingResponse:

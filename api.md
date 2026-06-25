@@ -182,7 +182,7 @@ Methods:
 - <code title="delete /devices/{deviceId}/apps/{packageName}">client.devices.apps.<a href="./src/mobilerun_sdk/resources/devices/apps.py">delete</a>(package_name, \*, device_id) -> None</code>
 - <code title="post /devices/{deviceId}/apps">client.devices.apps.<a href="./src/mobilerun_sdk/resources/devices/apps.py">install</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/app_install_params.py">params</a>) -> None</code>
 - <code title="put /devices/{deviceId}/apps/{packageName}">client.devices.apps.<a href="./src/mobilerun_sdk/resources/devices/apps.py">start</a>(package_name, \*, device_id, \*\*<a href="src/mobilerun_sdk/types/devices/app_start_params.py">params</a>) -> None</code>
-- <code title="patch /devices/{deviceId}/apps/{packageName}">client.devices.apps.<a href="./src/mobilerun_sdk/resources/devices/apps.py">stop</a>(package_name, \*, device_id) -> None</code>
+- <code title="patch /devices/{deviceId}/apps/{packageName}">client.devices.apps.<a href="./src/mobilerun_sdk/resources/devices/apps.py">stop</a>(package_name, \*, device_id, \*\*<a href="src/mobilerun_sdk/types/devices/app_stop_params.py">params</a>) -> None</code>
 
 ## Esim
 
@@ -318,34 +318,6 @@ Methods:
 
 - <code title="get /devices/{deviceId}/language">client.devices.language.<a href="./src/mobilerun_sdk/resources/devices/language.py">get</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/language_get_response.py">LanguageGetResponse</a></code>
 - <code title="post /devices/{deviceId}/language">client.devices.language.<a href="./src/mobilerun_sdk/resources/devices/language.py">set</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/language_set_params.py">params</a>) -> None</code>
-
-# Hooks
-
-Types:
-
-```python
-from mobilerun_sdk.types import (
-    HookRetrieveResponse,
-    HookUpdateResponse,
-    HookListResponse,
-    HookGetSampleDataResponse,
-    HookPerformResponse,
-    HookSubscribeResponse,
-    HookTestResponse,
-    HookUnsubscribeResponse,
-)
-```
-
-Methods:
-
-- <code title="get /hooks/{hook_id}">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">retrieve</a>(hook_id) -> <a href="./src/mobilerun_sdk/types/hook_retrieve_response.py">HookRetrieveResponse</a></code>
-- <code title="post /hooks/{hook_id}/edit">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">update</a>(hook_id, \*\*<a href="src/mobilerun_sdk/types/hook_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/hook_update_response.py">HookUpdateResponse</a></code>
-- <code title="get /hooks">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/hook_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/hook_list_response.py">HookListResponse</a></code>
-- <code title="get /hooks/sample">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">get_sample_data</a>() -> <a href="./src/mobilerun_sdk/types/hook_get_sample_data_response.py">HookGetSampleDataResponse</a></code>
-- <code title="post /hooks/perform">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">perform</a>(\*\*<a href="src/mobilerun_sdk/types/hook_perform_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/hook_perform_response.py">HookPerformResponse</a></code>
-- <code title="post /hooks/subscribe">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">subscribe</a>(\*\*<a href="src/mobilerun_sdk/types/hook_subscribe_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/hook_subscribe_response.py">HookSubscribeResponse</a></code>
-- <code title="post /hooks/{hook_id}/test">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">test</a>(hook_id, \*\*<a href="src/mobilerun_sdk/types/hook_test_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/hook_test_response.py">HookTestResponse</a></code>
-- <code title="post /hooks/{hook_id}/unsubscribe">client.hooks.<a href="./src/mobilerun_sdk/resources/hooks.py">unsubscribe</a>(hook_id) -> <a href="./src/mobilerun_sdk/types/hook_unsubscribe_response.py">HookUnsubscribeResponse</a></code>
 
 # Models
 
@@ -662,21 +634,8 @@ from mobilerun_sdk.types.workflows import EventDryRunResponse, EventIngestRespon
 
 Methods:
 
-- <code title="post /events/dry-run">client.workflows.events.<a href="./src/mobilerun_sdk/resources/workflows/events/events.py">dry_run</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/event_dry_run_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/event_dry_run_response.py">EventDryRunResponse</a></code>
-- <code title="post /events/ingest">client.workflows.events.<a href="./src/mobilerun_sdk/resources/workflows/events/events.py">ingest</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/event_ingest_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/event_ingest_response.py">EventIngestResponse</a></code>
-
-### Catalog
-
-Types:
-
-```python
-from mobilerun_sdk.types.workflows.events import CatalogListResponse, CatalogRegisterResponse
-```
-
-Methods:
-
-- <code title="get /events/catalog">client.workflows.events.catalog.<a href="./src/mobilerun_sdk/resources/workflows/events/catalog.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/events/catalog_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/events/catalog_list_response.py">CatalogListResponse</a></code>
-- <code title="post /events/catalog/register">client.workflows.events.catalog.<a href="./src/mobilerun_sdk/resources/workflows/events/catalog.py">register</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/events/catalog_register_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/events/catalog_register_response.py">CatalogRegisterResponse</a></code>
+- <code title="post /events/dry-run">client.workflows.events.<a href="./src/mobilerun_sdk/resources/workflows/events.py">dry_run</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/event_dry_run_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/event_dry_run_response.py">EventDryRunResponse</a></code>
+- <code title="post /events/ingest">client.workflows.events.<a href="./src/mobilerun_sdk/resources/workflows/events.py">ingest</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/event_ingest_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/event_ingest_response.py">EventIngestResponse</a></code>
 
 ## Executions
 

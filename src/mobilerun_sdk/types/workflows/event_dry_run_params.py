@@ -13,4 +13,6 @@ __all__ = ["EventDryRunParams"]
 class EventDryRunParams(TypedDict, total=False):
     event_type: Required[Annotated[str, PropertyInfo(alias="eventType")]]
 
+    device_id: Annotated[str, PropertyInfo(alias="deviceId")]
+
     payload: Dict[str, Optional[object]]

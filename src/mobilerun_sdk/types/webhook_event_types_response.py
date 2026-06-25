@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List
+from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
@@ -22,7 +23,7 @@ class DataSource(BaseModel):
 
 
 class Data(BaseModel):
-    schema_version: float = FieldInfo(alias="schemaVersion")
+    schema_version: Literal[1] = FieldInfo(alias="schemaVersion")
 
     sources: List[DataSource]
 
