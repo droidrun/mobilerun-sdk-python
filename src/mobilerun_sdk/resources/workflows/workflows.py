@@ -2,6 +2,14 @@
 
 from __future__ import annotations
 
+from .events import (
+    EventsResource,
+    AsyncEventsResource,
+    EventsResourceWithRawResponse,
+    AsyncEventsResourceWithRawResponse,
+    EventsResourceWithStreamingResponse,
+    AsyncEventsResourceWithStreamingResponse,
+)
 from .triggers import (
     TriggersResource,
     AsyncTriggersResource,
@@ -35,14 +43,6 @@ from .flows.flows import (
     AsyncFlowsResourceWithRawResponse,
     FlowsResourceWithStreamingResponse,
     AsyncFlowsResourceWithStreamingResponse,
-)
-from .events.events import (
-    EventsResource,
-    AsyncEventsResource,
-    EventsResourceWithRawResponse,
-    AsyncEventsResourceWithRawResponse,
-    EventsResourceWithStreamingResponse,
-    AsyncEventsResourceWithStreamingResponse,
 )
 from .action_catalog import (
     ActionCatalogResource,

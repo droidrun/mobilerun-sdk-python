@@ -18,7 +18,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.devices import app_list_params, app_start_params, app_install_params
+from ...types.devices import app_list_params, app_stop_params, app_start_params, app_install_params
 from ...types.devices.app_list_response import AppListResponse
 
 __all__ = ["AppsResource", "AsyncAppsResource"]
@@ -298,6 +298,7 @@ class AppsResource(SyncAPIResource):
         package_name: str,
         *,
         device_id: str,
+        clear_data: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -310,6 +311,8 @@ class AppsResource(SyncAPIResource):
         Stop app
 
         Args:
+          clear_data: If true, clears all app data (pm clear) in addition to stopping the app.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -331,6 +334,7 @@ class AppsResource(SyncAPIResource):
         }
         return self._patch(
             path_template("/devices/{device_id}/apps/{package_name}", device_id=device_id, package_name=package_name),
+            body=maybe_transform({"clear_data": clear_data}, app_stop_params.AppStopParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -612,6 +616,7 @@ class AsyncAppsResource(AsyncAPIResource):
         package_name: str,
         *,
         device_id: str,
+        clear_data: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -624,6 +629,8 @@ class AsyncAppsResource(AsyncAPIResource):
         Stop app
 
         Args:
+          clear_data: If true, clears all app data (pm clear) in addition to stopping the app.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -645,6 +652,7 @@ class AsyncAppsResource(AsyncAPIResource):
         }
         return await self._patch(
             path_template("/devices/{device_id}/apps/{package_name}", device_id=device_id, package_name=package_name),
+            body=await async_maybe_transform({"clear_data": clear_data}, app_stop_params.AppStopParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

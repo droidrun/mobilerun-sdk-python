@@ -13,4 +13,6 @@ __all__ = ["EventIngestParams"]
 class EventIngestParams(TypedDict, total=False):
     event_type: Required[Annotated[str, PropertyInfo(alias="eventType")]]
 
+    device_id: Annotated[str, PropertyInfo(alias="deviceId")]
+
     payload: Dict[str, Optional[object]]
