@@ -69,7 +69,9 @@ class PackagesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PackageCreateResponse:
         """
-        Initialize a new package/app
+        Creates a new package (identified by `packageName`) under which credentials can
+        be grouped. Returns a conflict if a package with the same name already exists
+        for the user.
 
         Args:
           extra_headers: Send extra headers
@@ -100,8 +102,10 @@ class PackagesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PackageListResponse:
-        """
-        List credentials for a specific package
+        """Returns all credentials stored under the given `packageName`.
+
+        Each credential
+        includes its name, secret path, and the list of fields it holds.
 
         Args:
           extra_headers: Send extra headers
@@ -162,7 +166,9 @@ class AsyncPackagesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PackageCreateResponse:
         """
-        Initialize a new package/app
+        Creates a new package (identified by `packageName`) under which credentials can
+        be grouped. Returns a conflict if a package with the same name already exists
+        for the user.
 
         Args:
           extra_headers: Send extra headers
@@ -193,8 +199,10 @@ class AsyncPackagesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PackageListResponse:
-        """
-        List credentials for a specific package
+        """Returns all credentials stored under the given `packageName`.
+
+        Each credential
+        includes its name, secret path, and the list of fields it holds.
 
         Args:
           extra_headers: Send extra headers

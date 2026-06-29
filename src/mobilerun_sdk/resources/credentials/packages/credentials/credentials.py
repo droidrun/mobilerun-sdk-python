@@ -74,7 +74,9 @@ class CredentialsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CredentialCreateResponse:
         """
-        Create a credential with fields for a package
+        Creates a credential under the given package with a `credentialName` and at
+        least one field. Each field has a `fieldType` (email, username, password,
+        api_token, phone_number, two_factor_secret, or backup_codes) and a value.
 
         Args:
           extra_headers: Send extra headers
@@ -115,7 +117,8 @@ class CredentialsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CredentialRetrieveResponse:
         """
-        Get a specific credential with its fields
+        Fetches a single credential by `packageName` and `credentialName`, including all
+        of its stored fields. Returns not found if no matching credential exists.
 
         Args:
           extra_headers: Send extra headers
@@ -155,7 +158,8 @@ class CredentialsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CredentialDeleteResponse:
         """
-        Delete a credential and all its fields
+        Permanently deletes the credential identified by `packageName` and
+        `credentialName`, removing all of its fields. Returns the deleted credential.
 
         Args:
           extra_headers: Send extra headers
@@ -224,7 +228,9 @@ class AsyncCredentialsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CredentialCreateResponse:
         """
-        Create a credential with fields for a package
+        Creates a credential under the given package with a `credentialName` and at
+        least one field. Each field has a `fieldType` (email, username, password,
+        api_token, phone_number, two_factor_secret, or backup_codes) and a value.
 
         Args:
           extra_headers: Send extra headers
@@ -265,7 +271,8 @@ class AsyncCredentialsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CredentialRetrieveResponse:
         """
-        Get a specific credential with its fields
+        Fetches a single credential by `packageName` and `credentialName`, including all
+        of its stored fields. Returns not found if no matching credential exists.
 
         Args:
           extra_headers: Send extra headers
@@ -305,7 +312,8 @@ class AsyncCredentialsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CredentialDeleteResponse:
         """
-        Delete a credential and all its fields
+        Permanently deletes the credential identified by `packageName` and
+        `credentialName`, removing all of its fields. Returns the deleted credential.
 
         Args:
           extra_headers: Send extra headers
