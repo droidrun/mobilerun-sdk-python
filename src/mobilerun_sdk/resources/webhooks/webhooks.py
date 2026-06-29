@@ -76,7 +76,10 @@ class WebhooksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookCreateResponse:
         """
-        Register a webhook subscription
+        Creates a webhook subscription with a delivery URL and an optional list of event
+        types to subscribe to (defaults to all when omitted). The response includes the
+        generated signing secret, which is returned only once at creation time and
+        cannot be retrieved later.
 
         Args:
           extra_headers: Send extra headers
@@ -115,7 +118,9 @@ class WebhooksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookRetrieveResponse:
         """
-        Get a webhook subscription
+        Returns a single webhook subscription by id, including its URL, subscribed event
+        types, state, and system-observed delivery health. The signing secret is never
+        included.
 
         Args:
           extra_headers: Send extra headers
@@ -150,8 +155,12 @@ class WebhooksResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookUpdateResponse:
-        """
-        Update a webhook subscription
+        """Updates a webhook subscription.
+
+        Any combination of the subscribed event types,
+        state (ACTIVE or DISABLED), and description may be changed, and at least one
+        field must be supplied. Setting state to ACTIVE re-enables a subscription that
+        was auto-blocked after sustained delivery failures.
 
         Args:
           extra_headers: Send extra headers
@@ -194,7 +203,9 @@ class WebhooksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookListResponse:
         """
-        List your webhook subscriptions
+        Returns a paginated list of your webhook subscriptions, optionally filtered by
+        status (active, failing, blocked, or disabled). The response also includes
+        per-status counts across all of your subscriptions.
 
         Args:
           extra_headers: Send extra headers
@@ -235,8 +246,10 @@ class WebhooksResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete a webhook subscription
+        """Deletes a webhook subscription so it stops receiving deliveries.
+
+        Returns 204 No
+        Content on success.
 
         Args:
           extra_headers: Send extra headers
@@ -268,7 +281,11 @@ class WebhooksResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookEventTypesResponse:
-        """List subscribable event types per source"""
+        """
+        Returns the catalog of event types that webhook subscriptions can subscribe to,
+        grouped by source. Use the returned type identifiers as the `eventTypes` values
+        when creating or updating a webhook.
+        """
         return self._get(
             "/event-types",
             options=make_request_options(
@@ -289,7 +306,9 @@ class WebhooksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookRotateSecretResponse:
         """
-        Rotate the signing secret (returned once)
+        Generates a new signing secret for the webhook subscription and returns it once
+        in the response. The previous secret is replaced immediately, so any signature
+        verification on your endpoint must be updated to use the new value.
 
         Args:
           extra_headers: Send extra headers
@@ -322,7 +341,9 @@ class WebhooksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookTestDeliveryResponse:
         """
-        Send a one-shot test delivery
+        Sends a single test payload to the webhook subscription URL to verify
+        connectivity. The response reports whether the attempt succeeded along with the
+        returned HTTP status code or error, if any.
 
         Args:
           extra_headers: Send extra headers
@@ -382,7 +403,10 @@ class AsyncWebhooksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookCreateResponse:
         """
-        Register a webhook subscription
+        Creates a webhook subscription with a delivery URL and an optional list of event
+        types to subscribe to (defaults to all when omitted). The response includes the
+        generated signing secret, which is returned only once at creation time and
+        cannot be retrieved later.
 
         Args:
           extra_headers: Send extra headers
@@ -421,7 +445,9 @@ class AsyncWebhooksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookRetrieveResponse:
         """
-        Get a webhook subscription
+        Returns a single webhook subscription by id, including its URL, subscribed event
+        types, state, and system-observed delivery health. The signing secret is never
+        included.
 
         Args:
           extra_headers: Send extra headers
@@ -456,8 +482,12 @@ class AsyncWebhooksResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookUpdateResponse:
-        """
-        Update a webhook subscription
+        """Updates a webhook subscription.
+
+        Any combination of the subscribed event types,
+        state (ACTIVE or DISABLED), and description may be changed, and at least one
+        field must be supplied. Setting state to ACTIVE re-enables a subscription that
+        was auto-blocked after sustained delivery failures.
 
         Args:
           extra_headers: Send extra headers
@@ -500,7 +530,9 @@ class AsyncWebhooksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookListResponse:
         """
-        List your webhook subscriptions
+        Returns a paginated list of your webhook subscriptions, optionally filtered by
+        status (active, failing, blocked, or disabled). The response also includes
+        per-status counts across all of your subscriptions.
 
         Args:
           extra_headers: Send extra headers
@@ -541,8 +573,10 @@ class AsyncWebhooksResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete a webhook subscription
+        """Deletes a webhook subscription so it stops receiving deliveries.
+
+        Returns 204 No
+        Content on success.
 
         Args:
           extra_headers: Send extra headers
@@ -574,7 +608,11 @@ class AsyncWebhooksResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookEventTypesResponse:
-        """List subscribable event types per source"""
+        """
+        Returns the catalog of event types that webhook subscriptions can subscribe to,
+        grouped by source. Use the returned type identifiers as the `eventTypes` values
+        when creating or updating a webhook.
+        """
         return await self._get(
             "/event-types",
             options=make_request_options(
@@ -595,7 +633,9 @@ class AsyncWebhooksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookRotateSecretResponse:
         """
-        Rotate the signing secret (returned once)
+        Generates a new signing secret for the webhook subscription and returns it once
+        in the response. The previous secret is replaced immediately, so any signature
+        verification on your endpoint must be updated to use the new value.
 
         Args:
           extra_headers: Send extra headers
@@ -628,7 +668,9 @@ class AsyncWebhooksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> WebhookTestDeliveryResponse:
         """
-        Send a one-shot test delivery
+        Sends a single test payload to the webhook subscription URL to verify
+        connectivity. The response reports whether the attempt succeeded along with the
+        returned HTTP status code or error, if any.
 
         Args:
           extra_headers: Send extra headers

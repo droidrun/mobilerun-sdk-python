@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict
 from typing_extensions import TypedDict
 
 __all__ = ["ActionUpdateParams"]
@@ -13,4 +13,4 @@ class ActionUpdateParams(TypedDict, total=False):
 
     name: str
 
-    params: Dict[str, Optional[object]]
+    params: Dict[str, object]

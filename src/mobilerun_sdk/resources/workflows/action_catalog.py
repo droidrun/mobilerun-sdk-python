@@ -56,7 +56,8 @@ class ActionCatalogResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionCatalogRetrieveResponse:
         """
-        Get a catalog entry
+        Fetch a single action catalog entry by its ID, including its service, method,
+        and parameter schema. Returns 404 if no entry matches.
 
         Args:
           extra_headers: Send extra headers
@@ -91,7 +92,9 @@ class ActionCatalogResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionCatalogListResponse:
         """
-        List action catalog entries
+        Return a paginated list of catalog entries — the service/method templates that
+        actions are created from, each carrying its parameter schema. Supports filtering
+        by `service`.
 
         Args:
           extra_headers: Send extra headers
@@ -154,7 +157,8 @@ class AsyncActionCatalogResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionCatalogRetrieveResponse:
         """
-        Get a catalog entry
+        Fetch a single action catalog entry by its ID, including its service, method,
+        and parameter schema. Returns 404 if no entry matches.
 
         Args:
           extra_headers: Send extra headers
@@ -189,7 +193,9 @@ class AsyncActionCatalogResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionCatalogListResponse:
         """
-        List action catalog entries
+        Return a paginated list of catalog entries — the service/method templates that
+        actions are created from, each carrying its parameter schema. Supports filtering
+        by `service`.
 
         Args:
           extra_headers: Send extra headers

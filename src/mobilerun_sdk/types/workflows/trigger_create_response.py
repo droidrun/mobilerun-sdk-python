@@ -30,7 +30,7 @@ class Data(BaseModel):
 
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
 
-    custom_payload_schema: Optional[Dict[str, Optional[object]]] = FieldInfo(alias="customPayloadSchema", default=None)
+    custom_payload_schema: Optional[Dict[str, object]] = FieldInfo(alias="customPayloadSchema", default=None)
 
     description: Optional[str] = None
 

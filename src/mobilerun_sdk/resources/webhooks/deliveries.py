@@ -63,7 +63,10 @@ class DeliveriesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryListResponse:
         """
-        List deliveries across all your webhooks
+        Returns a paginated feed of webhook deliveries across all of your subscriptions,
+        with the originating endpoint URL included on each record. Results can be
+        filtered by delivery status (pending, success, skipped, or dead) and by a
+        `since` timestamp.
 
         Args:
           extra_headers: Send extra headers
@@ -108,7 +111,9 @@ class DeliveriesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryListForWebhookResponse:
         """
-        List deliveries for a webhook
+        Returns a paginated list of deliveries for a single webhook subscription,
+        identified by its id. Each record reports the event, delivery status, attempt
+        count, and the last response code or error.
 
         Args:
           extra_headers: Send extra headers
@@ -152,7 +157,9 @@ class DeliveriesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryRetrieveAttemptsResponse:
         """
-        Get a delivery with its attempts
+        Returns a single delivery for a webhook subscription along with the full list of
+        captured attempt records. Each attempt includes the request URL, method, headers
+        and body, whether it was signed, and the response status, headers, and snippet.
 
         Args:
           extra_headers: Send extra headers
@@ -187,7 +194,10 @@ class DeliveriesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryStatsResponse:
         """
-        Aggregate delivery statistics (excludes test sends)
+        Returns aggregate delivery statistics across all of your webhooks, including the
+        total count, a breakdown by status (pending, success, skipped, dead), and the
+        overall success rate. An optional `since` timestamp narrows the reporting
+        window.
 
         Args:
           extra_headers: Send extra headers
@@ -246,7 +256,10 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryListResponse:
         """
-        List deliveries across all your webhooks
+        Returns a paginated feed of webhook deliveries across all of your subscriptions,
+        with the originating endpoint URL included on each record. Results can be
+        filtered by delivery status (pending, success, skipped, or dead) and by a
+        `since` timestamp.
 
         Args:
           extra_headers: Send extra headers
@@ -291,7 +304,9 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryListForWebhookResponse:
         """
-        List deliveries for a webhook
+        Returns a paginated list of deliveries for a single webhook subscription,
+        identified by its id. Each record reports the event, delivery status, attempt
+        count, and the last response code or error.
 
         Args:
           extra_headers: Send extra headers
@@ -335,7 +350,9 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryRetrieveAttemptsResponse:
         """
-        Get a delivery with its attempts
+        Returns a single delivery for a webhook subscription along with the full list of
+        captured attempt records. Each attempt includes the request URL, method, headers
+        and body, whether it was signed, and the response status, headers, and snippet.
 
         Args:
           extra_headers: Send extra headers
@@ -370,7 +387,10 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryStatsResponse:
         """
-        Aggregate delivery statistics (excludes test sends)
+        Returns aggregate delivery statistics across all of your webhooks, including the
+        total count, a breakdown by status (pending, success, skipped, dead), and the
+        overall success rate. An optional `since` timestamp narrows the reporting
+        window.
 
         Args:
           extra_headers: Send extra headers

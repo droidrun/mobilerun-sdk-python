@@ -159,6 +159,7 @@ class Mobilerun(SyncAPIClient):
 
     @cached_property
     def models(self) -> ModelsResource:
+        """LLM Models"""
         from .resources.models import ModelsResource
 
         return ModelsResource(self)
@@ -410,6 +411,7 @@ class AsyncMobilerun(AsyncAPIClient):
 
     @cached_property
     def models(self) -> AsyncModelsResource:
+        """LLM Models"""
         from .resources.models import AsyncModelsResource
 
         return AsyncModelsResource(self)
@@ -607,6 +609,7 @@ class MobilerunWithRawResponse:
 
     @cached_property
     def models(self) -> models.ModelsResourceWithRawResponse:
+        """LLM Models"""
         from .resources.models import ModelsResourceWithRawResponse
 
         return ModelsResourceWithRawResponse(self._client.models)
@@ -681,6 +684,7 @@ class AsyncMobilerunWithRawResponse:
 
     @cached_property
     def models(self) -> models.AsyncModelsResourceWithRawResponse:
+        """LLM Models"""
         from .resources.models import AsyncModelsResourceWithRawResponse
 
         return AsyncModelsResourceWithRawResponse(self._client.models)
@@ -755,6 +759,7 @@ class MobilerunWithStreamedResponse:
 
     @cached_property
     def models(self) -> models.ModelsResourceWithStreamingResponse:
+        """LLM Models"""
         from .resources.models import ModelsResourceWithStreamingResponse
 
         return ModelsResourceWithStreamingResponse(self._client.models)
@@ -829,6 +834,7 @@ class AsyncMobilerunWithStreamedResponse:
 
     @cached_property
     def models(self) -> models.AsyncModelsResourceWithStreamingResponse:
+        """LLM Models"""
         from .resources.models import AsyncModelsResourceWithStreamingResponse
 
         return AsyncModelsResourceWithStreamingResponse(self._client.models)

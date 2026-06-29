@@ -60,7 +60,8 @@ class ActionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionListResponse:
         """
-        List actions for a flow
+        Return the ordered list of actions attached to a flow, including any nested
+        child actions. Returns 404 if the flow does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -100,7 +101,10 @@ class ActionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionAddResponse:
         """
-        Add an action to a flow
+        Append a single action to a flow at the given `position`, optionally nesting it
+        under a `parentFlowActionId` or supplying its own `children`. Supports a
+        `nameOverride`, param `overrides`, and `continueOnError`. Returns 404 if the
+        flow does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -145,8 +149,10 @@ class ActionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionRemoveResponse:
-        """
-        Remove an action from a flow
+        """Remove a single action from a flow by its `flowActionId`.
+
+        Returns 404 if the
+        flow or flow action does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -182,7 +188,10 @@ class ActionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionReplaceResponse:
         """
-        Replace all actions for a flow
+        Replace a flow's entire action list with the supplied set (at least one
+        required). Each action references an `actionId` and a unique `position`, and may
+        include nested `children`, a `nameOverride`, param `overrides`, and a
+        `continueOnError` flag. Returns 404 if the flow does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -237,7 +246,8 @@ class AsyncActionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionListResponse:
         """
-        List actions for a flow
+        Return the ordered list of actions attached to a flow, including any nested
+        child actions. Returns 404 if the flow does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -277,7 +287,10 @@ class AsyncActionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionAddResponse:
         """
-        Add an action to a flow
+        Append a single action to a flow at the given `position`, optionally nesting it
+        under a `parentFlowActionId` or supplying its own `children`. Supports a
+        `nameOverride`, param `overrides`, and `continueOnError`. Returns 404 if the
+        flow does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -322,8 +335,10 @@ class AsyncActionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionRemoveResponse:
-        """
-        Remove an action from a flow
+        """Remove a single action from a flow by its `flowActionId`.
+
+        Returns 404 if the
+        flow or flow action does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -359,7 +374,10 @@ class AsyncActionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionReplaceResponse:
         """
-        Replace all actions for a flow
+        Replace a flow's entire action list with the supplied set (at least one
+        required). Each action references an `actionId` and a unique `position`, and may
+        include nested `children`, a `nameOverride`, param `overrides`, and a
+        `continueOnError` flag. Returns 404 if the flow does not exist.
 
         Args:
           extra_headers: Send extra headers
