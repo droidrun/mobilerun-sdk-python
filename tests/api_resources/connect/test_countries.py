@@ -29,7 +29,7 @@ class TestCountries:
         country = client.connect.countries.list(
             page=1,
             page_size=1,
-            type="residential",
+            type="dedicated_residential",
         )
         assert_matches_type(CountryListResponse, country, path=["response"])
 
@@ -73,7 +73,7 @@ class TestAsyncCountries:
         country = await async_client.connect.countries.list(
             page=1,
             page_size=1,
-            type="residential",
+            type="dedicated_residential",
         )
         assert_matches_type(CountryListResponse, country, path=["response"])
 

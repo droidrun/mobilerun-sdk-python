@@ -117,7 +117,7 @@ class TestProxies:
     def test_method_buy_with_all_params(self, client: Mobilerun) -> None:
         proxy = client.connect.proxies.buy(
             country="country",
-            type="residential",
+            type="dedicated_residential",
         )
         assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
 
@@ -405,7 +405,7 @@ class TestAsyncProxies:
     async def test_method_buy_with_all_params(self, async_client: AsyncMobilerun) -> None:
         proxy = await async_client.connect.proxies.buy(
             country="country",
-            type="residential",
+            type="dedicated_residential",
         )
         assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
 

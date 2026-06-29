@@ -16,5 +16,5 @@ class CountryListParams(TypedDict, total=False):
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
     """Number of items per page."""
 
-    type: Literal["residential"]
+    type: Literal["dedicated_residential", "residential", "mobile"]
     """Filter to countries offering this proxy type."""
