@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict
 from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
@@ -15,4 +15,4 @@ class EventDryRunParams(TypedDict, total=False):
 
     device_id: Annotated[str, PropertyInfo(alias="deviceId")]
 
-    payload: Dict[str, Optional[object]]
+    payload: Dict[str, object]

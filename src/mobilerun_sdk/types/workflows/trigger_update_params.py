@@ -15,8 +15,7 @@ class TriggerUpdateParams(TypedDict, total=False):
 
     conditions: Conditions
 
-    custom_payload_schema: Annotated[Optional[Dict[str, object]], PropertyInfo(alias="customPayloadSchema")]
-    """Optional JSON Schema for validating payloads sent to this custom trigger"""
+    custom_payload_schema: Annotated[Dict[str, object], PropertyInfo(alias="customPayloadSchema")]
 
     description: str
 

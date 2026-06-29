@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict
 from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
@@ -17,4 +17,4 @@ class ActionCreateParams(TypedDict, total=False):
 
     description: str
 
-    params: Dict[str, Optional[object]]
+    params: Dict[str, object]

@@ -15,7 +15,6 @@ __all__ = [
     "DataMatchedFlowAction",
     "DataMatchedFlowGates",
     "DataMatchedFlowTrigger",
-    "DataMatchedFlowTriggerScheduleRule",
     "DataValidation",
     "DataValidationError",
 ]
@@ -30,13 +29,13 @@ class DataMatchedFlowAction(BaseModel):
 
     service: Literal["tasks_api", "devices_api", "agents_api", "webhooks"]
 
-    children: Optional[List[Optional[object]]] = None
+    children: Optional[List[object]] = None
     """
     Nested child actions (loop/branch bodies), each the same shape as a
     ResolvedAction.
     """
 
-    params: Optional[Dict[str, Optional[object]]] = None
+    params: Optional[Dict[str, object]] = None
 
 
 class DataMatchedFlowGates(BaseModel):
@@ -49,19 +48,6 @@ class DataMatchedFlowGates(BaseModel):
     device_ids: List[str] = FieldInfo(alias="deviceIds")
 
     enabled: bool
-
-
-class DataMatchedFlowTriggerScheduleRule(BaseModel):
-    type: Literal["once", "cron", "recurring"]
-
-    date_time: Optional[str] = FieldInfo(alias="dateTime", default=None)
-    """ISO 8601 datetime (for type=once)"""
-
-    expression: Optional[str] = None
-    """Cron expression (for type=cron)"""
-
-    rrule: Optional[str] = None
-    """RRULE string (for type=recurring)"""
 
 
 class DataMatchedFlowTrigger(BaseModel):
@@ -79,7 +65,7 @@ class DataMatchedFlowTrigger(BaseModel):
 
     name: str
 
-    schedule_rule: Optional[DataMatchedFlowTriggerScheduleRule] = FieldInfo(alias="scheduleRule", default=None)
+    schedule_rule: object = FieldInfo(alias="scheduleRule")
 
     timezone: Optional[str] = None
 

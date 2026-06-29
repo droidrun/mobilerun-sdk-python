@@ -68,7 +68,10 @@ class TriggersResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TriggerCreateResponse:
         """
-        Create a trigger
+        Create a trigger with an activation type of `event`, `schedule`, or `custom`.
+        Each type requires its own fields (e.g. `eventType` and optional `conditions`
+        for events, `scheduleRule` and `timezone` for schedules, `customPayloadSchema`
+        for custom triggers); mismatched fields are rejected.
 
         Args:
           custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
@@ -114,7 +117,8 @@ class TriggersResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TriggerRetrieveResponse:
         """
-        Get a trigger
+        Fetch a single trigger by its ID, including its activation type and
+        type-specific configuration. Returns 404 if no trigger matches.
 
         Args:
           extra_headers: Send extra headers
@@ -141,7 +145,7 @@ class TriggersResource(SyncAPIResource):
         *,
         activation: Literal["event", "schedule", "custom"] | Omit = omit,
         conditions: trigger_update_params.Conditions | Omit = omit,
-        custom_payload_schema: Optional[Dict[str, object]] | Omit = omit,
+        custom_payload_schema: Dict[str, object] | Omit = omit,
         description: str | Omit = omit,
         event_type: str | Omit = omit,
         name: str | Omit = omit,
@@ -154,12 +158,13 @@ class TriggersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TriggerUpdateResponse:
-        """
-        Update a trigger
+        """Partially update a trigger; all fields are optional.
+
+        When `activation` is
+        changed, the type-specific field rules are re-validated. Returns 404 if the
+        trigger does not exist.
 
         Args:
-          custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -208,8 +213,10 @@ class TriggersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TriggerListResponse:
-        """
-        List triggers
+        """Return a paginated list of triggers.
+
+        Supports filtering by `activation` and
+        `eventType`, free-text `search`, and ordering by name, createdAt, or updatedAt.
 
         Args:
           extra_headers: Send extra headers
@@ -254,8 +261,9 @@ class TriggersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TriggerDeleteResponse:
-        """
-        Delete a trigger
+        """Delete a trigger by its ID.
+
+        Returns 404 if no trigger matches.
 
         Args:
           extra_headers: Send extra headers
@@ -371,7 +379,10 @@ class AsyncTriggersResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TriggerCreateResponse:
         """
-        Create a trigger
+        Create a trigger with an activation type of `event`, `schedule`, or `custom`.
+        Each type requires its own fields (e.g. `eventType` and optional `conditions`
+        for events, `scheduleRule` and `timezone` for schedules, `customPayloadSchema`
+        for custom triggers); mismatched fields are rejected.
 
         Args:
           custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
@@ -417,7 +428,8 @@ class AsyncTriggersResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TriggerRetrieveResponse:
         """
-        Get a trigger
+        Fetch a single trigger by its ID, including its activation type and
+        type-specific configuration. Returns 404 if no trigger matches.
 
         Args:
           extra_headers: Send extra headers
@@ -444,7 +456,7 @@ class AsyncTriggersResource(AsyncAPIResource):
         *,
         activation: Literal["event", "schedule", "custom"] | Omit = omit,
         conditions: trigger_update_params.Conditions | Omit = omit,
-        custom_payload_schema: Optional[Dict[str, object]] | Omit = omit,
+        custom_payload_schema: Dict[str, object] | Omit = omit,
         description: str | Omit = omit,
         event_type: str | Omit = omit,
         name: str | Omit = omit,
@@ -457,12 +469,13 @@ class AsyncTriggersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TriggerUpdateResponse:
-        """
-        Update a trigger
+        """Partially update a trigger; all fields are optional.
+
+        When `activation` is
+        changed, the type-specific field rules are re-validated. Returns 404 if the
+        trigger does not exist.
 
         Args:
-          custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -511,8 +524,10 @@ class AsyncTriggersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TriggerListResponse:
-        """
-        List triggers
+        """Return a paginated list of triggers.
+
+        Supports filtering by `activation` and
+        `eventType`, free-text `search`, and ordering by name, createdAt, or updatedAt.
 
         Args:
           extra_headers: Send extra headers
@@ -557,8 +572,9 @@ class AsyncTriggersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TriggerDeleteResponse:
-        """
-        Delete a trigger
+        """Delete a trigger by its ID.
+
+        Returns 404 if no trigger matches.
 
         Args:
           extra_headers: Send extra headers

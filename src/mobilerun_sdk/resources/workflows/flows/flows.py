@@ -84,7 +84,10 @@ class FlowsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowCreateResponse:
         """
-        Create a flow
+        Create a flow that binds a trigger (`triggerId`) to an ordered list of actions,
+        with at least one action required. Optional settings include target `deviceIds`,
+        a cooldown (`cooldownSeconds`/`cooldownScope`), and webhook notifications on
+        success or failure.
 
         Args:
           extra_headers: Send extra headers
@@ -131,7 +134,8 @@ class FlowsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowRetrieveResponse:
         """
-        Get a flow
+        Fetch a single flow by its ID, including its trigger binding, configuration, and
+        current status. Returns 404 if no flow matches.
 
         Args:
           extra_headers: Send extra headers
@@ -174,7 +178,10 @@ class FlowsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowUpdateResponse:
         """
-        Update a flow
+        Partially update a flow's settings — name, trigger binding, enabled state,
+        target devices, cooldown, or notifications; all fields are optional. Actions are
+        managed through the flow-actions endpoints, not here. Returns 404 if the flow
+        does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -228,8 +235,11 @@ class FlowsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowListResponse:
-        """
-        List flows
+        """Return a paginated list of flows.
+
+        Supports filtering by `triggerId`, `enabled`,
+        and one or more health `status` values (healthy, failing, blocked), plus
+        free-text `search` and ordering.
 
         Args:
           extra_headers: Send extra headers
@@ -275,8 +285,9 @@ class FlowsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowDeleteResponse:
-        """
-        Delete a flow
+        """Delete a flow by its ID.
+
+        Returns 404 if no flow matches.
 
         Args:
           extra_headers: Send extra headers
@@ -310,8 +321,11 @@ class FlowsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowCloneResponse:
-        """
-        Clone a flow
+        """Create a copy of an existing flow, including its actions and settings.
+
+        The
+        optional body can override the new flow's `name` and target `deviceIds`. Returns
+        404 if the source flow does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -421,7 +435,10 @@ class AsyncFlowsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowCreateResponse:
         """
-        Create a flow
+        Create a flow that binds a trigger (`triggerId`) to an ordered list of actions,
+        with at least one action required. Optional settings include target `deviceIds`,
+        a cooldown (`cooldownSeconds`/`cooldownScope`), and webhook notifications on
+        success or failure.
 
         Args:
           extra_headers: Send extra headers
@@ -468,7 +485,8 @@ class AsyncFlowsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowRetrieveResponse:
         """
-        Get a flow
+        Fetch a single flow by its ID, including its trigger binding, configuration, and
+        current status. Returns 404 if no flow matches.
 
         Args:
           extra_headers: Send extra headers
@@ -511,7 +529,10 @@ class AsyncFlowsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowUpdateResponse:
         """
-        Update a flow
+        Partially update a flow's settings — name, trigger binding, enabled state,
+        target devices, cooldown, or notifications; all fields are optional. Actions are
+        managed through the flow-actions endpoints, not here. Returns 404 if the flow
+        does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -565,8 +586,11 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowListResponse:
-        """
-        List flows
+        """Return a paginated list of flows.
+
+        Supports filtering by `triggerId`, `enabled`,
+        and one or more health `status` values (healthy, failing, blocked), plus
+        free-text `search` and ordering.
 
         Args:
           extra_headers: Send extra headers
@@ -612,8 +636,9 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowDeleteResponse:
-        """
-        Delete a flow
+        """Delete a flow by its ID.
+
+        Returns 404 if no flow matches.
 
         Args:
           extra_headers: Send extra headers
@@ -647,8 +672,11 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowCloneResponse:
-        """
-        Clone a flow
+        """Create a copy of an existing flow, including its actions and settings.
+
+        The
+        optional body can override the new flow's `name` and target `deviceIds`. Returns
+        404 if the source flow does not exist.
 
         Args:
           extra_headers: Send extra headers

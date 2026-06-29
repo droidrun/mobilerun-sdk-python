@@ -8,20 +8,7 @@ from pydantic import Field as FieldInfo
 from ..._models import BaseModel
 from ..shared.pagination import Pagination
 
-__all__ = ["TriggerListResponse", "Item", "ItemScheduleRule"]
-
-
-class ItemScheduleRule(BaseModel):
-    type: Literal["once", "cron", "recurring"]
-
-    date_time: Optional[str] = FieldInfo(alias="dateTime", default=None)
-    """ISO 8601 datetime (for type=once)"""
-
-    expression: Optional[str] = None
-    """Cron expression (for type=cron)"""
-
-    rrule: Optional[str] = None
-    """RRULE string (for type=recurring)"""
+__all__ = ["TriggerListResponse", "Item"]
 
 
 class Item(BaseModel):
@@ -39,7 +26,7 @@ class Item(BaseModel):
 
     name: str
 
-    schedule_rule: Optional[ItemScheduleRule] = FieldInfo(alias="scheduleRule", default=None)
+    schedule_rule: object = FieldInfo(alias="scheduleRule")
 
     timezone: Optional[str] = None
 
