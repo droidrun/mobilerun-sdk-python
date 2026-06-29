@@ -69,7 +69,9 @@ class CredentialsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CredentialListResponse:
         """
-        List all credentials for the authenticated user
+        Returns a paginated list of all credentials belonging to the authenticated user
+        across every package. Accepts standard pagination query parameters and responds
+        with the credential items plus pagination metadata.
 
         Args:
           extra_headers: Send extra headers
@@ -139,7 +141,9 @@ class AsyncCredentialsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CredentialListResponse:
         """
-        List all credentials for the authenticated user
+        Returns a paginated list of all credentials belonging to the authenticated user
+        across every package. Accepts standard pagination query parameters and responds
+        with the credential items plus pagination metadata.
 
         Args:
           extra_headers: Send extra headers
