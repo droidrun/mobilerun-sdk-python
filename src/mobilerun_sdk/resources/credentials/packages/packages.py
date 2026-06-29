@@ -31,11 +31,8 @@ __all__ = ["PackagesResource", "AsyncPackagesResource"]
 
 
 class PackagesResource(SyncAPIResource):
-    """Vault & Secrets"""
-
     @cached_property
     def credentials(self) -> CredentialsResource:
-        """Vault & Secrets"""
         return CredentialsResource(self._client)
 
     @cached_property
@@ -128,11 +125,8 @@ class PackagesResource(SyncAPIResource):
 
 
 class AsyncPackagesResource(AsyncAPIResource):
-    """Vault & Secrets"""
-
     @cached_property
     def credentials(self) -> AsyncCredentialsResource:
-        """Vault & Secrets"""
         return AsyncCredentialsResource(self._client)
 
     @cached_property
@@ -237,7 +231,6 @@ class PackagesResourceWithRawResponse:
 
     @cached_property
     def credentials(self) -> CredentialsResourceWithRawResponse:
-        """Vault & Secrets"""
         return CredentialsResourceWithRawResponse(self._packages.credentials)
 
 
@@ -254,7 +247,6 @@ class AsyncPackagesResourceWithRawResponse:
 
     @cached_property
     def credentials(self) -> AsyncCredentialsResourceWithRawResponse:
-        """Vault & Secrets"""
         return AsyncCredentialsResourceWithRawResponse(self._packages.credentials)
 
 
@@ -271,7 +263,6 @@ class PackagesResourceWithStreamingResponse:
 
     @cached_property
     def credentials(self) -> CredentialsResourceWithStreamingResponse:
-        """Vault & Secrets"""
         return CredentialsResourceWithStreamingResponse(self._packages.credentials)
 
 
@@ -288,5 +279,4 @@ class AsyncPackagesResourceWithStreamingResponse:
 
     @cached_property
     def credentials(self) -> AsyncCredentialsResourceWithStreamingResponse:
-        """Vault & Secrets"""
         return AsyncCredentialsResourceWithStreamingResponse(self._packages.credentials)

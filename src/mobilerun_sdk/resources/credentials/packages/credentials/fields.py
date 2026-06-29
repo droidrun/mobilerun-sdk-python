@@ -26,8 +26,6 @@ __all__ = ["FieldsResource", "AsyncFieldsResource"]
 
 
 class FieldsResource(SyncAPIResource):
-    """Vault & Secrets"""
-
     @cached_property
     def with_raw_response(self) -> FieldsResourceWithRawResponse:
         """
@@ -200,8 +198,6 @@ class FieldsResource(SyncAPIResource):
 
 
 class AsyncFieldsResource(AsyncAPIResource):
-    """Vault & Secrets"""
-
     @cached_property
     def with_raw_response(self) -> AsyncFieldsResourceWithRawResponse:
         """

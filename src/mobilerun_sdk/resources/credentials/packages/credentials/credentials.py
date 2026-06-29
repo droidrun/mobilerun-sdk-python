@@ -34,11 +34,8 @@ __all__ = ["CredentialsResource", "AsyncCredentialsResource"]
 
 
 class CredentialsResource(SyncAPIResource):
-    """Vault & Secrets"""
-
     @cached_property
     def fields(self) -> FieldsResource:
-        """Vault & Secrets"""
         return FieldsResource(self._client)
 
     @cached_property
@@ -188,11 +185,8 @@ class CredentialsResource(SyncAPIResource):
 
 
 class AsyncCredentialsResource(AsyncAPIResource):
-    """Vault & Secrets"""
-
     @cached_property
     def fields(self) -> AsyncFieldsResource:
-        """Vault & Secrets"""
         return AsyncFieldsResource(self._client)
 
     @cached_property
@@ -357,7 +351,6 @@ class CredentialsResourceWithRawResponse:
 
     @cached_property
     def fields(self) -> FieldsResourceWithRawResponse:
-        """Vault & Secrets"""
         return FieldsResourceWithRawResponse(self._credentials.fields)
 
 
@@ -377,7 +370,6 @@ class AsyncCredentialsResourceWithRawResponse:
 
     @cached_property
     def fields(self) -> AsyncFieldsResourceWithRawResponse:
-        """Vault & Secrets"""
         return AsyncFieldsResourceWithRawResponse(self._credentials.fields)
 
 
@@ -397,7 +389,6 @@ class CredentialsResourceWithStreamingResponse:
 
     @cached_property
     def fields(self) -> FieldsResourceWithStreamingResponse:
-        """Vault & Secrets"""
         return FieldsResourceWithStreamingResponse(self._credentials.fields)
 
 
@@ -417,5 +408,4 @@ class AsyncCredentialsResourceWithStreamingResponse:
 
     @cached_property
     def fields(self) -> AsyncFieldsResourceWithStreamingResponse:
-        """Vault & Secrets"""
         return AsyncFieldsResourceWithStreamingResponse(self._credentials.fields)
