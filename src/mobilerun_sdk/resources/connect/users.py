@@ -30,6 +30,8 @@ __all__ = ["UsersResource", "AsyncUsersResource"]
 
 
 class UsersResource(SyncAPIResource):
+    """Manage your Mobilerun Connect Socks Users"""
+
     @cached_property
     def with_raw_response(self) -> UsersResourceWithRawResponse:
         """
@@ -108,8 +110,10 @@ class UsersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UserRetrieveResponse:
-        """
-        Get a SOCKS5 user by ID, including its password
+        """Returns the SOCKS5 user identified by the path ID.
+
+        The response includes the
+        user's password.
 
         Args:
           extra_headers: Send extra headers
@@ -232,7 +236,8 @@ class UsersResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete a SOCKS5 user
+        Deletes the SOCKS5 user identified by the path ID, revoking its credentials and
+        any proxy binding. Returns 404 if no such user exists for the caller.
 
         Args:
           extra_headers: Send extra headers
@@ -402,6 +407,8 @@ class UsersResource(SyncAPIResource):
 
 
 class AsyncUsersResource(AsyncAPIResource):
+    """Manage your Mobilerun Connect Socks Users"""
+
     @cached_property
     def with_raw_response(self) -> AsyncUsersResourceWithRawResponse:
         """
@@ -480,8 +487,10 @@ class AsyncUsersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UserRetrieveResponse:
-        """
-        Get a SOCKS5 user by ID, including its password
+        """Returns the SOCKS5 user identified by the path ID.
+
+        The response includes the
+        user's password.
 
         Args:
           extra_headers: Send extra headers
@@ -604,7 +613,8 @@ class AsyncUsersResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete a SOCKS5 user
+        Deletes the SOCKS5 user identified by the path ID, revoking its credentials and
+        any proxy binding. Returns 404 if no such user exists for the caller.
 
         Args:
           extra_headers: Send extra headers

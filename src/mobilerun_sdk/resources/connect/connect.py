@@ -35,6 +35,7 @@ __all__ = ["ConnectResource", "AsyncConnectResource"]
 class ConnectResource(SyncAPIResource):
     @cached_property
     def countries(self) -> CountriesResource:
+        """Mobilerun Connect country coverage information"""
         return CountriesResource(self._client)
 
     @cached_property
@@ -43,6 +44,7 @@ class ConnectResource(SyncAPIResource):
 
     @cached_property
     def users(self) -> UsersResource:
+        """Manage your Mobilerun Connect Socks Users"""
         return UsersResource(self._client)
 
     @cached_property
@@ -68,6 +70,7 @@ class ConnectResource(SyncAPIResource):
 class AsyncConnectResource(AsyncAPIResource):
     @cached_property
     def countries(self) -> AsyncCountriesResource:
+        """Mobilerun Connect country coverage information"""
         return AsyncCountriesResource(self._client)
 
     @cached_property
@@ -76,6 +79,7 @@ class AsyncConnectResource(AsyncAPIResource):
 
     @cached_property
     def users(self) -> AsyncUsersResource:
+        """Manage your Mobilerun Connect Socks Users"""
         return AsyncUsersResource(self._client)
 
     @cached_property
@@ -104,6 +108,7 @@ class ConnectResourceWithRawResponse:
 
     @cached_property
     def countries(self) -> CountriesResourceWithRawResponse:
+        """Mobilerun Connect country coverage information"""
         return CountriesResourceWithRawResponse(self._connect.countries)
 
     @cached_property
@@ -112,6 +117,7 @@ class ConnectResourceWithRawResponse:
 
     @cached_property
     def users(self) -> UsersResourceWithRawResponse:
+        """Manage your Mobilerun Connect Socks Users"""
         return UsersResourceWithRawResponse(self._connect.users)
 
 
@@ -121,6 +127,7 @@ class AsyncConnectResourceWithRawResponse:
 
     @cached_property
     def countries(self) -> AsyncCountriesResourceWithRawResponse:
+        """Mobilerun Connect country coverage information"""
         return AsyncCountriesResourceWithRawResponse(self._connect.countries)
 
     @cached_property
@@ -129,6 +136,7 @@ class AsyncConnectResourceWithRawResponse:
 
     @cached_property
     def users(self) -> AsyncUsersResourceWithRawResponse:
+        """Manage your Mobilerun Connect Socks Users"""
         return AsyncUsersResourceWithRawResponse(self._connect.users)
 
 
@@ -138,6 +146,7 @@ class ConnectResourceWithStreamingResponse:
 
     @cached_property
     def countries(self) -> CountriesResourceWithStreamingResponse:
+        """Mobilerun Connect country coverage information"""
         return CountriesResourceWithStreamingResponse(self._connect.countries)
 
     @cached_property
@@ -146,6 +155,7 @@ class ConnectResourceWithStreamingResponse:
 
     @cached_property
     def users(self) -> UsersResourceWithStreamingResponse:
+        """Manage your Mobilerun Connect Socks Users"""
         return UsersResourceWithStreamingResponse(self._connect.users)
 
 
@@ -155,6 +165,7 @@ class AsyncConnectResourceWithStreamingResponse:
 
     @cached_property
     def countries(self) -> AsyncCountriesResourceWithStreamingResponse:
+        """Mobilerun Connect country coverage information"""
         return AsyncCountriesResourceWithStreamingResponse(self._connect.countries)
 
     @cached_property
@@ -163,4 +174,5 @@ class AsyncConnectResourceWithStreamingResponse:
 
     @cached_property
     def users(self) -> AsyncUsersResourceWithStreamingResponse:
+        """Manage your Mobilerun Connect Socks Users"""
         return AsyncUsersResourceWithStreamingResponse(self._connect.users)
