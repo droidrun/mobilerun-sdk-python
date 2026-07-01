@@ -24,6 +24,8 @@ __all__ = ["CountriesResource", "AsyncCountriesResource"]
 
 
 class CountriesResource(SyncAPIResource):
+    """Mobilerun Connect country coverage information"""
+
     @cached_property
     def with_raw_response(self) -> CountriesResourceWithRawResponse:
         """
@@ -95,6 +97,8 @@ class CountriesResource(SyncAPIResource):
 
 
 class AsyncCountriesResource(AsyncAPIResource):
+    """Mobilerun Connect country coverage information"""
+
     @cached_property
     def with_raw_response(self) -> AsyncCountriesResourceWithRawResponse:
         """

@@ -60,8 +60,10 @@ class ProxiesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyRetrieveResponse:
-        """
-        Get a proxy by ID, including its password
+        """Returns the proxy identified by the path ID.
+
+        The response includes the proxy's
+        password.
 
         Args:
           extra_headers: Send extra headers
@@ -186,7 +188,8 @@ class ProxiesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete a proxy
+        Deletes the proxy identified by the path ID and releases its provisioning.
+        Returns 404 if no such proxy exists for the caller.
 
         Args:
           extra_headers: Send extra headers
@@ -422,8 +425,10 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyRetrieveResponse:
-        """
-        Get a proxy by ID, including its password
+        """Returns the proxy identified by the path ID.
+
+        The response includes the proxy's
+        password.
 
         Args:
           extra_headers: Send extra headers
@@ -548,7 +553,8 @@ class AsyncProxiesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete a proxy
+        Deletes the proxy identified by the path ID and releases its provisioning.
+        Returns 404 if no such proxy exists for the caller.
 
         Args:
           extra_headers: Send extra headers
