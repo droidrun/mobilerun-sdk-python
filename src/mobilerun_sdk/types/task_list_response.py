@@ -26,6 +26,8 @@ class Item(BaseModel):
     llm_model: str = FieldInfo(alias="llmModel")
     """The LLM model identifier to use for the task (e.g. 'gemini/gemini-2.5-flash')"""
 
+    owner_id: str = FieldInfo(alias="ownerId")
+
     status: TaskStatus
 
     task: str
@@ -33,6 +35,7 @@ class Item(BaseModel):
     tmp_device: bool = FieldInfo(alias="tmpDevice")
 
     user_id: str = FieldInfo(alias="userId")
+    """Deprecated: use ownerId (tenancy) / createdBy (actor)."""
 
     accessibility: Optional[bool] = None
 
@@ -47,6 +50,8 @@ class Item(BaseModel):
     continue_on_failure: Optional[bool] = FieldInfo(alias="continueOnFailure", default=None)
 
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
+
+    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
 
     credentials: Optional[List[PackageCredentials]] = None
 

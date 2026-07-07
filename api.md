@@ -336,14 +336,20 @@ Methods:
 Types:
 
 ```python
-from mobilerun_sdk.types import Profile, ProfileListResponse, ProfileDeleteResponse
+from mobilerun_sdk.types import (
+    ProfileCreateResponse,
+    ProfileRetrieveResponse,
+    ProfileUpdateResponse,
+    ProfileListResponse,
+    ProfileDeleteResponse,
+)
 ```
 
 Methods:
 
-- <code title="post /profiles">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/profile_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/profile.py">Profile</a></code>
-- <code title="get /profiles/{profileId}">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">retrieve</a>(profile_id) -> <a href="./src/mobilerun_sdk/types/profile.py">Profile</a></code>
-- <code title="put /profiles/{profileId}">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">update</a>(profile_id, \*\*<a href="src/mobilerun_sdk/types/profile_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/profile.py">Profile</a></code>
+- <code title="post /profiles">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/profile_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/profile_create_response.py">ProfileCreateResponse</a></code>
+- <code title="get /profiles/{profileId}">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">retrieve</a>(profile_id) -> <a href="./src/mobilerun_sdk/types/profile_retrieve_response.py">ProfileRetrieveResponse</a></code>
+- <code title="put /profiles/{profileId}">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">update</a>(profile_id, \*\*<a href="src/mobilerun_sdk/types/profile_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/profile_update_response.py">ProfileUpdateResponse</a></code>
 - <code title="get /profiles">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/profile_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/profile_list_response.py">ProfileListResponse</a></code>
 - <code title="delete /profiles/{profileId}">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">delete</a>(profile_id) -> <a href="./src/mobilerun_sdk/types/profile_delete_response.py">ProfileDeleteResponse</a></code>
 

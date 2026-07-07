@@ -18,9 +18,11 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.profile import Profile
 from ..types.profile_list_response import ProfileListResponse
+from ..types.profile_create_response import ProfileCreateResponse
 from ..types.profile_delete_response import ProfileDeleteResponse
+from ..types.profile_update_response import ProfileUpdateResponse
+from ..types.profile_retrieve_response import ProfileRetrieveResponse
 from ..types.shared_params.device_spec import DeviceSpec
 
 __all__ = ["ProfilesResource", "AsyncProfilesResource"]
@@ -57,7 +59,7 @@ class ProfilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Profile:
+    ) -> ProfileCreateResponse:
         """
         Create a new device profile
 
@@ -86,7 +88,7 @@ class ProfilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Profile,
+            cast_to=ProfileCreateResponse,
         )
 
     def retrieve(
@@ -99,7 +101,7 @@ class ProfilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Profile:
+    ) -> ProfileRetrieveResponse:
         """
         Get device profile by ID
 
@@ -119,7 +121,7 @@ class ProfilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Profile,
+            cast_to=ProfileRetrieveResponse,
         )
 
     def update(
@@ -134,7 +136,7 @@ class ProfilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Profile:
+    ) -> ProfileUpdateResponse:
         """
         Update a device profile
 
@@ -165,7 +167,7 @@ class ProfilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Profile,
+            cast_to=ProfileUpdateResponse,
         )
 
     def list(
@@ -281,7 +283,7 @@ class AsyncProfilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Profile:
+    ) -> ProfileCreateResponse:
         """
         Create a new device profile
 
@@ -310,7 +312,7 @@ class AsyncProfilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Profile,
+            cast_to=ProfileCreateResponse,
         )
 
     async def retrieve(
@@ -323,7 +325,7 @@ class AsyncProfilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Profile:
+    ) -> ProfileRetrieveResponse:
         """
         Get device profile by ID
 
@@ -343,7 +345,7 @@ class AsyncProfilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Profile,
+            cast_to=ProfileRetrieveResponse,
         )
 
     async def update(
@@ -358,7 +360,7 @@ class AsyncProfilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Profile:
+    ) -> ProfileUpdateResponse:
         """
         Update a device profile
 
@@ -389,7 +391,7 @@ class AsyncProfilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Profile,
+            cast_to=ProfileUpdateResponse,
         )
 
     async def list(

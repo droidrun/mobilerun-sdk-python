@@ -40,8 +40,13 @@ class Device(BaseModel):
 
     billing_strategy: Optional[str] = FieldInfo(alias="billingStrategy", default=None)
 
+    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
+    owner_id: Optional[str] = FieldInfo(alias="ownerId", default=None)
+
     provider_id: Optional[str] = FieldInfo(alias="providerId", default=None)
 
     stream_token: Optional[str] = FieldInfo(alias="streamToken", default=None)
 
     user_id: Optional[str] = FieldInfo(alias="userId", default=None)
+    """Deprecated: use ownerId/createdBy."""
