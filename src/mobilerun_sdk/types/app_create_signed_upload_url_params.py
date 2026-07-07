@@ -17,8 +17,6 @@ class AppCreateSignedUploadURLParams(TypedDict, total=False):
 
     files: Required[Iterable[File]]
 
-    size_bytes: Required[Annotated[float, PropertyInfo(alias="sizeBytes")]]
-
     version_code: Required[Annotated[float, PropertyInfo(alias="versionCode")]]
 
     version_name: Required[Annotated[str, PropertyInfo(alias="versionName")]]

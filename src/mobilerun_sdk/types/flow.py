@@ -23,6 +23,8 @@ class Flow(BaseModel):
 
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
 
+    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
     description: Optional[str] = None
 
     device_ids: List[str] = FieldInfo(alias="deviceIds")
@@ -45,6 +47,8 @@ class Flow(BaseModel):
 
     notify_webhook_id: Optional[str] = FieldInfo(alias="notifyWebhookId", default=None)
 
+    owner_id: str = FieldInfo(alias="ownerId")
+
     status: Literal["healthy", "failing", "blocked"]
 
     trigger_id: str = FieldInfo(alias="triggerId")
@@ -52,3 +56,4 @@ class Flow(BaseModel):
     updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
 
     user_id: str = FieldInfo(alias="userId")
+    """Deprecated: use ownerId (tenancy) / createdBy (actor)."""

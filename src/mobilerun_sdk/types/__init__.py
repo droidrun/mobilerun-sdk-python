@@ -18,7 +18,6 @@ from .shared import (
     PaginationMeta as PaginationMeta,
     DeviceIdentifiers as DeviceIdentifiers,
 )
-from .profile import Profile as Profile
 from .task_status import TaskStatus as TaskStatus
 from .proxy_config import ProxyConfig as ProxyConfig
 from .usage_result import UsageResult as UsageResult
@@ -67,7 +66,9 @@ from .carrier_delete_response import CarrierDeleteResponse as CarrierDeleteRespo
 from .carrier_lookup_response import CarrierLookupResponse as CarrierLookupResponse
 from .carrier_update_response import CarrierUpdateResponse as CarrierUpdateResponse
 from .device_terminate_params import DeviceTerminateParams as DeviceTerminateParams
+from .profile_create_response import ProfileCreateResponse as ProfileCreateResponse
 from .profile_delete_response import ProfileDeleteResponse as ProfileDeleteResponse
+from .profile_update_response import ProfileUpdateResponse as ProfileUpdateResponse
 from .proxy_retrieve_response import ProxyRetrieveResponse as ProxyRetrieveResponse
 from .webhook_create_response import WebhookCreateResponse as WebhookCreateResponse
 from .webhook_update_response import WebhookUpdateResponse as WebhookUpdateResponse
@@ -78,6 +79,7 @@ from .task_run_streamed_params import TaskRunStreamedParams as TaskRunStreamedPa
 from .task_send_message_params import TaskSendMessageParams as TaskSendMessageParams
 from .carrier_retrieve_response import CarrierRetrieveResponse as CarrierRetrieveResponse
 from .package_credentials_param import PackageCredentialsParam as PackageCredentialsParam
+from .profile_retrieve_response import ProfileRetrieveResponse as ProfileRetrieveResponse
 from .webhook_retrieve_response import WebhookRetrieveResponse as WebhookRetrieveResponse
 from .app_list_versions_response import AppListVersionsResponse as AppListVersionsResponse
 from .task_send_message_response import TaskSendMessageResponse as TaskSendMessageResponse

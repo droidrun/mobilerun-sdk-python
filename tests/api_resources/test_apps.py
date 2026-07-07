@@ -205,7 +205,6 @@ class TestApps:
                     "file_name": "J!Q0Ok0bzJb7.apk/i",
                 }
             ],
-            size_bytes=0,
             version_code=0,
             version_name="x",
         )
@@ -224,7 +223,6 @@ class TestApps:
                     "sha256": "210b9798eb53baa4e69d31c1071cf03d212b8ad0ca30cf321e0ea82e120aac26/i",
                 }
             ],
-            size_bytes=0,
             version_code=0,
             version_name="x",
             country="US",
@@ -248,7 +246,6 @@ class TestApps:
                     "file_name": "J!Q0Ok0bzJb7.apk/i",
                 }
             ],
-            size_bytes=0,
             version_code=0,
             version_name="x",
         )
@@ -270,7 +267,6 @@ class TestApps:
                     "file_name": "J!Q0Ok0bzJb7.apk/i",
                 }
             ],
-            size_bytes=0,
             version_code=0,
             version_name="x",
         ) as response:
@@ -552,7 +548,6 @@ class TestAsyncApps:
                     "file_name": "J!Q0Ok0bzJb7.apk/i",
                 }
             ],
-            size_bytes=0,
             version_code=0,
             version_name="x",
         )
@@ -571,7 +566,6 @@ class TestAsyncApps:
                     "sha256": "210b9798eb53baa4e69d31c1071cf03d212b8ad0ca30cf321e0ea82e120aac26/i",
                 }
             ],
-            size_bytes=0,
             version_code=0,
             version_name="x",
             country="US",
@@ -595,7 +589,6 @@ class TestAsyncApps:
                     "file_name": "J!Q0Ok0bzJb7.apk/i",
                 }
             ],
-            size_bytes=0,
             version_code=0,
             version_name="x",
         )
@@ -617,7 +610,6 @@ class TestAsyncApps:
                     "file_name": "J!Q0Ok0bzJb7.apk/i",
                 }
             ],
-            size_bytes=0,
             version_code=0,
             version_name="x",
         ) as response:
