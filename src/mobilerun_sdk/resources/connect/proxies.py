@@ -98,8 +98,8 @@ class ProxiesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyListResponse:
         """
-        Returns proxies owned by the user identified by the X-User-ID header.
-        Credentials are omitted from the list.
+        Returns proxies owned by the calling tenant (the X-Owner-Id header, falling back
+        to X-User-ID). Credentials are omitted from the list.
 
         Args:
           country: Filter to proxies in this country (ISO 3166-1 alpha-2, lowercase).
@@ -463,8 +463,8 @@ class AsyncProxiesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyListResponse:
         """
-        Returns proxies owned by the user identified by the X-User-ID header.
-        Credentials are omitted from the list.
+        Returns proxies owned by the calling tenant (the X-Owner-Id header, falling back
+        to X-User-ID). Credentials are omitted from the list.
 
         Args:
           country: Filter to proxies in this country (ISO 3166-1 alpha-2, lowercase).
