@@ -32,7 +32,11 @@ class DeviceCreateParams(TypedDict, total=False):
 
     device_type: Annotated[
         Literal[
-            "dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device", "dedicated_emulated_device"
+            "dedicated_physical_device",
+            "dedicated_premium_device",
+            "dedicated_ios_device",
+            "dedicated_emulated_device",
+            "ios_simulator",
         ],
         PropertyInfo(alias="deviceType"),
     ]
