@@ -11,4 +11,4 @@ class ProxyBuyParams(TypedDict, total=False):
     country: Required[str]
     """ISO 3166-1 alpha-2 country code to provision the proxy in."""
 
-    type: Literal["dedicated_residential", "residential", "mobile"]
+    type: Required[Literal["dedicated_residential", "residential", "mobile"]]
