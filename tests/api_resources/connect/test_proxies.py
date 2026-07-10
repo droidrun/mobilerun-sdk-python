@@ -109,14 +109,6 @@ class TestProxies:
     def test_method_buy(self, client: Mobilerun) -> None:
         proxy = client.connect.proxies.buy(
             country="country",
-        )
-        assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_method_buy_with_all_params(self, client: Mobilerun) -> None:
-        proxy = client.connect.proxies.buy(
-            country="country",
             type="dedicated_residential",
         )
         assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
@@ -126,6 +118,7 @@ class TestProxies:
     def test_raw_response_buy(self, client: Mobilerun) -> None:
         response = client.connect.proxies.with_raw_response.buy(
             country="country",
+            type="dedicated_residential",
         )
 
         assert response.is_closed is True
@@ -138,6 +131,7 @@ class TestProxies:
     def test_streaming_response_buy(self, client: Mobilerun) -> None:
         with client.connect.proxies.with_streaming_response.buy(
             country="country",
+            type="dedicated_residential",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -397,14 +391,6 @@ class TestAsyncProxies:
     async def test_method_buy(self, async_client: AsyncMobilerun) -> None:
         proxy = await async_client.connect.proxies.buy(
             country="country",
-        )
-        assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_buy_with_all_params(self, async_client: AsyncMobilerun) -> None:
-        proxy = await async_client.connect.proxies.buy(
-            country="country",
             type="dedicated_residential",
         )
         assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
@@ -414,6 +400,7 @@ class TestAsyncProxies:
     async def test_raw_response_buy(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.connect.proxies.with_raw_response.buy(
             country="country",
+            type="dedicated_residential",
         )
 
         assert response.is_closed is True
@@ -426,6 +413,7 @@ class TestAsyncProxies:
     async def test_streaming_response_buy(self, async_client: AsyncMobilerun) -> None:
         async with async_client.connect.proxies.with_streaming_response.buy(
             country="country",
+            type="dedicated_residential",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

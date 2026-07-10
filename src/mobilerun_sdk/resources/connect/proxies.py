@@ -139,7 +139,7 @@ class ProxiesResource(SyncAPIResource):
         self,
         *,
         country: str,
-        type: Literal["dedicated_residential", "residential", "mobile"] | Omit = omit,
+        type: Literal["dedicated_residential", "residential", "mobile"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -148,7 +148,7 @@ class ProxiesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyBuyResponse:
         """
-        Provisions a proxy for the caller in the selected country.
+        Provisions a proxy of the requested type for the caller in the selected country.
 
         Args:
           country: ISO 3166-1 alpha-2 country code to provision the proxy in.
@@ -504,7 +504,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         self,
         *,
         country: str,
-        type: Literal["dedicated_residential", "residential", "mobile"] | Omit = omit,
+        type: Literal["dedicated_residential", "residential", "mobile"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -513,7 +513,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyBuyResponse:
         """
-        Provisions a proxy for the caller in the selected country.
+        Provisions a proxy of the requested type for the caller in the selected country.
 
         Args:
           country: ISO 3166-1 alpha-2 country code to provision the proxy in.

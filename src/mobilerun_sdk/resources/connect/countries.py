@@ -58,8 +58,11 @@ class CountriesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CountryListResponse:
-        """
-        Lookup of countries that can be selected when creating a proxy.
+        """Lookup of countries that can be selected when creating a proxy.
+
+        Each country
+        lists the proxy types available there; without a ?type filter, every covered
+        country is returned.
 
         Args:
           page: Page number (1-based).
@@ -131,8 +134,11 @@ class AsyncCountriesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CountryListResponse:
-        """
-        Lookup of countries that can be selected when creating a proxy.
+        """Lookup of countries that can be selected when creating a proxy.
+
+        Each country
+        lists the proxy types available there; without a ?type filter, every covered
+        country is returned.
 
         Args:
           page: Page number (1-based).
