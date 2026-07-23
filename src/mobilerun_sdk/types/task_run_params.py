@@ -36,10 +36,7 @@ class TaskRunParams(TypedDict, total=False):
     files: SequenceNotStr[str]
 
     llm_model: Annotated[str, PropertyInfo(alias="llmModel")]
-    """The LLM model identifier to use for the task (e.g.
-
-    'google/gemini-3.1-flash-lite')
-    """
+    """The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')"""
 
     max_steps: Annotated[int, PropertyInfo(alias="maxSteps")]
 

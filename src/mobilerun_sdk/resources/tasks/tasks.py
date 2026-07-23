@@ -305,8 +305,7 @@ class TasksResource(SyncAPIResource):
 
           display_id: The display ID of the device to run the task on.
 
-          llm_model: The LLM model identifier to use for the task (e.g.
-              'google/gemini-3.1-flash-lite')
+          llm_model: The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')
 
           memory_namespace: Memory namespace for cross-task personalization
 
@@ -392,8 +391,7 @@ class TasksResource(SyncAPIResource):
 
           display_id: The display ID of the device to run the task on.
 
-          llm_model: The LLM model identifier to use for the task (e.g.
-              'google/gemini-3.1-flash-lite')
+          llm_model: The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')
 
           memory_namespace: Memory namespace for cross-task personalization
 
@@ -772,8 +770,7 @@ class AsyncTasksResource(AsyncAPIResource):
 
           display_id: The display ID of the device to run the task on.
 
-          llm_model: The LLM model identifier to use for the task (e.g.
-              'google/gemini-3.1-flash-lite')
+          llm_model: The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')
 
           memory_namespace: Memory namespace for cross-task personalization
 
@@ -859,8 +856,7 @@ class AsyncTasksResource(AsyncAPIResource):
 
           display_id: The display ID of the device to run the task on.
 
-          llm_model: The LLM model identifier to use for the task (e.g.
-              'google/gemini-3.1-flash-lite')
+          llm_model: The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')
 
           memory_namespace: Memory namespace for cross-task personalization
 
