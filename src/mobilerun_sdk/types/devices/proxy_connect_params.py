@@ -6,10 +6,17 @@ from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
-__all__ = ["ProxyConnectParams", "Socks5"]
+__all__ = ["ProxyConnectParams", "Connect", "Socks5"]
 
 
 class ProxyConnectParams(TypedDict, total=False):
+    connect: Connect
+    """
+    Mobilerun Connect proxy — pass exactly one of id (use an existing proxy's
+    credentials) or country (provision or reuse a rotating residential proxy for the
+    device).
+    """
+
     host: str
 
     name: str
@@ -27,6 +34,21 @@ class ProxyConnectParams(TypedDict, total=False):
     user: str
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
+
+
+class Connect(TypedDict, total=False):
+    """
+    Mobilerun Connect proxy — pass exactly one of id (use an existing proxy's credentials) or country (provision or reuse a rotating residential proxy for the device).
+    """
+
+    id: str
+    """Existing Mobilerun Connect proxy id; its credentials are fetched server-side."""
+
+    country: str
+    """
+    ISO 3166-1 alpha-2 country code; provisions (or reuses) a rotating residential
+    Mobilerun Connect proxy for the device.
+    """
 
 
 class Socks5(TypedDict, total=False):

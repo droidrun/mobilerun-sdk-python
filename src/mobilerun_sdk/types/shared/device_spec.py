@@ -10,10 +10,23 @@ from ..._models import BaseModel
 from .device_carrier import DeviceCarrier
 from .device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceSpec", "Proxy"]
+__all__ = ["DeviceSpec", "Proxy", "ProxyConnect"]
+
+
+class ProxyConnect(BaseModel):
+    id: Optional[str] = None
+    """Existing Mobilerun Connect proxy id; its credentials are fetched server-side."""
+
+    country: Optional[str] = None
+    """
+    ISO 3166-1 alpha-2 country code; provisions (or reuses) a rotating residential
+    Mobilerun Connect proxy for the device.
+    """
 
 
 class Proxy(BaseModel):
+    connect: Optional[ProxyConnect] = None
+
     name: Optional[str] = None
 
     smart_ip: Optional[bool] = FieldInfo(alias="smartIp", default=None)

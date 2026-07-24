@@ -30,6 +30,10 @@ class TestProxy:
     def test_method_connect_with_all_params(self, client: Mobilerun) -> None:
         proxy = client.devices.proxy.connect(
             device_id="deviceId",
+            connect={
+                "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "country": "SE",
+            },
             host="host",
             name="name",
             password="password",
@@ -201,6 +205,10 @@ class TestAsyncProxy:
     async def test_method_connect_with_all_params(self, async_client: AsyncMobilerun) -> None:
         proxy = await async_client.devices.proxy.connect(
             device_id="deviceId",
+            connect={
+                "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "country": "SE",
+            },
             host="host",
             name="name",
             password="password",

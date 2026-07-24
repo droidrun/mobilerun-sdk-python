@@ -51,6 +51,14 @@ class Flow(BaseModel):
 
     status: Literal["healthy", "failing", "blocked"]
 
+    template_resolution_version: int = FieldInfo(alias="templateResolutionVersion")
+    """Template-resolver semantics this flow runs under (MVA-23).
+
+    1 = legacy (missing/forbidden/null all resolve to ''). 2 = typed
+    (missing/forbidden throw, a whole-token null stays JSON null). Existing flows
+    stay 1; new flows default to 2.
+    """
+
     trigger_id: str = FieldInfo(alias="triggerId")
 
     updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
