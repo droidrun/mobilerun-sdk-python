@@ -45,6 +45,7 @@ class ProxyResource(SyncAPIResource):
         self,
         device_id: str,
         *,
+        connect: proxy_connect_params.Connect | Omit = omit,
         host: str | Omit = omit,
         name: str | Omit = omit,
         password: str | Omit = omit,
@@ -66,6 +67,10 @@ class ProxyResource(SyncAPIResource):
         automatically; the legacy flat host/port/user/password fields remain supported.
 
         Args:
+          connect: Mobilerun Connect proxy — pass exactly one of id (use an existing proxy's
+              credentials) or country (provision or reuse a rotating residential proxy for the
+              device).
+
           name: Proxy name
 
           socks5: SOCKS5 proxy configuration (required for socks5).
@@ -91,6 +96,7 @@ class ProxyResource(SyncAPIResource):
             path_template("/devices/{device_id}/proxy", device_id=device_id),
             body=maybe_transform(
                 {
+                    "connect": connect,
                     "host": host,
                     "name": name,
                     "password": password,
@@ -215,6 +221,7 @@ class AsyncProxyResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
+        connect: proxy_connect_params.Connect | Omit = omit,
         host: str | Omit = omit,
         name: str | Omit = omit,
         password: str | Omit = omit,
@@ -236,6 +243,10 @@ class AsyncProxyResource(AsyncAPIResource):
         automatically; the legacy flat host/port/user/password fields remain supported.
 
         Args:
+          connect: Mobilerun Connect proxy — pass exactly one of id (use an existing proxy's
+              credentials) or country (provision or reuse a rotating residential proxy for the
+              device).
+
           name: Proxy name
 
           socks5: SOCKS5 proxy configuration (required for socks5).
@@ -261,6 +272,7 @@ class AsyncProxyResource(AsyncAPIResource):
             path_template("/devices/{device_id}/proxy", device_id=device_id),
             body=await async_maybe_transform(
                 {
+                    "connect": connect,
                     "host": host,
                     "name": name,
                     "password": password,

@@ -213,11 +213,7 @@ class DevicesResource(SyncAPIResource):
         billing: Literal["auto", "subscription", "minute"] | Omit = omit,
         query_country: str | Omit = omit,
         device_type: Literal[
-            "dedicated_physical_device",
-            "dedicated_premium_device",
-            "dedicated_ios_device",
-            "dedicated_emulated_device",
-            "ios_simulator",
+            "dedicated_premium_device", "dedicated_ios_device", "dedicated_emulated_device", "ios_simulator"
         ]
         | Omit = omit,
         profile_id: str | Omit = omit,
@@ -361,13 +357,7 @@ class DevicesResource(SyncAPIResource):
             ]
         ]
         | Omit = omit,
-        type: Literal[
-            "dedicated_physical_device",
-            "dedicated_premium_device",
-            "dedicated_ios_device",
-            "dedicated_emulated_device",
-            "ios_simulator",
-        ]
+        type: Literal["dedicated_premium_device", "dedicated_ios_device", "dedicated_emulated_device", "ios_simulator"]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -742,11 +732,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         billing: Literal["auto", "subscription", "minute"] | Omit = omit,
         query_country: str | Omit = omit,
         device_type: Literal[
-            "dedicated_physical_device",
-            "dedicated_premium_device",
-            "dedicated_ios_device",
-            "dedicated_emulated_device",
-            "ios_simulator",
+            "dedicated_premium_device", "dedicated_ios_device", "dedicated_emulated_device", "ios_simulator"
         ]
         | Omit = omit,
         profile_id: str | Omit = omit,
@@ -890,13 +876,7 @@ class AsyncDevicesResource(AsyncAPIResource):
             ]
         ]
         | Omit = omit,
-        type: Literal[
-            "dedicated_physical_device",
-            "dedicated_premium_device",
-            "dedicated_ios_device",
-            "dedicated_emulated_device",
-            "ios_simulator",
-        ]
+        type: Literal["dedicated_premium_device", "dedicated_ios_device", "dedicated_emulated_device", "ios_simulator"]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.

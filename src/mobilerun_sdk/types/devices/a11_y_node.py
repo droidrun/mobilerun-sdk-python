@@ -55,3 +55,5 @@ class A11YNode(BaseModel):
     resource_id: str = FieldInfo(alias="resourceId")
 
     text: str
+
+    is_visible_to_user: Optional[bool] = FieldInfo(alias="isVisibleToUser", default=None)

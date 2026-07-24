@@ -12,10 +12,23 @@ from .location import Location
 from .device_carrier import DeviceCarrier
 from .device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceSpec", "Proxy"]
+__all__ = ["DeviceSpec", "Proxy", "ProxyConnect"]
+
+
+class ProxyConnect(TypedDict, total=False):
+    id: str
+    """Existing Mobilerun Connect proxy id; its credentials are fetched server-side."""
+
+    country: str
+    """
+    ISO 3166-1 alpha-2 country code; provisions (or reuses) a rotating residential
+    Mobilerun Connect proxy for the device.
+    """
 
 
 class Proxy(TypedDict, total=False):
+    connect: ProxyConnect
+
     name: str
 
     smart_ip: Annotated[bool, PropertyInfo(alias="smartIp")]

@@ -35,7 +35,7 @@ class TestDevices:
         device = client.devices.create(
             billing="auto",
             query_country="country",
-            device_type="dedicated_physical_device",
+            device_type="dedicated_premium_device",
             profile_id="profileId",
             android_version=0,
             apps=["string"],
@@ -73,6 +73,10 @@ class TestDevices:
             },
             name="name",
             proxy={
+                "connect": {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "country": "SE",
+                },
                 "name": "name",
                 "smart_ip": True,
                 "socks5": {
@@ -168,7 +172,7 @@ class TestDevices:
             page_size=0,
             provider_id="providerId",
             state=["creating"],
-            type="dedicated_physical_device",
+            type="dedicated_premium_device",
         )
         assert_matches_type(DeviceListResponse, device, path=["response"])
 
@@ -515,7 +519,7 @@ class TestAsyncDevices:
         device = await async_client.devices.create(
             billing="auto",
             query_country="country",
-            device_type="dedicated_physical_device",
+            device_type="dedicated_premium_device",
             profile_id="profileId",
             android_version=0,
             apps=["string"],
@@ -553,6 +557,10 @@ class TestAsyncDevices:
             },
             name="name",
             proxy={
+                "connect": {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "country": "SE",
+                },
                 "name": "name",
                 "smart_ip": True,
                 "socks5": {
@@ -648,7 +656,7 @@ class TestAsyncDevices:
             page_size=0,
             provider_id="providerId",
             state=["creating"],
-            type="dedicated_physical_device",
+            type="dedicated_premium_device",
         )
         assert_matches_type(DeviceListResponse, device, path=["response"])
 

@@ -12,7 +12,7 @@ from .shared_params.location import Location
 from .shared_params.device_carrier import DeviceCarrier
 from .shared_params.device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceCreateParams", "Proxy"]
+__all__ = ["DeviceCreateParams", "Proxy", "ProxyConnect"]
 
 
 class DeviceCreateParams(TypedDict, total=False):
@@ -31,13 +31,7 @@ class DeviceCreateParams(TypedDict, total=False):
     """
 
     device_type: Annotated[
-        Literal[
-            "dedicated_physical_device",
-            "dedicated_premium_device",
-            "dedicated_ios_device",
-            "dedicated_emulated_device",
-            "ios_simulator",
-        ],
+        Literal["dedicated_premium_device", "dedicated_ios_device", "dedicated_emulated_device", "ios_simulator"],
         PropertyInfo(alias="deviceType"),
     ]
 
@@ -67,7 +61,20 @@ class DeviceCreateParams(TypedDict, total=False):
     timezone: str
 
 
+class ProxyConnect(TypedDict, total=False):
+    id: str
+    """Existing Mobilerun Connect proxy id; its credentials are fetched server-side."""
+
+    country: str
+    """
+    ISO 3166-1 alpha-2 country code; provisions (or reuses) a rotating residential
+    Mobilerun Connect proxy for the device.
+    """
+
+
 class Proxy(TypedDict, total=False):
+    connect: ProxyConnect
+
     name: str
 
     smart_ip: Annotated[bool, PropertyInfo(alias="smartIp")]
