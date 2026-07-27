@@ -7,11 +7,21 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["WebhookEventTypesResponse", "Data", "DataSource", "DataSourceEvent"]
+__all__ = ["WebhookEventTypesResponse", "Data", "DataSource", "DataSourceEvent", "DataSourceEventSurfaces"]
+
+
+class DataSourceEventSurfaces(BaseModel):
+    feed: bool
+
+    toast: bool
+
+    webhook: bool
 
 
 class DataSourceEvent(BaseModel):
     description: str
+
+    surfaces: DataSourceEventSurfaces
 
     type: str
 
