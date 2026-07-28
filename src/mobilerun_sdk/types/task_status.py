@@ -4,6 +4,4 @@ from typing_extensions import Literal, TypeAlias
 
 __all__ = ["TaskStatus"]
 
-TaskStatus: TypeAlias = Literal[
-    "queued", "created", "running", "cancelling", "paused", "completed", "failed", "cancelled"
-]
+TaskStatus: TypeAlias = Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
