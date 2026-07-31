@@ -22,7 +22,11 @@ class DataFile(BaseModel):
 
 class Data(FlowExecution):
     files: List[DataFile]
-    """Files produced by files.upload steps; derived server-side at read time."""
+    """
+    Files produced by files.upload steps, plus files an agent.run step reported on
+    its terminal response (agent-created output or a workflow upload minted during
+    the turn); derived server-side at read time.
+    """
 
 
 class ExecutionRetrieveResponse(BaseModel):

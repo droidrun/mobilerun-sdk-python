@@ -14,4 +14,7 @@ class WebhookListParams(TypedDict, total=False):
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
 
+    search: str
+    """Case-insensitive substring match against the URL or description."""
+
     status: Literal["active", "failing", "blocked", "disabled"]

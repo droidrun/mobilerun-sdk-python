@@ -194,6 +194,7 @@ class WebhooksResource(SyncAPIResource):
         *,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        search: str | Omit = omit,
         status: Literal["active", "failing", "blocked", "disabled"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -204,10 +205,13 @@ class WebhooksResource(SyncAPIResource):
     ) -> WebhookListResponse:
         """
         Returns a paginated list of your webhook subscriptions, optionally filtered by
-        status (active, failing, blocked, or disabled). The response also includes
-        per-status counts across all of your subscriptions.
+        status (active, failing, blocked, or disabled) and/or by `search` (a
+        case-insensitive substring match against the URL or description). The response
+        also includes per-status counts across all of your subscriptions.
 
         Args:
+          search: Case-insensitive substring match against the URL or description.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -227,6 +231,7 @@ class WebhooksResource(SyncAPIResource):
                     {
                         "page": page,
                         "page_size": page_size,
+                        "search": search,
                         "status": status,
                     },
                     webhook_list_params.WebhookListParams,
@@ -521,6 +526,7 @@ class AsyncWebhooksResource(AsyncAPIResource):
         *,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        search: str | Omit = omit,
         status: Literal["active", "failing", "blocked", "disabled"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -531,10 +537,13 @@ class AsyncWebhooksResource(AsyncAPIResource):
     ) -> WebhookListResponse:
         """
         Returns a paginated list of your webhook subscriptions, optionally filtered by
-        status (active, failing, blocked, or disabled). The response also includes
-        per-status counts across all of your subscriptions.
+        status (active, failing, blocked, or disabled) and/or by `search` (a
+        case-insensitive substring match against the URL or description). The response
+        also includes per-status counts across all of your subscriptions.
 
         Args:
+          search: Case-insensitive substring match against the URL or description.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -554,6 +563,7 @@ class AsyncWebhooksResource(AsyncAPIResource):
                     {
                         "page": page,
                         "page_size": page_size,
+                        "search": search,
                         "status": status,
                     },
                     webhook_list_params.WebhookListParams,
