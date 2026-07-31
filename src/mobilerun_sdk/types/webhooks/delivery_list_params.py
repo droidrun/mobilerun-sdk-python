@@ -12,6 +12,9 @@ __all__ = ["DeliveryListParams"]
 
 
 class DeliveryListParams(TypedDict, total=False):
+    event_id: Annotated[str, PropertyInfo(alias="eventId")]
+    """Exact text match against the originating event id."""
+
     page: int
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]

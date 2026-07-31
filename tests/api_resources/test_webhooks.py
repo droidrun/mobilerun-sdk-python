@@ -176,6 +176,7 @@ class TestWebhooks:
         webhook = client.webhooks.list(
             page=1,
             page_size=1,
+            search="x",
             status="active",
         )
         assert_matches_type(WebhookListResponse, webhook, path=["response"])
@@ -513,6 +514,7 @@ class TestAsyncWebhooks:
         webhook = await async_client.webhooks.list(
             page=1,
             page_size=1,
+            search="x",
             status="active",
         )
         assert_matches_type(WebhookListResponse, webhook, path=["response"])

@@ -34,3 +34,8 @@ class FlowExecution(BaseModel):
     trigger_name: Optional[str] = FieldInfo(alias="triggerName", default=None)
 
     result: Optional[object] = None
+    """Opaque per-step result blob ({ steps: [...] }).
+
+    Each step additionally carries a `verdict` field ({ outcome, summary, reason? }
+    | null) when it is an agent.run step that opted into a verdict — null otherwise.
+    """

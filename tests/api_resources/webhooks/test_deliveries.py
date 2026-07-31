@@ -33,6 +33,7 @@ class TestDeliveries:
     @parametrize
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         delivery = client.webhooks.deliveries.list(
+            event_id="x",
             page=1,
             page_size=1,
             since=parse_datetime("2019-12-27T18:11:19.117Z"),
@@ -75,6 +76,7 @@ class TestDeliveries:
     def test_method_list_for_webhook_with_all_params(self, client: Mobilerun) -> None:
         delivery = client.webhooks.deliveries.list_for_webhook(
             id="550e8400-e29b-41d4-a716-446655440000",
+            event_id="x",
             page=1,
             page_size=1,
         )
@@ -218,6 +220,7 @@ class TestAsyncDeliveries:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         delivery = await async_client.webhooks.deliveries.list(
+            event_id="x",
             page=1,
             page_size=1,
             since=parse_datetime("2019-12-27T18:11:19.117Z"),
@@ -260,6 +263,7 @@ class TestAsyncDeliveries:
     async def test_method_list_for_webhook_with_all_params(self, async_client: AsyncMobilerun) -> None:
         delivery = await async_client.webhooks.deliveries.list_for_webhook(
             id="550e8400-e29b-41d4-a716-446655440000",
+            event_id="x",
             page=1,
             page_size=1,
         )
