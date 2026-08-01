@@ -124,13 +124,37 @@ from mobilerun_sdk import Mobilerun
 
 client = Mobilerun()
 
-trigger = client.workflows.triggers.create(
-    activation="event",
-    name="x",
-    conditions={},
+device = client.devices.create(
+    carrier={
+        "gsm_operator_alpha": "GsmOperatorAlpha",
+        "gsm_operator_numeric": 0,
+        "gsm_sim_operator_alpha": "GsmSimOperatorAlpha",
+        "gsm_sim_operator_iso_country": "GsmSimOperatorIsoCountry",
+        "gsm_sim_operator_numeric": 0,
+        "persist_sys_timezone": "PersistSysTimezone",
+    },
 )
-print(trigger.conditions)
+print(device.carrier)
 ```
+
+## File uploads
+
+Request parameters that correspond to file uploads can be passed as `bytes`, or a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance or a tuple of `(filename, contents, media type)`.
+
+```python
+from pathlib import Path
+from mobilerun_sdk import Mobilerun
+
+client = Mobilerun()
+
+client.devices.files.upload(
+    device_id="deviceId",
+    path="path",
+    file=Path("/path/to/file"),
+)
+```
+
+The async client uses the exact same interface. If you pass a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance, the file contents will be read asynchronously automatically.
 
 ## Handling errors
 
