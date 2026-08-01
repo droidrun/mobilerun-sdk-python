@@ -36,27 +36,12 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import (
-        apps,
-        tasks,
-        models,
-        connect,
-        devices,
-        proxies,
-        carriers,
-        profiles,
-        webhooks,
-        workflows,
-        credentials,
-    )
+    from .resources import apps, tasks, models, connect, proxies, webhooks, workflows, credentials
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
-    from .resources.carriers import CarriersResource, AsyncCarriersResource
-    from .resources.profiles import ProfilesResource, AsyncProfilesResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
     from .resources.connect.connect import ConnectResource, AsyncConnectResource
-    from .resources.devices.devices import DevicesResource, AsyncDevicesResource
     from .resources.webhooks.webhooks import WebhooksResource, AsyncWebhooksResource
     from .resources.workflows.workflows import WorkflowsResource, AsyncWorkflowsResource
     from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
@@ -140,22 +125,10 @@ class Mobilerun(SyncAPIClient):
         return AppsResource(self)
 
     @cached_property
-    def carriers(self) -> CarriersResource:
-        from .resources.carriers import CarriersResource
-
-        return CarriersResource(self)
-
-    @cached_property
     def credentials(self) -> CredentialsResource:
         from .resources.credentials import CredentialsResource
 
         return CredentialsResource(self)
-
-    @cached_property
-    def devices(self) -> DevicesResource:
-        from .resources.devices import DevicesResource
-
-        return DevicesResource(self)
 
     @cached_property
     def models(self) -> ModelsResource:
@@ -163,12 +136,6 @@ class Mobilerun(SyncAPIClient):
         from .resources.models import ModelsResource
 
         return ModelsResource(self)
-
-    @cached_property
-    def profiles(self) -> ProfilesResource:
-        from .resources.profiles import ProfilesResource
-
-        return ProfilesResource(self)
 
     @cached_property
     def proxies(self) -> ProxiesResource:
@@ -392,22 +359,10 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncAppsResource(self)
 
     @cached_property
-    def carriers(self) -> AsyncCarriersResource:
-        from .resources.carriers import AsyncCarriersResource
-
-        return AsyncCarriersResource(self)
-
-    @cached_property
     def credentials(self) -> AsyncCredentialsResource:
         from .resources.credentials import AsyncCredentialsResource
 
         return AsyncCredentialsResource(self)
-
-    @cached_property
-    def devices(self) -> AsyncDevicesResource:
-        from .resources.devices import AsyncDevicesResource
-
-        return AsyncDevicesResource(self)
 
     @cached_property
     def models(self) -> AsyncModelsResource:
@@ -415,12 +370,6 @@ class AsyncMobilerun(AsyncAPIClient):
         from .resources.models import AsyncModelsResource
 
         return AsyncModelsResource(self)
-
-    @cached_property
-    def profiles(self) -> AsyncProfilesResource:
-        from .resources.profiles import AsyncProfilesResource
-
-        return AsyncProfilesResource(self)
 
     @cached_property
     def proxies(self) -> AsyncProxiesResource:
@@ -590,22 +539,10 @@ class MobilerunWithRawResponse:
         return AppsResourceWithRawResponse(self._client.apps)
 
     @cached_property
-    def carriers(self) -> carriers.CarriersResourceWithRawResponse:
-        from .resources.carriers import CarriersResourceWithRawResponse
-
-        return CarriersResourceWithRawResponse(self._client.carriers)
-
-    @cached_property
     def credentials(self) -> credentials.CredentialsResourceWithRawResponse:
         from .resources.credentials import CredentialsResourceWithRawResponse
 
         return CredentialsResourceWithRawResponse(self._client.credentials)
-
-    @cached_property
-    def devices(self) -> devices.DevicesResourceWithRawResponse:
-        from .resources.devices import DevicesResourceWithRawResponse
-
-        return DevicesResourceWithRawResponse(self._client.devices)
 
     @cached_property
     def models(self) -> models.ModelsResourceWithRawResponse:
@@ -613,12 +550,6 @@ class MobilerunWithRawResponse:
         from .resources.models import ModelsResourceWithRawResponse
 
         return ModelsResourceWithRawResponse(self._client.models)
-
-    @cached_property
-    def profiles(self) -> profiles.ProfilesResourceWithRawResponse:
-        from .resources.profiles import ProfilesResourceWithRawResponse
-
-        return ProfilesResourceWithRawResponse(self._client.profiles)
 
     @cached_property
     def proxies(self) -> proxies.ProxiesResourceWithRawResponse:
@@ -665,22 +596,10 @@ class AsyncMobilerunWithRawResponse:
         return AsyncAppsResourceWithRawResponse(self._client.apps)
 
     @cached_property
-    def carriers(self) -> carriers.AsyncCarriersResourceWithRawResponse:
-        from .resources.carriers import AsyncCarriersResourceWithRawResponse
-
-        return AsyncCarriersResourceWithRawResponse(self._client.carriers)
-
-    @cached_property
     def credentials(self) -> credentials.AsyncCredentialsResourceWithRawResponse:
         from .resources.credentials import AsyncCredentialsResourceWithRawResponse
 
         return AsyncCredentialsResourceWithRawResponse(self._client.credentials)
-
-    @cached_property
-    def devices(self) -> devices.AsyncDevicesResourceWithRawResponse:
-        from .resources.devices import AsyncDevicesResourceWithRawResponse
-
-        return AsyncDevicesResourceWithRawResponse(self._client.devices)
 
     @cached_property
     def models(self) -> models.AsyncModelsResourceWithRawResponse:
@@ -688,12 +607,6 @@ class AsyncMobilerunWithRawResponse:
         from .resources.models import AsyncModelsResourceWithRawResponse
 
         return AsyncModelsResourceWithRawResponse(self._client.models)
-
-    @cached_property
-    def profiles(self) -> profiles.AsyncProfilesResourceWithRawResponse:
-        from .resources.profiles import AsyncProfilesResourceWithRawResponse
-
-        return AsyncProfilesResourceWithRawResponse(self._client.profiles)
 
     @cached_property
     def proxies(self) -> proxies.AsyncProxiesResourceWithRawResponse:
@@ -740,22 +653,10 @@ class MobilerunWithStreamedResponse:
         return AppsResourceWithStreamingResponse(self._client.apps)
 
     @cached_property
-    def carriers(self) -> carriers.CarriersResourceWithStreamingResponse:
-        from .resources.carriers import CarriersResourceWithStreamingResponse
-
-        return CarriersResourceWithStreamingResponse(self._client.carriers)
-
-    @cached_property
     def credentials(self) -> credentials.CredentialsResourceWithStreamingResponse:
         from .resources.credentials import CredentialsResourceWithStreamingResponse
 
         return CredentialsResourceWithStreamingResponse(self._client.credentials)
-
-    @cached_property
-    def devices(self) -> devices.DevicesResourceWithStreamingResponse:
-        from .resources.devices import DevicesResourceWithStreamingResponse
-
-        return DevicesResourceWithStreamingResponse(self._client.devices)
 
     @cached_property
     def models(self) -> models.ModelsResourceWithStreamingResponse:
@@ -763,12 +664,6 @@ class MobilerunWithStreamedResponse:
         from .resources.models import ModelsResourceWithStreamingResponse
 
         return ModelsResourceWithStreamingResponse(self._client.models)
-
-    @cached_property
-    def profiles(self) -> profiles.ProfilesResourceWithStreamingResponse:
-        from .resources.profiles import ProfilesResourceWithStreamingResponse
-
-        return ProfilesResourceWithStreamingResponse(self._client.profiles)
 
     @cached_property
     def proxies(self) -> proxies.ProxiesResourceWithStreamingResponse:
@@ -815,22 +710,10 @@ class AsyncMobilerunWithStreamedResponse:
         return AsyncAppsResourceWithStreamingResponse(self._client.apps)
 
     @cached_property
-    def carriers(self) -> carriers.AsyncCarriersResourceWithStreamingResponse:
-        from .resources.carriers import AsyncCarriersResourceWithStreamingResponse
-
-        return AsyncCarriersResourceWithStreamingResponse(self._client.carriers)
-
-    @cached_property
     def credentials(self) -> credentials.AsyncCredentialsResourceWithStreamingResponse:
         from .resources.credentials import AsyncCredentialsResourceWithStreamingResponse
 
         return AsyncCredentialsResourceWithStreamingResponse(self._client.credentials)
-
-    @cached_property
-    def devices(self) -> devices.AsyncDevicesResourceWithStreamingResponse:
-        from .resources.devices import AsyncDevicesResourceWithStreamingResponse
-
-        return AsyncDevicesResourceWithStreamingResponse(self._client.devices)
 
     @cached_property
     def models(self) -> models.AsyncModelsResourceWithStreamingResponse:
@@ -838,12 +721,6 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.models import AsyncModelsResourceWithStreamingResponse
 
         return AsyncModelsResourceWithStreamingResponse(self._client.models)
-
-    @cached_property
-    def profiles(self) -> profiles.AsyncProfilesResourceWithStreamingResponse:
-        from .resources.profiles import AsyncProfilesResourceWithStreamingResponse
-
-        return AsyncProfilesResourceWithStreamingResponse(self._client.profiles)
 
     @cached_property
     def proxies(self) -> proxies.AsyncProxiesResourceWithStreamingResponse:
