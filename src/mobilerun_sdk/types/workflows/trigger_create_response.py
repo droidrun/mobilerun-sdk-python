@@ -7,7 +7,15 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["TriggerCreateResponse", "Data", "DataScheduleRule"]
+__all__ = ["TriggerCreateResponse", "Data", "DataScheduleRule", "DataScheduleRuleJitter"]
+
+
+class DataScheduleRuleJitter(BaseModel):
+    """Optional per-occurrence random window around the nominal schedule time"""
+
+    after_minutes: Optional[int] = FieldInfo(alias="afterMinutes", default=None)
+
+    before_minutes: Optional[int] = FieldInfo(alias="beforeMinutes", default=None)
 
 
 class DataScheduleRule(BaseModel):
@@ -18,6 +26,9 @@ class DataScheduleRule(BaseModel):
 
     expression: Optional[str] = None
     """Cron expression (for type=cron)"""
+
+    jitter: Optional[DataScheduleRuleJitter] = None
+    """Optional per-occurrence random window around the nominal schedule time"""
 
     rrule: Optional[str] = None
     """RRULE string (for type=recurring)"""
