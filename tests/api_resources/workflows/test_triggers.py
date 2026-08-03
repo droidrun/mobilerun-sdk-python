@@ -50,6 +50,10 @@ class TestTriggers:
                 "type": "once",
                 "date_time": "dateTime",
                 "expression": "expression",
+                "jitter": {
+                    "after_minutes": 0,
+                    "before_minutes": 0,
+                },
                 "rrule": "rrule",
             },
             timezone="timezone",
@@ -152,6 +156,10 @@ class TestTriggers:
                 "type": "once",
                 "date_time": "dateTime",
                 "expression": "expression",
+                "jitter": {
+                    "after_minutes": 0,
+                    "before_minutes": 0,
+                },
                 "rrule": "rrule",
             },
             timezone="timezone",
@@ -354,6 +362,10 @@ class TestAsyncTriggers:
                 "type": "once",
                 "date_time": "dateTime",
                 "expression": "expression",
+                "jitter": {
+                    "after_minutes": 0,
+                    "before_minutes": 0,
+                },
                 "rrule": "rrule",
             },
             timezone="timezone",
@@ -456,6 +468,10 @@ class TestAsyncTriggers:
                 "type": "once",
                 "date_time": "dateTime",
                 "expression": "expression",
+                "jitter": {
+                    "after_minutes": 0,
+                    "before_minutes": 0,
+                },
                 "rrule": "rrule",
             },
             timezone="timezone",

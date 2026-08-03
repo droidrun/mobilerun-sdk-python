@@ -7,7 +7,7 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
-__all__ = ["TriggerCreateParams", "Conditions", "ScheduleRule"]
+__all__ = ["TriggerCreateParams", "Conditions", "ScheduleRule", "ScheduleRuleJitter"]
 
 
 class TriggerCreateParams(TypedDict, total=False):
@@ -35,6 +35,14 @@ class Conditions(TypedDict, total=False):
     any: Iterable[object]
 
 
+class ScheduleRuleJitter(TypedDict, total=False):
+    """Optional per-occurrence random window around the nominal schedule time"""
+
+    after_minutes: Annotated[int, PropertyInfo(alias="afterMinutes")]
+
+    before_minutes: Annotated[int, PropertyInfo(alias="beforeMinutes")]
+
+
 class ScheduleRule(TypedDict, total=False):
     type: Required[Literal["once", "cron", "recurring"]]
 
@@ -43,6 +51,9 @@ class ScheduleRule(TypedDict, total=False):
 
     expression: str
     """Cron expression (for type=cron)"""
+
+    jitter: ScheduleRuleJitter
+    """Optional per-occurrence random window around the nominal schedule time"""
 
     rrule: str
     """RRULE string (for type=recurring)"""
