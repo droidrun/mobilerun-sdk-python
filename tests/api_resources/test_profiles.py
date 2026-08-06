@@ -283,6 +283,7 @@ class TestProfiles:
     @parametrize
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         profile = client.profiles.list(
+            mine=True,
             name="name",
             order_by="name",
             order_by_direction="asc",
@@ -621,6 +622,7 @@ class TestAsyncProfiles:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         profile = await async_client.profiles.list(
+            mine=True,
             name="name",
             order_by="name",
             order_by_direction="asc",

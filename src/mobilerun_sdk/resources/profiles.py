@@ -173,6 +173,7 @@ class ProfilesResource(SyncAPIResource):
     def list(
         self,
         *,
+        mine: bool | Omit = omit,
         name: str | Omit = omit,
         order_by: Literal["name", "created_at", "updated_at"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
@@ -189,6 +190,9 @@ class ProfilesResource(SyncAPIResource):
         List device profiles
 
         Args:
+          mine: When true, only return profiles created by the calling user (resolved from
+              X-User-ID, never a client-supplied id).
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -206,6 +210,7 @@ class ProfilesResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "mine": mine,
                         "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
@@ -397,6 +402,7 @@ class AsyncProfilesResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        mine: bool | Omit = omit,
         name: str | Omit = omit,
         order_by: Literal["name", "created_at", "updated_at"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
@@ -413,6 +419,9 @@ class AsyncProfilesResource(AsyncAPIResource):
         List device profiles
 
         Args:
+          mine: When true, only return profiles created by the calling user (resolved from
+              X-User-ID, never a client-supplied id).
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -430,6 +439,7 @@ class AsyncProfilesResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "mine": mine,
                         "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,

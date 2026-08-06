@@ -165,6 +165,8 @@ class TestDevices:
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         device = client.devices.list(
             country="country",
+            created_by="createdBy",
+            mine=True,
             name="name",
             order_by="id",
             order_by_direction="asc",
@@ -649,6 +651,8 @@ class TestAsyncDevices:
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.list(
             country="country",
+            created_by="createdBy",
+            mine=True,
             name="name",
             order_by="id",
             order_by_direction="asc",
