@@ -13,6 +13,15 @@ __all__ = ["DeviceListParams"]
 class DeviceListParams(TypedDict, total=False):
     country: str
 
+    created_by: Annotated[str, PropertyInfo(alias="createdBy")]
+    """Filter to devices created by this user id. Mutually exclusive with mine."""
+
+    mine: bool
+    """
+    When true, only return devices created by the calling user (resolved from
+    X-User-ID, never a client-supplied id).
+    """
+
     name: str
 
     order_by: Annotated[Literal["id", "createdAt", "updatedAt", "assignedAt"], PropertyInfo(alias="orderBy")]

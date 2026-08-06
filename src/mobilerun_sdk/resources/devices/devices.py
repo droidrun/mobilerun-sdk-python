@@ -335,6 +335,8 @@ class DevicesResource(SyncAPIResource):
         self,
         *,
         country: str | Omit = omit,
+        created_by: str | Omit = omit,
+        mine: bool | Omit = omit,
         name: str | Omit = omit,
         order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
@@ -370,6 +372,11 @@ class DevicesResource(SyncAPIResource):
         Returns a paginated list of the user's devices along with pagination metadata.
 
         Args:
+          created_by: Filter to devices created by this user id. Mutually exclusive with mine.
+
+          mine: When true, only return devices created by the calling user (resolved from
+              X-User-ID, never a client-supplied id).
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -388,6 +395,8 @@ class DevicesResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "country": country,
+                        "created_by": created_by,
+                        "mine": mine,
                         "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
@@ -854,6 +863,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         *,
         country: str | Omit = omit,
+        created_by: str | Omit = omit,
+        mine: bool | Omit = omit,
         name: str | Omit = omit,
         order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
@@ -889,6 +900,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         Returns a paginated list of the user's devices along with pagination metadata.
 
         Args:
+          created_by: Filter to devices created by this user id. Mutually exclusive with mine.
+
+          mine: When true, only return devices created by the calling user (resolved from
+              X-User-ID, never a client-supplied id).
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -907,6 +923,8 @@ class AsyncDevicesResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "country": country,
+                        "created_by": created_by,
+                        "mine": mine,
                         "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
