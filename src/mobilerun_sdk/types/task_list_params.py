@@ -12,6 +12,12 @@ __all__ = ["TaskListParams"]
 
 
 class TaskListParams(TypedDict, total=False):
+    created_by: Annotated[Optional[str], PropertyInfo(alias="createdBy")]
+    """Only tasks created by this user id."""
+
+    mine: bool
+    """Only tasks created by the calling user."""
+
     order_by: Annotated[Optional[Literal["id", "createdAt", "finishedAt", "status"]], PropertyInfo(alias="orderBy")]
 
     order_by_direction: Annotated[Literal["asc", "desc"], PropertyInfo(alias="orderByDirection")]

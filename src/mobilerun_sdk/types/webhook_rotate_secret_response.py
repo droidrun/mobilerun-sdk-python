@@ -19,6 +19,9 @@ class Data(BaseModel):
 
     created_at: str = FieldInfo(alias="createdAt")
 
+    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+    """Id of the actor who created this endpoint. Null when no creator was recorded."""
+
     description: Optional[str] = None
 
     event_types: List[str] = FieldInfo(alias="eventTypes")

@@ -31,9 +31,21 @@ class DeviceCreateParams(TypedDict, total=False):
     """
 
     device_type: Annotated[
-        Literal["dedicated_premium_device", "dedicated_ios_device", "dedicated_emulated_device", "ios_simulator"],
+        Literal[
+            "android_cloud_phone",
+            "dedicated_premium_device",
+            "dedicated_physical_device",
+            "dedicated_ios_device",
+            "dedicated_emulated_device",
+        ],
         PropertyInfo(alias="deviceType"),
     ]
+    """
+    Deprecated device type aliases are accepted during a compatibility grace period:
+    dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
+    maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
+    and dedicated_emulated_device maps to android_emulator.
+    """
 
     profile_id: Annotated[str, PropertyInfo(alias="profileId")]
     """Profile ID to use as device spec"""

@@ -30,11 +30,17 @@ class FlowCreateParams(TypedDict, total=False):
 
     enabled: bool
 
+    health_monitoring_enabled: Annotated[bool, PropertyInfo(alias="healthMonitoringEnabled")]
+
     notify_on_failure: Annotated[bool, PropertyInfo(alias="notifyOnFailure")]
 
     notify_on_success: Annotated[bool, PropertyInfo(alias="notifyOnSuccess")]
 
     notify_webhook_id: Annotated[Optional[str], PropertyInfo(alias="notifyWebhookId")]
+
+    self_healing_enabled: Annotated[bool, PropertyInfo(alias="selfHealingEnabled")]
+
+    self_healing_max_attempts: Annotated[int, PropertyInfo(alias="selfHealingMaxAttempts")]
 
 
 class Action(TypedDict, total=False):

@@ -14,6 +14,13 @@ class Variant0(TypedDict, total=False):
     bundle_id: Required[Annotated[str, PropertyInfo(alias="bundleId")]]
     """iOS bundle identifier (e.g. com.example.app)"""
 
+    background: bool
+    """
+    true: return 202 immediately and install in the background (poll
+    list-app-installs). false/omitted: install inline and return the outcome
+    directly (200 on success, an error status on failure).
+    """
+
     package_name: Annotated[str, PropertyInfo(alias="packageName")]
     """Android package name (e.g. com.example.app)"""
 
@@ -23,6 +30,13 @@ class Variant0(TypedDict, total=False):
 class Variant1(TypedDict, total=False):
     package_name: Required[Annotated[str, PropertyInfo(alias="packageName")]]
     """Android package name (e.g. com.example.app)"""
+
+    background: bool
+    """
+    true: return 202 immediately and install in the background (poll
+    list-app-installs). false/omitted: install inline and return the outcome
+    directly (200 on success, an error status on failure).
+    """
 
     bundle_id: Annotated[str, PropertyInfo(alias="bundleId")]
     """iOS bundle identifier (e.g. com.example.app)"""

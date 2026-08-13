@@ -192,6 +192,8 @@ class WebhooksResource(SyncAPIResource):
     def list(
         self,
         *,
+        created_by: str | Omit = omit,
+        mine: Literal["true", "false"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         search: str | Omit = omit,
@@ -210,6 +212,10 @@ class WebhooksResource(SyncAPIResource):
         also includes per-status counts across all of your subscriptions.
 
         Args:
+          created_by: Only include webhooks created by this actor id. Mutually exclusive with `mine`.
+
+          mine: When true, only include webhooks created by you (not just owned by your org).
+
           search: Case-insensitive substring match against the URL or description.
 
           extra_headers: Send extra headers
@@ -229,6 +235,8 @@ class WebhooksResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "created_by": created_by,
+                        "mine": mine,
                         "page": page,
                         "page_size": page_size,
                         "search": search,
@@ -524,6 +532,8 @@ class AsyncWebhooksResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        created_by: str | Omit = omit,
+        mine: Literal["true", "false"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         search: str | Omit = omit,
@@ -542,6 +552,10 @@ class AsyncWebhooksResource(AsyncAPIResource):
         also includes per-status counts across all of your subscriptions.
 
         Args:
+          created_by: Only include webhooks created by this actor id. Mutually exclusive with `mine`.
+
+          mine: When true, only include webhooks created by you (not just owned by your org).
+
           search: Case-insensitive substring match against the URL or description.
 
           extra_headers: Send extra headers
@@ -561,6 +575,8 @@ class AsyncWebhooksResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "created_by": created_by,
+                        "mine": mine,
                         "page": page,
                         "page_size": page_size,
                         "search": search,

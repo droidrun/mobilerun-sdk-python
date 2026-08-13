@@ -174,6 +174,8 @@ class TestWebhooks:
     @parametrize
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         webhook = client.webhooks.list(
+            created_by="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            mine="true",
             page=1,
             page_size=1,
             search="x",
@@ -512,6 +514,8 @@ class TestAsyncWebhooks:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         webhook = await async_client.webhooks.list(
+            created_by="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            mine="true",
             page=1,
             page_size=1,
             search="x",

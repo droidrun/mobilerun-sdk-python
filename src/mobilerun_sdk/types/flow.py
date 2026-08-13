@@ -31,6 +31,8 @@ class Flow(BaseModel):
 
     enabled: bool
 
+    health_monitoring_enabled: bool = FieldInfo(alias="healthMonitoringEnabled")
+
     last_failure_at: Optional[str] = FieldInfo(alias="lastFailureAt", default=None)
 
     last_failure_code: Optional[
@@ -48,6 +50,10 @@ class Flow(BaseModel):
     notify_webhook_id: Optional[str] = FieldInfo(alias="notifyWebhookId", default=None)
 
     owner_id: str = FieldInfo(alias="ownerId")
+
+    self_healing_enabled: bool = FieldInfo(alias="selfHealingEnabled")
+
+    self_healing_max_attempts: int = FieldInfo(alias="selfHealingMaxAttempts")
 
     status: Literal["healthy", "failing", "blocked"]
 
