@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List
+from typing import List, Optional
 
 from pydantic import Field as FieldInfo
 
@@ -21,6 +21,8 @@ class DataFile(BaseModel):
 
 
 class Data(FlowExecution):
+    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
     files: List[DataFile]
     """
     Files produced by files.upload steps, plus files an agent.run step reported on

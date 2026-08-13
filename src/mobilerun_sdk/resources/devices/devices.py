@@ -213,7 +213,11 @@ class DevicesResource(SyncAPIResource):
         billing: Literal["auto", "subscription", "minute"] | Omit = omit,
         query_country: str | Omit = omit,
         device_type: Literal[
-            "dedicated_premium_device", "dedicated_ios_device", "dedicated_emulated_device", "ios_simulator"
+            "android_cloud_phone",
+            "dedicated_premium_device",
+            "dedicated_physical_device",
+            "dedicated_ios_device",
+            "dedicated_emulated_device",
         ]
         | Omit = omit,
         profile_id: str | Omit = omit,
@@ -237,9 +241,10 @@ class DevicesResource(SyncAPIResource):
     ) -> Device:
         """
         Requests a new device for the authenticated user from the device spec in the
-        request body. Optional query parameters select the device type, target country,
-        billing mode, and a profile to use as the base spec; the response returns the
-        device and its stream token.
+        request body. Optional query parameters select the canonical device type, target
+        country, billing mode, and a profile to use as the base spec; deprecated
+        device-type aliases remain accepted only during the documented compatibility
+        grace period. The response returns the device and its stream token.
 
         Args:
           billing: Billing mode. 'auto' uses a subscription slot when available and otherwise bills
@@ -249,6 +254,12 @@ class DevicesResource(SyncAPIResource):
 
           query_country: ISO 3166-1 alpha-2 country code. If omitted the system picks the country with
               the most availability.
+
+          device_type:
+              Deprecated device type aliases are accepted during a compatibility grace period:
+              dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
+              maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
+              and dedicated_emulated_device maps to android_emulator.
 
           profile_id: Profile ID to use as device spec
 
@@ -354,12 +365,19 @@ class DevicesResource(SyncAPIResource):
                     "resetting",
                     "terminated",
                     "maintenance",
+                    "stopped",
                     "unknown",
                 ]
             ]
         ]
         | Omit = omit,
-        type: Literal["dedicated_premium_device", "dedicated_ios_device", "dedicated_emulated_device", "ios_simulator"]
+        type: Literal[
+            "android_cloud_phone",
+            "dedicated_premium_device",
+            "dedicated_physical_device",
+            "dedicated_ios_device",
+            "dedicated_emulated_device",
+        ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -376,6 +394,12 @@ class DevicesResource(SyncAPIResource):
 
           mine: When true, only return devices created by the calling user (resolved from
               X-User-ID, never a client-supplied id).
+
+          type:
+              Deprecated device type aliases are accepted during a compatibility grace period:
+              dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
+              maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
+              and dedicated_emulated_device maps to android_emulator.
 
           extra_headers: Send extra headers
 
@@ -741,7 +765,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         billing: Literal["auto", "subscription", "minute"] | Omit = omit,
         query_country: str | Omit = omit,
         device_type: Literal[
-            "dedicated_premium_device", "dedicated_ios_device", "dedicated_emulated_device", "ios_simulator"
+            "android_cloud_phone",
+            "dedicated_premium_device",
+            "dedicated_physical_device",
+            "dedicated_ios_device",
+            "dedicated_emulated_device",
         ]
         | Omit = omit,
         profile_id: str | Omit = omit,
@@ -765,9 +793,10 @@ class AsyncDevicesResource(AsyncAPIResource):
     ) -> Device:
         """
         Requests a new device for the authenticated user from the device spec in the
-        request body. Optional query parameters select the device type, target country,
-        billing mode, and a profile to use as the base spec; the response returns the
-        device and its stream token.
+        request body. Optional query parameters select the canonical device type, target
+        country, billing mode, and a profile to use as the base spec; deprecated
+        device-type aliases remain accepted only during the documented compatibility
+        grace period. The response returns the device and its stream token.
 
         Args:
           billing: Billing mode. 'auto' uses a subscription slot when available and otherwise bills
@@ -777,6 +806,12 @@ class AsyncDevicesResource(AsyncAPIResource):
 
           query_country: ISO 3166-1 alpha-2 country code. If omitted the system picks the country with
               the most availability.
+
+          device_type:
+              Deprecated device type aliases are accepted during a compatibility grace period:
+              dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
+              maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
+              and dedicated_emulated_device maps to android_emulator.
 
           profile_id: Profile ID to use as device spec
 
@@ -882,12 +917,19 @@ class AsyncDevicesResource(AsyncAPIResource):
                     "resetting",
                     "terminated",
                     "maintenance",
+                    "stopped",
                     "unknown",
                 ]
             ]
         ]
         | Omit = omit,
-        type: Literal["dedicated_premium_device", "dedicated_ios_device", "dedicated_emulated_device", "ios_simulator"]
+        type: Literal[
+            "android_cloud_phone",
+            "dedicated_premium_device",
+            "dedicated_physical_device",
+            "dedicated_ios_device",
+            "dedicated_emulated_device",
+        ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -904,6 +946,12 @@ class AsyncDevicesResource(AsyncAPIResource):
 
           mine: When true, only return devices created by the calling user (resolved from
               X-User-ID, never a client-supplied id).
+
+          type:
+              Deprecated device type aliases are accepted during a compatibility grace period:
+              dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
+              maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
+              and dedicated_emulated_device maps to android_emulator.
 
           extra_headers: Send extra headers
 

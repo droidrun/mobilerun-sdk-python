@@ -292,7 +292,7 @@ class ItemVersion(BaseModel):
 
     size_bytes: Optional[int] = FieldInfo(alias="sizeBytes", default=None)
 
-    source: Literal["user", "system", "portal"]
+    source: Literal["user", "system", "portal", "store"]
 
     status: Literal["queued", "available", "failed"]
 

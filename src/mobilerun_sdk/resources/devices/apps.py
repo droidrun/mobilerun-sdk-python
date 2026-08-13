@@ -149,6 +149,7 @@ class AppsResource(SyncAPIResource):
         device_id: str,
         *,
         bundle_id: str,
+        background: bool | Omit = omit,
         package_name: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -158,13 +159,25 @@ class AppsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Installs an app on the device.
+        """Requests an app install on the device.
 
-        The request body must supply exactly one of an
-        Android packageName or an iOS bundleId; protected packages are rejected.
+        The request body must supply exactly one
+        of an Android packageName or an iOS bundleId; protected packages are rejected.
+        background (default false) selects the response contract: false installs inline
+        and returns the outcome directly (200 on success, an error status on failure);
+        true accepts the request and runs the download + install in the background,
+        returning 202 immediately — poll list-app-installs for the backend's view of
+        that attempt's status. Refuses with 409 once 2 other installs are already
+        running on the device, in either mode; a repeat request for an app that already
+        has an install running is also refused with 409 rather than superseding it —
+        retry once that attempt reaches a terminal state.
 
         Args:
           bundle_id: iOS bundle identifier (e.g. com.example.app)
+
+          background: true: return 202 immediately and install in the background (poll
+              list-app-installs). false/omitted: install inline and return the outcome
+              directly (200 on success, an error status on failure).
 
           package_name: Android package name (e.g. com.example.app)
 
@@ -184,6 +197,7 @@ class AppsResource(SyncAPIResource):
         device_id: str,
         *,
         package_name: str,
+        background: bool | Omit = omit,
         bundle_id: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -193,13 +207,25 @@ class AppsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Installs an app on the device.
+        """Requests an app install on the device.
 
-        The request body must supply exactly one of an
-        Android packageName or an iOS bundleId; protected packages are rejected.
+        The request body must supply exactly one
+        of an Android packageName or an iOS bundleId; protected packages are rejected.
+        background (default false) selects the response contract: false installs inline
+        and returns the outcome directly (200 on success, an error status on failure);
+        true accepts the request and runs the download + install in the background,
+        returning 202 immediately — poll list-app-installs for the backend's view of
+        that attempt's status. Refuses with 409 once 2 other installs are already
+        running on the device, in either mode; a repeat request for an app that already
+        has an install running is also refused with 409 rather than superseding it —
+        retry once that attempt reaches a terminal state.
 
         Args:
           package_name: Android package name (e.g. com.example.app)
+
+          background: true: return 202 immediately and install in the background (poll
+              list-app-installs). false/omitted: install inline and return the outcome
+              directly (200 on success, an error status on failure).
 
           bundle_id: iOS bundle identifier (e.g. com.example.app)
 
@@ -219,6 +245,7 @@ class AppsResource(SyncAPIResource):
         device_id: str,
         *,
         bundle_id: str | Omit = omit,
+        background: bool | Omit = omit,
         package_name: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -242,6 +269,7 @@ class AppsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "bundle_id": bundle_id,
+                    "background": background,
                     "package_name": package_name,
                 },
                 app_install_params.AppInstallParams,
@@ -477,6 +505,7 @@ class AsyncAppsResource(AsyncAPIResource):
         device_id: str,
         *,
         bundle_id: str,
+        background: bool | Omit = omit,
         package_name: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -486,13 +515,25 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Installs an app on the device.
+        """Requests an app install on the device.
 
-        The request body must supply exactly one of an
-        Android packageName or an iOS bundleId; protected packages are rejected.
+        The request body must supply exactly one
+        of an Android packageName or an iOS bundleId; protected packages are rejected.
+        background (default false) selects the response contract: false installs inline
+        and returns the outcome directly (200 on success, an error status on failure);
+        true accepts the request and runs the download + install in the background,
+        returning 202 immediately — poll list-app-installs for the backend's view of
+        that attempt's status. Refuses with 409 once 2 other installs are already
+        running on the device, in either mode; a repeat request for an app that already
+        has an install running is also refused with 409 rather than superseding it —
+        retry once that attempt reaches a terminal state.
 
         Args:
           bundle_id: iOS bundle identifier (e.g. com.example.app)
+
+          background: true: return 202 immediately and install in the background (poll
+              list-app-installs). false/omitted: install inline and return the outcome
+              directly (200 on success, an error status on failure).
 
           package_name: Android package name (e.g. com.example.app)
 
@@ -512,6 +553,7 @@ class AsyncAppsResource(AsyncAPIResource):
         device_id: str,
         *,
         package_name: str,
+        background: bool | Omit = omit,
         bundle_id: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -521,13 +563,25 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Installs an app on the device.
+        """Requests an app install on the device.
 
-        The request body must supply exactly one of an
-        Android packageName or an iOS bundleId; protected packages are rejected.
+        The request body must supply exactly one
+        of an Android packageName or an iOS bundleId; protected packages are rejected.
+        background (default false) selects the response contract: false installs inline
+        and returns the outcome directly (200 on success, an error status on failure);
+        true accepts the request and runs the download + install in the background,
+        returning 202 immediately — poll list-app-installs for the backend's view of
+        that attempt's status. Refuses with 409 once 2 other installs are already
+        running on the device, in either mode; a repeat request for an app that already
+        has an install running is also refused with 409 rather than superseding it —
+        retry once that attempt reaches a terminal state.
 
         Args:
           package_name: Android package name (e.g. com.example.app)
+
+          background: true: return 202 immediately and install in the background (poll
+              list-app-installs). false/omitted: install inline and return the outcome
+              directly (200 on success, an error status on failure).
 
           bundle_id: iOS bundle identifier (e.g. com.example.app)
 
@@ -547,6 +601,7 @@ class AsyncAppsResource(AsyncAPIResource):
         device_id: str,
         *,
         bundle_id: str | Omit = omit,
+        background: bool | Omit = omit,
         package_name: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -570,6 +625,7 @@ class AsyncAppsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "bundle_id": bundle_id,
+                    "background": background,
                     "package_name": package_name,
                 },
                 app_install_params.AppInstallParams,

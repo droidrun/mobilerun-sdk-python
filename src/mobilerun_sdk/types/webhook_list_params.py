@@ -10,6 +10,12 @@ __all__ = ["WebhookListParams"]
 
 
 class WebhookListParams(TypedDict, total=False):
+    created_by: Annotated[str, PropertyInfo(alias="createdBy")]
+    """Only include webhooks created by this actor id. Mutually exclusive with `mine`."""
+
+    mine: Literal["true", "false"]
+    """When true, only include webhooks created by you (not just owned by your org)."""
+
     page: int
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]

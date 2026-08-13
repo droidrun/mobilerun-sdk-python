@@ -73,9 +73,12 @@ class FlowsResource(SyncAPIResource):
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
+        health_monitoring_enabled: bool | Omit = omit,
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        self_healing_enabled: bool | Omit = omit,
+        self_healing_max_attempts: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -110,9 +113,12 @@ class FlowsResource(SyncAPIResource):
                     "description": description,
                     "device_ids": device_ids,
                     "enabled": enabled,
+                    "health_monitoring_enabled": health_monitoring_enabled,
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "self_healing_enabled": self_healing_enabled,
+                    "self_healing_max_attempts": self_healing_max_attempts,
                 },
                 flow_create_params.FlowCreateParams,
             ),
@@ -165,10 +171,13 @@ class FlowsResource(SyncAPIResource):
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
+        health_monitoring_enabled: bool | Omit = omit,
         name: str | Omit = omit,
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        self_healing_enabled: bool | Omit = omit,
+        self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -203,10 +212,13 @@ class FlowsResource(SyncAPIResource):
                     "description": description,
                     "device_ids": device_ids,
                     "enabled": enabled,
+                    "health_monitoring_enabled": health_monitoring_enabled,
                     "name": name,
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "self_healing_enabled": self_healing_enabled,
+                    "self_healing_max_attempts": self_healing_max_attempts,
                     "trigger_id": trigger_id,
                 },
                 flow_update_params.FlowUpdateParams,
@@ -220,7 +232,9 @@ class FlowsResource(SyncAPIResource):
     def list(
         self,
         *,
-        enabled: Optional[bool] | Omit = omit,
+        created_by: str | Omit = omit,
+        enabled: Literal["true", "false"] | Omit = omit,
+        mine: Literal["true", "false"] | Omit = omit,
         order_by: Literal["name", "createdAt", "updatedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
@@ -238,10 +252,15 @@ class FlowsResource(SyncAPIResource):
         """Return a paginated list of flows.
 
         Supports filtering by `triggerId`, `enabled`,
-        and one or more health `status` values (healthy, failing, blocked), plus
-        free-text `search` and ordering.
+        one or more health `status` values (healthy, failing, blocked), `mine` (flows
+        created by the calling actor), `createdBy` (flows created by a given actor id —
+        mutually exclusive with `mine`), plus free-text `search` and ordering.
 
         Args:
+          enabled: Only include flows with this enabled state.
+
+          mine: Only include flows created by you.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -259,7 +278,9 @@ class FlowsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "created_by": created_by,
                         "enabled": enabled,
+                        "mine": mine,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,
@@ -424,9 +445,12 @@ class AsyncFlowsResource(AsyncAPIResource):
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
+        health_monitoring_enabled: bool | Omit = omit,
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        self_healing_enabled: bool | Omit = omit,
+        self_healing_max_attempts: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -461,9 +485,12 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "description": description,
                     "device_ids": device_ids,
                     "enabled": enabled,
+                    "health_monitoring_enabled": health_monitoring_enabled,
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "self_healing_enabled": self_healing_enabled,
+                    "self_healing_max_attempts": self_healing_max_attempts,
                 },
                 flow_create_params.FlowCreateParams,
             ),
@@ -516,10 +543,13 @@ class AsyncFlowsResource(AsyncAPIResource):
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
+        health_monitoring_enabled: bool | Omit = omit,
         name: str | Omit = omit,
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        self_healing_enabled: bool | Omit = omit,
+        self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -554,10 +584,13 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "description": description,
                     "device_ids": device_ids,
                     "enabled": enabled,
+                    "health_monitoring_enabled": health_monitoring_enabled,
                     "name": name,
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "self_healing_enabled": self_healing_enabled,
+                    "self_healing_max_attempts": self_healing_max_attempts,
                     "trigger_id": trigger_id,
                 },
                 flow_update_params.FlowUpdateParams,
@@ -571,7 +604,9 @@ class AsyncFlowsResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        enabled: Optional[bool] | Omit = omit,
+        created_by: str | Omit = omit,
+        enabled: Literal["true", "false"] | Omit = omit,
+        mine: Literal["true", "false"] | Omit = omit,
         order_by: Literal["name", "createdAt", "updatedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
@@ -589,10 +624,15 @@ class AsyncFlowsResource(AsyncAPIResource):
         """Return a paginated list of flows.
 
         Supports filtering by `triggerId`, `enabled`,
-        and one or more health `status` values (healthy, failing, blocked), plus
-        free-text `search` and ordering.
+        one or more health `status` values (healthy, failing, blocked), `mine` (flows
+        created by the calling actor), `createdBy` (flows created by a given actor id —
+        mutually exclusive with `mine`), plus free-text `search` and ordering.
 
         Args:
+          enabled: Only include flows with this enabled state.
+
+          mine: Only include flows created by you.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -610,7 +650,9 @@ class AsyncFlowsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "created_by": created_by,
                         "enabled": enabled,
+                        "mine": mine,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,

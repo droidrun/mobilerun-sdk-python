@@ -59,3 +59,5 @@ class TaskRunParams(TypedDict, total=False):
     vpn_country: Annotated[
         Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]], PropertyInfo(alias="vpnCountry")
     ]
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]

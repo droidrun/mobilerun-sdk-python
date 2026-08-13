@@ -180,7 +180,7 @@ class TestActions:
             order_by_direction="asc",
             page=1,
             page_size=1,
-            search="search",
+            search="x",
             service="tasks_api",
         )
         assert_matches_type(ActionListResponse, action, path=["response"])
@@ -412,7 +412,7 @@ class TestAsyncActions:
             order_by_direction="asc",
             page=1,
             page_size=1,
-            search="search",
+            search="x",
             service="tasks_api",
         )
         assert_matches_type(ActionListResponse, action, path=["response"])

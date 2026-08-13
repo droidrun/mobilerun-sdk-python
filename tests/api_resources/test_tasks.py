@@ -77,6 +77,8 @@ class TestTasks:
     @parametrize
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         task = client.tasks.list(
+            created_by="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            mine=True,
             order_by="id",
             order_by_direction="asc",
             page=1,
@@ -272,6 +274,7 @@ class TestTasks:
             temperature=0,
             vision=True,
             vpn_country="US",
+            idempotency_key="x",
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
 
@@ -518,6 +521,8 @@ class TestAsyncTasks:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.list(
+            created_by="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            mine=True,
             order_by="id",
             order_by_direction="asc",
             page=1,
@@ -713,6 +718,7 @@ class TestAsyncTasks:
             temperature=0,
             vision=True,
             vpn_country="US",
+            idempotency_key="x",
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
 

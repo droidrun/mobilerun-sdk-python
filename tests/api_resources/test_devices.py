@@ -35,7 +35,7 @@ class TestDevices:
         device = client.devices.create(
             billing="auto",
             query_country="country",
-            device_type="dedicated_premium_device",
+            device_type="android_cloud_phone",
             profile_id="profileId",
             android_version=0,
             apps=["string"],
@@ -174,7 +174,7 @@ class TestDevices:
             page_size=0,
             provider_id="providerId",
             state=["creating"],
-            type="dedicated_premium_device",
+            type="android_cloud_phone",
         )
         assert_matches_type(DeviceListResponse, device, path=["response"])
 
@@ -521,7 +521,7 @@ class TestAsyncDevices:
         device = await async_client.devices.create(
             billing="auto",
             query_country="country",
-            device_type="dedicated_premium_device",
+            device_type="android_cloud_phone",
             profile_id="profileId",
             android_version=0,
             apps=["string"],
@@ -660,7 +660,7 @@ class TestAsyncDevices:
             page_size=0,
             provider_id="providerId",
             state=["creating"],
-            type="dedicated_premium_device",
+            type="android_cloud_phone",
         )
         assert_matches_type(DeviceListResponse, device, path=["response"])
 

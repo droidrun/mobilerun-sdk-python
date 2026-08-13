@@ -149,6 +149,7 @@ class TestApps:
         app = client.devices.apps.install(
             device_id="deviceId",
             bundle_id="x",
+            background=True,
             package_name="x",
             x_device_display_id=0,
         )
@@ -206,6 +207,7 @@ class TestApps:
         app = client.devices.apps.install(
             device_id="deviceId",
             package_name="x",
+            background=True,
             bundle_id="x",
             x_device_display_id=0,
         )
@@ -510,6 +512,7 @@ class TestAsyncApps:
         app = await async_client.devices.apps.install(
             device_id="deviceId",
             bundle_id="x",
+            background=True,
             package_name="x",
             x_device_display_id=0,
         )
@@ -567,6 +570,7 @@ class TestAsyncApps:
         app = await async_client.devices.apps.install(
             device_id="deviceId",
             package_name="x",
+            background=True,
             bundle_id="x",
             x_device_display_id=0,
         )
