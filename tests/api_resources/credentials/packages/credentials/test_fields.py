@@ -2,24 +2,27 @@
 
 from __future__ import annotations
 
-import os
-from typing import Any, cast
-
-import pytest
-
-from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
-from mobilerun_sdk.types.credentials.packages.credentials import (
-    FieldCreateResponse,
-    FieldDeleteResponse,
-    FieldUpdateResponse,
-)
+
+from mobilerun_sdk.types.credentials.packages.credentials import FieldCreateResponse, FieldUpdateResponse, FieldDeleteResponse
+
+from typing import cast, Any
+
+import os
+import pytest
+import httpx
+from typing_extensions import get_args
+from respx import MockRouter
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from tests.utils import assert_matches_type
+from mobilerun_sdk.types.credentials.packages.credentials import field_create_params
+from mobilerun_sdk.types.credentials.packages.credentials import field_update_params
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
-
 class TestFields:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=['loose', 'strict'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -30,11 +33,12 @@ class TestFields:
             field_type="email",
             value="x",
         )
-        assert_matches_type(FieldCreateResponse, field, path=["response"])
+        assert_matches_type(FieldCreateResponse, field, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Mobilerun) -> None:
+
         response = client.credentials.packages.credentials.fields.with_raw_response.create(
             credential_name="26f1kl_-n-71",
             package_name="x",
@@ -43,9 +47,9 @@ class TestFields:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         field = response.parse()
-        assert_matches_type(FieldCreateResponse, field, path=["response"])
+        assert_matches_type(FieldCreateResponse, field, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -55,12 +59,12 @@ class TestFields:
             package_name="x",
             field_type="email",
             value="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             field = response.parse()
-            assert_matches_type(FieldCreateResponse, field, path=["response"])
+            assert_matches_type(FieldCreateResponse, field, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -68,20 +72,20 @@ class TestFields:
     @parametrize
     def test_path_params_create(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
-            client.credentials.packages.credentials.fields.with_raw_response.create(
-                credential_name="26f1kl_-n-71",
-                package_name="",
-                field_type="email",
-                value="x",
-            )
+          client.credentials.packages.credentials.fields.with_raw_response.create(
+              credential_name="26f1kl_-n-71",
+              package_name="",
+              field_type="email",
+              value="x",
+          )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
-            client.credentials.packages.credentials.fields.with_raw_response.create(
-                credential_name="",
-                package_name="x",
-                field_type="email",
-                value="x",
-            )
+          client.credentials.packages.credentials.fields.with_raw_response.create(
+              credential_name="",
+              package_name="x",
+              field_type="email",
+              value="x",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -92,11 +96,12 @@ class TestFields:
             credential_name="26f1kl_-n-71",
             value="x",
         )
-        assert_matches_type(FieldUpdateResponse, field, path=["response"])
+        assert_matches_type(FieldUpdateResponse, field, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: Mobilerun) -> None:
+
         response = client.credentials.packages.credentials.fields.with_raw_response.update(
             field_type="email",
             package_name="x",
@@ -105,9 +110,9 @@ class TestFields:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         field = response.parse()
-        assert_matches_type(FieldUpdateResponse, field, path=["response"])
+        assert_matches_type(FieldUpdateResponse, field, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -117,12 +122,12 @@ class TestFields:
             package_name="x",
             credential_name="26f1kl_-n-71",
             value="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             field = response.parse()
-            assert_matches_type(FieldUpdateResponse, field, path=["response"])
+            assert_matches_type(FieldUpdateResponse, field, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -130,20 +135,20 @@ class TestFields:
     @parametrize
     def test_path_params_update(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
-            client.credentials.packages.credentials.fields.with_raw_response.update(
-                field_type="email",
-                package_name="",
-                credential_name="26f1kl_-n-71",
-                value="x",
-            )
+          client.credentials.packages.credentials.fields.with_raw_response.update(
+              field_type="email",
+              package_name="",
+              credential_name="26f1kl_-n-71",
+              value="x",
+          )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
-            client.credentials.packages.credentials.fields.with_raw_response.update(
-                field_type="email",
-                package_name="x",
-                credential_name="",
-                value="x",
-            )
+          client.credentials.packages.credentials.fields.with_raw_response.update(
+              field_type="email",
+              package_name="x",
+              credential_name="",
+              value="x",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -153,11 +158,12 @@ class TestFields:
             package_name="x",
             credential_name="26f1kl_-n-71",
         )
-        assert_matches_type(FieldDeleteResponse, field, path=["response"])
+        assert_matches_type(FieldDeleteResponse, field, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Mobilerun) -> None:
+
         response = client.credentials.packages.credentials.fields.with_raw_response.delete(
             field_type="email",
             package_name="x",
@@ -165,9 +171,9 @@ class TestFields:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         field = response.parse()
-        assert_matches_type(FieldDeleteResponse, field, path=["response"])
+        assert_matches_type(FieldDeleteResponse, field, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -176,12 +182,12 @@ class TestFields:
             field_type="email",
             package_name="x",
             credential_name="26f1kl_-n-71",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             field = response.parse()
-            assert_matches_type(FieldDeleteResponse, field, path=["response"])
+            assert_matches_type(FieldDeleteResponse, field, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -189,24 +195,21 @@ class TestFields:
     @parametrize
     def test_path_params_delete(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
-            client.credentials.packages.credentials.fields.with_raw_response.delete(
-                field_type="email",
-                package_name="",
-                credential_name="26f1kl_-n-71",
-            )
+          client.credentials.packages.credentials.fields.with_raw_response.delete(
+              field_type="email",
+              package_name="",
+              credential_name="26f1kl_-n-71",
+          )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
-            client.credentials.packages.credentials.fields.with_raw_response.delete(
-                field_type="email",
-                package_name="x",
-                credential_name="",
-            )
-
-
+          client.credentials.packages.credentials.fields.with_raw_response.delete(
+              field_type="email",
+              package_name="x",
+              credential_name="",
+          )
 class TestAsyncFields:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True, {'http_client': 'aiohttp'}], indirect=True, ids=['loose', 'strict', 'aiohttp'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -217,11 +220,12 @@ class TestAsyncFields:
             field_type="email",
             value="x",
         )
-        assert_matches_type(FieldCreateResponse, field, path=["response"])
+        assert_matches_type(FieldCreateResponse, field, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.credentials.packages.credentials.fields.with_raw_response.create(
             credential_name="26f1kl_-n-71",
             package_name="x",
@@ -230,9 +234,9 @@ class TestAsyncFields:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         field = await response.parse()
-        assert_matches_type(FieldCreateResponse, field, path=["response"])
+        assert_matches_type(FieldCreateResponse, field, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -242,12 +246,12 @@ class TestAsyncFields:
             package_name="x",
             field_type="email",
             value="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             field = await response.parse()
-            assert_matches_type(FieldCreateResponse, field, path=["response"])
+            assert_matches_type(FieldCreateResponse, field, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -255,20 +259,20 @@ class TestAsyncFields:
     @parametrize
     async def test_path_params_create(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
-            await async_client.credentials.packages.credentials.fields.with_raw_response.create(
-                credential_name="26f1kl_-n-71",
-                package_name="",
-                field_type="email",
-                value="x",
-            )
+          await async_client.credentials.packages.credentials.fields.with_raw_response.create(
+              credential_name="26f1kl_-n-71",
+              package_name="",
+              field_type="email",
+              value="x",
+          )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
-            await async_client.credentials.packages.credentials.fields.with_raw_response.create(
-                credential_name="",
-                package_name="x",
-                field_type="email",
-                value="x",
-            )
+          await async_client.credentials.packages.credentials.fields.with_raw_response.create(
+              credential_name="",
+              package_name="x",
+              field_type="email",
+              value="x",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -279,11 +283,12 @@ class TestAsyncFields:
             credential_name="26f1kl_-n-71",
             value="x",
         )
-        assert_matches_type(FieldUpdateResponse, field, path=["response"])
+        assert_matches_type(FieldUpdateResponse, field, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.credentials.packages.credentials.fields.with_raw_response.update(
             field_type="email",
             package_name="x",
@@ -292,9 +297,9 @@ class TestAsyncFields:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         field = await response.parse()
-        assert_matches_type(FieldUpdateResponse, field, path=["response"])
+        assert_matches_type(FieldUpdateResponse, field, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -304,12 +309,12 @@ class TestAsyncFields:
             package_name="x",
             credential_name="26f1kl_-n-71",
             value="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             field = await response.parse()
-            assert_matches_type(FieldUpdateResponse, field, path=["response"])
+            assert_matches_type(FieldUpdateResponse, field, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -317,20 +322,20 @@ class TestAsyncFields:
     @parametrize
     async def test_path_params_update(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
-            await async_client.credentials.packages.credentials.fields.with_raw_response.update(
-                field_type="email",
-                package_name="",
-                credential_name="26f1kl_-n-71",
-                value="x",
-            )
+          await async_client.credentials.packages.credentials.fields.with_raw_response.update(
+              field_type="email",
+              package_name="",
+              credential_name="26f1kl_-n-71",
+              value="x",
+          )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
-            await async_client.credentials.packages.credentials.fields.with_raw_response.update(
-                field_type="email",
-                package_name="x",
-                credential_name="",
-                value="x",
-            )
+          await async_client.credentials.packages.credentials.fields.with_raw_response.update(
+              field_type="email",
+              package_name="x",
+              credential_name="",
+              value="x",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -340,11 +345,12 @@ class TestAsyncFields:
             package_name="x",
             credential_name="26f1kl_-n-71",
         )
-        assert_matches_type(FieldDeleteResponse, field, path=["response"])
+        assert_matches_type(FieldDeleteResponse, field, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.credentials.packages.credentials.fields.with_raw_response.delete(
             field_type="email",
             package_name="x",
@@ -352,9 +358,9 @@ class TestAsyncFields:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         field = await response.parse()
-        assert_matches_type(FieldDeleteResponse, field, path=["response"])
+        assert_matches_type(FieldDeleteResponse, field, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -363,12 +369,12 @@ class TestAsyncFields:
             field_type="email",
             package_name="x",
             credential_name="26f1kl_-n-71",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             field = await response.parse()
-            assert_matches_type(FieldDeleteResponse, field, path=["response"])
+            assert_matches_type(FieldDeleteResponse, field, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -376,15 +382,15 @@ class TestAsyncFields:
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
-            await async_client.credentials.packages.credentials.fields.with_raw_response.delete(
-                field_type="email",
-                package_name="",
-                credential_name="26f1kl_-n-71",
-            )
+          await async_client.credentials.packages.credentials.fields.with_raw_response.delete(
+              field_type="email",
+              package_name="",
+              credential_name="26f1kl_-n-71",
+          )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
-            await async_client.credentials.packages.credentials.fields.with_raw_response.delete(
-                field_type="email",
-                package_name="x",
-                credential_name="",
-            )
+          await async_client.credentials.packages.credentials.fields.with_raw_response.delete(
+              field_type="email",
+              package_name="x",
+              credential_name="",
+          )

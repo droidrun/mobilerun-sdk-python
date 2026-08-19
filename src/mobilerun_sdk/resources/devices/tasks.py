@@ -2,26 +2,29 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal
-
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
-from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ..._base_client import make_request_options
-from ...types.devices import task_list_params
+
+from ..._compat import cached_property
+
+from ..._utils import path_template, maybe_transform, async_maybe_transform
+
 from ...types.devices.task_list_response import TaskListResponse
 
-__all__ = ["TasksResource", "AsyncTasksResource"]
+from ..._base_client import make_request_options
 
+from typing_extensions import Literal
+
+from ..._types import Omit, omit, NotGiven
+
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ...types.devices import task_list_params
+
+__all__ = ["TasksResource", "AsyncTasksResource"]
 
 class TasksResource(SyncAPIResource):
     @cached_property
@@ -43,21 +46,19 @@ class TasksResource(SyncAPIResource):
         """
         return TasksResourceWithStreamingResponse(self)
 
-    def list(
-        self,
-        device_id: str,
-        *,
-        order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
-        order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TaskListResponse:
+    def list(self,
+    device_id: str,
+    *,
+    order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
+    order_by_direction: Literal["asc", "desc"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TaskListResponse:
         """
         Returns a paginated list of tasks that have run on the device, along with
         pagination metadata.
@@ -72,27 +73,19 @@ class TasksResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `device_id` but received {device_id!r}'
+          )
         return self._get(
             path_template("/devices/{device_id}/tasks", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "order_by": order_by,
-                        "order_by_direction": order_by_direction,
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                    task_list_params.TaskListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "order_by": order_by,
+                "order_by_direction": order_by_direction,
+                "page": page,
+                "page_size": page_size,
+            }, task_list_params.TaskListParams)),
             cast_to=TaskListResponse,
         )
-
 
 class AsyncTasksResource(AsyncAPIResource):
     @cached_property
@@ -114,21 +107,19 @@ class AsyncTasksResource(AsyncAPIResource):
         """
         return AsyncTasksResourceWithStreamingResponse(self)
 
-    async def list(
-        self,
-        device_id: str,
-        *,
-        order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
-        order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TaskListResponse:
+    async def list(self,
+    device_id: str,
+    *,
+    order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
+    order_by_direction: Literal["asc", "desc"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TaskListResponse:
         """
         Returns a paginated list of tasks that have run on the device, along with
         pagination metadata.
@@ -143,27 +134,19 @@ class AsyncTasksResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `device_id` but received {device_id!r}'
+          )
         return await self._get(
             path_template("/devices/{device_id}/tasks", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "order_by": order_by,
-                        "order_by_direction": order_by_direction,
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                    task_list_params.TaskListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "order_by": order_by,
+                "order_by_direction": order_by_direction,
+                "page": page,
+                "page_size": page_size,
+            }, task_list_params.TaskListParams)),
             cast_to=TaskListResponse,
         )
-
 
 class TasksResourceWithRawResponse:
     def __init__(self, tasks: TasksResource) -> None:
@@ -173,7 +156,6 @@ class TasksResourceWithRawResponse:
             tasks.list,
         )
 
-
 class AsyncTasksResourceWithRawResponse:
     def __init__(self, tasks: AsyncTasksResource) -> None:
         self._tasks = tasks
@@ -182,7 +164,6 @@ class AsyncTasksResourceWithRawResponse:
             tasks.list,
         )
 
-
 class TasksResourceWithStreamingResponse:
     def __init__(self, tasks: TasksResource) -> None:
         self._tasks = tasks
@@ -190,7 +171,6 @@ class TasksResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             tasks.list,
         )
-
 
 class AsyncTasksResourceWithStreamingResponse:
     def __init__(self, tasks: AsyncTasksResource) -> None:

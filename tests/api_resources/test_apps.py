@@ -2,28 +2,27 @@
 
 from __future__ import annotations
 
-import os
-from typing import Any, cast
-
-import pytest
-
-from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
-from mobilerun_sdk.types import (
-    AppListResponse,
-    AppDeleteResponse,
-    AppRetrieveResponse,
-    AppMarkFailedResponse,
-    AppListVersionsResponse,
-    AppConfirmUploadResponse,
-    AppCreateSignedUploadURLResponse,
-)
+
+from mobilerun_sdk.types import AppRetrieveResponse, AppListResponse, AppDeleteResponse, AppConfirmUploadResponse, AppCreateSignedUploadURLResponse, AppListVersionsResponse, AppMarkFailedResponse, AppStorageUsageResponse
+
+from typing import cast, Any
+
+import os
+import pytest
+import httpx
+from typing_extensions import get_args
+from respx import MockRouter
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from tests.utils import assert_matches_type
+from mobilerun_sdk.types import app_list_params
+from mobilerun_sdk.types import app_create_signed_upload_url_params
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
-
 class TestApps:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=['loose', 'strict'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -31,31 +30,32 @@ class TestApps:
         app = client.apps.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(AppRetrieveResponse, app, path=["response"])
+        assert_matches_type(AppRetrieveResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Mobilerun) -> None:
+
         response = client.apps.with_raw_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = response.parse()
-        assert_matches_type(AppRetrieveResponse, app, path=["response"])
+        assert_matches_type(AppRetrieveResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Mobilerun) -> None:
         with client.apps.with_streaming_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = response.parse()
-            assert_matches_type(AppRetrieveResponse, app, path=["response"])
+            assert_matches_type(AppRetrieveResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -63,15 +63,15 @@ class TestApps:
     @parametrize
     def test_path_params_retrieve(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.apps.with_raw_response.retrieve(
-                "",
-            )
+          client.apps.with_raw_response.retrieve(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Mobilerun) -> None:
         app = client.apps.list()
-        assert_matches_type(AppListResponse, app, path=["response"])
+        assert_matches_type(AppListResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -85,27 +85,28 @@ class TestApps:
             sort_by="createdAt",
             status="all",
         )
-        assert_matches_type(AppListResponse, app, path=["response"])
+        assert_matches_type(AppListResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Mobilerun) -> None:
+
         response = client.apps.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = response.parse()
-        assert_matches_type(AppListResponse, app, path=["response"])
+        assert_matches_type(AppListResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Mobilerun) -> None:
-        with client.apps.with_streaming_response.list() as response:
+        with client.apps.with_streaming_response.list() as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = response.parse()
-            assert_matches_type(AppListResponse, app, path=["response"])
+            assert_matches_type(AppListResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -115,31 +116,32 @@ class TestApps:
         app = client.apps.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(AppDeleteResponse, app, path=["response"])
+        assert_matches_type(AppDeleteResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Mobilerun) -> None:
+
         response = client.apps.with_raw_response.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = response.parse()
-        assert_matches_type(AppDeleteResponse, app, path=["response"])
+        assert_matches_type(AppDeleteResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Mobilerun) -> None:
         with client.apps.with_streaming_response.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = response.parse()
-            assert_matches_type(AppDeleteResponse, app, path=["response"])
+            assert_matches_type(AppDeleteResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -147,9 +149,9 @@ class TestApps:
     @parametrize
     def test_path_params_delete(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.apps.with_raw_response.delete(
-                "",
-            )
+          client.apps.with_raw_response.delete(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -157,31 +159,32 @@ class TestApps:
         app = client.apps.confirm_upload(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(AppConfirmUploadResponse, app, path=["response"])
+        assert_matches_type(AppConfirmUploadResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_confirm_upload(self, client: Mobilerun) -> None:
+
         response = client.apps.with_raw_response.confirm_upload(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = response.parse()
-        assert_matches_type(AppConfirmUploadResponse, app, path=["response"])
+        assert_matches_type(AppConfirmUploadResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_confirm_upload(self, client: Mobilerun) -> None:
         with client.apps.with_streaming_response.confirm_upload(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = response.parse()
-            assert_matches_type(AppConfirmUploadResponse, app, path=["response"])
+            assert_matches_type(AppConfirmUploadResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -189,9 +192,9 @@ class TestApps:
     @parametrize
     def test_path_params_confirm_upload(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.apps.with_raw_response.confirm_upload(
-                "",
-            )
+          client.apps.with_raw_response.confirm_upload(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -199,16 +202,14 @@ class TestApps:
         app = client.apps.create_signed_upload_url(
             bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
-            files=[
-                {
-                    "content_type": "application/vnd.android.package-archive",
-                    "file_name": "J!Q0Ok0bzJb7.apk/i",
-                }
-            ],
+            files=[{
+                "content_type": "application/vnd.android.package-archive",
+                "file_name": "J!Q0Ok0bzJb7.apk/i",
+            }],
             version_code=0,
             version_name="x",
         )
-        assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
+        assert_matches_type(AppCreateSignedUploadURLResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -216,13 +217,11 @@ class TestApps:
         app = client.apps.create_signed_upload_url(
             bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
-            files=[
-                {
-                    "content_type": "application/vnd.android.package-archive",
-                    "file_name": "J!Q0Ok0bzJb7.apk/i",
-                    "sha256": "210b9798eb53baa4e69d31c1071cf03d212b8ad0ca30cf321e0ea82e120aac26/i",
-                }
-            ],
+            files=[{
+                "content_type": "application/vnd.android.package-archive",
+                "file_name": "J!Q0Ok0bzJb7.apk/i",
+                "sha256": "210b9798eb53baa4e69d31c1071cf03d212b8ad0ca30cf321e0ea82e120aac26/i",
+            }],
             version_code=0,
             version_name="x",
             country="US",
@@ -232,28 +231,27 @@ class TestApps:
             platform="android",
             target_sdk=0,
         )
-        assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
+        assert_matches_type(AppCreateSignedUploadURLResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_signed_upload_url(self, client: Mobilerun) -> None:
+
         response = client.apps.with_raw_response.create_signed_upload_url(
             bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
-            files=[
-                {
-                    "content_type": "application/vnd.android.package-archive",
-                    "file_name": "J!Q0Ok0bzJb7.apk/i",
-                }
-            ],
+            files=[{
+                "content_type": "application/vnd.android.package-archive",
+                "file_name": "J!Q0Ok0bzJb7.apk/i",
+            }],
             version_code=0,
             version_name="x",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = response.parse()
-        assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
+        assert_matches_type(AppCreateSignedUploadURLResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -261,20 +259,18 @@ class TestApps:
         with client.apps.with_streaming_response.create_signed_upload_url(
             bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
-            files=[
-                {
-                    "content_type": "application/vnd.android.package-archive",
-                    "file_name": "J!Q0Ok0bzJb7.apk/i",
-                }
-            ],
+            files=[{
+                "content_type": "application/vnd.android.package-archive",
+                "file_name": "J!Q0Ok0bzJb7.apk/i",
+            }],
             version_code=0,
             version_name="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = response.parse()
-            assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
+            assert_matches_type(AppCreateSignedUploadURLResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -284,31 +280,32 @@ class TestApps:
         app = client.apps.list_versions(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(AppListVersionsResponse, app, path=["response"])
+        assert_matches_type(AppListVersionsResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list_versions(self, client: Mobilerun) -> None:
+
         response = client.apps.with_raw_response.list_versions(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = response.parse()
-        assert_matches_type(AppListVersionsResponse, app, path=["response"])
+        assert_matches_type(AppListVersionsResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list_versions(self, client: Mobilerun) -> None:
         with client.apps.with_streaming_response.list_versions(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = response.parse()
-            assert_matches_type(AppListVersionsResponse, app, path=["response"])
+            assert_matches_type(AppListVersionsResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -316,9 +313,9 @@ class TestApps:
     @parametrize
     def test_path_params_list_versions(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.apps.with_raw_response.list_versions(
-                "",
-            )
+          client.apps.with_raw_response.list_versions(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -326,31 +323,32 @@ class TestApps:
         app = client.apps.mark_failed(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(AppMarkFailedResponse, app, path=["response"])
+        assert_matches_type(AppMarkFailedResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_mark_failed(self, client: Mobilerun) -> None:
+
         response = client.apps.with_raw_response.mark_failed(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = response.parse()
-        assert_matches_type(AppMarkFailedResponse, app, path=["response"])
+        assert_matches_type(AppMarkFailedResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_mark_failed(self, client: Mobilerun) -> None:
         with client.apps.with_streaming_response.mark_failed(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = response.parse()
-            assert_matches_type(AppMarkFailedResponse, app, path=["response"])
+            assert_matches_type(AppMarkFailedResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -358,15 +356,41 @@ class TestApps:
     @parametrize
     def test_path_params_mark_failed(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.apps.with_raw_response.mark_failed(
-                "",
-            )
+          client.apps.with_raw_response.mark_failed(
+              "",
+          )
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_storage_usage(self, client: Mobilerun) -> None:
+        app = client.apps.storage_usage()
+        assert_matches_type(AppStorageUsageResponse, app, path=['response'])
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_storage_usage(self, client: Mobilerun) -> None:
+
+        response = client.apps.with_raw_response.storage_usage()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
+        app = response.parse()
+        assert_matches_type(AppStorageUsageResponse, app, path=['response'])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_storage_usage(self, client: Mobilerun) -> None:
+        with client.apps.with_streaming_response.storage_usage() as response :
+            assert not response.is_closed
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
+
+            app = response.parse()
+            assert_matches_type(AppStorageUsageResponse, app, path=['response'])
+
+        assert cast(Any, response.is_closed) is True
 class TestAsyncApps:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True, {'http_client': 'aiohttp'}], indirect=True, ids=['loose', 'strict', 'aiohttp'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -374,31 +398,32 @@ class TestAsyncApps:
         app = await async_client.apps.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(AppRetrieveResponse, app, path=["response"])
+        assert_matches_type(AppRetrieveResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.apps.with_raw_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = await response.parse()
-        assert_matches_type(AppRetrieveResponse, app, path=["response"])
+        assert_matches_type(AppRetrieveResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         async with async_client.apps.with_streaming_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = await response.parse()
-            assert_matches_type(AppRetrieveResponse, app, path=["response"])
+            assert_matches_type(AppRetrieveResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -406,15 +431,15 @@ class TestAsyncApps:
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.apps.with_raw_response.retrieve(
-                "",
-            )
+          await async_client.apps.with_raw_response.retrieve(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncMobilerun) -> None:
         app = await async_client.apps.list()
-        assert_matches_type(AppListResponse, app, path=["response"])
+        assert_matches_type(AppListResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -428,27 +453,28 @@ class TestAsyncApps:
             sort_by="createdAt",
             status="all",
         )
-        assert_matches_type(AppListResponse, app, path=["response"])
+        assert_matches_type(AppListResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.apps.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = await response.parse()
-        assert_matches_type(AppListResponse, app, path=["response"])
+        assert_matches_type(AppListResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.apps.with_streaming_response.list() as response:
+        async with async_client.apps.with_streaming_response.list() as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = await response.parse()
-            assert_matches_type(AppListResponse, app, path=["response"])
+            assert_matches_type(AppListResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -458,31 +484,32 @@ class TestAsyncApps:
         app = await async_client.apps.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(AppDeleteResponse, app, path=["response"])
+        assert_matches_type(AppDeleteResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.apps.with_raw_response.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = await response.parse()
-        assert_matches_type(AppDeleteResponse, app, path=["response"])
+        assert_matches_type(AppDeleteResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncMobilerun) -> None:
         async with async_client.apps.with_streaming_response.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = await response.parse()
-            assert_matches_type(AppDeleteResponse, app, path=["response"])
+            assert_matches_type(AppDeleteResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -490,9 +517,9 @@ class TestAsyncApps:
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.apps.with_raw_response.delete(
-                "",
-            )
+          await async_client.apps.with_raw_response.delete(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -500,31 +527,32 @@ class TestAsyncApps:
         app = await async_client.apps.confirm_upload(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(AppConfirmUploadResponse, app, path=["response"])
+        assert_matches_type(AppConfirmUploadResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_confirm_upload(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.apps.with_raw_response.confirm_upload(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = await response.parse()
-        assert_matches_type(AppConfirmUploadResponse, app, path=["response"])
+        assert_matches_type(AppConfirmUploadResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_confirm_upload(self, async_client: AsyncMobilerun) -> None:
         async with async_client.apps.with_streaming_response.confirm_upload(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = await response.parse()
-            assert_matches_type(AppConfirmUploadResponse, app, path=["response"])
+            assert_matches_type(AppConfirmUploadResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -532,9 +560,9 @@ class TestAsyncApps:
     @parametrize
     async def test_path_params_confirm_upload(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.apps.with_raw_response.confirm_upload(
-                "",
-            )
+          await async_client.apps.with_raw_response.confirm_upload(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -542,16 +570,14 @@ class TestAsyncApps:
         app = await async_client.apps.create_signed_upload_url(
             bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
-            files=[
-                {
-                    "content_type": "application/vnd.android.package-archive",
-                    "file_name": "J!Q0Ok0bzJb7.apk/i",
-                }
-            ],
+            files=[{
+                "content_type": "application/vnd.android.package-archive",
+                "file_name": "J!Q0Ok0bzJb7.apk/i",
+            }],
             version_code=0,
             version_name="x",
         )
-        assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
+        assert_matches_type(AppCreateSignedUploadURLResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -559,13 +585,11 @@ class TestAsyncApps:
         app = await async_client.apps.create_signed_upload_url(
             bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
-            files=[
-                {
-                    "content_type": "application/vnd.android.package-archive",
-                    "file_name": "J!Q0Ok0bzJb7.apk/i",
-                    "sha256": "210b9798eb53baa4e69d31c1071cf03d212b8ad0ca30cf321e0ea82e120aac26/i",
-                }
-            ],
+            files=[{
+                "content_type": "application/vnd.android.package-archive",
+                "file_name": "J!Q0Ok0bzJb7.apk/i",
+                "sha256": "210b9798eb53baa4e69d31c1071cf03d212b8ad0ca30cf321e0ea82e120aac26/i",
+            }],
             version_code=0,
             version_name="x",
             country="US",
@@ -575,28 +599,27 @@ class TestAsyncApps:
             platform="android",
             target_sdk=0,
         )
-        assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
+        assert_matches_type(AppCreateSignedUploadURLResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_signed_upload_url(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.apps.with_raw_response.create_signed_upload_url(
             bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
-            files=[
-                {
-                    "content_type": "application/vnd.android.package-archive",
-                    "file_name": "J!Q0Ok0bzJb7.apk/i",
-                }
-            ],
+            files=[{
+                "content_type": "application/vnd.android.package-archive",
+                "file_name": "J!Q0Ok0bzJb7.apk/i",
+            }],
             version_code=0,
             version_name="x",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = await response.parse()
-        assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
+        assert_matches_type(AppCreateSignedUploadURLResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -604,20 +627,18 @@ class TestAsyncApps:
         async with async_client.apps.with_streaming_response.create_signed_upload_url(
             bundle_id="NX0.JB-_-.m-u--_-p.Z1-u_2I.D--_T-_.dzZ-.Wx.L_a8--_.w_D_",
             display_name="x",
-            files=[
-                {
-                    "content_type": "application/vnd.android.package-archive",
-                    "file_name": "J!Q0Ok0bzJb7.apk/i",
-                }
-            ],
+            files=[{
+                "content_type": "application/vnd.android.package-archive",
+                "file_name": "J!Q0Ok0bzJb7.apk/i",
+            }],
             version_code=0,
             version_name="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = await response.parse()
-            assert_matches_type(AppCreateSignedUploadURLResponse, app, path=["response"])
+            assert_matches_type(AppCreateSignedUploadURLResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -627,31 +648,32 @@ class TestAsyncApps:
         app = await async_client.apps.list_versions(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(AppListVersionsResponse, app, path=["response"])
+        assert_matches_type(AppListVersionsResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list_versions(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.apps.with_raw_response.list_versions(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = await response.parse()
-        assert_matches_type(AppListVersionsResponse, app, path=["response"])
+        assert_matches_type(AppListVersionsResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list_versions(self, async_client: AsyncMobilerun) -> None:
         async with async_client.apps.with_streaming_response.list_versions(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = await response.parse()
-            assert_matches_type(AppListVersionsResponse, app, path=["response"])
+            assert_matches_type(AppListVersionsResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -659,9 +681,9 @@ class TestAsyncApps:
     @parametrize
     async def test_path_params_list_versions(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.apps.with_raw_response.list_versions(
-                "",
-            )
+          await async_client.apps.with_raw_response.list_versions(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -669,31 +691,32 @@ class TestAsyncApps:
         app = await async_client.apps.mark_failed(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(AppMarkFailedResponse, app, path=["response"])
+        assert_matches_type(AppMarkFailedResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_mark_failed(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.apps.with_raw_response.mark_failed(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         app = await response.parse()
-        assert_matches_type(AppMarkFailedResponse, app, path=["response"])
+        assert_matches_type(AppMarkFailedResponse, app, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_mark_failed(self, async_client: AsyncMobilerun) -> None:
         async with async_client.apps.with_streaming_response.mark_failed(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             app = await response.parse()
-            assert_matches_type(AppMarkFailedResponse, app, path=["response"])
+            assert_matches_type(AppMarkFailedResponse, app, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -701,6 +724,35 @@ class TestAsyncApps:
     @parametrize
     async def test_path_params_mark_failed(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.apps.with_raw_response.mark_failed(
-                "",
-            )
+          await async_client.apps.with_raw_response.mark_failed(
+              "",
+          )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_storage_usage(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.apps.storage_usage()
+        assert_matches_type(AppStorageUsageResponse, app, path=['response'])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_storage_usage(self, async_client: AsyncMobilerun) -> None:
+
+        response = await async_client.apps.with_raw_response.storage_usage()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
+        app = await response.parse()
+        assert_matches_type(AppStorageUsageResponse, app, path=['response'])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_storage_usage(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.apps.with_streaming_response.storage_usage() as response :
+            assert not response.is_closed
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
+
+            app = await response.parse()
+            assert_matches_type(AppStorageUsageResponse, app, path=['response'])
+
+        assert cast(Any, response.is_closed) is True

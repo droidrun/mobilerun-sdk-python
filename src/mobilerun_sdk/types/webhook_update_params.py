@@ -2,14 +2,15 @@
 
 from __future__ import annotations
 
+from typing_extensions import TypedDict, Annotated, Literal
+
 from typing import Optional
-from typing_extensions import Literal, Annotated, TypedDict
 
 from .._types import SequenceNotStr
+
 from .._utils import PropertyInfo
 
 __all__ = ["WebhookUpdateParams"]
-
 
 class WebhookUpdateParams(TypedDict, total=False):
     description: Optional[str]

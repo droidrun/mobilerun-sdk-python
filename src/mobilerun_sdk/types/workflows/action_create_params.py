@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Dict
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Required
 
 from ..._utils import PropertyInfo
 
-__all__ = ["ActionCreateParams"]
+from typing import Dict
 
+__all__ = ["ActionCreateParams"]
 
 class ActionCreateParams(TypedDict, total=False):
     catalog_entry_id: Required[Annotated[str, PropertyInfo(alias="catalogEntryId")]]

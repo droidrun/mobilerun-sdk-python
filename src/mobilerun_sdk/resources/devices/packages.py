@@ -2,26 +2,29 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
-from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ..._base_client import make_request_options
-from ...types.devices import package_list_params
+
+from ..._compat import cached_property
+
+from ..._utils import path_template, strip_not_given, is_given, maybe_transform, async_maybe_transform
+
 from ...types.devices.package_list_response import PackageListResponse
 
-__all__ = ["PackagesResource", "AsyncPackagesResource"]
+from ..._types import not_given, Omit, omit, NotGiven
 
+from ..._base_client import make_request_options
+
+from typing import Optional
+
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ...types.devices import package_list_params
+
+__all__ = ["PackagesResource", "AsyncPackagesResource"]
 
 class PackagesResource(SyncAPIResource):
     @cached_property
@@ -43,20 +46,18 @@ class PackagesResource(SyncAPIResource):
         """
         return PackagesResourceWithStreamingResponse(self)
 
-    def list(
-        self,
-        device_id: str,
-        *,
-        include_protected_packages: bool | Omit = omit,
-        include_system_packages: bool | Omit = omit,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Optional[PackageListResponse]:
+    def list(self,
+    device_id: str,
+    *,
+    include_protected_packages: bool | Omit = omit,
+    include_system_packages: bool | Omit = omit,
+    x_device_display_id: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> Optional[PackageListResponse]:
         """Returns the package names of apps installed on the device.
 
         System and protected
@@ -72,31 +73,20 @@ class PackagesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
+          raise ValueError(
+            f'Expected a non-empty value for `device_id` but received {device_id!r}'
+          )
+        extra_headers = { **strip_not_given({
+            "X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given
+        }), **(extra_headers or {}) }
         return self._get(
             path_template("/devices/{device_id}/packages", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "include_protected_packages": include_protected_packages,
-                        "include_system_packages": include_system_packages,
-                    },
-                    package_list_params.PackageListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "include_protected_packages": include_protected_packages,
+                "include_system_packages": include_system_packages,
+            }, package_list_params.PackageListParams)),
             cast_to=PackageListResponse,
         )
-
 
 class AsyncPackagesResource(AsyncAPIResource):
     @cached_property
@@ -118,20 +108,18 @@ class AsyncPackagesResource(AsyncAPIResource):
         """
         return AsyncPackagesResourceWithStreamingResponse(self)
 
-    async def list(
-        self,
-        device_id: str,
-        *,
-        include_protected_packages: bool | Omit = omit,
-        include_system_packages: bool | Omit = omit,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Optional[PackageListResponse]:
+    async def list(self,
+    device_id: str,
+    *,
+    include_protected_packages: bool | Omit = omit,
+    include_system_packages: bool | Omit = omit,
+    x_device_display_id: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> Optional[PackageListResponse]:
         """Returns the package names of apps installed on the device.
 
         System and protected
@@ -147,31 +135,20 @@ class AsyncPackagesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
+          raise ValueError(
+            f'Expected a non-empty value for `device_id` but received {device_id!r}'
+          )
+        extra_headers = { **strip_not_given({
+            "X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given
+        }), **(extra_headers or {}) }
         return await self._get(
             path_template("/devices/{device_id}/packages", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "include_protected_packages": include_protected_packages,
-                        "include_system_packages": include_system_packages,
-                    },
-                    package_list_params.PackageListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "include_protected_packages": include_protected_packages,
+                "include_system_packages": include_system_packages,
+            }, package_list_params.PackageListParams)),
             cast_to=PackageListResponse,
         )
-
 
 class PackagesResourceWithRawResponse:
     def __init__(self, packages: PackagesResource) -> None:
@@ -181,7 +158,6 @@ class PackagesResourceWithRawResponse:
             packages.list,
         )
 
-
 class AsyncPackagesResourceWithRawResponse:
     def __init__(self, packages: AsyncPackagesResource) -> None:
         self._packages = packages
@@ -190,7 +166,6 @@ class AsyncPackagesResourceWithRawResponse:
             packages.list,
         )
 
-
 class PackagesResourceWithStreamingResponse:
     def __init__(self, packages: PackagesResource) -> None:
         self._packages = packages
@@ -198,7 +173,6 @@ class PackagesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             packages.list,
         )
-
 
 class AsyncPackagesResourceWithStreamingResponse:
     def __init__(self, packages: AsyncPackagesResource) -> None:

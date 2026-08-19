@@ -1,15 +1,16 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from .._models import BaseModel
+
 from datetime import datetime
+
+from typing import Optional, List
 
 from pydantic import Field as FieldInfo
 
-from .._models import BaseModel
 from .shared.meta import Meta
 
 __all__ = ["CarrierListResponse", "Item"]
-
 
 class Item(BaseModel):
     id: int
@@ -48,14 +49,13 @@ class Item(BaseModel):
 
     website: str
 
-    schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
+    schema_: Optional[str] = FieldInfo(alias = "$schema", default = None)
     """A URL to the JSON Schema for this object."""
-
 
 class CarrierListResponse(BaseModel):
     items: Optional[List[Item]] = None
 
     pagination: Meta
 
-    schema_: Optional[str] = FieldInfo(alias="$schema", default=None)
+    schema_: Optional[str] = FieldInfo(alias = "$schema", default = None)
     """A URL to the JSON Schema for this object."""

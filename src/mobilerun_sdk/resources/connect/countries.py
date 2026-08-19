@@ -2,30 +2,32 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal
-
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
-from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ..._base_client import make_request_options
-from ...types.connect import country_list_params
+
+from ..._compat import cached_property
+
 from ...types.connect.country_list_response import CountryListResponse
+
+from ..._base_client import make_request_options
+
+from ..._utils import maybe_transform, async_maybe_transform
+
+from ..._types import Omit, omit, NotGiven
+
+from typing_extensions import Literal
+
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ...types.connect import country_list_params
 
 __all__ = ["CountriesResource", "AsyncCountriesResource"]
 
-
 class CountriesResource(SyncAPIResource):
     """Mobilerun Connect country coverage information"""
-
     @cached_property
     def with_raw_response(self) -> CountriesResourceWithRawResponse:
         """
@@ -45,19 +47,17 @@ class CountriesResource(SyncAPIResource):
         """
         return CountriesResourceWithStreamingResponse(self)
 
-    def list(
-        self,
-        *,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        type: Literal["dedicated_residential", "residential", "mobile"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CountryListResponse:
+    def list(self,
+    *,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    type: Literal["dedicated_residential", "residential", "mobile"] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CountryListResponse:
         """Lookup of countries that can be selected when creating a proxy.
 
         Each country
@@ -81,27 +81,16 @@ class CountriesResource(SyncAPIResource):
         """
         return self._get(
             "/connect/countries",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "page": page,
-                        "page_size": page_size,
-                        "type": type,
-                    },
-                    country_list_params.CountryListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "page": page,
+                "page_size": page_size,
+                "type": type,
+            }, country_list_params.CountryListParams)),
             cast_to=CountryListResponse,
         )
 
-
 class AsyncCountriesResource(AsyncAPIResource):
     """Mobilerun Connect country coverage information"""
-
     @cached_property
     def with_raw_response(self) -> AsyncCountriesResourceWithRawResponse:
         """
@@ -121,19 +110,17 @@ class AsyncCountriesResource(AsyncAPIResource):
         """
         return AsyncCountriesResourceWithStreamingResponse(self)
 
-    async def list(
-        self,
-        *,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        type: Literal["dedicated_residential", "residential", "mobile"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CountryListResponse:
+    async def list(self,
+    *,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    type: Literal["dedicated_residential", "residential", "mobile"] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CountryListResponse:
         """Lookup of countries that can be selected when creating a proxy.
 
         Each country
@@ -157,23 +144,13 @@ class AsyncCountriesResource(AsyncAPIResource):
         """
         return await self._get(
             "/connect/countries",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "page": page,
-                        "page_size": page_size,
-                        "type": type,
-                    },
-                    country_list_params.CountryListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "page": page,
+                "page_size": page_size,
+                "type": type,
+            }, country_list_params.CountryListParams)),
             cast_to=CountryListResponse,
         )
-
 
 class CountriesResourceWithRawResponse:
     def __init__(self, countries: CountriesResource) -> None:
@@ -183,7 +160,6 @@ class CountriesResourceWithRawResponse:
             countries.list,
         )
 
-
 class AsyncCountriesResourceWithRawResponse:
     def __init__(self, countries: AsyncCountriesResource) -> None:
         self._countries = countries
@@ -192,7 +168,6 @@ class AsyncCountriesResourceWithRawResponse:
             countries.list,
         )
 
-
 class CountriesResourceWithStreamingResponse:
     def __init__(self, countries: CountriesResource) -> None:
         self._countries = countries
@@ -200,7 +175,6 @@ class CountriesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             countries.list,
         )
-
 
 class AsyncCountriesResourceWithStreamingResponse:
     def __init__(self, countries: AsyncCountriesResource) -> None:

@@ -2,27 +2,42 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Required
 
 from ...._utils import PropertyInfo
-from ..flow_action_overrides_param import FlowActionOverridesParam
-from ..flow_child_action_input_param import FlowChildActionInputParam
 
-__all__ = ["ActionAddParams"]
+from typing import Iterable, Optional, Dict
 
+__all__ = ["ActionAddParams", "Child", "ChildOverrides", "Overrides"]
 
 class ActionAddParams(TypedDict, total=False):
     action_id: Required[Annotated[str, PropertyInfo(alias="actionId")]]
 
     position: Required[int]
 
-    children: Iterable[FlowChildActionInputParam]
+    children: Iterable[Child]
 
     continue_on_error: Annotated[bool, PropertyInfo(alias="continueOnError")]
 
     name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
 
-    overrides: Optional[FlowActionOverridesParam]
+    overrides: Optional[Overrides]
 
     parent_flow_action_id: Annotated[Optional[str], PropertyInfo(alias="parentFlowActionId")]
+
+class ChildOverrides(TypedDict, total=False):
+    params: Dict[str, object]
+
+class Child(TypedDict, total=False):
+    action_id: Required[Annotated[str, PropertyInfo(alias="actionId")]]
+
+    position: Required[int]
+
+    continue_on_error: Annotated[bool, PropertyInfo(alias="continueOnError")]
+
+    name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
+
+    overrides: Optional[ChildOverrides]
+
+class Overrides(TypedDict, total=False):
+    params: Dict[str, object]

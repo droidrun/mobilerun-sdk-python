@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Required
 
 from ..._utils import PropertyInfo
 
 __all__ = ["DeviceCarrier"]
-
 
 class DeviceCarrier(TypedDict, total=False):
     gsm_operator_alpha: Required[Annotated[str, PropertyInfo(alias="GsmOperatorAlpha")]]

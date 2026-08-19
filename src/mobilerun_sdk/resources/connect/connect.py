@@ -2,35 +2,20 @@
 
 from __future__ import annotations
 
-from .users import (
-    UsersResource,
-    AsyncUsersResource,
-    UsersResourceWithRawResponse,
-    AsyncUsersResourceWithRawResponse,
-    UsersResourceWithStreamingResponse,
-    AsyncUsersResourceWithStreamingResponse,
-)
-from .proxies import (
-    ProxiesResource,
-    AsyncProxiesResource,
-    ProxiesResourceWithRawResponse,
-    AsyncProxiesResourceWithRawResponse,
-    ProxiesResourceWithStreamingResponse,
-    AsyncProxiesResourceWithStreamingResponse,
-)
-from ..._compat import cached_property
-from .countries import (
-    CountriesResource,
-    AsyncCountriesResource,
-    CountriesResourceWithRawResponse,
-    AsyncCountriesResourceWithRawResponse,
-    CountriesResourceWithStreamingResponse,
-    AsyncCountriesResourceWithStreamingResponse,
-)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 
-__all__ = ["ConnectResource", "AsyncConnectResource"]
+from .countries import CountriesResource, AsyncCountriesResource, CountriesResourceWithRawResponse, AsyncCountriesResourceWithRawResponse, CountriesResourceWithStreamingResponse, AsyncCountriesResourceWithStreamingResponse
 
+from ..._compat import cached_property
+
+from .proxies import ProxiesResource, AsyncProxiesResource, ProxiesResourceWithRawResponse, AsyncProxiesResourceWithRawResponse, ProxiesResourceWithStreamingResponse, AsyncProxiesResourceWithStreamingResponse
+
+from .users import UsersResource, AsyncUsersResource, UsersResourceWithRawResponse, AsyncUsersResourceWithRawResponse, UsersResourceWithStreamingResponse, AsyncUsersResourceWithStreamingResponse
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+
+__all__ = ["ConnectResource", "AsyncConnectResource"]
 
 class ConnectResource(SyncAPIResource):
     @cached_property
@@ -66,7 +51,6 @@ class ConnectResource(SyncAPIResource):
         """
         return ConnectResourceWithStreamingResponse(self)
 
-
 class AsyncConnectResource(AsyncAPIResource):
     @cached_property
     def countries(self) -> AsyncCountriesResource:
@@ -101,7 +85,6 @@ class AsyncConnectResource(AsyncAPIResource):
         """
         return AsyncConnectResourceWithStreamingResponse(self)
 
-
 class ConnectResourceWithRawResponse:
     def __init__(self, connect: ConnectResource) -> None:
         self._connect = connect
@@ -119,7 +102,6 @@ class ConnectResourceWithRawResponse:
     def users(self) -> UsersResourceWithRawResponse:
         """Manage your Mobilerun Connect Socks Users"""
         return UsersResourceWithRawResponse(self._connect.users)
-
 
 class AsyncConnectResourceWithRawResponse:
     def __init__(self, connect: AsyncConnectResource) -> None:
@@ -139,7 +121,6 @@ class AsyncConnectResourceWithRawResponse:
         """Manage your Mobilerun Connect Socks Users"""
         return AsyncUsersResourceWithRawResponse(self._connect.users)
 
-
 class ConnectResourceWithStreamingResponse:
     def __init__(self, connect: ConnectResource) -> None:
         self._connect = connect
@@ -157,7 +138,6 @@ class ConnectResourceWithStreamingResponse:
     def users(self) -> UsersResourceWithStreamingResponse:
         """Manage your Mobilerun Connect Socks Users"""
         return UsersResourceWithStreamingResponse(self._connect.users)
-
 
 class AsyncConnectResourceWithStreamingResponse:
     def __init__(self, connect: AsyncConnectResource) -> None:

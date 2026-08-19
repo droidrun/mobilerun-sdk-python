@@ -2,32 +2,46 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
-from typing_extensions import Literal
-
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
-from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ..._base_client import make_request_options
-from ...types.workflows import trigger_fire_params, trigger_list_params, trigger_create_params, trigger_update_params
-from ...types.workflows.trigger_fire_response import TriggerFireResponse
-from ...types.workflows.trigger_list_response import TriggerListResponse
+
+from ..._compat import cached_property
+
 from ...types.workflows.trigger_create_response import TriggerCreateResponse
-from ...types.workflows.trigger_delete_response import TriggerDeleteResponse
-from ...types.workflows.trigger_update_response import TriggerUpdateResponse
+
+from ..._utils import maybe_transform, path_template, async_maybe_transform
+
+from ..._base_client import make_request_options
+
+from typing_extensions import Literal
+
+from ..._types import Omit, omit, NotGiven
+
+from typing import Dict, Optional
+
 from ...types.workflows.trigger_retrieve_response import TriggerRetrieveResponse
 
-__all__ = ["TriggersResource", "AsyncTriggersResource"]
+from ...types.workflows.trigger_update_response import TriggerUpdateResponse
 
+from ...types.workflows.trigger_list_response import TriggerListResponse
+
+from ...types.workflows.trigger_delete_response import TriggerDeleteResponse
+
+from ...types.workflows.trigger_fire_response import TriggerFireResponse
+
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from ...types.workflows import trigger_create_params, trigger_update_params
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ...types.workflows import trigger_create_params
+from ...types.workflows import trigger_update_params
+from ...types.workflows import trigger_list_params
+from ...types.workflows import trigger_fire_params
+
+__all__ = ["TriggersResource", "AsyncTriggersResource"]
 
 class TriggersResource(SyncAPIResource):
     @cached_property
@@ -49,24 +63,22 @@ class TriggersResource(SyncAPIResource):
         """
         return TriggersResourceWithStreamingResponse(self)
 
-    def create(
-        self,
-        *,
-        activation: Literal["event", "schedule", "custom"],
-        name: str,
-        conditions: trigger_create_params.Conditions | Omit = omit,
-        custom_payload_schema: Dict[str, object] | Omit = omit,
-        description: str | Omit = omit,
-        event_type: str | Omit = omit,
-        schedule_rule: trigger_create_params.ScheduleRule | Omit = omit,
-        timezone: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TriggerCreateResponse:
+    def create(self,
+    *,
+    activation: Literal["event", "schedule", "custom"],
+    name: str,
+    conditions: trigger_create_params.Conditions | Omit = omit,
+    custom_payload_schema: Dict[str, object] | Omit = omit,
+    description: str | Omit = omit,
+    event_type: str | Omit = omit,
+    schedule_rule: trigger_create_params.ScheduleRule | Omit = omit,
+    timezone: str | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TriggerCreateResponse:
         """
         Create a trigger with an activation type of `event`, `schedule`, or `custom`.
         Each type requires its own fields (e.g. `eventType` and optional `conditions`
@@ -86,36 +98,29 @@ class TriggersResource(SyncAPIResource):
         """
         return self._post(
             "/triggers",
-            body=maybe_transform(
-                {
-                    "activation": activation,
-                    "name": name,
-                    "conditions": conditions,
-                    "custom_payload_schema": custom_payload_schema,
-                    "description": description,
-                    "event_type": event_type,
-                    "schedule_rule": schedule_rule,
-                    "timezone": timezone,
-                },
-                trigger_create_params.TriggerCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "activation": activation,
+                "name": name,
+                "conditions": conditions,
+                "custom_payload_schema": custom_payload_schema,
+                "description": description,
+                "event_type": event_type,
+                "schedule_rule": schedule_rule,
+                "timezone": timezone,
+            }, trigger_create_params.TriggerCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=TriggerCreateResponse,
         )
 
-    def retrieve(
-        self,
-        trigger_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TriggerRetrieveResponse:
+    def retrieve(self,
+    trigger_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TriggerRetrieveResponse:
         """
         Fetch a single trigger by its ID, including its activation type and
         type-specific configuration. Returns 404 if no trigger matches.
@@ -130,34 +135,32 @@ class TriggersResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not trigger_id:
-            raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `trigger_id` but received {trigger_id!r}'
+          )
         return self._get(
             path_template("/triggers/{trigger_id}", trigger_id=trigger_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=TriggerRetrieveResponse,
         )
 
-    def update(
-        self,
-        trigger_id: str,
-        *,
-        activation: Literal["event", "schedule", "custom"] | Omit = omit,
-        conditions: trigger_update_params.Conditions | Omit = omit,
-        custom_payload_schema: Dict[str, object] | Omit = omit,
-        description: str | Omit = omit,
-        event_type: str | Omit = omit,
-        name: str | Omit = omit,
-        schedule_rule: trigger_update_params.ScheduleRule | Omit = omit,
-        timezone: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TriggerUpdateResponse:
+    def update(self,
+    trigger_id: str,
+    *,
+    activation: Literal["event", "schedule", "custom"] | Omit = omit,
+    conditions: Optional[trigger_update_params.Conditions] | Omit = omit,
+    custom_payload_schema: Optional[Dict[str, object]] | Omit = omit,
+    description: str | Omit = omit,
+    event_type: str | Omit = omit,
+    name: str | Omit = omit,
+    schedule_rule: Optional[trigger_update_params.ScheduleRule] | Omit = omit,
+    timezone: Optional[str] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TriggerUpdateResponse:
         """Partially update a trigger; all fields are optional.
 
         When `activation` is
@@ -165,6 +168,8 @@ class TriggersResource(SyncAPIResource):
         trigger does not exist.
 
         Args:
+          custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -174,45 +179,40 @@ class TriggersResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not trigger_id:
-            raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `trigger_id` but received {trigger_id!r}'
+          )
         return self._patch(
             path_template("/triggers/{trigger_id}", trigger_id=trigger_id),
-            body=maybe_transform(
-                {
-                    "activation": activation,
-                    "conditions": conditions,
-                    "custom_payload_schema": custom_payload_schema,
-                    "description": description,
-                    "event_type": event_type,
-                    "name": name,
-                    "schedule_rule": schedule_rule,
-                    "timezone": timezone,
-                },
-                trigger_update_params.TriggerUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "activation": activation,
+                "conditions": conditions,
+                "custom_payload_schema": custom_payload_schema,
+                "description": description,
+                "event_type": event_type,
+                "name": name,
+                "schedule_rule": schedule_rule,
+                "timezone": timezone,
+            }, trigger_update_params.TriggerUpdateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=TriggerUpdateResponse,
         )
 
-    def list(
-        self,
-        *,
-        activation: Literal["event", "schedule", "custom"] | Omit = omit,
-        event_type: str | Omit = omit,
-        order_by: Literal["name", "createdAt", "updatedAt"] | Omit = omit,
-        order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        search: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TriggerListResponse:
+    def list(self,
+    *,
+    activation: Literal["event", "schedule", "custom"] | Omit = omit,
+    event_type: str | Omit = omit,
+    order_by: Literal["name", "createdAt", "updatedAt"] | Omit = omit,
+    order_by_direction: Literal["asc", "desc"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    search: str | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TriggerListResponse:
         """Return a paginated list of triggers.
 
         Supports filtering by `activation` and
@@ -229,38 +229,27 @@ class TriggersResource(SyncAPIResource):
         """
         return self._get(
             "/triggers",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "activation": activation,
-                        "event_type": event_type,
-                        "order_by": order_by,
-                        "order_by_direction": order_by_direction,
-                        "page": page,
-                        "page_size": page_size,
-                        "search": search,
-                    },
-                    trigger_list_params.TriggerListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "activation": activation,
+                "event_type": event_type,
+                "order_by": order_by,
+                "order_by_direction": order_by_direction,
+                "page": page,
+                "page_size": page_size,
+                "search": search,
+            }, trigger_list_params.TriggerListParams)),
             cast_to=TriggerListResponse,
         )
 
-    def delete(
-        self,
-        trigger_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TriggerDeleteResponse:
+    def delete(self,
+    trigger_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TriggerDeleteResponse:
         """Delete a trigger by its ID.
 
         Returns 404 if no trigger matches.
@@ -275,27 +264,25 @@ class TriggersResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not trigger_id:
-            raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `trigger_id` but received {trigger_id!r}'
+          )
         return self._delete(
             path_template("/triggers/{trigger_id}", trigger_id=trigger_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=TriggerDeleteResponse,
         )
 
-    def fire(
-        self,
-        trigger_id: str,
-        *,
-        payload: Dict[str, object],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TriggerFireResponse:
+    def fire(self,
+    trigger_id: str,
+    *,
+    payload: Dict[str, object],
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TriggerFireResponse:
         """
         Invoke a custom trigger directly with an arbitrary JSON payload.
 
@@ -329,16 +316,17 @@ class TriggersResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not trigger_id:
-            raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `trigger_id` but received {trigger_id!r}'
+          )
         return self._post(
             path_template("/triggers/{trigger_id}/fire", trigger_id=trigger_id),
-            body=maybe_transform({"payload": payload}, trigger_fire_params.TriggerFireParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "payload": payload
+            }, trigger_fire_params.TriggerFireParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=TriggerFireResponse,
         )
-
 
 class AsyncTriggersResource(AsyncAPIResource):
     @cached_property
@@ -360,24 +348,22 @@ class AsyncTriggersResource(AsyncAPIResource):
         """
         return AsyncTriggersResourceWithStreamingResponse(self)
 
-    async def create(
-        self,
-        *,
-        activation: Literal["event", "schedule", "custom"],
-        name: str,
-        conditions: trigger_create_params.Conditions | Omit = omit,
-        custom_payload_schema: Dict[str, object] | Omit = omit,
-        description: str | Omit = omit,
-        event_type: str | Omit = omit,
-        schedule_rule: trigger_create_params.ScheduleRule | Omit = omit,
-        timezone: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TriggerCreateResponse:
+    async def create(self,
+    *,
+    activation: Literal["event", "schedule", "custom"],
+    name: str,
+    conditions: trigger_create_params.Conditions | Omit = omit,
+    custom_payload_schema: Dict[str, object] | Omit = omit,
+    description: str | Omit = omit,
+    event_type: str | Omit = omit,
+    schedule_rule: trigger_create_params.ScheduleRule | Omit = omit,
+    timezone: str | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TriggerCreateResponse:
         """
         Create a trigger with an activation type of `event`, `schedule`, or `custom`.
         Each type requires its own fields (e.g. `eventType` and optional `conditions`
@@ -397,36 +383,29 @@ class AsyncTriggersResource(AsyncAPIResource):
         """
         return await self._post(
             "/triggers",
-            body=await async_maybe_transform(
-                {
-                    "activation": activation,
-                    "name": name,
-                    "conditions": conditions,
-                    "custom_payload_schema": custom_payload_schema,
-                    "description": description,
-                    "event_type": event_type,
-                    "schedule_rule": schedule_rule,
-                    "timezone": timezone,
-                },
-                trigger_create_params.TriggerCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "activation": activation,
+                "name": name,
+                "conditions": conditions,
+                "custom_payload_schema": custom_payload_schema,
+                "description": description,
+                "event_type": event_type,
+                "schedule_rule": schedule_rule,
+                "timezone": timezone,
+            }, trigger_create_params.TriggerCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=TriggerCreateResponse,
         )
 
-    async def retrieve(
-        self,
-        trigger_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TriggerRetrieveResponse:
+    async def retrieve(self,
+    trigger_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TriggerRetrieveResponse:
         """
         Fetch a single trigger by its ID, including its activation type and
         type-specific configuration. Returns 404 if no trigger matches.
@@ -441,34 +420,32 @@ class AsyncTriggersResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not trigger_id:
-            raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `trigger_id` but received {trigger_id!r}'
+          )
         return await self._get(
             path_template("/triggers/{trigger_id}", trigger_id=trigger_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=TriggerRetrieveResponse,
         )
 
-    async def update(
-        self,
-        trigger_id: str,
-        *,
-        activation: Literal["event", "schedule", "custom"] | Omit = omit,
-        conditions: trigger_update_params.Conditions | Omit = omit,
-        custom_payload_schema: Dict[str, object] | Omit = omit,
-        description: str | Omit = omit,
-        event_type: str | Omit = omit,
-        name: str | Omit = omit,
-        schedule_rule: trigger_update_params.ScheduleRule | Omit = omit,
-        timezone: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TriggerUpdateResponse:
+    async def update(self,
+    trigger_id: str,
+    *,
+    activation: Literal["event", "schedule", "custom"] | Omit = omit,
+    conditions: Optional[trigger_update_params.Conditions] | Omit = omit,
+    custom_payload_schema: Optional[Dict[str, object]] | Omit = omit,
+    description: str | Omit = omit,
+    event_type: str | Omit = omit,
+    name: str | Omit = omit,
+    schedule_rule: Optional[trigger_update_params.ScheduleRule] | Omit = omit,
+    timezone: Optional[str] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TriggerUpdateResponse:
         """Partially update a trigger; all fields are optional.
 
         When `activation` is
@@ -476,6 +453,8 @@ class AsyncTriggersResource(AsyncAPIResource):
         trigger does not exist.
 
         Args:
+          custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -485,45 +464,40 @@ class AsyncTriggersResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not trigger_id:
-            raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `trigger_id` but received {trigger_id!r}'
+          )
         return await self._patch(
             path_template("/triggers/{trigger_id}", trigger_id=trigger_id),
-            body=await async_maybe_transform(
-                {
-                    "activation": activation,
-                    "conditions": conditions,
-                    "custom_payload_schema": custom_payload_schema,
-                    "description": description,
-                    "event_type": event_type,
-                    "name": name,
-                    "schedule_rule": schedule_rule,
-                    "timezone": timezone,
-                },
-                trigger_update_params.TriggerUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "activation": activation,
+                "conditions": conditions,
+                "custom_payload_schema": custom_payload_schema,
+                "description": description,
+                "event_type": event_type,
+                "name": name,
+                "schedule_rule": schedule_rule,
+                "timezone": timezone,
+            }, trigger_update_params.TriggerUpdateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=TriggerUpdateResponse,
         )
 
-    async def list(
-        self,
-        *,
-        activation: Literal["event", "schedule", "custom"] | Omit = omit,
-        event_type: str | Omit = omit,
-        order_by: Literal["name", "createdAt", "updatedAt"] | Omit = omit,
-        order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        search: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TriggerListResponse:
+    async def list(self,
+    *,
+    activation: Literal["event", "schedule", "custom"] | Omit = omit,
+    event_type: str | Omit = omit,
+    order_by: Literal["name", "createdAt", "updatedAt"] | Omit = omit,
+    order_by_direction: Literal["asc", "desc"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    search: str | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TriggerListResponse:
         """Return a paginated list of triggers.
 
         Supports filtering by `activation` and
@@ -540,38 +514,27 @@ class AsyncTriggersResource(AsyncAPIResource):
         """
         return await self._get(
             "/triggers",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "activation": activation,
-                        "event_type": event_type,
-                        "order_by": order_by,
-                        "order_by_direction": order_by_direction,
-                        "page": page,
-                        "page_size": page_size,
-                        "search": search,
-                    },
-                    trigger_list_params.TriggerListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "activation": activation,
+                "event_type": event_type,
+                "order_by": order_by,
+                "order_by_direction": order_by_direction,
+                "page": page,
+                "page_size": page_size,
+                "search": search,
+            }, trigger_list_params.TriggerListParams)),
             cast_to=TriggerListResponse,
         )
 
-    async def delete(
-        self,
-        trigger_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TriggerDeleteResponse:
+    async def delete(self,
+    trigger_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TriggerDeleteResponse:
         """Delete a trigger by its ID.
 
         Returns 404 if no trigger matches.
@@ -586,27 +549,25 @@ class AsyncTriggersResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not trigger_id:
-            raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `trigger_id` but received {trigger_id!r}'
+          )
         return await self._delete(
             path_template("/triggers/{trigger_id}", trigger_id=trigger_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=TriggerDeleteResponse,
         )
 
-    async def fire(
-        self,
-        trigger_id: str,
-        *,
-        payload: Dict[str, object],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TriggerFireResponse:
+    async def fire(self,
+    trigger_id: str,
+    *,
+    payload: Dict[str, object],
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TriggerFireResponse:
         """
         Invoke a custom trigger directly with an arbitrary JSON payload.
 
@@ -640,16 +601,17 @@ class AsyncTriggersResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not trigger_id:
-            raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `trigger_id` but received {trigger_id!r}'
+          )
         return await self._post(
             path_template("/triggers/{trigger_id}/fire", trigger_id=trigger_id),
-            body=await async_maybe_transform({"payload": payload}, trigger_fire_params.TriggerFireParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "payload": payload
+            }, trigger_fire_params.TriggerFireParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=TriggerFireResponse,
         )
-
 
 class TriggersResourceWithRawResponse:
     def __init__(self, triggers: TriggersResource) -> None:
@@ -674,7 +636,6 @@ class TriggersResourceWithRawResponse:
             triggers.fire,
         )
 
-
 class AsyncTriggersResourceWithRawResponse:
     def __init__(self, triggers: AsyncTriggersResource) -> None:
         self._triggers = triggers
@@ -698,7 +659,6 @@ class AsyncTriggersResourceWithRawResponse:
             triggers.fire,
         )
 
-
 class TriggersResourceWithStreamingResponse:
     def __init__(self, triggers: TriggersResource) -> None:
         self._triggers = triggers
@@ -721,7 +681,6 @@ class TriggersResourceWithStreamingResponse:
         self.fire = to_streamed_response_wrapper(
             triggers.fire,
         )
-
 
 class AsyncTriggersResourceWithStreamingResponse:
     def __init__(self, triggers: AsyncTriggersResource) -> None:

@@ -1,30 +1,30 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
-from typing_extensions import Literal
+from .._models import BaseModel
+
+from typing import Optional, List
 
 from pydantic import Field as FieldInfo
 
-from .._models import BaseModel
+from typing_extensions import Literal
 
 __all__ = ["WebhookRetrieveResponse", "Data"]
-
 
 class Data(BaseModel):
     id: str
 
-    blocked_at: Optional[str] = FieldInfo(alias="blockedAt", default=None)
+    blocked_at: Optional[str] = FieldInfo(alias = "blockedAt", default = None)
 
-    blocked_reason: Optional[str] = FieldInfo(alias="blockedReason", default=None)
+    blocked_reason: Optional[str] = FieldInfo(alias = "blockedReason", default = None)
 
-    created_at: str = FieldInfo(alias="createdAt")
+    created_at: str = FieldInfo(alias = "createdAt")
 
-    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+    created_by: Optional[str] = FieldInfo(alias = "createdBy", default = None)
     """Id of the actor who created this endpoint. Null when no creator was recorded."""
 
     description: Optional[str] = None
 
-    event_types: List[str] = FieldInfo(alias="eventTypes")
+    event_types: List[str] = FieldInfo(alias = "eventTypes")
 
     health: Literal["healthy", "failing", "blocked"]
     """System-observed delivery health.
@@ -33,14 +33,13 @@ class Data(BaseModel):
     state=ACTIVE to re-enable.
     """
 
-    signing_enabled: bool = FieldInfo(alias="signingEnabled")
+    signing_enabled: bool = FieldInfo(alias = "signingEnabled")
 
     state: Literal["ACTIVE", "DISABLED", "DELETED"]
 
-    updated_at: str = FieldInfo(alias="updatedAt")
+    updated_at: str = FieldInfo(alias = "updatedAt")
 
     url: str
-
 
 class WebhookRetrieveResponse(BaseModel):
     data: Data

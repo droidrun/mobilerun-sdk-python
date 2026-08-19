@@ -1,0 +1,32 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from .._models import BaseModel
+
+from typing import Optional, List
+
+from pydantic import Field as FieldInfo
+
+from typing_extensions import TypeAliasType, TypeAlias
+
+__all__ = ["AgentListResponse", "AgentListResponseItem"]
+
+class AgentListResponseItem(BaseModel):
+    id: int
+
+    description: Optional[str] = None
+
+    icon: str
+
+    llm_model: str = FieldInfo(alias = "llmModel")
+
+    max_steps: int = FieldInfo(alias = "maxSteps")
+
+    name: str
+
+    reasoning: bool
+
+    subagent_model: Optional[str] = FieldInfo(alias = "subagentModel", default = None)
+
+    vision: bool
+
+AgentListResponse: TypeAlias = List[AgentListResponseItem]

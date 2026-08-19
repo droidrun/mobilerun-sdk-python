@@ -2,27 +2,36 @@
 
 from __future__ import annotations
 
-from typing import Mapping, cast
-
 import httpx
 
-from ..._files import deepcopy_with_paths
-from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, FileTypes, omit, not_given
-from ..._utils import is_given, extract_files, path_template, maybe_transform, strip_not_given, async_maybe_transform
-from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ..._base_client import make_request_options
-from ...types.devices import file_list_params, file_delete_params, file_upload_params, file_download_params
+
+from ..._compat import cached_property
+
+from ..._utils import path_template, strip_not_given, is_given, maybe_transform, extract_files, async_maybe_transform
+
 from ...types.devices.file_list_response import FileListResponse
 
-__all__ = ["FilesResource", "AsyncFilesResource"]
+from ..._types import not_given, Omit, omit, NotGiven, FileTypes
 
+from ..._base_client import make_request_options
+
+from ...types.devices.file_download_response import FileDownloadResponse
+
+from ..._files import deepcopy_with_paths
+
+from typing import cast, Mapping
+
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ...types.devices import file_list_params
+from ...types.devices import file_delete_params
+from ...types.devices import file_download_params
+from ...types.devices import file_upload_params
+
+__all__ = ["FilesResource", "AsyncFilesResource"]
 
 class FilesResource(SyncAPIResource):
     @cached_property
@@ -44,19 +53,17 @@ class FilesResource(SyncAPIResource):
         """
         return FilesResourceWithStreamingResponse(self)
 
-    def list(
-        self,
-        device_id: str,
-        *,
-        path: str,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileListResponse:
+    def list(self,
+    device_id: str,
+    *,
+    path: str,
+    x_device_display_id: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> FileListResponse:
         """
         Lists the files at the directory path given in the path query parameter,
         returning each entry's metadata along with the path and total count.
@@ -71,38 +78,31 @@ class FilesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
+          raise ValueError(
+            f'Expected a non-empty value for `device_id` but received {device_id!r}'
+          )
+        extra_headers = { **strip_not_given({
+            "X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given
+        }), **(extra_headers or {}) }
         return self._get(
             path_template("/devices/{device_id}/files", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"path": path}, file_list_params.FileListParams),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "path": path
+            }, file_list_params.FileListParams)),
             cast_to=FileListResponse,
         )
 
-    def delete(
-        self,
-        device_id: str,
-        *,
-        path: str,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    def delete(self,
+    device_id: str,
+    *,
+    path: str,
+    x_device_display_id: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> None:
         """
         Deletes the file at the path given in the path query parameter from the device.
 
@@ -116,39 +116,32 @@ class FilesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `device_id` but received {device_id!r}'
+          )
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
+        extra_headers = { **strip_not_given({
+            "X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given
+        }), **(extra_headers or {}) }
         return self._delete(
             path_template("/devices/{device_id}/files", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"path": path}, file_delete_params.FileDeleteParams),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "path": path
+            }, file_delete_params.FileDeleteParams)),
             cast_to=NoneType,
         )
 
-    def download(
-        self,
-        device_id: str,
-        *,
-        path: str,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> str:
+    def download(self,
+    device_id: str,
+    *,
+    path: str,
+    x_device_display_id: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> str:
         """
         Pulls the file at the given path query parameter from the device and returns its
         raw bytes as an octet-stream.
@@ -163,39 +156,32 @@ class FilesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
+          raise ValueError(
+            f'Expected a non-empty value for `device_id` but received {device_id!r}'
+          )
+        extra_headers = { **strip_not_given({
+            "X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given
+        }), **(extra_headers or {}) }
         return self._get(
             path_template("/devices/{device_id}/files/download", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"path": path}, file_download_params.FileDownloadParams),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "path": path
+            }, file_download_params.FileDownloadParams)),
             cast_to=str,
         )
 
-    def upload(
-        self,
-        device_id: str,
-        *,
-        path: str,
-        file: FileTypes,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    def upload(self,
+    device_id: str,
+    *,
+    path: str,
+    file: FileTypes,
+    x_device_display_id: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> None:
         """
         Uploads a file to the device via multipart form data, writing it into the
         directory given by the path query parameter using the uploaded file's name.
@@ -210,16 +196,20 @@ class FilesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `device_id` but received {device_id!r}'
+          )
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
-        body = deepcopy_with_paths({"file": file}, [["file"]])
-        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
+        extra_headers = { **strip_not_given({
+            "X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given
+        }), **(extra_headers or {}) }
+        body = deepcopy_with_paths({
+            "file": file
+        }, [["file"]])
+        files = extract_files(
+          cast(Mapping[str, object], body),
+          paths=[["file"]]
+        )
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
@@ -228,16 +218,11 @@ class FilesResource(SyncAPIResource):
             path_template("/devices/{device_id}/files", device_id=device_id),
             body=maybe_transform(body, file_upload_params.FileUploadParams),
             files=files,
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"path": path}, file_upload_params.FileUploadParams),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "path": path
+            }, file_upload_params.FileUploadParams)),
             cast_to=NoneType,
         )
-
 
 class AsyncFilesResource(AsyncAPIResource):
     @cached_property
@@ -259,19 +244,17 @@ class AsyncFilesResource(AsyncAPIResource):
         """
         return AsyncFilesResourceWithStreamingResponse(self)
 
-    async def list(
-        self,
-        device_id: str,
-        *,
-        path: str,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileListResponse:
+    async def list(self,
+    device_id: str,
+    *,
+    path: str,
+    x_device_display_id: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> FileListResponse:
         """
         Lists the files at the directory path given in the path query parameter,
         returning each entry's metadata along with the path and total count.
@@ -286,38 +269,31 @@ class AsyncFilesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
+          raise ValueError(
+            f'Expected a non-empty value for `device_id` but received {device_id!r}'
+          )
+        extra_headers = { **strip_not_given({
+            "X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given
+        }), **(extra_headers or {}) }
         return await self._get(
             path_template("/devices/{device_id}/files", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"path": path}, file_list_params.FileListParams),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "path": path
+            }, file_list_params.FileListParams)),
             cast_to=FileListResponse,
         )
 
-    async def delete(
-        self,
-        device_id: str,
-        *,
-        path: str,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    async def delete(self,
+    device_id: str,
+    *,
+    path: str,
+    x_device_display_id: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> None:
         """
         Deletes the file at the path given in the path query parameter from the device.
 
@@ -331,39 +307,32 @@ class AsyncFilesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `device_id` but received {device_id!r}'
+          )
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
+        extra_headers = { **strip_not_given({
+            "X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given
+        }), **(extra_headers or {}) }
         return await self._delete(
             path_template("/devices/{device_id}/files", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"path": path}, file_delete_params.FileDeleteParams),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "path": path
+            }, file_delete_params.FileDeleteParams)),
             cast_to=NoneType,
         )
 
-    async def download(
-        self,
-        device_id: str,
-        *,
-        path: str,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> str:
+    async def download(self,
+    device_id: str,
+    *,
+    path: str,
+    x_device_display_id: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> str:
         """
         Pulls the file at the given path query parameter from the device and returns its
         raw bytes as an octet-stream.
@@ -378,39 +347,32 @@ class AsyncFilesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
+          raise ValueError(
+            f'Expected a non-empty value for `device_id` but received {device_id!r}'
+          )
+        extra_headers = { **strip_not_given({
+            "X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given
+        }), **(extra_headers or {}) }
         return await self._get(
             path_template("/devices/{device_id}/files/download", device_id=device_id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"path": path}, file_download_params.FileDownloadParams),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "path": path
+            }, file_download_params.FileDownloadParams)),
             cast_to=str,
         )
 
-    async def upload(
-        self,
-        device_id: str,
-        *,
-        path: str,
-        file: FileTypes,
-        x_device_display_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    async def upload(self,
+    device_id: str,
+    *,
+    path: str,
+    file: FileTypes,
+    x_device_display_id: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> None:
         """
         Uploads a file to the device via multipart form data, writing it into the
         directory given by the path query parameter using the uploaded file's name.
@@ -425,16 +387,20 @@ class AsyncFilesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not device_id:
-            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `device_id` but received {device_id!r}'
+          )
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        extra_headers = {
-            **strip_not_given(
-                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
-            ),
-            **(extra_headers or {}),
-        }
-        body = deepcopy_with_paths({"file": file}, [["file"]])
-        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
+        extra_headers = { **strip_not_given({
+            "X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given
+        }), **(extra_headers or {}) }
+        body = deepcopy_with_paths({
+            "file": file
+        }, [["file"]])
+        files = extract_files(
+          cast(Mapping[str, object], body),
+          paths=[["file"]]
+        )
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
@@ -443,16 +409,11 @@ class AsyncFilesResource(AsyncAPIResource):
             path_template("/devices/{device_id}/files", device_id=device_id),
             body=await async_maybe_transform(body, file_upload_params.FileUploadParams),
             files=files,
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"path": path}, file_upload_params.FileUploadParams),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "path": path
+            }, file_upload_params.FileUploadParams)),
             cast_to=NoneType,
         )
-
 
 class FilesResourceWithRawResponse:
     def __init__(self, files: FilesResource) -> None:
@@ -471,7 +432,6 @@ class FilesResourceWithRawResponse:
             files.upload,
         )
 
-
 class AsyncFilesResourceWithRawResponse:
     def __init__(self, files: AsyncFilesResource) -> None:
         self._files = files
@@ -489,7 +449,6 @@ class AsyncFilesResourceWithRawResponse:
             files.upload,
         )
 
-
 class FilesResourceWithStreamingResponse:
     def __init__(self, files: FilesResource) -> None:
         self._files = files
@@ -506,7 +465,6 @@ class FilesResourceWithStreamingResponse:
         self.upload = to_streamed_response_wrapper(
             files.upload,
         )
-
 
 class AsyncFilesResourceWithStreamingResponse:
     def __init__(self, files: AsyncFilesResource) -> None:

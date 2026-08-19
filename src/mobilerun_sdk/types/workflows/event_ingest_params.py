@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Dict
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Required
 
 from ..._utils import PropertyInfo
 
-__all__ = ["EventIngestParams"]
+from typing import Dict
 
+__all__ = ["EventIngestParams"]
 
 class EventIngestParams(TypedDict, total=False):
     event_type: Required[Annotated[str, PropertyInfo(alias="eventType")]]

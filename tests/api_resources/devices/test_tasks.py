@@ -2,20 +2,26 @@
 
 from __future__ import annotations
 
-import os
-from typing import Any, cast
-
-import pytest
-
-from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
+
 from mobilerun_sdk.types.devices import TaskListResponse
+
+from typing import cast, Any
+
+import os
+import pytest
+import httpx
+from typing_extensions import get_args
+from respx import MockRouter
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from tests.utils import assert_matches_type
+from mobilerun_sdk.types.devices import task_list_params
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
-
 class TestTasks:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=['loose', 'strict'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -23,7 +29,7 @@ class TestTasks:
         task = client.devices.tasks.list(
             device_id="deviceId",
         )
-        assert_matches_type(TaskListResponse, task, path=["response"])
+        assert_matches_type(TaskListResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -35,31 +41,32 @@ class TestTasks:
             page=0,
             page_size=0,
         )
-        assert_matches_type(TaskListResponse, task, path=["response"])
+        assert_matches_type(TaskListResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Mobilerun) -> None:
+
         response = client.devices.tasks.with_raw_response.list(
             device_id="deviceId",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = response.parse()
-        assert_matches_type(TaskListResponse, task, path=["response"])
+        assert_matches_type(TaskListResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Mobilerun) -> None:
         with client.devices.tasks.with_streaming_response.list(
             device_id="deviceId",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = response.parse()
-            assert_matches_type(TaskListResponse, task, path=["response"])
+            assert_matches_type(TaskListResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -67,15 +74,12 @@ class TestTasks:
     @parametrize
     def test_path_params_list(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            client.devices.tasks.with_raw_response.list(
-                device_id="",
-            )
-
-
+          client.devices.tasks.with_raw_response.list(
+              device_id="",
+          )
 class TestAsyncTasks:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True, {'http_client': 'aiohttp'}], indirect=True, ids=['loose', 'strict', 'aiohttp'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -83,7 +87,7 @@ class TestAsyncTasks:
         task = await async_client.devices.tasks.list(
             device_id="deviceId",
         )
-        assert_matches_type(TaskListResponse, task, path=["response"])
+        assert_matches_type(TaskListResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -95,31 +99,32 @@ class TestAsyncTasks:
             page=0,
             page_size=0,
         )
-        assert_matches_type(TaskListResponse, task, path=["response"])
+        assert_matches_type(TaskListResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.devices.tasks.with_raw_response.list(
             device_id="deviceId",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = await response.parse()
-        assert_matches_type(TaskListResponse, task, path=["response"])
+        assert_matches_type(TaskListResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.tasks.with_streaming_response.list(
             device_id="deviceId",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = await response.parse()
-            assert_matches_type(TaskListResponse, task, path=["response"])
+            assert_matches_type(TaskListResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -127,6 +132,6 @@ class TestAsyncTasks:
     @parametrize
     async def test_path_params_list(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            await async_client.devices.tasks.with_raw_response.list(
-                device_id="",
-            )
+          await async_client.devices.tasks.with_raw_response.list(
+              device_id="",
+          )

@@ -1,82 +1,20 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Union, Optional
-from typing_extensions import Literal, TypeAlias
+from typing import Union, Optional, Dict, List
+
+from .._models import BaseModel
+
+from typing_extensions import Literal, TypeAliasType, TypeAlias
 
 from pydantic import Field as FieldInfo
 
-from .._models import BaseModel
-from .usage_result import UsageResult
-
-__all__ = [
-    "TaskGetTrajectoryResponse",
-    "Trajectory",
-    "TrajectoryTrajectoryQueuedEvent",
-    "TrajectoryTrajectoryQueuedEventData",
-    "TrajectoryTrajectoryCreatedEvent",
-    "TrajectoryTrajectoryCreatedEventData",
-    "TrajectoryTrajectoryExceptionEvent",
-    "TrajectoryTrajectoryExceptionEventData",
-    "TrajectoryTrajectoryCancelEvent",
-    "TrajectoryTrajectoryCancelEventData",
-    "TrajectoryTrajectoryScreenshotEvent",
-    "TrajectoryTrajectoryScreenshotEventData",
-    "TrajectoryTrajectoryStartEvent",
-    "TrajectoryTrajectoryFinalizeEvent",
-    "TrajectoryTrajectoryFinalizeEventData",
-    "TrajectoryTrajectoryStopEvent",
-    "TrajectoryTrajectoryResultEvent",
-    "TrajectoryTrajectoryResultEventData",
-    "TrajectoryTrajectoryManagerInputEvent",
-    "TrajectoryTrajectoryManagerPlanEvent",
-    "TrajectoryTrajectoryManagerPlanEventData",
-    "TrajectoryTrajectoryExecutorInputEvent",
-    "TrajectoryTrajectoryExecutorInputEventData",
-    "TrajectoryTrajectoryExecutorResultEvent",
-    "TrajectoryTrajectoryExecutorResultEventData",
-    "TrajectoryTrajectoryFastAgentInputEvent",
-    "TrajectoryTrajectoryFastAgentResponseEvent",
-    "TrajectoryTrajectoryFastAgentResponseEventData",
-    "TrajectoryTrajectoryFastAgentToolCallEvent",
-    "TrajectoryTrajectoryFastAgentToolCallEventData",
-    "TrajectoryTrajectoryFastAgentOutputEvent",
-    "TrajectoryTrajectoryFastAgentOutputEventData",
-    "TrajectoryTrajectoryFastAgentEndEvent",
-    "TrajectoryTrajectoryFastAgentEndEventData",
-    "TrajectoryTrajectoryFastAgentExecuteEvent",
-    "TrajectoryTrajectoryFastAgentExecuteEventData",
-    "TrajectoryTrajectoryFastAgentResultEvent",
-    "TrajectoryTrajectoryFastAgentResultEventData",
-    "TrajectoryTrajectoryToolExecutionEvent",
-    "TrajectoryTrajectoryToolExecutionEventData",
-    "TrajectoryTrajectoryRecordUiStateEvent",
-    "TrajectoryTrajectoryRecordUiStateEventData",
-    "TrajectoryTrajectoryManagerContextEvent",
-    "TrajectoryTrajectoryManagerResponseEvent",
-    "TrajectoryTrajectoryManagerResponseEventData",
-    "TrajectoryTrajectoryManagerPlanDetailsEvent",
-    "TrajectoryTrajectoryManagerPlanDetailsEventData",
-    "TrajectoryTrajectoryExecutorContextEvent",
-    "TrajectoryTrajectoryExecutorContextEventData",
-    "TrajectoryTrajectoryExecutorResponseEvent",
-    "TrajectoryTrajectoryExecutorResponseEventData",
-    "TrajectoryTrajectoryExecutorActionEvent",
-    "TrajectoryTrajectoryExecutorActionEventData",
-    "TrajectoryTrajectoryExecutorActionResultEvent",
-    "TrajectoryTrajectoryExecutorActionResultEventData",
-    "TrajectoryTrajectoryUserMessageEvent",
-    "TrajectoryTrajectoryUserMessageEventData",
-    "TrajectoryTrajectoryUnknownEvent",
-]
-
+__all__ = ["TaskGetTrajectoryResponse", "Trajectory", "TrajectoryTrajectoryQueuedEvent", "TrajectoryTrajectoryQueuedEventData", "TrajectoryTrajectoryCreatedEvent", "TrajectoryTrajectoryCreatedEventData", "TrajectoryTrajectoryExceptionEvent", "TrajectoryTrajectoryExceptionEventData", "TrajectoryTrajectoryCancelEvent", "TrajectoryTrajectoryCancelEventData", "TrajectoryTrajectoryScreenshotEvent", "TrajectoryTrajectoryScreenshotEventData", "TrajectoryTrajectoryStartEvent", "TrajectoryTrajectoryFinalizeEvent", "TrajectoryTrajectoryFinalizeEventData", "TrajectoryTrajectoryStopEvent", "TrajectoryTrajectoryResultEvent", "TrajectoryTrajectoryResultEventData", "TrajectoryTrajectoryManagerInputEvent", "TrajectoryTrajectoryManagerPlanEvent", "TrajectoryTrajectoryManagerPlanEventData", "TrajectoryTrajectoryExecutorInputEvent", "TrajectoryTrajectoryExecutorInputEventData", "TrajectoryTrajectoryExecutorResultEvent", "TrajectoryTrajectoryExecutorResultEventData", "TrajectoryTrajectoryFastAgentInputEvent", "TrajectoryTrajectoryFastAgentResponseEvent", "TrajectoryTrajectoryFastAgentResponseEventData", "TrajectoryTrajectoryFastAgentResponseEventDataUsage", "TrajectoryTrajectoryFastAgentToolCallEvent", "TrajectoryTrajectoryFastAgentToolCallEventData", "TrajectoryTrajectoryFastAgentOutputEvent", "TrajectoryTrajectoryFastAgentOutputEventData", "TrajectoryTrajectoryFastAgentEndEvent", "TrajectoryTrajectoryFastAgentEndEventData", "TrajectoryTrajectoryFastAgentExecuteEvent", "TrajectoryTrajectoryFastAgentExecuteEventData", "TrajectoryTrajectoryFastAgentResultEvent", "TrajectoryTrajectoryFastAgentResultEventData", "TrajectoryTrajectoryToolExecutionEvent", "TrajectoryTrajectoryToolExecutionEventData", "TrajectoryTrajectoryRecordUiStateEvent", "TrajectoryTrajectoryRecordUiStateEventData", "TrajectoryTrajectoryManagerContextEvent", "TrajectoryTrajectoryManagerResponseEvent", "TrajectoryTrajectoryManagerResponseEventData", "TrajectoryTrajectoryManagerResponseEventDataUsage", "TrajectoryTrajectoryManagerPlanDetailsEvent", "TrajectoryTrajectoryManagerPlanDetailsEventData", "TrajectoryTrajectoryExecutorContextEvent", "TrajectoryTrajectoryExecutorContextEventData", "TrajectoryTrajectoryExecutorResponseEvent", "TrajectoryTrajectoryExecutorResponseEventData", "TrajectoryTrajectoryExecutorResponseEventDataUsage", "TrajectoryTrajectoryExecutorActionEvent", "TrajectoryTrajectoryExecutorActionEventData", "TrajectoryTrajectoryExecutorActionResultEvent", "TrajectoryTrajectoryExecutorActionResultEventData", "TrajectoryTrajectoryUserMessageEvent", "TrajectoryTrajectoryUserMessageEventData", "TrajectoryTrajectoryUnknownEvent"]
 
 class TrajectoryTrajectoryQueuedEventData(BaseModel):
     """Emitted to SSE clients when the task is waiting in the device queue."""
-
     id: str
 
     status: Optional[str] = None
-
 
 class TrajectoryTrajectoryQueuedEvent(BaseModel):
     data: TrajectoryTrajectoryQueuedEventData
@@ -84,50 +22,41 @@ class TrajectoryTrajectoryQueuedEvent(BaseModel):
 
     event: Literal["QueuedEvent"]
 
-
 class TrajectoryTrajectoryCreatedEventData(BaseModel):
     id: str
 
-    stream_url: str = FieldInfo(alias="streamUrl")
-
+    stream_url: str = FieldInfo(alias = "streamUrl")
 
 class TrajectoryTrajectoryCreatedEvent(BaseModel):
     data: TrajectoryTrajectoryCreatedEventData
 
     event: Literal["CreatedEvent"]
 
-
 class TrajectoryTrajectoryExceptionEventData(BaseModel):
     exception: str
-
 
 class TrajectoryTrajectoryExceptionEvent(BaseModel):
     data: TrajectoryTrajectoryExceptionEventData
 
     event: Literal["ExceptionEvent"]
 
-
 class TrajectoryTrajectoryCancelEventData(BaseModel):
     reason: str
-
 
 class TrajectoryTrajectoryCancelEvent(BaseModel):
     data: TrajectoryTrajectoryCancelEventData
 
     event: Literal["CancelEvent"]
 
-
 class TrajectoryTrajectoryScreenshotEventData(BaseModel):
     index: int
 
     url: str
 
-
 class TrajectoryTrajectoryScreenshotEvent(BaseModel):
     data: TrajectoryTrajectoryScreenshotEventData
 
     event: Literal["ScreenshotEvent"]
-
 
 class TrajectoryTrajectoryStartEvent(BaseModel):
     data: object
@@ -135,21 +64,17 @@ class TrajectoryTrajectoryStartEvent(BaseModel):
 
     event: Literal["StartEvent"]
 
-
 class TrajectoryTrajectoryFinalizeEventData(BaseModel):
     """Trigger finalization."""
-
     reason: str
 
     success: bool
-
 
 class TrajectoryTrajectoryFinalizeEvent(BaseModel):
     data: TrajectoryTrajectoryFinalizeEventData
     """Trigger finalization."""
 
     event: Literal["FinalizeEvent"]
-
 
 class TrajectoryTrajectoryStopEvent(BaseModel):
     data: object
@@ -175,7 +100,6 @@ class TrajectoryTrajectoryStopEvent(BaseModel):
 
     event: Literal["StopEvent"]
 
-
 class TrajectoryTrajectoryResultEventData(BaseModel):
     """Lazy wrapper — avoids importing droidrun at module level.
 
@@ -183,7 +107,6 @@ class TrajectoryTrajectoryResultEventData(BaseModel):
     exists so the API OpenAPI schema can reference it without the heavy
     droidrun import.
     """
-
     message: Optional[str] = None
 
     steps: Optional[int] = None
@@ -191,7 +114,6 @@ class TrajectoryTrajectoryResultEventData(BaseModel):
     structured_output: Optional[Dict[str, object]] = None
 
     success: Optional[bool] = None
-
 
 class TrajectoryTrajectoryResultEvent(BaseModel):
     data: TrajectoryTrajectoryResultEventData
@@ -203,13 +125,11 @@ class TrajectoryTrajectoryResultEvent(BaseModel):
 
     event: Literal["ResultEvent"]
 
-
 class TrajectoryTrajectoryManagerInputEvent(BaseModel):
     data: object
     """Trigger Manager workflow for planning"""
 
     event: Literal["ManagerInputEvent"]
-
 
 class TrajectoryTrajectoryManagerPlanEventData(BaseModel):
     """Coordination event from ManagerAgent to MobileAgent.
@@ -217,7 +137,6 @@ class TrajectoryTrajectoryManagerPlanEventData(BaseModel):
     Used for workflow step routing only (NOT streamed to frontend).
     For internal events with memory_update metadata, see ManagerPlanDetailsEvent.
     """
-
     current_subgoal: str
 
     plan: str
@@ -227,7 +146,6 @@ class TrajectoryTrajectoryManagerPlanEventData(BaseModel):
     answer: Optional[str] = None
 
     success: Optional[bool] = None
-
 
 class TrajectoryTrajectoryManagerPlanEvent(BaseModel):
     data: TrajectoryTrajectoryManagerPlanEventData
@@ -239,12 +157,9 @@ class TrajectoryTrajectoryManagerPlanEvent(BaseModel):
 
     event: Literal["ManagerPlanEvent"]
 
-
 class TrajectoryTrajectoryExecutorInputEventData(BaseModel):
     """Trigger Executor workflow for action execution"""
-
     current_subgoal: str
-
 
 class TrajectoryTrajectoryExecutorInputEvent(BaseModel):
     data: TrajectoryTrajectoryExecutorInputEventData
@@ -252,10 +167,8 @@ class TrajectoryTrajectoryExecutorInputEvent(BaseModel):
 
     event: Literal["ExecutorInputEvent"]
 
-
 class TrajectoryTrajectoryExecutorResultEventData(BaseModel):
     """Executor finished with action result."""
-
     action: Dict[str, object]
 
     error: str
@@ -264,13 +177,11 @@ class TrajectoryTrajectoryExecutorResultEventData(BaseModel):
 
     summary: str
 
-
 class TrajectoryTrajectoryExecutorResultEvent(BaseModel):
     data: TrajectoryTrajectoryExecutorResultEventData
     """Executor finished with action result."""
 
     event: Literal["ExecutorResultEvent"]
-
 
 class TrajectoryTrajectoryFastAgentInputEvent(BaseModel):
     data: object
@@ -278,16 +189,22 @@ class TrajectoryTrajectoryFastAgentInputEvent(BaseModel):
 
     event: Literal["FastAgentInputEvent"]
 
+class TrajectoryTrajectoryFastAgentResponseEventDataUsage(BaseModel):
+    request_tokens: int
+
+    requests: int
+
+    response_tokens: int
+
+    total_tokens: int
 
 class TrajectoryTrajectoryFastAgentResponseEventData(BaseModel):
     """LLM response received."""
-
     thought: str
 
     code: Optional[str] = None
 
-    usage: Optional[UsageResult] = None
-
+    usage: Optional[TrajectoryTrajectoryFastAgentResponseEventDataUsage] = None
 
 class TrajectoryTrajectoryFastAgentResponseEvent(BaseModel):
     data: TrajectoryTrajectoryFastAgentResponseEventData
@@ -295,12 +212,9 @@ class TrajectoryTrajectoryFastAgentResponseEvent(BaseModel):
 
     event: Literal["FastAgentResponseEvent"]
 
-
 class TrajectoryTrajectoryFastAgentToolCallEventData(BaseModel):
     """Tool calls ready to execute."""
-
     tool_calls_repr: str
-
 
 class TrajectoryTrajectoryFastAgentToolCallEvent(BaseModel):
     data: TrajectoryTrajectoryFastAgentToolCallEventData
@@ -308,12 +222,9 @@ class TrajectoryTrajectoryFastAgentToolCallEvent(BaseModel):
 
     event: Literal["FastAgentToolCallEvent"]
 
-
 class TrajectoryTrajectoryFastAgentOutputEventData(BaseModel):
     """Tool execution result."""
-
     output: str
-
 
 class TrajectoryTrajectoryFastAgentOutputEvent(BaseModel):
     data: TrajectoryTrajectoryFastAgentOutputEventData
@@ -321,16 +232,13 @@ class TrajectoryTrajectoryFastAgentOutputEvent(BaseModel):
 
     event: Literal["FastAgentOutputEvent"]
 
-
 class TrajectoryTrajectoryFastAgentEndEventData(BaseModel):
     """FastAgent finished."""
-
     reason: str
 
     success: bool
 
     tool_call_count: Optional[int] = None
-
 
 class TrajectoryTrajectoryFastAgentEndEvent(BaseModel):
     data: TrajectoryTrajectoryFastAgentEndEventData
@@ -338,16 +246,13 @@ class TrajectoryTrajectoryFastAgentEndEvent(BaseModel):
 
     event: Literal["FastAgentEndEvent"]
 
-
 class TrajectoryTrajectoryFastAgentExecuteEventData(BaseModel):
     instruction: str
-
 
 class TrajectoryTrajectoryFastAgentExecuteEvent(BaseModel):
     data: TrajectoryTrajectoryFastAgentExecuteEventData
 
     event: Literal["FastAgentExecuteEvent"]
-
 
 class TrajectoryTrajectoryFastAgentResultEventData(BaseModel):
     instruction: str
@@ -356,16 +261,13 @@ class TrajectoryTrajectoryFastAgentResultEventData(BaseModel):
 
     success: bool
 
-
 class TrajectoryTrajectoryFastAgentResultEvent(BaseModel):
     data: TrajectoryTrajectoryFastAgentResultEventData
 
     event: Literal["FastAgentResultEvent"]
 
-
 class TrajectoryTrajectoryToolExecutionEventData(BaseModel):
     """Emitted after every tool call dispatched through ToolRegistry."""
-
     success: bool
 
     summary: str
@@ -374,25 +276,21 @@ class TrajectoryTrajectoryToolExecutionEventData(BaseModel):
 
     tool_name: str
 
-
 class TrajectoryTrajectoryToolExecutionEvent(BaseModel):
     data: TrajectoryTrajectoryToolExecutionEventData
     """Emitted after every tool call dispatched through ToolRegistry."""
 
     event: Literal["ToolExecutionEvent"]
 
-
 class TrajectoryTrajectoryRecordUiStateEventData(BaseModel):
     index: int
 
     url: str
 
-
 class TrajectoryTrajectoryRecordUiStateEvent(BaseModel):
     data: TrajectoryTrajectoryRecordUiStateEventData
 
     event: Literal["RecordUIStateEvent"]
-
 
 class TrajectoryTrajectoryManagerContextEvent(BaseModel):
     data: object
@@ -400,14 +298,20 @@ class TrajectoryTrajectoryManagerContextEvent(BaseModel):
 
     event: Literal["ManagerContextEvent"]
 
+class TrajectoryTrajectoryManagerResponseEventDataUsage(BaseModel):
+    request_tokens: int
+
+    requests: int
+
+    response_tokens: int
+
+    total_tokens: int
 
 class TrajectoryTrajectoryManagerResponseEventData(BaseModel):
     """LLM response received, ready for parsing."""
-
     response: str
 
-    usage: Optional[UsageResult] = None
-
+    usage: Optional[TrajectoryTrajectoryManagerResponseEventDataUsage] = None
 
 class TrajectoryTrajectoryManagerResponseEvent(BaseModel):
     data: TrajectoryTrajectoryManagerResponseEventData
@@ -415,10 +319,8 @@ class TrajectoryTrajectoryManagerResponseEvent(BaseModel):
 
     event: Literal["ManagerResponseEvent"]
 
-
 class TrajectoryTrajectoryManagerPlanDetailsEventData(BaseModel):
     """Plan parsed and ready (internal event with full details)."""
-
     plan: str
 
     subgoal: str
@@ -435,19 +337,15 @@ class TrajectoryTrajectoryManagerPlanDetailsEventData(BaseModel):
 
     success: Optional[bool] = None
 
-
 class TrajectoryTrajectoryManagerPlanDetailsEvent(BaseModel):
     data: TrajectoryTrajectoryManagerPlanDetailsEventData
     """Plan parsed and ready (internal event with full details)."""
 
     event: Literal["ManagerPlanDetailsEvent"]
 
-
 class TrajectoryTrajectoryExecutorContextEventData(BaseModel):
     """Context prepared, ready for LLM call."""
-
     subgoal: str
-
 
 class TrajectoryTrajectoryExecutorContextEvent(BaseModel):
     data: TrajectoryTrajectoryExecutorContextEventData
@@ -455,14 +353,20 @@ class TrajectoryTrajectoryExecutorContextEvent(BaseModel):
 
     event: Literal["ExecutorContextEvent"]
 
+class TrajectoryTrajectoryExecutorResponseEventDataUsage(BaseModel):
+    request_tokens: int
+
+    requests: int
+
+    response_tokens: int
+
+    total_tokens: int
 
 class TrajectoryTrajectoryExecutorResponseEventData(BaseModel):
     """LLM response received, ready for parsing."""
-
     response: str
 
-    usage: Optional[UsageResult] = None
-
+    usage: Optional[TrajectoryTrajectoryExecutorResponseEventDataUsage] = None
 
 class TrajectoryTrajectoryExecutorResponseEvent(BaseModel):
     data: TrajectoryTrajectoryExecutorResponseEventData
@@ -470,10 +374,8 @@ class TrajectoryTrajectoryExecutorResponseEvent(BaseModel):
 
     event: Literal["ExecutorResponseEvent"]
 
-
 class TrajectoryTrajectoryExecutorActionEventData(BaseModel):
     """Action parsed, ready to execute."""
-
     action_json: str
 
     description: str
@@ -482,17 +384,14 @@ class TrajectoryTrajectoryExecutorActionEventData(BaseModel):
 
     full_response: Optional[str] = None
 
-
 class TrajectoryTrajectoryExecutorActionEvent(BaseModel):
     data: TrajectoryTrajectoryExecutorActionEventData
     """Action parsed, ready to execute."""
 
     event: Literal["ExecutorActionEvent"]
 
-
 class TrajectoryTrajectoryExecutorActionResultEventData(BaseModel):
     """Action execution result (internal event with full details)."""
-
     action: Dict[str, object]
 
     error: str
@@ -505,17 +404,14 @@ class TrajectoryTrajectoryExecutorActionResultEventData(BaseModel):
 
     thought: Optional[str] = None
 
-
 class TrajectoryTrajectoryExecutorActionResultEvent(BaseModel):
     data: TrajectoryTrajectoryExecutorActionResultEventData
     """Action execution result (internal event with full details)."""
 
     event: Literal["ExecutorActionResultEvent"]
 
-
 class TrajectoryTrajectoryUserMessageEventData(BaseModel):
     """Tracks the lifecycle of an external user message: queued → applied | dropped."""
-
     action: str
 
     message_ids: List[str]
@@ -526,54 +422,18 @@ class TrajectoryTrajectoryUserMessageEventData(BaseModel):
 
     step_number: Optional[int] = None
 
-
 class TrajectoryTrajectoryUserMessageEvent(BaseModel):
     data: TrajectoryTrajectoryUserMessageEventData
     """Tracks the lifecycle of an external user message: queued → applied | dropped."""
 
     event: Literal["UserMessageEvent"]
 
-
 class TrajectoryTrajectoryUnknownEvent(BaseModel):
     event: str
 
     data: Optional[Dict[str, object]] = None
 
-
-Trajectory: TypeAlias = Union[
-    TrajectoryTrajectoryQueuedEvent,
-    TrajectoryTrajectoryCreatedEvent,
-    TrajectoryTrajectoryExceptionEvent,
-    TrajectoryTrajectoryCancelEvent,
-    TrajectoryTrajectoryScreenshotEvent,
-    TrajectoryTrajectoryStartEvent,
-    TrajectoryTrajectoryFinalizeEvent,
-    TrajectoryTrajectoryStopEvent,
-    TrajectoryTrajectoryResultEvent,
-    TrajectoryTrajectoryManagerInputEvent,
-    TrajectoryTrajectoryManagerPlanEvent,
-    TrajectoryTrajectoryExecutorInputEvent,
-    TrajectoryTrajectoryExecutorResultEvent,
-    TrajectoryTrajectoryFastAgentInputEvent,
-    TrajectoryTrajectoryFastAgentResponseEvent,
-    TrajectoryTrajectoryFastAgentToolCallEvent,
-    TrajectoryTrajectoryFastAgentOutputEvent,
-    TrajectoryTrajectoryFastAgentEndEvent,
-    TrajectoryTrajectoryFastAgentExecuteEvent,
-    TrajectoryTrajectoryFastAgentResultEvent,
-    TrajectoryTrajectoryToolExecutionEvent,
-    TrajectoryTrajectoryRecordUiStateEvent,
-    TrajectoryTrajectoryManagerContextEvent,
-    TrajectoryTrajectoryManagerResponseEvent,
-    TrajectoryTrajectoryManagerPlanDetailsEvent,
-    TrajectoryTrajectoryExecutorContextEvent,
-    TrajectoryTrajectoryExecutorResponseEvent,
-    TrajectoryTrajectoryExecutorActionEvent,
-    TrajectoryTrajectoryExecutorActionResultEvent,
-    TrajectoryTrajectoryUserMessageEvent,
-    TrajectoryTrajectoryUnknownEvent,
-]
-
+Trajectory: TypeAlias = Union[TrajectoryTrajectoryQueuedEvent, TrajectoryTrajectoryCreatedEvent, TrajectoryTrajectoryExceptionEvent, TrajectoryTrajectoryCancelEvent, TrajectoryTrajectoryScreenshotEvent, TrajectoryTrajectoryStartEvent, TrajectoryTrajectoryFinalizeEvent, TrajectoryTrajectoryStopEvent, TrajectoryTrajectoryResultEvent, TrajectoryTrajectoryManagerInputEvent, TrajectoryTrajectoryManagerPlanEvent, TrajectoryTrajectoryExecutorInputEvent, TrajectoryTrajectoryExecutorResultEvent, TrajectoryTrajectoryFastAgentInputEvent, TrajectoryTrajectoryFastAgentResponseEvent, TrajectoryTrajectoryFastAgentToolCallEvent, TrajectoryTrajectoryFastAgentOutputEvent, TrajectoryTrajectoryFastAgentEndEvent, TrajectoryTrajectoryFastAgentExecuteEvent, TrajectoryTrajectoryFastAgentResultEvent, TrajectoryTrajectoryToolExecutionEvent, TrajectoryTrajectoryRecordUiStateEvent, TrajectoryTrajectoryManagerContextEvent, TrajectoryTrajectoryManagerResponseEvent, TrajectoryTrajectoryManagerPlanDetailsEvent, TrajectoryTrajectoryExecutorContextEvent, TrajectoryTrajectoryExecutorResponseEvent, TrajectoryTrajectoryExecutorActionEvent, TrajectoryTrajectoryExecutorActionResultEvent, TrajectoryTrajectoryUserMessageEvent, TrajectoryTrajectoryUnknownEvent]
 
 class TaskGetTrajectoryResponse(BaseModel):
     trajectory: List[Trajectory]

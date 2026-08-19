@@ -4,20 +4,22 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import Body, Query, Headers, NotGiven, not_given
-from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ..._base_client import make_request_options
+
+from ..._compat import cached_property
+
 from ...types.workflows.timezone_list_response import TimezoneListResponse
 
-__all__ = ["TimezonesResource", "AsyncTimezonesResource"]
+from ..._base_client import make_request_options
 
+from ..._types import NotGiven
+
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+
+__all__ = ["TimezonesResource", "AsyncTimezonesResource"]
 
 class TimezonesResource(SyncAPIResource):
     @cached_property
@@ -39,25 +41,20 @@ class TimezonesResource(SyncAPIResource):
         """
         return TimezonesResourceWithStreamingResponse(self)
 
-    def list(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TimezoneListResponse:
+    def list(self,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TimezoneListResponse:
         """List supported IANA timezones"""
         return self._get(
             "/timezones",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=TimezoneListResponse,
         )
-
 
 class AsyncTimezonesResource(AsyncAPIResource):
     @cached_property
@@ -79,25 +76,20 @@ class AsyncTimezonesResource(AsyncAPIResource):
         """
         return AsyncTimezonesResourceWithStreamingResponse(self)
 
-    async def list(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TimezoneListResponse:
+    async def list(self,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> TimezoneListResponse:
         """List supported IANA timezones"""
         return await self._get(
             "/timezones",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=TimezoneListResponse,
         )
-
 
 class TimezonesResourceWithRawResponse:
     def __init__(self, timezones: TimezonesResource) -> None:
@@ -107,7 +99,6 @@ class TimezonesResourceWithRawResponse:
             timezones.list,
         )
 
-
 class AsyncTimezonesResourceWithRawResponse:
     def __init__(self, timezones: AsyncTimezonesResource) -> None:
         self._timezones = timezones
@@ -116,7 +107,6 @@ class AsyncTimezonesResourceWithRawResponse:
             timezones.list,
         )
 
-
 class TimezonesResourceWithStreamingResponse:
     def __init__(self, timezones: TimezonesResource) -> None:
         self._timezones = timezones
@@ -124,7 +114,6 @@ class TimezonesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             timezones.list,
         )
-
 
 class AsyncTimezonesResourceWithStreamingResponse:
     def __init__(self, timezones: AsyncTimezonesResource) -> None:

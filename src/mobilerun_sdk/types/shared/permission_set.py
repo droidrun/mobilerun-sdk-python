@@ -4,7 +4,6 @@ from ..._models import BaseModel
 
 __all__ = ["PermissionSet"]
 
-
 class PermissionSet(BaseModel):
     execute: bool
 

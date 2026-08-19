@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
+from typing_extensions import TypedDict, Annotated
+
 from typing import Optional
-from typing_extensions import Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
 __all__ = ["UserUpdateParams"]
-
 
 class UserUpdateParams(TypedDict, total=False):
     proxy_id: Annotated[Optional[str], PropertyInfo(alias="proxyId")]

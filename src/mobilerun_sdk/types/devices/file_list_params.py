@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import TypedDict, Required, Annotated
 
 from ..._utils import PropertyInfo
 
 __all__ = ["FileListParams"]
-
 
 class FileListParams(TypedDict, total=False):
     path: Required[str]

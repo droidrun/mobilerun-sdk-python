@@ -6,7 +6,6 @@ from typing_extensions import TypedDict
 
 __all__ = ["CarrierUpdateParams"]
 
-
 class CarrierUpdateParams(TypedDict, total=False):
     company: str
     """Company name"""

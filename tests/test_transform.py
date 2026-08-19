@@ -8,7 +8,7 @@ from typing_extensions import Required, Annotated, TypedDict
 
 import pytest
 
-from mobilerun_sdk._types import Base64FileInput, omit, not_given
+from mobilerun_sdk._types import not_given, omit, Base64FileInput
 from mobilerun_sdk._utils import (
     PropertyInfo,
     transform as _transform,

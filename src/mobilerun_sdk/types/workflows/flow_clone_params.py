@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated
 
 from ..._types import SequenceNotStr
+
 from ..._utils import PropertyInfo
 
 __all__ = ["FlowCloneParams"]
-
 
 class FlowCloneParams(TypedDict, total=False):
     device_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="deviceIds")]

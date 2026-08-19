@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Literal
 
 from .._utils import PropertyInfo
 
 __all__ = ["WebhookListParams"]
-
 
 class WebhookListParams(TypedDict, total=False):
     created_by: Annotated[str, PropertyInfo(alias="createdBy")]

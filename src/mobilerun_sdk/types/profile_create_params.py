@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, TypedDict
+from typing_extensions import TypedDict, Required
 
 from .shared_params.device_spec import DeviceSpec
 
 __all__ = ["ProfileCreateParams"]
-
 
 class ProfileCreateParams(TypedDict, total=False):
     name: Required[str]

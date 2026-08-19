@@ -4,31 +4,31 @@ from __future__ import annotations
 
 import httpx
 
-from ...._types import Body, Query, Headers, NotGiven, not_given
-from ...._utils import path_template, maybe_transform, async_maybe_transform
-from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
-from ...._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ...._base_client import make_request_options
-from ....types.credentials import package_create_params
-from .credentials.credentials import (
-    CredentialsResource,
-    AsyncCredentialsResource,
-    CredentialsResourceWithRawResponse,
-    AsyncCredentialsResourceWithRawResponse,
-    CredentialsResourceWithStreamingResponse,
-    AsyncCredentialsResourceWithStreamingResponse,
-)
-from ....types.credentials.package_list_response import PackageListResponse
+
+from .credentials.credentials import CredentialsResource, AsyncCredentialsResource, CredentialsResourceWithRawResponse, AsyncCredentialsResourceWithRawResponse, CredentialsResourceWithStreamingResponse, AsyncCredentialsResourceWithStreamingResponse
+
+from ...._compat import cached_property
+
 from ....types.credentials.package_create_response import PackageCreateResponse
 
-__all__ = ["PackagesResource", "AsyncPackagesResource"]
+from ...._utils import maybe_transform, path_template, async_maybe_transform
 
+from ...._base_client import make_request_options
+
+from ...._types import NotGiven
+
+from ....types.credentials.package_list_response import PackageListResponse
+
+from ....types.credentials.package_list_all_response import PackageListAllResponse
+
+from ...._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from ...._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ....types.credentials import package_create_params
+
+__all__ = ["PackagesResource", "AsyncPackagesResource"]
 
 class PackagesResource(SyncAPIResource):
     @cached_property
@@ -54,17 +54,15 @@ class PackagesResource(SyncAPIResource):
         """
         return PackagesResourceWithStreamingResponse(self)
 
-    def create(
-        self,
-        *,
-        package_name: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PackageCreateResponse:
+    def create(self,
+    *,
+    package_name: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> PackageCreateResponse:
         """
         Creates a new package (identified by `packageName`) under which credentials can
         be grouped. Returns a conflict if a package with the same name already exists
@@ -81,24 +79,22 @@ class PackagesResource(SyncAPIResource):
         """
         return self._post(
             "/credentials/packages",
-            body=maybe_transform({"package_name": package_name}, package_create_params.PackageCreateParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "package_name": package_name
+            }, package_create_params.PackageCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=PackageCreateResponse,
         )
 
-    def list(
-        self,
-        package_name: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PackageListResponse:
+    def list(self,
+    package_name: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> PackageListResponse:
         """Returns all credentials stored under the given `packageName`.
 
         Each credential
@@ -114,15 +110,33 @@ class PackagesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         return self._get(
             path_template("/credentials/packages/{package_name}", package_name=package_name),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=PackageListResponse,
         )
 
+    def list_all(self,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> PackageListAllResponse:
+        """
+        Returns the names of all packages (apps) the authenticated owner has credentials
+        grouped under. Use this to discover which `packageName` values are valid for the
+        per-package credential routes.
+        """
+        return self._get(
+            "/credentials/packages",
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
+            cast_to=PackageListAllResponse,
+        )
 
 class AsyncPackagesResource(AsyncAPIResource):
     @cached_property
@@ -148,17 +162,15 @@ class AsyncPackagesResource(AsyncAPIResource):
         """
         return AsyncPackagesResourceWithStreamingResponse(self)
 
-    async def create(
-        self,
-        *,
-        package_name: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PackageCreateResponse:
+    async def create(self,
+    *,
+    package_name: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> PackageCreateResponse:
         """
         Creates a new package (identified by `packageName`) under which credentials can
         be grouped. Returns a conflict if a package with the same name already exists
@@ -175,24 +187,22 @@ class AsyncPackagesResource(AsyncAPIResource):
         """
         return await self._post(
             "/credentials/packages",
-            body=await async_maybe_transform({"package_name": package_name}, package_create_params.PackageCreateParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "package_name": package_name
+            }, package_create_params.PackageCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=PackageCreateResponse,
         )
 
-    async def list(
-        self,
-        package_name: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PackageListResponse:
+    async def list(self,
+    package_name: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> PackageListResponse:
         """Returns all credentials stored under the given `packageName`.
 
         Each credential
@@ -208,15 +218,33 @@ class AsyncPackagesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         return await self._get(
             path_template("/credentials/packages/{package_name}", package_name=package_name),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=PackageListResponse,
         )
 
+    async def list_all(self,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> PackageListAllResponse:
+        """
+        Returns the names of all packages (apps) the authenticated owner has credentials
+        grouped under. Use this to discover which `packageName` values are valid for the
+        per-package credential routes.
+        """
+        return await self._get(
+            "/credentials/packages",
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
+            cast_to=PackageListAllResponse,
+        )
 
 class PackagesResourceWithRawResponse:
     def __init__(self, packages: PackagesResource) -> None:
@@ -228,11 +256,13 @@ class PackagesResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             packages.list,
         )
+        self.list_all = to_raw_response_wrapper(
+            packages.list_all,
+        )
 
     @cached_property
     def credentials(self) -> CredentialsResourceWithRawResponse:
         return CredentialsResourceWithRawResponse(self._packages.credentials)
-
 
 class AsyncPackagesResourceWithRawResponse:
     def __init__(self, packages: AsyncPackagesResource) -> None:
@@ -244,11 +274,13 @@ class AsyncPackagesResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             packages.list,
         )
+        self.list_all = async_to_raw_response_wrapper(
+            packages.list_all,
+        )
 
     @cached_property
     def credentials(self) -> AsyncCredentialsResourceWithRawResponse:
         return AsyncCredentialsResourceWithRawResponse(self._packages.credentials)
-
 
 class PackagesResourceWithStreamingResponse:
     def __init__(self, packages: PackagesResource) -> None:
@@ -260,11 +292,13 @@ class PackagesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             packages.list,
         )
+        self.list_all = to_streamed_response_wrapper(
+            packages.list_all,
+        )
 
     @cached_property
     def credentials(self) -> CredentialsResourceWithStreamingResponse:
         return CredentialsResourceWithStreamingResponse(self._packages.credentials)
-
 
 class AsyncPackagesResourceWithStreamingResponse:
     def __init__(self, packages: AsyncPackagesResource) -> None:
@@ -275,6 +309,9 @@ class AsyncPackagesResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             packages.list,
+        )
+        self.list_all = async_to_streamed_response_wrapper(
+            packages.list_all,
         )
 
     @cached_property

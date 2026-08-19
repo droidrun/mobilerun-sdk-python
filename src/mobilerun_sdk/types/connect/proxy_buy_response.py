@@ -1,25 +1,25 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from ..._models import BaseModel
+
 from datetime import datetime
-from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
-from ..._models import BaseModel
+from typing_extensions import Literal
+
+from typing import Optional
 
 __all__ = ["ProxyBuyResponse"]
 
-
 class ProxyBuyResponse(BaseModel):
     """A proxy including its password. Returned only on create and single-proxy reads."""
-
     id: str
 
     country: str
     """ISO 3166-1 alpha-2 country code (lowercase)."""
 
-    created_at: datetime = FieldInfo(alias="createdAt")
+    created_at: datetime = FieldInfo(alias = "createdAt")
 
     host: str
 
@@ -41,7 +41,7 @@ class ProxyBuyResponse(BaseModel):
 
     username: str
 
-    payment_url: Optional[str] = FieldInfo(alias="paymentUrl", default=None)
+    payment_url: Optional[str] = FieldInfo(alias = "paymentUrl", default = None)
     """Checkout URL to complete payment while status is `pending_payment`.
 
     Null once paid or when no payment was required.

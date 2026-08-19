@@ -2,41 +2,47 @@
 
 from __future__ import annotations
 
-from typing import Optional
-from typing_extensions import Literal
-
 import httpx
 
-from ...types import webhook_list_params, webhook_create_params, webhook_update_params
-from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
-from ..._compat import cached_property
-from .deliveries import (
-    DeliveriesResource,
-    AsyncDeliveriesResource,
-    DeliveriesResourceWithRawResponse,
-    AsyncDeliveriesResourceWithRawResponse,
-    DeliveriesResourceWithStreamingResponse,
-    AsyncDeliveriesResourceWithStreamingResponse,
-)
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ..._base_client import make_request_options
-from ...types.webhook_list_response import WebhookListResponse
+
+from .deliveries import DeliveriesResource, AsyncDeliveriesResource, DeliveriesResourceWithRawResponse, AsyncDeliveriesResourceWithRawResponse, DeliveriesResourceWithStreamingResponse, AsyncDeliveriesResourceWithStreamingResponse
+
+from ..._compat import cached_property
+
 from ...types.webhook_create_response import WebhookCreateResponse
-from ...types.webhook_update_response import WebhookUpdateResponse
+
+from ..._utils import maybe_transform, path_template, async_maybe_transform
+
+from ..._base_client import make_request_options
+
+from ..._types import Omit, omit, SequenceNotStr, NotGiven
+
 from ...types.webhook_retrieve_response import WebhookRetrieveResponse
+
+from ...types.webhook_update_response import WebhookUpdateResponse
+
+from typing import Optional
+
+from typing_extensions import Literal
+
+from ...types.webhook_list_response import WebhookListResponse
+
 from ...types.webhook_event_types_response import WebhookEventTypesResponse
+
 from ...types.webhook_rotate_secret_response import WebhookRotateSecretResponse
+
 from ...types.webhook_test_delivery_response import WebhookTestDeliveryResponse
 
-__all__ = ["WebhooksResource", "AsyncWebhooksResource"]
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
 
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ...types import webhook_create_params
+from ...types import webhook_update_params
+from ...types import webhook_list_params
+
+__all__ = ["WebhooksResource", "AsyncWebhooksResource"]
 
 class WebhooksResource(SyncAPIResource):
     @cached_property
@@ -62,19 +68,17 @@ class WebhooksResource(SyncAPIResource):
         """
         return WebhooksResourceWithStreamingResponse(self)
 
-    def create(
-        self,
-        *,
-        url: str,
-        description: str | Omit = omit,
-        event_types: SequenceNotStr[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookCreateResponse:
+    def create(self,
+    *,
+    url: str,
+    description: str | Omit = omit,
+    event_types: SequenceNotStr[str] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookCreateResponse:
         """
         Creates a webhook subscription with a delivery URL and an optional list of event
         types to subscribe to (defaults to all when omitted). The response includes the
@@ -92,31 +96,24 @@ class WebhooksResource(SyncAPIResource):
         """
         return self._post(
             "/webhooks",
-            body=maybe_transform(
-                {
-                    "url": url,
-                    "description": description,
-                    "event_types": event_types,
-                },
-                webhook_create_params.WebhookCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "url": url,
+                "description": description,
+                "event_types": event_types,
+            }, webhook_create_params.WebhookCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=WebhookCreateResponse,
         )
 
-    def retrieve(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookRetrieveResponse:
+    def retrieve(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookRetrieveResponse:
         """
         Returns a single webhook subscription by id, including its URL, subscribed event
         types, state, and system-observed delivery health. The signing secret is never
@@ -132,29 +129,27 @@ class WebhooksResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return self._get(
             path_template("/webhooks/{id}", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=WebhookRetrieveResponse,
         )
 
-    def update(
-        self,
-        id: str,
-        *,
-        description: Optional[str] | Omit = omit,
-        event_types: SequenceNotStr[str] | Omit = omit,
-        state: Literal["ACTIVE", "DISABLED"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookUpdateResponse:
+    def update(self,
+    id: str,
+    *,
+    description: Optional[str] | Omit = omit,
+    event_types: SequenceNotStr[str] | Omit = omit,
+    state: Literal["ACTIVE", "DISABLED"] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookUpdateResponse:
         """Updates a webhook subscription.
 
         Any combination of the subscribed event types,
@@ -172,39 +167,34 @@ class WebhooksResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return self._patch(
             path_template("/webhooks/{id}", id=id),
-            body=maybe_transform(
-                {
-                    "description": description,
-                    "event_types": event_types,
-                    "state": state,
-                },
-                webhook_update_params.WebhookUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "description": description,
+                "event_types": event_types,
+                "state": state,
+            }, webhook_update_params.WebhookUpdateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=WebhookUpdateResponse,
         )
 
-    def list(
-        self,
-        *,
-        created_by: str | Omit = omit,
-        mine: Literal["true", "false"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        search: str | Omit = omit,
-        status: Literal["active", "failing", "blocked", "disabled"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookListResponse:
+    def list(self,
+    *,
+    created_by: str | Omit = omit,
+    mine: Literal["true", "false"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    search: str | Omit = omit,
+    status: Literal["active", "failing", "blocked", "disabled"] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookListResponse:
         """
         Returns a paginated list of your webhook subscriptions, optionally filtered by
         status (active, failing, blocked, or disabled) and/or by `search` (a
@@ -228,37 +218,26 @@ class WebhooksResource(SyncAPIResource):
         """
         return self._get(
             "/webhooks",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "created_by": created_by,
-                        "mine": mine,
-                        "page": page,
-                        "page_size": page_size,
-                        "search": search,
-                        "status": status,
-                    },
-                    webhook_list_params.WebhookListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "created_by": created_by,
+                "mine": mine,
+                "page": page,
+                "page_size": page_size,
+                "search": search,
+                "status": status,
+            }, webhook_list_params.WebhookListParams)),
             cast_to=WebhookListResponse,
         )
 
-    def delete(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    def delete(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> None:
         """Deletes a webhook subscription so it stops receiving deliveries.
 
         Returns 204 No
@@ -274,26 +253,24 @@ class WebhooksResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             path_template("/webhooks/{id}", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=NoneType,
         )
 
-    def event_types(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookEventTypesResponse:
+    def event_types(self,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookEventTypesResponse:
         """
         Returns the catalog of event types that webhook subscriptions can subscribe to,
         grouped by source. Use the returned type identifiers as the `eventTypes` values
@@ -301,23 +278,19 @@ class WebhooksResource(SyncAPIResource):
         """
         return self._get(
             "/event-types",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=WebhookEventTypesResponse,
         )
 
-    def rotate_secret(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookRotateSecretResponse:
+    def rotate_secret(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookRotateSecretResponse:
         """
         Generates a new signing secret for the webhook subscription and returns it once
         in the response. The previous secret is replaced immediately, so any signature
@@ -333,26 +306,24 @@ class WebhooksResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return self._post(
             path_template("/webhooks/{id}/rotate-secret", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=WebhookRotateSecretResponse,
         )
 
-    def test_delivery(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookTestDeliveryResponse:
+    def test_delivery(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookTestDeliveryResponse:
         """
         Sends a single test payload to the webhook subscription URL to verify
         connectivity. The response reports whether the attempt succeeded along with the
@@ -368,15 +339,14 @@ class WebhooksResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return self._post(
             path_template("/webhooks/{id}/test", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=WebhookTestDeliveryResponse,
         )
-
 
 class AsyncWebhooksResource(AsyncAPIResource):
     @cached_property
@@ -402,19 +372,17 @@ class AsyncWebhooksResource(AsyncAPIResource):
         """
         return AsyncWebhooksResourceWithStreamingResponse(self)
 
-    async def create(
-        self,
-        *,
-        url: str,
-        description: str | Omit = omit,
-        event_types: SequenceNotStr[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookCreateResponse:
+    async def create(self,
+    *,
+    url: str,
+    description: str | Omit = omit,
+    event_types: SequenceNotStr[str] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookCreateResponse:
         """
         Creates a webhook subscription with a delivery URL and an optional list of event
         types to subscribe to (defaults to all when omitted). The response includes the
@@ -432,31 +400,24 @@ class AsyncWebhooksResource(AsyncAPIResource):
         """
         return await self._post(
             "/webhooks",
-            body=await async_maybe_transform(
-                {
-                    "url": url,
-                    "description": description,
-                    "event_types": event_types,
-                },
-                webhook_create_params.WebhookCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "url": url,
+                "description": description,
+                "event_types": event_types,
+            }, webhook_create_params.WebhookCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=WebhookCreateResponse,
         )
 
-    async def retrieve(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookRetrieveResponse:
+    async def retrieve(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookRetrieveResponse:
         """
         Returns a single webhook subscription by id, including its URL, subscribed event
         types, state, and system-observed delivery health. The signing secret is never
@@ -472,29 +433,27 @@ class AsyncWebhooksResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return await self._get(
             path_template("/webhooks/{id}", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=WebhookRetrieveResponse,
         )
 
-    async def update(
-        self,
-        id: str,
-        *,
-        description: Optional[str] | Omit = omit,
-        event_types: SequenceNotStr[str] | Omit = omit,
-        state: Literal["ACTIVE", "DISABLED"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookUpdateResponse:
+    async def update(self,
+    id: str,
+    *,
+    description: Optional[str] | Omit = omit,
+    event_types: SequenceNotStr[str] | Omit = omit,
+    state: Literal["ACTIVE", "DISABLED"] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookUpdateResponse:
         """Updates a webhook subscription.
 
         Any combination of the subscribed event types,
@@ -512,39 +471,34 @@ class AsyncWebhooksResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return await self._patch(
             path_template("/webhooks/{id}", id=id),
-            body=await async_maybe_transform(
-                {
-                    "description": description,
-                    "event_types": event_types,
-                    "state": state,
-                },
-                webhook_update_params.WebhookUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "description": description,
+                "event_types": event_types,
+                "state": state,
+            }, webhook_update_params.WebhookUpdateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=WebhookUpdateResponse,
         )
 
-    async def list(
-        self,
-        *,
-        created_by: str | Omit = omit,
-        mine: Literal["true", "false"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        search: str | Omit = omit,
-        status: Literal["active", "failing", "blocked", "disabled"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookListResponse:
+    async def list(self,
+    *,
+    created_by: str | Omit = omit,
+    mine: Literal["true", "false"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    search: str | Omit = omit,
+    status: Literal["active", "failing", "blocked", "disabled"] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookListResponse:
         """
         Returns a paginated list of your webhook subscriptions, optionally filtered by
         status (active, failing, blocked, or disabled) and/or by `search` (a
@@ -568,37 +522,26 @@ class AsyncWebhooksResource(AsyncAPIResource):
         """
         return await self._get(
             "/webhooks",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "created_by": created_by,
-                        "mine": mine,
-                        "page": page,
-                        "page_size": page_size,
-                        "search": search,
-                        "status": status,
-                    },
-                    webhook_list_params.WebhookListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "created_by": created_by,
+                "mine": mine,
+                "page": page,
+                "page_size": page_size,
+                "search": search,
+                "status": status,
+            }, webhook_list_params.WebhookListParams)),
             cast_to=WebhookListResponse,
         )
 
-    async def delete(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    async def delete(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> None:
         """Deletes a webhook subscription so it stops receiving deliveries.
 
         Returns 204 No
@@ -614,26 +557,24 @@ class AsyncWebhooksResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             path_template("/webhooks/{id}", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=NoneType,
         )
 
-    async def event_types(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookEventTypesResponse:
+    async def event_types(self,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookEventTypesResponse:
         """
         Returns the catalog of event types that webhook subscriptions can subscribe to,
         grouped by source. Use the returned type identifiers as the `eventTypes` values
@@ -641,23 +582,19 @@ class AsyncWebhooksResource(AsyncAPIResource):
         """
         return await self._get(
             "/event-types",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=WebhookEventTypesResponse,
         )
 
-    async def rotate_secret(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookRotateSecretResponse:
+    async def rotate_secret(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookRotateSecretResponse:
         """
         Generates a new signing secret for the webhook subscription and returns it once
         in the response. The previous secret is replaced immediately, so any signature
@@ -673,26 +610,24 @@ class AsyncWebhooksResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return await self._post(
             path_template("/webhooks/{id}/rotate-secret", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=WebhookRotateSecretResponse,
         )
 
-    async def test_delivery(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookTestDeliveryResponse:
+    async def test_delivery(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> WebhookTestDeliveryResponse:
         """
         Sends a single test payload to the webhook subscription URL to verify
         connectivity. The response reports whether the attempt succeeded along with the
@@ -708,15 +643,14 @@ class AsyncWebhooksResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return await self._post(
             path_template("/webhooks/{id}/test", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=WebhookTestDeliveryResponse,
         )
-
 
 class WebhooksResourceWithRawResponse:
     def __init__(self, webhooks: WebhooksResource) -> None:
@@ -751,7 +685,6 @@ class WebhooksResourceWithRawResponse:
     def deliveries(self) -> DeliveriesResourceWithRawResponse:
         return DeliveriesResourceWithRawResponse(self._webhooks.deliveries)
 
-
 class AsyncWebhooksResourceWithRawResponse:
     def __init__(self, webhooks: AsyncWebhooksResource) -> None:
         self._webhooks = webhooks
@@ -785,7 +718,6 @@ class AsyncWebhooksResourceWithRawResponse:
     def deliveries(self) -> AsyncDeliveriesResourceWithRawResponse:
         return AsyncDeliveriesResourceWithRawResponse(self._webhooks.deliveries)
 
-
 class WebhooksResourceWithStreamingResponse:
     def __init__(self, webhooks: WebhooksResource) -> None:
         self._webhooks = webhooks
@@ -818,7 +750,6 @@ class WebhooksResourceWithStreamingResponse:
     @cached_property
     def deliveries(self) -> DeliveriesResourceWithStreamingResponse:
         return DeliveriesResourceWithStreamingResponse(self._webhooks.deliveries)
-
 
 class AsyncWebhooksResourceWithStreamingResponse:
     def __init__(self, webhooks: AsyncWebhooksResource) -> None:

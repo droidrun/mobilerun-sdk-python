@@ -2,36 +2,37 @@
 
 from __future__ import annotations
 
-from typing import Iterable
-
 import httpx
 
-from .fields import (
-    FieldsResource,
-    AsyncFieldsResource,
-    FieldsResourceWithRawResponse,
-    AsyncFieldsResourceWithRawResponse,
-    FieldsResourceWithStreamingResponse,
-    AsyncFieldsResourceWithStreamingResponse,
-)
-from ....._types import Body, Query, Headers, NotGiven, not_given
-from ....._utils import path_template, maybe_transform, async_maybe_transform
-from ....._compat import cached_property
 from ....._resource import SyncAPIResource, AsyncAPIResource
-from ....._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ....._base_client import make_request_options
-from .....types.credentials.packages import credential_create_params
+
+from .fields import FieldsResource, AsyncFieldsResource, FieldsResourceWithRawResponse, AsyncFieldsResourceWithRawResponse, FieldsResourceWithStreamingResponse, AsyncFieldsResourceWithStreamingResponse
+
+from ....._compat import cached_property
+
+from ....._utils import path_template, maybe_transform, async_maybe_transform
+
 from .....types.credentials.packages.credential_create_response import CredentialCreateResponse
-from .....types.credentials.packages.credential_delete_response import CredentialDeleteResponse
+
+from ....._base_client import make_request_options
+
+from typing import Iterable
+
+from ....._types import NotGiven
+
 from .....types.credentials.packages.credential_retrieve_response import CredentialRetrieveResponse
 
-__all__ = ["CredentialsResource", "AsyncCredentialsResource"]
+from .....types.credentials.packages.credential_delete_response import CredentialDeleteResponse
 
+from ....._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from .....types.credentials.packages import credential_create_params
+
+from typing_extensions import Literal, overload
+from ....._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from .....types.credentials.packages import credential_create_params
+
+__all__ = ["CredentialsResource", "AsyncCredentialsResource"]
 
 class CredentialsResource(SyncAPIResource):
     @cached_property
@@ -57,19 +58,17 @@ class CredentialsResource(SyncAPIResource):
         """
         return CredentialsResourceWithStreamingResponse(self)
 
-    def create(
-        self,
-        package_name: str,
-        *,
-        credential_name: str,
-        fields: Iterable[credential_create_params.Field],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CredentialCreateResponse:
+    def create(self,
+    package_name: str,
+    *,
+    credential_name: str,
+    fields: Iterable[credential_create_params.Field],
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CredentialCreateResponse:
         """
         Creates a credential under the given package with a `credentialName` and at
         least one field. Each field has a `fieldType` (email, username, password,
@@ -85,34 +84,29 @@ class CredentialsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         return self._post(
             path_template("/credentials/packages/{package_name}", package_name=package_name),
-            body=maybe_transform(
-                {
-                    "credential_name": credential_name,
-                    "fields": fields,
-                },
-                credential_create_params.CredentialCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "credential_name": credential_name,
+                "fields": fields,
+            }, credential_create_params.CredentialCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CredentialCreateResponse,
         )
 
-    def retrieve(
-        self,
-        credential_name: str,
-        *,
-        package_name: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CredentialRetrieveResponse:
+    def retrieve(self,
+    credential_name: str,
+    *,
+    package_name: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CredentialRetrieveResponse:
         """
         Fetches a single credential by `packageName` and `credentialName`, including all
         of its stored fields. Returns not found if no matching credential exists.
@@ -127,33 +121,29 @@ class CredentialsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `credential_name` but received {credential_name!r}'
+          )
         return self._get(
-            path_template(
-                "/credentials/packages/{package_name}/credentials/{credential_name}",
-                package_name=package_name,
-                credential_name=credential_name,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            path_template("/credentials/packages/{package_name}/credentials/{credential_name}", package_name=package_name, credential_name=credential_name),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CredentialRetrieveResponse,
         )
 
-    def delete(
-        self,
-        credential_name: str,
-        *,
-        package_name: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CredentialDeleteResponse:
+    def delete(self,
+    credential_name: str,
+    *,
+    package_name: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CredentialDeleteResponse:
         """
         Permanently deletes the credential identified by `packageName` and
         `credentialName`, removing all of its fields. Returns the deleted credential.
@@ -168,21 +158,18 @@ class CredentialsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `credential_name` but received {credential_name!r}'
+          )
         return self._delete(
-            path_template(
-                "/credentials/packages/{package_name}/credentials/{credential_name}",
-                package_name=package_name,
-                credential_name=credential_name,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            path_template("/credentials/packages/{package_name}/credentials/{credential_name}", package_name=package_name, credential_name=credential_name),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CredentialDeleteResponse,
         )
-
 
 class AsyncCredentialsResource(AsyncAPIResource):
     @cached_property
@@ -208,19 +195,17 @@ class AsyncCredentialsResource(AsyncAPIResource):
         """
         return AsyncCredentialsResourceWithStreamingResponse(self)
 
-    async def create(
-        self,
-        package_name: str,
-        *,
-        credential_name: str,
-        fields: Iterable[credential_create_params.Field],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CredentialCreateResponse:
+    async def create(self,
+    package_name: str,
+    *,
+    credential_name: str,
+    fields: Iterable[credential_create_params.Field],
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CredentialCreateResponse:
         """
         Creates a credential under the given package with a `credentialName` and at
         least one field. Each field has a `fieldType` (email, username, password,
@@ -236,34 +221,29 @@ class AsyncCredentialsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         return await self._post(
             path_template("/credentials/packages/{package_name}", package_name=package_name),
-            body=await async_maybe_transform(
-                {
-                    "credential_name": credential_name,
-                    "fields": fields,
-                },
-                credential_create_params.CredentialCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "credential_name": credential_name,
+                "fields": fields,
+            }, credential_create_params.CredentialCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CredentialCreateResponse,
         )
 
-    async def retrieve(
-        self,
-        credential_name: str,
-        *,
-        package_name: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CredentialRetrieveResponse:
+    async def retrieve(self,
+    credential_name: str,
+    *,
+    package_name: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CredentialRetrieveResponse:
         """
         Fetches a single credential by `packageName` and `credentialName`, including all
         of its stored fields. Returns not found if no matching credential exists.
@@ -278,33 +258,29 @@ class AsyncCredentialsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `credential_name` but received {credential_name!r}'
+          )
         return await self._get(
-            path_template(
-                "/credentials/packages/{package_name}/credentials/{credential_name}",
-                package_name=package_name,
-                credential_name=credential_name,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            path_template("/credentials/packages/{package_name}/credentials/{credential_name}", package_name=package_name, credential_name=credential_name),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CredentialRetrieveResponse,
         )
 
-    async def delete(
-        self,
-        credential_name: str,
-        *,
-        package_name: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CredentialDeleteResponse:
+    async def delete(self,
+    credential_name: str,
+    *,
+    package_name: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CredentialDeleteResponse:
         """
         Permanently deletes the credential identified by `packageName` and
         `credentialName`, removing all of its fields. Returns the deleted credential.
@@ -319,21 +295,18 @@ class AsyncCredentialsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `credential_name` but received {credential_name!r}'
+          )
         return await self._delete(
-            path_template(
-                "/credentials/packages/{package_name}/credentials/{credential_name}",
-                package_name=package_name,
-                credential_name=credential_name,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            path_template("/credentials/packages/{package_name}/credentials/{credential_name}", package_name=package_name, credential_name=credential_name),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CredentialDeleteResponse,
         )
-
 
 class CredentialsResourceWithRawResponse:
     def __init__(self, credentials: CredentialsResource) -> None:
@@ -353,7 +326,6 @@ class CredentialsResourceWithRawResponse:
     def fields(self) -> FieldsResourceWithRawResponse:
         return FieldsResourceWithRawResponse(self._credentials.fields)
 
-
 class AsyncCredentialsResourceWithRawResponse:
     def __init__(self, credentials: AsyncCredentialsResource) -> None:
         self._credentials = credentials
@@ -372,7 +344,6 @@ class AsyncCredentialsResourceWithRawResponse:
     def fields(self) -> AsyncFieldsResourceWithRawResponse:
         return AsyncFieldsResourceWithRawResponse(self._credentials.fields)
 
-
 class CredentialsResourceWithStreamingResponse:
     def __init__(self, credentials: CredentialsResource) -> None:
         self._credentials = credentials
@@ -390,7 +361,6 @@ class CredentialsResourceWithStreamingResponse:
     @cached_property
     def fields(self) -> FieldsResourceWithStreamingResponse:
         return FieldsResourceWithStreamingResponse(self._credentials.fields)
-
 
 class AsyncCredentialsResourceWithStreamingResponse:
     def __init__(self, credentials: AsyncCredentialsResource) -> None:
