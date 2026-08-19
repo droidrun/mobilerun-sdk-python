@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Required
 
 from ..._utils import PropertyInfo
 
 __all__ = ["ProxyConnectParams", "Connect", "Socks5"]
-
 
 class ProxyConnectParams(TypedDict, total=False):
     connect: Connect
@@ -35,12 +34,10 @@ class ProxyConnectParams(TypedDict, total=False):
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
 
-
 class Connect(TypedDict, total=False):
     """
     Mobilerun Connect proxy — pass exactly one of id (use an existing proxy's credentials) or country (provision or reuse a rotating residential proxy for the device).
     """
-
     id: str
     """Existing Mobilerun Connect proxy id; its credentials are fetched server-side."""
 
@@ -50,10 +47,8 @@ class Connect(TypedDict, total=False):
     Mobilerun Connect proxy for the device.
     """
 
-
 class Socks5(TypedDict, total=False):
     """SOCKS5 proxy configuration (required for socks5)."""
-
     host: Required[str]
 
     port: Required[int]

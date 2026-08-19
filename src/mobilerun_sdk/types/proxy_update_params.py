@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+from typing_extensions import TypedDict, Required, Literal, TypeAliasType, TypeAlias
+
 from typing import Union
-from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 __all__ = ["ProxyUpdateParams", "UpdateSocks5Proxy", "UpdateWireguardProxy"]
-
 
 class UpdateSocks5Proxy(TypedDict, total=False):
     host: Required[str]
@@ -21,13 +21,11 @@ class UpdateSocks5Proxy(TypedDict, total=False):
 
     user: Required[str]
 
-
 class UpdateWireguardProxy(TypedDict, total=False):
     config: Required[str]
 
     name: Required[str]
 
     protocol: Required[Literal["wireguard"]]
-
 
 ProxyUpdateParams: TypeAlias = Union[UpdateSocks5Proxy, UpdateWireguardProxy]

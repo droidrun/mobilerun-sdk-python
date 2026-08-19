@@ -2,18 +2,24 @@
 
 from __future__ import annotations
 
-import os
-from typing import Any, cast
-
-import pytest
-
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
+
+from typing import cast, Any
+
+import os
+import pytest
+import httpx
+from typing_extensions import get_args
+from respx import MockRouter
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from tests.utils import assert_matches_type
+from mobilerun_sdk.types.devices import profile_update_params
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
-
 class TestProfile:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=['loose', 'strict'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -37,13 +43,14 @@ class TestProfile:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: Mobilerun) -> None:
+
         response = client.devices.profile.with_raw_response.update(
             device_id="deviceId",
             profile_id="profileId",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         profile = response.parse()
         assert profile is None
 
@@ -53,9 +60,9 @@ class TestProfile:
         with client.devices.profile.with_streaming_response.update(
             device_id="deviceId",
             profile_id="profileId",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             profile = response.parse()
             assert profile is None
@@ -66,16 +73,13 @@ class TestProfile:
     @parametrize
     def test_path_params_update(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            client.devices.profile.with_raw_response.update(
-                device_id="",
-                profile_id="profileId",
-            )
-
-
+          client.devices.profile.with_raw_response.update(
+              device_id="",
+              profile_id="profileId",
+          )
 class TestAsyncProfile:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True, {'http_client': 'aiohttp'}], indirect=True, ids=['loose', 'strict', 'aiohttp'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -99,13 +103,14 @@ class TestAsyncProfile:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.devices.profile.with_raw_response.update(
             device_id="deviceId",
             profile_id="profileId",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         profile = await response.parse()
         assert profile is None
 
@@ -115,9 +120,9 @@ class TestAsyncProfile:
         async with async_client.devices.profile.with_streaming_response.update(
             device_id="deviceId",
             profile_id="profileId",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             profile = await response.parse()
             assert profile is None
@@ -128,7 +133,7 @@ class TestAsyncProfile:
     @parametrize
     async def test_path_params_update(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            await async_client.devices.profile.with_raw_response.update(
-                device_id="",
-                profile_id="profileId",
-            )
+          await async_client.devices.profile.with_raw_response.update(
+              device_id="",
+              profile_id="profileId",
+          )

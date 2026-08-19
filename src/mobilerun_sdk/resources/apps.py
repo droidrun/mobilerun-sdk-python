@@ -2,33 +2,48 @@
 
 from __future__ import annotations
 
-from typing import Iterable
-from typing_extensions import Literal
-
 import httpx
 
-from ..types import app_list_params, app_create_signed_upload_url_params
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import path_template, maybe_transform, async_maybe_transform
-from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from .._base_client import make_request_options
-from ..types.app_list_response import AppListResponse
-from ..types.app_delete_response import AppDeleteResponse
+
+from .._compat import cached_property
+
+from .._utils import path_template, maybe_transform, async_maybe_transform
+
 from ..types.app_retrieve_response import AppRetrieveResponse
-from ..types.app_mark_failed_response import AppMarkFailedResponse
-from ..types.app_list_versions_response import AppListVersionsResponse
+
+from .._base_client import make_request_options
+
+from .._types import NotGiven, Omit, omit
+
+from ..types.app_list_response import AppListResponse
+
+from typing_extensions import Literal
+
+from ..types.app_delete_response import AppDeleteResponse
+
 from ..types.app_confirm_upload_response import AppConfirmUploadResponse
+
 from ..types.app_create_signed_upload_url_response import AppCreateSignedUploadURLResponse
 
-__all__ = ["AppsResource", "AsyncAppsResource"]
+from typing import Iterable
 
+from ..types.app_list_versions_response import AppListVersionsResponse
+
+from ..types.app_mark_failed_response import AppMarkFailedResponse
+
+from ..types.app_storage_usage_response import AppStorageUsageResponse
+
+from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from ..types import app_create_signed_upload_url_params
+
+from typing_extensions import Literal, overload
+from .._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ..types import app_list_params
+from ..types import app_create_signed_upload_url_params
+
+__all__ = ["AppsResource", "AsyncAppsResource"]
 
 class AppsResource(SyncAPIResource):
     @cached_property
@@ -50,17 +65,15 @@ class AppsResource(SyncAPIResource):
         """
         return AppsResourceWithStreamingResponse(self)
 
-    def retrieve(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppRetrieveResponse:
+    def retrieve(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppRetrieveResponse:
         """
         Retrieves an app by its ID
 
@@ -74,32 +87,30 @@ class AppsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return self._get(
             path_template("/apps/{id}", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=AppRetrieveResponse,
         )
 
-    def list(
-        self,
-        *,
-        order: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        platform: Literal["all", "android", "ios"] | Omit = omit,
-        query: str | Omit = omit,
-        sort_by: Literal["createdAt", "name"] | Omit = omit,
-        status: Literal["all", "queued", "available", "failed"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppListResponse:
+    def list(self,
+    *,
+    order: Literal["asc", "desc"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    platform: Literal["all", "android", "ios"] | Omit = omit,
+    query: str | Omit = omit,
+    sort_by: Literal["createdAt", "name"] | Omit = omit,
+    status: Literal["all", "queued", "available", "failed"] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppListResponse:
         """
         Retrieves a paginated list of apps with filtering and search capabilities
 
@@ -114,38 +125,27 @@ class AppsResource(SyncAPIResource):
         """
         return self._get(
             "/apps",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "order": order,
-                        "page": page,
-                        "page_size": page_size,
-                        "platform": platform,
-                        "query": query,
-                        "sort_by": sort_by,
-                        "status": status,
-                    },
-                    app_list_params.AppListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "order": order,
+                "page": page,
+                "page_size": page_size,
+                "platform": platform,
+                "query": query,
+                "sort_by": sort_by,
+                "status": status,
+            }, app_list_params.AppListParams)),
             cast_to=AppListResponse,
         )
 
-    def delete(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppDeleteResponse:
+    def delete(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppDeleteResponse:
         """Deletes an uploaded app by ID.
 
         Removes files from R2 storage and the database
@@ -161,26 +161,24 @@ class AppsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return self._delete(
             path_template("/apps/{id}", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=AppDeleteResponse,
         )
 
-    def confirm_upload(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppConfirmUploadResponse:
+    def confirm_upload(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppConfirmUploadResponse:
         """
         Verifies the APK file exists in R2 and sets the app status to available.
 
@@ -194,36 +192,34 @@ class AppsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return self._post(
             path_template("/apps/{id}/confirm-upload", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=AppConfirmUploadResponse,
         )
 
-    def create_signed_upload_url(
-        self,
-        *,
-        bundle_id: str,
-        display_name: str,
-        files: Iterable[app_create_signed_upload_url_params.File],
-        version_code: float,
-        version_name: str,
-        country: str | Omit = omit,
-        description: str | Omit = omit,
-        developer_name: str | Omit = omit,
-        icon_url: str | Omit = omit,
-        platform: Literal["android", "ios"] | Omit = omit,
-        target_sdk: float | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppCreateSignedUploadURLResponse:
+    def create_signed_upload_url(self,
+    *,
+    bundle_id: str,
+    display_name: str,
+    files: Iterable[app_create_signed_upload_url_params.File],
+    version_code: float,
+    version_name: str,
+    country: str | Omit = omit,
+    description: str | Omit = omit,
+    developer_name: str | Omit = omit,
+    icon_url: str | Omit = omit,
+    platform: Literal["android", "ios"] | Omit = omit,
+    target_sdk: float | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppCreateSignedUploadURLResponse:
         """
         Creates or updates an app and returns pre-signed Cloudflare R2 upload URLs for
         each file
@@ -241,39 +237,32 @@ class AppsResource(SyncAPIResource):
         """
         return self._post(
             "/apps/create-signed-upload-url",
-            body=maybe_transform(
-                {
-                    "bundle_id": bundle_id,
-                    "display_name": display_name,
-                    "files": files,
-                    "version_code": version_code,
-                    "version_name": version_name,
-                    "country": country,
-                    "description": description,
-                    "developer_name": developer_name,
-                    "icon_url": icon_url,
-                    "platform": platform,
-                    "target_sdk": target_sdk,
-                },
-                app_create_signed_upload_url_params.AppCreateSignedUploadURLParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "bundle_id": bundle_id,
+                "display_name": display_name,
+                "files": files,
+                "version_code": version_code,
+                "version_name": version_name,
+                "country": country,
+                "description": description,
+                "developer_name": developer_name,
+                "icon_url": icon_url,
+                "platform": platform,
+                "target_sdk": target_sdk,
+            }, app_create_signed_upload_url_params.AppCreateSignedUploadURLParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=AppCreateSignedUploadURLResponse,
         )
 
-    def list_versions(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppListVersionsResponse:
+    def list_versions(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppListVersionsResponse:
         """
         Retrieves all versions of an app visible to the user (own uploads + system
         versions)
@@ -288,26 +277,24 @@ class AppsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return self._get(
             path_template("/apps/{id}/versions", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=AppListVersionsResponse,
         )
 
-    def mark_failed(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppMarkFailedResponse:
+    def mark_failed(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppMarkFailedResponse:
         """
         Sets the app status to failed.
 
@@ -321,15 +308,32 @@ class AppsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return self._post(
             path_template("/apps/{id}/mark-failed", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=AppMarkFailedResponse,
         )
 
+    def storage_usage(self,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppStorageUsageResponse:
+        """
+        Returns the user’s total storage quota, bytes used, and remaining bytes — the
+        reliable maximum size for the next upload.
+        """
+        return self._get(
+            "/apps/storage-usage",
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
+            cast_to=AppStorageUsageResponse,
+        )
 
 class AsyncAppsResource(AsyncAPIResource):
     @cached_property
@@ -351,17 +355,15 @@ class AsyncAppsResource(AsyncAPIResource):
         """
         return AsyncAppsResourceWithStreamingResponse(self)
 
-    async def retrieve(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppRetrieveResponse:
+    async def retrieve(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppRetrieveResponse:
         """
         Retrieves an app by its ID
 
@@ -375,32 +377,30 @@ class AsyncAppsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return await self._get(
             path_template("/apps/{id}", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=AppRetrieveResponse,
         )
 
-    async def list(
-        self,
-        *,
-        order: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        platform: Literal["all", "android", "ios"] | Omit = omit,
-        query: str | Omit = omit,
-        sort_by: Literal["createdAt", "name"] | Omit = omit,
-        status: Literal["all", "queued", "available", "failed"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppListResponse:
+    async def list(self,
+    *,
+    order: Literal["asc", "desc"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    platform: Literal["all", "android", "ios"] | Omit = omit,
+    query: str | Omit = omit,
+    sort_by: Literal["createdAt", "name"] | Omit = omit,
+    status: Literal["all", "queued", "available", "failed"] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppListResponse:
         """
         Retrieves a paginated list of apps with filtering and search capabilities
 
@@ -415,38 +415,27 @@ class AsyncAppsResource(AsyncAPIResource):
         """
         return await self._get(
             "/apps",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "order": order,
-                        "page": page,
-                        "page_size": page_size,
-                        "platform": platform,
-                        "query": query,
-                        "sort_by": sort_by,
-                        "status": status,
-                    },
-                    app_list_params.AppListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "order": order,
+                "page": page,
+                "page_size": page_size,
+                "platform": platform,
+                "query": query,
+                "sort_by": sort_by,
+                "status": status,
+            }, app_list_params.AppListParams)),
             cast_to=AppListResponse,
         )
 
-    async def delete(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppDeleteResponse:
+    async def delete(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppDeleteResponse:
         """Deletes an uploaded app by ID.
 
         Removes files from R2 storage and the database
@@ -462,26 +451,24 @@ class AsyncAppsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return await self._delete(
             path_template("/apps/{id}", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=AppDeleteResponse,
         )
 
-    async def confirm_upload(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppConfirmUploadResponse:
+    async def confirm_upload(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppConfirmUploadResponse:
         """
         Verifies the APK file exists in R2 and sets the app status to available.
 
@@ -495,36 +482,34 @@ class AsyncAppsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return await self._post(
             path_template("/apps/{id}/confirm-upload", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=AppConfirmUploadResponse,
         )
 
-    async def create_signed_upload_url(
-        self,
-        *,
-        bundle_id: str,
-        display_name: str,
-        files: Iterable[app_create_signed_upload_url_params.File],
-        version_code: float,
-        version_name: str,
-        country: str | Omit = omit,
-        description: str | Omit = omit,
-        developer_name: str | Omit = omit,
-        icon_url: str | Omit = omit,
-        platform: Literal["android", "ios"] | Omit = omit,
-        target_sdk: float | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppCreateSignedUploadURLResponse:
+    async def create_signed_upload_url(self,
+    *,
+    bundle_id: str,
+    display_name: str,
+    files: Iterable[app_create_signed_upload_url_params.File],
+    version_code: float,
+    version_name: str,
+    country: str | Omit = omit,
+    description: str | Omit = omit,
+    developer_name: str | Omit = omit,
+    icon_url: str | Omit = omit,
+    platform: Literal["android", "ios"] | Omit = omit,
+    target_sdk: float | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppCreateSignedUploadURLResponse:
         """
         Creates or updates an app and returns pre-signed Cloudflare R2 upload URLs for
         each file
@@ -542,39 +527,32 @@ class AsyncAppsResource(AsyncAPIResource):
         """
         return await self._post(
             "/apps/create-signed-upload-url",
-            body=await async_maybe_transform(
-                {
-                    "bundle_id": bundle_id,
-                    "display_name": display_name,
-                    "files": files,
-                    "version_code": version_code,
-                    "version_name": version_name,
-                    "country": country,
-                    "description": description,
-                    "developer_name": developer_name,
-                    "icon_url": icon_url,
-                    "platform": platform,
-                    "target_sdk": target_sdk,
-                },
-                app_create_signed_upload_url_params.AppCreateSignedUploadURLParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "bundle_id": bundle_id,
+                "display_name": display_name,
+                "files": files,
+                "version_code": version_code,
+                "version_name": version_name,
+                "country": country,
+                "description": description,
+                "developer_name": developer_name,
+                "icon_url": icon_url,
+                "platform": platform,
+                "target_sdk": target_sdk,
+            }, app_create_signed_upload_url_params.AppCreateSignedUploadURLParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=AppCreateSignedUploadURLResponse,
         )
 
-    async def list_versions(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppListVersionsResponse:
+    async def list_versions(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppListVersionsResponse:
         """
         Retrieves all versions of an app visible to the user (own uploads + system
         versions)
@@ -589,26 +567,24 @@ class AsyncAppsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return await self._get(
             path_template("/apps/{id}/versions", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=AppListVersionsResponse,
         )
 
-    async def mark_failed(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AppMarkFailedResponse:
+    async def mark_failed(self,
+    id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppMarkFailedResponse:
         """
         Sets the app status to failed.
 
@@ -622,15 +598,32 @@ class AsyncAppsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return await self._post(
             path_template("/apps/{id}/mark-failed", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=AppMarkFailedResponse,
         )
 
+    async def storage_usage(self,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> AppStorageUsageResponse:
+        """
+        Returns the user’s total storage quota, bytes used, and remaining bytes — the
+        reliable maximum size for the next upload.
+        """
+        return await self._get(
+            "/apps/storage-usage",
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
+            cast_to=AppStorageUsageResponse,
+        )
 
 class AppsResourceWithRawResponse:
     def __init__(self, apps: AppsResource) -> None:
@@ -657,7 +650,9 @@ class AppsResourceWithRawResponse:
         self.mark_failed = to_raw_response_wrapper(
             apps.mark_failed,
         )
-
+        self.storage_usage = to_raw_response_wrapper(
+            apps.storage_usage,
+        )
 
 class AsyncAppsResourceWithRawResponse:
     def __init__(self, apps: AsyncAppsResource) -> None:
@@ -684,7 +679,9 @@ class AsyncAppsResourceWithRawResponse:
         self.mark_failed = async_to_raw_response_wrapper(
             apps.mark_failed,
         )
-
+        self.storage_usage = async_to_raw_response_wrapper(
+            apps.storage_usage,
+        )
 
 class AppsResourceWithStreamingResponse:
     def __init__(self, apps: AppsResource) -> None:
@@ -711,7 +708,9 @@ class AppsResourceWithStreamingResponse:
         self.mark_failed = to_streamed_response_wrapper(
             apps.mark_failed,
         )
-
+        self.storage_usage = to_streamed_response_wrapper(
+            apps.storage_usage,
+        )
 
 class AsyncAppsResourceWithStreamingResponse:
     def __init__(self, apps: AsyncAppsResource) -> None:
@@ -737,4 +736,7 @@ class AsyncAppsResourceWithStreamingResponse:
         )
         self.mark_failed = async_to_streamed_response_wrapper(
             apps.mark_failed,
+        )
+        self.storage_usage = async_to_streamed_response_wrapper(
+            apps.storage_usage,
         )

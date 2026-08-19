@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Iterable
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Required, Literal
 
 from .._utils import PropertyInfo
 
-__all__ = ["AppCreateSignedUploadURLParams", "File"]
+from typing import Iterable
 
+__all__ = ["AppCreateSignedUploadURLParams", "File"]
 
 class AppCreateSignedUploadURLParams(TypedDict, total=False):
     bundle_id: Required[Annotated[str, PropertyInfo(alias="bundleId")]]
@@ -34,14 +34,8 @@ class AppCreateSignedUploadURLParams(TypedDict, total=False):
 
     target_sdk: Annotated[float, PropertyInfo(alias="targetSdk")]
 
-
 class File(TypedDict, total=False):
-    content_type: Required[
-        Annotated[
-            Literal["application/vnd.android.package-archive", "application/octet-stream", "application/zip"],
-            PropertyInfo(alias="contentType"),
-        ]
-    ]
+    content_type: Required[Annotated[Literal["application/vnd.android.package-archive", "application/octet-stream", "application/zip"], PropertyInfo(alias="contentType")]]
 
     file_name: Required[Annotated[str, PropertyInfo(alias="fileName")]]
 

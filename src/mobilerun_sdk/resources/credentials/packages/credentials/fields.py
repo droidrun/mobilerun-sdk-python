@@ -2,28 +2,34 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal
-
 import httpx
 
-from ....._types import Body, Query, Headers, NotGiven, not_given
-from ....._utils import path_template, maybe_transform, async_maybe_transform
-from ....._compat import cached_property
 from ....._resource import SyncAPIResource, AsyncAPIResource
-from ....._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ....._base_client import make_request_options
-from .....types.credentials.packages.credentials import field_create_params, field_update_params
+
+from ....._compat import cached_property
+
+from ....._utils import path_template, maybe_transform, async_maybe_transform
+
 from .....types.credentials.packages.credentials.field_create_response import FieldCreateResponse
-from .....types.credentials.packages.credentials.field_delete_response import FieldDeleteResponse
+
+from ....._base_client import make_request_options
+
+from typing_extensions import Literal
+
+from ....._types import NotGiven
+
 from .....types.credentials.packages.credentials.field_update_response import FieldUpdateResponse
 
-__all__ = ["FieldsResource", "AsyncFieldsResource"]
+from .....types.credentials.packages.credentials.field_delete_response import FieldDeleteResponse
 
+from ....._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from ....._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from .....types.credentials.packages.credentials import field_create_params
+from .....types.credentials.packages.credentials import field_update_params
+
+__all__ = ["FieldsResource", "AsyncFieldsResource"]
 
 class FieldsResource(SyncAPIResource):
     @cached_property
@@ -45,22 +51,18 @@ class FieldsResource(SyncAPIResource):
         """
         return FieldsResourceWithStreamingResponse(self)
 
-    def create(
-        self,
-        credential_name: str,
-        *,
-        package_name: str,
-        field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
-        ],
-        value: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FieldCreateResponse:
+    def create(self,
+    credential_name: str,
+    *,
+    package_name: str,
+    field_type: Literal["email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"],
+    value: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> FieldCreateResponse:
         """Adds a single field to an existing credential.
 
         The body specifies a `fieldType`
@@ -77,44 +79,35 @@ class FieldsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `credential_name` but received {credential_name!r}'
+          )
         return self._post(
-            path_template(
-                "/credentials/packages/{package_name}/credentials/{credential_name}/fields",
-                package_name=package_name,
-                credential_name=credential_name,
-            ),
-            body=maybe_transform(
-                {
-                    "field_type": field_type,
-                    "value": value,
-                },
-                field_create_params.FieldCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            path_template("/credentials/packages/{package_name}/credentials/{credential_name}/fields", package_name=package_name, credential_name=credential_name),
+            body=maybe_transform({
+                "field_type": field_type,
+                "value": value,
+            }, field_create_params.FieldCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=FieldCreateResponse,
         )
 
-    def update(
-        self,
-        field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
-        ],
-        *,
-        package_name: str,
-        credential_name: str,
-        value: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FieldUpdateResponse:
+    def update(self,
+    field_type: Literal["email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"],
+    *,
+    package_name: str,
+    credential_name: str,
+    value: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> FieldUpdateResponse:
         """
         Updates the value of an existing field on a credential, identified by
         `packageName`, `credentialName`, and `fieldType` in the path. The body carries
@@ -130,40 +123,37 @@ class FieldsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `credential_name` but received {credential_name!r}'
+          )
         if not field_type:
-            raise ValueError(f"Expected a non-empty value for `field_type` but received {field_type!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `field_type` but received {field_type!r}'
+          )
         return self._patch(
-            path_template(
-                "/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}",
-                package_name=package_name,
-                credential_name=credential_name,
-                field_type=field_type,
-            ),
-            body=maybe_transform({"value": value}, field_update_params.FieldUpdateParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            path_template("/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}", package_name=package_name, credential_name=credential_name, field_type=field_type),
+            body=maybe_transform({
+                "value": value
+            }, field_update_params.FieldUpdateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=FieldUpdateResponse,
         )
 
-    def delete(
-        self,
-        field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
-        ],
-        *,
-        package_name: str,
-        credential_name: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FieldDeleteResponse:
+    def delete(self,
+    field_type: Literal["email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"],
+    *,
+    package_name: str,
+    credential_name: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> FieldDeleteResponse:
         """
         Removes a single field of the given `fieldType` from the specified credential
         while leaving the credential itself intact. Returns the updated credential.
@@ -178,24 +168,22 @@ class FieldsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `credential_name` but received {credential_name!r}'
+          )
         if not field_type:
-            raise ValueError(f"Expected a non-empty value for `field_type` but received {field_type!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `field_type` but received {field_type!r}'
+          )
         return self._delete(
-            path_template(
-                "/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}",
-                package_name=package_name,
-                credential_name=credential_name,
-                field_type=field_type,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            path_template("/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}", package_name=package_name, credential_name=credential_name, field_type=field_type),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=FieldDeleteResponse,
         )
-
 
 class AsyncFieldsResource(AsyncAPIResource):
     @cached_property
@@ -217,22 +205,18 @@ class AsyncFieldsResource(AsyncAPIResource):
         """
         return AsyncFieldsResourceWithStreamingResponse(self)
 
-    async def create(
-        self,
-        credential_name: str,
-        *,
-        package_name: str,
-        field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
-        ],
-        value: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FieldCreateResponse:
+    async def create(self,
+    credential_name: str,
+    *,
+    package_name: str,
+    field_type: Literal["email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"],
+    value: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> FieldCreateResponse:
         """Adds a single field to an existing credential.
 
         The body specifies a `fieldType`
@@ -249,44 +233,35 @@ class AsyncFieldsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `credential_name` but received {credential_name!r}'
+          )
         return await self._post(
-            path_template(
-                "/credentials/packages/{package_name}/credentials/{credential_name}/fields",
-                package_name=package_name,
-                credential_name=credential_name,
-            ),
-            body=await async_maybe_transform(
-                {
-                    "field_type": field_type,
-                    "value": value,
-                },
-                field_create_params.FieldCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            path_template("/credentials/packages/{package_name}/credentials/{credential_name}/fields", package_name=package_name, credential_name=credential_name),
+            body=await async_maybe_transform({
+                "field_type": field_type,
+                "value": value,
+            }, field_create_params.FieldCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=FieldCreateResponse,
         )
 
-    async def update(
-        self,
-        field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
-        ],
-        *,
-        package_name: str,
-        credential_name: str,
-        value: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FieldUpdateResponse:
+    async def update(self,
+    field_type: Literal["email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"],
+    *,
+    package_name: str,
+    credential_name: str,
+    value: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> FieldUpdateResponse:
         """
         Updates the value of an existing field on a credential, identified by
         `packageName`, `credentialName`, and `fieldType` in the path. The body carries
@@ -302,40 +277,37 @@ class AsyncFieldsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `credential_name` but received {credential_name!r}'
+          )
         if not field_type:
-            raise ValueError(f"Expected a non-empty value for `field_type` but received {field_type!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `field_type` but received {field_type!r}'
+          )
         return await self._patch(
-            path_template(
-                "/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}",
-                package_name=package_name,
-                credential_name=credential_name,
-                field_type=field_type,
-            ),
-            body=await async_maybe_transform({"value": value}, field_update_params.FieldUpdateParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            path_template("/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}", package_name=package_name, credential_name=credential_name, field_type=field_type),
+            body=await async_maybe_transform({
+                "value": value
+            }, field_update_params.FieldUpdateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=FieldUpdateResponse,
         )
 
-    async def delete(
-        self,
-        field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
-        ],
-        *,
-        package_name: str,
-        credential_name: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FieldDeleteResponse:
+    async def delete(self,
+    field_type: Literal["email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"],
+    *,
+    package_name: str,
+    credential_name: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> FieldDeleteResponse:
         """
         Removes a single field of the given `fieldType` from the specified credential
         while leaving the credential itself intact. Returns the updated credential.
@@ -350,24 +322,22 @@ class AsyncFieldsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `package_name` but received {package_name!r}'
+          )
         if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `credential_name` but received {credential_name!r}'
+          )
         if not field_type:
-            raise ValueError(f"Expected a non-empty value for `field_type` but received {field_type!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `field_type` but received {field_type!r}'
+          )
         return await self._delete(
-            path_template(
-                "/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}",
-                package_name=package_name,
-                credential_name=credential_name,
-                field_type=field_type,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            path_template("/credentials/packages/{package_name}/credentials/{credential_name}/fields/{field_type}", package_name=package_name, credential_name=credential_name, field_type=field_type),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=FieldDeleteResponse,
         )
-
 
 class FieldsResourceWithRawResponse:
     def __init__(self, fields: FieldsResource) -> None:
@@ -383,7 +353,6 @@ class FieldsResourceWithRawResponse:
             fields.delete,
         )
 
-
 class AsyncFieldsResourceWithRawResponse:
     def __init__(self, fields: AsyncFieldsResource) -> None:
         self._fields = fields
@@ -398,7 +367,6 @@ class AsyncFieldsResourceWithRawResponse:
             fields.delete,
         )
 
-
 class FieldsResourceWithStreamingResponse:
     def __init__(self, fields: FieldsResource) -> None:
         self._fields = fields
@@ -412,7 +380,6 @@ class FieldsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             fields.delete,
         )
-
 
 class AsyncFieldsResourceWithStreamingResponse:
     def __init__(self, fields: AsyncFieldsResource) -> None:

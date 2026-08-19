@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Optional
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated
 
 from ..._utils import PropertyInfo
 
-__all__ = ["ExecutionGetMetricsParams"]
+from typing import Optional
 
+__all__ = ["ExecutionGetMetricsParams"]
 
 class ExecutionGetMetricsParams(TypedDict, total=False):
     flow_id: Annotated[str, PropertyInfo(alias="flowId")]

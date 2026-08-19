@@ -2,14 +2,15 @@
 
 from __future__ import annotations
 
-from typing import Optional
-from typing_extensions import Literal, Annotated, TypedDict
+from typing_extensions import TypedDict, Literal, Annotated
 
-from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 
-__all__ = ["FlowUpdateParams"]
+from typing import Optional
 
+from ..._types import SequenceNotStr
+
+__all__ = ["FlowUpdateParams"]
 
 class FlowUpdateParams(TypedDict, total=False):
     cooldown_scope: Annotated[Literal["flow", "device"], PropertyInfo(alias="cooldownScope")]

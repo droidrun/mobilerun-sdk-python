@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Annotated, TypedDict
+from typing_extensions import TypedDict, Literal, Annotated
 
 from .._utils import PropertyInfo
 
 __all__ = ["AppListParams"]
-
 
 class AppListParams(TypedDict, total=False):
     order: Literal["asc", "desc"]

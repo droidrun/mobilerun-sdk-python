@@ -2,14 +2,15 @@
 
 from __future__ import annotations
 
-from typing import Union
-from datetime import datetime
-from typing_extensions import Literal, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Literal
 
 from ..._utils import PropertyInfo
 
-__all__ = ["DeliveryListParams"]
+from typing import Union
 
+from datetime import datetime
+
+__all__ = ["DeliveryListParams"]
 
 class DeliveryListParams(TypedDict, total=False):
     event_id: Annotated[str, PropertyInfo(alias="eventId")]
@@ -19,6 +20,6 @@ class DeliveryListParams(TypedDict, total=False):
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
 
-    since: Annotated[Union[str, datetime], PropertyInfo(format="iso8601")]
+    since: Annotated[Union[str, datetime], PropertyInfo(format = "iso8601")]
 
     status: Literal["pending", "success", "skipped", "dead"]

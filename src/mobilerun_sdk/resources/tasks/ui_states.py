@@ -4,26 +4,29 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import Body, Query, Headers, NotGiven, not_given
-from ..._utils import path_template
-from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
+
+from ..._compat import cached_property
+
+from ..._utils import path_template
+
+from ...types.tasks.ui_state_retrieve_response import UiStateRetrieveResponse
+
 from ..._base_client import make_request_options
-from ...types.tasks.media_response import MediaResponse
+
+from ..._types import NotGiven
+
 from ...types.tasks.ui_state_list_response import UiStateListResponse
+
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
 
 __all__ = ["UiStatesResource", "AsyncUiStatesResource"]
 
-
 class UiStatesResource(SyncAPIResource):
     """Tasks API"""
-
     @cached_property
     def with_raw_response(self) -> UiStatesResourceWithRawResponse:
         """
@@ -43,18 +46,16 @@ class UiStatesResource(SyncAPIResource):
         """
         return UiStatesResourceWithStreamingResponse(self)
 
-    def retrieve(
-        self,
-        index: int,
-        *,
-        task_id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> MediaResponse:
+    def retrieve(self,
+    index: int,
+    *,
+    task_id: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> UiStateRetrieveResponse:
         """
         Get a specific UI state by index.
 
@@ -68,26 +69,24 @@ class UiStatesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `task_id` but received {task_id!r}'
+          )
         return self._get(
             path_template("/tasks/{task_id}/ui_states/{index}", task_id=task_id, index=index),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=MediaResponse,
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
+            cast_to=UiStateRetrieveResponse,
         )
 
-    def list(
-        self,
-        task_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> UiStateListResponse:
+    def list(self,
+    task_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> UiStateListResponse:
         """
         List all UI state URLs for a task.
 
@@ -101,19 +100,17 @@ class UiStatesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `task_id` but received {task_id!r}'
+          )
         return self._get(
             path_template("/tasks/{task_id}/ui_states", task_id=task_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=UiStateListResponse,
         )
 
-
 class AsyncUiStatesResource(AsyncAPIResource):
     """Tasks API"""
-
     @cached_property
     def with_raw_response(self) -> AsyncUiStatesResourceWithRawResponse:
         """
@@ -133,18 +130,16 @@ class AsyncUiStatesResource(AsyncAPIResource):
         """
         return AsyncUiStatesResourceWithStreamingResponse(self)
 
-    async def retrieve(
-        self,
-        index: int,
-        *,
-        task_id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> MediaResponse:
+    async def retrieve(self,
+    index: int,
+    *,
+    task_id: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> UiStateRetrieveResponse:
         """
         Get a specific UI state by index.
 
@@ -158,26 +153,24 @@ class AsyncUiStatesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `task_id` but received {task_id!r}'
+          )
         return await self._get(
             path_template("/tasks/{task_id}/ui_states/{index}", task_id=task_id, index=index),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=MediaResponse,
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
+            cast_to=UiStateRetrieveResponse,
         )
 
-    async def list(
-        self,
-        task_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> UiStateListResponse:
+    async def list(self,
+    task_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> UiStateListResponse:
         """
         List all UI state URLs for a task.
 
@@ -191,15 +184,14 @@ class AsyncUiStatesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `task_id` but received {task_id!r}'
+          )
         return await self._get(
             path_template("/tasks/{task_id}/ui_states", task_id=task_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=UiStateListResponse,
         )
-
 
 class UiStatesResourceWithRawResponse:
     def __init__(self, ui_states: UiStatesResource) -> None:
@@ -212,7 +204,6 @@ class UiStatesResourceWithRawResponse:
             ui_states.list,
         )
 
-
 class AsyncUiStatesResourceWithRawResponse:
     def __init__(self, ui_states: AsyncUiStatesResource) -> None:
         self._ui_states = ui_states
@@ -224,7 +215,6 @@ class AsyncUiStatesResourceWithRawResponse:
             ui_states.list,
         )
 
-
 class UiStatesResourceWithStreamingResponse:
     def __init__(self, ui_states: UiStatesResource) -> None:
         self._ui_states = ui_states
@@ -235,7 +225,6 @@ class UiStatesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             ui_states.list,
         )
-
 
 class AsyncUiStatesResourceWithStreamingResponse:
     def __init__(self, ui_states: AsyncUiStatesResource) -> None:

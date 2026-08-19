@@ -2,14 +2,15 @@
 
 from __future__ import annotations
 
-from typing import Union
-from datetime import datetime
-from typing_extensions import Literal, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Literal
 
 from ..._utils import PropertyInfo
 
-__all__ = ["ProxyListConnectionsParams"]
+from typing import Union
 
+from datetime import datetime
+
+__all__ = ["ProxyListConnectionsParams"]
 
 class ProxyListConnectionsParams(TypedDict, total=False):
     close_reason: Annotated[str, PropertyInfo(alias="closeReason")]
@@ -24,12 +25,12 @@ class ProxyListConnectionsParams(TypedDict, total=False):
     dst_port: Annotated[int, PropertyInfo(alias="dstPort")]
     """Filter to connections to this destination port."""
 
-    ended_after: Annotated[Union[str, datetime], PropertyInfo(alias="endedAfter", format="iso8601")]
+    ended_after: Annotated[Union[str, datetime], PropertyInfo(alias="endedAfter", format = "iso8601")]
     """
     Filter to connections whose last activity was at or after this time (inclusive).
     """
 
-    ended_before: Annotated[Union[str, datetime], PropertyInfo(alias="endedBefore", format="iso8601")]
+    ended_before: Annotated[Union[str, datetime], PropertyInfo(alias="endedBefore", format = "iso8601")]
     """
     Filter to connections whose last activity was at or before this time
     (inclusive).
@@ -67,10 +68,7 @@ class ProxyListConnectionsParams(TypedDict, total=False):
     order: Literal["asc", "desc"]
     """Sort direction."""
 
-    order_by: Annotated[
-        Literal["startedAt", "endedAt", "bytesIn", "bytesOut", "totalBytes", "durationMs"],
-        PropertyInfo(alias="orderBy"),
-    ]
+    order_by: Annotated[Literal["startedAt", "endedAt", "bytesIn", "bytesOut", "totalBytes", "durationMs"], PropertyInfo(alias="orderBy")]
     """Property to order the results by."""
 
     page: int
@@ -88,10 +86,10 @@ class ProxyListConnectionsParams(TypedDict, total=False):
     session_id: Annotated[str, PropertyInfo(alias="sessionId")]
     """Filter to a single connection by its session id."""
 
-    started_after: Annotated[Union[str, datetime], PropertyInfo(alias="startedAfter", format="iso8601")]
+    started_after: Annotated[Union[str, datetime], PropertyInfo(alias="startedAfter", format = "iso8601")]
     """Filter to connections that started at or after this time (inclusive)."""
 
-    started_before: Annotated[Union[str, datetime], PropertyInfo(alias="startedBefore", format="iso8601")]
+    started_before: Annotated[Union[str, datetime], PropertyInfo(alias="startedBefore", format = "iso8601")]
     """Filter to connections that started at or before this time (inclusive)."""
 
     status: Literal["active", "closed"]

@@ -1,12 +1,12 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
-from typing_extensions import Literal
-
 from ...._models import BaseModel
 
-__all__ = ["ServiceListMethodsResponse", "Data", "DataParam"]
+from typing_extensions import Literal
 
+from typing import Optional, List
+
+__all__ = ["ServiceListMethodsResponse", "Data", "DataParam"]
 
 class DataParam(BaseModel):
     description: str
@@ -21,12 +21,10 @@ class DataParam(BaseModel):
 
     example: Optional[object] = None
 
-
 class Data(BaseModel):
     method: str
 
     params: List[DataParam]
-
 
 class ServiceListMethodsResponse(BaseModel):
     data: List[Data]

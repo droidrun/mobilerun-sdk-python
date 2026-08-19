@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Dict
 from typing_extensions import TypedDict
 
-__all__ = ["ActionUpdateParams"]
+from typing import Dict
 
+__all__ = ["ActionUpdateParams"]
 
 class ActionUpdateParams(TypedDict, total=False):
     description: str

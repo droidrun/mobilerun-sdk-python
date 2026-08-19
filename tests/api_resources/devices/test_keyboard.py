@@ -2,18 +2,25 @@
 
 from __future__ import annotations
 
-import os
-from typing import Any, cast
-
-import pytest
-
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
+
+from typing import cast, Any
+
+import os
+import pytest
+import httpx
+from typing_extensions import get_args
+from respx import MockRouter
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from tests.utils import assert_matches_type
+from mobilerun_sdk.types.devices import keyboard_key_params
+from mobilerun_sdk.types.devices import keyboard_write_params
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
-
 class TestKeyboard:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=['loose', 'strict'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -35,12 +42,13 @@ class TestKeyboard:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_clear(self, client: Mobilerun) -> None:
+
         response = client.devices.keyboard.with_raw_response.clear(
             device_id="deviceId",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         keyboard = response.parse()
         assert keyboard is None
 
@@ -49,9 +57,9 @@ class TestKeyboard:
     def test_streaming_response_clear(self, client: Mobilerun) -> None:
         with client.devices.keyboard.with_streaming_response.clear(
             device_id="deviceId",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             keyboard = response.parse()
             assert keyboard is None
@@ -62,9 +70,9 @@ class TestKeyboard:
     @parametrize
     def test_path_params_clear(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            client.devices.keyboard.with_raw_response.clear(
-                device_id="",
-            )
+          client.devices.keyboard.with_raw_response.clear(
+              device_id="",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -88,13 +96,14 @@ class TestKeyboard:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_key(self, client: Mobilerun) -> None:
+
         response = client.devices.keyboard.with_raw_response.key(
             device_id="deviceId",
             key=0,
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         keyboard = response.parse()
         assert keyboard is None
 
@@ -104,9 +113,9 @@ class TestKeyboard:
         with client.devices.keyboard.with_streaming_response.key(
             device_id="deviceId",
             key=0,
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             keyboard = response.parse()
             assert keyboard is None
@@ -117,10 +126,10 @@ class TestKeyboard:
     @parametrize
     def test_path_params_key(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            client.devices.keyboard.with_raw_response.key(
-                device_id="",
-                key=0,
-            )
+          client.devices.keyboard.with_raw_response.key(
+              device_id="",
+              key=0,
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -148,13 +157,14 @@ class TestKeyboard:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_write(self, client: Mobilerun) -> None:
+
         response = client.devices.keyboard.with_raw_response.write(
             device_id="deviceId",
             text="text",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         keyboard = response.parse()
         assert keyboard is None
 
@@ -164,9 +174,9 @@ class TestKeyboard:
         with client.devices.keyboard.with_streaming_response.write(
             device_id="deviceId",
             text="text",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             keyboard = response.parse()
             assert keyboard is None
@@ -177,16 +187,13 @@ class TestKeyboard:
     @parametrize
     def test_path_params_write(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            client.devices.keyboard.with_raw_response.write(
-                device_id="",
-                text="text",
-            )
-
-
+          client.devices.keyboard.with_raw_response.write(
+              device_id="",
+              text="text",
+          )
 class TestAsyncKeyboard:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True, {'http_client': 'aiohttp'}], indirect=True, ids=['loose', 'strict', 'aiohttp'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -208,12 +215,13 @@ class TestAsyncKeyboard:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_clear(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.devices.keyboard.with_raw_response.clear(
             device_id="deviceId",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         keyboard = await response.parse()
         assert keyboard is None
 
@@ -222,9 +230,9 @@ class TestAsyncKeyboard:
     async def test_streaming_response_clear(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.keyboard.with_streaming_response.clear(
             device_id="deviceId",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             keyboard = await response.parse()
             assert keyboard is None
@@ -235,9 +243,9 @@ class TestAsyncKeyboard:
     @parametrize
     async def test_path_params_clear(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            await async_client.devices.keyboard.with_raw_response.clear(
-                device_id="",
-            )
+          await async_client.devices.keyboard.with_raw_response.clear(
+              device_id="",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -261,13 +269,14 @@ class TestAsyncKeyboard:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_key(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.devices.keyboard.with_raw_response.key(
             device_id="deviceId",
             key=0,
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         keyboard = await response.parse()
         assert keyboard is None
 
@@ -277,9 +286,9 @@ class TestAsyncKeyboard:
         async with async_client.devices.keyboard.with_streaming_response.key(
             device_id="deviceId",
             key=0,
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             keyboard = await response.parse()
             assert keyboard is None
@@ -290,10 +299,10 @@ class TestAsyncKeyboard:
     @parametrize
     async def test_path_params_key(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            await async_client.devices.keyboard.with_raw_response.key(
-                device_id="",
-                key=0,
-            )
+          await async_client.devices.keyboard.with_raw_response.key(
+              device_id="",
+              key=0,
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -321,13 +330,14 @@ class TestAsyncKeyboard:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_write(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.devices.keyboard.with_raw_response.write(
             device_id="deviceId",
             text="text",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         keyboard = await response.parse()
         assert keyboard is None
 
@@ -337,9 +347,9 @@ class TestAsyncKeyboard:
         async with async_client.devices.keyboard.with_streaming_response.write(
             device_id="deviceId",
             text="text",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             keyboard = await response.parse()
             assert keyboard is None
@@ -350,7 +360,7 @@ class TestAsyncKeyboard:
     @parametrize
     async def test_path_params_write(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            await async_client.devices.keyboard.with_raw_response.write(
-                device_id="",
-                text="text",
-            )
+          await async_client.devices.keyboard.with_raw_response.write(
+              device_id="",
+              text="text",
+          )

@@ -2,27 +2,32 @@
 
 from __future__ import annotations
 
-from typing import Dict
-
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
-from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ..._base_client import make_request_options
-from ...types.workflows import event_ingest_params, event_dry_run_params
-from ...types.workflows.event_ingest_response import EventIngestResponse
+
+from ..._compat import cached_property
+
 from ...types.workflows.event_dry_run_response import EventDryRunResponse
 
-__all__ = ["EventsResource", "AsyncEventsResource"]
+from ..._utils import maybe_transform, async_maybe_transform
 
+from ..._base_client import make_request_options
+
+from ..._types import Omit, omit, NotGiven
+
+from typing import Dict
+
+from ...types.workflows.event_ingest_response import EventIngestResponse
+
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ...types.workflows import event_dry_run_params
+from ...types.workflows import event_ingest_params
+
+__all__ = ["EventsResource", "AsyncEventsResource"]
 
 class EventsResource(SyncAPIResource):
     @cached_property
@@ -44,19 +49,17 @@ class EventsResource(SyncAPIResource):
         """
         return EventsResourceWithStreamingResponse(self)
 
-    def dry_run(
-        self,
-        *,
-        event_type: str,
-        device_id: str | Omit = omit,
-        payload: Dict[str, object] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EventDryRunResponse:
+    def dry_run(self,
+    *,
+    event_type: str,
+    device_id: str | Omit = omit,
+    payload: Dict[str, object] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> EventDryRunResponse:
         """Simulate an event against all configured flows.
 
         Returns which flows would match
@@ -73,33 +76,26 @@ class EventsResource(SyncAPIResource):
         """
         return self._post(
             "/events/dry-run",
-            body=maybe_transform(
-                {
-                    "event_type": event_type,
-                    "device_id": device_id,
-                    "payload": payload,
-                },
-                event_dry_run_params.EventDryRunParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "event_type": event_type,
+                "device_id": device_id,
+                "payload": payload,
+            }, event_dry_run_params.EventDryRunParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=EventDryRunResponse,
         )
 
-    def ingest(
-        self,
-        *,
-        event_type: str,
-        device_id: str | Omit = omit,
-        payload: Dict[str, object] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EventIngestResponse:
+    def ingest(self,
+    *,
+    event_type: str,
+    device_id: str | Omit = omit,
+    payload: Dict[str, object] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> EventIngestResponse:
         """Ingest an event for trigger evaluation.
 
         Returns immediately with 202 Accepted.
@@ -115,20 +111,14 @@ class EventsResource(SyncAPIResource):
         """
         return self._post(
             "/events/ingest",
-            body=maybe_transform(
-                {
-                    "event_type": event_type,
-                    "device_id": device_id,
-                    "payload": payload,
-                },
-                event_ingest_params.EventIngestParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "event_type": event_type,
+                "device_id": device_id,
+                "payload": payload,
+            }, event_ingest_params.EventIngestParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=EventIngestResponse,
         )
-
 
 class AsyncEventsResource(AsyncAPIResource):
     @cached_property
@@ -150,19 +140,17 @@ class AsyncEventsResource(AsyncAPIResource):
         """
         return AsyncEventsResourceWithStreamingResponse(self)
 
-    async def dry_run(
-        self,
-        *,
-        event_type: str,
-        device_id: str | Omit = omit,
-        payload: Dict[str, object] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EventDryRunResponse:
+    async def dry_run(self,
+    *,
+    event_type: str,
+    device_id: str | Omit = omit,
+    payload: Dict[str, object] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> EventDryRunResponse:
         """Simulate an event against all configured flows.
 
         Returns which flows would match
@@ -179,33 +167,26 @@ class AsyncEventsResource(AsyncAPIResource):
         """
         return await self._post(
             "/events/dry-run",
-            body=await async_maybe_transform(
-                {
-                    "event_type": event_type,
-                    "device_id": device_id,
-                    "payload": payload,
-                },
-                event_dry_run_params.EventDryRunParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "event_type": event_type,
+                "device_id": device_id,
+                "payload": payload,
+            }, event_dry_run_params.EventDryRunParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=EventDryRunResponse,
         )
 
-    async def ingest(
-        self,
-        *,
-        event_type: str,
-        device_id: str | Omit = omit,
-        payload: Dict[str, object] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EventIngestResponse:
+    async def ingest(self,
+    *,
+    event_type: str,
+    device_id: str | Omit = omit,
+    payload: Dict[str, object] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> EventIngestResponse:
         """Ingest an event for trigger evaluation.
 
         Returns immediately with 202 Accepted.
@@ -221,20 +202,14 @@ class AsyncEventsResource(AsyncAPIResource):
         """
         return await self._post(
             "/events/ingest",
-            body=await async_maybe_transform(
-                {
-                    "event_type": event_type,
-                    "device_id": device_id,
-                    "payload": payload,
-                },
-                event_ingest_params.EventIngestParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "event_type": event_type,
+                "device_id": device_id,
+                "payload": payload,
+            }, event_ingest_params.EventIngestParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=EventIngestResponse,
         )
-
 
 class EventsResourceWithRawResponse:
     def __init__(self, events: EventsResource) -> None:
@@ -247,7 +222,6 @@ class EventsResourceWithRawResponse:
             events.ingest,
         )
 
-
 class AsyncEventsResourceWithRawResponse:
     def __init__(self, events: AsyncEventsResource) -> None:
         self._events = events
@@ -259,7 +233,6 @@ class AsyncEventsResourceWithRawResponse:
             events.ingest,
         )
 
-
 class EventsResourceWithStreamingResponse:
     def __init__(self, events: EventsResource) -> None:
         self._events = events
@@ -270,7 +243,6 @@ class EventsResourceWithStreamingResponse:
         self.ingest = to_streamed_response_wrapper(
             events.ingest,
         )
-
 
 class AsyncEventsResourceWithStreamingResponse:
     def __init__(self, events: AsyncEventsResource) -> None:

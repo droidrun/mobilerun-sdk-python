@@ -4,26 +4,29 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import Body, Query, Headers, NotGiven, not_given
-from ..._utils import path_template
-from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
+
+from ..._compat import cached_property
+
+from ..._utils import path_template
+
+from ...types.tasks.screenshot_retrieve_response import ScreenshotRetrieveResponse
+
 from ..._base_client import make_request_options
-from ...types.tasks.media_response import MediaResponse
+
+from ..._types import NotGiven
+
 from ...types.tasks.screenshot_list_response import ScreenshotListResponse
+
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
 
 __all__ = ["ScreenshotsResource", "AsyncScreenshotsResource"]
 
-
 class ScreenshotsResource(SyncAPIResource):
     """Tasks API"""
-
     @cached_property
     def with_raw_response(self) -> ScreenshotsResourceWithRawResponse:
         """
@@ -43,18 +46,16 @@ class ScreenshotsResource(SyncAPIResource):
         """
         return ScreenshotsResourceWithStreamingResponse(self)
 
-    def retrieve(
-        self,
-        index: int,
-        *,
-        task_id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> MediaResponse:
+    def retrieve(self,
+    index: int,
+    *,
+    task_id: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ScreenshotRetrieveResponse:
         """
         Get a specific screenshot by index.
 
@@ -68,26 +69,24 @@ class ScreenshotsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `task_id` but received {task_id!r}'
+          )
         return self._get(
             path_template("/tasks/{task_id}/screenshots/{index}", task_id=task_id, index=index),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=MediaResponse,
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
+            cast_to=ScreenshotRetrieveResponse,
         )
 
-    def list(
-        self,
-        task_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ScreenshotListResponse:
+    def list(self,
+    task_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ScreenshotListResponse:
         """
         List all screenshot URLs for a task.
 
@@ -101,19 +100,17 @@ class ScreenshotsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `task_id` but received {task_id!r}'
+          )
         return self._get(
             path_template("/tasks/{task_id}/screenshots", task_id=task_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=ScreenshotListResponse,
         )
 
-
 class AsyncScreenshotsResource(AsyncAPIResource):
     """Tasks API"""
-
     @cached_property
     def with_raw_response(self) -> AsyncScreenshotsResourceWithRawResponse:
         """
@@ -133,18 +130,16 @@ class AsyncScreenshotsResource(AsyncAPIResource):
         """
         return AsyncScreenshotsResourceWithStreamingResponse(self)
 
-    async def retrieve(
-        self,
-        index: int,
-        *,
-        task_id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> MediaResponse:
+    async def retrieve(self,
+    index: int,
+    *,
+    task_id: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ScreenshotRetrieveResponse:
         """
         Get a specific screenshot by index.
 
@@ -158,26 +153,24 @@ class AsyncScreenshotsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `task_id` but received {task_id!r}'
+          )
         return await self._get(
             path_template("/tasks/{task_id}/screenshots/{index}", task_id=task_id, index=index),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=MediaResponse,
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
+            cast_to=ScreenshotRetrieveResponse,
         )
 
-    async def list(
-        self,
-        task_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ScreenshotListResponse:
+    async def list(self,
+    task_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ScreenshotListResponse:
         """
         List all screenshot URLs for a task.
 
@@ -191,15 +184,14 @@ class AsyncScreenshotsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `task_id` but received {task_id!r}'
+          )
         return await self._get(
             path_template("/tasks/{task_id}/screenshots", task_id=task_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=ScreenshotListResponse,
         )
-
 
 class ScreenshotsResourceWithRawResponse:
     def __init__(self, screenshots: ScreenshotsResource) -> None:
@@ -212,7 +204,6 @@ class ScreenshotsResourceWithRawResponse:
             screenshots.list,
         )
 
-
 class AsyncScreenshotsResourceWithRawResponse:
     def __init__(self, screenshots: AsyncScreenshotsResource) -> None:
         self._screenshots = screenshots
@@ -224,7 +215,6 @@ class AsyncScreenshotsResourceWithRawResponse:
             screenshots.list,
         )
 
-
 class ScreenshotsResourceWithStreamingResponse:
     def __init__(self, screenshots: ScreenshotsResource) -> None:
         self._screenshots = screenshots
@@ -235,7 +225,6 @@ class ScreenshotsResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             screenshots.list,
         )
-
 
 class AsyncScreenshotsResourceWithStreamingResponse:
     def __init__(self, screenshots: AsyncScreenshotsResource) -> None:

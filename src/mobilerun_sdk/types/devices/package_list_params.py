@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated
 
 from ..._utils import PropertyInfo
 
 __all__ = ["PackageListParams"]
-
 
 class PackageListParams(TypedDict, total=False):
     include_protected_packages: Annotated[bool, PropertyInfo(alias="includeProtectedPackages")]

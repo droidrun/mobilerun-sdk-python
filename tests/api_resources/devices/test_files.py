@@ -2,22 +2,29 @@
 
 from __future__ import annotations
 
-import os
-from typing import Any, cast
-
-import pytest
-
-from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
-from mobilerun_sdk.types.devices import (
-    FileListResponse,
-)
+
+from mobilerun_sdk.types.devices import FileListResponse, FileDownloadResponse
+
+from typing import cast, Any
+
+import os
+import pytest
+import httpx
+from typing_extensions import get_args
+from respx import MockRouter
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from tests.utils import assert_matches_type
+from mobilerun_sdk.types.devices import file_list_params
+from mobilerun_sdk.types.devices import file_delete_params
+from mobilerun_sdk.types.devices import file_download_params
+from mobilerun_sdk.types.devices import file_upload_params
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
-
 class TestFiles:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=['loose', 'strict'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -26,7 +33,7 @@ class TestFiles:
             device_id="deviceId",
             path="path",
         )
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(FileListResponse, file, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -36,20 +43,21 @@ class TestFiles:
             path="path",
             x_device_display_id=0,
         )
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(FileListResponse, file, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Mobilerun) -> None:
+
         response = client.devices.files.with_raw_response.list(
             device_id="deviceId",
             path="path",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         file = response.parse()
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(FileListResponse, file, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -57,12 +65,12 @@ class TestFiles:
         with client.devices.files.with_streaming_response.list(
             device_id="deviceId",
             path="path",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             file = response.parse()
-            assert_matches_type(FileListResponse, file, path=["response"])
+            assert_matches_type(FileListResponse, file, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -70,10 +78,10 @@ class TestFiles:
     @parametrize
     def test_path_params_list(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            client.devices.files.with_raw_response.list(
-                device_id="",
-                path="path",
-            )
+          client.devices.files.with_raw_response.list(
+              device_id="",
+              path="path",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -97,13 +105,14 @@ class TestFiles:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Mobilerun) -> None:
+
         response = client.devices.files.with_raw_response.delete(
             device_id="deviceId",
             path="path",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         file = response.parse()
         assert file is None
 
@@ -113,9 +122,9 @@ class TestFiles:
         with client.devices.files.with_streaming_response.delete(
             device_id="deviceId",
             path="path",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             file = response.parse()
             assert file is None
@@ -126,10 +135,10 @@ class TestFiles:
     @parametrize
     def test_path_params_delete(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            client.devices.files.with_raw_response.delete(
-                device_id="",
-                path="path",
-            )
+          client.devices.files.with_raw_response.delete(
+              device_id="",
+              path="path",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -138,7 +147,7 @@ class TestFiles:
             device_id="deviceId",
             path="path",
         )
-        assert_matches_type(str, file, path=["response"])
+        assert_matches_type(str, file, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -148,20 +157,21 @@ class TestFiles:
             path="path",
             x_device_display_id=0,
         )
-        assert_matches_type(str, file, path=["response"])
+        assert_matches_type(str, file, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_download(self, client: Mobilerun) -> None:
+
         response = client.devices.files.with_raw_response.download(
             device_id="deviceId",
             path="path",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         file = response.parse()
-        assert_matches_type(str, file, path=["response"])
+        assert_matches_type(str, file, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -169,12 +179,12 @@ class TestFiles:
         with client.devices.files.with_streaming_response.download(
             device_id="deviceId",
             path="path",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             file = response.parse()
-            assert_matches_type(str, file, path=["response"])
+            assert_matches_type(str, file, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -182,10 +192,10 @@ class TestFiles:
     @parametrize
     def test_path_params_download(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            client.devices.files.with_raw_response.download(
-                device_id="",
-                path="path",
-            )
+          client.devices.files.with_raw_response.download(
+              device_id="",
+              path="path",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -211,6 +221,7 @@ class TestFiles:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_upload(self, client: Mobilerun) -> None:
+
         response = client.devices.files.with_raw_response.upload(
             device_id="deviceId",
             path="path",
@@ -218,7 +229,7 @@ class TestFiles:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         file = response.parse()
         assert file is None
 
@@ -229,9 +240,9 @@ class TestFiles:
             device_id="deviceId",
             path="path",
             file=b"Example data",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             file = response.parse()
             assert file is None
@@ -242,17 +253,14 @@ class TestFiles:
     @parametrize
     def test_path_params_upload(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            client.devices.files.with_raw_response.upload(
-                device_id="",
-                path="path",
-                file=b"Example data",
-            )
-
-
+          client.devices.files.with_raw_response.upload(
+              device_id="",
+              path="path",
+              file=b"Example data",
+          )
 class TestAsyncFiles:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True, {'http_client': 'aiohttp'}], indirect=True, ids=['loose', 'strict', 'aiohttp'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -261,7 +269,7 @@ class TestAsyncFiles:
             device_id="deviceId",
             path="path",
         )
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(FileListResponse, file, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -271,20 +279,21 @@ class TestAsyncFiles:
             path="path",
             x_device_display_id=0,
         )
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(FileListResponse, file, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.devices.files.with_raw_response.list(
             device_id="deviceId",
             path="path",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         file = await response.parse()
-        assert_matches_type(FileListResponse, file, path=["response"])
+        assert_matches_type(FileListResponse, file, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -292,12 +301,12 @@ class TestAsyncFiles:
         async with async_client.devices.files.with_streaming_response.list(
             device_id="deviceId",
             path="path",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             file = await response.parse()
-            assert_matches_type(FileListResponse, file, path=["response"])
+            assert_matches_type(FileListResponse, file, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -305,10 +314,10 @@ class TestAsyncFiles:
     @parametrize
     async def test_path_params_list(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            await async_client.devices.files.with_raw_response.list(
-                device_id="",
-                path="path",
-            )
+          await async_client.devices.files.with_raw_response.list(
+              device_id="",
+              path="path",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -332,13 +341,14 @@ class TestAsyncFiles:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.devices.files.with_raw_response.delete(
             device_id="deviceId",
             path="path",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         file = await response.parse()
         assert file is None
 
@@ -348,9 +358,9 @@ class TestAsyncFiles:
         async with async_client.devices.files.with_streaming_response.delete(
             device_id="deviceId",
             path="path",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             file = await response.parse()
             assert file is None
@@ -361,10 +371,10 @@ class TestAsyncFiles:
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            await async_client.devices.files.with_raw_response.delete(
-                device_id="",
-                path="path",
-            )
+          await async_client.devices.files.with_raw_response.delete(
+              device_id="",
+              path="path",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -373,7 +383,7 @@ class TestAsyncFiles:
             device_id="deviceId",
             path="path",
         )
-        assert_matches_type(str, file, path=["response"])
+        assert_matches_type(str, file, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -383,20 +393,21 @@ class TestAsyncFiles:
             path="path",
             x_device_display_id=0,
         )
-        assert_matches_type(str, file, path=["response"])
+        assert_matches_type(str, file, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_download(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.devices.files.with_raw_response.download(
             device_id="deviceId",
             path="path",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         file = await response.parse()
-        assert_matches_type(str, file, path=["response"])
+        assert_matches_type(str, file, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -404,12 +415,12 @@ class TestAsyncFiles:
         async with async_client.devices.files.with_streaming_response.download(
             device_id="deviceId",
             path="path",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             file = await response.parse()
-            assert_matches_type(str, file, path=["response"])
+            assert_matches_type(str, file, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -417,10 +428,10 @@ class TestAsyncFiles:
     @parametrize
     async def test_path_params_download(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            await async_client.devices.files.with_raw_response.download(
-                device_id="",
-                path="path",
-            )
+          await async_client.devices.files.with_raw_response.download(
+              device_id="",
+              path="path",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -446,6 +457,7 @@ class TestAsyncFiles:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_upload(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.devices.files.with_raw_response.upload(
             device_id="deviceId",
             path="path",
@@ -453,7 +465,7 @@ class TestAsyncFiles:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         file = await response.parse()
         assert file is None
 
@@ -464,9 +476,9 @@ class TestAsyncFiles:
             device_id="deviceId",
             path="path",
             file=b"Example data",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             file = await response.parse()
             assert file is None
@@ -477,8 +489,8 @@ class TestAsyncFiles:
     @parametrize
     async def test_path_params_upload(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
-            await async_client.devices.files.with_raw_response.upload(
-                device_id="",
-                path="path",
-                file=b"Example data",
-            )
+          await async_client.devices.files.with_raw_response.upload(
+              device_id="",
+              path="path",
+              file=b"Example data",
+          )

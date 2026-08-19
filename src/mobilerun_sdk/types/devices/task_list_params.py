@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Annotated, TypedDict
+from typing_extensions import TypedDict, Literal, Annotated
 
 from ..._utils import PropertyInfo
 
 __all__ = ["TaskListParams"]
-
 
 class TaskListParams(TypedDict, total=False):
     order_by: Annotated[Literal["id", "createdAt", "updatedAt", "assignedAt"], PropertyInfo(alias="orderBy")]

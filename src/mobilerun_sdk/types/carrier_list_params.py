@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Literal
 
 from .._utils import PropertyInfo
 
 __all__ = ["CarrierListParams"]
-
 
 class CarrierListParams(TypedDict, total=False):
     country: str
@@ -16,9 +15,7 @@ class CarrierListParams(TypedDict, total=False):
     country_iso: Annotated[str, PropertyInfo(alias="countryISO")]
     """Filter by country ISO code"""
 
-    order_by: Annotated[
-        Literal["id", "mcc", "mnc", "operator", "country", "country_iso"], PropertyInfo(alias="orderBy")
-    ]
+    order_by: Annotated[Literal["id", "mcc", "mnc", "operator", "country", "country_iso"], PropertyInfo(alias="orderBy")]
     """Field to order by"""
 
     order_dir: Annotated[Literal["asc", "desc"], PropertyInfo(alias="orderDir")]

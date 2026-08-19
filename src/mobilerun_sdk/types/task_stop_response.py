@@ -4,7 +4,6 @@ from .._models import BaseModel
 
 __all__ = ["TaskStopResponse"]
 
-
 class TaskStopResponse(BaseModel):
     cancelled: bool
     """Whether the task was cancelled"""

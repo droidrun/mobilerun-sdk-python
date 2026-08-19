@@ -1,25 +1,25 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List
+from ..._models import BaseModel
+
 from datetime import datetime
-from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
-from ..._models import BaseModel
+from typing_extensions import Literal
+
+from typing import List
 
 __all__ = ["ProxyListResponse", "Item", "Pagination"]
 
-
 class Item(BaseModel):
     """A provisioned proxy without its credentials."""
-
     id: str
 
     country: str
     """ISO 3166-1 alpha-2 country code (lowercase)."""
 
-    created_at: datetime = FieldInfo(alias="createdAt")
+    created_at: datetime = FieldInfo(alias = "createdAt")
 
     host: str
 
@@ -39,14 +39,12 @@ class Item(BaseModel):
 
     username: str
 
-
 class Pagination(BaseModel):
     """Pagination metadata for a list response."""
-
-    has_next: bool = FieldInfo(alias="hasNext")
+    has_next: bool = FieldInfo(alias = "hasNext")
     """Whether a next page exists."""
 
-    has_prev: bool = FieldInfo(alias="hasPrev")
+    has_prev: bool = FieldInfo(alias = "hasPrev")
     """Whether a previous page exists."""
 
     page: int
@@ -55,16 +53,14 @@ class Pagination(BaseModel):
     pages: int
     """Total number of pages."""
 
-    page_size: int = FieldInfo(alias="pageSize")
+    page_size: int = FieldInfo(alias = "pageSize")
     """Number of items per page."""
 
     total: int
     """Total number of items across all pages."""
 
-
 class ProxyListResponse(BaseModel):
     """A page of proxies."""
-
     items: List[Item]
 
     pagination: Pagination

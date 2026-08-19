@@ -2,67 +2,28 @@
 
 from __future__ import annotations
 
-from .events import (
-    EventsResource,
-    AsyncEventsResource,
-    EventsResourceWithRawResponse,
-    AsyncEventsResourceWithRawResponse,
-    EventsResourceWithStreamingResponse,
-    AsyncEventsResourceWithStreamingResponse,
-)
-from .triggers import (
-    TriggersResource,
-    AsyncTriggersResource,
-    TriggersResourceWithRawResponse,
-    AsyncTriggersResourceWithRawResponse,
-    TriggersResourceWithStreamingResponse,
-    AsyncTriggersResourceWithStreamingResponse,
-)
-from ..._compat import cached_property
-from .timezones import (
-    TimezonesResource,
-    AsyncTimezonesResource,
-    TimezonesResourceWithRawResponse,
-    AsyncTimezonesResourceWithRawResponse,
-    TimezonesResourceWithStreamingResponse,
-    AsyncTimezonesResourceWithStreamingResponse,
-)
-from .executions import (
-    ExecutionsResource,
-    AsyncExecutionsResource,
-    ExecutionsResourceWithRawResponse,
-    AsyncExecutionsResourceWithRawResponse,
-    ExecutionsResourceWithStreamingResponse,
-    AsyncExecutionsResourceWithStreamingResponse,
-)
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from .flows.flows import (
-    FlowsResource,
-    AsyncFlowsResource,
-    FlowsResourceWithRawResponse,
-    AsyncFlowsResourceWithRawResponse,
-    FlowsResourceWithStreamingResponse,
-    AsyncFlowsResourceWithStreamingResponse,
-)
-from .action_catalog import (
-    ActionCatalogResource,
-    AsyncActionCatalogResource,
-    ActionCatalogResourceWithRawResponse,
-    AsyncActionCatalogResourceWithRawResponse,
-    ActionCatalogResourceWithStreamingResponse,
-    AsyncActionCatalogResourceWithStreamingResponse,
-)
-from .actions.actions import (
-    ActionsResource,
-    AsyncActionsResource,
-    ActionsResourceWithRawResponse,
-    AsyncActionsResourceWithRawResponse,
-    ActionsResourceWithStreamingResponse,
-    AsyncActionsResourceWithStreamingResponse,
-)
+
+from .triggers import TriggersResource, AsyncTriggersResource, TriggersResourceWithRawResponse, AsyncTriggersResourceWithRawResponse, TriggersResourceWithStreamingResponse, AsyncTriggersResourceWithStreamingResponse
+
+from ..._compat import cached_property
+
+from .action_catalog import ActionCatalogResource, AsyncActionCatalogResource, ActionCatalogResourceWithRawResponse, AsyncActionCatalogResourceWithRawResponse, ActionCatalogResourceWithStreamingResponse, AsyncActionCatalogResourceWithStreamingResponse
+
+from .actions.actions import ActionsResource, AsyncActionsResource, ActionsResourceWithRawResponse, AsyncActionsResourceWithRawResponse, ActionsResourceWithStreamingResponse, AsyncActionsResourceWithStreamingResponse
+
+from .flows.flows import FlowsResource, AsyncFlowsResource, FlowsResourceWithRawResponse, AsyncFlowsResourceWithRawResponse, FlowsResourceWithStreamingResponse, AsyncFlowsResourceWithStreamingResponse
+
+from .events import EventsResource, AsyncEventsResource, EventsResourceWithRawResponse, AsyncEventsResourceWithRawResponse, EventsResourceWithStreamingResponse, AsyncEventsResourceWithStreamingResponse
+
+from .executions import ExecutionsResource, AsyncExecutionsResource, ExecutionsResourceWithRawResponse, AsyncExecutionsResourceWithRawResponse, ExecutionsResourceWithStreamingResponse, AsyncExecutionsResourceWithStreamingResponse
+
+from .timezones import TimezonesResource, AsyncTimezonesResource, TimezonesResourceWithRawResponse, AsyncTimezonesResourceWithRawResponse, TimezonesResourceWithStreamingResponse, AsyncTimezonesResourceWithStreamingResponse
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
 
 __all__ = ["WorkflowsResource", "AsyncWorkflowsResource"]
-
 
 class WorkflowsResource(SyncAPIResource):
     @cached_property
@@ -112,7 +73,6 @@ class WorkflowsResource(SyncAPIResource):
         """
         return WorkflowsResourceWithStreamingResponse(self)
 
-
 class AsyncWorkflowsResource(AsyncAPIResource):
     @cached_property
     def triggers(self) -> AsyncTriggersResource:
@@ -161,7 +121,6 @@ class AsyncWorkflowsResource(AsyncAPIResource):
         """
         return AsyncWorkflowsResourceWithStreamingResponse(self)
 
-
 class WorkflowsResourceWithRawResponse:
     def __init__(self, workflows: WorkflowsResource) -> None:
         self._workflows = workflows
@@ -193,7 +152,6 @@ class WorkflowsResourceWithRawResponse:
     @cached_property
     def timezones(self) -> TimezonesResourceWithRawResponse:
         return TimezonesResourceWithRawResponse(self._workflows.timezones)
-
 
 class AsyncWorkflowsResourceWithRawResponse:
     def __init__(self, workflows: AsyncWorkflowsResource) -> None:
@@ -227,7 +185,6 @@ class AsyncWorkflowsResourceWithRawResponse:
     def timezones(self) -> AsyncTimezonesResourceWithRawResponse:
         return AsyncTimezonesResourceWithRawResponse(self._workflows.timezones)
 
-
 class WorkflowsResourceWithStreamingResponse:
     def __init__(self, workflows: WorkflowsResource) -> None:
         self._workflows = workflows
@@ -259,7 +216,6 @@ class WorkflowsResourceWithStreamingResponse:
     @cached_property
     def timezones(self) -> TimezonesResourceWithStreamingResponse:
         return TimezonesResourceWithStreamingResponse(self._workflows.timezones)
-
 
 class AsyncWorkflowsResourceWithStreamingResponse:
     def __init__(self, workflows: AsyncWorkflowsResource) -> None:

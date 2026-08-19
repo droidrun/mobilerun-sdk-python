@@ -2,28 +2,29 @@
 
 from __future__ import annotations
 
-import os
-from typing import Any, cast
-
-import pytest
-
-from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
-from mobilerun_sdk.types import (
-    TaskRunResponse,
-    TaskListResponse,
-    TaskStopResponse,
-    TaskRetrieveResponse,
-    TaskGetStatusResponse,
-    TaskSendMessageResponse,
-    TaskGetTrajectoryResponse,
-)
+
+from mobilerun_sdk.types import TaskRetrieveResponse, TaskListResponse, TaskGetStatusResponse, TaskGetTrajectoryResponse, TaskRunResponse, TaskSendMessageResponse, TaskStopResponse
+
+from typing import cast, Any
+
+import os
+import pytest
+import httpx
+from typing_extensions import get_args
+from respx import MockRouter
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from tests.utils import assert_matches_type
+from mobilerun_sdk.types import task_list_params
+from mobilerun_sdk.types import task_run_params
+from mobilerun_sdk.types import task_run_streamed_params
+from mobilerun_sdk.types import task_send_message_params
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
-
 class TestTasks:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=['loose', 'strict'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -31,31 +32,32 @@ class TestTasks:
         task = client.tasks.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+        assert_matches_type(TaskRetrieveResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Mobilerun) -> None:
+
         response = client.tasks.with_raw_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = response.parse()
-        assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+        assert_matches_type(TaskRetrieveResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = response.parse()
-            assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+            assert_matches_type(TaskRetrieveResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -63,15 +65,15 @@ class TestTasks:
     @parametrize
     def test_path_params_retrieve(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
-            client.tasks.with_raw_response.retrieve(
-                "",
-            )
+          client.tasks.with_raw_response.retrieve(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Mobilerun) -> None:
         task = client.tasks.list()
-        assert_matches_type(TaskListResponse, task, path=["response"])
+        assert_matches_type(TaskListResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -86,27 +88,28 @@ class TestTasks:
             query="query",
             status="queued",
         )
-        assert_matches_type(TaskListResponse, task, path=["response"])
+        assert_matches_type(TaskListResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Mobilerun) -> None:
+
         response = client.tasks.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = response.parse()
-        assert_matches_type(TaskListResponse, task, path=["response"])
+        assert_matches_type(TaskListResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Mobilerun) -> None:
-        with client.tasks.with_streaming_response.list() as response:
+        with client.tasks.with_streaming_response.list() as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = response.parse()
-            assert_matches_type(TaskListResponse, task, path=["response"])
+            assert_matches_type(TaskListResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -121,12 +124,13 @@ class TestTasks:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_attach(self, client: Mobilerun) -> None:
+
         response = client.tasks.with_raw_response.attach(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = response.parse()
         assert task is None
 
@@ -135,9 +139,9 @@ class TestTasks:
     def test_streaming_response_attach(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.attach(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = response.parse()
             assert task is None
@@ -148,9 +152,9 @@ class TestTasks:
     @parametrize
     def test_path_params_attach(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
-            client.tasks.with_raw_response.attach(
-                "",
-            )
+          client.tasks.with_raw_response.attach(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -158,31 +162,32 @@ class TestTasks:
         task = client.tasks.get_status(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(TaskGetStatusResponse, task, path=["response"])
+        assert_matches_type(TaskGetStatusResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get_status(self, client: Mobilerun) -> None:
+
         response = client.tasks.with_raw_response.get_status(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = response.parse()
-        assert_matches_type(TaskGetStatusResponse, task, path=["response"])
+        assert_matches_type(TaskGetStatusResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get_status(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.get_status(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = response.parse()
-            assert_matches_type(TaskGetStatusResponse, task, path=["response"])
+            assert_matches_type(TaskGetStatusResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -190,9 +195,9 @@ class TestTasks:
     @parametrize
     def test_path_params_get_status(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
-            client.tasks.with_raw_response.get_status(
-                "",
-            )
+          client.tasks.with_raw_response.get_status(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -200,31 +205,32 @@ class TestTasks:
         task = client.tasks.get_trajectory(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(TaskGetTrajectoryResponse, task, path=["response"])
+        assert_matches_type(TaskGetTrajectoryResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get_trajectory(self, client: Mobilerun) -> None:
+
         response = client.tasks.with_raw_response.get_trajectory(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = response.parse()
-        assert_matches_type(TaskGetTrajectoryResponse, task, path=["response"])
+        assert_matches_type(TaskGetTrajectoryResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get_trajectory(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.get_trajectory(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = response.parse()
-            assert_matches_type(TaskGetTrajectoryResponse, task, path=["response"])
+            assert_matches_type(TaskGetTrajectoryResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -232,9 +238,9 @@ class TestTasks:
     @parametrize
     def test_path_params_get_trajectory(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
-            client.tasks.with_raw_response.get_trajectory(
-                "",
-            )
+          client.tasks.with_raw_response.get_trajectory(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -243,7 +249,7 @@ class TestTasks:
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
-        assert_matches_type(TaskRunResponse, task, path=["response"])
+        assert_matches_type(TaskRunResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -255,19 +261,19 @@ class TestTasks:
             agent_id=0,
             apps=["string"],
             continue_on_failure=True,
-            credentials=[
-                {
-                    "credential_names": ["string"],
-                    "package_name": "packageName",
-                }
-            ],
+            credentials=[{
+                "credential_names": ["string"],
+                "package_name": "packageName",
+            }],
             display_id=0,
             execution_timeout=0,
             files=["string"],
             llm_model="llmModel",
             max_steps=0,
             memory_namespace="memoryNamespace",
-            output_schema={"foo": "bar"},
+            output_schema={
+                "foo": "bar"
+            },
             reasoning=True,
             stealth=True,
             subagent_model="subagentModel",
@@ -276,20 +282,21 @@ class TestTasks:
             vpn_country="US",
             idempotency_key="x",
         )
-        assert_matches_type(TaskRunResponse, task, path=["response"])
+        assert_matches_type(TaskRunResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_run(self, client: Mobilerun) -> None:
+
         response = client.tasks.with_raw_response.run(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = response.parse()
-        assert_matches_type(TaskRunResponse, task, path=["response"])
+        assert_matches_type(TaskRunResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -297,12 +304,12 @@ class TestTasks:
         with client.tasks.with_streaming_response.run(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = response.parse()
-            assert_matches_type(TaskRunResponse, task, path=["response"])
+            assert_matches_type(TaskRunResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -313,7 +320,7 @@ class TestTasks:
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
-        assert_matches_type(object, task, path=["response"])
+        assert_matches_type(object, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -325,19 +332,19 @@ class TestTasks:
             agent_id=0,
             apps=["string"],
             continue_on_failure=True,
-            credentials=[
-                {
-                    "credential_names": ["string"],
-                    "package_name": "packageName",
-                }
-            ],
+            credentials=[{
+                "credential_names": ["string"],
+                "package_name": "packageName",
+            }],
             display_id=0,
             execution_timeout=0,
             files=["string"],
             llm_model="llmModel",
             max_steps=0,
             memory_namespace="memoryNamespace",
-            output_schema={"foo": "bar"},
+            output_schema={
+                "foo": "bar"
+            },
             reasoning=True,
             stealth=True,
             subagent_model="subagentModel",
@@ -345,20 +352,21 @@ class TestTasks:
             vision=True,
             vpn_country="US",
         )
-        assert_matches_type(object, task, path=["response"])
+        assert_matches_type(object, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_run_streamed(self, client: Mobilerun) -> None:
+
         response = client.tasks.with_raw_response.run_streamed(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = response.parse()
-        assert_matches_type(object, task, path=["response"])
+        assert_matches_type(object, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -366,12 +374,12 @@ class TestTasks:
         with client.tasks.with_streaming_response.run_streamed(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = response.parse()
-            assert_matches_type(object, task, path=["response"])
+            assert_matches_type(object, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -382,20 +390,21 @@ class TestTasks:
             task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             message="x",
         )
-        assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+        assert_matches_type(TaskSendMessageResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_send_message(self, client: Mobilerun) -> None:
+
         response = client.tasks.with_raw_response.send_message(
             task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             message="x",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = response.parse()
-        assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+        assert_matches_type(TaskSendMessageResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -403,12 +412,12 @@ class TestTasks:
         with client.tasks.with_streaming_response.send_message(
             task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             message="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = response.parse()
-            assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+            assert_matches_type(TaskSendMessageResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -416,10 +425,10 @@ class TestTasks:
     @parametrize
     def test_path_params_send_message(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
-            client.tasks.with_raw_response.send_message(
-                task_id="",
-                message="x",
-            )
+          client.tasks.with_raw_response.send_message(
+              task_id="",
+              message="x",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -427,31 +436,32 @@ class TestTasks:
         task = client.tasks.stop(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(TaskStopResponse, task, path=["response"])
+        assert_matches_type(TaskStopResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_stop(self, client: Mobilerun) -> None:
+
         response = client.tasks.with_raw_response.stop(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = response.parse()
-        assert_matches_type(TaskStopResponse, task, path=["response"])
+        assert_matches_type(TaskStopResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_stop(self, client: Mobilerun) -> None:
         with client.tasks.with_streaming_response.stop(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = response.parse()
-            assert_matches_type(TaskStopResponse, task, path=["response"])
+            assert_matches_type(TaskStopResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -459,15 +469,12 @@ class TestTasks:
     @parametrize
     def test_path_params_stop(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
-            client.tasks.with_raw_response.stop(
-                "",
-            )
-
-
+          client.tasks.with_raw_response.stop(
+              "",
+          )
 class TestAsyncTasks:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True, {'http_client': 'aiohttp'}], indirect=True, ids=['loose', 'strict', 'aiohttp'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -475,31 +482,32 @@ class TestAsyncTasks:
         task = await async_client.tasks.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+        assert_matches_type(TaskRetrieveResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.tasks.with_raw_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = await response.parse()
-        assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+        assert_matches_type(TaskRetrieveResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = await response.parse()
-            assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+            assert_matches_type(TaskRetrieveResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -507,15 +515,15 @@ class TestAsyncTasks:
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
-            await async_client.tasks.with_raw_response.retrieve(
-                "",
-            )
+          await async_client.tasks.with_raw_response.retrieve(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncMobilerun) -> None:
         task = await async_client.tasks.list()
-        assert_matches_type(TaskListResponse, task, path=["response"])
+        assert_matches_type(TaskListResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -530,27 +538,28 @@ class TestAsyncTasks:
             query="query",
             status="queued",
         )
-        assert_matches_type(TaskListResponse, task, path=["response"])
+        assert_matches_type(TaskListResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.tasks.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = await response.parse()
-        assert_matches_type(TaskListResponse, task, path=["response"])
+        assert_matches_type(TaskListResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.tasks.with_streaming_response.list() as response:
+        async with async_client.tasks.with_streaming_response.list() as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = await response.parse()
-            assert_matches_type(TaskListResponse, task, path=["response"])
+            assert_matches_type(TaskListResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -565,12 +574,13 @@ class TestAsyncTasks:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_attach(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.tasks.with_raw_response.attach(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = await response.parse()
         assert task is None
 
@@ -579,9 +589,9 @@ class TestAsyncTasks:
     async def test_streaming_response_attach(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.attach(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = await response.parse()
             assert task is None
@@ -592,9 +602,9 @@ class TestAsyncTasks:
     @parametrize
     async def test_path_params_attach(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
-            await async_client.tasks.with_raw_response.attach(
-                "",
-            )
+          await async_client.tasks.with_raw_response.attach(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -602,31 +612,32 @@ class TestAsyncTasks:
         task = await async_client.tasks.get_status(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(TaskGetStatusResponse, task, path=["response"])
+        assert_matches_type(TaskGetStatusResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get_status(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.tasks.with_raw_response.get_status(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = await response.parse()
-        assert_matches_type(TaskGetStatusResponse, task, path=["response"])
+        assert_matches_type(TaskGetStatusResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get_status(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.get_status(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = await response.parse()
-            assert_matches_type(TaskGetStatusResponse, task, path=["response"])
+            assert_matches_type(TaskGetStatusResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -634,9 +645,9 @@ class TestAsyncTasks:
     @parametrize
     async def test_path_params_get_status(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
-            await async_client.tasks.with_raw_response.get_status(
-                "",
-            )
+          await async_client.tasks.with_raw_response.get_status(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -644,31 +655,32 @@ class TestAsyncTasks:
         task = await async_client.tasks.get_trajectory(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(TaskGetTrajectoryResponse, task, path=["response"])
+        assert_matches_type(TaskGetTrajectoryResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get_trajectory(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.tasks.with_raw_response.get_trajectory(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = await response.parse()
-        assert_matches_type(TaskGetTrajectoryResponse, task, path=["response"])
+        assert_matches_type(TaskGetTrajectoryResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get_trajectory(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.get_trajectory(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = await response.parse()
-            assert_matches_type(TaskGetTrajectoryResponse, task, path=["response"])
+            assert_matches_type(TaskGetTrajectoryResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -676,9 +688,9 @@ class TestAsyncTasks:
     @parametrize
     async def test_path_params_get_trajectory(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
-            await async_client.tasks.with_raw_response.get_trajectory(
-                "",
-            )
+          await async_client.tasks.with_raw_response.get_trajectory(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -687,7 +699,7 @@ class TestAsyncTasks:
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
-        assert_matches_type(TaskRunResponse, task, path=["response"])
+        assert_matches_type(TaskRunResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -699,19 +711,19 @@ class TestAsyncTasks:
             agent_id=0,
             apps=["string"],
             continue_on_failure=True,
-            credentials=[
-                {
-                    "credential_names": ["string"],
-                    "package_name": "packageName",
-                }
-            ],
+            credentials=[{
+                "credential_names": ["string"],
+                "package_name": "packageName",
+            }],
             display_id=0,
             execution_timeout=0,
             files=["string"],
             llm_model="llmModel",
             max_steps=0,
             memory_namespace="memoryNamespace",
-            output_schema={"foo": "bar"},
+            output_schema={
+                "foo": "bar"
+            },
             reasoning=True,
             stealth=True,
             subagent_model="subagentModel",
@@ -720,20 +732,21 @@ class TestAsyncTasks:
             vpn_country="US",
             idempotency_key="x",
         )
-        assert_matches_type(TaskRunResponse, task, path=["response"])
+        assert_matches_type(TaskRunResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_run(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.tasks.with_raw_response.run(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = await response.parse()
-        assert_matches_type(TaskRunResponse, task, path=["response"])
+        assert_matches_type(TaskRunResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -741,12 +754,12 @@ class TestAsyncTasks:
         async with async_client.tasks.with_streaming_response.run(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = await response.parse()
-            assert_matches_type(TaskRunResponse, task, path=["response"])
+            assert_matches_type(TaskRunResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -757,7 +770,7 @@ class TestAsyncTasks:
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
-        assert_matches_type(object, task, path=["response"])
+        assert_matches_type(object, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -769,19 +782,19 @@ class TestAsyncTasks:
             agent_id=0,
             apps=["string"],
             continue_on_failure=True,
-            credentials=[
-                {
-                    "credential_names": ["string"],
-                    "package_name": "packageName",
-                }
-            ],
+            credentials=[{
+                "credential_names": ["string"],
+                "package_name": "packageName",
+            }],
             display_id=0,
             execution_timeout=0,
             files=["string"],
             llm_model="llmModel",
             max_steps=0,
             memory_namespace="memoryNamespace",
-            output_schema={"foo": "bar"},
+            output_schema={
+                "foo": "bar"
+            },
             reasoning=True,
             stealth=True,
             subagent_model="subagentModel",
@@ -789,20 +802,21 @@ class TestAsyncTasks:
             vision=True,
             vpn_country="US",
         )
-        assert_matches_type(object, task, path=["response"])
+        assert_matches_type(object, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_run_streamed(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.tasks.with_raw_response.run_streamed(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = await response.parse()
-        assert_matches_type(object, task, path=["response"])
+        assert_matches_type(object, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -810,12 +824,12 @@ class TestAsyncTasks:
         async with async_client.tasks.with_streaming_response.run_streamed(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = await response.parse()
-            assert_matches_type(object, task, path=["response"])
+            assert_matches_type(object, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -826,20 +840,21 @@ class TestAsyncTasks:
             task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             message="x",
         )
-        assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+        assert_matches_type(TaskSendMessageResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_send_message(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.tasks.with_raw_response.send_message(
             task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             message="x",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = await response.parse()
-        assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+        assert_matches_type(TaskSendMessageResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -847,12 +862,12 @@ class TestAsyncTasks:
         async with async_client.tasks.with_streaming_response.send_message(
             task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             message="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = await response.parse()
-            assert_matches_type(TaskSendMessageResponse, task, path=["response"])
+            assert_matches_type(TaskSendMessageResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -860,10 +875,10 @@ class TestAsyncTasks:
     @parametrize
     async def test_path_params_send_message(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
-            await async_client.tasks.with_raw_response.send_message(
-                task_id="",
-                message="x",
-            )
+          await async_client.tasks.with_raw_response.send_message(
+              task_id="",
+              message="x",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -871,31 +886,32 @@ class TestAsyncTasks:
         task = await async_client.tasks.stop(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(TaskStopResponse, task, path=["response"])
+        assert_matches_type(TaskStopResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_stop(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.tasks.with_raw_response.stop(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         task = await response.parse()
-        assert_matches_type(TaskStopResponse, task, path=["response"])
+        assert_matches_type(TaskStopResponse, task, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_stop(self, async_client: AsyncMobilerun) -> None:
         async with async_client.tasks.with_streaming_response.stop(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             task = await response.parse()
-            assert_matches_type(TaskStopResponse, task, path=["response"])
+            assert_matches_type(TaskStopResponse, task, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -903,6 +919,6 @@ class TestAsyncTasks:
     @parametrize
     async def test_path_params_stop(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_id` but received ''"):
-            await async_client.tasks.with_raw_response.stop(
-                "",
-            )
+          await async_client.tasks.with_raw_response.stop(
+              "",
+          )

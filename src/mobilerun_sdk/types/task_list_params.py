@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
+from typing_extensions import TypedDict, Annotated, Literal
+
 from typing import Optional
-from typing_extensions import Literal, Annotated, TypedDict
 
 from .._utils import PropertyInfo
-from .task_status import TaskStatus
 
 __all__ = ["TaskListParams"]
-
 
 class TaskListParams(TypedDict, total=False):
     created_by: Annotated[Optional[str], PropertyInfo(alias="createdBy")]
@@ -29,4 +28,4 @@ class TaskListParams(TypedDict, total=False):
     query: Optional[str]
     """Search in task description."""
 
-    status: Optional[TaskStatus]
+    status: Optional[Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]]

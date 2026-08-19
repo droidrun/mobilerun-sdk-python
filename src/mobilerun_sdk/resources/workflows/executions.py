@@ -2,29 +2,38 @@
 
 from __future__ import annotations
 
-from typing import Optional
-from typing_extensions import Literal
-
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
-from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ..._base_client import make_request_options
-from ...types.workflows import execution_list_params, execution_get_metrics_params
-from ...types.workflows.execution_list_response import ExecutionListResponse
+
+from ..._compat import cached_property
+
+from ..._utils import path_template, maybe_transform, async_maybe_transform
+
 from ...types.workflows.execution_retrieve_response import ExecutionRetrieveResponse
+
+from ..._base_client import make_request_options
+
+from ..._types import NotGiven, Omit, omit
+
+from ...types.workflows.execution_list_response import ExecutionListResponse
+
+from typing import Optional
+
+from typing_extensions import Literal
+
+from ...types.workflows.execution_abort_response import ExecutionAbortResponse
+
 from ...types.workflows.execution_get_metrics_response import ExecutionGetMetricsResponse
 
-__all__ = ["ExecutionsResource", "AsyncExecutionsResource"]
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
 
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ...types.workflows import execution_list_params
+from ...types.workflows import execution_get_metrics_params
+
+__all__ = ["ExecutionsResource", "AsyncExecutionsResource"]
 
 class ExecutionsResource(SyncAPIResource):
     @cached_property
@@ -46,17 +55,15 @@ class ExecutionsResource(SyncAPIResource):
         """
         return ExecutionsResourceWithStreamingResponse(self)
 
-    def retrieve(
-        self,
-        execution_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ExecutionRetrieveResponse:
+    def retrieve(self,
+    execution_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ExecutionRetrieveResponse:
         """
         Fetch a single flow execution by its ID, including its status, kind, result or
         error, and start/finish timestamps. Returns 404 if no execution matches.
@@ -71,35 +78,33 @@ class ExecutionsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not execution_id:
-            raise ValueError(f"Expected a non-empty value for `execution_id` but received {execution_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `execution_id` but received {execution_id!r}'
+          )
         return self._get(
             path_template("/executions/{execution_id}", execution_id=execution_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=ExecutionRetrieveResponse,
         )
 
-    def list(
-        self,
-        *,
-        flow_id: str | Omit = omit,
-        from_: Optional[str] | Omit = omit,
-        order_by: Literal["startedAt", "finishedAt", "status"] | Omit = omit,
-        order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        search: str | Omit = omit,
-        status: Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"] | Omit = omit,
-        to: Optional[str] | Omit = omit,
-        trigger_id: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ExecutionListResponse:
+    def list(self,
+    *,
+    flow_id: str | Omit = omit,
+    from_: Optional[str] | Omit = omit,
+    order_by: Literal["startedAt", "finishedAt", "status"] | Omit = omit,
+    order_by_direction: Literal["asc", "desc"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    search: str | Omit = omit,
+    status: Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"] | Omit = omit,
+    to: Optional[str] | Omit = omit,
+    trigger_id: str | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ExecutionListResponse:
         """Return a paginated history of flow executions.
 
         Supports filtering by `flowId`,
@@ -117,44 +122,65 @@ class ExecutionsResource(SyncAPIResource):
         """
         return self._get(
             "/executions",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "flow_id": flow_id,
-                        "from_": from_,
-                        "order_by": order_by,
-                        "order_by_direction": order_by_direction,
-                        "page": page,
-                        "page_size": page_size,
-                        "search": search,
-                        "status": status,
-                        "to": to,
-                        "trigger_id": trigger_id,
-                    },
-                    execution_list_params.ExecutionListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "flow_id": flow_id,
+                "from_": from_,
+                "order_by": order_by,
+                "order_by_direction": order_by_direction,
+                "page": page,
+                "page_size": page_size,
+                "search": search,
+                "status": status,
+                "to": to,
+                "trigger_id": trigger_id,
+            }, execution_list_params.ExecutionListParams)),
             cast_to=ExecutionListResponse,
         )
 
-    def get_metrics(
-        self,
-        *,
-        flow_id: str | Omit = omit,
-        from_: Optional[str] | Omit = omit,
-        to: Optional[str] | Omit = omit,
-        trigger_id: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ExecutionGetMetricsResponse:
+    def abort(self,
+    execution_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ExecutionAbortResponse:
+        """
+        Signals the worker to stop the execution between steps and marks it cancelled.
+        Idempotent-ish: already-terminal executions return 409.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not execution_id:
+          raise ValueError(
+            f'Expected a non-empty value for `execution_id` but received {execution_id!r}'
+          )
+        return self._post(
+            path_template("/executions/{execution_id}/abort", execution_id=execution_id),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
+            cast_to=ExecutionAbortResponse,
+        )
+
+    def get_metrics(self,
+    *,
+    flow_id: str | Omit = omit,
+    from_: Optional[str] | Omit = omit,
+    to: Optional[str] | Omit = omit,
+    trigger_id: str | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ExecutionGetMetricsResponse:
         """
         Return aggregate execution metrics — total count, counts by status, average
         duration, and the last execution time. Can be scoped by `flowId`, `triggerId`,
@@ -171,24 +197,14 @@ class ExecutionsResource(SyncAPIResource):
         """
         return self._get(
             "/executions/metrics",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "flow_id": flow_id,
-                        "from_": from_,
-                        "to": to,
-                        "trigger_id": trigger_id,
-                    },
-                    execution_get_metrics_params.ExecutionGetMetricsParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "flow_id": flow_id,
+                "from_": from_,
+                "to": to,
+                "trigger_id": trigger_id,
+            }, execution_get_metrics_params.ExecutionGetMetricsParams)),
             cast_to=ExecutionGetMetricsResponse,
         )
-
 
 class AsyncExecutionsResource(AsyncAPIResource):
     @cached_property
@@ -210,17 +226,15 @@ class AsyncExecutionsResource(AsyncAPIResource):
         """
         return AsyncExecutionsResourceWithStreamingResponse(self)
 
-    async def retrieve(
-        self,
-        execution_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ExecutionRetrieveResponse:
+    async def retrieve(self,
+    execution_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ExecutionRetrieveResponse:
         """
         Fetch a single flow execution by its ID, including its status, kind, result or
         error, and start/finish timestamps. Returns 404 if no execution matches.
@@ -235,35 +249,33 @@ class AsyncExecutionsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not execution_id:
-            raise ValueError(f"Expected a non-empty value for `execution_id` but received {execution_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `execution_id` but received {execution_id!r}'
+          )
         return await self._get(
             path_template("/executions/{execution_id}", execution_id=execution_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=ExecutionRetrieveResponse,
         )
 
-    async def list(
-        self,
-        *,
-        flow_id: str | Omit = omit,
-        from_: Optional[str] | Omit = omit,
-        order_by: Literal["startedAt", "finishedAt", "status"] | Omit = omit,
-        order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        search: str | Omit = omit,
-        status: Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"] | Omit = omit,
-        to: Optional[str] | Omit = omit,
-        trigger_id: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ExecutionListResponse:
+    async def list(self,
+    *,
+    flow_id: str | Omit = omit,
+    from_: Optional[str] | Omit = omit,
+    order_by: Literal["startedAt", "finishedAt", "status"] | Omit = omit,
+    order_by_direction: Literal["asc", "desc"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    search: str | Omit = omit,
+    status: Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"] | Omit = omit,
+    to: Optional[str] | Omit = omit,
+    trigger_id: str | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ExecutionListResponse:
         """Return a paginated history of flow executions.
 
         Supports filtering by `flowId`,
@@ -281,44 +293,65 @@ class AsyncExecutionsResource(AsyncAPIResource):
         """
         return await self._get(
             "/executions",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "flow_id": flow_id,
-                        "from_": from_,
-                        "order_by": order_by,
-                        "order_by_direction": order_by_direction,
-                        "page": page,
-                        "page_size": page_size,
-                        "search": search,
-                        "status": status,
-                        "to": to,
-                        "trigger_id": trigger_id,
-                    },
-                    execution_list_params.ExecutionListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "flow_id": flow_id,
+                "from_": from_,
+                "order_by": order_by,
+                "order_by_direction": order_by_direction,
+                "page": page,
+                "page_size": page_size,
+                "search": search,
+                "status": status,
+                "to": to,
+                "trigger_id": trigger_id,
+            }, execution_list_params.ExecutionListParams)),
             cast_to=ExecutionListResponse,
         )
 
-    async def get_metrics(
-        self,
-        *,
-        flow_id: str | Omit = omit,
-        from_: Optional[str] | Omit = omit,
-        to: Optional[str] | Omit = omit,
-        trigger_id: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ExecutionGetMetricsResponse:
+    async def abort(self,
+    execution_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ExecutionAbortResponse:
+        """
+        Signals the worker to stop the execution between steps and marks it cancelled.
+        Idempotent-ish: already-terminal executions return 409.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not execution_id:
+          raise ValueError(
+            f'Expected a non-empty value for `execution_id` but received {execution_id!r}'
+          )
+        return await self._post(
+            path_template("/executions/{execution_id}/abort", execution_id=execution_id),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
+            cast_to=ExecutionAbortResponse,
+        )
+
+    async def get_metrics(self,
+    *,
+    flow_id: str | Omit = omit,
+    from_: Optional[str] | Omit = omit,
+    to: Optional[str] | Omit = omit,
+    trigger_id: str | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ExecutionGetMetricsResponse:
         """
         Return aggregate execution metrics — total count, counts by status, average
         duration, and the last execution time. Can be scoped by `flowId`, `triggerId`,
@@ -335,24 +368,14 @@ class AsyncExecutionsResource(AsyncAPIResource):
         """
         return await self._get(
             "/executions/metrics",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "flow_id": flow_id,
-                        "from_": from_,
-                        "to": to,
-                        "trigger_id": trigger_id,
-                    },
-                    execution_get_metrics_params.ExecutionGetMetricsParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "flow_id": flow_id,
+                "from_": from_,
+                "to": to,
+                "trigger_id": trigger_id,
+            }, execution_get_metrics_params.ExecutionGetMetricsParams)),
             cast_to=ExecutionGetMetricsResponse,
         )
-
 
 class ExecutionsResourceWithRawResponse:
     def __init__(self, executions: ExecutionsResource) -> None:
@@ -364,10 +387,12 @@ class ExecutionsResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             executions.list,
         )
+        self.abort = to_raw_response_wrapper(
+            executions.abort,
+        )
         self.get_metrics = to_raw_response_wrapper(
             executions.get_metrics,
         )
-
 
 class AsyncExecutionsResourceWithRawResponse:
     def __init__(self, executions: AsyncExecutionsResource) -> None:
@@ -379,10 +404,12 @@ class AsyncExecutionsResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             executions.list,
         )
+        self.abort = async_to_raw_response_wrapper(
+            executions.abort,
+        )
         self.get_metrics = async_to_raw_response_wrapper(
             executions.get_metrics,
         )
-
 
 class ExecutionsResourceWithStreamingResponse:
     def __init__(self, executions: ExecutionsResource) -> None:
@@ -394,10 +421,12 @@ class ExecutionsResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             executions.list,
         )
+        self.abort = to_streamed_response_wrapper(
+            executions.abort,
+        )
         self.get_metrics = to_streamed_response_wrapper(
             executions.get_metrics,
         )
-
 
 class AsyncExecutionsResourceWithStreamingResponse:
     def __init__(self, executions: AsyncExecutionsResource) -> None:
@@ -408,6 +437,9 @@ class AsyncExecutionsResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             executions.list,
+        )
+        self.abort = async_to_streamed_response_wrapper(
+            executions.abort,
         )
         self.get_metrics = async_to_streamed_response_wrapper(
             executions.get_metrics,

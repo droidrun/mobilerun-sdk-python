@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+from typing_extensions import TypedDict, Required
+
 from typing import Dict
-from typing_extensions import Required, TypedDict
 
 __all__ = ["TriggerFireParams"]
-
 
 class TriggerFireParams(TypedDict, total=False):
     payload: Required[Dict[str, object]]

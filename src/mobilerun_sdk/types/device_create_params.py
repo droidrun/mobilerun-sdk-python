@@ -2,18 +2,21 @@
 
 from __future__ import annotations
 
+from typing_extensions import TypedDict, Literal, Annotated, Required
+
+from .._utils import PropertyInfo
+
 from typing import Optional
-from typing_extensions import Literal, Annotated, TypedDict
 
 from .._types import SequenceNotStr
-from .._utils import PropertyInfo
-from .shared_params.socks5 import Socks5
-from .shared_params.location import Location
+
 from .shared_params.device_carrier import DeviceCarrier
+
 from .shared_params.device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceCreateParams", "Proxy", "ProxyConnect"]
+from .shared_params.location import Location
 
+__all__ = ["DeviceCreateParams", "Proxy", "ProxyConnect", "ProxySocks5"]
 
 class DeviceCreateParams(TypedDict, total=False):
     billing: Literal["auto", "subscription", "minute"]
@@ -30,16 +33,7 @@ class DeviceCreateParams(TypedDict, total=False):
     If omitted the system picks the country with the most availability.
     """
 
-    device_type: Annotated[
-        Literal[
-            "android_cloud_phone",
-            "dedicated_premium_device",
-            "dedicated_physical_device",
-            "dedicated_ios_device",
-            "dedicated_emulated_device",
-        ],
-        PropertyInfo(alias="deviceType"),
-    ]
+    device_type: Annotated[Literal["android_cloud_phone", "dedicated_premium_device", "dedicated_physical_device", "dedicated_ios_device", "dedicated_emulated_device"], PropertyInfo(alias="deviceType")]
     """
     Deprecated device type aliases are accepted during a compatibility grace period:
     dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
@@ -72,7 +66,6 @@ class DeviceCreateParams(TypedDict, total=False):
 
     timezone: str
 
-
 class ProxyConnect(TypedDict, total=False):
     id: str
     """Existing Mobilerun Connect proxy id; its credentials are fetched server-side."""
@@ -83,6 +76,14 @@ class ProxyConnect(TypedDict, total=False):
     Mobilerun Connect proxy for the device.
     """
 
+class ProxySocks5(TypedDict, total=False):
+    host: Required[str]
+
+    password: Required[str]
+
+    port: Required[int]
+
+    user: Required[str]
 
 class Proxy(TypedDict, total=False):
     connect: ProxyConnect
@@ -91,4 +92,4 @@ class Proxy(TypedDict, total=False):
 
     smart_ip: Annotated[bool, PropertyInfo(alias="smartIp")]
 
-    socks5: Socks5
+    socks5: ProxySocks5

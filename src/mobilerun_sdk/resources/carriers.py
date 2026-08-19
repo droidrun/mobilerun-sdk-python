@@ -2,31 +2,42 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal
-
 import httpx
 
-from ..types import carrier_list_params, carrier_create_params, carrier_lookup_params, carrier_update_params
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import path_template, maybe_transform, async_maybe_transform
-from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from .._base_client import make_request_options
-from ..types.carrier_list_response import CarrierListResponse
+
+from .._compat import cached_property
+
 from ..types.carrier_create_response import CarrierCreateResponse
-from ..types.carrier_delete_response import CarrierDeleteResponse
-from ..types.carrier_lookup_response import CarrierLookupResponse
-from ..types.carrier_update_response import CarrierUpdateResponse
+
+from .._utils import maybe_transform, path_template, async_maybe_transform
+
+from .._base_client import make_request_options
+
+from .._types import Omit, omit, NotGiven
+
 from ..types.carrier_retrieve_response import CarrierRetrieveResponse
 
-__all__ = ["CarriersResource", "AsyncCarriersResource"]
+from ..types.carrier_update_response import CarrierUpdateResponse
 
+from ..types.carrier_list_response import CarrierListResponse
+
+from typing_extensions import Literal
+
+from ..types.carrier_delete_response import CarrierDeleteResponse
+
+from ..types.carrier_lookup_response import CarrierLookupResponse
+
+from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from .._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ..types import carrier_create_params
+from ..types import carrier_update_params
+from ..types import carrier_list_params
+from ..types import carrier_lookup_params
+
+__all__ = ["CarriersResource", "AsyncCarriersResource"]
 
 class CarriersResource(SyncAPIResource):
     @cached_property
@@ -48,32 +59,30 @@ class CarriersResource(SyncAPIResource):
         """
         return CarriersResourceWithStreamingResponse(self)
 
-    def create(
-        self,
-        *,
-        country: str,
-        mcc: str,
-        mnc: str,
-        operator: str,
-        company: str | Omit = omit,
-        country_code: str | Omit = omit,
-        country_iso: str | Omit = omit,
-        detail_url: str | Omit = omit,
-        gsm_bands: str | Omit = omit,
-        lte_bands: str | Omit = omit,
-        mobile_prefix: str | Omit = omit,
-        nsn_size: str | Omit = omit,
-        number_format: str | Omit = omit,
-        protocols: str | Omit = omit,
-        umts_bands: str | Omit = omit,
-        website: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CarrierCreateResponse:
+    def create(self,
+    *,
+    country: str,
+    mcc: str,
+    mnc: str,
+    operator: str,
+    company: str | Omit = omit,
+    country_code: str | Omit = omit,
+    country_iso: str | Omit = omit,
+    detail_url: str | Omit = omit,
+    gsm_bands: str | Omit = omit,
+    lte_bands: str | Omit = omit,
+    mobile_prefix: str | Omit = omit,
+    nsn_size: str | Omit = omit,
+    number_format: str | Omit = omit,
+    protocols: str | Omit = omit,
+    umts_bands: str | Omit = omit,
+    website: str | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CarrierCreateResponse:
         """
         Create a new carrier
 
@@ -120,44 +129,37 @@ class CarriersResource(SyncAPIResource):
         """
         return self._post(
             "/carriers",
-            body=maybe_transform(
-                {
-                    "country": country,
-                    "mcc": mcc,
-                    "mnc": mnc,
-                    "operator": operator,
-                    "company": company,
-                    "country_code": country_code,
-                    "country_iso": country_iso,
-                    "detail_url": detail_url,
-                    "gsm_bands": gsm_bands,
-                    "lte_bands": lte_bands,
-                    "mobile_prefix": mobile_prefix,
-                    "nsn_size": nsn_size,
-                    "number_format": number_format,
-                    "protocols": protocols,
-                    "umts_bands": umts_bands,
-                    "website": website,
-                },
-                carrier_create_params.CarrierCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "country": country,
+                "mcc": mcc,
+                "mnc": mnc,
+                "operator": operator,
+                "company": company,
+                "country_code": country_code,
+                "country_iso": country_iso,
+                "detail_url": detail_url,
+                "gsm_bands": gsm_bands,
+                "lte_bands": lte_bands,
+                "mobile_prefix": mobile_prefix,
+                "nsn_size": nsn_size,
+                "number_format": number_format,
+                "protocols": protocols,
+                "umts_bands": umts_bands,
+                "website": website,
+            }, carrier_create_params.CarrierCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CarrierCreateResponse,
         )
 
-    def retrieve(
-        self,
-        carrier_id: int,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CarrierRetrieveResponse:
+    def retrieve(self,
+    carrier_id: int,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CarrierRetrieveResponse:
         """
         Get carrier by ID
 
@@ -174,37 +176,33 @@ class CarriersResource(SyncAPIResource):
         """
         return self._get(
             path_template("/carriers/{carrier_id}", carrier_id=carrier_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CarrierRetrieveResponse,
         )
 
-    def update(
-        self,
-        carrier_id: int,
-        *,
-        company: str | Omit = omit,
-        country: str | Omit = omit,
-        country_code: str | Omit = omit,
-        country_iso: str | Omit = omit,
-        detail_url: str | Omit = omit,
-        gsm_bands: str | Omit = omit,
-        lte_bands: str | Omit = omit,
-        mobile_prefix: str | Omit = omit,
-        nsn_size: str | Omit = omit,
-        number_format: str | Omit = omit,
-        operator: str | Omit = omit,
-        protocols: str | Omit = omit,
-        umts_bands: str | Omit = omit,
-        website: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CarrierUpdateResponse:
+    def update(self,
+    carrier_id: int,
+    *,
+    company: str | Omit = omit,
+    country: str | Omit = omit,
+    country_code: str | Omit = omit,
+    country_iso: str | Omit = omit,
+    detail_url: str | Omit = omit,
+    gsm_bands: str | Omit = omit,
+    lte_bands: str | Omit = omit,
+    mobile_prefix: str | Omit = omit,
+    nsn_size: str | Omit = omit,
+    number_format: str | Omit = omit,
+    operator: str | Omit = omit,
+    protocols: str | Omit = omit,
+    umts_bands: str | Omit = omit,
+    website: str | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CarrierUpdateResponse:
         """
         Update a carrier
 
@@ -249,47 +247,40 @@ class CarriersResource(SyncAPIResource):
         """
         return self._patch(
             path_template("/carriers/{carrier_id}", carrier_id=carrier_id),
-            body=maybe_transform(
-                {
-                    "company": company,
-                    "country": country,
-                    "country_code": country_code,
-                    "country_iso": country_iso,
-                    "detail_url": detail_url,
-                    "gsm_bands": gsm_bands,
-                    "lte_bands": lte_bands,
-                    "mobile_prefix": mobile_prefix,
-                    "nsn_size": nsn_size,
-                    "number_format": number_format,
-                    "operator": operator,
-                    "protocols": protocols,
-                    "umts_bands": umts_bands,
-                    "website": website,
-                },
-                carrier_update_params.CarrierUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "company": company,
+                "country": country,
+                "country_code": country_code,
+                "country_iso": country_iso,
+                "detail_url": detail_url,
+                "gsm_bands": gsm_bands,
+                "lte_bands": lte_bands,
+                "mobile_prefix": mobile_prefix,
+                "nsn_size": nsn_size,
+                "number_format": number_format,
+                "operator": operator,
+                "protocols": protocols,
+                "umts_bands": umts_bands,
+                "website": website,
+            }, carrier_update_params.CarrierUpdateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CarrierUpdateResponse,
         )
 
-    def list(
-        self,
-        *,
-        country: str | Omit = omit,
-        country_iso: str | Omit = omit,
-        order_by: Literal["id", "mcc", "mnc", "operator", "country", "country_iso"] | Omit = omit,
-        order_dir: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CarrierListResponse:
+    def list(self,
+    *,
+    country: str | Omit = omit,
+    country_iso: str | Omit = omit,
+    order_by: Literal["id", "mcc", "mnc", "operator", "country", "country_iso"] | Omit = omit,
+    order_dir: Literal["asc", "desc"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CarrierListResponse:
         """
         List carriers with pagination
 
@@ -316,37 +307,26 @@ class CarriersResource(SyncAPIResource):
         """
         return self._get(
             "/carriers",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "country": country,
-                        "country_iso": country_iso,
-                        "order_by": order_by,
-                        "order_dir": order_dir,
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                    carrier_list_params.CarrierListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "country": country,
+                "country_iso": country_iso,
+                "order_by": order_by,
+                "order_dir": order_dir,
+                "page": page,
+                "page_size": page_size,
+            }, carrier_list_params.CarrierListParams)),
             cast_to=CarrierListResponse,
         )
 
-    def delete(
-        self,
-        carrier_id: int,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CarrierDeleteResponse:
+    def delete(self,
+    carrier_id: int,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CarrierDeleteResponse:
         """
         Delete a carrier
 
@@ -363,24 +343,20 @@ class CarriersResource(SyncAPIResource):
         """
         return self._delete(
             path_template("/carriers/{carrier_id}", carrier_id=carrier_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CarrierDeleteResponse,
         )
 
-    def lookup(
-        self,
-        *,
-        mcc: str,
-        mnc: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CarrierLookupResponse:
+    def lookup(self,
+    *,
+    mcc: str,
+    mnc: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CarrierLookupResponse:
         """
         Get carrier by MCC and MNC
 
@@ -399,22 +375,12 @@ class CarriersResource(SyncAPIResource):
         """
         return self._get(
             "/carriers/lookup",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "mcc": mcc,
-                        "mnc": mnc,
-                    },
-                    carrier_lookup_params.CarrierLookupParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "mcc": mcc,
+                "mnc": mnc,
+            }, carrier_lookup_params.CarrierLookupParams)),
             cast_to=CarrierLookupResponse,
         )
-
 
 class AsyncCarriersResource(AsyncAPIResource):
     @cached_property
@@ -436,32 +402,30 @@ class AsyncCarriersResource(AsyncAPIResource):
         """
         return AsyncCarriersResourceWithStreamingResponse(self)
 
-    async def create(
-        self,
-        *,
-        country: str,
-        mcc: str,
-        mnc: str,
-        operator: str,
-        company: str | Omit = omit,
-        country_code: str | Omit = omit,
-        country_iso: str | Omit = omit,
-        detail_url: str | Omit = omit,
-        gsm_bands: str | Omit = omit,
-        lte_bands: str | Omit = omit,
-        mobile_prefix: str | Omit = omit,
-        nsn_size: str | Omit = omit,
-        number_format: str | Omit = omit,
-        protocols: str | Omit = omit,
-        umts_bands: str | Omit = omit,
-        website: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CarrierCreateResponse:
+    async def create(self,
+    *,
+    country: str,
+    mcc: str,
+    mnc: str,
+    operator: str,
+    company: str | Omit = omit,
+    country_code: str | Omit = omit,
+    country_iso: str | Omit = omit,
+    detail_url: str | Omit = omit,
+    gsm_bands: str | Omit = omit,
+    lte_bands: str | Omit = omit,
+    mobile_prefix: str | Omit = omit,
+    nsn_size: str | Omit = omit,
+    number_format: str | Omit = omit,
+    protocols: str | Omit = omit,
+    umts_bands: str | Omit = omit,
+    website: str | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CarrierCreateResponse:
         """
         Create a new carrier
 
@@ -508,44 +472,37 @@ class AsyncCarriersResource(AsyncAPIResource):
         """
         return await self._post(
             "/carriers",
-            body=await async_maybe_transform(
-                {
-                    "country": country,
-                    "mcc": mcc,
-                    "mnc": mnc,
-                    "operator": operator,
-                    "company": company,
-                    "country_code": country_code,
-                    "country_iso": country_iso,
-                    "detail_url": detail_url,
-                    "gsm_bands": gsm_bands,
-                    "lte_bands": lte_bands,
-                    "mobile_prefix": mobile_prefix,
-                    "nsn_size": nsn_size,
-                    "number_format": number_format,
-                    "protocols": protocols,
-                    "umts_bands": umts_bands,
-                    "website": website,
-                },
-                carrier_create_params.CarrierCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "country": country,
+                "mcc": mcc,
+                "mnc": mnc,
+                "operator": operator,
+                "company": company,
+                "country_code": country_code,
+                "country_iso": country_iso,
+                "detail_url": detail_url,
+                "gsm_bands": gsm_bands,
+                "lte_bands": lte_bands,
+                "mobile_prefix": mobile_prefix,
+                "nsn_size": nsn_size,
+                "number_format": number_format,
+                "protocols": protocols,
+                "umts_bands": umts_bands,
+                "website": website,
+            }, carrier_create_params.CarrierCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CarrierCreateResponse,
         )
 
-    async def retrieve(
-        self,
-        carrier_id: int,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CarrierRetrieveResponse:
+    async def retrieve(self,
+    carrier_id: int,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CarrierRetrieveResponse:
         """
         Get carrier by ID
 
@@ -562,37 +519,33 @@ class AsyncCarriersResource(AsyncAPIResource):
         """
         return await self._get(
             path_template("/carriers/{carrier_id}", carrier_id=carrier_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CarrierRetrieveResponse,
         )
 
-    async def update(
-        self,
-        carrier_id: int,
-        *,
-        company: str | Omit = omit,
-        country: str | Omit = omit,
-        country_code: str | Omit = omit,
-        country_iso: str | Omit = omit,
-        detail_url: str | Omit = omit,
-        gsm_bands: str | Omit = omit,
-        lte_bands: str | Omit = omit,
-        mobile_prefix: str | Omit = omit,
-        nsn_size: str | Omit = omit,
-        number_format: str | Omit = omit,
-        operator: str | Omit = omit,
-        protocols: str | Omit = omit,
-        umts_bands: str | Omit = omit,
-        website: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CarrierUpdateResponse:
+    async def update(self,
+    carrier_id: int,
+    *,
+    company: str | Omit = omit,
+    country: str | Omit = omit,
+    country_code: str | Omit = omit,
+    country_iso: str | Omit = omit,
+    detail_url: str | Omit = omit,
+    gsm_bands: str | Omit = omit,
+    lte_bands: str | Omit = omit,
+    mobile_prefix: str | Omit = omit,
+    nsn_size: str | Omit = omit,
+    number_format: str | Omit = omit,
+    operator: str | Omit = omit,
+    protocols: str | Omit = omit,
+    umts_bands: str | Omit = omit,
+    website: str | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CarrierUpdateResponse:
         """
         Update a carrier
 
@@ -637,47 +590,40 @@ class AsyncCarriersResource(AsyncAPIResource):
         """
         return await self._patch(
             path_template("/carriers/{carrier_id}", carrier_id=carrier_id),
-            body=await async_maybe_transform(
-                {
-                    "company": company,
-                    "country": country,
-                    "country_code": country_code,
-                    "country_iso": country_iso,
-                    "detail_url": detail_url,
-                    "gsm_bands": gsm_bands,
-                    "lte_bands": lte_bands,
-                    "mobile_prefix": mobile_prefix,
-                    "nsn_size": nsn_size,
-                    "number_format": number_format,
-                    "operator": operator,
-                    "protocols": protocols,
-                    "umts_bands": umts_bands,
-                    "website": website,
-                },
-                carrier_update_params.CarrierUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "company": company,
+                "country": country,
+                "country_code": country_code,
+                "country_iso": country_iso,
+                "detail_url": detail_url,
+                "gsm_bands": gsm_bands,
+                "lte_bands": lte_bands,
+                "mobile_prefix": mobile_prefix,
+                "nsn_size": nsn_size,
+                "number_format": number_format,
+                "operator": operator,
+                "protocols": protocols,
+                "umts_bands": umts_bands,
+                "website": website,
+            }, carrier_update_params.CarrierUpdateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CarrierUpdateResponse,
         )
 
-    async def list(
-        self,
-        *,
-        country: str | Omit = omit,
-        country_iso: str | Omit = omit,
-        order_by: Literal["id", "mcc", "mnc", "operator", "country", "country_iso"] | Omit = omit,
-        order_dir: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CarrierListResponse:
+    async def list(self,
+    *,
+    country: str | Omit = omit,
+    country_iso: str | Omit = omit,
+    order_by: Literal["id", "mcc", "mnc", "operator", "country", "country_iso"] | Omit = omit,
+    order_dir: Literal["asc", "desc"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CarrierListResponse:
         """
         List carriers with pagination
 
@@ -704,37 +650,26 @@ class AsyncCarriersResource(AsyncAPIResource):
         """
         return await self._get(
             "/carriers",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "country": country,
-                        "country_iso": country_iso,
-                        "order_by": order_by,
-                        "order_dir": order_dir,
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                    carrier_list_params.CarrierListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "country": country,
+                "country_iso": country_iso,
+                "order_by": order_by,
+                "order_dir": order_dir,
+                "page": page,
+                "page_size": page_size,
+            }, carrier_list_params.CarrierListParams)),
             cast_to=CarrierListResponse,
         )
 
-    async def delete(
-        self,
-        carrier_id: int,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CarrierDeleteResponse:
+    async def delete(self,
+    carrier_id: int,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CarrierDeleteResponse:
         """
         Delete a carrier
 
@@ -751,24 +686,20 @@ class AsyncCarriersResource(AsyncAPIResource):
         """
         return await self._delete(
             path_template("/carriers/{carrier_id}", carrier_id=carrier_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=CarrierDeleteResponse,
         )
 
-    async def lookup(
-        self,
-        *,
-        mcc: str,
-        mnc: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CarrierLookupResponse:
+    async def lookup(self,
+    *,
+    mcc: str,
+    mnc: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CarrierLookupResponse:
         """
         Get carrier by MCC and MNC
 
@@ -787,22 +718,12 @@ class AsyncCarriersResource(AsyncAPIResource):
         """
         return await self._get(
             "/carriers/lookup",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "mcc": mcc,
-                        "mnc": mnc,
-                    },
-                    carrier_lookup_params.CarrierLookupParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "mcc": mcc,
+                "mnc": mnc,
+            }, carrier_lookup_params.CarrierLookupParams)),
             cast_to=CarrierLookupResponse,
         )
-
 
 class CarriersResourceWithRawResponse:
     def __init__(self, carriers: CarriersResource) -> None:
@@ -827,7 +748,6 @@ class CarriersResourceWithRawResponse:
             carriers.lookup,
         )
 
-
 class AsyncCarriersResourceWithRawResponse:
     def __init__(self, carriers: AsyncCarriersResource) -> None:
         self._carriers = carriers
@@ -851,7 +771,6 @@ class AsyncCarriersResourceWithRawResponse:
             carriers.lookup,
         )
 
-
 class CarriersResourceWithStreamingResponse:
     def __init__(self, carriers: CarriersResource) -> None:
         self._carriers = carriers
@@ -874,7 +793,6 @@ class CarriersResourceWithStreamingResponse:
         self.lookup = to_streamed_response_wrapper(
             carriers.lookup,
         )
-
 
 class AsyncCarriersResourceWithStreamingResponse:
     def __init__(self, carriers: AsyncCarriersResource) -> None:

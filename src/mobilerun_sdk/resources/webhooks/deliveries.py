@@ -2,31 +2,41 @@
 
 from __future__ import annotations
 
-from typing import Union
-from datetime import datetime
-from typing_extensions import Literal
-
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
-from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ..._base_client import make_request_options
-from ...types.webhooks import delivery_list_params, delivery_stats_params, delivery_list_for_webhook_params
+
+from ..._compat import cached_property
+
 from ...types.webhooks.delivery_list_response import DeliveryListResponse
-from ...types.webhooks.delivery_stats_response import DeliveryStatsResponse
+
+from ..._base_client import make_request_options
+
+from ..._utils import maybe_transform, path_template, async_maybe_transform
+
+from ..._types import Omit, omit, NotGiven
+
+from typing import Union
+
+from datetime import datetime
+
+from typing_extensions import Literal
+
 from ...types.webhooks.delivery_list_for_webhook_response import DeliveryListForWebhookResponse
+
 from ...types.webhooks.delivery_retrieve_attempts_response import DeliveryRetrieveAttemptsResponse
 
-__all__ = ["DeliveriesResource", "AsyncDeliveriesResource"]
+from ...types.webhooks.delivery_stats_response import DeliveryStatsResponse
 
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ...types.webhooks import delivery_list_params
+from ...types.webhooks import delivery_list_for_webhook_params
+from ...types.webhooks import delivery_stats_params
+
+__all__ = ["DeliveriesResource", "AsyncDeliveriesResource"]
 
 class DeliveriesResource(SyncAPIResource):
     @cached_property
@@ -48,21 +58,19 @@ class DeliveriesResource(SyncAPIResource):
         """
         return DeliveriesResourceWithStreamingResponse(self)
 
-    def list(
-        self,
-        *,
-        event_id: str | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        since: Union[str, datetime] | Omit = omit,
-        status: Literal["pending", "success", "skipped", "dead"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> DeliveryListResponse:
+    def list(self,
+    *,
+    event_id: str | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    since: Union[str, datetime] | Omit = omit,
+    status: Literal["pending", "success", "skipped", "dead"] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> DeliveryListResponse:
         """
         Returns a paginated feed of webhook deliveries across all of your subscriptions,
         with the originating endpoint URL included on each record. Results can be
@@ -82,39 +90,28 @@ class DeliveriesResource(SyncAPIResource):
         """
         return self._get(
             "/webhooks/deliveries",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "event_id": event_id,
-                        "page": page,
-                        "page_size": page_size,
-                        "since": since,
-                        "status": status,
-                    },
-                    delivery_list_params.DeliveryListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "event_id": event_id,
+                "page": page,
+                "page_size": page_size,
+                "since": since,
+                "status": status,
+            }, delivery_list_params.DeliveryListParams)),
             cast_to=DeliveryListResponse,
         )
 
-    def list_for_webhook(
-        self,
-        id: str,
-        *,
-        event_id: str | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> DeliveryListForWebhookResponse:
+    def list_for_webhook(self,
+    id: str,
+    *,
+    event_id: str | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> DeliveryListForWebhookResponse:
         """
         Returns a paginated list of deliveries for a single webhook subscription,
         identified by its id. Each record reports the event, delivery status, attempt
@@ -133,38 +130,29 @@ class DeliveriesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return self._get(
             path_template("/webhooks/{id}/deliveries", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "event_id": event_id,
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                    delivery_list_for_webhook_params.DeliveryListForWebhookParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "event_id": event_id,
+                "page": page,
+                "page_size": page_size,
+            }, delivery_list_for_webhook_params.DeliveryListForWebhookParams)),
             cast_to=DeliveryListForWebhookResponse,
         )
 
-    def retrieve_attempts(
-        self,
-        delivery_id: str,
-        *,
-        id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> DeliveryRetrieveAttemptsResponse:
+    def retrieve_attempts(self,
+    delivery_id: str,
+    *,
+    id: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> DeliveryRetrieveAttemptsResponse:
         """
         Returns a single delivery for a webhook subscription along with the full list of
         captured attempt records. Each attempt includes the request URL, method, headers
@@ -180,28 +168,28 @@ class DeliveriesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         if not delivery_id:
-            raise ValueError(f"Expected a non-empty value for `delivery_id` but received {delivery_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `delivery_id` but received {delivery_id!r}'
+          )
         return self._get(
             path_template("/webhooks/{id}/deliveries/{delivery_id}", id=id, delivery_id=delivery_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=DeliveryRetrieveAttemptsResponse,
         )
 
-    def stats(
-        self,
-        *,
-        since: Union[str, datetime] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> DeliveryStatsResponse:
+    def stats(self,
+    *,
+    since: Union[str, datetime] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> DeliveryStatsResponse:
         """
         Returns aggregate delivery statistics across all of your webhooks, including the
         total count, a breakdown by status (pending, success, skipped, dead), and the
@@ -219,16 +207,11 @@ class DeliveriesResource(SyncAPIResource):
         """
         return self._get(
             "/webhooks/deliveries/stats",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"since": since}, delivery_stats_params.DeliveryStatsParams),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "since": since
+            }, delivery_stats_params.DeliveryStatsParams)),
             cast_to=DeliveryStatsResponse,
         )
-
 
 class AsyncDeliveriesResource(AsyncAPIResource):
     @cached_property
@@ -250,21 +233,19 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         """
         return AsyncDeliveriesResourceWithStreamingResponse(self)
 
-    async def list(
-        self,
-        *,
-        event_id: str | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        since: Union[str, datetime] | Omit = omit,
-        status: Literal["pending", "success", "skipped", "dead"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> DeliveryListResponse:
+    async def list(self,
+    *,
+    event_id: str | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    since: Union[str, datetime] | Omit = omit,
+    status: Literal["pending", "success", "skipped", "dead"] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> DeliveryListResponse:
         """
         Returns a paginated feed of webhook deliveries across all of your subscriptions,
         with the originating endpoint URL included on each record. Results can be
@@ -284,39 +265,28 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         """
         return await self._get(
             "/webhooks/deliveries",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "event_id": event_id,
-                        "page": page,
-                        "page_size": page_size,
-                        "since": since,
-                        "status": status,
-                    },
-                    delivery_list_params.DeliveryListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "event_id": event_id,
+                "page": page,
+                "page_size": page_size,
+                "since": since,
+                "status": status,
+            }, delivery_list_params.DeliveryListParams)),
             cast_to=DeliveryListResponse,
         )
 
-    async def list_for_webhook(
-        self,
-        id: str,
-        *,
-        event_id: str | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> DeliveryListForWebhookResponse:
+    async def list_for_webhook(self,
+    id: str,
+    *,
+    event_id: str | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> DeliveryListForWebhookResponse:
         """
         Returns a paginated list of deliveries for a single webhook subscription,
         identified by its id. Each record reports the event, delivery status, attempt
@@ -335,38 +305,29 @@ class AsyncDeliveriesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         return await self._get(
             path_template("/webhooks/{id}/deliveries", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "event_id": event_id,
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                    delivery_list_for_webhook_params.DeliveryListForWebhookParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "event_id": event_id,
+                "page": page,
+                "page_size": page_size,
+            }, delivery_list_for_webhook_params.DeliveryListForWebhookParams)),
             cast_to=DeliveryListForWebhookResponse,
         )
 
-    async def retrieve_attempts(
-        self,
-        delivery_id: str,
-        *,
-        id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> DeliveryRetrieveAttemptsResponse:
+    async def retrieve_attempts(self,
+    delivery_id: str,
+    *,
+    id: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> DeliveryRetrieveAttemptsResponse:
         """
         Returns a single delivery for a webhook subscription along with the full list of
         captured attempt records. Each attempt includes the request URL, method, headers
@@ -382,28 +343,28 @@ class AsyncDeliveriesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `id` but received {id!r}'
+          )
         if not delivery_id:
-            raise ValueError(f"Expected a non-empty value for `delivery_id` but received {delivery_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `delivery_id` but received {delivery_id!r}'
+          )
         return await self._get(
             path_template("/webhooks/{id}/deliveries/{delivery_id}", id=id, delivery_id=delivery_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=DeliveryRetrieveAttemptsResponse,
         )
 
-    async def stats(
-        self,
-        *,
-        since: Union[str, datetime] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> DeliveryStatsResponse:
+    async def stats(self,
+    *,
+    since: Union[str, datetime] | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> DeliveryStatsResponse:
         """
         Returns aggregate delivery statistics across all of your webhooks, including the
         total count, a breakdown by status (pending, success, skipped, dead), and the
@@ -421,16 +382,11 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         """
         return await self._get(
             "/webhooks/deliveries/stats",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"since": since}, delivery_stats_params.DeliveryStatsParams),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "since": since
+            }, delivery_stats_params.DeliveryStatsParams)),
             cast_to=DeliveryStatsResponse,
         )
-
 
 class DeliveriesResourceWithRawResponse:
     def __init__(self, deliveries: DeliveriesResource) -> None:
@@ -449,7 +405,6 @@ class DeliveriesResourceWithRawResponse:
             deliveries.stats,
         )
 
-
 class AsyncDeliveriesResourceWithRawResponse:
     def __init__(self, deliveries: AsyncDeliveriesResource) -> None:
         self._deliveries = deliveries
@@ -467,7 +422,6 @@ class AsyncDeliveriesResourceWithRawResponse:
             deliveries.stats,
         )
 
-
 class DeliveriesResourceWithStreamingResponse:
     def __init__(self, deliveries: DeliveriesResource) -> None:
         self._deliveries = deliveries
@@ -484,7 +438,6 @@ class DeliveriesResourceWithStreamingResponse:
         self.stats = to_streamed_response_wrapper(
             deliveries.stats,
         )
-
 
 class AsyncDeliveriesResourceWithStreamingResponse:
     def __init__(self, deliveries: AsyncDeliveriesResource) -> None:

@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Required, Literal
+
+from .._utils import PropertyInfo
 
 from .._types import SequenceNotStr
-from .._utils import PropertyInfo
-from .package_credentials_param import PackageCredentialsParam
 
-__all__ = ["TaskRunParams"]
+from typing import Iterable, Optional, Dict
 
+__all__ = ["TaskRunParams", "Credential"]
 
 class TaskRunParams(TypedDict, total=False):
     device_id: Required[Annotated[str, PropertyInfo(alias="deviceId")]]
@@ -26,7 +26,7 @@ class TaskRunParams(TypedDict, total=False):
 
     continue_on_failure: Annotated[bool, PropertyInfo(alias="continueOnFailure")]
 
-    credentials: Iterable[PackageCredentialsParam]
+    credentials: Iterable[Credential]
 
     display_id: Annotated[int, PropertyInfo(alias="displayId")]
     """The display ID of the device to run the task on."""
@@ -56,8 +56,11 @@ class TaskRunParams(TypedDict, total=False):
 
     vision: bool
 
-    vpn_country: Annotated[
-        Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]], PropertyInfo(alias="vpnCountry")
-    ]
+    vpn_country: Annotated[Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]], PropertyInfo(alias="vpnCountry")]
 
     idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]
+
+class Credential(TypedDict, total=False):
+    credential_names: Required[Annotated[SequenceNotStr[str], PropertyInfo(alias="credentialNames")]]
+
+    package_name: Required[Annotated[str, PropertyInfo(alias="packageName")]]

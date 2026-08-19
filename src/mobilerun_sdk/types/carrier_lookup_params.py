@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, TypedDict
+from typing_extensions import TypedDict, Required
 
 __all__ = ["CarrierLookupParams"]
-
 
 class CarrierLookupParams(TypedDict, total=False):
     mcc: Required[str]

@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Required
 
 from ..._utils import PropertyInfo
 
 __all__ = ["DeviceIdentifiers"]
-
 
 class DeviceIdentifiers(TypedDict, total=False):
     bootloader_serial_number: Required[Annotated[str, PropertyInfo(alias="BootloaderSerialNumber")]]

@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
-from typing_extensions import Literal, Annotated, TypedDict
+from typing_extensions import TypedDict, Annotated, Literal
 
 from .._utils import PropertyInfo
 
-__all__ = ["DeviceListParams"]
+from typing import Optional, List
 
+__all__ = ["DeviceListParams"]
 
 class DeviceListParams(TypedDict, total=False):
     country: str
@@ -34,30 +34,9 @@ class DeviceListParams(TypedDict, total=False):
 
     provider_id: Annotated[str, PropertyInfo(alias="providerId")]
 
-    state: Optional[
-        List[
-            Literal[
-                "creating",
-                "assigned",
-                "ready",
-                "rebooting",
-                "migrating",
-                "resetting",
-                "terminated",
-                "maintenance",
-                "stopped",
-                "unknown",
-            ]
-        ]
-    ]
+    state: Optional[List[Literal["creating", "assigned", "ready", "rebooting", "migrating", "resetting", "terminated", "maintenance", "stopped", "unknown"]]]
 
-    type: Literal[
-        "android_cloud_phone",
-        "dedicated_premium_device",
-        "dedicated_physical_device",
-        "dedicated_ios_device",
-        "dedicated_emulated_device",
-    ]
+    type: Literal["android_cloud_phone", "dedicated_premium_device", "dedicated_physical_device", "dedicated_ios_device", "dedicated_emulated_device"]
     """
     Deprecated device type aliases are accepted during a compatibility grace period:
     dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device

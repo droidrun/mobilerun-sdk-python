@@ -2,31 +2,43 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal
-
 import httpx
 
-from ..types import profile_list_params, profile_create_params, profile_update_params
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import path_template, maybe_transform, async_maybe_transform
-from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from .._base_client import make_request_options
-from ..types.profile_list_response import ProfileListResponse
+
+from .._compat import cached_property
+
 from ..types.profile_create_response import ProfileCreateResponse
-from ..types.profile_delete_response import ProfileDeleteResponse
-from ..types.profile_update_response import ProfileUpdateResponse
-from ..types.profile_retrieve_response import ProfileRetrieveResponse
+
+from .._utils import maybe_transform, path_template, async_maybe_transform
+
+from .._base_client import make_request_options
+
 from ..types.shared_params.device_spec import DeviceSpec
 
-__all__ = ["ProfilesResource", "AsyncProfilesResource"]
+from .._types import NotGiven, Omit, omit
 
+from ..types.profile_retrieve_response import ProfileRetrieveResponse
+
+from ..types.profile_update_response import ProfileUpdateResponse
+
+from ..types.profile_list_response import ProfileListResponse
+
+from typing_extensions import Literal
+
+from ..types.profile_delete_response import ProfileDeleteResponse
+
+from .._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from .._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ..types import profile_create_params
+from ..types import profile_update_params
+from ..types import profile_list_params
+from ..types import shared
+from ..types import shared
+
+__all__ = ["ProfilesResource", "AsyncProfilesResource"]
 
 class ProfilesResource(SyncAPIResource):
     @cached_property
@@ -48,18 +60,16 @@ class ProfilesResource(SyncAPIResource):
         """
         return ProfilesResourceWithStreamingResponse(self)
 
-    def create(
-        self,
-        *,
-        name: str,
-        spec: DeviceSpec,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileCreateResponse:
+    def create(self,
+    *,
+    name: str,
+    spec: DeviceSpec,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ProfileCreateResponse:
         """
         Create a new device profile
 
@@ -78,30 +88,23 @@ class ProfilesResource(SyncAPIResource):
         """
         return self._post(
             "/profiles",
-            body=maybe_transform(
-                {
-                    "name": name,
-                    "spec": spec,
-                },
-                profile_create_params.ProfileCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "name": name,
+                "spec": spec,
+            }, profile_create_params.ProfileCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=ProfileCreateResponse,
         )
 
-    def retrieve(
-        self,
-        profile_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileRetrieveResponse:
+    def retrieve(self,
+    profile_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ProfileRetrieveResponse:
         """
         Get device profile by ID
 
@@ -115,28 +118,26 @@ class ProfilesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not profile_id:
-            raise ValueError(f"Expected a non-empty value for `profile_id` but received {profile_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `profile_id` but received {profile_id!r}'
+          )
         return self._get(
             path_template("/profiles/{profile_id}", profile_id=profile_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=ProfileRetrieveResponse,
         )
 
-    def update(
-        self,
-        profile_id: str,
-        *,
-        name: str,
-        spec: DeviceSpec,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileUpdateResponse:
+    def update(self,
+    profile_id: str,
+    *,
+    name: str,
+    spec: DeviceSpec,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ProfileUpdateResponse:
         """
         Update a device profile
 
@@ -154,38 +155,33 @@ class ProfilesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not profile_id:
-            raise ValueError(f"Expected a non-empty value for `profile_id` but received {profile_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `profile_id` but received {profile_id!r}'
+          )
         return self._put(
             path_template("/profiles/{profile_id}", profile_id=profile_id),
-            body=maybe_transform(
-                {
-                    "name": name,
-                    "spec": spec,
-                },
-                profile_update_params.ProfileUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=maybe_transform({
+                "name": name,
+                "spec": spec,
+            }, profile_update_params.ProfileUpdateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=ProfileUpdateResponse,
         )
 
-    def list(
-        self,
-        *,
-        mine: bool | Omit = omit,
-        name: str | Omit = omit,
-        order_by: Literal["name", "created_at", "updated_at"] | Omit = omit,
-        order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileListResponse:
+    def list(self,
+    *,
+    mine: bool | Omit = omit,
+    name: str | Omit = omit,
+    order_by: Literal["name", "created_at", "updated_at"] | Omit = omit,
+    order_by_direction: Literal["asc", "desc"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ProfileListResponse:
         """
         List device profiles
 
@@ -203,37 +199,26 @@ class ProfilesResource(SyncAPIResource):
         """
         return self._get(
             "/profiles",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "mine": mine,
-                        "name": name,
-                        "order_by": order_by,
-                        "order_by_direction": order_by_direction,
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                    profile_list_params.ProfileListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "mine": mine,
+                "name": name,
+                "order_by": order_by,
+                "order_by_direction": order_by_direction,
+                "page": page,
+                "page_size": page_size,
+            }, profile_list_params.ProfileListParams)),
             cast_to=ProfileListResponse,
         )
 
-    def delete(
-        self,
-        profile_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileDeleteResponse:
+    def delete(self,
+    profile_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ProfileDeleteResponse:
         """
         Delete a device profile
 
@@ -247,15 +232,14 @@ class ProfilesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not profile_id:
-            raise ValueError(f"Expected a non-empty value for `profile_id` but received {profile_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `profile_id` but received {profile_id!r}'
+          )
         return self._delete(
             path_template("/profiles/{profile_id}", profile_id=profile_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=ProfileDeleteResponse,
         )
-
 
 class AsyncProfilesResource(AsyncAPIResource):
     @cached_property
@@ -277,18 +261,16 @@ class AsyncProfilesResource(AsyncAPIResource):
         """
         return AsyncProfilesResourceWithStreamingResponse(self)
 
-    async def create(
-        self,
-        *,
-        name: str,
-        spec: DeviceSpec,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileCreateResponse:
+    async def create(self,
+    *,
+    name: str,
+    spec: DeviceSpec,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ProfileCreateResponse:
         """
         Create a new device profile
 
@@ -307,30 +289,23 @@ class AsyncProfilesResource(AsyncAPIResource):
         """
         return await self._post(
             "/profiles",
-            body=await async_maybe_transform(
-                {
-                    "name": name,
-                    "spec": spec,
-                },
-                profile_create_params.ProfileCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "name": name,
+                "spec": spec,
+            }, profile_create_params.ProfileCreateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=ProfileCreateResponse,
         )
 
-    async def retrieve(
-        self,
-        profile_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileRetrieveResponse:
+    async def retrieve(self,
+    profile_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ProfileRetrieveResponse:
         """
         Get device profile by ID
 
@@ -344,28 +319,26 @@ class AsyncProfilesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not profile_id:
-            raise ValueError(f"Expected a non-empty value for `profile_id` but received {profile_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `profile_id` but received {profile_id!r}'
+          )
         return await self._get(
             path_template("/profiles/{profile_id}", profile_id=profile_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=ProfileRetrieveResponse,
         )
 
-    async def update(
-        self,
-        profile_id: str,
-        *,
-        name: str,
-        spec: DeviceSpec,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileUpdateResponse:
+    async def update(self,
+    profile_id: str,
+    *,
+    name: str,
+    spec: DeviceSpec,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ProfileUpdateResponse:
         """
         Update a device profile
 
@@ -383,38 +356,33 @@ class AsyncProfilesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not profile_id:
-            raise ValueError(f"Expected a non-empty value for `profile_id` but received {profile_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `profile_id` but received {profile_id!r}'
+          )
         return await self._put(
             path_template("/profiles/{profile_id}", profile_id=profile_id),
-            body=await async_maybe_transform(
-                {
-                    "name": name,
-                    "spec": spec,
-                },
-                profile_update_params.ProfileUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            body=await async_maybe_transform({
+                "name": name,
+                "spec": spec,
+            }, profile_update_params.ProfileUpdateParams),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=ProfileUpdateResponse,
         )
 
-    async def list(
-        self,
-        *,
-        mine: bool | Omit = omit,
-        name: str | Omit = omit,
-        order_by: Literal["name", "created_at", "updated_at"] | Omit = omit,
-        order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileListResponse:
+    async def list(self,
+    *,
+    mine: bool | Omit = omit,
+    name: str | Omit = omit,
+    order_by: Literal["name", "created_at", "updated_at"] | Omit = omit,
+    order_by_direction: Literal["asc", "desc"] | Omit = omit,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ProfileListResponse:
         """
         List device profiles
 
@@ -432,37 +400,26 @@ class AsyncProfilesResource(AsyncAPIResource):
         """
         return await self._get(
             "/profiles",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "mine": mine,
-                        "name": name,
-                        "order_by": order_by,
-                        "order_by_direction": order_by_direction,
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                    profile_list_params.ProfileListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "mine": mine,
+                "name": name,
+                "order_by": order_by,
+                "order_by_direction": order_by_direction,
+                "page": page,
+                "page_size": page_size,
+            }, profile_list_params.ProfileListParams)),
             cast_to=ProfileListResponse,
         )
 
-    async def delete(
-        self,
-        profile_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileDeleteResponse:
+    async def delete(self,
+    profile_id: str,
+    *,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> ProfileDeleteResponse:
         """
         Delete a device profile
 
@@ -476,15 +433,14 @@ class AsyncProfilesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not profile_id:
-            raise ValueError(f"Expected a non-empty value for `profile_id` but received {profile_id!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `profile_id` but received {profile_id!r}'
+          )
         return await self._delete(
             path_template("/profiles/{profile_id}", profile_id=profile_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=ProfileDeleteResponse,
         )
-
 
 class ProfilesResourceWithRawResponse:
     def __init__(self, profiles: ProfilesResource) -> None:
@@ -506,7 +462,6 @@ class ProfilesResourceWithRawResponse:
             profiles.delete,
         )
 
-
 class AsyncProfilesResourceWithRawResponse:
     def __init__(self, profiles: AsyncProfilesResource) -> None:
         self._profiles = profiles
@@ -527,7 +482,6 @@ class AsyncProfilesResourceWithRawResponse:
             profiles.delete,
         )
 
-
 class ProfilesResourceWithStreamingResponse:
     def __init__(self, profiles: ProfilesResource) -> None:
         self._profiles = profiles
@@ -547,7 +501,6 @@ class ProfilesResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             profiles.delete,
         )
-
 
 class AsyncProfilesResourceWithStreamingResponse:
     def __init__(self, profiles: AsyncProfilesResource) -> None:

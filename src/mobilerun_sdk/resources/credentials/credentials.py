@@ -4,30 +4,27 @@ from __future__ import annotations
 
 import httpx
 
-from ...types import credential_list_params
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
-from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ..._base_client import make_request_options
-from .packages.packages import (
-    PackagesResource,
-    AsyncPackagesResource,
-    PackagesResourceWithRawResponse,
-    AsyncPackagesResourceWithRawResponse,
-    PackagesResourceWithStreamingResponse,
-    AsyncPackagesResourceWithStreamingResponse,
-)
+
+from .packages.packages import PackagesResource, AsyncPackagesResource, PackagesResourceWithRawResponse, AsyncPackagesResourceWithRawResponse, PackagesResourceWithStreamingResponse, AsyncPackagesResourceWithStreamingResponse
+
+from ..._compat import cached_property
+
 from ...types.credential_list_response import CredentialListResponse
 
-__all__ = ["CredentialsResource", "AsyncCredentialsResource"]
+from ..._base_client import make_request_options
 
+from ..._utils import maybe_transform, async_maybe_transform
+
+from ..._types import Omit, omit, NotGiven
+
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+from typing_extensions import Literal, overload
+from ..._types import Timeout, Headers, NotGiven, not_given, Omit, omit, NoneType, Query, Body
+from ...types import credential_list_params
+
+__all__ = ["CredentialsResource", "AsyncCredentialsResource"]
 
 class CredentialsResource(SyncAPIResource):
     @cached_property
@@ -53,18 +50,16 @@ class CredentialsResource(SyncAPIResource):
         """
         return CredentialsResourceWithStreamingResponse(self)
 
-    def list(
-        self,
-        *,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CredentialListResponse:
+    def list(self,
+    *,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CredentialListResponse:
         """
         Returns a paginated list of all credentials belonging to the authenticated user
         across every package. Accepts standard pagination query parameters and responds
@@ -81,22 +76,12 @@ class CredentialsResource(SyncAPIResource):
         """
         return self._get(
             "/credentials",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                    credential_list_params.CredentialListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=maybe_transform({
+                "page": page,
+                "page_size": page_size,
+            }, credential_list_params.CredentialListParams)),
             cast_to=CredentialListResponse,
         )
-
 
 class AsyncCredentialsResource(AsyncAPIResource):
     @cached_property
@@ -122,18 +107,16 @@ class AsyncCredentialsResource(AsyncAPIResource):
         """
         return AsyncCredentialsResourceWithStreamingResponse(self)
 
-    async def list(
-        self,
-        *,
-        page: int | Omit = omit,
-        page_size: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CredentialListResponse:
+    async def list(self,
+    *,
+    page: int | Omit = omit,
+    page_size: int | Omit = omit,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = not_given,) -> CredentialListResponse:
         """
         Returns a paginated list of all credentials belonging to the authenticated user
         across every package. Accepts standard pagination query parameters and responds
@@ -150,22 +133,12 @@ class AsyncCredentialsResource(AsyncAPIResource):
         """
         return await self._get(
             "/credentials",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "page": page,
-                        "page_size": page_size,
-                    },
-                    credential_list_params.CredentialListParams,
-                ),
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query=await async_maybe_transform({
+                "page": page,
+                "page_size": page_size,
+            }, credential_list_params.CredentialListParams)),
             cast_to=CredentialListResponse,
         )
-
 
 class CredentialsResourceWithRawResponse:
     def __init__(self, credentials: CredentialsResource) -> None:
@@ -179,7 +152,6 @@ class CredentialsResourceWithRawResponse:
     def packages(self) -> PackagesResourceWithRawResponse:
         return PackagesResourceWithRawResponse(self._credentials.packages)
 
-
 class AsyncCredentialsResourceWithRawResponse:
     def __init__(self, credentials: AsyncCredentialsResource) -> None:
         self._credentials = credentials
@@ -192,7 +164,6 @@ class AsyncCredentialsResourceWithRawResponse:
     def packages(self) -> AsyncPackagesResourceWithRawResponse:
         return AsyncPackagesResourceWithRawResponse(self._credentials.packages)
 
-
 class CredentialsResourceWithStreamingResponse:
     def __init__(self, credentials: CredentialsResource) -> None:
         self._credentials = credentials
@@ -204,7 +175,6 @@ class CredentialsResourceWithStreamingResponse:
     @cached_property
     def packages(self) -> PackagesResourceWithStreamingResponse:
         return PackagesResourceWithStreamingResponse(self._credentials.packages)
-
 
 class AsyncCredentialsResourceWithStreamingResponse:
     def __init__(self, credentials: AsyncCredentialsResource) -> None:

@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
+from typing_extensions import TypedDict, Literal, Required, Annotated
+
 from typing import Dict, Iterable
-from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
 __all__ = ["TriggerCreateParams", "Conditions", "ScheduleRule", "ScheduleRuleJitter"]
-
 
 class TriggerCreateParams(TypedDict, total=False):
     activation: Required[Literal["event", "schedule", "custom"]]
@@ -28,20 +28,16 @@ class TriggerCreateParams(TypedDict, total=False):
 
     timezone: str
 
-
 class Conditions(TypedDict, total=False):
     all: Iterable[object]
 
     any: Iterable[object]
 
-
 class ScheduleRuleJitter(TypedDict, total=False):
     """Optional per-occurrence random window around the nominal schedule time"""
-
     after_minutes: Annotated[int, PropertyInfo(alias="afterMinutes")]
 
     before_minutes: Annotated[int, PropertyInfo(alias="beforeMinutes")]
-
 
 class ScheduleRule(TypedDict, total=False):
     type: Required[Literal["once", "cron", "recurring"]]

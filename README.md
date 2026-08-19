@@ -9,25 +9,19 @@ and offers both synchronous and asynchronous clients powered by [httpx](https://
 
 It is generated with [Stainless](https://www.stainless.com/).
 
-## MCP Server
-
-Use the Mobilerun MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.
-
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=%40mobilerun%2Fsdk-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBtb2JpbGVydW4vc2RrLW1jcCJdLCJlbnYiOnsiTU9CSUxFUlVOX0NMT1VEX0FQSV9LRVkiOiJNeSBBUEkgS2V5In19)
-[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22%40mobilerun%2Fsdk-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40mobilerun%2Fsdk-mcp%22%5D%2C%22env%22%3A%7B%22MOBILERUN_CLOUD_API_KEY%22%3A%22My%20API%20Key%22%7D%7D)
-
-> Note: You may need to set environment variables in your MCP client.
-
 ## Documentation
 
-The REST API documentation can be found on [docs.mobilerun.ai](https://docs.mobilerun.ai). The full API of this library can be found in [api.md](api.md).
+The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
 ```sh
-# install from PyPI
-pip install mobilerun-sdk
+# install from the production repo
+pip install git+ssh://git@github.com/droidrun/mobilerun-sdk-python.git
 ```
+
+> [!NOTE]
+> Once this package is [published to PyPI](https://www.stainless.com/docs/guides/publish), this will become: `pip install mobilerun-sdk`
 
 ## Usage
 
@@ -41,11 +35,11 @@ client = Mobilerun(
     api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
 )
 
-tasks = client.tasks.list()
-print(tasks.items)
+devices = client.devices.list()
+print(devices.items)
 ```
 
-While you can provide a `api_key` keyword argument,
+While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
 to add `MOBILERUN_CLOUD_API_KEY="My API Key"` to your `.env` file
 so that your API Key is not stored in source control.
@@ -63,11 +57,9 @@ client = AsyncMobilerun(
     api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
 )
 
-
 async def main() -> None:
-    tasks = await client.tasks.list()
-    print(tasks.items)
-
+  devices = await client.devices.list()
+  print(devices.items)
 
 asyncio.run(main())
 ```
@@ -81,8 +73,8 @@ By default, the async client uses `httpx` for HTTP requests. However, for improv
 You can enable this by installing `aiohttp`:
 
 ```sh
-# install from PyPI
-pip install mobilerun-sdk[aiohttp]
+# install from the production repo
+pip install 'mobilerun-sdk[aiohttp] @ git+ssh://git@github.com/droidrun/mobilerun-sdk-python.git'
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
@@ -93,15 +85,13 @@ import asyncio
 from mobilerun_sdk import DefaultAioHttpClient
 from mobilerun_sdk import AsyncMobilerun
 
-
 async def main() -> None:
-    async with AsyncMobilerun(
-        api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
-        http_client=DefaultAioHttpClient(),
-    ) as client:
-        tasks = await client.tasks.list()
-        print(tasks.items)
-
+  async with AsyncMobilerun(
+    api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
+    http_client=DefaultAioHttpClient(),
+) as client:
+    devices = await client.devices.list()
+    print(devices.items)
 
 asyncio.run(main())
 ```
@@ -172,10 +162,10 @@ from mobilerun_sdk import Mobilerun
 client = Mobilerun()
 
 try:
-    client.tasks.list()
+    client.devices.list()
 except mobilerun_sdk.APIConnectionError as e:
     print("The server could not be reached")
-    print(e.__cause__)  # an underlying Exception, likely raised within httpx.
+    print(e.__cause__) # an underlying Exception, likely raised within httpx.
 except mobilerun_sdk.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
 except mobilerun_sdk.APIStatusError as e:
@@ -215,7 +205,7 @@ client = Mobilerun(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).tasks.list()
+client.with_options(max_retries = 5).devices.list()
 ```
 
 ### Timeouts
@@ -238,7 +228,7 @@ client = Mobilerun(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).tasks.list()
+client.with_options(timeout = 5.0).devices.list()
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -279,11 +269,11 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from mobilerun_sdk import Mobilerun
 
 client = Mobilerun()
-response = client.tasks.with_raw_response.list()
+response = client.devices.with_raw_response.list()
 print(response.headers.get('X-My-Header'))
 
-task = response.parse()  # get the object that `tasks.list()` would have returned
-print(task.items)
+device = response.parse()  # get the object that `devices.list()` would have returned
+print(device.items)
 ```
 
 These methods return an [`APIResponse`](https://github.com/droidrun/mobilerun-sdk-python/tree/main/src/mobilerun_sdk/_response.py) object.
@@ -297,11 +287,11 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.tasks.with_streaming_response.list() as response:
-    print(response.headers.get("X-My-Header"))
+with client.devices.with_streaming_response.list() as response :
+    print(response.headers.get('X-My-Header'))
 
     for line in response.iter_lines():
-        print(line)
+      print(line)
 ```
 
 The context manager is required so that the response will reliably be closed.
@@ -355,10 +345,7 @@ from mobilerun_sdk import Mobilerun, DefaultHttpxClient
 client = Mobilerun(
     # Or use the `MOBILERUN_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
-    http_client=DefaultHttpxClient(
-        proxy="http://my.test.proxy.example.com",
-        transport=httpx.HTTPTransport(local_address="0.0.0.0"),
-    ),
+    http_client=DefaultHttpxClient(proxy="http://my.test.proxy.example.com", transport=httpx.HTTPTransport(local_address="0.0.0.0")),
 )
 ```
 

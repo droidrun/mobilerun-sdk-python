@@ -2,26 +2,28 @@
 
 from __future__ import annotations
 
-import os
-from typing import Any, cast
-
-import pytest
-
-from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
-from mobilerun_sdk.types.workflows import (
-    ActionListResponse,
-    ActionCreateResponse,
-    ActionDeleteResponse,
-    ActionUpdateResponse,
-    ActionRetrieveResponse,
-)
+
+from mobilerun_sdk.types.workflows import ActionCreateResponse, ActionRetrieveResponse, ActionUpdateResponse, ActionListResponse, ActionDeleteResponse
+
+from typing import cast, Any
+
+import os
+import pytest
+import httpx
+from typing_extensions import get_args
+from respx import MockRouter
+from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from tests.utils import assert_matches_type
+from mobilerun_sdk.types.workflows import action_create_params
+from mobilerun_sdk.types.workflows import action_update_params
+from mobilerun_sdk.types.workflows import action_list_params
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
-
 class TestActions:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=['loose', 'strict'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -30,7 +32,7 @@ class TestActions:
             catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             name="x",
         )
-        assert_matches_type(ActionCreateResponse, action, path=["response"])
+        assert_matches_type(ActionCreateResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -39,22 +41,25 @@ class TestActions:
             catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             name="x",
             description="description",
-            params={"foo": "bar"},
+            params={
+                "foo": "bar"
+            },
         )
-        assert_matches_type(ActionCreateResponse, action, path=["response"])
+        assert_matches_type(ActionCreateResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Mobilerun) -> None:
+
         response = client.workflows.actions.with_raw_response.create(
             catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             name="x",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         action = response.parse()
-        assert_matches_type(ActionCreateResponse, action, path=["response"])
+        assert_matches_type(ActionCreateResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -62,12 +67,12 @@ class TestActions:
         with client.workflows.actions.with_streaming_response.create(
             catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             name="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             action = response.parse()
-            assert_matches_type(ActionCreateResponse, action, path=["response"])
+            assert_matches_type(ActionCreateResponse, action, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -77,31 +82,32 @@ class TestActions:
         action = client.workflows.actions.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(ActionRetrieveResponse, action, path=["response"])
+        assert_matches_type(ActionRetrieveResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Mobilerun) -> None:
+
         response = client.workflows.actions.with_raw_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         action = response.parse()
-        assert_matches_type(ActionRetrieveResponse, action, path=["response"])
+        assert_matches_type(ActionRetrieveResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Mobilerun) -> None:
         with client.workflows.actions.with_streaming_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             action = response.parse()
-            assert_matches_type(ActionRetrieveResponse, action, path=["response"])
+            assert_matches_type(ActionRetrieveResponse, action, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -109,9 +115,9 @@ class TestActions:
     @parametrize
     def test_path_params_retrieve(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `action_id` but received ''"):
-            client.workflows.actions.with_raw_response.retrieve(
-                "",
-            )
+          client.workflows.actions.with_raw_response.retrieve(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -119,7 +125,7 @@ class TestActions:
         action = client.workflows.actions.update(
             action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(ActionUpdateResponse, action, path=["response"])
+        assert_matches_type(ActionUpdateResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -128,33 +134,36 @@ class TestActions:
             action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             description="description",
             name="x",
-            params={"foo": "bar"},
+            params={
+                "foo": "bar"
+            },
         )
-        assert_matches_type(ActionUpdateResponse, action, path=["response"])
+        assert_matches_type(ActionUpdateResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: Mobilerun) -> None:
+
         response = client.workflows.actions.with_raw_response.update(
             action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         action = response.parse()
-        assert_matches_type(ActionUpdateResponse, action, path=["response"])
+        assert_matches_type(ActionUpdateResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: Mobilerun) -> None:
         with client.workflows.actions.with_streaming_response.update(
             action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             action = response.parse()
-            assert_matches_type(ActionUpdateResponse, action, path=["response"])
+            assert_matches_type(ActionUpdateResponse, action, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -162,15 +171,15 @@ class TestActions:
     @parametrize
     def test_path_params_update(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `action_id` but received ''"):
-            client.workflows.actions.with_raw_response.update(
-                action_id="",
-            )
+          client.workflows.actions.with_raw_response.update(
+              action_id="",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Mobilerun) -> None:
         action = client.workflows.actions.list()
-        assert_matches_type(ActionListResponse, action, path=["response"])
+        assert_matches_type(ActionListResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -183,27 +192,28 @@ class TestActions:
             search="x",
             service="tasks_api",
         )
-        assert_matches_type(ActionListResponse, action, path=["response"])
+        assert_matches_type(ActionListResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Mobilerun) -> None:
+
         response = client.workflows.actions.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         action = response.parse()
-        assert_matches_type(ActionListResponse, action, path=["response"])
+        assert_matches_type(ActionListResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Mobilerun) -> None:
-        with client.workflows.actions.with_streaming_response.list() as response:
+        with client.workflows.actions.with_streaming_response.list() as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             action = response.parse()
-            assert_matches_type(ActionListResponse, action, path=["response"])
+            assert_matches_type(ActionListResponse, action, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -213,31 +223,32 @@ class TestActions:
         action = client.workflows.actions.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(ActionDeleteResponse, action, path=["response"])
+        assert_matches_type(ActionDeleteResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Mobilerun) -> None:
+
         response = client.workflows.actions.with_raw_response.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         action = response.parse()
-        assert_matches_type(ActionDeleteResponse, action, path=["response"])
+        assert_matches_type(ActionDeleteResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Mobilerun) -> None:
         with client.workflows.actions.with_streaming_response.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             action = response.parse()
-            assert_matches_type(ActionDeleteResponse, action, path=["response"])
+            assert_matches_type(ActionDeleteResponse, action, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -245,15 +256,12 @@ class TestActions:
     @parametrize
     def test_path_params_delete(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `action_id` but received ''"):
-            client.workflows.actions.with_raw_response.delete(
-                "",
-            )
-
-
+          client.workflows.actions.with_raw_response.delete(
+              "",
+          )
 class TestAsyncActions:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True, {'http_client': 'aiohttp'}], indirect=True, ids=['loose', 'strict', 'aiohttp'])
+
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -262,7 +270,7 @@ class TestAsyncActions:
             catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             name="x",
         )
-        assert_matches_type(ActionCreateResponse, action, path=["response"])
+        assert_matches_type(ActionCreateResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -271,22 +279,25 @@ class TestAsyncActions:
             catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             name="x",
             description="description",
-            params={"foo": "bar"},
+            params={
+                "foo": "bar"
+            },
         )
-        assert_matches_type(ActionCreateResponse, action, path=["response"])
+        assert_matches_type(ActionCreateResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.workflows.actions.with_raw_response.create(
             catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             name="x",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         action = await response.parse()
-        assert_matches_type(ActionCreateResponse, action, path=["response"])
+        assert_matches_type(ActionCreateResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -294,12 +305,12 @@ class TestAsyncActions:
         async with async_client.workflows.actions.with_streaming_response.create(
             catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             name="x",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             action = await response.parse()
-            assert_matches_type(ActionCreateResponse, action, path=["response"])
+            assert_matches_type(ActionCreateResponse, action, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -309,31 +320,32 @@ class TestAsyncActions:
         action = await async_client.workflows.actions.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(ActionRetrieveResponse, action, path=["response"])
+        assert_matches_type(ActionRetrieveResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.workflows.actions.with_raw_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         action = await response.parse()
-        assert_matches_type(ActionRetrieveResponse, action, path=["response"])
+        assert_matches_type(ActionRetrieveResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         async with async_client.workflows.actions.with_streaming_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             action = await response.parse()
-            assert_matches_type(ActionRetrieveResponse, action, path=["response"])
+            assert_matches_type(ActionRetrieveResponse, action, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -341,9 +353,9 @@ class TestAsyncActions:
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `action_id` but received ''"):
-            await async_client.workflows.actions.with_raw_response.retrieve(
-                "",
-            )
+          await async_client.workflows.actions.with_raw_response.retrieve(
+              "",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -351,7 +363,7 @@ class TestAsyncActions:
         action = await async_client.workflows.actions.update(
             action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(ActionUpdateResponse, action, path=["response"])
+        assert_matches_type(ActionUpdateResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -360,33 +372,36 @@ class TestAsyncActions:
             action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             description="description",
             name="x",
-            params={"foo": "bar"},
+            params={
+                "foo": "bar"
+            },
         )
-        assert_matches_type(ActionUpdateResponse, action, path=["response"])
+        assert_matches_type(ActionUpdateResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.workflows.actions.with_raw_response.update(
             action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         action = await response.parse()
-        assert_matches_type(ActionUpdateResponse, action, path=["response"])
+        assert_matches_type(ActionUpdateResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncMobilerun) -> None:
         async with async_client.workflows.actions.with_streaming_response.update(
             action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             action = await response.parse()
-            assert_matches_type(ActionUpdateResponse, action, path=["response"])
+            assert_matches_type(ActionUpdateResponse, action, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -394,15 +409,15 @@ class TestAsyncActions:
     @parametrize
     async def test_path_params_update(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `action_id` but received ''"):
-            await async_client.workflows.actions.with_raw_response.update(
-                action_id="",
-            )
+          await async_client.workflows.actions.with_raw_response.update(
+              action_id="",
+          )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncMobilerun) -> None:
         action = await async_client.workflows.actions.list()
-        assert_matches_type(ActionListResponse, action, path=["response"])
+        assert_matches_type(ActionListResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -415,27 +430,28 @@ class TestAsyncActions:
             search="x",
             service="tasks_api",
         )
-        assert_matches_type(ActionListResponse, action, path=["response"])
+        assert_matches_type(ActionListResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.workflows.actions.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         action = await response.parse()
-        assert_matches_type(ActionListResponse, action, path=["response"])
+        assert_matches_type(ActionListResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.workflows.actions.with_streaming_response.list() as response:
+        async with async_client.workflows.actions.with_streaming_response.list() as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             action = await response.parse()
-            assert_matches_type(ActionListResponse, action, path=["response"])
+            assert_matches_type(ActionListResponse, action, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -445,31 +461,32 @@ class TestAsyncActions:
         action = await async_client.workflows.actions.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(ActionDeleteResponse, action, path=["response"])
+        assert_matches_type(ActionDeleteResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncMobilerun) -> None:
+
         response = await async_client.workflows.actions.with_raw_response.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         action = await response.parse()
-        assert_matches_type(ActionDeleteResponse, action, path=["response"])
+        assert_matches_type(ActionDeleteResponse, action, path=['response'])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncMobilerun) -> None:
         async with async_client.workflows.actions.with_streaming_response.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             action = await response.parse()
-            assert_matches_type(ActionDeleteResponse, action, path=["response"])
+            assert_matches_type(ActionDeleteResponse, action, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -477,6 +494,6 @@ class TestAsyncActions:
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `action_id` but received ''"):
-            await async_client.workflows.actions.with_raw_response.delete(
-                "",
-            )
+          await async_client.workflows.actions.with_raw_response.delete(
+              "",
+          )
