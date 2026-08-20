@@ -15,6 +15,7 @@ from mobilerun_sdk.types import (
     AppRetrieveResponse,
     AppMarkFailedResponse,
     AppListVersionsResponse,
+    AppStorageUsageResponse,
     AppConfirmUploadResponse,
     AppCreateSignedUploadURLResponse,
 )
@@ -362,6 +363,34 @@ class TestApps:
                 "",
             )
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_storage_usage(self, client: Mobilerun) -> None:
+        app = client.apps.storage_usage()
+        assert_matches_type(AppStorageUsageResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_storage_usage(self, client: Mobilerun) -> None:
+        response = client.apps.with_raw_response.storage_usage()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        app = response.parse()
+        assert_matches_type(AppStorageUsageResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_storage_usage(self, client: Mobilerun) -> None:
+        with client.apps.with_streaming_response.storage_usage() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            app = response.parse()
+            assert_matches_type(AppStorageUsageResponse, app, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
 
 class TestAsyncApps:
     parametrize = pytest.mark.parametrize(
@@ -704,3 +733,31 @@ class TestAsyncApps:
             await async_client.apps.with_raw_response.mark_failed(
                 "",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_storage_usage(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.apps.storage_usage()
+        assert_matches_type(AppStorageUsageResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_storage_usage(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.apps.with_raw_response.storage_usage()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        app = await response.parse()
+        assert_matches_type(AppStorageUsageResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_storage_usage(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.apps.with_streaming_response.storage_usage() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            app = await response.parse()
+            assert_matches_type(AppStorageUsageResponse, app, path=["response"])
+
+        assert cast(Any, response.is_closed) is True

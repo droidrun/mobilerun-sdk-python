@@ -7,10 +7,14 @@ from typing_extensions import Literal
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
-from .task_status import TaskStatus
-from .package_credentials import PackageCredentials
 
-__all__ = ["TaskRetrieveResponse", "Task"]
+__all__ = ["TaskRetrieveResponse", "Task", "TaskCredential"]
+
+
+class TaskCredential(BaseModel):
+    credential_names: List[str] = FieldInfo(alias="credentialNames")
+
+    package_name: str = FieldInfo(alias="packageName")
 
 
 class Task(BaseModel):
@@ -27,7 +31,7 @@ class Task(BaseModel):
 
     owner_id: str = FieldInfo(alias="ownerId")
 
-    status: TaskStatus
+    status: Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
 
     task: str
 
@@ -52,7 +56,7 @@ class Task(BaseModel):
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
 
-    credentials: Optional[List[PackageCredentials]] = None
+    credentials: Optional[List[TaskCredential]] = None
 
     credits_used: Optional[float] = FieldInfo(alias="creditsUsed", default=None)
 

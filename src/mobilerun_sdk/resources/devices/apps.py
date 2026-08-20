@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import overload
+from typing_extensions import Literal, overload
 
 import httpx
 
@@ -20,6 +20,7 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.devices import app_list_params, app_stop_params, app_start_params, app_install_params
 from ...types.devices.app_list_response import AppListResponse
+from ...types.devices.app_list_installs_response import AppListInstallsResponse
 
 __all__ = ["AppsResource", "AsyncAppsResource"]
 
@@ -137,6 +138,62 @@ class AppsResource(SyncAPIResource):
         }
         return self._delete(
             path_template("/devices/{device_id}/apps/{package_name}", device_id=device_id, package_name=package_name),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def grant_permission(
+        self,
+        permission: Literal["POST_NOTIFICATIONS"],
+        *,
+        device_id: str,
+        package_name: str,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """Grants an Android runtime permission to the package named in the path.
+
+        The
+        permission is given by its short name (e.g. POST_NOTIFICATIONS).
+
+        Args:
+          permission: Android runtime permission, short name (e.g. POST_NOTIFICATIONS).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        if not package_name:
+            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+        if not permission:
+            raise ValueError(f"Expected a non-empty value for `permission` but received {permission!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._put(
+            path_template(
+                "/devices/{device_id}/apps/{package_name}/permissions/{permission}",
+                device_id=device_id,
+                package_name=package_name,
+                permission=permission,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -273,6 +330,106 @@ class AppsResource(SyncAPIResource):
                     "package_name": package_name,
                 },
                 app_install_params.AppInstallParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def list_installs(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AppListInstallsResponse:
+        """
+        Reports the backend's view of background app-install attempts on this device —
+        status reflects the install ATTEMPT, not device ground truth; list-apps remains
+        authoritative for what is actually installed. Records are in-memory and lost on
+        service restart; terminal records are kept ~15 minutes. Not gated on device
+        readiness, so it also answers while the device is offline or crashed.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            path_template("/devices/{device_id}/apps/installs", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AppListInstallsResponse,
+        )
+
+    def revoke_permission(
+        self,
+        permission: Literal["POST_NOTIFICATIONS"],
+        *,
+        device_id: str,
+        package_name: str,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """Revokes an Android runtime permission from the package named in the path.
+
+        The
+        permission is given by its short name (e.g. POST_NOTIFICATIONS).
+
+        Args:
+          permission: Android runtime permission, short name (e.g. POST_NOTIFICATIONS).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        if not package_name:
+            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+        if not permission:
+            raise ValueError(f"Expected a non-empty value for `permission` but received {permission!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._delete(
+            path_template(
+                "/devices/{device_id}/apps/{package_name}/permissions/{permission}",
+                device_id=device_id,
+                package_name=package_name,
+                permission=permission,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -499,6 +656,62 @@ class AsyncAppsResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def grant_permission(
+        self,
+        permission: Literal["POST_NOTIFICATIONS"],
+        *,
+        device_id: str,
+        package_name: str,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """Grants an Android runtime permission to the package named in the path.
+
+        The
+        permission is given by its short name (e.g. POST_NOTIFICATIONS).
+
+        Args:
+          permission: Android runtime permission, short name (e.g. POST_NOTIFICATIONS).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        if not package_name:
+            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+        if not permission:
+            raise ValueError(f"Expected a non-empty value for `permission` but received {permission!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return await self._put(
+            path_template(
+                "/devices/{device_id}/apps/{package_name}/permissions/{permission}",
+                device_id=device_id,
+                package_name=package_name,
+                permission=permission,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     @overload
     async def install(
         self,
@@ -636,6 +849,106 @@ class AsyncAppsResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def list_installs(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AppListInstallsResponse:
+        """
+        Reports the backend's view of background app-install attempts on this device —
+        status reflects the install ATTEMPT, not device ground truth; list-apps remains
+        authoritative for what is actually installed. Records are in-memory and lost on
+        service restart; terminal records are kept ~15 minutes. Not gated on device
+        readiness, so it also answers while the device is offline or crashed.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return await self._get(
+            path_template("/devices/{device_id}/apps/installs", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AppListInstallsResponse,
+        )
+
+    async def revoke_permission(
+        self,
+        permission: Literal["POST_NOTIFICATIONS"],
+        *,
+        device_id: str,
+        package_name: str,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """Revokes an Android runtime permission from the package named in the path.
+
+        The
+        permission is given by its short name (e.g. POST_NOTIFICATIONS).
+
+        Args:
+          permission: Android runtime permission, short name (e.g. POST_NOTIFICATIONS).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        if not package_name:
+            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+        if not permission:
+            raise ValueError(f"Expected a non-empty value for `permission` but received {permission!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return await self._delete(
+            path_template(
+                "/devices/{device_id}/apps/{package_name}/permissions/{permission}",
+                device_id=device_id,
+                package_name=package_name,
+                permission=permission,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     async def start(
         self,
         package_name: str,
@@ -746,8 +1059,17 @@ class AppsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             apps.delete,
         )
+        self.grant_permission = to_raw_response_wrapper(
+            apps.grant_permission,
+        )
         self.install = to_raw_response_wrapper(
             apps.install,
+        )
+        self.list_installs = to_raw_response_wrapper(
+            apps.list_installs,
+        )
+        self.revoke_permission = to_raw_response_wrapper(
+            apps.revoke_permission,
         )
         self.start = to_raw_response_wrapper(
             apps.start,
@@ -767,8 +1089,17 @@ class AsyncAppsResourceWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             apps.delete,
         )
+        self.grant_permission = async_to_raw_response_wrapper(
+            apps.grant_permission,
+        )
         self.install = async_to_raw_response_wrapper(
             apps.install,
+        )
+        self.list_installs = async_to_raw_response_wrapper(
+            apps.list_installs,
+        )
+        self.revoke_permission = async_to_raw_response_wrapper(
+            apps.revoke_permission,
         )
         self.start = async_to_raw_response_wrapper(
             apps.start,
@@ -788,8 +1119,17 @@ class AppsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             apps.delete,
         )
+        self.grant_permission = to_streamed_response_wrapper(
+            apps.grant_permission,
+        )
         self.install = to_streamed_response_wrapper(
             apps.install,
+        )
+        self.list_installs = to_streamed_response_wrapper(
+            apps.list_installs,
+        )
+        self.revoke_permission = to_streamed_response_wrapper(
+            apps.revoke_permission,
         )
         self.start = to_streamed_response_wrapper(
             apps.start,
@@ -809,8 +1149,17 @@ class AsyncAppsResourceWithStreamingResponse:
         self.delete = async_to_streamed_response_wrapper(
             apps.delete,
         )
+        self.grant_permission = async_to_streamed_response_wrapper(
+            apps.grant_permission,
+        )
         self.install = async_to_streamed_response_wrapper(
             apps.install,
+        )
+        self.list_installs = async_to_streamed_response_wrapper(
+            apps.list_installs,
+        )
+        self.revoke_permission = async_to_streamed_response_wrapper(
+            apps.revoke_permission,
         )
         self.start = async_to_streamed_response_wrapper(
             apps.start,

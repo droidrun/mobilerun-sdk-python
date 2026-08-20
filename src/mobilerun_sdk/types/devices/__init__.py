@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from .rect import Rect as Rect
-from .file_info import FileInfo as FileInfo
 from .a11_y_node import A11YNode as A11YNode
 from .app_list_params import AppListParams as AppListParams
 from .app_stop_params import AppStopParams as AppStopParams
@@ -24,6 +22,7 @@ from .file_upload_params import FileUploadParams as FileUploadParams
 from .task_list_response import TaskListResponse as TaskListResponse
 from .action_swipe_params import ActionSwipeParams as ActionSwipeParams
 from .keyboard_key_params import KeyboardKeyParams as KeyboardKeyParams
+from .kiosk_enable_params import KioskEnableParams as KioskEnableParams
 from .language_set_params import LanguageSetParams as LanguageSetParams
 from .location_set_params import LocationSetParams as LocationSetParams
 from .package_list_params import PackageListParams as PackageListParams
@@ -31,6 +30,7 @@ from .state_time_response import StateTimeResponse as StateTimeResponse
 from .timezone_set_params import TimezoneSetParams as TimezoneSetParams
 from .action_global_params import ActionGlobalParams as ActionGlobalParams
 from .esim_activate_params import EsimActivateParams as EsimActivateParams
+from .esim_status_response import EsimStatusResponse as EsimStatusResponse
 from .file_download_params import FileDownloadParams as FileDownloadParams
 from .proxy_connect_params import ProxyConnectParams as ProxyConnectParams
 from .keyboard_write_params import KeyboardWriteParams as KeyboardWriteParams
@@ -38,10 +38,27 @@ from .language_get_response import LanguageGetResponse as LanguageGetResponse
 from .package_list_response import PackageListResponse as PackageListResponse
 from .profile_update_params import ProfileUpdateParams as ProfileUpdateParams
 from .proxy_status_response import ProxyStatusResponse as ProxyStatusResponse
+from .recording_list_params import RecordingListParams as RecordingListParams
 from .timezone_get_response import TimezoneGetResponse as TimezoneGetResponse
 from .esim_activate_response import EsimActivateResponse as EsimActivateResponse
 from .file_download_response import FileDownloadResponse as FileDownloadResponse
+from .recording_start_params import RecordingStartParams as RecordingStartParams
+from .esim_set_roaming_params import EsimSetRoamingParams as EsimSetRoamingParams
+from .recording_list_response import RecordingListResponse as RecordingListResponse
+from .recording_stop_response import RecordingStopResponse as RecordingStopResponse
 from .state_screenshot_params import StateScreenshotParams as StateScreenshotParams
+from .recording_start_response import RecordingStartResponse as RecordingStartResponse
+from .recording_status_response import RecordingStatusResponse as RecordingStatusResponse
 from .state_screenshot_response import StateScreenshotResponse as StateScreenshotResponse
+from .app_list_installs_response import AppListInstallsResponse as AppListInstallsResponse
+from .media_session_create_params import MediaSessionCreateParams as MediaSessionCreateParams
+from .browser_execute_script_params import BrowserExecuteScriptParams as BrowserExecuteScriptParams
+from .media_session_create_response import MediaSessionCreateResponse as MediaSessionCreateResponse
 from .action_overlay_visible_response import ActionOverlayVisibleResponse as ActionOverlayVisibleResponse
+from .browser_execute_script_response import BrowserExecuteScriptResponse as BrowserExecuteScriptResponse
+from .media_session_activate_response import MediaSessionActivateResponse as MediaSessionActivateResponse
 from .action_set_overlay_visible_params import ActionSetOverlayVisibleParams as ActionSetOverlayVisibleParams
+from .deep_link_execute_deep_link_params import DeepLinkExecuteDeepLinkParams as DeepLinkExecuteDeepLinkParams
+from .media_session_retrieve_current_response import (
+    MediaSessionRetrieveCurrentResponse as MediaSessionRetrieveCurrentResponse,
+)

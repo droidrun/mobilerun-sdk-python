@@ -144,12 +144,12 @@ class TriggersResource(SyncAPIResource):
         trigger_id: str,
         *,
         activation: Literal["event", "schedule", "custom"] | Omit = omit,
-        conditions: trigger_update_params.Conditions | Omit = omit,
-        custom_payload_schema: Dict[str, object] | Omit = omit,
+        conditions: Optional[trigger_update_params.Conditions] | Omit = omit,
+        custom_payload_schema: Optional[Dict[str, object]] | Omit = omit,
         description: str | Omit = omit,
         event_type: str | Omit = omit,
         name: str | Omit = omit,
-        schedule_rule: trigger_update_params.ScheduleRule | Omit = omit,
+        schedule_rule: Optional[trigger_update_params.ScheduleRule] | Omit = omit,
         timezone: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -165,6 +165,8 @@ class TriggersResource(SyncAPIResource):
         trigger does not exist.
 
         Args:
+          custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -455,12 +457,12 @@ class AsyncTriggersResource(AsyncAPIResource):
         trigger_id: str,
         *,
         activation: Literal["event", "schedule", "custom"] | Omit = omit,
-        conditions: trigger_update_params.Conditions | Omit = omit,
-        custom_payload_schema: Dict[str, object] | Omit = omit,
+        conditions: Optional[trigger_update_params.Conditions] | Omit = omit,
+        custom_payload_schema: Optional[Dict[str, object]] | Omit = omit,
         description: str | Omit = omit,
         event_type: str | Omit = omit,
         name: str | Omit = omit,
-        schedule_rule: trigger_update_params.ScheduleRule | Omit = omit,
+        schedule_rule: Optional[trigger_update_params.ScheduleRule] | Omit = omit,
         timezone: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -476,6 +478,8 @@ class AsyncTriggersResource(AsyncAPIResource):
         trigger does not exist.
 
         Args:
+          custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

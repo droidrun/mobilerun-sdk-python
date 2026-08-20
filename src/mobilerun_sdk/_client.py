@@ -38,27 +38,41 @@ from ._base_client import (
 if TYPE_CHECKING:
     from .resources import (
         apps,
+        esims,
+        store,
         tasks,
+        agents,
         models,
         connect,
         devices,
+        numbers,
         proxies,
         carriers,
+        messages,
         profiles,
         webhooks,
         workflows,
+        app_events,
         credentials,
+        notifications,
     )
     from .resources.apps import AppsResource, AsyncAppsResource
+    from .resources.agents import AgentsResource, AsyncAgentsResource
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
     from .resources.carriers import CarriersResource, AsyncCarriersResource
     from .resources.profiles import ProfilesResource, AsyncProfilesResource
+    from .resources.esims.esims import EsimsResource, AsyncEsimsResource
+    from .resources.store.store import StoreResource, AsyncStoreResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
+    from .resources.notifications import NotificationsResource, AsyncNotificationsResource
     from .resources.connect.connect import ConnectResource, AsyncConnectResource
     from .resources.devices.devices import DevicesResource, AsyncDevicesResource
+    from .resources.numbers.numbers import NumbersResource, AsyncNumbersResource
+    from .resources.messages.messages import MessagesResource, AsyncMessagesResource
     from .resources.webhooks.webhooks import WebhooksResource, AsyncWebhooksResource
     from .resources.workflows.workflows import WorkflowsResource, AsyncWorkflowsResource
+    from .resources.app_events.app_events import AppEventsResource, AsyncAppEventsResource
     from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
 
 __all__ = [
@@ -200,6 +214,48 @@ class Mobilerun(SyncAPIClient):
         from .resources.webhooks import WebhooksResource
 
         return WebhooksResource(self)
+
+    @cached_property
+    def agents(self) -> AgentsResource:
+        from .resources.agents import AgentsResource
+
+        return AgentsResource(self)
+
+    @cached_property
+    def app_events(self) -> AppEventsResource:
+        from .resources.app_events import AppEventsResource
+
+        return AppEventsResource(self)
+
+    @cached_property
+    def notifications(self) -> NotificationsResource:
+        from .resources.notifications import NotificationsResource
+
+        return NotificationsResource(self)
+
+    @cached_property
+    def esims(self) -> EsimsResource:
+        from .resources.esims import EsimsResource
+
+        return EsimsResource(self)
+
+    @cached_property
+    def messages(self) -> MessagesResource:
+        from .resources.messages import MessagesResource
+
+        return MessagesResource(self)
+
+    @cached_property
+    def numbers(self) -> NumbersResource:
+        from .resources.numbers import NumbersResource
+
+        return NumbersResource(self)
+
+    @cached_property
+    def store(self) -> StoreResource:
+        from .resources.store import StoreResource
+
+        return StoreResource(self)
 
     @cached_property
     def with_raw_response(self) -> MobilerunWithRawResponse:
@@ -454,6 +510,48 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncWebhooksResource(self)
 
     @cached_property
+    def agents(self) -> AsyncAgentsResource:
+        from .resources.agents import AsyncAgentsResource
+
+        return AsyncAgentsResource(self)
+
+    @cached_property
+    def app_events(self) -> AsyncAppEventsResource:
+        from .resources.app_events import AsyncAppEventsResource
+
+        return AsyncAppEventsResource(self)
+
+    @cached_property
+    def notifications(self) -> AsyncNotificationsResource:
+        from .resources.notifications import AsyncNotificationsResource
+
+        return AsyncNotificationsResource(self)
+
+    @cached_property
+    def esims(self) -> AsyncEsimsResource:
+        from .resources.esims import AsyncEsimsResource
+
+        return AsyncEsimsResource(self)
+
+    @cached_property
+    def messages(self) -> AsyncMessagesResource:
+        from .resources.messages import AsyncMessagesResource
+
+        return AsyncMessagesResource(self)
+
+    @cached_property
+    def numbers(self) -> AsyncNumbersResource:
+        from .resources.numbers import AsyncNumbersResource
+
+        return AsyncNumbersResource(self)
+
+    @cached_property
+    def store(self) -> AsyncStoreResource:
+        from .resources.store import AsyncStoreResource
+
+        return AsyncStoreResource(self)
+
+    @cached_property
     def with_raw_response(self) -> AsyncMobilerunWithRawResponse:
         return AsyncMobilerunWithRawResponse(self)
 
@@ -651,6 +749,48 @@ class MobilerunWithRawResponse:
 
         return WebhooksResourceWithRawResponse(self._client.webhooks)
 
+    @cached_property
+    def agents(self) -> agents.AgentsResourceWithRawResponse:
+        from .resources.agents import AgentsResourceWithRawResponse
+
+        return AgentsResourceWithRawResponse(self._client.agents)
+
+    @cached_property
+    def app_events(self) -> app_events.AppEventsResourceWithRawResponse:
+        from .resources.app_events import AppEventsResourceWithRawResponse
+
+        return AppEventsResourceWithRawResponse(self._client.app_events)
+
+    @cached_property
+    def notifications(self) -> notifications.NotificationsResourceWithRawResponse:
+        from .resources.notifications import NotificationsResourceWithRawResponse
+
+        return NotificationsResourceWithRawResponse(self._client.notifications)
+
+    @cached_property
+    def esims(self) -> esims.EsimsResourceWithRawResponse:
+        from .resources.esims import EsimsResourceWithRawResponse
+
+        return EsimsResourceWithRawResponse(self._client.esims)
+
+    @cached_property
+    def messages(self) -> messages.MessagesResourceWithRawResponse:
+        from .resources.messages import MessagesResourceWithRawResponse
+
+        return MessagesResourceWithRawResponse(self._client.messages)
+
+    @cached_property
+    def numbers(self) -> numbers.NumbersResourceWithRawResponse:
+        from .resources.numbers import NumbersResourceWithRawResponse
+
+        return NumbersResourceWithRawResponse(self._client.numbers)
+
+    @cached_property
+    def store(self) -> store.StoreResourceWithRawResponse:
+        from .resources.store import StoreResourceWithRawResponse
+
+        return StoreResourceWithRawResponse(self._client.store)
+
 
 class AsyncMobilerunWithRawResponse:
     _client: AsyncMobilerun
@@ -725,6 +865,48 @@ class AsyncMobilerunWithRawResponse:
         from .resources.webhooks import AsyncWebhooksResourceWithRawResponse
 
         return AsyncWebhooksResourceWithRawResponse(self._client.webhooks)
+
+    @cached_property
+    def agents(self) -> agents.AsyncAgentsResourceWithRawResponse:
+        from .resources.agents import AsyncAgentsResourceWithRawResponse
+
+        return AsyncAgentsResourceWithRawResponse(self._client.agents)
+
+    @cached_property
+    def app_events(self) -> app_events.AsyncAppEventsResourceWithRawResponse:
+        from .resources.app_events import AsyncAppEventsResourceWithRawResponse
+
+        return AsyncAppEventsResourceWithRawResponse(self._client.app_events)
+
+    @cached_property
+    def notifications(self) -> notifications.AsyncNotificationsResourceWithRawResponse:
+        from .resources.notifications import AsyncNotificationsResourceWithRawResponse
+
+        return AsyncNotificationsResourceWithRawResponse(self._client.notifications)
+
+    @cached_property
+    def esims(self) -> esims.AsyncEsimsResourceWithRawResponse:
+        from .resources.esims import AsyncEsimsResourceWithRawResponse
+
+        return AsyncEsimsResourceWithRawResponse(self._client.esims)
+
+    @cached_property
+    def messages(self) -> messages.AsyncMessagesResourceWithRawResponse:
+        from .resources.messages import AsyncMessagesResourceWithRawResponse
+
+        return AsyncMessagesResourceWithRawResponse(self._client.messages)
+
+    @cached_property
+    def numbers(self) -> numbers.AsyncNumbersResourceWithRawResponse:
+        from .resources.numbers import AsyncNumbersResourceWithRawResponse
+
+        return AsyncNumbersResourceWithRawResponse(self._client.numbers)
+
+    @cached_property
+    def store(self) -> store.AsyncStoreResourceWithRawResponse:
+        from .resources.store import AsyncStoreResourceWithRawResponse
+
+        return AsyncStoreResourceWithRawResponse(self._client.store)
 
 
 class MobilerunWithStreamedResponse:
@@ -801,6 +983,48 @@ class MobilerunWithStreamedResponse:
 
         return WebhooksResourceWithStreamingResponse(self._client.webhooks)
 
+    @cached_property
+    def agents(self) -> agents.AgentsResourceWithStreamingResponse:
+        from .resources.agents import AgentsResourceWithStreamingResponse
+
+        return AgentsResourceWithStreamingResponse(self._client.agents)
+
+    @cached_property
+    def app_events(self) -> app_events.AppEventsResourceWithStreamingResponse:
+        from .resources.app_events import AppEventsResourceWithStreamingResponse
+
+        return AppEventsResourceWithStreamingResponse(self._client.app_events)
+
+    @cached_property
+    def notifications(self) -> notifications.NotificationsResourceWithStreamingResponse:
+        from .resources.notifications import NotificationsResourceWithStreamingResponse
+
+        return NotificationsResourceWithStreamingResponse(self._client.notifications)
+
+    @cached_property
+    def esims(self) -> esims.EsimsResourceWithStreamingResponse:
+        from .resources.esims import EsimsResourceWithStreamingResponse
+
+        return EsimsResourceWithStreamingResponse(self._client.esims)
+
+    @cached_property
+    def messages(self) -> messages.MessagesResourceWithStreamingResponse:
+        from .resources.messages import MessagesResourceWithStreamingResponse
+
+        return MessagesResourceWithStreamingResponse(self._client.messages)
+
+    @cached_property
+    def numbers(self) -> numbers.NumbersResourceWithStreamingResponse:
+        from .resources.numbers import NumbersResourceWithStreamingResponse
+
+        return NumbersResourceWithStreamingResponse(self._client.numbers)
+
+    @cached_property
+    def store(self) -> store.StoreResourceWithStreamingResponse:
+        from .resources.store import StoreResourceWithStreamingResponse
+
+        return StoreResourceWithStreamingResponse(self._client.store)
+
 
 class AsyncMobilerunWithStreamedResponse:
     _client: AsyncMobilerun
@@ -875,6 +1099,48 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.webhooks import AsyncWebhooksResourceWithStreamingResponse
 
         return AsyncWebhooksResourceWithStreamingResponse(self._client.webhooks)
+
+    @cached_property
+    def agents(self) -> agents.AsyncAgentsResourceWithStreamingResponse:
+        from .resources.agents import AsyncAgentsResourceWithStreamingResponse
+
+        return AsyncAgentsResourceWithStreamingResponse(self._client.agents)
+
+    @cached_property
+    def app_events(self) -> app_events.AsyncAppEventsResourceWithStreamingResponse:
+        from .resources.app_events import AsyncAppEventsResourceWithStreamingResponse
+
+        return AsyncAppEventsResourceWithStreamingResponse(self._client.app_events)
+
+    @cached_property
+    def notifications(self) -> notifications.AsyncNotificationsResourceWithStreamingResponse:
+        from .resources.notifications import AsyncNotificationsResourceWithStreamingResponse
+
+        return AsyncNotificationsResourceWithStreamingResponse(self._client.notifications)
+
+    @cached_property
+    def esims(self) -> esims.AsyncEsimsResourceWithStreamingResponse:
+        from .resources.esims import AsyncEsimsResourceWithStreamingResponse
+
+        return AsyncEsimsResourceWithStreamingResponse(self._client.esims)
+
+    @cached_property
+    def messages(self) -> messages.AsyncMessagesResourceWithStreamingResponse:
+        from .resources.messages import AsyncMessagesResourceWithStreamingResponse
+
+        return AsyncMessagesResourceWithStreamingResponse(self._client.messages)
+
+    @cached_property
+    def numbers(self) -> numbers.AsyncNumbersResourceWithStreamingResponse:
+        from .resources.numbers import AsyncNumbersResourceWithStreamingResponse
+
+        return AsyncNumbersResourceWithStreamingResponse(self._client.numbers)
+
+    @cached_property
+    def store(self) -> store.AsyncStoreResourceWithStreamingResponse:
+        from .resources.store import AsyncStoreResourceWithStreamingResponse
+
+        return AsyncStoreResourceWithStreamingResponse(self._client.store)
 
 
 Client = Mobilerun
