@@ -1,5 +1,22 @@
 # Changelog
 
+## [5.2.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.2.0...v5.2.1) (2026-08-20)
+
+
+### Features
+
+* **bootstrap:** repo-driven STLC pipeline ([8bd21c0](https://github.com/droidrun/mobilerun-sdk-python/commit/8bd21c08cd24053976d4fe7e3b15717b3f30379a))
+
+
+### Bug Fixes
+
+* **ci:** serialize release-please, ff main, drop prerelease ([332dcb7](https://github.com/droidrun/mobilerun-sdk-python/commit/332dcb7a384078489bae09fb7005a15b72b86246))
+
+
+### Chores
+
+* release 5.2.1 ([3ad4fe0](https://github.com/droidrun/mobilerun-sdk-python/commit/3ad4fe07f3eab5de280a8cce0e801879977d58f4))
+
 ## 5.2.0 (2026-08-13)
 
 Full Changelog: [v5.1.0...v5.2.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.1.0...v5.2.0)
