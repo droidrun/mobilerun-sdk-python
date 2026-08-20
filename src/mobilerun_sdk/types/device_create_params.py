@@ -3,16 +3,15 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Literal, Annotated, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
-from .shared_params.socks5 import Socks5
 from .shared_params.location import Location
 from .shared_params.device_carrier import DeviceCarrier
 from .shared_params.device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceCreateParams", "Proxy", "ProxyConnect"]
+__all__ = ["DeviceCreateParams", "Proxy", "ProxyConnect", "ProxySocks5"]
 
 
 class DeviceCreateParams(TypedDict, total=False):
@@ -84,6 +83,16 @@ class ProxyConnect(TypedDict, total=False):
     """
 
 
+class ProxySocks5(TypedDict, total=False):
+    host: Required[str]
+
+    password: Required[str]
+
+    port: Required[int]
+
+    user: Required[str]
+
+
 class Proxy(TypedDict, total=False):
     connect: ProxyConnect
 
@@ -91,4 +100,4 @@ class Proxy(TypedDict, total=False):
 
     smart_ip: Annotated[bool, PropertyInfo(alias="smartIp")]
 
-    socks5: Socks5
+    socks5: ProxySocks5
