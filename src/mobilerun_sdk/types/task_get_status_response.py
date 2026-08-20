@@ -6,7 +6,6 @@ from typing_extensions import Literal
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
-from .task_status import TaskStatus
 
 __all__ = ["TaskGetStatusResponse", "Execution", "ExecutionCheckpoint"]
 
@@ -34,7 +33,7 @@ class Execution(BaseModel):
 
 
 class TaskGetStatusResponse(BaseModel):
-    status: TaskStatus
+    status: Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
     """The status of the task"""
 
     execution: Optional[Execution] = None
