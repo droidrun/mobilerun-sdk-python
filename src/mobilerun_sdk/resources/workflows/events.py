@@ -2,41 +2,29 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict
 
 import httpx
 
-from .catalog import (
-    CatalogResource,
-    AsyncCatalogResource,
-    CatalogResourceWithRawResponse,
-    AsyncCatalogResourceWithRawResponse,
-    CatalogResourceWithStreamingResponse,
-    AsyncCatalogResourceWithStreamingResponse,
-)
-from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
-from ...._compat import cached_property
-from ...._resource import SyncAPIResource, AsyncAPIResource
-from ...._response import (
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._utils import maybe_transform, async_maybe_transform
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...._base_client import make_request_options
-from ....types.workflows import event_ingest_params, event_dry_run_params
-from ....types.workflows.event_ingest_response import EventIngestResponse
-from ....types.workflows.event_dry_run_response import EventDryRunResponse
+from ..._base_client import make_request_options
+from ...types.workflows import event_ingest_params, event_dry_run_params
+from ...types.workflows.event_ingest_response import EventIngestResponse
+from ...types.workflows.event_dry_run_response import EventDryRunResponse
 
 __all__ = ["EventsResource", "AsyncEventsResource"]
 
 
 class EventsResource(SyncAPIResource):
-    @cached_property
-    def catalog(self) -> CatalogResource:
-        return CatalogResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> EventsResourceWithRawResponse:
         """
@@ -60,7 +48,8 @@ class EventsResource(SyncAPIResource):
         self,
         *,
         event_type: str,
-        payload: Dict[str, Optional[object]] | Omit = omit,
+        device_id: str | Omit = omit,
+        payload: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -87,6 +76,7 @@ class EventsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "event_type": event_type,
+                    "device_id": device_id,
                     "payload": payload,
                 },
                 event_dry_run_params.EventDryRunParams,
@@ -101,7 +91,8 @@ class EventsResource(SyncAPIResource):
         self,
         *,
         event_type: str,
-        payload: Dict[str, Optional[object]] | Omit = omit,
+        device_id: str | Omit = omit,
+        payload: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -127,6 +118,7 @@ class EventsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "event_type": event_type,
+                    "device_id": device_id,
                     "payload": payload,
                 },
                 event_ingest_params.EventIngestParams,
@@ -139,10 +131,6 @@ class EventsResource(SyncAPIResource):
 
 
 class AsyncEventsResource(AsyncAPIResource):
-    @cached_property
-    def catalog(self) -> AsyncCatalogResource:
-        return AsyncCatalogResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> AsyncEventsResourceWithRawResponse:
         """
@@ -166,7 +154,8 @@ class AsyncEventsResource(AsyncAPIResource):
         self,
         *,
         event_type: str,
-        payload: Dict[str, Optional[object]] | Omit = omit,
+        device_id: str | Omit = omit,
+        payload: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -193,6 +182,7 @@ class AsyncEventsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "event_type": event_type,
+                    "device_id": device_id,
                     "payload": payload,
                 },
                 event_dry_run_params.EventDryRunParams,
@@ -207,7 +197,8 @@ class AsyncEventsResource(AsyncAPIResource):
         self,
         *,
         event_type: str,
-        payload: Dict[str, Optional[object]] | Omit = omit,
+        device_id: str | Omit = omit,
+        payload: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -233,6 +224,7 @@ class AsyncEventsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "event_type": event_type,
+                    "device_id": device_id,
                     "payload": payload,
                 },
                 event_ingest_params.EventIngestParams,
@@ -255,10 +247,6 @@ class EventsResourceWithRawResponse:
             events.ingest,
         )
 
-    @cached_property
-    def catalog(self) -> CatalogResourceWithRawResponse:
-        return CatalogResourceWithRawResponse(self._events.catalog)
-
 
 class AsyncEventsResourceWithRawResponse:
     def __init__(self, events: AsyncEventsResource) -> None:
@@ -270,10 +258,6 @@ class AsyncEventsResourceWithRawResponse:
         self.ingest = async_to_raw_response_wrapper(
             events.ingest,
         )
-
-    @cached_property
-    def catalog(self) -> AsyncCatalogResourceWithRawResponse:
-        return AsyncCatalogResourceWithRawResponse(self._events.catalog)
 
 
 class EventsResourceWithStreamingResponse:
@@ -287,10 +271,6 @@ class EventsResourceWithStreamingResponse:
             events.ingest,
         )
 
-    @cached_property
-    def catalog(self) -> CatalogResourceWithStreamingResponse:
-        return CatalogResourceWithStreamingResponse(self._events.catalog)
-
 
 class AsyncEventsResourceWithStreamingResponse:
     def __init__(self, events: AsyncEventsResource) -> None:
@@ -302,7 +282,3 @@ class AsyncEventsResourceWithStreamingResponse:
         self.ingest = async_to_streamed_response_wrapper(
             events.ingest,
         )
-
-    @cached_property
-    def catalog(self) -> AsyncCatalogResourceWithStreamingResponse:
-        return AsyncCatalogResourceWithStreamingResponse(self._events.catalog)

@@ -7,20 +7,7 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["TriggerUpdateResponse", "Data", "DataScheduleRule"]
-
-
-class DataScheduleRule(BaseModel):
-    type: Literal["once", "cron", "recurring"]
-
-    date_time: Optional[str] = FieldInfo(alias="dateTime", default=None)
-    """ISO 8601 datetime (for type=once)"""
-
-    expression: Optional[str] = None
-    """Cron expression (for type=cron)"""
-
-    rrule: Optional[str] = None
-    """RRULE string (for type=recurring)"""
+__all__ = ["TriggerUpdateResponse", "Data"]
 
 
 class Data(BaseModel):
@@ -30,6 +17,8 @@ class Data(BaseModel):
 
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
 
+    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
     custom_payload_schema: Optional[Dict[str, object]] = FieldInfo(alias="customPayloadSchema", default=None)
 
     description: Optional[str] = None
@@ -38,13 +27,16 @@ class Data(BaseModel):
 
     name: str
 
-    schedule_rule: Optional[DataScheduleRule] = FieldInfo(alias="scheduleRule", default=None)
+    owner_id: str = FieldInfo(alias="ownerId")
+
+    schedule_rule: object = FieldInfo(alias="scheduleRule")
 
     timezone: Optional[str] = None
 
     updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
 
     user_id: str = FieldInfo(alias="userId")
+    """Deprecated: use ownerId (tenancy) / createdBy (actor)."""
 
     conditions: Optional[object] = None
 

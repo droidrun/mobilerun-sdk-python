@@ -7,7 +7,15 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["TriggerCreateResponse", "Data", "DataScheduleRule"]
+__all__ = ["TriggerCreateResponse", "Data", "DataScheduleRule", "DataScheduleRuleJitter"]
+
+
+class DataScheduleRuleJitter(BaseModel):
+    """Optional per-occurrence random window around the nominal schedule time"""
+
+    after_minutes: Optional[int] = FieldInfo(alias="afterMinutes", default=None)
+
+    before_minutes: Optional[int] = FieldInfo(alias="beforeMinutes", default=None)
 
 
 class DataScheduleRule(BaseModel):
@@ -18,6 +26,9 @@ class DataScheduleRule(BaseModel):
 
     expression: Optional[str] = None
     """Cron expression (for type=cron)"""
+
+    jitter: Optional[DataScheduleRuleJitter] = None
+    """Optional per-occurrence random window around the nominal schedule time"""
 
     rrule: Optional[str] = None
     """RRULE string (for type=recurring)"""
@@ -30,13 +41,17 @@ class Data(BaseModel):
 
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
 
-    custom_payload_schema: Optional[Dict[str, Optional[object]]] = FieldInfo(alias="customPayloadSchema", default=None)
+    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
+    custom_payload_schema: Optional[Dict[str, object]] = FieldInfo(alias="customPayloadSchema", default=None)
 
     description: Optional[str] = None
 
     event_type: Optional[str] = FieldInfo(alias="eventType", default=None)
 
     name: str
+
+    owner_id: str = FieldInfo(alias="ownerId")
 
     schedule_rule: DataScheduleRule = FieldInfo(alias="scheduleRule")
 
@@ -45,6 +60,7 @@ class Data(BaseModel):
     updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
 
     user_id: str = FieldInfo(alias="userId")
+    """Deprecated: use ownerId (tenancy) / createdBy (actor)."""
 
     conditions: Optional[object] = None
 

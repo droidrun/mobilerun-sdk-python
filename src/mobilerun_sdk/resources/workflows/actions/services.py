@@ -51,7 +51,11 @@ class ServicesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ServiceListResponse:
-        """List available services"""
+        """Return the names of the services that actions can be built against.
+
+        Use these
+        values to look up each service's allowed methods.
+        """
         return self._get(
             "/actions/services",
             options=make_request_options(
@@ -72,7 +76,9 @@ class ServicesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ServiceListMethodsResponse:
         """
-        List allowed methods for a service
+        Return the methods allowed for the given service, each with its parameter
+        definitions (name, type, whether required, description, and optional
+        default/example). Returns 404 if the service is unknown.
 
         Args:
           extra_headers: Send extra headers
@@ -124,7 +130,11 @@ class AsyncServicesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ServiceListResponse:
-        """List available services"""
+        """Return the names of the services that actions can be built against.
+
+        Use these
+        values to look up each service's allowed methods.
+        """
         return await self._get(
             "/actions/services",
             options=make_request_options(
@@ -145,7 +155,9 @@ class AsyncServicesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ServiceListMethodsResponse:
         """
-        List allowed methods for a service
+        Return the methods allowed for the given service, each with its parameter
+        definitions (name, type, whether required, description, and optional
+        default/example). Returns 404 if the service is unknown.
 
         Args:
           extra_headers: Send extra headers

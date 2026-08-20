@@ -178,7 +178,6 @@ class DevicesResource(SyncAPIResource):
 
     @cached_property
     def tasks(self) -> TasksResource:
-        """Device Management"""
         return TasksResource(self._client)
 
     @cached_property
@@ -211,8 +210,15 @@ class DevicesResource(SyncAPIResource):
     def create(
         self,
         *,
+        billing: Literal["auto", "subscription", "minute"] | Omit = omit,
         query_country: str | Omit = omit,
-        device_type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device"]
+        device_type: Literal[
+            "android_cloud_phone",
+            "dedicated_premium_device",
+            "dedicated_physical_device",
+            "dedicated_ios_device",
+            "dedicated_emulated_device",
+        ]
         | Omit = omit,
         profile_id: str | Omit = omit,
         android_version: int | Omit = omit,
@@ -233,13 +239,27 @@ class DevicesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Device:
-        """Provision a new device
+        """
+        Requests a new device for the authenticated user from the device spec in the
+        request body. Optional query parameters select the canonical device type, target
+        country, billing mode, and a profile to use as the base spec; deprecated
+        device-type aliases remain accepted only during the documented compatibility
+        grace period. The response returns the device and its stream token.
 
         Args:
-          query_country: ISO 3166-1 alpha-2 country code.
+          billing: Billing mode. 'auto' uses a subscription slot when available and otherwise bills
+              per minute; 'subscription' requires an available subscription slot; 'minute'
+              bills per minute. Only cloud phone and cloud emulator devices support per-minute
+              billing.
 
-        If omitted the system picks the country with
+          query_country: ISO 3166-1 alpha-2 country code. If omitted the system picks the country with
               the most availability.
+
+          device_type:
+              Deprecated device type aliases are accepted during a compatibility grace period:
+              dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
+              maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
+              and dedicated_emulated_device maps to android_emulator.
 
           profile_id: Profile ID to use as device spec
 
@@ -276,6 +296,7 @@ class DevicesResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "billing": billing,
                         "query_country": query_country,
                         "device_type": device_type,
                         "profile_id": profile_id,
@@ -298,7 +319,9 @@ class DevicesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Device:
         """
-        Get device info
+        Returns the current state and metadata for a single device, including its
+        lifecycle state, type, stream URL, billing strategy, and timestamps. A stream
+        token is included while the device is active.
 
         Args:
           extra_headers: Send extra headers
@@ -323,6 +346,8 @@ class DevicesResource(SyncAPIResource):
         self,
         *,
         country: str | Omit = omit,
+        created_by: str | Omit = omit,
+        mine: bool | Omit = omit,
         name: str | Omit = omit,
         order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
@@ -340,12 +365,20 @@ class DevicesResource(SyncAPIResource):
                     "resetting",
                     "terminated",
                     "maintenance",
+                    "stopped",
                     "unknown",
                 ]
             ]
         ]
         | Omit = omit,
-        type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device"] | Omit = omit,
+        type: Literal[
+            "android_cloud_phone",
+            "dedicated_premium_device",
+            "dedicated_physical_device",
+            "dedicated_ios_device",
+            "dedicated_emulated_device",
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -354,9 +387,20 @@ class DevicesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeviceListResponse:
         """
-        List devices
+        Returns a paginated list of the user's devices along with pagination metadata.
 
         Args:
+          created_by: Filter to devices created by this user id. Mutually exclusive with mine.
+
+          mine: When true, only return devices created by the calling user (resolved from
+              X-User-ID, never a client-supplied id).
+
+          type:
+              Deprecated device type aliases are accepted during a compatibility grace period:
+              dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
+              maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
+              and dedicated_emulated_device maps to android_emulator.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -375,6 +419,8 @@ class DevicesResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "country": country,
+                        "created_by": created_by,
+                        "mine": mine,
                         "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
@@ -400,7 +446,7 @@ class DevicesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeviceCountResponse:
-        """Count claimed devices"""
+        """Returns the number of claimed devices for the user, broken down by device type."""
         return self._get(
             "/devices/count",
             options=make_request_options(
@@ -422,7 +468,9 @@ class DevicesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeviceFingerprintResponse:
         """
-        Device fingerprint snapshot
+        Returns a live snapshot of the device's spoofed identity, including model,
+        display, identifiers, and carrier. Devices without fingerprint support return an
+        unsupported-feature error.
 
         Args:
           extra_headers: Send extra headers
@@ -460,8 +508,10 @@ class DevicesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Reboot a device
+        """Triggers a reboot of the device.
+
+        The device transitions through its reboot
+        lifecycle and becomes ready again once the restart completes.
 
         Args:
           extra_headers: Send extra headers
@@ -495,7 +545,9 @@ class DevicesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Reset a device to a fresh state
+        Resets the device back to a clean state, clearing installed apps and user data
+        accumulated during the session. The device transitions through its reset
+        lifecycle before becoming ready again.
 
         Args:
           extra_headers: Send extra headers
@@ -530,7 +582,8 @@ class DevicesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Device:
         """
-        Update device name
+        Sets the display name for a device from the name in the request body and returns
+        the updated device.
 
         Args:
           extra_headers: Send extra headers
@@ -565,8 +618,11 @@ class DevicesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Terminate a device
+        """Terminates the device and releases its resources.
+
+        Termination can be scheduled
+        for a future time or chained from a previous device via the request body, in
+        which case a service key is required.
 
         Args:
           extra_headers: Send extra headers
@@ -607,7 +663,9 @@ class DevicesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Device:
         """
-        Wait for device to be ready
+        Blocks until the device reaches the ready state, then returns the same payload
+        as Get device info. The call returns early with an error if the wait is
+        cancelled or times out.
 
         Args:
           extra_headers: Send extra headers
@@ -672,7 +730,6 @@ class AsyncDevicesResource(AsyncAPIResource):
 
     @cached_property
     def tasks(self) -> AsyncTasksResource:
-        """Device Management"""
         return AsyncTasksResource(self._client)
 
     @cached_property
@@ -705,8 +762,15 @@ class AsyncDevicesResource(AsyncAPIResource):
     async def create(
         self,
         *,
+        billing: Literal["auto", "subscription", "minute"] | Omit = omit,
         query_country: str | Omit = omit,
-        device_type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device"]
+        device_type: Literal[
+            "android_cloud_phone",
+            "dedicated_premium_device",
+            "dedicated_physical_device",
+            "dedicated_ios_device",
+            "dedicated_emulated_device",
+        ]
         | Omit = omit,
         profile_id: str | Omit = omit,
         android_version: int | Omit = omit,
@@ -727,13 +791,27 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Device:
-        """Provision a new device
+        """
+        Requests a new device for the authenticated user from the device spec in the
+        request body. Optional query parameters select the canonical device type, target
+        country, billing mode, and a profile to use as the base spec; deprecated
+        device-type aliases remain accepted only during the documented compatibility
+        grace period. The response returns the device and its stream token.
 
         Args:
-          query_country: ISO 3166-1 alpha-2 country code.
+          billing: Billing mode. 'auto' uses a subscription slot when available and otherwise bills
+              per minute; 'subscription' requires an available subscription slot; 'minute'
+              bills per minute. Only cloud phone and cloud emulator devices support per-minute
+              billing.
 
-        If omitted the system picks the country with
+          query_country: ISO 3166-1 alpha-2 country code. If omitted the system picks the country with
               the most availability.
+
+          device_type:
+              Deprecated device type aliases are accepted during a compatibility grace period:
+              dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
+              maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
+              and dedicated_emulated_device maps to android_emulator.
 
           profile_id: Profile ID to use as device spec
 
@@ -770,6 +848,7 @@ class AsyncDevicesResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "billing": billing,
                         "query_country": query_country,
                         "device_type": device_type,
                         "profile_id": profile_id,
@@ -792,7 +871,9 @@ class AsyncDevicesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Device:
         """
-        Get device info
+        Returns the current state and metadata for a single device, including its
+        lifecycle state, type, stream URL, billing strategy, and timestamps. A stream
+        token is included while the device is active.
 
         Args:
           extra_headers: Send extra headers
@@ -817,6 +898,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         *,
         country: str | Omit = omit,
+        created_by: str | Omit = omit,
+        mine: bool | Omit = omit,
         name: str | Omit = omit,
         order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
@@ -834,12 +917,20 @@ class AsyncDevicesResource(AsyncAPIResource):
                     "resetting",
                     "terminated",
                     "maintenance",
+                    "stopped",
                     "unknown",
                 ]
             ]
         ]
         | Omit = omit,
-        type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device"] | Omit = omit,
+        type: Literal[
+            "android_cloud_phone",
+            "dedicated_premium_device",
+            "dedicated_physical_device",
+            "dedicated_ios_device",
+            "dedicated_emulated_device",
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -848,9 +939,20 @@ class AsyncDevicesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeviceListResponse:
         """
-        List devices
+        Returns a paginated list of the user's devices along with pagination metadata.
 
         Args:
+          created_by: Filter to devices created by this user id. Mutually exclusive with mine.
+
+          mine: When true, only return devices created by the calling user (resolved from
+              X-User-ID, never a client-supplied id).
+
+          type:
+              Deprecated device type aliases are accepted during a compatibility grace period:
+              dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
+              maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
+              and dedicated_emulated_device maps to android_emulator.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -869,6 +971,8 @@ class AsyncDevicesResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "country": country,
+                        "created_by": created_by,
+                        "mine": mine,
                         "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
@@ -894,7 +998,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeviceCountResponse:
-        """Count claimed devices"""
+        """Returns the number of claimed devices for the user, broken down by device type."""
         return await self._get(
             "/devices/count",
             options=make_request_options(
@@ -916,7 +1020,9 @@ class AsyncDevicesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeviceFingerprintResponse:
         """
-        Device fingerprint snapshot
+        Returns a live snapshot of the device's spoofed identity, including model,
+        display, identifiers, and carrier. Devices without fingerprint support return an
+        unsupported-feature error.
 
         Args:
           extra_headers: Send extra headers
@@ -954,8 +1060,10 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Reboot a device
+        """Triggers a reboot of the device.
+
+        The device transitions through its reboot
+        lifecycle and becomes ready again once the restart completes.
 
         Args:
           extra_headers: Send extra headers
@@ -989,7 +1097,9 @@ class AsyncDevicesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Reset a device to a fresh state
+        Resets the device back to a clean state, clearing installed apps and user data
+        accumulated during the session. The device transitions through its reset
+        lifecycle before becoming ready again.
 
         Args:
           extra_headers: Send extra headers
@@ -1024,7 +1134,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Device:
         """
-        Update device name
+        Sets the display name for a device from the name in the request body and returns
+        the updated device.
 
         Args:
           extra_headers: Send extra headers
@@ -1059,8 +1170,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Terminate a device
+        """Terminates the device and releases its resources.
+
+        Termination can be scheduled
+        for a future time or chained from a previous device via the request body, in
+        which case a service key is required.
 
         Args:
           extra_headers: Send extra headers
@@ -1101,7 +1215,9 @@ class AsyncDevicesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Device:
         """
-        Wait for device to be ready
+        Blocks until the device reaches the ready state, then returns the same payload
+        as Get device info. The call returns early with an error if the wait is
+        cancelled or times out.
 
         Args:
           extra_headers: Send extra headers
@@ -1200,7 +1316,6 @@ class DevicesResourceWithRawResponse:
 
     @cached_property
     def tasks(self) -> TasksResourceWithRawResponse:
-        """Device Management"""
         return TasksResourceWithRawResponse(self._devices.tasks)
 
     @cached_property
@@ -1289,7 +1404,6 @@ class AsyncDevicesResourceWithRawResponse:
 
     @cached_property
     def tasks(self) -> AsyncTasksResourceWithRawResponse:
-        """Device Management"""
         return AsyncTasksResourceWithRawResponse(self._devices.tasks)
 
     @cached_property
@@ -1378,7 +1492,6 @@ class DevicesResourceWithStreamingResponse:
 
     @cached_property
     def tasks(self) -> TasksResourceWithStreamingResponse:
-        """Device Management"""
         return TasksResourceWithStreamingResponse(self._devices.tasks)
 
     @cached_property
@@ -1467,7 +1580,6 @@ class AsyncDevicesResourceWithStreamingResponse:
 
     @cached_property
     def tasks(self) -> AsyncTasksResourceWithStreamingResponse:
-        """Device Management"""
         return AsyncTasksResourceWithStreamingResponse(self._devices.tasks)
 
     @cached_property

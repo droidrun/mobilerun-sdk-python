@@ -51,6 +51,7 @@ class DeliveriesResource(SyncAPIResource):
     def list(
         self,
         *,
+        event_id: str | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         since: Union[str, datetime] | Omit = omit,
@@ -63,9 +64,14 @@ class DeliveriesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryListResponse:
         """
-        List deliveries across all your webhooks
+        Returns a paginated feed of webhook deliveries across all of your subscriptions,
+        with the originating endpoint URL included on each record. Results can be
+        filtered by delivery status (pending, success, skipped, or dead), by a `since`
+        timestamp, and by `eventId` (exact match against the originating event id).
 
         Args:
+          event_id: Exact text match against the originating event id.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -83,6 +89,7 @@ class DeliveriesResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "event_id": event_id,
                         "page": page,
                         "page_size": page_size,
                         "since": since,
@@ -98,6 +105,7 @@ class DeliveriesResource(SyncAPIResource):
         self,
         id: str,
         *,
+        event_id: str | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -108,9 +116,14 @@ class DeliveriesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryListForWebhookResponse:
         """
-        List deliveries for a webhook
+        Returns a paginated list of deliveries for a single webhook subscription,
+        identified by its id. Each record reports the event, delivery status, attempt
+        count, and the last response code or error. Results can be filtered by `eventId`
+        (exact match against the originating event id).
 
         Args:
+          event_id: Exact text match against the originating event id.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -130,6 +143,7 @@ class DeliveriesResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "event_id": event_id,
                         "page": page,
                         "page_size": page_size,
                     },
@@ -152,7 +166,9 @@ class DeliveriesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryRetrieveAttemptsResponse:
         """
-        Get a delivery with its attempts
+        Returns a single delivery for a webhook subscription along with the full list of
+        captured attempt records. Each attempt includes the request URL, method, headers
+        and body, whether it was signed, and the response status, headers, and snippet.
 
         Args:
           extra_headers: Send extra headers
@@ -187,7 +203,10 @@ class DeliveriesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryStatsResponse:
         """
-        Aggregate delivery statistics (excludes test sends)
+        Returns aggregate delivery statistics across all of your webhooks, including the
+        total count, a breakdown by status (pending, success, skipped, dead), and the
+        overall success rate. An optional `since` timestamp narrows the reporting
+        window.
 
         Args:
           extra_headers: Send extra headers
@@ -234,6 +253,7 @@ class AsyncDeliveriesResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        event_id: str | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         since: Union[str, datetime] | Omit = omit,
@@ -246,9 +266,14 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryListResponse:
         """
-        List deliveries across all your webhooks
+        Returns a paginated feed of webhook deliveries across all of your subscriptions,
+        with the originating endpoint URL included on each record. Results can be
+        filtered by delivery status (pending, success, skipped, or dead), by a `since`
+        timestamp, and by `eventId` (exact match against the originating event id).
 
         Args:
+          event_id: Exact text match against the originating event id.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -266,6 +291,7 @@ class AsyncDeliveriesResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "event_id": event_id,
                         "page": page,
                         "page_size": page_size,
                         "since": since,
@@ -281,6 +307,7 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        event_id: str | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -291,9 +318,14 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryListForWebhookResponse:
         """
-        List deliveries for a webhook
+        Returns a paginated list of deliveries for a single webhook subscription,
+        identified by its id. Each record reports the event, delivery status, attempt
+        count, and the last response code or error. Results can be filtered by `eventId`
+        (exact match against the originating event id).
 
         Args:
+          event_id: Exact text match against the originating event id.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -313,6 +345,7 @@ class AsyncDeliveriesResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "event_id": event_id,
                         "page": page,
                         "page_size": page_size,
                     },
@@ -335,7 +368,9 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryRetrieveAttemptsResponse:
         """
-        Get a delivery with its attempts
+        Returns a single delivery for a webhook subscription along with the full list of
+        captured attempt records. Each attempt includes the request URL, method, headers
+        and body, whether it was signed, and the response status, headers, and snippet.
 
         Args:
           extra_headers: Send extra headers
@@ -370,7 +405,10 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeliveryStatsResponse:
         """
-        Aggregate delivery statistics (excludes test sends)
+        Returns aggregate delivery statistics across all of your webhooks, including the
+        total count, a breakdown by status (pending, success, skipped, dead), and the
+        overall success rate. An optional `since` timestamp narrows the reporting
+        window.
 
         Args:
           extra_headers: Send extra headers

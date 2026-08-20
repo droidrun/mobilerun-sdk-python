@@ -57,7 +57,7 @@ class EsimResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Optional[EsimListResponse]:
         """
-        List eSIM subscriptions
+        Returns the eSIM subscriptions currently provisioned on the device.
 
         Args:
           extra_headers: Send extra headers
@@ -101,7 +101,7 @@ class EsimResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EsimActivateResponse:
         """
-        Configure eSIM (download profile and/or enable subscription)
+        Download profile and/or enable subscription.
 
         Args:
           confirmation_code: Optional carrier-issued confirmation code (the 4th LPA segment). Required only
@@ -155,7 +155,8 @@ class EsimResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Enable an eSIM subscription
+        Enables the eSIM subscription identified by the subId in the request body so it
+        becomes the active subscription.
 
         Args:
           extra_headers: Send extra headers
@@ -198,7 +199,8 @@ class EsimResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete eSIM subscription
+        Deletes the eSIM subscription identified by the subId query parameter from the
+        device.
 
         Args:
           extra_headers: Send extra headers
@@ -264,7 +266,7 @@ class AsyncEsimResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Optional[EsimListResponse]:
         """
-        List eSIM subscriptions
+        Returns the eSIM subscriptions currently provisioned on the device.
 
         Args:
           extra_headers: Send extra headers
@@ -308,7 +310,7 @@ class AsyncEsimResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EsimActivateResponse:
         """
-        Configure eSIM (download profile and/or enable subscription)
+        Download profile and/or enable subscription.
 
         Args:
           confirmation_code: Optional carrier-issued confirmation code (the 4th LPA segment). Required only
@@ -362,7 +364,8 @@ class AsyncEsimResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Enable an eSIM subscription
+        Enables the eSIM subscription identified by the subId in the request body so it
+        becomes the active subscription.
 
         Args:
           extra_headers: Send extra headers
@@ -405,7 +408,8 @@ class AsyncEsimResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete eSIM subscription
+        Deletes the eSIM subscription identified by the subId query parameter from the
+        device.
 
         Args:
           extra_headers: Send extra headers

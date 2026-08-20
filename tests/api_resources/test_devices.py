@@ -33,8 +33,9 @@ class TestDevices:
     @parametrize
     def test_method_create_with_all_params(self, client: Mobilerun) -> None:
         device = client.devices.create(
+            billing="auto",
             query_country="country",
-            device_type="dedicated_physical_device",
+            device_type="android_cloud_phone",
             profile_id="profileId",
             android_version=0,
             apps=["string"],
@@ -72,6 +73,10 @@ class TestDevices:
             },
             name="name",
             proxy={
+                "connect": {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "country": "SE",
+                },
                 "name": "name",
                 "smart_ip": True,
                 "socks5": {
@@ -160,6 +165,8 @@ class TestDevices:
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         device = client.devices.list(
             country="country",
+            created_by="createdBy",
+            mine=True,
             name="name",
             order_by="id",
             order_by_direction="asc",
@@ -167,7 +174,7 @@ class TestDevices:
             page_size=0,
             provider_id="providerId",
             state=["creating"],
-            type="dedicated_physical_device",
+            type="android_cloud_phone",
         )
         assert_matches_type(DeviceListResponse, device, path=["response"])
 
@@ -512,8 +519,9 @@ class TestAsyncDevices:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.create(
+            billing="auto",
             query_country="country",
-            device_type="dedicated_physical_device",
+            device_type="android_cloud_phone",
             profile_id="profileId",
             android_version=0,
             apps=["string"],
@@ -551,6 +559,10 @@ class TestAsyncDevices:
             },
             name="name",
             proxy={
+                "connect": {
+                    "id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "country": "SE",
+                },
                 "name": "name",
                 "smart_ip": True,
                 "socks5": {
@@ -639,6 +651,8 @@ class TestAsyncDevices:
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.list(
             country="country",
+            created_by="createdBy",
+            mine=True,
             name="name",
             order_by="id",
             order_by_direction="asc",
@@ -646,7 +660,7 @@ class TestAsyncDevices:
             page_size=0,
             provider_id="providerId",
             state=["creating"],
-            type="dedicated_physical_device",
+            type="android_cloud_phone",
         )
         assert_matches_type(DeviceListResponse, device, path=["response"])
 

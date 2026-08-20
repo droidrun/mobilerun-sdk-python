@@ -20,6 +20,12 @@ class Item(BaseModel):
 
     created_at: str = FieldInfo(alias="createdAt")
 
+    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+    """Id of the parent endpoint's creator.
+
+    Null when the endpoint row is gone or its creator was never recorded.
+    """
+
     duration_ms: Optional[float] = FieldInfo(alias="durationMs", default=None)
 
     endpoint_id: str = FieldInfo(alias="endpointId")

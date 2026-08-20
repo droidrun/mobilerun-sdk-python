@@ -53,7 +53,7 @@ class KeyboardResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Clear input
+        Clears the contents of the currently focused text input field.
 
         Args:
           extra_headers: Send extra headers
@@ -95,7 +95,7 @@ class KeyboardResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Input key
+        Sends a single Android key event to the device, identified by its key code.
 
         Args:
           extra_headers: Send extra headers
@@ -141,12 +141,14 @@ class KeyboardResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Input text
+        """Types the given text into the focused input field.
+
+        Supports optionally clearing
+        the field first and a stealth mode that emulates human typing speed and error
+        rate on supported devices.
 
         Args:
-          error_rate: Per-character mistake rate for humantouch typing.
-
-        -1 uses server default.
+          error_rate: Per-character mistake rate for humantouch typing. -1 uses server default.
 
           wpm: Words per minute for stealth typing. 0 uses portal default.
 
@@ -219,7 +221,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Clear input
+        Clears the contents of the currently focused text input field.
 
         Args:
           extra_headers: Send extra headers
@@ -261,7 +263,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Input key
+        Sends a single Android key event to the device, identified by its key code.
 
         Args:
           extra_headers: Send extra headers
@@ -307,12 +309,14 @@ class AsyncKeyboardResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Input text
+        """Types the given text into the focused input field.
+
+        Supports optionally clearing
+        the field first and a stealth mode that emulates human typing speed and error
+        rate on supported devices.
 
         Args:
-          error_rate: Per-character mistake rate for humantouch typing.
-
-        -1 uses server default.
+          error_rate: Per-character mistake rate for humantouch typing. -1 uses server default.
 
           wpm: Words per minute for stealth typing. 0 uses portal default.
 

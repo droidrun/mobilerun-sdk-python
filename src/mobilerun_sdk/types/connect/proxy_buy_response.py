@@ -37,7 +37,7 @@ class ProxyBuyResponse(BaseModel):
     attempt.
     """
 
-    type: Literal["residential"]
+    type: Literal["dedicated_residential", "residential", "mobile"]
 
     username: str
 

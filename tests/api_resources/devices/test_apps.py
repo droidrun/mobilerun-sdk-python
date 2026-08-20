@@ -9,7 +9,9 @@ import pytest
 
 from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
-from mobilerun_sdk.types.devices import AppListResponse
+from mobilerun_sdk.types.devices import (
+    AppListResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -147,6 +149,7 @@ class TestApps:
         app = client.devices.apps.install(
             device_id="deviceId",
             bundle_id="x",
+            background=True,
             package_name="x",
             x_device_display_id=0,
         )
@@ -204,6 +207,7 @@ class TestApps:
         app = client.devices.apps.install(
             device_id="deviceId",
             package_name="x",
+            background=True,
             bundle_id="x",
             x_device_display_id=0,
         )
@@ -324,6 +328,7 @@ class TestApps:
         app = client.devices.apps.stop(
             package_name="packageName",
             device_id="deviceId",
+            clear_data=True,
             x_device_display_id=0,
         )
         assert app is None
@@ -507,6 +512,7 @@ class TestAsyncApps:
         app = await async_client.devices.apps.install(
             device_id="deviceId",
             bundle_id="x",
+            background=True,
             package_name="x",
             x_device_display_id=0,
         )
@@ -564,6 +570,7 @@ class TestAsyncApps:
         app = await async_client.devices.apps.install(
             device_id="deviceId",
             package_name="x",
+            background=True,
             bundle_id="x",
             x_device_display_id=0,
         )
@@ -684,6 +691,7 @@ class TestAsyncApps:
         app = await async_client.devices.apps.stop(
             package_name="packageName",
             device_id="deviceId",
+            clear_data=True,
             x_device_display_id=0,
         )
         assert app is None

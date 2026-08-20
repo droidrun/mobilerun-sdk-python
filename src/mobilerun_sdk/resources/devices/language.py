@@ -54,7 +54,7 @@ class LanguageResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LanguageGetResponse:
         """
-        Get device language/locale
+        Returns the device's current language/locale as a BCP-47 locale string.
 
         Args:
           extra_headers: Send extra headers
@@ -95,8 +95,11 @@ class LanguageResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Set device language/locale
+        """Sets the device language/locale to the BCP-47 locale in the request body.
+
+        An
+        optional restart flag applies the change immediately by restarting the zygote
+        instead of waiting for the next reboot.
 
         Args:
           locale: BCP-47 locale: a 2–3 letter language tag, optionally followed by a 4-letter
@@ -171,7 +174,7 @@ class AsyncLanguageResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LanguageGetResponse:
         """
-        Get device language/locale
+        Returns the device's current language/locale as a BCP-47 locale string.
 
         Args:
           extra_headers: Send extra headers
@@ -212,8 +215,11 @@ class AsyncLanguageResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Set device language/locale
+        """Sets the device language/locale to the BCP-47 locale in the request body.
+
+        An
+        optional restart flag applies the change immediately by restarting the zygote
+        instead of waiting for the next reboot.
 
         Args:
           locale: BCP-47 locale: a 2–3 letter language tag, optionally followed by a 4-letter

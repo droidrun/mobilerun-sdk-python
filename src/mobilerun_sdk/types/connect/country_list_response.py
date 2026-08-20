@@ -16,7 +16,7 @@ class Item(BaseModel):
 
     name: str
 
-    proxy_types: List[Literal["residential"]] = FieldInfo(alias="proxyTypes")
+    proxy_types: List[Literal["dedicated_residential", "residential", "mobile"]] = FieldInfo(alias="proxyTypes")
     """Proxy types available to provision in this country."""
 
 

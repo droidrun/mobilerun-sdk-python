@@ -54,8 +54,10 @@ class StateResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> str:
-        """
-        Take screenshot
+        """Captures the device screen and returns it as a PNG image.
+
+        An optional
+        hideOverlay query parameter excludes the accessibility overlay from the capture.
 
         Args:
           extra_headers: Send extra headers
@@ -99,7 +101,7 @@ class StateResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> str:
         """
-        Device time
+        Returns the device's current wall-clock time as an RFC 3339 timestamp.
 
         Args:
           extra_headers: Send extra headers
@@ -140,7 +142,9 @@ class StateResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> StateUiResponse:
         """
-        UI state
+        Returns the current accessibility UI state of the device as a structured tree of
+        on-screen elements. An optional filter query reduces the result to interactive
+        elements.
 
         Args:
           extra_headers: Send extra headers
@@ -205,8 +209,10 @@ class AsyncStateResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> str:
-        """
-        Take screenshot
+        """Captures the device screen and returns it as a PNG image.
+
+        An optional
+        hideOverlay query parameter excludes the accessibility overlay from the capture.
 
         Args:
           extra_headers: Send extra headers
@@ -252,7 +258,7 @@ class AsyncStateResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> str:
         """
-        Device time
+        Returns the device's current wall-clock time as an RFC 3339 timestamp.
 
         Args:
           extra_headers: Send extra headers
@@ -293,7 +299,9 @@ class AsyncStateResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> StateUiResponse:
         """
-        UI state
+        Returns the current accessibility UI state of the device as a structured tree of
+        on-screen elements. An optional filter query reduces the result to interactive
+        elements.
 
         Args:
           extra_headers: Send extra headers

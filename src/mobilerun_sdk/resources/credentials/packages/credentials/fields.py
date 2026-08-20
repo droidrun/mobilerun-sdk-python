@@ -26,8 +26,6 @@ __all__ = ["FieldsResource", "AsyncFieldsResource"]
 
 
 class FieldsResource(SyncAPIResource):
-    """Vault & Secrets"""
-
     @cached_property
     def with_raw_response(self) -> FieldsResourceWithRawResponse:
         """
@@ -63,8 +61,11 @@ class FieldsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FieldCreateResponse:
-        """
-        Add a new field to an existing credential
+        """Adds a single field to an existing credential.
+
+        The body specifies a `fieldType`
+        (one of the supported field types) and its value. Returns a conflict if a field
+        of that type already exists on the credential.
 
         Args:
           extra_headers: Send extra headers
@@ -115,7 +116,9 @@ class FieldsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FieldUpdateResponse:
         """
-        Update the value of a credential field
+        Updates the value of an existing field on a credential, identified by
+        `packageName`, `credentialName`, and `fieldType` in the path. The body carries
+        the new value and returns the updated credential.
 
         Args:
           extra_headers: Send extra headers
@@ -162,7 +165,8 @@ class FieldsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FieldDeleteResponse:
         """
-        Delete a field from a credential
+        Removes a single field of the given `fieldType` from the specified credential
+        while leaving the credential itself intact. Returns the updated credential.
 
         Args:
           extra_headers: Send extra headers
@@ -194,8 +198,6 @@ class FieldsResource(SyncAPIResource):
 
 
 class AsyncFieldsResource(AsyncAPIResource):
-    """Vault & Secrets"""
-
     @cached_property
     def with_raw_response(self) -> AsyncFieldsResourceWithRawResponse:
         """
@@ -231,8 +233,11 @@ class AsyncFieldsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FieldCreateResponse:
-        """
-        Add a new field to an existing credential
+        """Adds a single field to an existing credential.
+
+        The body specifies a `fieldType`
+        (one of the supported field types) and its value. Returns a conflict if a field
+        of that type already exists on the credential.
 
         Args:
           extra_headers: Send extra headers
@@ -283,7 +288,9 @@ class AsyncFieldsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FieldUpdateResponse:
         """
-        Update the value of a credential field
+        Updates the value of an existing field on a credential, identified by
+        `packageName`, `credentialName`, and `fieldType` in the path. The body carries
+        the new value and returns the updated credential.
 
         Args:
           extra_headers: Send extra headers
@@ -330,7 +337,8 @@ class AsyncFieldsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FieldDeleteResponse:
         """
-        Delete a field from a credential
+        Removes a single field of the given `fieldType` from the specified credential
+        while leaving the credential itself intact. Returns the updated credential.
 
         Args:
           extra_headers: Send extra headers

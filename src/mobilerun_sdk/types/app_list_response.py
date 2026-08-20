@@ -284,11 +284,15 @@ class ItemVersion(BaseModel):
 
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
+    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
+    owner_id: Optional[str] = FieldInfo(alias="ownerId", default=None)
+
     queued_at: Optional[datetime] = FieldInfo(alias="queuedAt", default=None)
 
     size_bytes: Optional[int] = FieldInfo(alias="sizeBytes", default=None)
 
-    source: Literal["user", "system", "portal"]
+    source: Literal["user", "system", "portal", "store"]
 
     status: Literal["queued", "available", "failed"]
 
@@ -297,6 +301,7 @@ class ItemVersion(BaseModel):
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
     user_id: Optional[str] = FieldInfo(alias="userId", default=None)
+    """Deprecated: use ownerId (tenancy) / createdBy (actor)."""
 
     version_code: int = FieldInfo(alias="versionCode")
 

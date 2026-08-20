@@ -39,7 +39,7 @@ class TestWebhooks:
         webhook = client.webhooks.create(
             url="https://example.com/webhooks/droidrun",
             description="description",
-            event_types=["task.completed", "task.failed"],
+            event_types=["task.run.completed", "task.run.failed"],
         )
         assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
 
@@ -174,8 +174,11 @@ class TestWebhooks:
     @parametrize
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         webhook = client.webhooks.list(
+            created_by="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            mine="true",
             page=1,
             page_size=1,
+            search="x",
             status="active",
         )
         assert_matches_type(WebhookListResponse, webhook, path=["response"])
@@ -376,7 +379,7 @@ class TestAsyncWebhooks:
         webhook = await async_client.webhooks.create(
             url="https://example.com/webhooks/droidrun",
             description="description",
-            event_types=["task.completed", "task.failed"],
+            event_types=["task.run.completed", "task.run.failed"],
         )
         assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
 
@@ -511,8 +514,11 @@ class TestAsyncWebhooks:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         webhook = await async_client.webhooks.list(
+            created_by="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            mine="true",
             page=1,
             page_size=1,
+            search="x",
             status="active",
         )
         assert_matches_type(WebhookListResponse, webhook, path=["response"])

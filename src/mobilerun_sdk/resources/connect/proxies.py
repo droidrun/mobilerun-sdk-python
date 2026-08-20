@@ -60,8 +60,10 @@ class ProxiesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyRetrieveResponse:
-        """
-        Get a proxy by ID, including its password
+        """Returns the proxy identified by the path ID.
+
+        The response includes the proxy's
+        password.
 
         Args:
           extra_headers: Send extra headers
@@ -96,8 +98,8 @@ class ProxiesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyListResponse:
         """
-        Returns proxies owned by the user identified by the X-User-ID header.
-        Credentials are omitted from the list.
+        Returns proxies owned by the calling tenant (the X-Owner-Id header, falling back
+        to X-User-ID). Credentials are omitted from the list.
 
         Args:
           country: Filter to proxies in this country (ISO 3166-1 alpha-2, lowercase).
@@ -137,7 +139,7 @@ class ProxiesResource(SyncAPIResource):
         self,
         *,
         country: str,
-        type: Literal["residential"] | Omit = omit,
+        type: Literal["dedicated_residential", "residential", "mobile"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -146,7 +148,7 @@ class ProxiesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyBuyResponse:
         """
-        Provisions a proxy for the caller in the selected country.
+        Provisions a proxy of the requested type for the caller in the selected country.
 
         Args:
           country: ISO 3166-1 alpha-2 country code to provision the proxy in.
@@ -186,7 +188,8 @@ class ProxiesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete a proxy
+        Deletes the proxy identified by the path ID and releases its provisioning.
+        Returns 404 if no such proxy exists for the caller.
 
         Args:
           extra_headers: Send extra headers
@@ -422,8 +425,10 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyRetrieveResponse:
-        """
-        Get a proxy by ID, including its password
+        """Returns the proxy identified by the path ID.
+
+        The response includes the proxy's
+        password.
 
         Args:
           extra_headers: Send extra headers
@@ -458,8 +463,8 @@ class AsyncProxiesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyListResponse:
         """
-        Returns proxies owned by the user identified by the X-User-ID header.
-        Credentials are omitted from the list.
+        Returns proxies owned by the calling tenant (the X-Owner-Id header, falling back
+        to X-User-ID). Credentials are omitted from the list.
 
         Args:
           country: Filter to proxies in this country (ISO 3166-1 alpha-2, lowercase).
@@ -499,7 +504,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         self,
         *,
         country: str,
-        type: Literal["residential"] | Omit = omit,
+        type: Literal["dedicated_residential", "residential", "mobile"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -508,7 +513,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyBuyResponse:
         """
-        Provisions a proxy for the caller in the selected country.
+        Provisions a proxy of the requested type for the caller in the selected country.
 
         Args:
           country: ISO 3166-1 alpha-2 country code to provision the proxy in.
@@ -548,7 +553,8 @@ class AsyncProxiesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete a proxy
+        Deletes the proxy identified by the path ID and releases its provisioning.
+        Returns 404 if no such proxy exists for the caller.
 
         Args:
           extra_headers: Send extra headers

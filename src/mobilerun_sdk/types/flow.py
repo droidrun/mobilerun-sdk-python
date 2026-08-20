@@ -23,11 +23,15 @@ class Flow(BaseModel):
 
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
 
+    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
     description: Optional[str] = None
 
     device_ids: List[str] = FieldInfo(alias="deviceIds")
 
     enabled: bool
+
+    health_monitoring_enabled: bool = FieldInfo(alias="healthMonitoringEnabled")
 
     last_failure_at: Optional[str] = FieldInfo(alias="lastFailureAt", default=None)
 
@@ -45,10 +49,25 @@ class Flow(BaseModel):
 
     notify_webhook_id: Optional[str] = FieldInfo(alias="notifyWebhookId", default=None)
 
+    owner_id: str = FieldInfo(alias="ownerId")
+
+    self_healing_enabled: bool = FieldInfo(alias="selfHealingEnabled")
+
+    self_healing_max_attempts: int = FieldInfo(alias="selfHealingMaxAttempts")
+
     status: Literal["healthy", "failing", "blocked"]
+
+    template_resolution_version: int = FieldInfo(alias="templateResolutionVersion")
+    """Template-resolver semantics this flow runs under (MVA-23).
+
+    1 = legacy (missing/forbidden/null all resolve to ''). 2 = typed
+    (missing/forbidden throw, a whole-token null stays JSON null). Existing flows
+    stay 1; new flows default to 2.
+    """
 
     trigger_id: str = FieldInfo(alias="triggerId")
 
     updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
 
     user_id: str = FieldInfo(alias="userId")
+    """Deprecated: use ownerId (tenancy) / createdBy (actor)."""

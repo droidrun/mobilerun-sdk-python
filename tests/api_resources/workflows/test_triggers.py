@@ -50,6 +50,10 @@ class TestTriggers:
                 "type": "once",
                 "date_time": "dateTime",
                 "expression": "expression",
+                "jitter": {
+                    "after_minutes": 0,
+                    "before_minutes": 0,
+                },
                 "rrule": "rrule",
             },
             timezone="timezone",
@@ -152,6 +156,10 @@ class TestTriggers:
                 "type": "once",
                 "date_time": "dateTime",
                 "expression": "expression",
+                "jitter": {
+                    "after_minutes": 0,
+                    "before_minutes": 0,
+                },
                 "rrule": "rrule",
             },
             timezone="timezone",
@@ -208,7 +216,7 @@ class TestTriggers:
             order_by_direction="asc",
             page=1,
             page_size=1,
-            search="search",
+            search="x",
         )
         assert_matches_type(TriggerListResponse, trigger, path=["response"])
 
@@ -354,6 +362,10 @@ class TestAsyncTriggers:
                 "type": "once",
                 "date_time": "dateTime",
                 "expression": "expression",
+                "jitter": {
+                    "after_minutes": 0,
+                    "before_minutes": 0,
+                },
                 "rrule": "rrule",
             },
             timezone="timezone",
@@ -456,6 +468,10 @@ class TestAsyncTriggers:
                 "type": "once",
                 "date_time": "dateTime",
                 "expression": "expression",
+                "jitter": {
+                    "after_minutes": 0,
+                    "before_minutes": 0,
+                },
                 "rrule": "rrule",
             },
             timezone="timezone",
@@ -512,7 +528,7 @@ class TestAsyncTriggers:
             order_by_direction="asc",
             page=1,
             page_size=1,
-            search="search",
+            search="x",
         )
         assert_matches_type(TriggerListResponse, trigger, path=["response"])
 

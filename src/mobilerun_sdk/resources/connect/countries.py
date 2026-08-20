@@ -24,6 +24,8 @@ __all__ = ["CountriesResource", "AsyncCountriesResource"]
 
 
 class CountriesResource(SyncAPIResource):
+    """Mobilerun Connect country coverage information"""
+
     @cached_property
     def with_raw_response(self) -> CountriesResourceWithRawResponse:
         """
@@ -48,7 +50,7 @@ class CountriesResource(SyncAPIResource):
         *,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
-        type: Literal["residential"] | Omit = omit,
+        type: Literal["dedicated_residential", "residential", "mobile"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -56,8 +58,11 @@ class CountriesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CountryListResponse:
-        """
-        Lookup of countries that can be selected when creating a proxy.
+        """Lookup of countries that can be selected when creating a proxy.
+
+        Each country
+        lists the proxy types available there; without a ?type filter, every covered
+        country is returned.
 
         Args:
           page: Page number (1-based).
@@ -95,6 +100,8 @@ class CountriesResource(SyncAPIResource):
 
 
 class AsyncCountriesResource(AsyncAPIResource):
+    """Mobilerun Connect country coverage information"""
+
     @cached_property
     def with_raw_response(self) -> AsyncCountriesResourceWithRawResponse:
         """
@@ -119,7 +126,7 @@ class AsyncCountriesResource(AsyncAPIResource):
         *,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
-        type: Literal["residential"] | Omit = omit,
+        type: Literal["dedicated_residential", "residential", "mobile"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -127,8 +134,11 @@ class AsyncCountriesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CountryListResponse:
-        """
-        Lookup of countries that can be selected when creating a proxy.
+        """Lookup of countries that can be selected when creating a proxy.
+
+        Each country
+        lists the proxy types available there; without a ?type filter, every covered
+        country is returned.
 
         Args:
           page: Page number (1-based).

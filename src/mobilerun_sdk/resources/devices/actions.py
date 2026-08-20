@@ -60,7 +60,8 @@ class ActionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Perform a global action
+        Performs a global system action on the device, such as navigating back or going
+        to the home screen, identified by an action code.
 
         Args:
           extra_headers: Send extra headers
@@ -102,7 +103,7 @@ class ActionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionOverlayVisibleResponse:
         """
-        Check if overlay is visible
+        Returns whether the accessibility overlay is currently visible on the device.
 
         Args:
           extra_headers: Send extra headers
@@ -143,7 +144,8 @@ class ActionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Set overlay visibility
+        Shows or hides the accessibility overlay on the device based on the visibility
+        flag in the request body.
 
         Args:
           extra_headers: Send extra headers
@@ -191,7 +193,9 @@ class ActionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Swipe
+        Swipes from a start coordinate to an end coordinate over the given duration in
+        milliseconds. An optional stealth flag applies human-like jitter and curved
+        paths on devices that support it.
 
         Args:
           duration: Swipe duration in milliseconds
@@ -247,8 +251,10 @@ class ActionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Tap by coordinates
+        """Taps the device screen at the given x/y coordinates.
+
+        An optional stealth flag
+        routes the tap through human-like input on devices that support it.
 
         Args:
           extra_headers: Send extra headers
@@ -319,7 +325,8 @@ class AsyncActionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Perform a global action
+        Performs a global system action on the device, such as navigating back or going
+        to the home screen, identified by an action code.
 
         Args:
           extra_headers: Send extra headers
@@ -361,7 +368,7 @@ class AsyncActionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionOverlayVisibleResponse:
         """
-        Check if overlay is visible
+        Returns whether the accessibility overlay is currently visible on the device.
 
         Args:
           extra_headers: Send extra headers
@@ -402,7 +409,8 @@ class AsyncActionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Set overlay visibility
+        Shows or hides the accessibility overlay on the device based on the visibility
+        flag in the request body.
 
         Args:
           extra_headers: Send extra headers
@@ -452,7 +460,9 @@ class AsyncActionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Swipe
+        Swipes from a start coordinate to an end coordinate over the given duration in
+        milliseconds. An optional stealth flag applies human-like jitter and curved
+        paths on devices that support it.
 
         Args:
           duration: Swipe duration in milliseconds
@@ -508,8 +518,10 @@ class AsyncActionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Tap by coordinates
+        """Taps the device screen at the given x/y coordinates.
+
+        An optional stealth flag
+        routes the tap through human-like input on devices that support it.
 
         Args:
           extra_headers: Send extra headers

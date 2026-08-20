@@ -54,7 +54,8 @@ class LocationResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Location:
         """
-        Get device location
+        Returns the device's current simulated GPS location as latitude and longitude.
+        Devices without geo support return an unsupported-feature error.
 
         Args:
           extra_headers: Send extra headers
@@ -96,7 +97,8 @@ class LocationResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Set device location
+        Sets the device's simulated GPS location to the latitude and longitude in the
+        request body. Devices without geo support return an unsupported-feature error.
 
         Args:
           extra_headers: Send extra headers
@@ -165,7 +167,8 @@ class AsyncLocationResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Location:
         """
-        Get device location
+        Returns the device's current simulated GPS location as latitude and longitude.
+        Devices without geo support return an unsupported-feature error.
 
         Args:
           extra_headers: Send extra headers
@@ -207,7 +210,8 @@ class AsyncLocationResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Set device location
+        Sets the device's simulated GPS location to the latitude and longitude in the
+        request body. Devices without geo support return an unsupported-feature error.
 
         Args:
           extra_headers: Send extra headers

@@ -12,10 +12,18 @@ from .shared_params.location import Location
 from .shared_params.device_carrier import DeviceCarrier
 from .shared_params.device_identifiers import DeviceIdentifiers
 
-__all__ = ["DeviceCreateParams", "Proxy"]
+__all__ = ["DeviceCreateParams", "Proxy", "ProxyConnect"]
 
 
 class DeviceCreateParams(TypedDict, total=False):
+    billing: Literal["auto", "subscription", "minute"]
+    """Billing mode.
+
+    'auto' uses a subscription slot when available and otherwise bills per minute;
+    'subscription' requires an available subscription slot; 'minute' bills per
+    minute. Only cloud phone and cloud emulator devices support per-minute billing.
+    """
+
     query_country: Annotated[str, PropertyInfo(alias="country")]
     """ISO 3166-1 alpha-2 country code.
 
@@ -23,9 +31,21 @@ class DeviceCreateParams(TypedDict, total=False):
     """
 
     device_type: Annotated[
-        Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device"],
+        Literal[
+            "android_cloud_phone",
+            "dedicated_premium_device",
+            "dedicated_physical_device",
+            "dedicated_ios_device",
+            "dedicated_emulated_device",
+        ],
         PropertyInfo(alias="deviceType"),
     ]
+    """
+    Deprecated device type aliases are accepted during a compatibility grace period:
+    dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
+    maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
+    and dedicated_emulated_device maps to android_emulator.
+    """
 
     profile_id: Annotated[str, PropertyInfo(alias="profileId")]
     """Profile ID to use as device spec"""
@@ -53,7 +73,20 @@ class DeviceCreateParams(TypedDict, total=False):
     timezone: str
 
 
+class ProxyConnect(TypedDict, total=False):
+    id: str
+    """Existing Mobilerun Connect proxy id; its credentials are fetched server-side."""
+
+    country: str
+    """
+    ISO 3166-1 alpha-2 country code; provisions (or reuses) a rotating residential
+    Mobilerun Connect proxy for the device.
+    """
+
+
 class Proxy(TypedDict, total=False):
+    connect: ProxyConnect
+
     name: str
 
     smart_ip: Annotated[bool, PropertyInfo(alias="smartIp")]

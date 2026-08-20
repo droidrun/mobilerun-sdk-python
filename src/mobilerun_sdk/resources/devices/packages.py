@@ -57,8 +57,10 @@ class PackagesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Optional[PackageListResponse]:
-        """
-        List packages
+        """Returns the package names of apps installed on the device.
+
+        System and protected
+        packages are excluded unless the corresponding query parameters are set.
 
         Args:
           extra_headers: Send extra headers
@@ -130,8 +132,10 @@ class AsyncPackagesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Optional[PackageListResponse]:
-        """
-        List packages
+        """Returns the package names of apps installed on the device.
+
+        System and protected
+        packages are excluded unless the corresponding query parameters are set.
 
         Args:
           extra_headers: Send extra headers

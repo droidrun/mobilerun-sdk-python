@@ -58,7 +58,8 @@ class ExecutionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ExecutionRetrieveResponse:
         """
-        Get execution details
+        Fetch a single flow execution by its ID, including its status, kind, result or
+        error, and start/finish timestamps. Returns 404 if no execution matches.
 
         Args:
           extra_headers: Send extra headers
@@ -99,8 +100,11 @@ class ExecutionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ExecutionListResponse:
-        """
-        List flow executions
+        """Return a paginated history of flow executions.
+
+        Supports filtering by `flowId`,
+        `triggerId`, `status`, and a `from`/`to` time range, plus free-text `search` and
+        ordering by startedAt, finishedAt, or status.
 
         Args:
           extra_headers: Send extra headers
@@ -152,7 +156,9 @@ class ExecutionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ExecutionGetMetricsResponse:
         """
-        Get execution metrics
+        Return aggregate execution metrics — total count, counts by status, average
+        duration, and the last execution time. Can be scoped by `flowId`, `triggerId`,
+        and a `from`/`to` time range.
 
         Args:
           extra_headers: Send extra headers
@@ -216,7 +222,8 @@ class AsyncExecutionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ExecutionRetrieveResponse:
         """
-        Get execution details
+        Fetch a single flow execution by its ID, including its status, kind, result or
+        error, and start/finish timestamps. Returns 404 if no execution matches.
 
         Args:
           extra_headers: Send extra headers
@@ -257,8 +264,11 @@ class AsyncExecutionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ExecutionListResponse:
-        """
-        List flow executions
+        """Return a paginated history of flow executions.
+
+        Supports filtering by `flowId`,
+        `triggerId`, `status`, and a `from`/`to` time range, plus free-text `search` and
+        ordering by startedAt, finishedAt, or status.
 
         Args:
           extra_headers: Send extra headers
@@ -310,7 +320,9 @@ class AsyncExecutionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ExecutionGetMetricsResponse:
         """
-        Get execution metrics
+        Return aggregate execution metrics — total count, counts by status, average
+        duration, and the last execution time. Can be scoped by `flowId`, `triggerId`,
+        and a `from`/`to` time range.
 
         Args:
           extra_headers: Send extra headers

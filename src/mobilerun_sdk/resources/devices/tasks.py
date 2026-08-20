@@ -24,8 +24,6 @@ __all__ = ["TasksResource", "AsyncTasksResource"]
 
 
 class TasksResource(SyncAPIResource):
-    """Device Management"""
-
     @cached_property
     def with_raw_response(self) -> TasksResourceWithRawResponse:
         """
@@ -61,7 +59,8 @@ class TasksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskListResponse:
         """
-        List tasks for a device
+        Returns a paginated list of tasks that have run on the device, along with
+        pagination metadata.
 
         Args:
           extra_headers: Send extra headers
@@ -96,8 +95,6 @@ class TasksResource(SyncAPIResource):
 
 
 class AsyncTasksResource(AsyncAPIResource):
-    """Device Management"""
-
     @cached_property
     def with_raw_response(self) -> AsyncTasksResourceWithRawResponse:
         """
@@ -133,7 +130,8 @@ class AsyncTasksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskListResponse:
         """
-        List tasks for a device
+        Returns a paginated list of tasks that have run on the device, along with
+        pagination metadata.
 
         Args:
           extra_headers: Send extra headers

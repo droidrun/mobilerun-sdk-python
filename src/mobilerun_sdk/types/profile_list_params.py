@@ -10,6 +10,12 @@ __all__ = ["ProfileListParams"]
 
 
 class ProfileListParams(TypedDict, total=False):
+    mine: bool
+    """
+    When true, only return profiles created by the calling user (resolved from
+    X-User-ID, never a client-supplied id).
+    """
+
     name: str
 
     order_by: Annotated[Literal["name", "created_at", "updated_at"], PropertyInfo(alias="orderBy")]

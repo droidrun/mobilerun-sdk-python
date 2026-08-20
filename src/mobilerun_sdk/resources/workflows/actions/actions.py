@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict
 from typing_extensions import Literal
 
 import httpx
@@ -66,7 +66,7 @@ class ActionsResource(SyncAPIResource):
         catalog_entry_id: str,
         name: str,
         description: str | Omit = omit,
-        params: Dict[str, Optional[object]] | Omit = omit,
+        params: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -75,7 +75,9 @@ class ActionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionCreateResponse:
         """
-        Create an action
+        Create a reusable action from a catalog entry (`catalogEntryId`), with an
+        optional `params` object supplying the values for that entry's service method.
+        Returns 400 if the params are invalid for the chosen catalog entry.
 
         Args:
           extra_headers: Send extra headers
@@ -115,7 +117,8 @@ class ActionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionRetrieveResponse:
         """
-        Get an action
+        Fetch a single action by its ID, including its configured service, method, and
+        params. Returns 404 if no action matches.
 
         Args:
           extra_headers: Send extra headers
@@ -142,7 +145,7 @@ class ActionsResource(SyncAPIResource):
         *,
         description: str | Omit = omit,
         name: str | Omit = omit,
-        params: Dict[str, Optional[object]] | Omit = omit,
+        params: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -151,7 +154,8 @@ class ActionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionUpdateResponse:
         """
-        Update an action
+        Partially update an action's name, description, or params; all fields are
+        optional. Returns 404 if the action does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -196,8 +200,10 @@ class ActionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionListResponse:
-        """
-        List actions
+        """Return a paginated list of actions.
+
+        Supports filtering by `service`, free-text
+        `search`, and ordering by name, createdAt, or updatedAt.
 
         Args:
           extra_headers: Send extra headers
@@ -241,8 +247,9 @@ class ActionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionDeleteResponse:
-        """
-        Delete an action
+        """Delete an action by its ID.
+
+        Returns 404 if no action matches.
 
         Args:
           extra_headers: Send extra headers
@@ -294,7 +301,7 @@ class AsyncActionsResource(AsyncAPIResource):
         catalog_entry_id: str,
         name: str,
         description: str | Omit = omit,
-        params: Dict[str, Optional[object]] | Omit = omit,
+        params: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -303,7 +310,9 @@ class AsyncActionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionCreateResponse:
         """
-        Create an action
+        Create a reusable action from a catalog entry (`catalogEntryId`), with an
+        optional `params` object supplying the values for that entry's service method.
+        Returns 400 if the params are invalid for the chosen catalog entry.
 
         Args:
           extra_headers: Send extra headers
@@ -343,7 +352,8 @@ class AsyncActionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionRetrieveResponse:
         """
-        Get an action
+        Fetch a single action by its ID, including its configured service, method, and
+        params. Returns 404 if no action matches.
 
         Args:
           extra_headers: Send extra headers
@@ -370,7 +380,7 @@ class AsyncActionsResource(AsyncAPIResource):
         *,
         description: str | Omit = omit,
         name: str | Omit = omit,
-        params: Dict[str, Optional[object]] | Omit = omit,
+        params: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -379,7 +389,8 @@ class AsyncActionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionUpdateResponse:
         """
-        Update an action
+        Partially update an action's name, description, or params; all fields are
+        optional. Returns 404 if the action does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -424,8 +435,10 @@ class AsyncActionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionListResponse:
-        """
-        List actions
+        """Return a paginated list of actions.
+
+        Supports filtering by `service`, free-text
+        `search`, and ordering by name, createdAt, or updatedAt.
 
         Args:
           extra_headers: Send extra headers
@@ -469,8 +482,9 @@ class AsyncActionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionDeleteResponse:
-        """
-        Delete an action
+        """Delete an action by its ID.
+
+        Returns 404 if no action matches.
 
         Args:
           extra_headers: Send extra headers

@@ -10,7 +10,7 @@ __all__ = ["FlowAction", "Overrides"]
 
 
 class Overrides(BaseModel):
-    params: Optional[Dict[str, Optional[object]]] = None
+    params: Optional[Dict[str, object]] = None
 
 
 class FlowAction(BaseModel):

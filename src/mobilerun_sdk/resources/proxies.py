@@ -29,8 +29,6 @@ __all__ = ["ProxiesResource", "AsyncProxiesResource"]
 
 
 class ProxiesResource(SyncAPIResource):
-    """Network Proxies"""
-
     @cached_property
     def with_raw_response(self) -> ProxiesResourceWithRawResponse:
         """
@@ -67,8 +65,12 @@ class ProxiesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyCreateResponse:
-        """
-        Create a new proxy config
+        """Creates a proxy config.
+
+        The body is a discriminated union on `protocol`:
+        `socks5` requires name, host, port, user, and password, while `wireguard`
+        requires name and a config string. Returns the created config with its generated
+        `proxyId`.
 
         Args:
           extra_headers: Send extra headers
@@ -95,8 +97,12 @@ class ProxiesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyCreateResponse:
-        """
-        Create a new proxy config
+        """Creates a proxy config.
+
+        The body is a discriminated union on `protocol`:
+        `socks5` requires name, host, port, user, and password, while `wireguard`
+        requires name and a config string. Returns the created config with its generated
+        `proxyId`.
 
         Args:
           extra_headers: Send extra headers
@@ -158,8 +164,11 @@ class ProxiesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyRetrieveResponse:
-        """
-        Get a specific proxy config
+        """Fetches a single proxy config by its `proxyId`.
+
+        The response shape depends on
+        the proxy's `protocol` (socks5 or wireguard). Returns not found if no matching
+        config exists.
 
         Args:
           extra_headers: Send extra headers
@@ -198,8 +207,11 @@ class ProxiesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyUpdateResponse:
-        """
-        Update a proxy config
+        """Replaces the proxy config identified by `proxyId` with the provided body.
+
+        As
+        with creation, the body is a `protocol`-discriminated union of socks5 or
+        wireguard fields. Returns the updated config.
 
         Args:
           extra_headers: Send extra headers
@@ -227,8 +239,11 @@ class ProxiesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyUpdateResponse:
-        """
-        Update a proxy config
+        """Replaces the proxy config identified by `proxyId` with the provided body.
+
+        As
+        with creation, the body is a `protocol`-discriminated union of socks5 or
+        wireguard fields. Returns the updated config.
 
         Args:
           extra_headers: Send extra headers
@@ -293,8 +308,10 @@ class ProxiesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyListResponse:
-        """
-        List all proxy configs for the authenticated user
+        """Returns all proxy configs for the authenticated user.
+
+        An optional `protocol`
+        query parameter (`socks5` or `wireguard`) filters the results by proxy type.
 
         Args:
           extra_headers: Send extra headers
@@ -329,7 +346,8 @@ class ProxiesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyDeleteResponse:
         """
-        Delete a proxy config
+        Permanently deletes the proxy config identified by `proxyId` and returns the
+        deleted config. Returns not found if no matching config exists.
 
         Args:
           extra_headers: Send extra headers
@@ -386,8 +404,6 @@ class ProxiesResource(SyncAPIResource):
 
 
 class AsyncProxiesResource(AsyncAPIResource):
-    """Network Proxies"""
-
     @cached_property
     def with_raw_response(self) -> AsyncProxiesResourceWithRawResponse:
         """
@@ -424,8 +440,12 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyCreateResponse:
-        """
-        Create a new proxy config
+        """Creates a proxy config.
+
+        The body is a discriminated union on `protocol`:
+        `socks5` requires name, host, port, user, and password, while `wireguard`
+        requires name and a config string. Returns the created config with its generated
+        `proxyId`.
 
         Args:
           extra_headers: Send extra headers
@@ -452,8 +472,12 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyCreateResponse:
-        """
-        Create a new proxy config
+        """Creates a proxy config.
+
+        The body is a discriminated union on `protocol`:
+        `socks5` requires name, host, port, user, and password, while `wireguard`
+        requires name and a config string. Returns the created config with its generated
+        `proxyId`.
 
         Args:
           extra_headers: Send extra headers
@@ -515,8 +539,11 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyRetrieveResponse:
-        """
-        Get a specific proxy config
+        """Fetches a single proxy config by its `proxyId`.
+
+        The response shape depends on
+        the proxy's `protocol` (socks5 or wireguard). Returns not found if no matching
+        config exists.
 
         Args:
           extra_headers: Send extra headers
@@ -555,8 +582,11 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyUpdateResponse:
-        """
-        Update a proxy config
+        """Replaces the proxy config identified by `proxyId` with the provided body.
+
+        As
+        with creation, the body is a `protocol`-discriminated union of socks5 or
+        wireguard fields. Returns the updated config.
 
         Args:
           extra_headers: Send extra headers
@@ -584,8 +614,11 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyUpdateResponse:
-        """
-        Update a proxy config
+        """Replaces the proxy config identified by `proxyId` with the provided body.
+
+        As
+        with creation, the body is a `protocol`-discriminated union of socks5 or
+        wireguard fields. Returns the updated config.
 
         Args:
           extra_headers: Send extra headers
@@ -650,8 +683,10 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyListResponse:
-        """
-        List all proxy configs for the authenticated user
+        """Returns all proxy configs for the authenticated user.
+
+        An optional `protocol`
+        query parameter (`socks5` or `wireguard`) filters the results by proxy type.
 
         Args:
           extra_headers: Send extra headers
@@ -686,7 +721,8 @@ class AsyncProxiesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyDeleteResponse:
         """
-        Delete a proxy config
+        Permanently deletes the proxy config identified by `proxyId` and returns the
+        deleted config. Returns not found if no matching config exists.
 
         Args:
           extra_headers: Send extra headers

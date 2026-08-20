@@ -31,8 +31,6 @@ __all__ = ["AppsResource", "AsyncAppsResource"]
 
 
 class AppsResource(SyncAPIResource):
-    """App Management"""
-
     @cached_property
     def with_raw_response(self) -> AppsResourceWithRawResponse:
         """
@@ -211,7 +209,6 @@ class AppsResource(SyncAPIResource):
         bundle_id: str,
         display_name: str,
         files: Iterable[app_create_signed_upload_url_params.File],
-        size_bytes: float,
         version_code: float,
         version_name: str,
         country: str | Omit = omit,
@@ -249,7 +246,6 @@ class AppsResource(SyncAPIResource):
                     "bundle_id": bundle_id,
                     "display_name": display_name,
                     "files": files,
-                    "size_bytes": size_bytes,
                     "version_code": version_code,
                     "version_name": version_name,
                     "country": country,
@@ -336,8 +332,6 @@ class AppsResource(SyncAPIResource):
 
 
 class AsyncAppsResource(AsyncAPIResource):
-    """App Management"""
-
     @cached_property
     def with_raw_response(self) -> AsyncAppsResourceWithRawResponse:
         """
@@ -516,7 +510,6 @@ class AsyncAppsResource(AsyncAPIResource):
         bundle_id: str,
         display_name: str,
         files: Iterable[app_create_signed_upload_url_params.File],
-        size_bytes: float,
         version_code: float,
         version_name: str,
         country: str | Omit = omit,
@@ -554,7 +547,6 @@ class AsyncAppsResource(AsyncAPIResource):
                     "bundle_id": bundle_id,
                     "display_name": display_name,
                     "files": files,
-                    "size_bytes": size_bytes,
                     "version_code": version_code,
                     "version_name": version_name,
                     "country": country,

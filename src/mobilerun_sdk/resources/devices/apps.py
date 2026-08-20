@@ -18,7 +18,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.devices import app_list_params, app_start_params, app_install_params
+from ...types.devices import app_list_params, app_stop_params, app_start_params, app_install_params
 from ...types.devices.app_list_response import AppListResponse
 
 __all__ = ["AppsResource", "AsyncAppsResource"]
@@ -59,7 +59,9 @@ class AppsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Optional[AppListResponse]:
         """
-        List apps
+        Returns detailed information about apps installed on the device, including
+        package name and label. System and protected apps are excluded unless the
+        corresponding query parameters are set.
 
         Args:
           extra_headers: Send extra headers
@@ -110,7 +112,8 @@ class AppsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete app
+        Uninstalls the app identified by the path package name from the device.
+        Protected packages cannot be deleted.
 
         Args:
           extra_headers: Send extra headers
@@ -146,6 +149,7 @@ class AppsResource(SyncAPIResource):
         device_id: str,
         *,
         bundle_id: str,
+        background: bool | Omit = omit,
         package_name: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -155,12 +159,25 @@ class AppsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Install app
+        """Requests an app install on the device.
+
+        The request body must supply exactly one
+        of an Android packageName or an iOS bundleId; protected packages are rejected.
+        background (default false) selects the response contract: false installs inline
+        and returns the outcome directly (200 on success, an error status on failure);
+        true accepts the request and runs the download + install in the background,
+        returning 202 immediately — poll list-app-installs for the backend's view of
+        that attempt's status. Refuses with 409 once 2 other installs are already
+        running on the device, in either mode; a repeat request for an app that already
+        has an install running is also refused with 409 rather than superseding it —
+        retry once that attempt reaches a terminal state.
 
         Args:
-          bundle_id: iOS bundle identifier (e.g.
+          bundle_id: iOS bundle identifier (e.g. com.example.app)
 
-        com.example.app)
+          background: true: return 202 immediately and install in the background (poll
+              list-app-installs). false/omitted: install inline and return the outcome
+              directly (200 on success, an error status on failure).
 
           package_name: Android package name (e.g. com.example.app)
 
@@ -180,6 +197,7 @@ class AppsResource(SyncAPIResource):
         device_id: str,
         *,
         package_name: str,
+        background: bool | Omit = omit,
         bundle_id: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -189,12 +207,25 @@ class AppsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Install app
+        """Requests an app install on the device.
+
+        The request body must supply exactly one
+        of an Android packageName or an iOS bundleId; protected packages are rejected.
+        background (default false) selects the response contract: false installs inline
+        and returns the outcome directly (200 on success, an error status on failure);
+        true accepts the request and runs the download + install in the background,
+        returning 202 immediately — poll list-app-installs for the backend's view of
+        that attempt's status. Refuses with 409 once 2 other installs are already
+        running on the device, in either mode; a repeat request for an app that already
+        has an install running is also refused with 409 rather than superseding it —
+        retry once that attempt reaches a terminal state.
 
         Args:
-          package_name: Android package name (e.g.
+          package_name: Android package name (e.g. com.example.app)
 
-        com.example.app)
+          background: true: return 202 immediately and install in the background (poll
+              list-app-installs). false/omitted: install inline and return the outcome
+              directly (200 on success, an error status on failure).
 
           bundle_id: iOS bundle identifier (e.g. com.example.app)
 
@@ -214,6 +245,7 @@ class AppsResource(SyncAPIResource):
         device_id: str,
         *,
         bundle_id: str | Omit = omit,
+        background: bool | Omit = omit,
         package_name: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -237,6 +269,7 @@ class AppsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "bundle_id": bundle_id,
+                    "background": background,
                     "package_name": package_name,
                 },
                 app_install_params.AppInstallParams,
@@ -262,7 +295,9 @@ class AppsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Start app
+        Launches the app identified by the path package name, optionally starting a
+        specific activity given in the request body. Protected packages cannot be
+        started.
 
         Args:
           extra_headers: Send extra headers
@@ -298,6 +333,7 @@ class AppsResource(SyncAPIResource):
         package_name: str,
         *,
         device_id: str,
+        clear_data: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -306,10 +342,15 @@ class AppsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Stop app
+        """Force-stops the app identified by the path package name.
+
+        When clearData is set
+        in the request body, the app's data is also cleared. Protected packages cannot
+        be stopped.
 
         Args:
+          clear_data: If true, clears all app data (pm clear) in addition to stopping the app.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -331,6 +372,7 @@ class AppsResource(SyncAPIResource):
         }
         return self._patch(
             path_template("/devices/{device_id}/apps/{package_name}", device_id=device_id, package_name=package_name),
+            body=maybe_transform({"clear_data": clear_data}, app_stop_params.AppStopParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -373,7 +415,9 @@ class AsyncAppsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Optional[AppListResponse]:
         """
-        List apps
+        Returns detailed information about apps installed on the device, including
+        package name and label. System and protected apps are excluded unless the
+        corresponding query parameters are set.
 
         Args:
           extra_headers: Send extra headers
@@ -424,7 +468,8 @@ class AsyncAppsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete app
+        Uninstalls the app identified by the path package name from the device.
+        Protected packages cannot be deleted.
 
         Args:
           extra_headers: Send extra headers
@@ -460,6 +505,7 @@ class AsyncAppsResource(AsyncAPIResource):
         device_id: str,
         *,
         bundle_id: str,
+        background: bool | Omit = omit,
         package_name: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -469,12 +515,25 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Install app
+        """Requests an app install on the device.
+
+        The request body must supply exactly one
+        of an Android packageName or an iOS bundleId; protected packages are rejected.
+        background (default false) selects the response contract: false installs inline
+        and returns the outcome directly (200 on success, an error status on failure);
+        true accepts the request and runs the download + install in the background,
+        returning 202 immediately — poll list-app-installs for the backend's view of
+        that attempt's status. Refuses with 409 once 2 other installs are already
+        running on the device, in either mode; a repeat request for an app that already
+        has an install running is also refused with 409 rather than superseding it —
+        retry once that attempt reaches a terminal state.
 
         Args:
-          bundle_id: iOS bundle identifier (e.g.
+          bundle_id: iOS bundle identifier (e.g. com.example.app)
 
-        com.example.app)
+          background: true: return 202 immediately and install in the background (poll
+              list-app-installs). false/omitted: install inline and return the outcome
+              directly (200 on success, an error status on failure).
 
           package_name: Android package name (e.g. com.example.app)
 
@@ -494,6 +553,7 @@ class AsyncAppsResource(AsyncAPIResource):
         device_id: str,
         *,
         package_name: str,
+        background: bool | Omit = omit,
         bundle_id: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -503,12 +563,25 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Install app
+        """Requests an app install on the device.
+
+        The request body must supply exactly one
+        of an Android packageName or an iOS bundleId; protected packages are rejected.
+        background (default false) selects the response contract: false installs inline
+        and returns the outcome directly (200 on success, an error status on failure);
+        true accepts the request and runs the download + install in the background,
+        returning 202 immediately — poll list-app-installs for the backend's view of
+        that attempt's status. Refuses with 409 once 2 other installs are already
+        running on the device, in either mode; a repeat request for an app that already
+        has an install running is also refused with 409 rather than superseding it —
+        retry once that attempt reaches a terminal state.
 
         Args:
-          package_name: Android package name (e.g.
+          package_name: Android package name (e.g. com.example.app)
 
-        com.example.app)
+          background: true: return 202 immediately and install in the background (poll
+              list-app-installs). false/omitted: install inline and return the outcome
+              directly (200 on success, an error status on failure).
 
           bundle_id: iOS bundle identifier (e.g. com.example.app)
 
@@ -528,6 +601,7 @@ class AsyncAppsResource(AsyncAPIResource):
         device_id: str,
         *,
         bundle_id: str | Omit = omit,
+        background: bool | Omit = omit,
         package_name: str | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -551,6 +625,7 @@ class AsyncAppsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "bundle_id": bundle_id,
+                    "background": background,
                     "package_name": package_name,
                 },
                 app_install_params.AppInstallParams,
@@ -576,7 +651,9 @@ class AsyncAppsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Start app
+        Launches the app identified by the path package name, optionally starting a
+        specific activity given in the request body. Protected packages cannot be
+        started.
 
         Args:
           extra_headers: Send extra headers
@@ -612,6 +689,7 @@ class AsyncAppsResource(AsyncAPIResource):
         package_name: str,
         *,
         device_id: str,
+        clear_data: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -620,10 +698,15 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Stop app
+        """Force-stops the app identified by the path package name.
+
+        When clearData is set
+        in the request body, the app's data is also cleared. Protected packages cannot
+        be stopped.
 
         Args:
+          clear_data: If true, clears all app data (pm clear) in addition to stopping the app.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -645,6 +728,7 @@ class AsyncAppsResource(AsyncAPIResource):
         }
         return await self._patch(
             path_template("/devices/{device_id}/apps/{package_name}", device_id=device_id, package_name=package_name),
+            body=await async_maybe_transform({"clear_data": clear_data}, app_stop_params.AppStopParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

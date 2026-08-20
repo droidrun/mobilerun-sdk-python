@@ -18,9 +18,11 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.profile import Profile
 from ..types.profile_list_response import ProfileListResponse
+from ..types.profile_create_response import ProfileCreateResponse
 from ..types.profile_delete_response import ProfileDeleteResponse
+from ..types.profile_update_response import ProfileUpdateResponse
+from ..types.profile_retrieve_response import ProfileRetrieveResponse
 from ..types.shared_params.device_spec import DeviceSpec
 
 __all__ = ["ProfilesResource", "AsyncProfilesResource"]
@@ -57,7 +59,7 @@ class ProfilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Profile:
+    ) -> ProfileCreateResponse:
         """
         Create a new device profile
 
@@ -86,7 +88,7 @@ class ProfilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Profile,
+            cast_to=ProfileCreateResponse,
         )
 
     def retrieve(
@@ -99,7 +101,7 @@ class ProfilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Profile:
+    ) -> ProfileRetrieveResponse:
         """
         Get device profile by ID
 
@@ -119,7 +121,7 @@ class ProfilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Profile,
+            cast_to=ProfileRetrieveResponse,
         )
 
     def update(
@@ -134,7 +136,7 @@ class ProfilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Profile:
+    ) -> ProfileUpdateResponse:
         """
         Update a device profile
 
@@ -165,12 +167,13 @@ class ProfilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Profile,
+            cast_to=ProfileUpdateResponse,
         )
 
     def list(
         self,
         *,
+        mine: bool | Omit = omit,
         name: str | Omit = omit,
         order_by: Literal["name", "created_at", "updated_at"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
@@ -187,6 +190,9 @@ class ProfilesResource(SyncAPIResource):
         List device profiles
 
         Args:
+          mine: When true, only return profiles created by the calling user (resolved from
+              X-User-ID, never a client-supplied id).
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -204,6 +210,7 @@ class ProfilesResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "mine": mine,
                         "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
@@ -281,7 +288,7 @@ class AsyncProfilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Profile:
+    ) -> ProfileCreateResponse:
         """
         Create a new device profile
 
@@ -310,7 +317,7 @@ class AsyncProfilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Profile,
+            cast_to=ProfileCreateResponse,
         )
 
     async def retrieve(
@@ -323,7 +330,7 @@ class AsyncProfilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Profile:
+    ) -> ProfileRetrieveResponse:
         """
         Get device profile by ID
 
@@ -343,7 +350,7 @@ class AsyncProfilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Profile,
+            cast_to=ProfileRetrieveResponse,
         )
 
     async def update(
@@ -358,7 +365,7 @@ class AsyncProfilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Profile:
+    ) -> ProfileUpdateResponse:
         """
         Update a device profile
 
@@ -389,12 +396,13 @@ class AsyncProfilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Profile,
+            cast_to=ProfileUpdateResponse,
         )
 
     async def list(
         self,
         *,
+        mine: bool | Omit = omit,
         name: str | Omit = omit,
         order_by: Literal["name", "created_at", "updated_at"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
@@ -411,6 +419,9 @@ class AsyncProfilesResource(AsyncAPIResource):
         List device profiles
 
         Args:
+          mine: When true, only return profiles created by the calling user (resolved from
+              X-User-ID, never a client-supplied id).
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -428,6 +439,7 @@ class AsyncProfilesResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "mine": mine,
                         "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,

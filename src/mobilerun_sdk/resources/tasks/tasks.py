@@ -9,7 +9,7 @@ import httpx
 
 from ...types import TaskStatus, task_run_params, task_list_params, task_run_streamed_params, task_send_message_params
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from .ui_states import (
     UiStatesResource,
@@ -116,6 +116,8 @@ class TasksResource(SyncAPIResource):
     def list(
         self,
         *,
+        created_by: Optional[str] | Omit = omit,
+        mine: bool | Omit = omit,
         order_by: Optional[Literal["id", "createdAt", "finishedAt", "status"]] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
@@ -133,6 +135,10 @@ class TasksResource(SyncAPIResource):
         List tasks with optional filtering, sorting, and pagination.
 
         Args:
+          created_by: Only tasks created by this user id.
+
+          mine: Only tasks created by the calling user.
+
           query: Search in task description.
 
           extra_headers: Send extra headers
@@ -152,6 +158,8 @@ class TasksResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "created_by": created_by,
+                        "mine": mine,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,
@@ -288,6 +296,7 @@ class TasksResource(SyncAPIResource):
         temperature: float | Omit = omit,
         vision: bool | Omit = omit,
         vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -305,8 +314,7 @@ class TasksResource(SyncAPIResource):
 
           display_id: The display ID of the device to run the task on.
 
-          llm_model: The LLM model identifier to use for the task (e.g.
-              'google/gemini-3.1-flash-lite')
+          llm_model: The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')
 
           memory_namespace: Memory namespace for cross-task personalization
 
@@ -320,6 +328,7 @@ class TasksResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return self._post(
             "/tasks",
             body=maybe_transform(
@@ -392,8 +401,7 @@ class TasksResource(SyncAPIResource):
 
           display_id: The display ID of the device to run the task on.
 
-          llm_model: The LLM model identifier to use for the task (e.g.
-              'google/gemini-3.1-flash-lite')
+          llm_model: The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')
 
           memory_namespace: Memory namespace for cross-task personalization
 
@@ -583,6 +591,8 @@ class AsyncTasksResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        created_by: Optional[str] | Omit = omit,
+        mine: bool | Omit = omit,
         order_by: Optional[Literal["id", "createdAt", "finishedAt", "status"]] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
@@ -600,6 +610,10 @@ class AsyncTasksResource(AsyncAPIResource):
         List tasks with optional filtering, sorting, and pagination.
 
         Args:
+          created_by: Only tasks created by this user id.
+
+          mine: Only tasks created by the calling user.
+
           query: Search in task description.
 
           extra_headers: Send extra headers
@@ -619,6 +633,8 @@ class AsyncTasksResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "created_by": created_by,
+                        "mine": mine,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,
@@ -755,6 +771,7 @@ class AsyncTasksResource(AsyncAPIResource):
         temperature: float | Omit = omit,
         vision: bool | Omit = omit,
         vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -772,8 +789,7 @@ class AsyncTasksResource(AsyncAPIResource):
 
           display_id: The display ID of the device to run the task on.
 
-          llm_model: The LLM model identifier to use for the task (e.g.
-              'google/gemini-3.1-flash-lite')
+          llm_model: The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')
 
           memory_namespace: Memory namespace for cross-task personalization
 
@@ -787,6 +803,7 @@ class AsyncTasksResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return await self._post(
             "/tasks",
             body=await async_maybe_transform(
@@ -859,8 +876,7 @@ class AsyncTasksResource(AsyncAPIResource):
 
           display_id: The display ID of the device to run the task on.
 
-          llm_model: The LLM model identifier to use for the task (e.g.
-              'google/gemini-3.1-flash-lite')
+          llm_model: The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')
 
           memory_namespace: Memory namespace for cross-task personalization
 

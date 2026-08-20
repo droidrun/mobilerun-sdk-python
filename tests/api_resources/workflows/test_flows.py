@@ -69,9 +69,12 @@ class TestFlows:
             description="description",
             device_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             enabled=True,
+            health_monitoring_enabled=True,
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            self_healing_enabled=True,
+            self_healing_max_attempts=1,
         )
         assert_matches_type(FlowCreateResponse, flow, path=["response"])
 
@@ -175,10 +178,13 @@ class TestFlows:
             description="description",
             device_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             enabled=True,
+            health_monitoring_enabled=True,
             name="x",
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            self_healing_enabled=True,
+            self_healing_max_attempts=1,
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(FlowUpdateResponse, flow, path=["response"])
@@ -227,12 +233,14 @@ class TestFlows:
     @parametrize
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         flow = client.workflows.flows.list(
-            enabled=True,
+            created_by="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            enabled="true",
+            mine="true",
             order_by="name",
             order_by_direction="asc",
             page=1,
             page_size=1,
-            search="search",
+            search="x",
             status=["healthy"],
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -446,9 +454,12 @@ class TestAsyncFlows:
             description="description",
             device_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             enabled=True,
+            health_monitoring_enabled=True,
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            self_healing_enabled=True,
+            self_healing_max_attempts=1,
         )
         assert_matches_type(FlowCreateResponse, flow, path=["response"])
 
@@ -552,10 +563,13 @@ class TestAsyncFlows:
             description="description",
             device_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             enabled=True,
+            health_monitoring_enabled=True,
             name="x",
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            self_healing_enabled=True,
+            self_healing_max_attempts=1,
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(FlowUpdateResponse, flow, path=["response"])
@@ -604,12 +618,14 @@ class TestAsyncFlows:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         flow = await async_client.workflows.flows.list(
-            enabled=True,
+            created_by="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            enabled="true",
+            mine="true",
             order_by="name",
             order_by_direction="asc",
             page=1,
             page_size=1,
-            search="search",
+            search="x",
             status=["healthy"],
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )

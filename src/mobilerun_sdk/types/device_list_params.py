@@ -13,6 +13,15 @@ __all__ = ["DeviceListParams"]
 class DeviceListParams(TypedDict, total=False):
     country: str
 
+    created_by: Annotated[str, PropertyInfo(alias="createdBy")]
+    """Filter to devices created by this user id. Mutually exclusive with mine."""
+
+    mine: bool
+    """
+    When true, only return devices created by the calling user (resolved from
+    X-User-ID, never a client-supplied id).
+    """
+
     name: str
 
     order_by: Annotated[Literal["id", "createdAt", "updatedAt", "assignedAt"], PropertyInfo(alias="orderBy")]
@@ -36,9 +45,22 @@ class DeviceListParams(TypedDict, total=False):
                 "resetting",
                 "terminated",
                 "maintenance",
+                "stopped",
                 "unknown",
             ]
         ]
     ]
 
-    type: Literal["dedicated_physical_device", "dedicated_premium_device", "dedicated_ios_device"]
+    type: Literal[
+        "android_cloud_phone",
+        "dedicated_premium_device",
+        "dedicated_physical_device",
+        "dedicated_ios_device",
+        "dedicated_emulated_device",
+    ]
+    """
+    Deprecated device type aliases are accepted during a compatibility grace period:
+    dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
+    maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
+    and dedicated_emulated_device maps to android_emulator.
+    """

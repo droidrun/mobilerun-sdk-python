@@ -73,9 +73,12 @@ class FlowsResource(SyncAPIResource):
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
+        health_monitoring_enabled: bool | Omit = omit,
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        self_healing_enabled: bool | Omit = omit,
+        self_healing_max_attempts: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -84,7 +87,10 @@ class FlowsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowCreateResponse:
         """
-        Create a flow
+        Create a flow that binds a trigger (`triggerId`) to an ordered list of actions,
+        with at least one action required. Optional settings include target `deviceIds`,
+        a cooldown (`cooldownSeconds`/`cooldownScope`), and webhook notifications on
+        success or failure.
 
         Args:
           extra_headers: Send extra headers
@@ -107,9 +113,12 @@ class FlowsResource(SyncAPIResource):
                     "description": description,
                     "device_ids": device_ids,
                     "enabled": enabled,
+                    "health_monitoring_enabled": health_monitoring_enabled,
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "self_healing_enabled": self_healing_enabled,
+                    "self_healing_max_attempts": self_healing_max_attempts,
                 },
                 flow_create_params.FlowCreateParams,
             ),
@@ -131,7 +140,8 @@ class FlowsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowRetrieveResponse:
         """
-        Get a flow
+        Fetch a single flow by its ID, including its trigger binding, configuration, and
+        current status. Returns 404 if no flow matches.
 
         Args:
           extra_headers: Send extra headers
@@ -161,10 +171,13 @@ class FlowsResource(SyncAPIResource):
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
+        health_monitoring_enabled: bool | Omit = omit,
         name: str | Omit = omit,
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        self_healing_enabled: bool | Omit = omit,
+        self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -174,7 +187,10 @@ class FlowsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowUpdateResponse:
         """
-        Update a flow
+        Partially update a flow's settings — name, trigger binding, enabled state,
+        target devices, cooldown, or notifications; all fields are optional. Actions are
+        managed through the flow-actions endpoints, not here. Returns 404 if the flow
+        does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -196,10 +212,13 @@ class FlowsResource(SyncAPIResource):
                     "description": description,
                     "device_ids": device_ids,
                     "enabled": enabled,
+                    "health_monitoring_enabled": health_monitoring_enabled,
                     "name": name,
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "self_healing_enabled": self_healing_enabled,
+                    "self_healing_max_attempts": self_healing_max_attempts,
                     "trigger_id": trigger_id,
                 },
                 flow_update_params.FlowUpdateParams,
@@ -213,7 +232,9 @@ class FlowsResource(SyncAPIResource):
     def list(
         self,
         *,
-        enabled: Optional[bool] | Omit = omit,
+        created_by: str | Omit = omit,
+        enabled: Literal["true", "false"] | Omit = omit,
+        mine: Literal["true", "false"] | Omit = omit,
         order_by: Literal["name", "createdAt", "updatedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
@@ -228,10 +249,18 @@ class FlowsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowListResponse:
-        """
-        List flows
+        """Return a paginated list of flows.
+
+        Supports filtering by `triggerId`, `enabled`,
+        one or more health `status` values (healthy, failing, blocked), `mine` (flows
+        created by the calling actor), `createdBy` (flows created by a given actor id —
+        mutually exclusive with `mine`), plus free-text `search` and ordering.
 
         Args:
+          enabled: Only include flows with this enabled state.
+
+          mine: Only include flows created by you.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -249,7 +278,9 @@ class FlowsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "created_by": created_by,
                         "enabled": enabled,
+                        "mine": mine,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,
@@ -275,8 +306,9 @@ class FlowsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowDeleteResponse:
-        """
-        Delete a flow
+        """Delete a flow by its ID.
+
+        Returns 404 if no flow matches.
 
         Args:
           extra_headers: Send extra headers
@@ -310,8 +342,11 @@ class FlowsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowCloneResponse:
-        """
-        Clone a flow
+        """Create a copy of an existing flow, including its actions and settings.
+
+        The
+        optional body can override the new flow's `name` and target `deviceIds`. Returns
+        404 if the source flow does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -410,9 +445,12 @@ class AsyncFlowsResource(AsyncAPIResource):
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
+        health_monitoring_enabled: bool | Omit = omit,
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        self_healing_enabled: bool | Omit = omit,
+        self_healing_max_attempts: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -421,7 +459,10 @@ class AsyncFlowsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowCreateResponse:
         """
-        Create a flow
+        Create a flow that binds a trigger (`triggerId`) to an ordered list of actions,
+        with at least one action required. Optional settings include target `deviceIds`,
+        a cooldown (`cooldownSeconds`/`cooldownScope`), and webhook notifications on
+        success or failure.
 
         Args:
           extra_headers: Send extra headers
@@ -444,9 +485,12 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "description": description,
                     "device_ids": device_ids,
                     "enabled": enabled,
+                    "health_monitoring_enabled": health_monitoring_enabled,
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "self_healing_enabled": self_healing_enabled,
+                    "self_healing_max_attempts": self_healing_max_attempts,
                 },
                 flow_create_params.FlowCreateParams,
             ),
@@ -468,7 +512,8 @@ class AsyncFlowsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowRetrieveResponse:
         """
-        Get a flow
+        Fetch a single flow by its ID, including its trigger binding, configuration, and
+        current status. Returns 404 if no flow matches.
 
         Args:
           extra_headers: Send extra headers
@@ -498,10 +543,13 @@ class AsyncFlowsResource(AsyncAPIResource):
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
+        health_monitoring_enabled: bool | Omit = omit,
         name: str | Omit = omit,
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        self_healing_enabled: bool | Omit = omit,
+        self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -511,7 +559,10 @@ class AsyncFlowsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowUpdateResponse:
         """
-        Update a flow
+        Partially update a flow's settings — name, trigger binding, enabled state,
+        target devices, cooldown, or notifications; all fields are optional. Actions are
+        managed through the flow-actions endpoints, not here. Returns 404 if the flow
+        does not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -533,10 +584,13 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "description": description,
                     "device_ids": device_ids,
                     "enabled": enabled,
+                    "health_monitoring_enabled": health_monitoring_enabled,
                     "name": name,
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "self_healing_enabled": self_healing_enabled,
+                    "self_healing_max_attempts": self_healing_max_attempts,
                     "trigger_id": trigger_id,
                 },
                 flow_update_params.FlowUpdateParams,
@@ -550,7 +604,9 @@ class AsyncFlowsResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        enabled: Optional[bool] | Omit = omit,
+        created_by: str | Omit = omit,
+        enabled: Literal["true", "false"] | Omit = omit,
+        mine: Literal["true", "false"] | Omit = omit,
         order_by: Literal["name", "createdAt", "updatedAt"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
@@ -565,10 +621,18 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowListResponse:
-        """
-        List flows
+        """Return a paginated list of flows.
+
+        Supports filtering by `triggerId`, `enabled`,
+        one or more health `status` values (healthy, failing, blocked), `mine` (flows
+        created by the calling actor), `createdBy` (flows created by a given actor id —
+        mutually exclusive with `mine`), plus free-text `search` and ordering.
 
         Args:
+          enabled: Only include flows with this enabled state.
+
+          mine: Only include flows created by you.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -586,7 +650,9 @@ class AsyncFlowsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "created_by": created_by,
                         "enabled": enabled,
+                        "mine": mine,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,
@@ -612,8 +678,9 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowDeleteResponse:
-        """
-        Delete a flow
+        """Delete a flow by its ID.
+
+        Returns 404 if no flow matches.
 
         Args:
           extra_headers: Send extra headers
@@ -647,8 +714,11 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowCloneResponse:
-        """
-        Clone a flow
+        """Create a copy of an existing flow, including its actions and settings.
+
+        The
+        optional body can override the new flow's `name` and target `deviceIds`. Returns
+        404 if the source flow does not exist.
 
         Args:
           extra_headers: Send extra headers

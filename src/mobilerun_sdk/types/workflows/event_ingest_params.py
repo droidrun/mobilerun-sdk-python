@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict
 from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
@@ -13,4 +13,6 @@ __all__ = ["EventIngestParams"]
 class EventIngestParams(TypedDict, total=False):
     event_type: Required[Annotated[str, PropertyInfo(alias="eventType")]]
 
-    payload: Dict[str, Optional[object]]
+    device_id: Annotated[str, PropertyInfo(alias="deviceId")]
+
+    payload: Dict[str, object]

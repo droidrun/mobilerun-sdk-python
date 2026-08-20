@@ -58,7 +58,8 @@ class FilesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileListResponse:
         """
-        List files
+        Lists the files at the directory path given in the path query parameter,
+        returning each entry's metadata along with the path and total count.
 
         Args:
           extra_headers: Send extra headers
@@ -103,7 +104,7 @@ class FilesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete file
+        Deletes the file at the path given in the path query parameter from the device.
 
         Args:
           extra_headers: Send extra headers
@@ -149,7 +150,8 @@ class FilesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> str:
         """
-        Download file
+        Pulls the file at the given path query parameter from the device and returns its
+        raw bytes as an octet-stream.
 
         Args:
           extra_headers: Send extra headers
@@ -195,7 +197,8 @@ class FilesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Upload file
+        Uploads a file to the device via multipart form data, writing it into the
+        directory given by the path query parameter using the uploaded file's name.
 
         Args:
           extra_headers: Send extra headers
@@ -270,7 +273,8 @@ class AsyncFilesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileListResponse:
         """
-        List files
+        Lists the files at the directory path given in the path query parameter,
+        returning each entry's metadata along with the path and total count.
 
         Args:
           extra_headers: Send extra headers
@@ -315,7 +319,7 @@ class AsyncFilesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete file
+        Deletes the file at the path given in the path query parameter from the device.
 
         Args:
           extra_headers: Send extra headers
@@ -361,7 +365,8 @@ class AsyncFilesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> str:
         """
-        Download file
+        Pulls the file at the given path query parameter from the device and returns its
+        raw bytes as an octet-stream.
 
         Args:
           extra_headers: Send extra headers
@@ -407,7 +412,8 @@ class AsyncFilesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Upload file
+        Uploads a file to the device via multipart form data, writing it into the
+        directory given by the path query parameter using the uploaded file's name.
 
         Args:
           extra_headers: Send extra headers

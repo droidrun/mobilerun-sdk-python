@@ -31,11 +31,8 @@ __all__ = ["PackagesResource", "AsyncPackagesResource"]
 
 
 class PackagesResource(SyncAPIResource):
-    """Vault & Secrets"""
-
     @cached_property
     def credentials(self) -> CredentialsResource:
-        """Vault & Secrets"""
         return CredentialsResource(self._client)
 
     @cached_property
@@ -69,7 +66,9 @@ class PackagesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PackageCreateResponse:
         """
-        Initialize a new package/app
+        Creates a new package (identified by `packageName`) under which credentials can
+        be grouped. Returns a conflict if a package with the same name already exists
+        for the user.
 
         Args:
           extra_headers: Send extra headers
@@ -100,8 +99,10 @@ class PackagesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PackageListResponse:
-        """
-        List credentials for a specific package
+        """Returns all credentials stored under the given `packageName`.
+
+        Each credential
+        includes its name, secret path, and the list of fields it holds.
 
         Args:
           extra_headers: Send extra headers
@@ -124,11 +125,8 @@ class PackagesResource(SyncAPIResource):
 
 
 class AsyncPackagesResource(AsyncAPIResource):
-    """Vault & Secrets"""
-
     @cached_property
     def credentials(self) -> AsyncCredentialsResource:
-        """Vault & Secrets"""
         return AsyncCredentialsResource(self._client)
 
     @cached_property
@@ -162,7 +160,9 @@ class AsyncPackagesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PackageCreateResponse:
         """
-        Initialize a new package/app
+        Creates a new package (identified by `packageName`) under which credentials can
+        be grouped. Returns a conflict if a package with the same name already exists
+        for the user.
 
         Args:
           extra_headers: Send extra headers
@@ -193,8 +193,10 @@ class AsyncPackagesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PackageListResponse:
-        """
-        List credentials for a specific package
+        """Returns all credentials stored under the given `packageName`.
+
+        Each credential
+        includes its name, secret path, and the list of fields it holds.
 
         Args:
           extra_headers: Send extra headers
@@ -229,7 +231,6 @@ class PackagesResourceWithRawResponse:
 
     @cached_property
     def credentials(self) -> CredentialsResourceWithRawResponse:
-        """Vault & Secrets"""
         return CredentialsResourceWithRawResponse(self._packages.credentials)
 
 
@@ -246,7 +247,6 @@ class AsyncPackagesResourceWithRawResponse:
 
     @cached_property
     def credentials(self) -> AsyncCredentialsResourceWithRawResponse:
-        """Vault & Secrets"""
         return AsyncCredentialsResourceWithRawResponse(self._packages.credentials)
 
 
@@ -263,7 +263,6 @@ class PackagesResourceWithStreamingResponse:
 
     @cached_property
     def credentials(self) -> CredentialsResourceWithStreamingResponse:
-        """Vault & Secrets"""
         return CredentialsResourceWithStreamingResponse(self._packages.credentials)
 
 
@@ -280,5 +279,4 @@ class AsyncPackagesResourceWithStreamingResponse:
 
     @cached_property
     def credentials(self) -> AsyncCredentialsResourceWithStreamingResponse:
-        """Vault & Secrets"""
         return AsyncCredentialsResourceWithStreamingResponse(self._packages.credentials)

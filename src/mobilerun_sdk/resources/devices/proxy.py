@@ -45,6 +45,7 @@ class ProxyResource(SyncAPIResource):
         self,
         device_id: str,
         *,
+        connect: proxy_connect_params.Connect | Omit = omit,
         host: str | Omit = omit,
         name: str | Omit = omit,
         password: str | Omit = omit,
@@ -61,9 +62,15 @@ class ProxyResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Connect proxy
+        Routes the device's traffic through a SOCKS5 proxy supplied in the request body,
+        replacing any existing connection. A smartIp option can be used to select an IP
+        automatically; the legacy flat host/port/user/password fields remain supported.
 
         Args:
+          connect: Mobilerun Connect proxy — pass exactly one of id (use an existing proxy's
+              credentials) or country (provision or reuse a rotating residential proxy for the
+              device).
+
           name: Proxy name
 
           socks5: SOCKS5 proxy configuration (required for socks5).
@@ -89,6 +96,7 @@ class ProxyResource(SyncAPIResource):
             path_template("/devices/{device_id}/proxy", device_id=device_id),
             body=maybe_transform(
                 {
+                    "connect": connect,
                     "host": host,
                     "name": name,
                     "password": password,
@@ -118,7 +126,8 @@ class ProxyResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Disconnect proxy
+        Disconnects the device's active proxy connection and clears its stored proxy
+        state. Returns successfully if no proxy is connected.
 
         Args:
           extra_headers: Send extra headers
@@ -159,7 +168,8 @@ class ProxyResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyStatusResponse:
         """
-        Get proxy connection state
+        Returns the device's current proxy connection state, including whether a proxy
+        is connected and its protocol and name.
 
         Args:
           extra_headers: Send extra headers
@@ -211,6 +221,7 @@ class AsyncProxyResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
+        connect: proxy_connect_params.Connect | Omit = omit,
         host: str | Omit = omit,
         name: str | Omit = omit,
         password: str | Omit = omit,
@@ -227,9 +238,15 @@ class AsyncProxyResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Connect proxy
+        Routes the device's traffic through a SOCKS5 proxy supplied in the request body,
+        replacing any existing connection. A smartIp option can be used to select an IP
+        automatically; the legacy flat host/port/user/password fields remain supported.
 
         Args:
+          connect: Mobilerun Connect proxy — pass exactly one of id (use an existing proxy's
+              credentials) or country (provision or reuse a rotating residential proxy for the
+              device).
+
           name: Proxy name
 
           socks5: SOCKS5 proxy configuration (required for socks5).
@@ -255,6 +272,7 @@ class AsyncProxyResource(AsyncAPIResource):
             path_template("/devices/{device_id}/proxy", device_id=device_id),
             body=await async_maybe_transform(
                 {
+                    "connect": connect,
                     "host": host,
                     "name": name,
                     "password": password,
@@ -284,7 +302,8 @@ class AsyncProxyResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Disconnect proxy
+        Disconnects the device's active proxy connection and clears its stored proxy
+        state. Returns successfully if no proxy is connected.
 
         Args:
           extra_headers: Send extra headers
@@ -325,7 +344,8 @@ class AsyncProxyResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyStatusResponse:
         """
-        Get proxy connection state
+        Returns the device's current proxy connection state, including whether a proxy
+        is connected and its protocol and name.
 
         Args:
           extra_headers: Send extra headers

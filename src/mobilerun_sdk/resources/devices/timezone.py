@@ -53,8 +53,10 @@ class TimezoneResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TimezoneGetResponse:
-        """
-        Get device timezone
+        """Returns the device's current timezone identifier.
+
+        Devices that do not support
+        timezone control return an unsupported-feature error.
 
         Args:
           extra_headers: Send extra headers
@@ -94,8 +96,10 @@ class TimezoneResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Set device timezone
+        """Sets the device timezone to the identifier in the request body.
+
+        Devices that do
+        not support timezone control return an unsupported-feature error.
 
         Args:
           extra_headers: Send extra headers
@@ -157,8 +161,10 @@ class AsyncTimezoneResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TimezoneGetResponse:
-        """
-        Get device timezone
+        """Returns the device's current timezone identifier.
+
+        Devices that do not support
+        timezone control return an unsupported-feature error.
 
         Args:
           extra_headers: Send extra headers
@@ -198,8 +204,10 @@ class AsyncTimezoneResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Set device timezone
+        """Sets the device timezone to the identifier in the request body.
+
+        Devices that do
+        not support timezone control return an unsupported-feature error.
 
         Args:
           extra_headers: Send extra headers
