@@ -11,6 +11,7 @@ from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
 from mobilerun_sdk.types.devices import (
     AppListResponse,
+    AppListInstallsResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -136,6 +137,74 @@ class TestApps:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_grant_permission(self, client: Mobilerun) -> None:
+        app = client.devices.apps.grant_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_grant_permission_with_all_params(self, client: Mobilerun) -> None:
+        app = client.devices.apps.grant_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+            x_device_display_id=0,
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_grant_permission(self, client: Mobilerun) -> None:
+        response = client.devices.apps.with_raw_response.grant_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        app = response.parse()
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_grant_permission(self, client: Mobilerun) -> None:
+        with client.devices.apps.with_streaming_response.grant_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            app = response.parse()
+            assert app is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_grant_permission(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            client.devices.apps.with_raw_response.grant_permission(
+                permission="POST_NOTIFICATIONS",
+                device_id="",
+                package_name="packageName",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
+            client.devices.apps.with_raw_response.grant_permission(
+                permission="POST_NOTIFICATIONS",
+                device_id="deviceId",
+                package_name="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_method_install_overload_1(self, client: Mobilerun) -> None:
         app = client.devices.apps.install(
             device_id="deviceId",
@@ -248,6 +317,125 @@ class TestApps:
             client.devices.apps.with_raw_response.install(
                 device_id="",
                 package_name="x",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_installs(self, client: Mobilerun) -> None:
+        app = client.devices.apps.list_installs(
+            device_id="deviceId",
+        )
+        assert_matches_type(AppListInstallsResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_installs_with_all_params(self, client: Mobilerun) -> None:
+        app = client.devices.apps.list_installs(
+            device_id="deviceId",
+            x_device_display_id=0,
+        )
+        assert_matches_type(AppListInstallsResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_list_installs(self, client: Mobilerun) -> None:
+        response = client.devices.apps.with_raw_response.list_installs(
+            device_id="deviceId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        app = response.parse()
+        assert_matches_type(AppListInstallsResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_list_installs(self, client: Mobilerun) -> None:
+        with client.devices.apps.with_streaming_response.list_installs(
+            device_id="deviceId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            app = response.parse()
+            assert_matches_type(AppListInstallsResponse, app, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_list_installs(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            client.devices.apps.with_raw_response.list_installs(
+                device_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_revoke_permission(self, client: Mobilerun) -> None:
+        app = client.devices.apps.revoke_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_revoke_permission_with_all_params(self, client: Mobilerun) -> None:
+        app = client.devices.apps.revoke_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+            x_device_display_id=0,
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_revoke_permission(self, client: Mobilerun) -> None:
+        response = client.devices.apps.with_raw_response.revoke_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        app = response.parse()
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_revoke_permission(self, client: Mobilerun) -> None:
+        with client.devices.apps.with_streaming_response.revoke_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            app = response.parse()
+            assert app is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_revoke_permission(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            client.devices.apps.with_raw_response.revoke_permission(
+                permission="POST_NOTIFICATIONS",
+                device_id="",
+                package_name="packageName",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
+            client.devices.apps.with_raw_response.revoke_permission(
+                permission="POST_NOTIFICATIONS",
+                device_id="deviceId",
+                package_name="",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -499,6 +687,74 @@ class TestAsyncApps:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    async def test_method_grant_permission(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.devices.apps.grant_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_grant_permission_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.devices.apps.grant_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+            x_device_display_id=0,
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_grant_permission(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.apps.with_raw_response.grant_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        app = await response.parse()
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_grant_permission(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.apps.with_streaming_response.grant_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            app = await response.parse()
+            assert app is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_grant_permission(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            await async_client.devices.apps.with_raw_response.grant_permission(
+                permission="POST_NOTIFICATIONS",
+                device_id="",
+                package_name="packageName",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
+            await async_client.devices.apps.with_raw_response.grant_permission(
+                permission="POST_NOTIFICATIONS",
+                device_id="deviceId",
+                package_name="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     async def test_method_install_overload_1(self, async_client: AsyncMobilerun) -> None:
         app = await async_client.devices.apps.install(
             device_id="deviceId",
@@ -611,6 +867,125 @@ class TestAsyncApps:
             await async_client.devices.apps.with_raw_response.install(
                 device_id="",
                 package_name="x",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_installs(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.devices.apps.list_installs(
+            device_id="deviceId",
+        )
+        assert_matches_type(AppListInstallsResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_installs_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.devices.apps.list_installs(
+            device_id="deviceId",
+            x_device_display_id=0,
+        )
+        assert_matches_type(AppListInstallsResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_list_installs(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.apps.with_raw_response.list_installs(
+            device_id="deviceId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        app = await response.parse()
+        assert_matches_type(AppListInstallsResponse, app, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_list_installs(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.apps.with_streaming_response.list_installs(
+            device_id="deviceId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            app = await response.parse()
+            assert_matches_type(AppListInstallsResponse, app, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_list_installs(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            await async_client.devices.apps.with_raw_response.list_installs(
+                device_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_revoke_permission(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.devices.apps.revoke_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_revoke_permission_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        app = await async_client.devices.apps.revoke_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+            x_device_display_id=0,
+        )
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_revoke_permission(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.apps.with_raw_response.revoke_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        app = await response.parse()
+        assert app is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_revoke_permission(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.apps.with_streaming_response.revoke_permission(
+            permission="POST_NOTIFICATIONS",
+            device_id="deviceId",
+            package_name="packageName",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            app = await response.parse()
+            assert app is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_revoke_permission(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            await async_client.devices.apps.with_raw_response.revoke_permission(
+                permission="POST_NOTIFICATIONS",
+                device_id="",
+                package_name="packageName",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
+            await async_client.devices.apps.with_raw_response.revoke_permission(
+                permission="POST_NOTIFICATIONS",
+                device_id="deviceId",
+                package_name="",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")

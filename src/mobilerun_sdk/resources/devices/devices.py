@@ -16,14 +16,6 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
-from .esim import (
-    EsimResource,
-    AsyncEsimResource,
-    EsimResourceWithRawResponse,
-    AsyncEsimResourceWithRawResponse,
-    EsimResourceWithStreamingResponse,
-    AsyncEsimResourceWithStreamingResponse,
-)
 from .files import (
     FilesResource,
     AsyncFilesResource,
@@ -31,6 +23,14 @@ from .files import (
     AsyncFilesResourceWithRawResponse,
     FilesResourceWithStreamingResponse,
     AsyncFilesResourceWithStreamingResponse,
+)
+from .kiosk import (
+    KioskResource,
+    AsyncKioskResource,
+    KioskResourceWithRawResponse,
+    AsyncKioskResourceWithRawResponse,
+    KioskResourceWithStreamingResponse,
+    AsyncKioskResourceWithStreamingResponse,
 )
 from .proxy import (
     ProxyResource,
@@ -64,6 +64,14 @@ from .actions import (
     AsyncActionsResourceWithRawResponse,
     ActionsResourceWithStreamingResponse,
     AsyncActionsResourceWithStreamingResponse,
+)
+from .browser import (
+    BrowserResource,
+    AsyncBrowserResource,
+    BrowserResourceWithRawResponse,
+    AsyncBrowserResourceWithRawResponse,
+    BrowserResourceWithStreamingResponse,
+    AsyncBrowserResourceWithStreamingResponse,
 )
 from .profile import (
     ProfileResource,
@@ -116,6 +124,30 @@ from .timezone import (
     AsyncTimezoneResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
+from .deep_link import (
+    DeepLinkResource,
+    AsyncDeepLinkResource,
+    DeepLinkResourceWithRawResponse,
+    AsyncDeepLinkResourceWithRawResponse,
+    DeepLinkResourceWithStreamingResponse,
+    AsyncDeepLinkResourceWithStreamingResponse,
+)
+from .esim.esim import (
+    EsimResource,
+    AsyncEsimResource,
+    EsimResourceWithRawResponse,
+    AsyncEsimResourceWithRawResponse,
+    EsimResourceWithStreamingResponse,
+    AsyncEsimResourceWithStreamingResponse,
+)
+from .recordings import (
+    RecordingsResource,
+    AsyncRecordingsResource,
+    RecordingsResourceWithRawResponse,
+    AsyncRecordingsResourceWithRawResponse,
+    RecordingsResourceWithStreamingResponse,
+    AsyncRecordingsResourceWithStreamingResponse,
+)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
     to_raw_response_wrapper,
@@ -124,13 +156,25 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.device import Device
+from .media_sessions import (
+    MediaSessionsResource,
+    AsyncMediaSessionsResource,
+    MediaSessionsResourceWithRawResponse,
+    AsyncMediaSessionsResourceWithRawResponse,
+    MediaSessionsResourceWithStreamingResponse,
+    AsyncMediaSessionsResourceWithStreamingResponse,
+)
 from ...types.device_list_response import DeviceListResponse
 from ...types.device_count_response import DeviceCountResponse
+from ...types.device_create_response import DeviceCreateResponse
 from ...types.shared_params.location import Location
+from ...types.device_retrieve_response import DeviceRetrieveResponse
+from ...types.device_set_name_response import DeviceSetNameResponse
+from ...types.device_wait_ready_response import DeviceWaitReadyResponse
 from ...types.device_fingerprint_response import DeviceFingerprintResponse
 from ...types.shared_params.device_carrier import DeviceCarrier
 from ...types.shared_params.device_identifiers import DeviceIdentifiers
+from ...types.device_retrieve_capabilities_response import DeviceRetrieveCapabilitiesResponse
 
 __all__ = ["DevicesResource", "AsyncDevicesResource"]
 
@@ -189,6 +233,26 @@ class DevicesResource(SyncAPIResource):
         return LanguageResource(self._client)
 
     @cached_property
+    def deep_link(self) -> DeepLinkResource:
+        return DeepLinkResource(self._client)
+
+    @cached_property
+    def browser(self) -> BrowserResource:
+        return BrowserResource(self._client)
+
+    @cached_property
+    def kiosk(self) -> KioskResource:
+        return KioskResource(self._client)
+
+    @cached_property
+    def media_sessions(self) -> MediaSessionsResource:
+        return MediaSessionsResource(self._client)
+
+    @cached_property
+    def recordings(self) -> RecordingsResource:
+        return RecordingsResource(self._client)
+
+    @cached_property
     def with_raw_response(self) -> DevicesResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
@@ -238,7 +302,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Device:
+    ) -> DeviceCreateResponse:
         """
         Requests a new device for the authenticated user from the device spec in the
         request body. Optional query parameters select the canonical device type, target
@@ -304,7 +368,7 @@ class DevicesResource(SyncAPIResource):
                     device_create_params.DeviceCreateParams,
                 ),
             ),
-            cast_to=Device,
+            cast_to=DeviceCreateResponse,
         )
 
     def retrieve(
@@ -317,7 +381,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Device:
+    ) -> DeviceRetrieveResponse:
         """
         Returns the current state and metadata for a single device, including its
         lifecycle state, type, stream URL, billing strategy, and timestamps. A stream
@@ -339,7 +403,7 @@ class DevicesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Device,
+            cast_to=DeviceRetrieveResponse,
         )
 
     def list(
@@ -569,6 +633,81 @@ class DevicesResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
+    def resume(
+        self,
+        device_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Wakes a parked device: capacity is preflighted (the device's data may be
+        replicated to another node if its home is full), the device starts running
+        again, and per-minute billing resumes. On a device that is not parked this is a
+        no-op ready transition.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            path_template("/devices/{device_id}/resume", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def retrieve_capabilities(
+        self,
+        device_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> DeviceRetrieveCapabilitiesResponse:
+        """Returns the set of capabilities supported by this device.
+
+        For a legacy device
+        this reflects the live instance's actual tools rather than its static type; for
+        a core-managed device it is resolved from provider/pool configuration without
+        guaranteeing a live instance. Used to determine which tools and features are
+        available for the device.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        return self._get(
+            path_template("/devices/{device_id}/capabilities", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeviceRetrieveCapabilitiesResponse,
+        )
+
     def set_name(
         self,
         device_id: str,
@@ -580,7 +719,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Device:
+    ) -> DeviceSetNameResponse:
         """
         Sets the display name for a device from the name in the request body and returns
         the updated device.
@@ -602,7 +741,43 @@ class DevicesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Device,
+            cast_to=DeviceSetNameResponse,
+        )
+
+    def stop(
+        self,
+        device_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Parks the device: its data, apps and identity are kept, but nothing runs and
+        nothing is billed until it is resumed. Only devices whose capabilities report
+        stop=true support this; others return 404.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            path_template("/devices/{device_id}/stop", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
         )
 
     def terminate(
@@ -661,7 +836,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Device:
+    ) -> DeviceWaitReadyResponse:
         """
         Blocks until the device reaches the ready state, then returns the same payload
         as Get device info. The call returns early with an error if the wait is
@@ -683,7 +858,7 @@ class DevicesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Device,
+            cast_to=DeviceWaitReadyResponse,
         )
 
 
@@ -741,6 +916,26 @@ class AsyncDevicesResource(AsyncAPIResource):
         return AsyncLanguageResource(self._client)
 
     @cached_property
+    def deep_link(self) -> AsyncDeepLinkResource:
+        return AsyncDeepLinkResource(self._client)
+
+    @cached_property
+    def browser(self) -> AsyncBrowserResource:
+        return AsyncBrowserResource(self._client)
+
+    @cached_property
+    def kiosk(self) -> AsyncKioskResource:
+        return AsyncKioskResource(self._client)
+
+    @cached_property
+    def media_sessions(self) -> AsyncMediaSessionsResource:
+        return AsyncMediaSessionsResource(self._client)
+
+    @cached_property
+    def recordings(self) -> AsyncRecordingsResource:
+        return AsyncRecordingsResource(self._client)
+
+    @cached_property
     def with_raw_response(self) -> AsyncDevicesResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
@@ -790,7 +985,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Device:
+    ) -> DeviceCreateResponse:
         """
         Requests a new device for the authenticated user from the device spec in the
         request body. Optional query parameters select the canonical device type, target
@@ -856,7 +1051,7 @@ class AsyncDevicesResource(AsyncAPIResource):
                     device_create_params.DeviceCreateParams,
                 ),
             ),
-            cast_to=Device,
+            cast_to=DeviceCreateResponse,
         )
 
     async def retrieve(
@@ -869,7 +1064,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Device:
+    ) -> DeviceRetrieveResponse:
         """
         Returns the current state and metadata for a single device, including its
         lifecycle state, type, stream URL, billing strategy, and timestamps. A stream
@@ -891,7 +1086,7 @@ class AsyncDevicesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Device,
+            cast_to=DeviceRetrieveResponse,
         )
 
     async def list(
@@ -1121,6 +1316,81 @@ class AsyncDevicesResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def resume(
+        self,
+        device_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Wakes a parked device: capacity is preflighted (the device's data may be
+        replicated to another node if its home is full), the device starts running
+        again, and per-minute billing resumes. On a device that is not parked this is a
+        no-op ready transition.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            path_template("/devices/{device_id}/resume", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    async def retrieve_capabilities(
+        self,
+        device_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> DeviceRetrieveCapabilitiesResponse:
+        """Returns the set of capabilities supported by this device.
+
+        For a legacy device
+        this reflects the live instance's actual tools rather than its static type; for
+        a core-managed device it is resolved from provider/pool configuration without
+        guaranteeing a live instance. Used to determine which tools and features are
+        available for the device.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        return await self._get(
+            path_template("/devices/{device_id}/capabilities", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeviceRetrieveCapabilitiesResponse,
+        )
+
     async def set_name(
         self,
         device_id: str,
@@ -1132,7 +1402,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Device:
+    ) -> DeviceSetNameResponse:
         """
         Sets the display name for a device from the name in the request body and returns
         the updated device.
@@ -1154,7 +1424,43 @@ class AsyncDevicesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Device,
+            cast_to=DeviceSetNameResponse,
+        )
+
+    async def stop(
+        self,
+        device_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Parks the device: its data, apps and identity are kept, but nothing runs and
+        nothing is billed until it is resumed. Only devices whose capabilities report
+        stop=true support this; others return 404.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            path_template("/devices/{device_id}/stop", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
         )
 
     async def terminate(
@@ -1213,7 +1519,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Device:
+    ) -> DeviceWaitReadyResponse:
         """
         Blocks until the device reaches the ready state, then returns the same payload
         as Get device info. The call returns early with an error if the wait is
@@ -1235,7 +1541,7 @@ class AsyncDevicesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Device,
+            cast_to=DeviceWaitReadyResponse,
         )
 
 
@@ -1264,8 +1570,17 @@ class DevicesResourceWithRawResponse:
         self.reset = to_raw_response_wrapper(
             devices.reset,
         )
+        self.resume = to_raw_response_wrapper(
+            devices.resume,
+        )
+        self.retrieve_capabilities = to_raw_response_wrapper(
+            devices.retrieve_capabilities,
+        )
         self.set_name = to_raw_response_wrapper(
             devices.set_name,
+        )
+        self.stop = to_raw_response_wrapper(
+            devices.stop,
         )
         self.terminate = to_raw_response_wrapper(
             devices.terminate,
@@ -1326,6 +1641,26 @@ class DevicesResourceWithRawResponse:
     def language(self) -> LanguageResourceWithRawResponse:
         return LanguageResourceWithRawResponse(self._devices.language)
 
+    @cached_property
+    def deep_link(self) -> DeepLinkResourceWithRawResponse:
+        return DeepLinkResourceWithRawResponse(self._devices.deep_link)
+
+    @cached_property
+    def browser(self) -> BrowserResourceWithRawResponse:
+        return BrowserResourceWithRawResponse(self._devices.browser)
+
+    @cached_property
+    def kiosk(self) -> KioskResourceWithRawResponse:
+        return KioskResourceWithRawResponse(self._devices.kiosk)
+
+    @cached_property
+    def media_sessions(self) -> MediaSessionsResourceWithRawResponse:
+        return MediaSessionsResourceWithRawResponse(self._devices.media_sessions)
+
+    @cached_property
+    def recordings(self) -> RecordingsResourceWithRawResponse:
+        return RecordingsResourceWithRawResponse(self._devices.recordings)
+
 
 class AsyncDevicesResourceWithRawResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -1352,8 +1687,17 @@ class AsyncDevicesResourceWithRawResponse:
         self.reset = async_to_raw_response_wrapper(
             devices.reset,
         )
+        self.resume = async_to_raw_response_wrapper(
+            devices.resume,
+        )
+        self.retrieve_capabilities = async_to_raw_response_wrapper(
+            devices.retrieve_capabilities,
+        )
         self.set_name = async_to_raw_response_wrapper(
             devices.set_name,
+        )
+        self.stop = async_to_raw_response_wrapper(
+            devices.stop,
         )
         self.terminate = async_to_raw_response_wrapper(
             devices.terminate,
@@ -1414,6 +1758,26 @@ class AsyncDevicesResourceWithRawResponse:
     def language(self) -> AsyncLanguageResourceWithRawResponse:
         return AsyncLanguageResourceWithRawResponse(self._devices.language)
 
+    @cached_property
+    def deep_link(self) -> AsyncDeepLinkResourceWithRawResponse:
+        return AsyncDeepLinkResourceWithRawResponse(self._devices.deep_link)
+
+    @cached_property
+    def browser(self) -> AsyncBrowserResourceWithRawResponse:
+        return AsyncBrowserResourceWithRawResponse(self._devices.browser)
+
+    @cached_property
+    def kiosk(self) -> AsyncKioskResourceWithRawResponse:
+        return AsyncKioskResourceWithRawResponse(self._devices.kiosk)
+
+    @cached_property
+    def media_sessions(self) -> AsyncMediaSessionsResourceWithRawResponse:
+        return AsyncMediaSessionsResourceWithRawResponse(self._devices.media_sessions)
+
+    @cached_property
+    def recordings(self) -> AsyncRecordingsResourceWithRawResponse:
+        return AsyncRecordingsResourceWithRawResponse(self._devices.recordings)
+
 
 class DevicesResourceWithStreamingResponse:
     def __init__(self, devices: DevicesResource) -> None:
@@ -1440,8 +1804,17 @@ class DevicesResourceWithStreamingResponse:
         self.reset = to_streamed_response_wrapper(
             devices.reset,
         )
+        self.resume = to_streamed_response_wrapper(
+            devices.resume,
+        )
+        self.retrieve_capabilities = to_streamed_response_wrapper(
+            devices.retrieve_capabilities,
+        )
         self.set_name = to_streamed_response_wrapper(
             devices.set_name,
+        )
+        self.stop = to_streamed_response_wrapper(
+            devices.stop,
         )
         self.terminate = to_streamed_response_wrapper(
             devices.terminate,
@@ -1502,6 +1875,26 @@ class DevicesResourceWithStreamingResponse:
     def language(self) -> LanguageResourceWithStreamingResponse:
         return LanguageResourceWithStreamingResponse(self._devices.language)
 
+    @cached_property
+    def deep_link(self) -> DeepLinkResourceWithStreamingResponse:
+        return DeepLinkResourceWithStreamingResponse(self._devices.deep_link)
+
+    @cached_property
+    def browser(self) -> BrowserResourceWithStreamingResponse:
+        return BrowserResourceWithStreamingResponse(self._devices.browser)
+
+    @cached_property
+    def kiosk(self) -> KioskResourceWithStreamingResponse:
+        return KioskResourceWithStreamingResponse(self._devices.kiosk)
+
+    @cached_property
+    def media_sessions(self) -> MediaSessionsResourceWithStreamingResponse:
+        return MediaSessionsResourceWithStreamingResponse(self._devices.media_sessions)
+
+    @cached_property
+    def recordings(self) -> RecordingsResourceWithStreamingResponse:
+        return RecordingsResourceWithStreamingResponse(self._devices.recordings)
+
 
 class AsyncDevicesResourceWithStreamingResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -1528,8 +1921,17 @@ class AsyncDevicesResourceWithStreamingResponse:
         self.reset = async_to_streamed_response_wrapper(
             devices.reset,
         )
+        self.resume = async_to_streamed_response_wrapper(
+            devices.resume,
+        )
+        self.retrieve_capabilities = async_to_streamed_response_wrapper(
+            devices.retrieve_capabilities,
+        )
         self.set_name = async_to_streamed_response_wrapper(
             devices.set_name,
+        )
+        self.stop = async_to_streamed_response_wrapper(
+            devices.stop,
         )
         self.terminate = async_to_streamed_response_wrapper(
             devices.terminate,
@@ -1589,3 +1991,23 @@ class AsyncDevicesResourceWithStreamingResponse:
     @cached_property
     def language(self) -> AsyncLanguageResourceWithStreamingResponse:
         return AsyncLanguageResourceWithStreamingResponse(self._devices.language)
+
+    @cached_property
+    def deep_link(self) -> AsyncDeepLinkResourceWithStreamingResponse:
+        return AsyncDeepLinkResourceWithStreamingResponse(self._devices.deep_link)
+
+    @cached_property
+    def browser(self) -> AsyncBrowserResourceWithStreamingResponse:
+        return AsyncBrowserResourceWithStreamingResponse(self._devices.browser)
+
+    @cached_property
+    def kiosk(self) -> AsyncKioskResourceWithStreamingResponse:
+        return AsyncKioskResourceWithStreamingResponse(self._devices.kiosk)
+
+    @cached_property
+    def media_sessions(self) -> AsyncMediaSessionsResourceWithStreamingResponse:
+        return AsyncMediaSessionsResourceWithStreamingResponse(self._devices.media_sessions)
+
+    @cached_property
+    def recordings(self) -> AsyncRecordingsResourceWithStreamingResponse:
+        return AsyncRecordingsResourceWithStreamingResponse(self._devices.recordings)

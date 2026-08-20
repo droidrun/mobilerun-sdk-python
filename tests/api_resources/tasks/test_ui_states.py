@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
-from mobilerun_sdk.types.tasks import MediaResponse, UiStateListResponse
+from mobilerun_sdk.types.tasks import UiStateListResponse, UiStateRetrieveResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -24,7 +24,7 @@ class TestUiStates:
             index=0,
             task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(MediaResponse, ui_state, path=["response"])
+        assert_matches_type(UiStateRetrieveResponse, ui_state, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -37,7 +37,7 @@ class TestUiStates:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         ui_state = response.parse()
-        assert_matches_type(MediaResponse, ui_state, path=["response"])
+        assert_matches_type(UiStateRetrieveResponse, ui_state, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -50,7 +50,7 @@ class TestUiStates:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             ui_state = response.parse()
-            assert_matches_type(MediaResponse, ui_state, path=["response"])
+            assert_matches_type(UiStateRetrieveResponse, ui_state, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -118,7 +118,7 @@ class TestAsyncUiStates:
             index=0,
             task_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(MediaResponse, ui_state, path=["response"])
+        assert_matches_type(UiStateRetrieveResponse, ui_state, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -131,7 +131,7 @@ class TestAsyncUiStates:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         ui_state = await response.parse()
-        assert_matches_type(MediaResponse, ui_state, path=["response"])
+        assert_matches_type(UiStateRetrieveResponse, ui_state, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -144,7 +144,7 @@ class TestAsyncUiStates:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             ui_state = await response.parse()
-            assert_matches_type(MediaResponse, ui_state, path=["response"])
+            assert_matches_type(UiStateRetrieveResponse, ui_state, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

@@ -9,7 +9,11 @@ import pytest
 
 from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
-from mobilerun_sdk.types.credentials import PackageListResponse, PackageCreateResponse
+from mobilerun_sdk.types.credentials import (
+    PackageListResponse,
+    PackageCreateResponse,
+    PackageListAllResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -93,6 +97,34 @@ class TestPackages:
                 "",
             )
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_all(self, client: Mobilerun) -> None:
+        package = client.credentials.packages.list_all()
+        assert_matches_type(PackageListAllResponse, package, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_list_all(self, client: Mobilerun) -> None:
+        response = client.credentials.packages.with_raw_response.list_all()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        package = response.parse()
+        assert_matches_type(PackageListAllResponse, package, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_list_all(self, client: Mobilerun) -> None:
+        with client.credentials.packages.with_streaming_response.list_all() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            package = response.parse()
+            assert_matches_type(PackageListAllResponse, package, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
 
 class TestAsyncPackages:
     parametrize = pytest.mark.parametrize(
@@ -174,3 +206,31 @@ class TestAsyncPackages:
             await async_client.credentials.packages.with_raw_response.list(
                 "",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_all(self, async_client: AsyncMobilerun) -> None:
+        package = await async_client.credentials.packages.list_all()
+        assert_matches_type(PackageListAllResponse, package, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_list_all(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.credentials.packages.with_raw_response.list_all()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        package = await response.parse()
+        assert_matches_type(PackageListAllResponse, package, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_list_all(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.credentials.packages.with_streaming_response.list_all() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            package = await response.parse()
+            assert_matches_type(PackageListAllResponse, package, path=["response"])
+
+        assert cast(Any, response.is_closed) is True

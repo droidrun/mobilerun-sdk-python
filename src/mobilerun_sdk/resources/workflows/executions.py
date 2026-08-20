@@ -20,6 +20,7 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.workflows import execution_list_params, execution_get_metrics_params
 from ...types.workflows.execution_list_response import ExecutionListResponse
+from ...types.workflows.execution_abort_response import ExecutionAbortResponse
 from ...types.workflows.execution_retrieve_response import ExecutionRetrieveResponse
 from ...types.workflows.execution_get_metrics_response import ExecutionGetMetricsResponse
 
@@ -139,6 +140,40 @@ class ExecutionsResource(SyncAPIResource):
                 ),
             ),
             cast_to=ExecutionListResponse,
+        )
+
+    def abort(
+        self,
+        execution_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ExecutionAbortResponse:
+        """
+        Signals the worker to stop the execution between steps and marks it cancelled.
+        Idempotent-ish: already-terminal executions return 409.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not execution_id:
+            raise ValueError(f"Expected a non-empty value for `execution_id` but received {execution_id!r}")
+        return self._post(
+            path_template("/executions/{execution_id}/abort", execution_id=execution_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ExecutionAbortResponse,
         )
 
     def get_metrics(
@@ -305,6 +340,40 @@ class AsyncExecutionsResource(AsyncAPIResource):
             cast_to=ExecutionListResponse,
         )
 
+    async def abort(
+        self,
+        execution_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ExecutionAbortResponse:
+        """
+        Signals the worker to stop the execution between steps and marks it cancelled.
+        Idempotent-ish: already-terminal executions return 409.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not execution_id:
+            raise ValueError(f"Expected a non-empty value for `execution_id` but received {execution_id!r}")
+        return await self._post(
+            path_template("/executions/{execution_id}/abort", execution_id=execution_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ExecutionAbortResponse,
+        )
+
     async def get_metrics(
         self,
         *,
@@ -364,6 +433,9 @@ class ExecutionsResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             executions.list,
         )
+        self.abort = to_raw_response_wrapper(
+            executions.abort,
+        )
         self.get_metrics = to_raw_response_wrapper(
             executions.get_metrics,
         )
@@ -378,6 +450,9 @@ class AsyncExecutionsResourceWithRawResponse:
         )
         self.list = async_to_raw_response_wrapper(
             executions.list,
+        )
+        self.abort = async_to_raw_response_wrapper(
+            executions.abort,
         )
         self.get_metrics = async_to_raw_response_wrapper(
             executions.get_metrics,
@@ -394,6 +469,9 @@ class ExecutionsResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             executions.list,
         )
+        self.abort = to_streamed_response_wrapper(
+            executions.abort,
+        )
         self.get_metrics = to_streamed_response_wrapper(
             executions.get_metrics,
         )
@@ -408,6 +486,9 @@ class AsyncExecutionsResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             executions.list,
+        )
+        self.abort = async_to_streamed_response_wrapper(
+            executions.abort,
         )
         self.get_metrics = async_to_streamed_response_wrapper(
             executions.get_metrics,

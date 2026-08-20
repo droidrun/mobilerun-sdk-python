@@ -24,6 +24,7 @@ from ..types.app_delete_response import AppDeleteResponse
 from ..types.app_retrieve_response import AppRetrieveResponse
 from ..types.app_mark_failed_response import AppMarkFailedResponse
 from ..types.app_list_versions_response import AppListVersionsResponse
+from ..types.app_storage_usage_response import AppStorageUsageResponse
 from ..types.app_confirm_upload_response import AppConfirmUploadResponse
 from ..types.app_create_signed_upload_url_response import AppCreateSignedUploadURLResponse
 
@@ -330,6 +331,28 @@ class AppsResource(SyncAPIResource):
             cast_to=AppMarkFailedResponse,
         )
 
+    def storage_usage(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AppStorageUsageResponse:
+        """
+        Returns the user’s total storage quota, bytes used, and remaining bytes — the
+        reliable maximum size for the next upload.
+        """
+        return self._get(
+            "/apps/storage-usage",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AppStorageUsageResponse,
+        )
+
 
 class AsyncAppsResource(AsyncAPIResource):
     @cached_property
@@ -631,6 +654,28 @@ class AsyncAppsResource(AsyncAPIResource):
             cast_to=AppMarkFailedResponse,
         )
 
+    async def storage_usage(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AppStorageUsageResponse:
+        """
+        Returns the user’s total storage quota, bytes used, and remaining bytes — the
+        reliable maximum size for the next upload.
+        """
+        return await self._get(
+            "/apps/storage-usage",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AppStorageUsageResponse,
+        )
+
 
 class AppsResourceWithRawResponse:
     def __init__(self, apps: AppsResource) -> None:
@@ -656,6 +701,9 @@ class AppsResourceWithRawResponse:
         )
         self.mark_failed = to_raw_response_wrapper(
             apps.mark_failed,
+        )
+        self.storage_usage = to_raw_response_wrapper(
+            apps.storage_usage,
         )
 
 
@@ -684,6 +732,9 @@ class AsyncAppsResourceWithRawResponse:
         self.mark_failed = async_to_raw_response_wrapper(
             apps.mark_failed,
         )
+        self.storage_usage = async_to_raw_response_wrapper(
+            apps.storage_usage,
+        )
 
 
 class AppsResourceWithStreamingResponse:
@@ -711,6 +762,9 @@ class AppsResourceWithStreamingResponse:
         self.mark_failed = to_streamed_response_wrapper(
             apps.mark_failed,
         )
+        self.storage_usage = to_streamed_response_wrapper(
+            apps.storage_usage,
+        )
 
 
 class AsyncAppsResourceWithStreamingResponse:
@@ -737,4 +791,7 @@ class AsyncAppsResourceWithStreamingResponse:
         )
         self.mark_failed = async_to_streamed_response_wrapper(
             apps.mark_failed,
+        )
+        self.storage_usage = async_to_streamed_response_wrapper(
+            apps.storage_usage,
         )

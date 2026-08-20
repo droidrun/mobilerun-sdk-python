@@ -26,6 +26,7 @@ from .credentials.credentials import (
 )
 from ....types.credentials.package_list_response import PackageListResponse
 from ....types.credentials.package_create_response import PackageCreateResponse
+from ....types.credentials.package_list_all_response import PackageListAllResponse
 
 __all__ = ["PackagesResource", "AsyncPackagesResource"]
 
@@ -123,6 +124,29 @@ class PackagesResource(SyncAPIResource):
             cast_to=PackageListResponse,
         )
 
+    def list_all(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PackageListAllResponse:
+        """
+        Returns the names of all packages (apps) the authenticated owner has credentials
+        grouped under. Use this to discover which `packageName` values are valid for the
+        per-package credential routes.
+        """
+        return self._get(
+            "/credentials/packages",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=PackageListAllResponse,
+        )
+
 
 class AsyncPackagesResource(AsyncAPIResource):
     @cached_property
@@ -217,6 +241,29 @@ class AsyncPackagesResource(AsyncAPIResource):
             cast_to=PackageListResponse,
         )
 
+    async def list_all(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PackageListAllResponse:
+        """
+        Returns the names of all packages (apps) the authenticated owner has credentials
+        grouped under. Use this to discover which `packageName` values are valid for the
+        per-package credential routes.
+        """
+        return await self._get(
+            "/credentials/packages",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=PackageListAllResponse,
+        )
+
 
 class PackagesResourceWithRawResponse:
     def __init__(self, packages: PackagesResource) -> None:
@@ -227,6 +274,9 @@ class PackagesResourceWithRawResponse:
         )
         self.list = to_raw_response_wrapper(
             packages.list,
+        )
+        self.list_all = to_raw_response_wrapper(
+            packages.list_all,
         )
 
     @cached_property
@@ -244,6 +294,9 @@ class AsyncPackagesResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             packages.list,
         )
+        self.list_all = async_to_raw_response_wrapper(
+            packages.list_all,
+        )
 
     @cached_property
     def credentials(self) -> AsyncCredentialsResourceWithRawResponse:
@@ -260,6 +313,9 @@ class PackagesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             packages.list,
         )
+        self.list_all = to_streamed_response_wrapper(
+            packages.list_all,
+        )
 
     @cached_property
     def credentials(self) -> CredentialsResourceWithStreamingResponse:
@@ -275,6 +331,9 @@ class AsyncPackagesResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             packages.list,
+        )
+        self.list_all = async_to_streamed_response_wrapper(
+            packages.list_all,
         )
 
     @cached_property

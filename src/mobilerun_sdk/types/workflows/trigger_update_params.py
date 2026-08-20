@@ -13,9 +13,10 @@ __all__ = ["TriggerUpdateParams", "Conditions", "ScheduleRule", "ScheduleRuleJit
 class TriggerUpdateParams(TypedDict, total=False):
     activation: Literal["event", "schedule", "custom"]
 
-    conditions: Conditions
+    conditions: Optional[Conditions]
 
-    custom_payload_schema: Annotated[Dict[str, object], PropertyInfo(alias="customPayloadSchema")]
+    custom_payload_schema: Annotated[Optional[Dict[str, object]], PropertyInfo(alias="customPayloadSchema")]
+    """Optional JSON Schema for validating payloads sent to this custom trigger"""
 
     description: str
 
@@ -23,7 +24,7 @@ class TriggerUpdateParams(TypedDict, total=False):
 
     name: str
 
-    schedule_rule: Annotated[ScheduleRule, PropertyInfo(alias="scheduleRule")]
+    schedule_rule: Annotated[Optional[ScheduleRule], PropertyInfo(alias="scheduleRule")]
 
     timezone: Optional[str]
 
