@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable, Optional
+from typing import Dict, List, Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -26,14 +26,22 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.workflows import flow_list_params, flow_clone_params, flow_create_params, flow_update_params
+from ....types.workflows import (
+    flow_list_params,
+    flow_clone_params,
+    flow_create_params,
+    flow_update_params,
+    flow_dry_run_params,
+)
 from ....types.workflows.flow_list_response import FlowListResponse
 from ....types.workflows.flow_clone_response import FlowCloneResponse
 from ....types.workflows.flow_create_response import FlowCreateResponse
 from ....types.workflows.flow_delete_response import FlowDeleteResponse
 from ....types.workflows.flow_update_response import FlowUpdateResponse
+from ....types.workflows.flow_dry_run_response import FlowDryRunResponse
 from ....types.workflows.flow_unblock_response import FlowUnblockResponse
 from ....types.workflows.flow_retrieve_response import FlowRetrieveResponse
+from ....types.workflows.flow_list_repairs_response import FlowListRepairsResponse
 
 __all__ = ["FlowsResource", "AsyncFlowsResource"]
 
@@ -372,6 +380,87 @@ class FlowsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FlowCloneResponse,
+        )
+
+    def dry_run(
+        self,
+        flow_id: str,
+        *,
+        payload: Dict[str, object] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowDryRunResponse:
+        """
+        Simulate this flow firing without storing events, enqueuing jobs, or consuming
+        cooldown/rate-limit slots.
+
+        Works for every trigger activation type:
+
+        - `event`: validates the payload against the event catalog schema and evaluates
+          the trigger conditions.
+        - `custom`: validates the payload against the custom payload schema (conditions
+          do not apply).
+        - `schedule`: ignores the payload and reports the next fire time.
+
+        The response reports `wouldFire` — whether the flow would actually run right now
+        — alongside the gates that decide it (enabled, device attached, blocked,
+        cooldown). `rateLimited` is informational and is not folded into `wouldFire`.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return self._post(
+            path_template("/flows/{flow_id}/dry-run", flow_id=flow_id),
+            body=maybe_transform({"payload": payload}, flow_dry_run_params.FlowDryRunParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FlowDryRunResponse,
+        )
+
+    def list_repairs(
+        self,
+        flow_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowListRepairsResponse:
+        """
+        List self-healing repair episodes
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return self._get(
+            path_template("/flows/{flow_id}/repairs", flow_id=flow_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FlowListRepairsResponse,
         )
 
     def unblock(
@@ -746,6 +835,87 @@ class AsyncFlowsResource(AsyncAPIResource):
             cast_to=FlowCloneResponse,
         )
 
+    async def dry_run(
+        self,
+        flow_id: str,
+        *,
+        payload: Dict[str, object] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowDryRunResponse:
+        """
+        Simulate this flow firing without storing events, enqueuing jobs, or consuming
+        cooldown/rate-limit slots.
+
+        Works for every trigger activation type:
+
+        - `event`: validates the payload against the event catalog schema and evaluates
+          the trigger conditions.
+        - `custom`: validates the payload against the custom payload schema (conditions
+          do not apply).
+        - `schedule`: ignores the payload and reports the next fire time.
+
+        The response reports `wouldFire` — whether the flow would actually run right now
+        — alongside the gates that decide it (enabled, device attached, blocked,
+        cooldown). `rateLimited` is informational and is not folded into `wouldFire`.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return await self._post(
+            path_template("/flows/{flow_id}/dry-run", flow_id=flow_id),
+            body=await async_maybe_transform({"payload": payload}, flow_dry_run_params.FlowDryRunParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FlowDryRunResponse,
+        )
+
+    async def list_repairs(
+        self,
+        flow_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowListRepairsResponse:
+        """
+        List self-healing repair episodes
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return await self._get(
+            path_template("/flows/{flow_id}/repairs", flow_id=flow_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FlowListRepairsResponse,
+        )
+
     async def unblock(
         self,
         flow_id: str,
@@ -804,6 +974,12 @@ class FlowsResourceWithRawResponse:
         self.clone = to_raw_response_wrapper(
             flows.clone,
         )
+        self.dry_run = to_raw_response_wrapper(
+            flows.dry_run,
+        )
+        self.list_repairs = to_raw_response_wrapper(
+            flows.list_repairs,
+        )
         self.unblock = to_raw_response_wrapper(
             flows.unblock,
         )
@@ -834,6 +1010,12 @@ class AsyncFlowsResourceWithRawResponse:
         )
         self.clone = async_to_raw_response_wrapper(
             flows.clone,
+        )
+        self.dry_run = async_to_raw_response_wrapper(
+            flows.dry_run,
+        )
+        self.list_repairs = async_to_raw_response_wrapper(
+            flows.list_repairs,
         )
         self.unblock = async_to_raw_response_wrapper(
             flows.unblock,
@@ -866,6 +1048,12 @@ class FlowsResourceWithStreamingResponse:
         self.clone = to_streamed_response_wrapper(
             flows.clone,
         )
+        self.dry_run = to_streamed_response_wrapper(
+            flows.dry_run,
+        )
+        self.list_repairs = to_streamed_response_wrapper(
+            flows.list_repairs,
+        )
         self.unblock = to_streamed_response_wrapper(
             flows.unblock,
         )
@@ -896,6 +1084,12 @@ class AsyncFlowsResourceWithStreamingResponse:
         )
         self.clone = async_to_streamed_response_wrapper(
             flows.clone,
+        )
+        self.dry_run = async_to_streamed_response_wrapper(
+            flows.dry_run,
+        )
+        self.list_repairs = async_to_streamed_response_wrapper(
+            flows.list_repairs,
         )
         self.unblock = async_to_streamed_response_wrapper(
             flows.unblock,

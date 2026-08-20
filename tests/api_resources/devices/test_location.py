@@ -70,6 +70,57 @@ class TestLocation:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_reset(self, client: Mobilerun) -> None:
+        location = client.devices.location.reset(
+            device_id="deviceId",
+        )
+        assert location is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_reset_with_all_params(self, client: Mobilerun) -> None:
+        location = client.devices.location.reset(
+            device_id="deviceId",
+            x_device_display_id=0,
+        )
+        assert location is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_reset(self, client: Mobilerun) -> None:
+        response = client.devices.location.with_raw_response.reset(
+            device_id="deviceId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        location = response.parse()
+        assert location is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_reset(self, client: Mobilerun) -> None:
+        with client.devices.location.with_streaming_response.reset(
+            device_id="deviceId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            location = response.parse()
+            assert location is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_reset(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            client.devices.location.with_raw_response.reset(
+                device_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_method_set(self, client: Mobilerun) -> None:
         location = client.devices.location.set(
             device_id="deviceId",
@@ -183,6 +234,57 @@ class TestAsyncLocation:
     async def test_path_params_get(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.location.with_raw_response.get(
+                device_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_reset(self, async_client: AsyncMobilerun) -> None:
+        location = await async_client.devices.location.reset(
+            device_id="deviceId",
+        )
+        assert location is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_reset_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        location = await async_client.devices.location.reset(
+            device_id="deviceId",
+            x_device_display_id=0,
+        )
+        assert location is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_reset(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.location.with_raw_response.reset(
+            device_id="deviceId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        location = await response.parse()
+        assert location is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_reset(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.location.with_streaming_response.reset(
+            device_id="deviceId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            location = await response.parse()
+            assert location is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_reset(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            await async_client.devices.location.with_raw_response.reset(
                 device_id="",
             )
 

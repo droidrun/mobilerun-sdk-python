@@ -15,8 +15,8 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.tasks.media_response import MediaResponse
 from ...types.tasks.screenshot_list_response import ScreenshotListResponse
+from ...types.tasks.screenshot_retrieve_response import ScreenshotRetrieveResponse
 
 __all__ = ["ScreenshotsResource", "AsyncScreenshotsResource"]
 
@@ -54,7 +54,7 @@ class ScreenshotsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> MediaResponse:
+    ) -> ScreenshotRetrieveResponse:
         """
         Get a specific screenshot by index.
 
@@ -74,7 +74,7 @@ class ScreenshotsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=MediaResponse,
+            cast_to=ScreenshotRetrieveResponse,
         )
 
     def list(
@@ -144,7 +144,7 @@ class AsyncScreenshotsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> MediaResponse:
+    ) -> ScreenshotRetrieveResponse:
         """
         Get a specific screenshot by index.
 
@@ -164,7 +164,7 @@ class AsyncScreenshotsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=MediaResponse,
+            cast_to=ScreenshotRetrieveResponse,
         )
 
     async def list(

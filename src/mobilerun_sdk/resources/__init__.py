@@ -8,6 +8,22 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
+from .esims import (
+    EsimsResource,
+    AsyncEsimsResource,
+    EsimsResourceWithRawResponse,
+    AsyncEsimsResourceWithRawResponse,
+    EsimsResourceWithStreamingResponse,
+    AsyncEsimsResourceWithStreamingResponse,
+)
+from .store import (
+    StoreResource,
+    AsyncStoreResource,
+    StoreResourceWithRawResponse,
+    AsyncStoreResourceWithRawResponse,
+    StoreResourceWithStreamingResponse,
+    AsyncStoreResourceWithStreamingResponse,
+)
 from .tasks import (
     TasksResource,
     AsyncTasksResource,
@@ -15,6 +31,14 @@ from .tasks import (
     AsyncTasksResourceWithRawResponse,
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
+)
+from .agents import (
+    AgentsResource,
+    AsyncAgentsResource,
+    AgentsResourceWithRawResponse,
+    AsyncAgentsResourceWithRawResponse,
+    AgentsResourceWithStreamingResponse,
+    AsyncAgentsResourceWithStreamingResponse,
 )
 from .models import (
     ModelsResource,
@@ -40,6 +64,14 @@ from .devices import (
     DevicesResourceWithStreamingResponse,
     AsyncDevicesResourceWithStreamingResponse,
 )
+from .numbers import (
+    NumbersResource,
+    AsyncNumbersResource,
+    NumbersResourceWithRawResponse,
+    AsyncNumbersResourceWithRawResponse,
+    NumbersResourceWithStreamingResponse,
+    AsyncNumbersResourceWithStreamingResponse,
+)
 from .proxies import (
     ProxiesResource,
     AsyncProxiesResource,
@@ -55,6 +87,14 @@ from .carriers import (
     AsyncCarriersResourceWithRawResponse,
     CarriersResourceWithStreamingResponse,
     AsyncCarriersResourceWithStreamingResponse,
+)
+from .messages import (
+    MessagesResource,
+    AsyncMessagesResource,
+    MessagesResourceWithRawResponse,
+    AsyncMessagesResourceWithRawResponse,
+    MessagesResourceWithStreamingResponse,
+    AsyncMessagesResourceWithStreamingResponse,
 )
 from .profiles import (
     ProfilesResource,
@@ -80,6 +120,14 @@ from .workflows import (
     WorkflowsResourceWithStreamingResponse,
     AsyncWorkflowsResourceWithStreamingResponse,
 )
+from .app_events import (
+    AppEventsResource,
+    AsyncAppEventsResource,
+    AppEventsResourceWithRawResponse,
+    AsyncAppEventsResourceWithRawResponse,
+    AppEventsResourceWithStreamingResponse,
+    AsyncAppEventsResourceWithStreamingResponse,
+)
 from .credentials import (
     CredentialsResource,
     AsyncCredentialsResource,
@@ -87,6 +135,14 @@ from .credentials import (
     AsyncCredentialsResourceWithRawResponse,
     CredentialsResourceWithStreamingResponse,
     AsyncCredentialsResourceWithStreamingResponse,
+)
+from .notifications import (
+    NotificationsResource,
+    AsyncNotificationsResource,
+    NotificationsResourceWithRawResponse,
+    AsyncNotificationsResourceWithRawResponse,
+    NotificationsResourceWithStreamingResponse,
+    AsyncNotificationsResourceWithStreamingResponse,
 )
 
 __all__ = [
@@ -156,4 +212,46 @@ __all__ = [
     "AsyncWebhooksResourceWithRawResponse",
     "WebhooksResourceWithStreamingResponse",
     "AsyncWebhooksResourceWithStreamingResponse",
+    "AgentsResource",
+    "AsyncAgentsResource",
+    "AgentsResourceWithRawResponse",
+    "AsyncAgentsResourceWithRawResponse",
+    "AgentsResourceWithStreamingResponse",
+    "AsyncAgentsResourceWithStreamingResponse",
+    "AppEventsResource",
+    "AsyncAppEventsResource",
+    "AppEventsResourceWithRawResponse",
+    "AsyncAppEventsResourceWithRawResponse",
+    "AppEventsResourceWithStreamingResponse",
+    "AsyncAppEventsResourceWithStreamingResponse",
+    "NotificationsResource",
+    "AsyncNotificationsResource",
+    "NotificationsResourceWithRawResponse",
+    "AsyncNotificationsResourceWithRawResponse",
+    "NotificationsResourceWithStreamingResponse",
+    "AsyncNotificationsResourceWithStreamingResponse",
+    "EsimsResource",
+    "AsyncEsimsResource",
+    "EsimsResourceWithRawResponse",
+    "AsyncEsimsResourceWithRawResponse",
+    "EsimsResourceWithStreamingResponse",
+    "AsyncEsimsResourceWithStreamingResponse",
+    "MessagesResource",
+    "AsyncMessagesResource",
+    "MessagesResourceWithRawResponse",
+    "AsyncMessagesResourceWithRawResponse",
+    "MessagesResourceWithStreamingResponse",
+    "AsyncMessagesResourceWithStreamingResponse",
+    "NumbersResource",
+    "AsyncNumbersResource",
+    "NumbersResourceWithRawResponse",
+    "AsyncNumbersResourceWithRawResponse",
+    "NumbersResourceWithStreamingResponse",
+    "AsyncNumbersResourceWithStreamingResponse",
+    "StoreResource",
+    "AsyncStoreResource",
+    "StoreResourceWithRawResponse",
+    "AsyncStoreResourceWithRawResponse",
+    "StoreResourceWithStreamingResponse",
+    "AsyncStoreResourceWithStreamingResponse",
 ]

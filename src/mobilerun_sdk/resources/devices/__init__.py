@@ -24,6 +24,14 @@ from .files import (
     FilesResourceWithStreamingResponse,
     AsyncFilesResourceWithStreamingResponse,
 )
+from .kiosk import (
+    KioskResource,
+    AsyncKioskResource,
+    KioskResourceWithRawResponse,
+    AsyncKioskResourceWithRawResponse,
+    KioskResourceWithStreamingResponse,
+    AsyncKioskResourceWithStreamingResponse,
+)
 from .proxy import (
     ProxyResource,
     AsyncProxyResource,
@@ -55,6 +63,14 @@ from .actions import (
     AsyncActionsResourceWithRawResponse,
     ActionsResourceWithStreamingResponse,
     AsyncActionsResourceWithStreamingResponse,
+)
+from .browser import (
+    BrowserResource,
+    AsyncBrowserResource,
+    BrowserResourceWithRawResponse,
+    AsyncBrowserResourceWithRawResponse,
+    BrowserResourceWithStreamingResponse,
+    AsyncBrowserResourceWithStreamingResponse,
 )
 from .devices import (
     DevicesResource,
@@ -111,6 +127,30 @@ from .timezone import (
     AsyncTimezoneResourceWithRawResponse,
     TimezoneResourceWithStreamingResponse,
     AsyncTimezoneResourceWithStreamingResponse,
+)
+from .deep_link import (
+    DeepLinkResource,
+    AsyncDeepLinkResource,
+    DeepLinkResourceWithRawResponse,
+    AsyncDeepLinkResourceWithRawResponse,
+    DeepLinkResourceWithStreamingResponse,
+    AsyncDeepLinkResourceWithStreamingResponse,
+)
+from .recordings import (
+    RecordingsResource,
+    AsyncRecordingsResource,
+    RecordingsResourceWithRawResponse,
+    AsyncRecordingsResourceWithRawResponse,
+    RecordingsResourceWithStreamingResponse,
+    AsyncRecordingsResourceWithStreamingResponse,
+)
+from .media_sessions import (
+    MediaSessionsResource,
+    AsyncMediaSessionsResource,
+    MediaSessionsResourceWithRawResponse,
+    AsyncMediaSessionsResourceWithRawResponse,
+    MediaSessionsResourceWithStreamingResponse,
+    AsyncMediaSessionsResourceWithStreamingResponse,
 )
 
 __all__ = [
@@ -192,6 +232,36 @@ __all__ = [
     "AsyncLanguageResourceWithRawResponse",
     "LanguageResourceWithStreamingResponse",
     "AsyncLanguageResourceWithStreamingResponse",
+    "DeepLinkResource",
+    "AsyncDeepLinkResource",
+    "DeepLinkResourceWithRawResponse",
+    "AsyncDeepLinkResourceWithRawResponse",
+    "DeepLinkResourceWithStreamingResponse",
+    "AsyncDeepLinkResourceWithStreamingResponse",
+    "BrowserResource",
+    "AsyncBrowserResource",
+    "BrowserResourceWithRawResponse",
+    "AsyncBrowserResourceWithRawResponse",
+    "BrowserResourceWithStreamingResponse",
+    "AsyncBrowserResourceWithStreamingResponse",
+    "KioskResource",
+    "AsyncKioskResource",
+    "KioskResourceWithRawResponse",
+    "AsyncKioskResourceWithRawResponse",
+    "KioskResourceWithStreamingResponse",
+    "AsyncKioskResourceWithStreamingResponse",
+    "MediaSessionsResource",
+    "AsyncMediaSessionsResource",
+    "MediaSessionsResourceWithRawResponse",
+    "AsyncMediaSessionsResourceWithRawResponse",
+    "MediaSessionsResourceWithStreamingResponse",
+    "AsyncMediaSessionsResourceWithStreamingResponse",
+    "RecordingsResource",
+    "AsyncRecordingsResource",
+    "RecordingsResourceWithRawResponse",
+    "AsyncRecordingsResourceWithRawResponse",
+    "RecordingsResourceWithStreamingResponse",
+    "AsyncRecordingsResourceWithStreamingResponse",
     "DevicesResource",
     "AsyncDevicesResource",
     "DevicesResourceWithRawResponse",
