@@ -15,8 +15,8 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.tasks.media_response import MediaResponse
 from ...types.tasks.ui_state_list_response import UiStateListResponse
+from ...types.tasks.ui_state_retrieve_response import UiStateRetrieveResponse
 
 __all__ = ["UiStatesResource", "AsyncUiStatesResource"]
 
@@ -54,7 +54,7 @@ class UiStatesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> MediaResponse:
+    ) -> UiStateRetrieveResponse:
         """
         Get a specific UI state by index.
 
@@ -74,7 +74,7 @@ class UiStatesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=MediaResponse,
+            cast_to=UiStateRetrieveResponse,
         )
 
     def list(
@@ -144,7 +144,7 @@ class AsyncUiStatesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> MediaResponse:
+    ) -> UiStateRetrieveResponse:
         """
         Get a specific UI state by index.
 
@@ -164,7 +164,7 @@ class AsyncUiStatesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=MediaResponse,
+            cast_to=UiStateRetrieveResponse,
         )
 
     async def list(

@@ -2,15 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+from typing import Dict, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
-from .flow_action_overrides_param import FlowActionOverridesParam
-from .flow_child_action_input_param import FlowChildActionInputParam
 
-__all__ = ["FlowCreateParams", "Action"]
+__all__ = ["FlowCreateParams", "Action", "ActionChild", "ActionChildOverrides", "ActionOverrides"]
 
 
 class FlowCreateParams(TypedDict, total=False):
@@ -43,15 +41,35 @@ class FlowCreateParams(TypedDict, total=False):
     self_healing_max_attempts: Annotated[int, PropertyInfo(alias="selfHealingMaxAttempts")]
 
 
-class Action(TypedDict, total=False):
+class ActionChildOverrides(TypedDict, total=False):
+    params: Dict[str, object]
+
+
+class ActionChild(TypedDict, total=False):
     action_id: Required[Annotated[str, PropertyInfo(alias="actionId")]]
 
     position: Required[int]
-
-    children: Iterable[FlowChildActionInputParam]
 
     continue_on_error: Annotated[bool, PropertyInfo(alias="continueOnError")]
 
     name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
 
-    overrides: Optional[FlowActionOverridesParam]
+    overrides: Optional[ActionChildOverrides]
+
+
+class ActionOverrides(TypedDict, total=False):
+    params: Dict[str, object]
+
+
+class Action(TypedDict, total=False):
+    action_id: Required[Annotated[str, PropertyInfo(alias="actionId")]]
+
+    position: Required[int]
+
+    children: Iterable[ActionChild]
+
+    continue_on_error: Annotated[bool, PropertyInfo(alias="continueOnError")]
+
+    name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
+
+    overrides: Optional[ActionOverrides]
