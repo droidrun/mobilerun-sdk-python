@@ -20,9 +20,7 @@ from ...._base_client import make_request_options
 from ....types.workflows.flows import action_add_params, action_replace_params
 from ....types.workflows.flows.action_add_response import ActionAddResponse
 from ....types.workflows.flows.action_list_response import ActionListResponse
-from ....types.workflows.flow_action_overrides_param import FlowActionOverridesParam
 from ....types.workflows.flows.action_remove_response import ActionRemoveResponse
-from ....types.workflows.flow_child_action_input_param import FlowChildActionInputParam
 from ....types.workflows.flows.action_replace_response import ActionReplaceResponse
 
 __all__ = ["ActionsResource", "AsyncActionsResource"]
@@ -88,10 +86,10 @@ class ActionsResource(SyncAPIResource):
         *,
         action_id: str,
         position: int,
-        children: Iterable[FlowChildActionInputParam] | Omit = omit,
+        children: Iterable[action_add_params.Child] | Omit = omit,
         continue_on_error: bool | Omit = omit,
         name_override: str | Omit = omit,
-        overrides: Optional[FlowActionOverridesParam] | Omit = omit,
+        overrides: Optional[action_add_params.Overrides] | Omit = omit,
         parent_flow_action_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -274,10 +272,10 @@ class AsyncActionsResource(AsyncAPIResource):
         *,
         action_id: str,
         position: int,
-        children: Iterable[FlowChildActionInputParam] | Omit = omit,
+        children: Iterable[action_add_params.Child] | Omit = omit,
         continue_on_error: bool | Omit = omit,
         name_override: str | Omit = omit,
-        overrides: Optional[FlowActionOverridesParam] | Omit = omit,
+        overrides: Optional[action_add_params.Overrides] | Omit = omit,
         parent_flow_action_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.

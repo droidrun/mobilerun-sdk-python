@@ -7,11 +7,15 @@ from typing_extensions import Literal
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
-from .task_status import TaskStatus
-from .package_credentials import PackageCredentials
 from .shared.pagination_meta import PaginationMeta
 
-__all__ = ["TaskListResponse", "Item"]
+__all__ = ["TaskListResponse", "Item", "ItemCredential"]
+
+
+class ItemCredential(BaseModel):
+    credential_names: List[str] = FieldInfo(alias="credentialNames")
+
+    package_name: str = FieldInfo(alias="packageName")
 
 
 class Item(BaseModel):
@@ -28,7 +32,7 @@ class Item(BaseModel):
 
     owner_id: str = FieldInfo(alias="ownerId")
 
-    status: TaskStatus
+    status: Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
 
     task: str
 
@@ -53,7 +57,7 @@ class Item(BaseModel):
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
 
-    credentials: Optional[List[PackageCredentials]] = None
+    credentials: Optional[List[ItemCredential]] = None
 
     credits_used: Optional[float] = FieldInfo(alias="creditsUsed", default=None)
 
