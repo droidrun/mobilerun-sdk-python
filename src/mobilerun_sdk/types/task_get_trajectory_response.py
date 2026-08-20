@@ -6,7 +6,6 @@ from typing_extensions import Literal, TypeAlias
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
-from .usage_result import UsageResult
 
 __all__ = [
     "TaskGetTrajectoryResponse",
@@ -37,6 +36,7 @@ __all__ = [
     "TrajectoryTrajectoryFastAgentInputEvent",
     "TrajectoryTrajectoryFastAgentResponseEvent",
     "TrajectoryTrajectoryFastAgentResponseEventData",
+    "TrajectoryTrajectoryFastAgentResponseEventDataUsage",
     "TrajectoryTrajectoryFastAgentToolCallEvent",
     "TrajectoryTrajectoryFastAgentToolCallEventData",
     "TrajectoryTrajectoryFastAgentOutputEvent",
@@ -54,12 +54,14 @@ __all__ = [
     "TrajectoryTrajectoryManagerContextEvent",
     "TrajectoryTrajectoryManagerResponseEvent",
     "TrajectoryTrajectoryManagerResponseEventData",
+    "TrajectoryTrajectoryManagerResponseEventDataUsage",
     "TrajectoryTrajectoryManagerPlanDetailsEvent",
     "TrajectoryTrajectoryManagerPlanDetailsEventData",
     "TrajectoryTrajectoryExecutorContextEvent",
     "TrajectoryTrajectoryExecutorContextEventData",
     "TrajectoryTrajectoryExecutorResponseEvent",
     "TrajectoryTrajectoryExecutorResponseEventData",
+    "TrajectoryTrajectoryExecutorResponseEventDataUsage",
     "TrajectoryTrajectoryExecutorActionEvent",
     "TrajectoryTrajectoryExecutorActionEventData",
     "TrajectoryTrajectoryExecutorActionResultEvent",
@@ -279,6 +281,16 @@ class TrajectoryTrajectoryFastAgentInputEvent(BaseModel):
     event: Literal["FastAgentInputEvent"]
 
 
+class TrajectoryTrajectoryFastAgentResponseEventDataUsage(BaseModel):
+    request_tokens: int
+
+    requests: int
+
+    response_tokens: int
+
+    total_tokens: int
+
+
 class TrajectoryTrajectoryFastAgentResponseEventData(BaseModel):
     """LLM response received."""
 
@@ -286,7 +298,7 @@ class TrajectoryTrajectoryFastAgentResponseEventData(BaseModel):
 
     code: Optional[str] = None
 
-    usage: Optional[UsageResult] = None
+    usage: Optional[TrajectoryTrajectoryFastAgentResponseEventDataUsage] = None
 
 
 class TrajectoryTrajectoryFastAgentResponseEvent(BaseModel):
@@ -401,12 +413,22 @@ class TrajectoryTrajectoryManagerContextEvent(BaseModel):
     event: Literal["ManagerContextEvent"]
 
 
+class TrajectoryTrajectoryManagerResponseEventDataUsage(BaseModel):
+    request_tokens: int
+
+    requests: int
+
+    response_tokens: int
+
+    total_tokens: int
+
+
 class TrajectoryTrajectoryManagerResponseEventData(BaseModel):
     """LLM response received, ready for parsing."""
 
     response: str
 
-    usage: Optional[UsageResult] = None
+    usage: Optional[TrajectoryTrajectoryManagerResponseEventDataUsage] = None
 
 
 class TrajectoryTrajectoryManagerResponseEvent(BaseModel):
@@ -456,12 +478,22 @@ class TrajectoryTrajectoryExecutorContextEvent(BaseModel):
     event: Literal["ExecutorContextEvent"]
 
 
+class TrajectoryTrajectoryExecutorResponseEventDataUsage(BaseModel):
+    request_tokens: int
+
+    requests: int
+
+    response_tokens: int
+
+    total_tokens: int
+
+
 class TrajectoryTrajectoryExecutorResponseEventData(BaseModel):
     """LLM response received, ready for parsing."""
 
     response: str
 
-    usage: Optional[UsageResult] = None
+    usage: Optional[TrajectoryTrajectoryExecutorResponseEventDataUsage] = None
 
 
 class TrajectoryTrajectoryExecutorResponseEvent(BaseModel):

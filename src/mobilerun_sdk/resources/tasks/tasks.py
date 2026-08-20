@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ...types import TaskStatus, task_run_params, task_list_params, task_run_streamed_params, task_send_message_params
+from ...types import task_run_params, task_list_params, task_run_streamed_params, task_send_message_params
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
@@ -35,13 +35,11 @@ from .screenshots import (
     AsyncScreenshotsResourceWithStreamingResponse,
 )
 from ..._base_client import make_request_options
-from ...types.task_status import TaskStatus
 from ...types.task_run_response import TaskRunResponse
 from ...types.task_list_response import TaskListResponse
 from ...types.task_stop_response import TaskStopResponse
 from ...types.task_retrieve_response import TaskRetrieveResponse
 from ...types.task_get_status_response import TaskGetStatusResponse
-from ...types.package_credentials_param import PackageCredentialsParam
 from ...types.task_send_message_response import TaskSendMessageResponse
 from ...types.task_get_trajectory_response import TaskGetTrajectoryResponse
 
@@ -123,7 +121,8 @@ class TasksResource(SyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         query: Optional[str] | Omit = omit,
-        status: Optional[TaskStatus] | Omit = omit,
+        status: Optional[Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -282,7 +281,7 @@ class TasksResource(SyncAPIResource):
         agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         continue_on_failure: bool | Omit = omit,
-        credentials: Iterable[PackageCredentialsParam] | Omit = omit,
+        credentials: Iterable[task_run_params.Credential] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
@@ -371,7 +370,7 @@ class TasksResource(SyncAPIResource):
         agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         continue_on_failure: bool | Omit = omit,
-        credentials: Iterable[PackageCredentialsParam] | Omit = omit,
+        credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
@@ -598,7 +597,8 @@ class AsyncTasksResource(AsyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         query: Optional[str] | Omit = omit,
-        status: Optional[TaskStatus] | Omit = omit,
+        status: Optional[Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -757,7 +757,7 @@ class AsyncTasksResource(AsyncAPIResource):
         agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         continue_on_failure: bool | Omit = omit,
-        credentials: Iterable[PackageCredentialsParam] | Omit = omit,
+        credentials: Iterable[task_run_params.Credential] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
@@ -846,7 +846,7 @@ class AsyncTasksResource(AsyncAPIResource):
         agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         continue_on_failure: bool | Omit = omit,
-        credentials: Iterable[PackageCredentialsParam] | Omit = omit,
+        credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,

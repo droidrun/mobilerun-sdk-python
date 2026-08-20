@@ -82,6 +82,48 @@ class LocationResource(SyncAPIResource):
             cast_to=Location,
         )
 
+    def reset(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Clears any simulated GPS location and restores the device's default location
+        behavior. Devices without geo support return an unsupported-feature error.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._delete(
+            path_template("/devices/{device_id}/location", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     def set(
         self,
         device_id: str,
@@ -195,6 +237,48 @@ class AsyncLocationResource(AsyncAPIResource):
             cast_to=Location,
         )
 
+    async def reset(
+        self,
+        device_id: str,
+        *,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Clears any simulated GPS location and restores the device's default location
+        behavior. Devices without geo support return an unsupported-feature error.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return await self._delete(
+            path_template("/devices/{device_id}/location", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     async def set(
         self,
         device_id: str,
@@ -254,6 +338,9 @@ class LocationResourceWithRawResponse:
         self.get = to_raw_response_wrapper(
             location.get,
         )
+        self.reset = to_raw_response_wrapper(
+            location.reset,
+        )
         self.set = to_raw_response_wrapper(
             location.set,
         )
@@ -265,6 +352,9 @@ class AsyncLocationResourceWithRawResponse:
 
         self.get = async_to_raw_response_wrapper(
             location.get,
+        )
+        self.reset = async_to_raw_response_wrapper(
+            location.reset,
         )
         self.set = async_to_raw_response_wrapper(
             location.set,
@@ -278,6 +368,9 @@ class LocationResourceWithStreamingResponse:
         self.get = to_streamed_response_wrapper(
             location.get,
         )
+        self.reset = to_streamed_response_wrapper(
+            location.reset,
+        )
         self.set = to_streamed_response_wrapper(
             location.set,
         )
@@ -289,6 +382,9 @@ class AsyncLocationResourceWithStreamingResponse:
 
         self.get = async_to_streamed_response_wrapper(
             location.get,
+        )
+        self.reset = async_to_streamed_response_wrapper(
+            location.reset,
         )
         self.set = async_to_streamed_response_wrapper(
             location.set,
