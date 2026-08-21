@@ -818,6 +818,31 @@ Methods:
 
 - <code title="get /agents">client.agents.<a href="./src/mobilerun_sdk/resources/agents.py">list</a>() -> <a href="./src/mobilerun_sdk/types/agent_list_response.py">AgentListResponse</a></code>
 
+# Files
+
+Types:
+
+```python
+from mobilerun_sdk.types import (
+    FileUpdateResponse,
+    FileListResponse,
+    FileDeleteResponse,
+    FileCancelPendingResponse,
+    FileConfirmResponse,
+    FileUploadURLResponse,
+)
+```
+
+Methods:
+
+- <code title="patch /agents/files/{fileId}">client.files.<a href="./src/mobilerun_sdk/resources/files.py">update</a>(file_id, \*\*<a href="src/mobilerun_sdk/types/file_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/file_update_response.py">FileUpdateResponse</a></code>
+- <code title="get /agents/files">client.files.<a href="./src/mobilerun_sdk/resources/files.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/file_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/file_list_response.py">FileListResponse</a></code>
+- <code title="delete /agents/files/{fileId}">client.files.<a href="./src/mobilerun_sdk/resources/files.py">delete</a>(file_id) -> <a href="./src/mobilerun_sdk/types/file_delete_response.py">FileDeleteResponse</a></code>
+- <code title="delete /agents/files/{fileId}/pending">client.files.<a href="./src/mobilerun_sdk/resources/files.py">cancel_pending</a>(file_id) -> <a href="./src/mobilerun_sdk/types/file_cancel_pending_response.py">FileCancelPendingResponse</a></code>
+- <code title="post /agents/files/{fileId}/confirm">client.files.<a href="./src/mobilerun_sdk/resources/files.py">confirm</a>(file_id) -> <a href="./src/mobilerun_sdk/types/file_confirm_response.py">FileConfirmResponse</a></code>
+- <code title="get /agents/files/{fileId}/download">client.files.<a href="./src/mobilerun_sdk/resources/files.py">download</a>(file_id) -> None</code>
+- <code title="post /agents/files/upload-url">client.files.<a href="./src/mobilerun_sdk/resources/files.py">upload_url</a>(\*\*<a href="src/mobilerun_sdk/types/file_upload_url_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/file_upload_url_response.py">FileUploadURLResponse</a></code>
+
 # Assistant
 
 ## Conversations

@@ -39,6 +39,7 @@ if TYPE_CHECKING:
     from .resources import (
         apps,
         esims,
+        files,
         store,
         tasks,
         agents,
@@ -58,6 +59,7 @@ if TYPE_CHECKING:
         notifications,
     )
     from .resources.apps import AppsResource, AsyncAppsResource
+    from .resources.files import FilesResource, AsyncFilesResource
     from .resources.agents import AgentsResource, AsyncAgentsResource
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
@@ -222,6 +224,12 @@ class Mobilerun(SyncAPIClient):
         from .resources.agents import AgentsResource
 
         return AgentsResource(self)
+
+    @cached_property
+    def files(self) -> FilesResource:
+        from .resources.files import FilesResource
+
+        return FilesResource(self)
 
     @cached_property
     def assistant(self) -> AssistantResource:
@@ -524,6 +532,12 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncAgentsResource(self)
 
     @cached_property
+    def files(self) -> AsyncFilesResource:
+        from .resources.files import AsyncFilesResource
+
+        return AsyncFilesResource(self)
+
+    @cached_property
     def assistant(self) -> AsyncAssistantResource:
         from .resources.assistant import AsyncAssistantResource
 
@@ -770,6 +784,12 @@ class MobilerunWithRawResponse:
         return AgentsResourceWithRawResponse(self._client.agents)
 
     @cached_property
+    def files(self) -> files.FilesResourceWithRawResponse:
+        from .resources.files import FilesResourceWithRawResponse
+
+        return FilesResourceWithRawResponse(self._client.files)
+
+    @cached_property
     def assistant(self) -> assistant.AssistantResourceWithRawResponse:
         from .resources.assistant import AssistantResourceWithRawResponse
 
@@ -891,6 +911,12 @@ class AsyncMobilerunWithRawResponse:
         from .resources.agents import AsyncAgentsResourceWithRawResponse
 
         return AsyncAgentsResourceWithRawResponse(self._client.agents)
+
+    @cached_property
+    def files(self) -> files.AsyncFilesResourceWithRawResponse:
+        from .resources.files import AsyncFilesResourceWithRawResponse
+
+        return AsyncFilesResourceWithRawResponse(self._client.files)
 
     @cached_property
     def assistant(self) -> assistant.AsyncAssistantResourceWithRawResponse:
@@ -1016,6 +1042,12 @@ class MobilerunWithStreamedResponse:
         return AgentsResourceWithStreamingResponse(self._client.agents)
 
     @cached_property
+    def files(self) -> files.FilesResourceWithStreamingResponse:
+        from .resources.files import FilesResourceWithStreamingResponse
+
+        return FilesResourceWithStreamingResponse(self._client.files)
+
+    @cached_property
     def assistant(self) -> assistant.AssistantResourceWithStreamingResponse:
         from .resources.assistant import AssistantResourceWithStreamingResponse
 
@@ -1137,6 +1169,12 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.agents import AsyncAgentsResourceWithStreamingResponse
 
         return AsyncAgentsResourceWithStreamingResponse(self._client.agents)
+
+    @cached_property
+    def files(self) -> files.AsyncFilesResourceWithStreamingResponse:
+        from .resources.files import AsyncFilesResourceWithStreamingResponse
+
+        return AsyncFilesResourceWithStreamingResponse(self._client.files)
 
     @cached_property
     def assistant(self) -> assistant.AsyncAssistantResourceWithStreamingResponse:
