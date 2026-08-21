@@ -112,6 +112,14 @@ from .webhooks import (
     WebhooksResourceWithStreamingResponse,
     AsyncWebhooksResourceWithStreamingResponse,
 )
+from .assistant import (
+    AssistantResource,
+    AsyncAssistantResource,
+    AssistantResourceWithRawResponse,
+    AsyncAssistantResourceWithRawResponse,
+    AssistantResourceWithStreamingResponse,
+    AsyncAssistantResourceWithStreamingResponse,
+)
 from .workflows import (
     WorkflowsResource,
     AsyncWorkflowsResource,
@@ -218,6 +226,12 @@ __all__ = [
     "AsyncAgentsResourceWithRawResponse",
     "AgentsResourceWithStreamingResponse",
     "AsyncAgentsResourceWithStreamingResponse",
+    "AssistantResource",
+    "AsyncAssistantResource",
+    "AssistantResourceWithRawResponse",
+    "AsyncAssistantResourceWithRawResponse",
+    "AssistantResourceWithStreamingResponse",
+    "AsyncAssistantResourceWithStreamingResponse",
     "AppEventsResource",
     "AsyncAppEventsResource",
     "AppEventsResourceWithRawResponse",
