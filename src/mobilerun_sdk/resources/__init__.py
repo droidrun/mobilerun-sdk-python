@@ -16,6 +16,14 @@ from .esims import (
     EsimsResourceWithStreamingResponse,
     AsyncEsimsResourceWithStreamingResponse,
 )
+from .files import (
+    FilesResource,
+    AsyncFilesResource,
+    FilesResourceWithRawResponse,
+    AsyncFilesResourceWithRawResponse,
+    FilesResourceWithStreamingResponse,
+    AsyncFilesResourceWithStreamingResponse,
+)
 from .store import (
     StoreResource,
     AsyncStoreResource,
@@ -111,6 +119,14 @@ from .webhooks import (
     AsyncWebhooksResourceWithRawResponse,
     WebhooksResourceWithStreamingResponse,
     AsyncWebhooksResourceWithStreamingResponse,
+)
+from .assistant import (
+    AssistantResource,
+    AsyncAssistantResource,
+    AssistantResourceWithRawResponse,
+    AsyncAssistantResourceWithRawResponse,
+    AssistantResourceWithStreamingResponse,
+    AsyncAssistantResourceWithStreamingResponse,
 )
 from .workflows import (
     WorkflowsResource,
@@ -218,6 +234,18 @@ __all__ = [
     "AsyncAgentsResourceWithRawResponse",
     "AgentsResourceWithStreamingResponse",
     "AsyncAgentsResourceWithStreamingResponse",
+    "FilesResource",
+    "AsyncFilesResource",
+    "FilesResourceWithRawResponse",
+    "AsyncFilesResourceWithRawResponse",
+    "FilesResourceWithStreamingResponse",
+    "AsyncFilesResourceWithStreamingResponse",
+    "AssistantResource",
+    "AsyncAssistantResource",
+    "AssistantResourceWithRawResponse",
+    "AsyncAssistantResourceWithRawResponse",
+    "AssistantResourceWithStreamingResponse",
+    "AsyncAssistantResourceWithStreamingResponse",
     "AppEventsResource",
     "AsyncAppEventsResource",
     "AppEventsResourceWithRawResponse",

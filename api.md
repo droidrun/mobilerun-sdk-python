@@ -818,6 +818,65 @@ Methods:
 
 - <code title="get /agents">client.agents.<a href="./src/mobilerun_sdk/resources/agents.py">list</a>() -> <a href="./src/mobilerun_sdk/types/agent_list_response.py">AgentListResponse</a></code>
 
+# Files
+
+Types:
+
+```python
+from mobilerun_sdk.types import (
+    FileUpdateResponse,
+    FileListResponse,
+    FileDeleteResponse,
+    FileCancelPendingResponse,
+    FileConfirmResponse,
+    FileUploadURLResponse,
+)
+```
+
+Methods:
+
+- <code title="patch /agents/files/{fileId}">client.files.<a href="./src/mobilerun_sdk/resources/files.py">update</a>(file_id, \*\*<a href="src/mobilerun_sdk/types/file_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/file_update_response.py">FileUpdateResponse</a></code>
+- <code title="get /agents/files">client.files.<a href="./src/mobilerun_sdk/resources/files.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/file_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/file_list_response.py">FileListResponse</a></code>
+- <code title="delete /agents/files/{fileId}">client.files.<a href="./src/mobilerun_sdk/resources/files.py">delete</a>(file_id) -> <a href="./src/mobilerun_sdk/types/file_delete_response.py">FileDeleteResponse</a></code>
+- <code title="delete /agents/files/{fileId}/pending">client.files.<a href="./src/mobilerun_sdk/resources/files.py">cancel_pending</a>(file_id) -> <a href="./src/mobilerun_sdk/types/file_cancel_pending_response.py">FileCancelPendingResponse</a></code>
+- <code title="post /agents/files/{fileId}/confirm">client.files.<a href="./src/mobilerun_sdk/resources/files.py">confirm</a>(file_id) -> <a href="./src/mobilerun_sdk/types/file_confirm_response.py">FileConfirmResponse</a></code>
+- <code title="get /agents/files/{fileId}/download">client.files.<a href="./src/mobilerun_sdk/resources/files.py">download</a>(file_id) -> None</code>
+- <code title="post /agents/files/upload-url">client.files.<a href="./src/mobilerun_sdk/resources/files.py">upload_url</a>(\*\*<a href="src/mobilerun_sdk/types/file_upload_url_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/file_upload_url_response.py">FileUploadURLResponse</a></code>
+
+# Assistant
+
+## Conversations
+
+Types:
+
+```python
+from mobilerun_sdk.types.assistant import (
+    ConversationCreateResponse,
+    ConversationUpdateResponse,
+    ConversationListResponse,
+    ConversationAbortResponse,
+    ConversationAnswerPermissionResponse,
+    ConversationAnswerQuestionResponse,
+    ConversationHistoryResponse,
+    ConversationRejectQuestionResponse,
+    ConversationSendResponse,
+    ConversationStreamResponse,
+)
+```
+
+Methods:
+
+- <code title="post /assistant/chat/sessions">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_create_response.py">ConversationCreateResponse</a></code>
+- <code title="patch /assistant/chat/sessions/{id}">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">update</a>(id, \*\*<a href="src/mobilerun_sdk/types/assistant/conversation_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_update_response.py">ConversationUpdateResponse</a></code>
+- <code title="get /assistant/chat/sessions">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_list_response.py">ConversationListResponse</a></code>
+- <code title="post /assistant/chat/abort">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">abort</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_abort_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_abort_response.py">ConversationAbortResponse</a></code>
+- <code title="post /assistant/chat/permission">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">answer_permission</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_answer_permission_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_answer_permission_response.py">ConversationAnswerPermissionResponse</a></code>
+- <code title="post /assistant/chat/question">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">answer_question</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_answer_question_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_answer_question_response.py">ConversationAnswerQuestionResponse</a></code>
+- <code title="get /assistant/chat/messages">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">history</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_history_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_history_response.py">ConversationHistoryResponse</a></code>
+- <code title="post /assistant/chat/question/reject">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">reject_question</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_reject_question_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_reject_question_response.py">ConversationRejectQuestionResponse</a></code>
+- <code title="post /assistant/chat/message">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">send</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_send_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_send_response.py">ConversationSendResponse</a></code>
+- <code title="get /assistant/chat/stream">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">stream</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_stream_params.py">params</a>) -> str</code>
+
 # AppEvents
 
 Types:
