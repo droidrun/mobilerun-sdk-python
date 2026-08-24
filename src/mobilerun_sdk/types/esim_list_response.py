@@ -9,10 +9,10 @@ from pydantic import Field as FieldInfo
 from .._models import BaseModel
 from .shared.pagination import Pagination
 
-__all__ = ["EsimListResponse", "Data", "DataItem"]
+__all__ = ["EsimListResponse", "Item"]
 
 
-class DataItem(BaseModel):
+class Item(BaseModel):
     id: str
 
     carrier_name: Optional[str] = FieldInfo(alias="carrierName", default=None)
@@ -66,11 +66,7 @@ class DataItem(BaseModel):
     ] = FieldInfo(alias="rentStatus", default=None)
 
 
-class Data(BaseModel):
-    items: List[DataItem]
+class EsimListResponse(BaseModel):
+    items: List[Item]
 
     pagination: Pagination
-
-
-class EsimListResponse(BaseModel):
-    data: Data

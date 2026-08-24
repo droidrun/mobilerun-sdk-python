@@ -29,6 +29,7 @@ from .package_list_params import PackageListParams as PackageListParams
 from .state_time_response import StateTimeResponse as StateTimeResponse
 from .timezone_set_params import TimezoneSetParams as TimezoneSetParams
 from .action_global_params import ActionGlobalParams as ActionGlobalParams
+from .clipboard_set_params import ClipboardSetParams as ClipboardSetParams
 from .esim_activate_params import EsimActivateParams as EsimActivateParams
 from .esim_status_response import EsimStatusResponse as EsimStatusResponse
 from .file_download_params import FileDownloadParams as FileDownloadParams
@@ -40,6 +41,7 @@ from .profile_update_params import ProfileUpdateParams as ProfileUpdateParams
 from .proxy_status_response import ProxyStatusResponse as ProxyStatusResponse
 from .recording_list_params import RecordingListParams as RecordingListParams
 from .timezone_get_response import TimezoneGetResponse as TimezoneGetResponse
+from .clipboard_get_response import ClipboardGetResponse as ClipboardGetResponse
 from .esim_activate_response import EsimActivateResponse as EsimActivateResponse
 from .file_download_response import FileDownloadResponse as FileDownloadResponse
 from .recording_start_params import RecordingStartParams as RecordingStartParams

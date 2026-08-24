@@ -8,17 +8,22 @@ __all__ = ["ModelListResponse", "Data"]
 
 
 class Data(BaseModel):
-    id: Optional[str] = None
+    id: str
+    """Model identifier"""
 
-    created: Optional[float] = None
+    owned_by: str
+    """Model owner/provider"""
+
+    created: Optional[int] = None
+    """Creation timestamp"""
 
     object: Optional[str] = None
-
-    owned_by: Optional[str] = None
+    """Object type"""
 
 
 class ModelListResponse(BaseModel):
-    data: Optional[List[Data]] = None
+    data: List[Data]
+    """Available models"""
 
     object: Optional[str] = None
-    """Always "list" for list responses"""
+    """Object type"""

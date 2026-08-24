@@ -20,6 +20,8 @@ class Capabilities(BaseModel):
 
     camera_injection: bool = FieldInfo(alias="cameraInjection")
 
+    clipboard: bool
+
     esim: bool
 
     files: bool
