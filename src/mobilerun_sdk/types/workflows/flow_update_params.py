@@ -32,6 +32,8 @@ class FlowUpdateParams(TypedDict, total=False):
 
     notify_webhook_id: Annotated[Optional[str], PropertyInfo(alias="notifyWebhookId")]
 
+    recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
+
     self_healing_enabled: Annotated[bool, PropertyInfo(alias="selfHealingEnabled")]
 
     self_healing_max_attempts: Annotated[int, PropertyInfo(alias="selfHealingMaxAttempts")]

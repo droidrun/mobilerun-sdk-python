@@ -246,16 +246,6 @@ class TestConversations:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_answer_question_with_all_params(self, client: Mobilerun) -> None:
-        conversation = client.assistant.conversations.answer_question(
-            answers=[[{"label": "x"}]],
-            question_id="x",
-            idempotency_key="Idempotency-Key",
-        )
-        assert_matches_type(ConversationAnswerQuestionResponse, conversation, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
     def test_raw_response_answer_question(self, client: Mobilerun) -> None:
         response = client.assistant.conversations.with_raw_response.answer_question(
             answers=[[{"label": "x"}]],
@@ -659,16 +649,6 @@ class TestAsyncConversations:
         conversation = await async_client.assistant.conversations.answer_question(
             answers=[[{"label": "x"}]],
             question_id="x",
-        )
-        assert_matches_type(ConversationAnswerQuestionResponse, conversation, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_answer_question_with_all_params(self, async_client: AsyncMobilerun) -> None:
-        conversation = await async_client.assistant.conversations.answer_question(
-            answers=[[{"label": "x"}]],
-            question_id="x",
-            idempotency_key="Idempotency-Key",
         )
         assert_matches_type(ConversationAnswerQuestionResponse, conversation, path=["response"])
 

@@ -264,7 +264,7 @@ class ConversationsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConversationAnswerPermissionResponse:
         """
-        Deliver a permission approval or rejection for an in-flight turn.
+        Deliver a HITL approval/rejection for an in-flight turn.
 
         Args:
           extra_headers: Send extra headers
@@ -295,7 +295,6 @@ class ConversationsResource(SyncAPIResource):
         *,
         answers: Iterable[Iterable[conversation_answer_question_params.Answer]],
         question_id: str,
-        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -303,14 +302,12 @@ class ConversationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConversationAnswerQuestionResponse:
-        """
-        Deliver the user's answers to the pending question for an in-flight turn.
-        Idempotent via the `Idempotency-Key` header.
+        """Deliver the user's answers to the agent's pending question for an in-flight
+        turn.
+
+        Idempotent via the `idempotency-key` header.
 
         Args:
-          idempotency_key: Optional client key. Reusing the same key with the same question answers
-              coalesces duplicate submits.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -319,7 +316,6 @@ class ConversationsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return self._post(
             "/assistant/chat/question",
             body=maybe_transform(
@@ -390,10 +386,10 @@ class ConversationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConversationRejectQuestionResponse:
-        """Dismiss the pending question.
+        """Dismiss the agent's pending question.
 
-        Already-resolved questions return 200 (no-op) so
-        multi-tab dismiss stays idempotent.
+        Already-resolved questions return 200
+        (no-op) so multi-tab dismiss stays idempotent.
 
         Args:
           extra_headers: Send extra headers
@@ -476,7 +472,8 @@ class ConversationsResource(SyncAPIResource):
 
         Replays buffered events from the start
         of the active turn, then continues live until the turn finishes. Responds 204
-        when no turn is active for the requested session. Resume is best-effort. Does
+        when no active turn exists for the requested session. Upstream streaming
+        failures return a retryable 503 with `Retry-After`. Resume is best-effort. Does
         not start an inactive session.
 
         Args:
@@ -725,7 +722,7 @@ class AsyncConversationsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConversationAnswerPermissionResponse:
         """
-        Deliver a permission approval or rejection for an in-flight turn.
+        Deliver a HITL approval/rejection for an in-flight turn.
 
         Args:
           extra_headers: Send extra headers
@@ -756,7 +753,6 @@ class AsyncConversationsResource(AsyncAPIResource):
         *,
         answers: Iterable[Iterable[conversation_answer_question_params.Answer]],
         question_id: str,
-        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -764,14 +760,12 @@ class AsyncConversationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConversationAnswerQuestionResponse:
-        """
-        Deliver the user's answers to the pending question for an in-flight turn.
-        Idempotent via the `Idempotency-Key` header.
+        """Deliver the user's answers to the agent's pending question for an in-flight
+        turn.
+
+        Idempotent via the `idempotency-key` header.
 
         Args:
-          idempotency_key: Optional client key. Reusing the same key with the same question answers
-              coalesces duplicate submits.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -780,7 +774,6 @@ class AsyncConversationsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return await self._post(
             "/assistant/chat/question",
             body=await async_maybe_transform(
@@ -851,10 +844,10 @@ class AsyncConversationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConversationRejectQuestionResponse:
-        """Dismiss the pending question.
+        """Dismiss the agent's pending question.
 
-        Already-resolved questions return 200 (no-op) so
-        multi-tab dismiss stays idempotent.
+        Already-resolved questions return 200
+        (no-op) so multi-tab dismiss stays idempotent.
 
         Args:
           extra_headers: Send extra headers
@@ -937,7 +930,8 @@ class AsyncConversationsResource(AsyncAPIResource):
 
         Replays buffered events from the start
         of the active turn, then continues live until the turn finishes. Responds 204
-        when no turn is active for the requested session. Resume is best-effort. Does
+        when no active turn exists for the requested session. Upstream streaming
+        failures return a retryable 503 with `Retry-After`. Resume is best-effort. Does
         not start an inactive session.
 
         Args:

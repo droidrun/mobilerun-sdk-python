@@ -42,7 +42,6 @@ if TYPE_CHECKING:
         files,
         store,
         tasks,
-        agents,
         models,
         connect,
         devices,
@@ -60,7 +59,6 @@ if TYPE_CHECKING:
     )
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.files import FilesResource, AsyncFilesResource
-    from .resources.agents import AgentsResource, AsyncAgentsResource
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
     from .resources.carriers import CarriersResource, AsyncCarriersResource
@@ -218,12 +216,6 @@ class Mobilerun(SyncAPIClient):
         from .resources.webhooks import WebhooksResource
 
         return WebhooksResource(self)
-
-    @cached_property
-    def agents(self) -> AgentsResource:
-        from .resources.agents import AgentsResource
-
-        return AgentsResource(self)
 
     @cached_property
     def files(self) -> FilesResource:
@@ -526,12 +518,6 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncWebhooksResource(self)
 
     @cached_property
-    def agents(self) -> AsyncAgentsResource:
-        from .resources.agents import AsyncAgentsResource
-
-        return AsyncAgentsResource(self)
-
-    @cached_property
     def files(self) -> AsyncFilesResource:
         from .resources.files import AsyncFilesResource
 
@@ -778,12 +764,6 @@ class MobilerunWithRawResponse:
         return WebhooksResourceWithRawResponse(self._client.webhooks)
 
     @cached_property
-    def agents(self) -> agents.AgentsResourceWithRawResponse:
-        from .resources.agents import AgentsResourceWithRawResponse
-
-        return AgentsResourceWithRawResponse(self._client.agents)
-
-    @cached_property
     def files(self) -> files.FilesResourceWithRawResponse:
         from .resources.files import FilesResourceWithRawResponse
 
@@ -905,12 +885,6 @@ class AsyncMobilerunWithRawResponse:
         from .resources.webhooks import AsyncWebhooksResourceWithRawResponse
 
         return AsyncWebhooksResourceWithRawResponse(self._client.webhooks)
-
-    @cached_property
-    def agents(self) -> agents.AsyncAgentsResourceWithRawResponse:
-        from .resources.agents import AsyncAgentsResourceWithRawResponse
-
-        return AsyncAgentsResourceWithRawResponse(self._client.agents)
 
     @cached_property
     def files(self) -> files.AsyncFilesResourceWithRawResponse:
@@ -1036,12 +1010,6 @@ class MobilerunWithStreamedResponse:
         return WebhooksResourceWithStreamingResponse(self._client.webhooks)
 
     @cached_property
-    def agents(self) -> agents.AgentsResourceWithStreamingResponse:
-        from .resources.agents import AgentsResourceWithStreamingResponse
-
-        return AgentsResourceWithStreamingResponse(self._client.agents)
-
-    @cached_property
     def files(self) -> files.FilesResourceWithStreamingResponse:
         from .resources.files import FilesResourceWithStreamingResponse
 
@@ -1163,12 +1131,6 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.webhooks import AsyncWebhooksResourceWithStreamingResponse
 
         return AsyncWebhooksResourceWithStreamingResponse(self._client.webhooks)
-
-    @cached_property
-    def agents(self) -> agents.AsyncAgentsResourceWithStreamingResponse:
-        from .resources.agents import AsyncAgentsResourceWithStreamingResponse
-
-        return AsyncAgentsResourceWithStreamingResponse(self._client.agents)
 
     @cached_property
     def files(self) -> files.AsyncFilesResourceWithStreamingResponse:

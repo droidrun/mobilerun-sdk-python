@@ -51,6 +51,8 @@ class Data(BaseModel):
 
     owner_id: str = FieldInfo(alias="ownerId")
 
+    recording_enabled: bool = FieldInfo(alias="recordingEnabled")
+
     self_healing_enabled: bool = FieldInfo(alias="selfHealingEnabled")
 
     self_healing_max_attempts: int = FieldInfo(alias="selfHealingMaxAttempts")

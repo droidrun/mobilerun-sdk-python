@@ -325,6 +325,19 @@ Methods:
 
 - <code title="get /devices/{deviceId}/tasks">client.devices.tasks.<a href="./src/mobilerun_sdk/resources/devices/tasks.py">list</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/task_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/task_list_response.py">TaskListResponse</a></code>
 
+## Clipboard
+
+Types:
+
+```python
+from mobilerun_sdk.types.devices import ClipboardGetResponse
+```
+
+Methods:
+
+- <code title="get /devices/{deviceId}/clipboard">client.devices.clipboard.<a href="./src/mobilerun_sdk/resources/devices/clipboard.py">get</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/clipboard_get_response.py">ClipboardGetResponse</a></code>
+- <code title="post /devices/{deviceId}/clipboard">client.devices.clipboard.<a href="./src/mobilerun_sdk/resources/devices/clipboard.py">set</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/clipboard_set_params.py">params</a>) -> None</code>
+
 ## Timezone
 
 Types:
@@ -806,18 +819,6 @@ Methods:
 - <code title="get /webhooks/{id}/deliveries/{deliveryId}">client.webhooks.deliveries.<a href="./src/mobilerun_sdk/resources/webhooks/deliveries.py">retrieve_attempts</a>(delivery_id, \*, id) -> <a href="./src/mobilerun_sdk/types/webhooks/delivery_retrieve_attempts_response.py">DeliveryRetrieveAttemptsResponse</a></code>
 - <code title="get /webhooks/deliveries/stats">client.webhooks.deliveries.<a href="./src/mobilerun_sdk/resources/webhooks/deliveries.py">stats</a>(\*\*<a href="src/mobilerun_sdk/types/webhooks/delivery_stats_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/webhooks/delivery_stats_response.py">DeliveryStatsResponse</a></code>
 
-# Agents
-
-Types:
-
-```python
-from mobilerun_sdk.types import AgentListResponse
-```
-
-Methods:
-
-- <code title="get /agents">client.agents.<a href="./src/mobilerun_sdk/resources/agents.py">list</a>() -> <a href="./src/mobilerun_sdk/types/agent_list_response.py">AgentListResponse</a></code>
-
 # Files
 
 Types:
@@ -952,7 +953,7 @@ Methods:
 - <code title="post /numbers/esims/import">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">import\_</a>(\*\*<a href="src/mobilerun_sdk/types/esim_import_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/esim_import_response.py">EsimImportResponse</a></code>
 - <code title="post /numbers/esims/{id}/install">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">install</a>(id, \*\*<a href="src/mobilerun_sdk/types/esim_install_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/esim_install_response.py">EsimInstallResponse</a></code>
 - <code title="get /numbers/esims/{id}/install-status">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">install_status</a>(id) -> <a href="./src/mobilerun_sdk/types/esim_install_status_response.py">EsimInstallStatusResponse</a></code>
-- <code title="get /numbers/esims/selector">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">selector</a>() -> <a href="./src/mobilerun_sdk/types/esim_selector_response.py">EsimSelectorResponse</a></code>
+- <code title="get /numbers/esims/selector">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">selector</a>(\*\*<a href="src/mobilerun_sdk/types/esim_selector_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/esim_selector_response.py">EsimSelectorResponse</a></code>
 
 ## Messages
 
@@ -1000,6 +1001,7 @@ Types:
 from mobilerun_sdk.types import (
     NumberCreateResponse,
     NumberRetrieveResponse,
+    NumberUpdateResponse,
     NumberListResponse,
     NumberDeleteResponse,
     NumberCountriesResponse,
@@ -1011,6 +1013,7 @@ Methods:
 
 - <code title="post /numbers/phones">client.numbers.<a href="./src/mobilerun_sdk/resources/numbers/numbers.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/number_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/number_create_response.py">NumberCreateResponse</a></code>
 - <code title="get /numbers/phones/{id}">client.numbers.<a href="./src/mobilerun_sdk/resources/numbers/numbers.py">retrieve</a>(id) -> <a href="./src/mobilerun_sdk/types/number_retrieve_response.py">NumberRetrieveResponse</a></code>
+- <code title="patch /numbers/phones/{id}">client.numbers.<a href="./src/mobilerun_sdk/resources/numbers/numbers.py">update</a>(id, \*\*<a href="src/mobilerun_sdk/types/number_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/number_update_response.py">NumberUpdateResponse</a></code>
 - <code title="get /numbers/phones">client.numbers.<a href="./src/mobilerun_sdk/resources/numbers/numbers.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/number_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/number_list_response.py">NumberListResponse</a></code>
 - <code title="delete /numbers/phones/{id}">client.numbers.<a href="./src/mobilerun_sdk/resources/numbers/numbers.py">delete</a>(id) -> <a href="./src/mobilerun_sdk/types/number_delete_response.py">NumberDeleteResponse</a></code>
 - <code title="get /numbers/phones/countries">client.numbers.<a href="./src/mobilerun_sdk/resources/numbers/numbers.py">countries</a>() -> <a href="./src/mobilerun_sdk/types/number_countries_response.py">NumberCountriesResponse</a></code>

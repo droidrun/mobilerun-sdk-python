@@ -8,7 +8,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["NumberDeleteResponse", "Data"]
+__all__ = ["NumberUpdateResponse", "Data"]
 
 
 class Data(BaseModel):
@@ -41,5 +41,5 @@ class Data(BaseModel):
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
 
-class NumberDeleteResponse(BaseModel):
+class NumberUpdateResponse(BaseModel):
     data: Data

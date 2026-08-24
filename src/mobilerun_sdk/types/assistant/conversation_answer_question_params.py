@@ -15,12 +15,6 @@ class ConversationAnswerQuestionParams(TypedDict, total=False):
 
     question_id: Required[Annotated[str, PropertyInfo(alias="questionId")]]
 
-    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]
-    """Optional client key.
-
-    Reusing the same key with the same question answers coalesces duplicate submits.
-    """
-
 
 class AnswerLabel(TypedDict, total=False):
     label: Required[str]

@@ -33,7 +33,6 @@ from .file_update_params import FileUpdateParams as FileUpdateParams
 from .number_list_params import NumberListParams as NumberListParams
 from .task_list_response import TaskListResponse as TaskListResponse
 from .task_stop_response import TaskStopResponse as TaskStopResponse
-from .agent_list_response import AgentListResponse as AgentListResponse
 from .app_delete_response import AppDeleteResponse as AppDeleteResponse
 from .carrier_list_params import CarrierListParams as CarrierListParams
 from .esim_install_params import EsimInstallParams as EsimInstallParams
@@ -49,11 +48,13 @@ from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse
 from .esim_create_response import EsimCreateResponse as EsimCreateResponse
 from .esim_import_response import EsimImportResponse as EsimImportResponse
+from .esim_selector_params import EsimSelectorParams as EsimSelectorParams
 from .esim_update_response import EsimUpdateResponse as EsimUpdateResponse
 from .file_delete_response import FileDeleteResponse as FileDeleteResponse
 from .file_update_response import FileUpdateResponse as FileUpdateResponse
 from .number_create_params import NumberCreateParams as NumberCreateParams
 from .number_list_response import NumberListResponse as NumberListResponse
+from .number_update_params import NumberUpdateParams as NumberUpdateParams
 from .app_event_list_params import AppEventListParams as AppEventListParams
 from .app_retrieve_response import AppRetrieveResponse as AppRetrieveResponse
 from .carrier_create_params import CarrierCreateParams as CarrierCreateParams
@@ -83,6 +84,7 @@ from .esim_selector_response import EsimSelectorResponse as EsimSelectorResponse
 from .file_upload_url_params import FileUploadURLParams as FileUploadURLParams
 from .number_create_response import NumberCreateResponse as NumberCreateResponse
 from .number_delete_response import NumberDeleteResponse as NumberDeleteResponse
+from .number_update_response import NumberUpdateResponse as NumberUpdateResponse
 from .task_retrieve_response import TaskRetrieveResponse as TaskRetrieveResponse
 from .app_event_list_response import AppEventListResponse as AppEventListResponse
 from .carrier_create_response import CarrierCreateResponse as CarrierCreateResponse

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from typing import Optional
 from typing_extensions import Literal, Annotated, TypedDict
 
 from .._utils import PropertyInfo
@@ -20,6 +21,13 @@ class NumberCreateParams(TypedDict, total=False):
     """Optional ISO 3166-1 alpha-2 country code from GET /numbers/countries.
 
     Cannot be combined with `purpose`.
+    """
+
+    label: Optional[str]
+    """
+    User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
+    code units; an emoji/flag may span several). Display-only, never used for
+    routing. Also seeds the billing entity name at purchase.
     """
 
     purpose: str

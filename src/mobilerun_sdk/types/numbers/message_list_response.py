@@ -7,11 +7,12 @@ from typing_extensions import Literal
 from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
+from ..shared.pagination import Pagination
 
-__all__ = ["MessageListResponse", "Data", "DataItem", "DataPagination"]
+__all__ = ["MessageListResponse", "Item"]
 
 
-class DataItem(BaseModel):
+class Item(BaseModel):
     id: str
 
     body: Optional[str] = None
@@ -35,25 +36,7 @@ class DataItem(BaseModel):
     status: Literal["received", "queued", "claimed", "sending", "sent", "sent_unconfirmed", "delivered", "failed"]
 
 
-class DataPagination(BaseModel):
-    has_next: bool = FieldInfo(alias="hasNext")
-
-    has_prev: bool = FieldInfo(alias="hasPrev")
-
-    page: int
-
-    pages: int
-
-    page_size: int = FieldInfo(alias="pageSize")
-
-    total: int
-
-
-class Data(BaseModel):
-    items: List[DataItem]
-
-    pagination: DataPagination
-
-
 class MessageListResponse(BaseModel):
-    data: Data
+    items: List[Item]
+
+    pagination: Pagination

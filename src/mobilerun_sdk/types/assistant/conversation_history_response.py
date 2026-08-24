@@ -52,7 +52,7 @@ class Message(BaseModel):
 
     metadata: Optional[MessageMetadata] = None
 
-    source: Optional[Literal["cloud", "telegram", "api", "workflow"]] = None
+    source: Optional[Literal["cloud", "telegram", "api", "workflow", "notification"]] = None
 
     synthetic: Optional[bool] = None
 
