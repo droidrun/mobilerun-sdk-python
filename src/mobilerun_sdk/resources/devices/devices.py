@@ -124,6 +124,14 @@ from .timezone import (
     AsyncTimezoneResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
+from .clipboard import (
+    ClipboardResource,
+    AsyncClipboardResource,
+    ClipboardResourceWithRawResponse,
+    AsyncClipboardResourceWithRawResponse,
+    ClipboardResourceWithStreamingResponse,
+    AsyncClipboardResourceWithStreamingResponse,
+)
 from .deep_link import (
     DeepLinkResource,
     AsyncDeepLinkResource,
@@ -223,6 +231,10 @@ class DevicesResource(SyncAPIResource):
     @cached_property
     def tasks(self) -> TasksResource:
         return TasksResource(self._client)
+
+    @cached_property
+    def clipboard(self) -> ClipboardResource:
+        return ClipboardResource(self._client)
 
     @cached_property
     def timezone(self) -> TimezoneResource:
@@ -906,6 +918,10 @@ class AsyncDevicesResource(AsyncAPIResource):
     @cached_property
     def tasks(self) -> AsyncTasksResource:
         return AsyncTasksResource(self._client)
+
+    @cached_property
+    def clipboard(self) -> AsyncClipboardResource:
+        return AsyncClipboardResource(self._client)
 
     @cached_property
     def timezone(self) -> AsyncTimezoneResource:
@@ -1634,6 +1650,10 @@ class DevicesResourceWithRawResponse:
         return TasksResourceWithRawResponse(self._devices.tasks)
 
     @cached_property
+    def clipboard(self) -> ClipboardResourceWithRawResponse:
+        return ClipboardResourceWithRawResponse(self._devices.clipboard)
+
+    @cached_property
     def timezone(self) -> TimezoneResourceWithRawResponse:
         return TimezoneResourceWithRawResponse(self._devices.timezone)
 
@@ -1749,6 +1769,10 @@ class AsyncDevicesResourceWithRawResponse:
     @cached_property
     def tasks(self) -> AsyncTasksResourceWithRawResponse:
         return AsyncTasksResourceWithRawResponse(self._devices.tasks)
+
+    @cached_property
+    def clipboard(self) -> AsyncClipboardResourceWithRawResponse:
+        return AsyncClipboardResourceWithRawResponse(self._devices.clipboard)
 
     @cached_property
     def timezone(self) -> AsyncTimezoneResourceWithRawResponse:
@@ -1868,6 +1892,10 @@ class DevicesResourceWithStreamingResponse:
         return TasksResourceWithStreamingResponse(self._devices.tasks)
 
     @cached_property
+    def clipboard(self) -> ClipboardResourceWithStreamingResponse:
+        return ClipboardResourceWithStreamingResponse(self._devices.clipboard)
+
+    @cached_property
     def timezone(self) -> TimezoneResourceWithStreamingResponse:
         return TimezoneResourceWithStreamingResponse(self._devices.timezone)
 
@@ -1983,6 +2011,10 @@ class AsyncDevicesResourceWithStreamingResponse:
     @cached_property
     def tasks(self) -> AsyncTasksResourceWithStreamingResponse:
         return AsyncTasksResourceWithStreamingResponse(self._devices.tasks)
+
+    @cached_property
+    def clipboard(self) -> AsyncClipboardResourceWithStreamingResponse:
+        return AsyncClipboardResourceWithStreamingResponse(self._devices.clipboard)
 
     @cached_property
     def timezone(self) -> AsyncTimezoneResourceWithStreamingResponse:

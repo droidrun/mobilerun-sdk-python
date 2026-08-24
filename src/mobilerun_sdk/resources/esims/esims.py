@@ -7,7 +7,14 @@ from typing_extensions import Literal
 
 import httpx
 
-from ...types import esim_list_params, esim_create_params, esim_import_params, esim_update_params, esim_install_params
+from ...types import (
+    esim_list_params,
+    esim_create_params,
+    esim_import_params,
+    esim_update_params,
+    esim_install_params,
+    esim_selector_params,
+)
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ..._utils import path_template, maybe_transform, async_maybe_transform
 from .messages import (
@@ -69,6 +76,7 @@ class EsimsResource(SyncAPIResource):
         self,
         *,
         idempotency_key: str | Omit = omit,
+        name: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -85,6 +93,9 @@ class EsimsResource(SyncAPIResource):
           idempotency_key: Client-supplied key; replaying the same key returns the original purchase
               instead of buying again
 
+          name: Optional user-defined display label — NFC-normalized, up to 15 GRAPHEMES. Omit
+              or null for no label.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -95,7 +106,13 @@ class EsimsResource(SyncAPIResource):
         """
         return self._post(
             "/numbers/esims",
-            body=maybe_transform({"idempotency_key": idempotency_key}, esim_create_params.EsimCreateParams),
+            body=maybe_transform(
+                {
+                    "idempotency_key": idempotency_key,
+                    "name": name,
+                },
+                esim_create_params.EsimCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -522,6 +539,8 @@ class EsimsResource(SyncAPIResource):
     def selector(
         self,
         *,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -532,12 +551,31 @@ class EsimsResource(SyncAPIResource):
         """
         Returns a lightweight list (id, msisdn, carrierName, status, masked iccid) for
         use in a message filter dropdown. Unlike `GET /esims`, this includes all
-        statuses, including retired eSIMs, and is not paginated.
+        statuses, including retired eSIMs.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._get(
             "/numbers/esims/selector",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "page": page,
+                        "page_size": page_size,
+                    },
+                    esim_selector_params.EsimSelectorParams,
+                ),
             ),
             cast_to=EsimSelectorResponse,
         )
@@ -571,6 +609,7 @@ class AsyncEsimsResource(AsyncAPIResource):
         self,
         *,
         idempotency_key: str | Omit = omit,
+        name: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -587,6 +626,9 @@ class AsyncEsimsResource(AsyncAPIResource):
           idempotency_key: Client-supplied key; replaying the same key returns the original purchase
               instead of buying again
 
+          name: Optional user-defined display label — NFC-normalized, up to 15 GRAPHEMES. Omit
+              or null for no label.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -597,7 +639,13 @@ class AsyncEsimsResource(AsyncAPIResource):
         """
         return await self._post(
             "/numbers/esims",
-            body=await async_maybe_transform({"idempotency_key": idempotency_key}, esim_create_params.EsimCreateParams),
+            body=await async_maybe_transform(
+                {
+                    "idempotency_key": idempotency_key,
+                    "name": name,
+                },
+                esim_create_params.EsimCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -1024,6 +1072,8 @@ class AsyncEsimsResource(AsyncAPIResource):
     async def selector(
         self,
         *,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1034,12 +1084,31 @@ class AsyncEsimsResource(AsyncAPIResource):
         """
         Returns a lightweight list (id, msisdn, carrierName, status, masked iccid) for
         use in a message filter dropdown. Unlike `GET /esims`, this includes all
-        statuses, including retired eSIMs, and is not paginated.
+        statuses, including retired eSIMs.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._get(
             "/numbers/esims/selector",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "page": page,
+                        "page_size": page_size,
+                    },
+                    esim_selector_params.EsimSelectorParams,
+                ),
             ),
             cast_to=EsimSelectorResponse,
         )

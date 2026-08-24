@@ -13,6 +13,7 @@ from mobilerun_sdk.types import (
     NumberListResponse,
     NumberCreateResponse,
     NumberDeleteResponse,
+    NumberUpdateResponse,
     NumberPurposesResponse,
     NumberRetrieveResponse,
     NumberCountriesResponse,
@@ -36,6 +37,7 @@ class TestNumbers:
         number = client.numbers.create(
             billing_preference="included",
             country="de",
+            label="Support line",
             purpose="telegram",
             idempotency_key="x",
         )
@@ -103,6 +105,57 @@ class TestNumbers:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.numbers.with_raw_response.retrieve(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_update(self, client: Mobilerun) -> None:
+        number = client.numbers.update(
+            id="550e8400-e29b-41d4-a716-446655440000",
+        )
+        assert_matches_type(NumberUpdateResponse, number, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params(self, client: Mobilerun) -> None:
+        number = client.numbers.update(
+            id="550e8400-e29b-41d4-a716-446655440000",
+            label="Support line",
+        )
+        assert_matches_type(NumberUpdateResponse, number, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_update(self, client: Mobilerun) -> None:
+        response = client.numbers.with_raw_response.update(
+            id="550e8400-e29b-41d4-a716-446655440000",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        number = response.parse()
+        assert_matches_type(NumberUpdateResponse, number, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_update(self, client: Mobilerun) -> None:
+        with client.numbers.with_streaming_response.update(
+            id="550e8400-e29b-41d4-a716-446655440000",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            number = response.parse()
+            assert_matches_type(NumberUpdateResponse, number, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_update(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.numbers.with_raw_response.update(
+                id="",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -258,6 +311,7 @@ class TestAsyncNumbers:
         number = await async_client.numbers.create(
             billing_preference="included",
             country="de",
+            label="Support line",
             purpose="telegram",
             idempotency_key="x",
         )
@@ -325,6 +379,57 @@ class TestAsyncNumbers:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.numbers.with_raw_response.retrieve(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_update(self, async_client: AsyncMobilerun) -> None:
+        number = await async_client.numbers.update(
+            id="550e8400-e29b-41d4-a716-446655440000",
+        )
+        assert_matches_type(NumberUpdateResponse, number, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        number = await async_client.numbers.update(
+            id="550e8400-e29b-41d4-a716-446655440000",
+            label="Support line",
+        )
+        assert_matches_type(NumberUpdateResponse, number, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_update(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.numbers.with_raw_response.update(
+            id="550e8400-e29b-41d4-a716-446655440000",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        number = await response.parse()
+        assert_matches_type(NumberUpdateResponse, number, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_update(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.numbers.with_streaming_response.update(
+            id="550e8400-e29b-41d4-a716-446655440000",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            number = await response.parse()
+            assert_matches_type(NumberUpdateResponse, number, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_update(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.numbers.with_raw_response.update(
+                id="",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")

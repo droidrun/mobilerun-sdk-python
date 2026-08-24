@@ -51,7 +51,7 @@ class ModelsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ModelListResponse:
-        """Get all LLM models"""
+        """List available LLM models."""
         return self._get(
             "/models",
             options=make_request_options(
@@ -93,7 +93,7 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ModelListResponse:
-        """Get all LLM models"""
+        """List available LLM models."""
         return await self._get(
             "/models",
             options=make_request_options(

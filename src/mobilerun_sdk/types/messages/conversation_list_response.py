@@ -8,10 +8,10 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["ConversationListResponse", "Data", "DataItem", "DataItemLastMessage", "DataNextCursor"]
+__all__ = ["ConversationListResponse", "Item", "ItemLastMessage", "NextCursor"]
 
 
-class DataItemLastMessage(BaseModel):
+class ItemLastMessage(BaseModel):
     id: str
 
     body: Optional[str] = None
@@ -23,27 +23,23 @@ class DataItemLastMessage(BaseModel):
     status: Literal["received", "queued", "claimed", "sending", "sent", "sent_unconfirmed", "delivered", "failed"]
 
 
-class DataItem(BaseModel):
+class Item(BaseModel):
     esim_ids: List[str] = FieldInfo(alias="esimIds")
 
-    last_message: DataItemLastMessage = FieldInfo(alias="lastMessage")
+    last_message: ItemLastMessage = FieldInfo(alias="lastMessage")
 
     peer_key: str = FieldInfo(alias="peerKey")
 
     unread_count: int = FieldInfo(alias="unreadCount")
 
 
-class DataNextCursor(BaseModel):
+class NextCursor(BaseModel):
     last_message_id: str = FieldInfo(alias="lastMessageId")
 
     last_occurred_at: datetime = FieldInfo(alias="lastOccurredAt")
 
 
-class Data(BaseModel):
-    items: List[DataItem]
-
-    next_cursor: Optional[DataNextCursor] = FieldInfo(alias="nextCursor", default=None)
-
-
 class ConversationListResponse(BaseModel):
-    data: Data
+    items: List[Item]
+
+    next_cursor: Optional[NextCursor] = FieldInfo(alias="nextCursor", default=None)
