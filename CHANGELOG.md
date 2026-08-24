@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.4.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.3.0...v5.4.0) (2026-08-24)
+
+
+### Chores
+
+* release 5.4.0 ([cc695d4](https://github.com/droidrun/mobilerun-sdk-python/commit/cc695d464e28a83c707b020d7557d138abfedddb))
+* **sdk:** re-anchor custom-code tracking post-release ([953d660](https://github.com/droidrun/mobilerun-sdk-python/commit/953d66059ce629f0b15c2e82938f8a21a40b8cfe))
+
 ## [5.3.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.2.1...v5.3.0) (2026-08-24)
 
 
