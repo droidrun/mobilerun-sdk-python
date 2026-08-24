@@ -52,6 +52,7 @@ if TYPE_CHECKING:
         profiles,
         webhooks,
         assistant,
+        mailboxes,
         workflows,
         app_events,
         credentials,
@@ -73,6 +74,7 @@ if TYPE_CHECKING:
     from .resources.messages.messages import MessagesResource, AsyncMessagesResource
     from .resources.webhooks.webhooks import WebhooksResource, AsyncWebhooksResource
     from .resources.assistant.assistant import AssistantResource, AsyncAssistantResource
+    from .resources.mailboxes.mailboxes import MailboxesResource, AsyncMailboxesResource
     from .resources.workflows.workflows import WorkflowsResource, AsyncWorkflowsResource
     from .resources.app_events.app_events import AppEventsResource, AsyncAppEventsResource
     from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
@@ -216,6 +218,12 @@ class Mobilerun(SyncAPIClient):
         from .resources.webhooks import WebhooksResource
 
         return WebhooksResource(self)
+
+    @cached_property
+    def mailboxes(self) -> MailboxesResource:
+        from .resources.mailboxes import MailboxesResource
+
+        return MailboxesResource(self)
 
     @cached_property
     def files(self) -> FilesResource:
@@ -518,6 +526,12 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncWebhooksResource(self)
 
     @cached_property
+    def mailboxes(self) -> AsyncMailboxesResource:
+        from .resources.mailboxes import AsyncMailboxesResource
+
+        return AsyncMailboxesResource(self)
+
+    @cached_property
     def files(self) -> AsyncFilesResource:
         from .resources.files import AsyncFilesResource
 
@@ -764,6 +778,12 @@ class MobilerunWithRawResponse:
         return WebhooksResourceWithRawResponse(self._client.webhooks)
 
     @cached_property
+    def mailboxes(self) -> mailboxes.MailboxesResourceWithRawResponse:
+        from .resources.mailboxes import MailboxesResourceWithRawResponse
+
+        return MailboxesResourceWithRawResponse(self._client.mailboxes)
+
+    @cached_property
     def files(self) -> files.FilesResourceWithRawResponse:
         from .resources.files import FilesResourceWithRawResponse
 
@@ -885,6 +905,12 @@ class AsyncMobilerunWithRawResponse:
         from .resources.webhooks import AsyncWebhooksResourceWithRawResponse
 
         return AsyncWebhooksResourceWithRawResponse(self._client.webhooks)
+
+    @cached_property
+    def mailboxes(self) -> mailboxes.AsyncMailboxesResourceWithRawResponse:
+        from .resources.mailboxes import AsyncMailboxesResourceWithRawResponse
+
+        return AsyncMailboxesResourceWithRawResponse(self._client.mailboxes)
 
     @cached_property
     def files(self) -> files.AsyncFilesResourceWithRawResponse:
@@ -1010,6 +1036,12 @@ class MobilerunWithStreamedResponse:
         return WebhooksResourceWithStreamingResponse(self._client.webhooks)
 
     @cached_property
+    def mailboxes(self) -> mailboxes.MailboxesResourceWithStreamingResponse:
+        from .resources.mailboxes import MailboxesResourceWithStreamingResponse
+
+        return MailboxesResourceWithStreamingResponse(self._client.mailboxes)
+
+    @cached_property
     def files(self) -> files.FilesResourceWithStreamingResponse:
         from .resources.files import FilesResourceWithStreamingResponse
 
@@ -1131,6 +1163,12 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.webhooks import AsyncWebhooksResourceWithStreamingResponse
 
         return AsyncWebhooksResourceWithStreamingResponse(self._client.webhooks)
+
+    @cached_property
+    def mailboxes(self) -> mailboxes.AsyncMailboxesResourceWithStreamingResponse:
+        from .resources.mailboxes import AsyncMailboxesResourceWithStreamingResponse
+
+        return AsyncMailboxesResourceWithStreamingResponse(self._client.mailboxes)
 
     @cached_property
     def files(self) -> files.AsyncFilesResourceWithStreamingResponse:

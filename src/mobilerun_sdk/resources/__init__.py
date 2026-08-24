@@ -120,6 +120,14 @@ from .assistant import (
     AssistantResourceWithStreamingResponse,
     AsyncAssistantResourceWithStreamingResponse,
 )
+from .mailboxes import (
+    MailboxesResource,
+    AsyncMailboxesResource,
+    MailboxesResourceWithRawResponse,
+    AsyncMailboxesResourceWithRawResponse,
+    MailboxesResourceWithStreamingResponse,
+    AsyncMailboxesResourceWithStreamingResponse,
+)
 from .workflows import (
     WorkflowsResource,
     AsyncWorkflowsResource,
@@ -220,6 +228,12 @@ __all__ = [
     "AsyncWebhooksResourceWithRawResponse",
     "WebhooksResourceWithStreamingResponse",
     "AsyncWebhooksResourceWithStreamingResponse",
+    "MailboxesResource",
+    "AsyncMailboxesResource",
+    "MailboxesResourceWithRawResponse",
+    "AsyncMailboxesResourceWithRawResponse",
+    "MailboxesResourceWithStreamingResponse",
+    "AsyncMailboxesResourceWithStreamingResponse",
     "FilesResource",
     "AsyncFilesResource",
     "FilesResourceWithRawResponse",
