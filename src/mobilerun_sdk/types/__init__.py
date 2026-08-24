@@ -18,6 +18,7 @@ from .shared import (
 from .app_list_params import AppListParams as AppListParams
 from .task_run_params import TaskRunParams as TaskRunParams
 from .esim_list_params import EsimListParams as EsimListParams
+from .file_list_params import FileListParams as FileListParams
 from .task_list_params import TaskListParams as TaskListParams
 from .app_list_response import AppListResponse as AppListResponse
 from .proxy_list_params import ProxyListParams as ProxyListParams
@@ -27,10 +28,11 @@ from .esim_create_params import EsimCreateParams as EsimCreateParams
 from .esim_import_params import EsimImportParams as EsimImportParams
 from .esim_list_response import EsimListResponse as EsimListResponse
 from .esim_update_params import EsimUpdateParams as EsimUpdateParams
+from .file_list_response import FileListResponse as FileListResponse
+from .file_update_params import FileUpdateParams as FileUpdateParams
 from .number_list_params import NumberListParams as NumberListParams
 from .task_list_response import TaskListResponse as TaskListResponse
 from .task_stop_response import TaskStopResponse as TaskStopResponse
-from .agent_list_response import AgentListResponse as AgentListResponse
 from .app_delete_response import AppDeleteResponse as AppDeleteResponse
 from .carrier_list_params import CarrierListParams as CarrierListParams
 from .esim_install_params import EsimInstallParams as EsimInstallParams
@@ -46,9 +48,13 @@ from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse
 from .esim_create_response import EsimCreateResponse as EsimCreateResponse
 from .esim_import_response import EsimImportResponse as EsimImportResponse
+from .esim_selector_params import EsimSelectorParams as EsimSelectorParams
 from .esim_update_response import EsimUpdateResponse as EsimUpdateResponse
+from .file_delete_response import FileDeleteResponse as FileDeleteResponse
+from .file_update_response import FileUpdateResponse as FileUpdateResponse
 from .number_create_params import NumberCreateParams as NumberCreateParams
 from .number_list_response import NumberListResponse as NumberListResponse
+from .number_update_params import NumberUpdateParams as NumberUpdateParams
 from .app_event_list_params import AppEventListParams as AppEventListParams
 from .app_retrieve_response import AppRetrieveResponse as AppRetrieveResponse
 from .carrier_create_params import CarrierCreateParams as CarrierCreateParams
@@ -57,6 +63,7 @@ from .carrier_lookup_params import CarrierLookupParams as CarrierLookupParams
 from .carrier_update_params import CarrierUpdateParams as CarrierUpdateParams
 from .device_count_response import DeviceCountResponse as DeviceCountResponse
 from .esim_install_response import EsimInstallResponse as EsimInstallResponse
+from .file_confirm_response import FileConfirmResponse as FileConfirmResponse
 from .message_list_response import MessageListResponse as MessageListResponse
 from .profile_create_params import ProfileCreateParams as ProfileCreateParams
 from .profile_list_response import ProfileListResponse as ProfileListResponse
@@ -74,8 +81,10 @@ from .device_set_name_params import DeviceSetNameParams as DeviceSetNameParams
 from .esim_capacity_response import EsimCapacityResponse as EsimCapacityResponse
 from .esim_retrieve_response import EsimRetrieveResponse as EsimRetrieveResponse
 from .esim_selector_response import EsimSelectorResponse as EsimSelectorResponse
+from .file_upload_url_params import FileUploadURLParams as FileUploadURLParams
 from .number_create_response import NumberCreateResponse as NumberCreateResponse
 from .number_delete_response import NumberDeleteResponse as NumberDeleteResponse
+from .number_update_response import NumberUpdateResponse as NumberUpdateResponse
 from .task_retrieve_response import TaskRetrieveResponse as TaskRetrieveResponse
 from .app_event_list_response import AppEventListResponse as AppEventListResponse
 from .carrier_create_response import CarrierCreateResponse as CarrierCreateResponse
@@ -93,6 +102,7 @@ from .app_mark_failed_response import AppMarkFailedResponse as AppMarkFailedResp
 from .credential_list_response import CredentialListResponse as CredentialListResponse
 from .device_retrieve_response import DeviceRetrieveResponse as DeviceRetrieveResponse
 from .device_set_name_response import DeviceSetNameResponse as DeviceSetNameResponse
+from .file_upload_url_response import FileUploadURLResponse as FileUploadURLResponse
 from .number_purposes_response import NumberPurposesResponse as NumberPurposesResponse
 from .number_retrieve_response import NumberRetrieveResponse as NumberRetrieveResponse
 from .task_get_status_response import TaskGetStatusResponse as TaskGetStatusResponse
@@ -111,6 +121,7 @@ from .app_confirm_upload_response import AppConfirmUploadResponse as AppConfirmU
 from .app_event_retrieve_response import AppEventRetrieveResponse as AppEventRetrieveResponse
 from .device_fingerprint_response import DeviceFingerprintResponse as DeviceFingerprintResponse
 from .esim_install_status_response import EsimInstallStatusResponse as EsimInstallStatusResponse
+from .file_cancel_pending_response import FileCancelPendingResponse as FileCancelPendingResponse
 from .task_get_trajectory_response import TaskGetTrajectoryResponse as TaskGetTrajectoryResponse
 from .webhook_event_types_response import WebhookEventTypesResponse as WebhookEventTypesResponse
 from .esim_confirm_payment_response import EsimConfirmPaymentResponse as EsimConfirmPaymentResponse

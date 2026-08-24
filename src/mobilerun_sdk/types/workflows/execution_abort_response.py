@@ -25,6 +25,15 @@ class Data(BaseModel):
 
     kind: Literal["live", "dry_run"]
 
+    recording_device_id: Optional[str] = FieldInfo(alias="recordingDeviceId", default=None)
+
+    recording_id: Optional[str] = FieldInfo(alias="recordingId", default=None)
+    """
+    Device-recording id (devices-api) for this execution, set once the worker starts
+    a recording. Null when the flow has recording disabled, no device is bound, or
+    the recording failed to start.
+    """
+
     started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
 
     status: Optional[Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"]] = None

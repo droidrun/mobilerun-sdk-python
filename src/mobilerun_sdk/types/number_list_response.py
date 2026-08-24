@@ -9,10 +9,10 @@ from pydantic import Field as FieldInfo
 from .._models import BaseModel
 from .shared.pagination import Pagination
 
-__all__ = ["NumberListResponse", "Data", "DataItem"]
+__all__ = ["NumberListResponse", "Item"]
 
 
-class DataItem(BaseModel):
+class Item(BaseModel):
     id: str
 
     cancel_at_period_end: bool = FieldInfo(alias="cancelAtPeriodEnd")
@@ -31,6 +31,8 @@ class DataItem(BaseModel):
 
     current_period_end: Optional[datetime] = FieldInfo(alias="currentPeriodEnd", default=None)
 
+    label: Optional[str] = None
+
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
 
     purpose: Optional[str] = None
@@ -40,11 +42,7 @@ class DataItem(BaseModel):
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
 
-class Data(BaseModel):
-    items: List[DataItem]
+class NumberListResponse(BaseModel):
+    items: List[Item]
 
     pagination: Pagination
-
-
-class NumberListResponse(BaseModel):
-    data: Data

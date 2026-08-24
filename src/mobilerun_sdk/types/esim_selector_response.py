@@ -6,11 +6,12 @@ from typing_extensions import Literal
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
+from .shared.pagination import Pagination
 
-__all__ = ["EsimSelectorResponse", "Data", "DataItem"]
+__all__ = ["EsimSelectorResponse", "Item"]
 
 
-class DataItem(BaseModel):
+class Item(BaseModel):
     id: str
 
     carrier_name: Optional[str] = FieldInfo(alias="carrierName", default=None)
@@ -26,9 +27,7 @@ class DataItem(BaseModel):
     status: Literal["in_stock", "owned", "installing", "installed", "install_failed", "retired"]
 
 
-class Data(BaseModel):
-    items: List[DataItem]
-
-
 class EsimSelectorResponse(BaseModel):
-    data: Data
+    items: List[Item]
+
+    pagination: Pagination

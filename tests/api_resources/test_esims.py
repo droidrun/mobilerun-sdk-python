@@ -39,6 +39,7 @@ class TestEsims:
     def test_method_create_with_all_params(self, client: Mobilerun) -> None:
         esim = client.esims.create(
             idempotency_key="idempotencyKey",
+            name="Mom's phone",
         )
         assert_matches_type(EsimCreateResponse, esim, path=["response"])
 
@@ -457,6 +458,15 @@ class TestEsims:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_selector_with_all_params(self, client: Mobilerun) -> None:
+        esim = client.esims.selector(
+            page=1,
+            page_size=1,
+        )
+        assert_matches_type(EsimSelectorResponse, esim, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_raw_response_selector(self, client: Mobilerun) -> None:
         response = client.esims.with_raw_response.selector()
 
@@ -494,6 +504,7 @@ class TestAsyncEsims:
     async def test_method_create_with_all_params(self, async_client: AsyncMobilerun) -> None:
         esim = await async_client.esims.create(
             idempotency_key="idempotencyKey",
+            name="Mom's phone",
         )
         assert_matches_type(EsimCreateResponse, esim, path=["response"])
 
@@ -908,6 +919,15 @@ class TestAsyncEsims:
     @parametrize
     async def test_method_selector(self, async_client: AsyncMobilerun) -> None:
         esim = await async_client.esims.selector()
+        assert_matches_type(EsimSelectorResponse, esim, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_selector_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        esim = await async_client.esims.selector(
+            page=1,
+            page_size=1,
+        )
         assert_matches_type(EsimSelectorResponse, esim, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")

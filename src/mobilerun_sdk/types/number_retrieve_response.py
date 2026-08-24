@@ -30,6 +30,8 @@ class Data(BaseModel):
 
     current_period_end: Optional[datetime] = FieldInfo(alias="currentPeriodEnd", default=None)
 
+    label: Optional[str] = None
+
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
 
     purpose: Optional[str] = None

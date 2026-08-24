@@ -9,10 +9,10 @@ from pydantic import Field as FieldInfo
 from ..._models import BaseModel
 from ..shared.pagination import Pagination
 
-__all__ = ["MessageListResponse", "Data", "DataItem"]
+__all__ = ["MessageListResponse", "Item"]
 
 
-class DataItem(BaseModel):
+class Item(BaseModel):
     id: str
 
     body: Optional[str] = None
@@ -38,11 +38,7 @@ class DataItem(BaseModel):
     status: Literal["received", "queued", "claimed", "sending", "sent", "sent_unconfirmed", "delivered", "failed"]
 
 
-class Data(BaseModel):
-    items: List[DataItem]
+class MessageListResponse(BaseModel):
+    items: List[Item]
 
     pagination: Pagination
-
-
-class MessageListResponse(BaseModel):
-    data: Data

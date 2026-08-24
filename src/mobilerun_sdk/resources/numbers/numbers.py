@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+from typing import Optional
 from typing_extensions import Literal
 
 import httpx
 
-from ...types import number_list_params, number_create_params
+from ...types import number_list_params, number_create_params, number_update_params
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from .messages import (
@@ -29,6 +30,7 @@ from ..._base_client import make_request_options
 from ...types.number_list_response import NumberListResponse
 from ...types.number_create_response import NumberCreateResponse
 from ...types.number_delete_response import NumberDeleteResponse
+from ...types.number_update_response import NumberUpdateResponse
 from ...types.number_purposes_response import NumberPurposesResponse
 from ...types.number_retrieve_response import NumberRetrieveResponse
 from ...types.number_countries_response import NumberCountriesResponse
@@ -65,6 +67,7 @@ class NumbersResource(SyncAPIResource):
         *,
         billing_preference: Literal["included", "rent"] | Omit = omit,
         country: str | Omit = omit,
+        label: Optional[str] | Omit = omit,
         purpose: str | Omit = omit,
         idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -87,6 +90,10 @@ class NumbersResource(SyncAPIResource):
           country: Optional ISO 3166-1 alpha-2 country code from GET /numbers/countries. Cannot be
               combined with `purpose`.
 
+          label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
+              code units; an emoji/flag may span several). Display-only, never used for
+              routing. Also seeds the billing entity name at purchase.
+
           purpose: Optional Mobilerun Phone purpose slug from GET /numbers/purposes.
 
           idempotency_key: Optional request idempotency key.
@@ -106,6 +113,7 @@ class NumbersResource(SyncAPIResource):
                 {
                     "billing_preference": billing_preference,
                     "country": country,
+                    "label": label,
                     "purpose": purpose,
                 },
                 number_create_params.NumberCreateParams,
@@ -147,6 +155,50 @@ class NumbersResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NumberRetrieveResponse,
+        )
+
+    def update(
+        self,
+        id: str,
+        *,
+        label: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> NumberUpdateResponse:
+        """Updates the phone number's user-defined display label.
+
+        Omitting `label` leaves
+        it unchanged; setting it to null or an empty string clears it. The label is
+        capped at 100 characters, is display-only, and never affects routing. It also
+        seeds the billing entity name when set at purchase time; a later change here
+        does not rename the already-created billing entity.
+
+        Args:
+          label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
+              code units; an emoji/flag may span several). Display-only, never used for
+              routing. Also seeds the billing entity name at purchase.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._patch(
+            path_template("/numbers/phones/{id}", id=id),
+            body=maybe_transform({"label": label}, number_update_params.NumberUpdateParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NumberUpdateResponse,
         )
 
     def list(
@@ -313,6 +365,7 @@ class AsyncNumbersResource(AsyncAPIResource):
         *,
         billing_preference: Literal["included", "rent"] | Omit = omit,
         country: str | Omit = omit,
+        label: Optional[str] | Omit = omit,
         purpose: str | Omit = omit,
         idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -335,6 +388,10 @@ class AsyncNumbersResource(AsyncAPIResource):
           country: Optional ISO 3166-1 alpha-2 country code from GET /numbers/countries. Cannot be
               combined with `purpose`.
 
+          label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
+              code units; an emoji/flag may span several). Display-only, never used for
+              routing. Also seeds the billing entity name at purchase.
+
           purpose: Optional Mobilerun Phone purpose slug from GET /numbers/purposes.
 
           idempotency_key: Optional request idempotency key.
@@ -354,6 +411,7 @@ class AsyncNumbersResource(AsyncAPIResource):
                 {
                     "billing_preference": billing_preference,
                     "country": country,
+                    "label": label,
                     "purpose": purpose,
                 },
                 number_create_params.NumberCreateParams,
@@ -395,6 +453,50 @@ class AsyncNumbersResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NumberRetrieveResponse,
+        )
+
+    async def update(
+        self,
+        id: str,
+        *,
+        label: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> NumberUpdateResponse:
+        """Updates the phone number's user-defined display label.
+
+        Omitting `label` leaves
+        it unchanged; setting it to null or an empty string clears it. The label is
+        capped at 100 characters, is display-only, and never affects routing. It also
+        seeds the billing entity name when set at purchase time; a later change here
+        does not rename the already-created billing entity.
+
+        Args:
+          label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
+              code units; an emoji/flag may span several). Display-only, never used for
+              routing. Also seeds the billing entity name at purchase.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._patch(
+            path_template("/numbers/phones/{id}", id=id),
+            body=await async_maybe_transform({"label": label}, number_update_params.NumberUpdateParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NumberUpdateResponse,
         )
 
     async def list(
@@ -542,6 +644,9 @@ class NumbersResourceWithRawResponse:
         self.retrieve = to_raw_response_wrapper(
             numbers.retrieve,
         )
+        self.update = to_raw_response_wrapper(
+            numbers.update,
+        )
         self.list = to_raw_response_wrapper(
             numbers.list,
         )
@@ -569,6 +674,9 @@ class AsyncNumbersResourceWithRawResponse:
         )
         self.retrieve = async_to_raw_response_wrapper(
             numbers.retrieve,
+        )
+        self.update = async_to_raw_response_wrapper(
+            numbers.update,
         )
         self.list = async_to_raw_response_wrapper(
             numbers.list,
@@ -598,6 +706,9 @@ class NumbersResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             numbers.retrieve,
         )
+        self.update = to_streamed_response_wrapper(
+            numbers.update,
+        )
         self.list = to_streamed_response_wrapper(
             numbers.list,
         )
@@ -625,6 +736,9 @@ class AsyncNumbersResourceWithStreamingResponse:
         )
         self.retrieve = async_to_streamed_response_wrapper(
             numbers.retrieve,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            numbers.update,
         )
         self.list = async_to_streamed_response_wrapper(
             numbers.list,

@@ -16,6 +16,14 @@ from .esims import (
     EsimsResourceWithStreamingResponse,
     AsyncEsimsResourceWithStreamingResponse,
 )
+from .files import (
+    FilesResource,
+    AsyncFilesResource,
+    FilesResourceWithRawResponse,
+    AsyncFilesResourceWithRawResponse,
+    FilesResourceWithStreamingResponse,
+    AsyncFilesResourceWithStreamingResponse,
+)
 from .store import (
     StoreResource,
     AsyncStoreResource,
@@ -31,14 +39,6 @@ from .tasks import (
     AsyncTasksResourceWithRawResponse,
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
-)
-from .agents import (
-    AgentsResource,
-    AsyncAgentsResource,
-    AgentsResourceWithRawResponse,
-    AsyncAgentsResourceWithRawResponse,
-    AgentsResourceWithStreamingResponse,
-    AsyncAgentsResourceWithStreamingResponse,
 )
 from .models import (
     ModelsResource,
@@ -111,6 +111,14 @@ from .webhooks import (
     AsyncWebhooksResourceWithRawResponse,
     WebhooksResourceWithStreamingResponse,
     AsyncWebhooksResourceWithStreamingResponse,
+)
+from .assistant import (
+    AssistantResource,
+    AsyncAssistantResource,
+    AssistantResourceWithRawResponse,
+    AsyncAssistantResourceWithRawResponse,
+    AssistantResourceWithStreamingResponse,
+    AsyncAssistantResourceWithStreamingResponse,
 )
 from .workflows import (
     WorkflowsResource,
@@ -212,12 +220,18 @@ __all__ = [
     "AsyncWebhooksResourceWithRawResponse",
     "WebhooksResourceWithStreamingResponse",
     "AsyncWebhooksResourceWithStreamingResponse",
-    "AgentsResource",
-    "AsyncAgentsResource",
-    "AgentsResourceWithRawResponse",
-    "AsyncAgentsResourceWithRawResponse",
-    "AgentsResourceWithStreamingResponse",
-    "AsyncAgentsResourceWithStreamingResponse",
+    "FilesResource",
+    "AsyncFilesResource",
+    "FilesResourceWithRawResponse",
+    "AsyncFilesResourceWithRawResponse",
+    "FilesResourceWithStreamingResponse",
+    "AsyncFilesResourceWithStreamingResponse",
+    "AssistantResource",
+    "AsyncAssistantResource",
+    "AssistantResourceWithRawResponse",
+    "AsyncAssistantResourceWithRawResponse",
+    "AssistantResourceWithStreamingResponse",
+    "AsyncAssistantResourceWithStreamingResponse",
     "AppEventsResource",
     "AsyncAppEventsResource",
     "AppEventsResourceWithRawResponse",

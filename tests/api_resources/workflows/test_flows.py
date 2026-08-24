@@ -75,6 +75,7 @@ class TestFlows:
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            recording_enabled=True,
             self_healing_enabled=True,
             self_healing_max_attempts=1,
         )
@@ -185,6 +186,7 @@ class TestFlows:
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            recording_enabled=True,
             self_healing_enabled=True,
             self_healing_max_attempts=1,
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -553,6 +555,7 @@ class TestAsyncFlows:
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            recording_enabled=True,
             self_healing_enabled=True,
             self_healing_max_attempts=1,
         )
@@ -663,6 +666,7 @@ class TestAsyncFlows:
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            recording_enabled=True,
             self_healing_enabled=True,
             self_healing_max_attempts=1,
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
