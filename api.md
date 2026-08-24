@@ -819,6 +819,49 @@ Methods:
 - <code title="get /webhooks/{id}/deliveries/{deliveryId}">client.webhooks.deliveries.<a href="./src/mobilerun_sdk/resources/webhooks/deliveries.py">retrieve_attempts</a>(delivery_id, \*, id) -> <a href="./src/mobilerun_sdk/types/webhooks/delivery_retrieve_attempts_response.py">DeliveryRetrieveAttemptsResponse</a></code>
 - <code title="get /webhooks/deliveries/stats">client.webhooks.deliveries.<a href="./src/mobilerun_sdk/resources/webhooks/deliveries.py">stats</a>(\*\*<a href="src/mobilerun_sdk/types/webhooks/delivery_stats_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/webhooks/delivery_stats_response.py">DeliveryStatsResponse</a></code>
 
+# Mailboxes
+
+Types:
+
+```python
+from mobilerun_sdk.types import (
+    MailboxCreateResponse,
+    MailboxRetrieveResponse,
+    MailboxUpdateResponse,
+    MailboxListResponse,
+    MailboxDeleteResponse,
+    MailboxCapacityResponse,
+    MailboxOtpResponse,
+    MailboxRestartResponse,
+    MailboxUncancelResponse,
+)
+```
+
+Methods:
+
+- <code title="post /mailboxes">client.mailboxes.<a href="./src/mobilerun_sdk/resources/mailboxes/mailboxes.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/mailbox_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/mailbox_create_response.py">MailboxCreateResponse</a></code>
+- <code title="get /mailboxes/{mailboxId}">client.mailboxes.<a href="./src/mobilerun_sdk/resources/mailboxes/mailboxes.py">retrieve</a>(mailbox_id) -> <a href="./src/mobilerun_sdk/types/mailbox_retrieve_response.py">MailboxRetrieveResponse</a></code>
+- <code title="patch /mailboxes/{mailboxId}">client.mailboxes.<a href="./src/mobilerun_sdk/resources/mailboxes/mailboxes.py">update</a>(mailbox_id, \*\*<a href="src/mobilerun_sdk/types/mailbox_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/mailbox_update_response.py">MailboxUpdateResponse</a></code>
+- <code title="get /mailboxes">client.mailboxes.<a href="./src/mobilerun_sdk/resources/mailboxes/mailboxes.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/mailbox_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/mailbox_list_response.py">MailboxListResponse</a></code>
+- <code title="delete /mailboxes/{mailboxId}">client.mailboxes.<a href="./src/mobilerun_sdk/resources/mailboxes/mailboxes.py">delete</a>(mailbox_id) -> <a href="./src/mobilerun_sdk/types/mailbox_delete_response.py">MailboxDeleteResponse</a></code>
+- <code title="get /mailboxes/capacity">client.mailboxes.<a href="./src/mobilerun_sdk/resources/mailboxes/mailboxes.py">capacity</a>() -> <a href="./src/mobilerun_sdk/types/mailbox_capacity_response.py">MailboxCapacityResponse</a></code>
+- <code title="get /mailboxes/{mailboxId}/otp">client.mailboxes.<a href="./src/mobilerun_sdk/resources/mailboxes/mailboxes.py">otp</a>(mailbox_id, \*\*<a href="src/mobilerun_sdk/types/mailbox_otp_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/mailbox_otp_response.py">MailboxOtpResponse</a></code>
+- <code title="post /mailboxes/{mailboxId}/restart">client.mailboxes.<a href="./src/mobilerun_sdk/resources/mailboxes/mailboxes.py">restart</a>(mailbox_id, \*\*<a href="src/mobilerun_sdk/types/mailbox_restart_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/mailbox_restart_response.py">MailboxRestartResponse</a></code>
+- <code title="post /mailboxes/{mailboxId}/uncancel">client.mailboxes.<a href="./src/mobilerun_sdk/resources/mailboxes/mailboxes.py">uncancel</a>(mailbox_id) -> <a href="./src/mobilerun_sdk/types/mailbox_uncancel_response.py">MailboxUncancelResponse</a></code>
+
+## Messages
+
+Types:
+
+```python
+from mobilerun_sdk.types.mailboxes import MessageRetrieveResponse, MessageListResponse
+```
+
+Methods:
+
+- <code title="get /mailboxes/{mailboxId}/messages/{messageId}">client.mailboxes.messages.<a href="./src/mobilerun_sdk/resources/mailboxes/messages.py">retrieve</a>(message_id, \*, mailbox_id) -> <a href="./src/mobilerun_sdk/types/mailboxes/message_retrieve_response.py">MessageRetrieveResponse</a></code>
+- <code title="get /mailboxes/{mailboxId}/messages">client.mailboxes.messages.<a href="./src/mobilerun_sdk/resources/mailboxes/messages.py">list</a>(mailbox_id, \*\*<a href="src/mobilerun_sdk/types/mailboxes/message_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/mailboxes/message_list_response.py">MessageListResponse</a></code>
+
 # Files
 
 Types:
