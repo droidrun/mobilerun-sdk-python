@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.3.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.2.1...v5.3.0) (2026-08-24)
+
+
+### Features
+
+* **sdk:** add public agents APIs ([b04ae52](https://github.com/droidrun/mobilerun-sdk-python/commit/b04ae5257b46d8a9b1e9cfde62612262aa7ff4cf))
+
+
+### Chores
+
+* release 5.3.0 ([48d7b18](https://github.com/droidrun/mobilerun-sdk-python/commit/48d7b18c99181f74f959c208a584cd9418f79253))
+
 ## [5.2.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.2.0...v5.2.1) (2026-08-20)
 
 
