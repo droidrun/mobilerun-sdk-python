@@ -84,7 +84,8 @@ class TestTasks:
             page=1,
             page_size=1,
             query="query",
-            status="queued",
+            source="api",
+            status="prepared",
         )
         assert_matches_type(TaskListResponse, task, path=["response"])
 
@@ -252,7 +253,6 @@ class TestTasks:
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
             accessibility=True,
-            agent_id=0,
             apps=["string"],
             continue_on_failure=True,
             credentials=[
@@ -269,8 +269,10 @@ class TestTasks:
             memory_namespace="memoryNamespace",
             output_schema={"foo": "bar"},
             reasoning=True,
+            recording_enabled=True,
             stealth=True,
             subagent_model="subagentModel",
+            system_prompt="systemPrompt",
             temperature=0,
             vision=True,
             vpn_country="US",
@@ -322,7 +324,6 @@ class TestTasks:
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
             accessibility=True,
-            agent_id=0,
             apps=["string"],
             continue_on_failure=True,
             credentials=[
@@ -339,8 +340,10 @@ class TestTasks:
             memory_namespace="memoryNamespace",
             output_schema={"foo": "bar"},
             reasoning=True,
+            recording_enabled=True,
             stealth=True,
             subagent_model="subagentModel",
+            system_prompt="systemPrompt",
             temperature=0,
             vision=True,
             vpn_country="US",
@@ -528,7 +531,8 @@ class TestAsyncTasks:
             page=1,
             page_size=1,
             query="query",
-            status="queued",
+            source="api",
+            status="prepared",
         )
         assert_matches_type(TaskListResponse, task, path=["response"])
 
@@ -696,7 +700,6 @@ class TestAsyncTasks:
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
             accessibility=True,
-            agent_id=0,
             apps=["string"],
             continue_on_failure=True,
             credentials=[
@@ -713,8 +716,10 @@ class TestAsyncTasks:
             memory_namespace="memoryNamespace",
             output_schema={"foo": "bar"},
             reasoning=True,
+            recording_enabled=True,
             stealth=True,
             subagent_model="subagentModel",
+            system_prompt="systemPrompt",
             temperature=0,
             vision=True,
             vpn_country="US",
@@ -766,7 +771,6 @@ class TestAsyncTasks:
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             task="x",
             accessibility=True,
-            agent_id=0,
             apps=["string"],
             continue_on_failure=True,
             credentials=[
@@ -783,8 +787,10 @@ class TestAsyncTasks:
             memory_namespace="memoryNamespace",
             output_schema={"foo": "bar"},
             reasoning=True,
+            recording_enabled=True,
             stealth=True,
             subagent_model="subagentModel",
+            system_prompt="systemPrompt",
             temperature=0,
             vision=True,
             vpn_country="US",

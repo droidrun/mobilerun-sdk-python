@@ -101,8 +101,8 @@ class MessagesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MessageListResponse:
         """
-        Lists messages for a mailbox with keyset pagination and time/sender/hasOtp
-        filters for polling.
+        Lists mailbox messages with cursor pagination and optional time, sender, and OTP
+        filters.
 
         Args:
           extra_headers: Send extra headers
@@ -212,8 +212,8 @@ class AsyncMessagesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MessageListResponse:
         """
-        Lists messages for a mailbox with keyset pagination and time/sender/hasOtp
-        filters for polling.
+        Lists mailbox messages with cursor pagination and optional time, sender, and OTP
+        filters.
 
         Args:
           extra_headers: Send extra headers

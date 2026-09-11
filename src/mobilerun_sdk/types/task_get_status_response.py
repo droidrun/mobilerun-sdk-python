@@ -33,7 +33,7 @@ class Execution(BaseModel):
 
 
 class TaskGetStatusResponse(BaseModel):
-    status: Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
+    status: Literal["prepared", "queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
     """The status of the task"""
 
     execution: Optional[Execution] = None
@@ -47,6 +47,12 @@ class TaskGetStatusResponse(BaseModel):
 
     output: Optional[Dict[str, object]] = None
     """Structured output if outputSchema was set"""
+
+    recording_device_id: Optional[str] = FieldInfo(alias="recordingDeviceId", default=None)
+    """Device ID associated with recordingId"""
+
+    recording_id: Optional[str] = FieldInfo(alias="recordingId", default=None)
+    """ID of the task's whole-task video recording, if recordingEnabled was set"""
 
     steps: Optional[int] = None
     """Number of steps taken"""

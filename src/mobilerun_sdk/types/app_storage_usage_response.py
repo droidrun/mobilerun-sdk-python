@@ -9,10 +9,17 @@ __all__ = ["AppStorageUsageResponse", "Data"]
 
 class Data(BaseModel):
     available_bytes: float = FieldInfo(alias="availableBytes")
-    """Remaining bytes — the reliable maximum size for the next upload.
+    """Remaining bytes — the reliable maximum TOTAL size for the next upload.
 
     Advisory snapshot: the quota is enforced under a lock at confirm, so concurrent
     uploads may reduce actual headroom.
+    """
+
+    max_file_bytes: float = FieldInfo(alias="maxFileBytes")
+    """Per-file upload cap in bytes (env.MAX_UPLOAD_FILE_BYTES).
+
+    A single file larger than this is rejected at confirm even when it fits the
+    remaining quota. Source of truth for the client-side per-file limit.
     """
 
     quota_bytes: float = FieldInfo(alias="quotaBytes")

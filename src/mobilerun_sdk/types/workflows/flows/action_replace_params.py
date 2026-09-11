@@ -29,6 +29,8 @@ class ActionChild(TypedDict, total=False):
 
     overrides: Optional[ActionChildOverrides]
 
+    recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
+
 
 class ActionOverrides(TypedDict, total=False):
     params: Dict[str, object]
@@ -46,3 +48,5 @@ class Action(TypedDict, total=False):
     name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
 
     overrides: Optional[ActionOverrides]
+
+    recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]

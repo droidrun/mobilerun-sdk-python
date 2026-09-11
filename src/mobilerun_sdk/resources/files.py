@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Optional
 from typing_extensions import Literal
 
 import httpx
 
-from ..types import file_list_params, file_update_params, file_upload_url_params
+from ..types import file_upload_url_params
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from .._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from .._compat import cached_property
@@ -19,10 +18,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.file_list_response import FileListResponse
 from ..types.file_delete_response import FileDeleteResponse
-from ..types.file_update_response import FileUpdateResponse
-from ..types.file_confirm_response import FileConfirmResponse
 from ..types.file_upload_url_response import FileUploadURLResponse
 from ..types.file_cancel_pending_response import FileCancelPendingResponse
 
@@ -48,85 +44,6 @@ class FilesResource(SyncAPIResource):
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
         """
         return FilesResourceWithStreamingResponse(self)
-
-    def update(
-        self,
-        file_id: str,
-        *,
-        display_name: Optional[str] | Omit = omit,
-        enabled: bool | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileUpdateResponse:
-        """Partial update of `displayName` and/or `enabled`.
-
-        Only files with `zone=skills`
-        are mutable; other zones return 422 `unsupported_zone`.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not file_id:
-            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
-        return self._patch(
-            path_template("/agents/files/{file_id}", file_id=file_id),
-            body=maybe_transform(
-                {
-                    "display_name": display_name,
-                    "enabled": enabled,
-                },
-                file_update_params.FileUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=FileUpdateResponse,
-        )
-
-    def list(
-        self,
-        *,
-        zone: Literal["user", "agent", "workflow", "skills"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileListResponse:
-        """
-        List the user's ready files, optionally filtered by zone
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._get(
-            "/agents/files",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"zone": zone}, file_list_params.FileListParams),
-            ),
-            cast_to=FileListResponse,
-        )
 
     def delete(
         self,
@@ -195,39 +112,6 @@ class FilesResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FileCancelPendingResponse,
-        )
-
-    def confirm(
-        self,
-        file_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileConfirmResponse:
-        """
-        Confirm a file upload by server-side HEAD validation
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not file_id:
-            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
-        return self._post(
-            path_template("/agents/files/{file_id}/confirm", file_id=file_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=FileConfirmResponse,
         )
 
     def download(
@@ -332,85 +216,6 @@ class AsyncFilesResource(AsyncAPIResource):
         """
         return AsyncFilesResourceWithStreamingResponse(self)
 
-    async def update(
-        self,
-        file_id: str,
-        *,
-        display_name: Optional[str] | Omit = omit,
-        enabled: bool | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileUpdateResponse:
-        """Partial update of `displayName` and/or `enabled`.
-
-        Only files with `zone=skills`
-        are mutable; other zones return 422 `unsupported_zone`.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not file_id:
-            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
-        return await self._patch(
-            path_template("/agents/files/{file_id}", file_id=file_id),
-            body=await async_maybe_transform(
-                {
-                    "display_name": display_name,
-                    "enabled": enabled,
-                },
-                file_update_params.FileUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=FileUpdateResponse,
-        )
-
-    async def list(
-        self,
-        *,
-        zone: Literal["user", "agent", "workflow", "skills"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileListResponse:
-        """
-        List the user's ready files, optionally filtered by zone
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._get(
-            "/agents/files",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"zone": zone}, file_list_params.FileListParams),
-            ),
-            cast_to=FileListResponse,
-        )
-
     async def delete(
         self,
         file_id: str,
@@ -478,39 +283,6 @@ class AsyncFilesResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FileCancelPendingResponse,
-        )
-
-    async def confirm(
-        self,
-        file_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileConfirmResponse:
-        """
-        Confirm a file upload by server-side HEAD validation
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not file_id:
-            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
-        return await self._post(
-            path_template("/agents/files/{file_id}/confirm", file_id=file_id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=FileConfirmResponse,
         )
 
     async def download(
@@ -599,20 +371,11 @@ class FilesResourceWithRawResponse:
     def __init__(self, files: FilesResource) -> None:
         self._files = files
 
-        self.update = to_raw_response_wrapper(
-            files.update,
-        )
-        self.list = to_raw_response_wrapper(
-            files.list,
-        )
         self.delete = to_raw_response_wrapper(
             files.delete,
         )
         self.cancel_pending = to_raw_response_wrapper(
             files.cancel_pending,
-        )
-        self.confirm = to_raw_response_wrapper(
-            files.confirm,
         )
         self.download = to_raw_response_wrapper(
             files.download,
@@ -626,20 +389,11 @@ class AsyncFilesResourceWithRawResponse:
     def __init__(self, files: AsyncFilesResource) -> None:
         self._files = files
 
-        self.update = async_to_raw_response_wrapper(
-            files.update,
-        )
-        self.list = async_to_raw_response_wrapper(
-            files.list,
-        )
         self.delete = async_to_raw_response_wrapper(
             files.delete,
         )
         self.cancel_pending = async_to_raw_response_wrapper(
             files.cancel_pending,
-        )
-        self.confirm = async_to_raw_response_wrapper(
-            files.confirm,
         )
         self.download = async_to_raw_response_wrapper(
             files.download,
@@ -653,20 +407,11 @@ class FilesResourceWithStreamingResponse:
     def __init__(self, files: FilesResource) -> None:
         self._files = files
 
-        self.update = to_streamed_response_wrapper(
-            files.update,
-        )
-        self.list = to_streamed_response_wrapper(
-            files.list,
-        )
         self.delete = to_streamed_response_wrapper(
             files.delete,
         )
         self.cancel_pending = to_streamed_response_wrapper(
             files.cancel_pending,
-        )
-        self.confirm = to_streamed_response_wrapper(
-            files.confirm,
         )
         self.download = to_streamed_response_wrapper(
             files.download,
@@ -680,20 +425,11 @@ class AsyncFilesResourceWithStreamingResponse:
     def __init__(self, files: AsyncFilesResource) -> None:
         self._files = files
 
-        self.update = async_to_streamed_response_wrapper(
-            files.update,
-        )
-        self.list = async_to_streamed_response_wrapper(
-            files.list,
-        )
         self.delete = async_to_streamed_response_wrapper(
             files.delete,
         )
         self.cancel_pending = async_to_streamed_response_wrapper(
             files.cancel_pending,
-        )
-        self.confirm = async_to_streamed_response_wrapper(
-            files.confirm,
         )
         self.download = async_to_streamed_response_wrapper(
             files.download,

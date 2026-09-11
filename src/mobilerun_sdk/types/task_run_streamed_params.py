@@ -19,8 +19,6 @@ class TaskRunStreamedParams(TypedDict, total=False):
 
     accessibility: bool
 
-    agent_id: Annotated[int, PropertyInfo(alias="agentId")]
-
     apps: SequenceNotStr[str]
 
     continue_on_failure: Annotated[bool, PropertyInfo(alias="continueOnFailure")]
@@ -35,7 +33,7 @@ class TaskRunStreamedParams(TypedDict, total=False):
     files: SequenceNotStr[str]
 
     llm_model: Annotated[str, PropertyInfo(alias="llmModel")]
-    """The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')"""
+    """The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')"""
 
     max_steps: Annotated[int, PropertyInfo(alias="maxSteps")]
 
@@ -46,12 +44,22 @@ class TaskRunStreamedParams(TypedDict, total=False):
 
     reasoning: bool
 
+    recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
+    """Record device video for the whole task and persist a retrievable reference"""
+
     stealth: bool
 
     subagent_model: Annotated[str, PropertyInfo(alias="subagentModel")]
     """LLM model used by sub-agent roles: executor, app_opener, structured_output"""
 
+    system_prompt: Annotated[Optional[str], PropertyInfo(alias="systemPrompt")]
+    """
+    Optional custom behavioral overlay applied on top of the agent's default system
+    prompts. Never echoed back in responses or errors.
+    """
+
     temperature: float
+    """Deprecated and ignored. Sampling behavior is controlled by the model provider."""
 
     vision: bool
 
