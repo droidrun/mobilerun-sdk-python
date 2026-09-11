@@ -14,6 +14,7 @@ from mobilerun_sdk.types import (
     NumberCreateResponse,
     NumberDeleteResponse,
     NumberUpdateResponse,
+    NumberCapacityResponse,
     NumberPurposesResponse,
     NumberRetrieveResponse,
     NumberCountriesResponse,
@@ -236,6 +237,40 @@ class TestNumbers:
             client.numbers.with_raw_response.delete(
                 "",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_capacity(self, client: Mobilerun) -> None:
+        number = client.numbers.capacity(
+            country="de",
+        )
+        assert_matches_type(NumberCapacityResponse, number, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_capacity(self, client: Mobilerun) -> None:
+        response = client.numbers.with_raw_response.capacity(
+            country="de",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        number = response.parse()
+        assert_matches_type(NumberCapacityResponse, number, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_capacity(self, client: Mobilerun) -> None:
+        with client.numbers.with_streaming_response.capacity(
+            country="de",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            number = response.parse()
+            assert_matches_type(NumberCapacityResponse, number, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -510,6 +545,40 @@ class TestAsyncNumbers:
             await async_client.numbers.with_raw_response.delete(
                 "",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_capacity(self, async_client: AsyncMobilerun) -> None:
+        number = await async_client.numbers.capacity(
+            country="de",
+        )
+        assert_matches_type(NumberCapacityResponse, number, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_capacity(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.numbers.with_raw_response.capacity(
+            country="de",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        number = await response.parse()
+        assert_matches_type(NumberCapacityResponse, number, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_capacity(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.numbers.with_streaming_response.capacity(
+            country="de",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            number = await response.parse()
+            assert_matches_type(NumberCapacityResponse, number, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize

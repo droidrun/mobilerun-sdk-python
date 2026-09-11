@@ -65,4 +65,6 @@ class ConversationHistoryResponse(BaseModel):
 
     turn_active: bool = FieldInfo(alias="turnActive")
 
+    last_turn_outcome: Optional[str] = FieldInfo(alias="lastTurnOutcome", default=None)
+
     truncated: Optional[bool] = None

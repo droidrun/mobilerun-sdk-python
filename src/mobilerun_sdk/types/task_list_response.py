@@ -32,7 +32,7 @@ class Item(BaseModel):
 
     owner_id: str = FieldInfo(alias="ownerId")
 
-    status: Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
+    status: Literal["prepared", "queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
 
     task: str
 
@@ -42,8 +42,6 @@ class Item(BaseModel):
     """Deprecated: use ownerId (tenancy) / createdBy (actor)."""
 
     accessibility: Optional[bool] = None
-
-    agent_id: Optional[int] = FieldInfo(alias="agentId", default=None)
 
     apps: Optional[List[str]] = None
 
@@ -82,6 +80,20 @@ class Item(BaseModel):
 
     reasoning: Optional[bool] = None
 
+    recording_device_id: Optional[str] = FieldInfo(alias="recordingDeviceId", default=None)
+
+    recording_enabled: Optional[bool] = FieldInfo(alias="recordingEnabled", default=None)
+    """Record device video for the whole task and persist a retrievable reference"""
+
+    recording_id: Optional[str] = FieldInfo(alias="recordingId", default=None)
+
+    source: Optional[Literal["api", "agent"]] = None
+    """
+    Where the task came from: 'api' for tasks created via POST /tasks, 'agent' for
+    tasks spawned by an agent step. Agent tasks are readable (status, trajectory,
+    media) but not controllable via this API.
+    """
+
     stealth: Optional[bool] = None
 
     steps: Optional[int] = None
@@ -94,6 +106,7 @@ class Item(BaseModel):
     succeeded: Optional[bool] = None
 
     temperature: Optional[float] = None
+    """Deprecated and ignored. Sampling behavior is controlled by the model provider."""
 
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 

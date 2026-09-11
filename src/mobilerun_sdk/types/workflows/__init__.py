@@ -32,6 +32,7 @@ from .action_create_response import ActionCreateResponse as ActionCreateResponse
 from .action_delete_response import ActionDeleteResponse as ActionDeleteResponse
 from .action_update_response import ActionUpdateResponse as ActionUpdateResponse
 from .event_dry_run_response import EventDryRunResponse as EventDryRunResponse
+from .flow_capacity_response import FlowCapacityResponse as FlowCapacityResponse
 from .flow_retrieve_response import FlowRetrieveResponse as FlowRetrieveResponse
 from .timezone_list_response import TimezoneListResponse as TimezoneListResponse
 from .execution_list_response import ExecutionListResponse as ExecutionListResponse

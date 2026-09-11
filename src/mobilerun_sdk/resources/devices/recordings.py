@@ -135,6 +135,7 @@ class RecordingsResource(SyncAPIResource):
         device_id: str,
         *,
         name: str | Omit = omit,
+        quality: int | Omit = omit,
         retention_days: int | Omit = omit,
         types: Optional[SequenceNotStr[str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -148,6 +149,14 @@ class RecordingsResource(SyncAPIResource):
         Start a device recording
 
         Args:
+          quality: Capture quality from 1 (lowest) to 10 (full stream quality). Defaults to the
+              device's full quality. Honored by devices recording through the portal stream
+              bridge.
+
+          types: Artifacts to capture: trajectory (input actions), video, and audio (captured
+              into the video artifact, so it requires video; honored by portal stream-bridge
+              recorders). Defaults to trajectory and video.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -163,6 +172,7 @@ class RecordingsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "name": name,
+                    "quality": quality,
                     "retention_days": retention_days,
                     "types": types,
                 },
@@ -440,6 +450,7 @@ class AsyncRecordingsResource(AsyncAPIResource):
         device_id: str,
         *,
         name: str | Omit = omit,
+        quality: int | Omit = omit,
         retention_days: int | Omit = omit,
         types: Optional[SequenceNotStr[str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -453,6 +464,14 @@ class AsyncRecordingsResource(AsyncAPIResource):
         Start a device recording
 
         Args:
+          quality: Capture quality from 1 (lowest) to 10 (full stream quality). Defaults to the
+              device's full quality. Honored by devices recording through the portal stream
+              bridge.
+
+          types: Artifacts to capture: trajectory (input actions), video, and audio (captured
+              into the video artifact, so it requires video; honored by portal stream-bridge
+              recorders). Defaults to trajectory and video.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -468,6 +487,7 @@ class AsyncRecordingsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "name": name,
+                    "quality": quality,
                     "retention_days": retention_days,
                     "types": types,
                 },

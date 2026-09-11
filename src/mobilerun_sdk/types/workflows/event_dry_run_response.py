@@ -13,6 +13,7 @@ __all__ = [
     "DataMatchedFlow",
     "DataMatchedFlowAction",
     "DataMatchedFlowFlow",
+    "DataMatchedFlowFlowRecordingPolicy",
     "DataMatchedFlowGates",
     "DataMatchedFlowTrigger",
     "DataValidation",
@@ -23,9 +24,13 @@ __all__ = [
 class DataMatchedFlowAction(BaseModel):
     continue_on_error: bool = FieldInfo(alias="continueOnError")
 
+    flow_action_id: str = FieldInfo(alias="flowActionId")
+
     method: str
 
     name: str
+
+    recording_enabled: bool = FieldInfo(alias="recordingEnabled")
 
     service: Literal["tasks_api", "devices_api", "agents_api", "webhooks"]
 
@@ -38,8 +43,14 @@ class DataMatchedFlowAction(BaseModel):
     params: Optional[Dict[str, object]] = None
 
 
+class DataMatchedFlowFlowRecordingPolicy(BaseModel):
+    mode: Literal["off", "flow", "selected_steps"]
+
+
 class DataMatchedFlowFlow(BaseModel):
     id: str
+
+    archived_at: Optional[str] = FieldInfo(alias="archivedAt", default=None)
 
     blocked_at: Optional[str] = FieldInfo(alias="blockedAt", default=None)
 
@@ -58,6 +69,10 @@ class DataMatchedFlowFlow(BaseModel):
     device_ids: List[str] = FieldInfo(alias="deviceIds")
 
     enabled: bool
+    """
+    Compatibility projection of lifecycleStatus; true only when lifecycleStatus is
+    enabled.
+    """
 
     health_monitoring_enabled: bool = FieldInfo(alias="healthMonitoringEnabled")
 
@@ -68,6 +83,8 @@ class DataMatchedFlowFlow(BaseModel):
     ] = FieldInfo(alias="lastFailureCode", default=None)
 
     last_triggered_at: Optional[str] = FieldInfo(alias="lastTriggeredAt", default=None)
+
+    lifecycle_status: Literal["enabled", "disabled", "archived"] = FieldInfo(alias="lifecycleStatus")
 
     name: str
 
@@ -80,6 +97,12 @@ class DataMatchedFlowFlow(BaseModel):
     owner_id: str = FieldInfo(alias="ownerId")
 
     recording_enabled: bool = FieldInfo(alias="recordingEnabled")
+    """
+    Deprecated: use recordingPolicy.mode ("flow" = recordingEnabled=true, "off" =
+    recordingEnabled=false).
+    """
+
+    recording_policy: DataMatchedFlowFlowRecordingPolicy = FieldInfo(alias="recordingPolicy")
 
     self_healing_enabled: bool = FieldInfo(alias="selfHealingEnabled")
 

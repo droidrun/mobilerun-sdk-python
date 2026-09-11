@@ -32,6 +32,12 @@ class Data(BaseModel):
 
     position: int
 
+    recording_enabled: bool = FieldInfo(alias="recordingEnabled")
+    """
+    Selected for per-step recording under the flow's "selected_steps" recording
+    policy.
+    """
+
 
 class ActionReplaceResponse(BaseModel):
     data: List[Data]
