@@ -657,10 +657,9 @@ class DevicesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Wakes a parked device: capacity is preflighted (the device's data may be
-        replicated to another node if its home is full), the device starts running
-        again, and per-minute billing resumes. On a device that is not parked this is a
-        no-op ready transition.
+        Wakes a parked device: backend readiness and any required capacity are
+        preflighted, the same device starts running again, and per-minute billing
+        resumes. On a device that is not parked this is a no-op ready transition.
 
         Args:
           extra_headers: Send extra headers
@@ -1344,10 +1343,9 @@ class AsyncDevicesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Wakes a parked device: capacity is preflighted (the device's data may be
-        replicated to another node if its home is full), the device starts running
-        again, and per-minute billing resumes. On a device that is not parked this is a
-        no-op ready transition.
+        Wakes a parked device: backend readiness and any required capacity are
+        preflighted, the same device starts running again, and per-minute billing
+        resumes. On a device that is not parked this is a no-op ready transition.
 
         Args:
           extra_headers: Send extra headers

@@ -11,14 +11,14 @@ __all__ = ["NumberCreateParams"]
 
 
 class NumberCreateParams(TypedDict, total=False):
-    billing_preference: Annotated[Literal["included", "rent"], PropertyInfo(alias="billingPreference")]
+    billing_preference: Annotated[Literal["included", "included_only", "rent"], PropertyInfo(alias="billingPreference")]
     """
-    Prefer a free package seat ('included', default) or force the paid checkout
-    ('rent')
+    Use included capacity when available, require included capacity without paid
+    fallback (included_only), or start a paid checkout (rent).
     """
 
     country: str
-    """Optional ISO 3166-1 alpha-2 country code from GET /numbers/countries.
+    """Optional ISO 3166-1 alpha-2 country code from GET /numbers/phones/countries.
 
     Cannot be combined with `purpose`.
     """
@@ -31,7 +31,7 @@ class NumberCreateParams(TypedDict, total=False):
     """
 
     purpose: str
-    """Optional Mobilerun Phone purpose slug from GET /numbers/purposes."""
+    """Optional purpose from GET /numbers/phones/purposes."""
 
     idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]
     """Optional request idempotency key."""

@@ -17,17 +17,12 @@ from .shared import (
 )
 from .app_list_params import AppListParams as AppListParams
 from .task_run_params import TaskRunParams as TaskRunParams
-from .esim_list_params import EsimListParams as EsimListParams
 from .file_list_params import FileListParams as FileListParams
 from .task_list_params import TaskListParams as TaskListParams
 from .app_list_response import AppListResponse as AppListResponse
 from .proxy_list_params import ProxyListParams as ProxyListParams
 from .task_run_response import TaskRunResponse as TaskRunResponse
 from .device_list_params import DeviceListParams as DeviceListParams
-from .esim_create_params import EsimCreateParams as EsimCreateParams
-from .esim_import_params import EsimImportParams as EsimImportParams
-from .esim_list_response import EsimListResponse as EsimListResponse
-from .esim_update_params import EsimUpdateParams as EsimUpdateParams
 from .file_list_response import FileListResponse as FileListResponse
 from .file_update_params import FileUpdateParams as FileUpdateParams
 from .mailbox_otp_params import MailboxOtpParams as MailboxOtpParams
@@ -36,7 +31,6 @@ from .task_list_response import TaskListResponse as TaskListResponse
 from .task_stop_response import TaskStopResponse as TaskStopResponse
 from .app_delete_response import AppDeleteResponse as AppDeleteResponse
 from .carrier_list_params import CarrierListParams as CarrierListParams
-from .esim_install_params import EsimInstallParams as EsimInstallParams
 from .mailbox_list_params import MailboxListParams as MailboxListParams
 from .message_list_params import MessageListParams as MessageListParams
 from .model_list_response import ModelListResponse as ModelListResponse
@@ -48,10 +42,6 @@ from .proxy_update_params import ProxyUpdateParams as ProxyUpdateParams
 from .webhook_list_params import WebhookListParams as WebhookListParams
 from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse
-from .esim_create_response import EsimCreateResponse as EsimCreateResponse
-from .esim_import_response import EsimImportResponse as EsimImportResponse
-from .esim_selector_params import EsimSelectorParams as EsimSelectorParams
-from .esim_update_response import EsimUpdateResponse as EsimUpdateResponse
 from .file_delete_response import FileDeleteResponse as FileDeleteResponse
 from .file_update_response import FileUpdateResponse as FileUpdateResponse
 from .mailbox_otp_response import MailboxOtpResponse as MailboxOtpResponse
@@ -65,7 +55,6 @@ from .carrier_list_response import CarrierListResponse as CarrierListResponse
 from .carrier_lookup_params import CarrierLookupParams as CarrierLookupParams
 from .carrier_update_params import CarrierUpdateParams as CarrierUpdateParams
 from .device_count_response import DeviceCountResponse as DeviceCountResponse
-from .esim_install_response import EsimInstallResponse as EsimInstallResponse
 from .file_confirm_response import FileConfirmResponse as FileConfirmResponse
 from .mailbox_create_params import MailboxCreateParams as MailboxCreateParams
 from .mailbox_list_response import MailboxListResponse as MailboxListResponse
@@ -84,9 +73,6 @@ from .webhook_update_params import WebhookUpdateParams as WebhookUpdateParams
 from .credential_list_params import CredentialListParams as CredentialListParams
 from .device_create_response import DeviceCreateResponse as DeviceCreateResponse
 from .device_set_name_params import DeviceSetNameParams as DeviceSetNameParams
-from .esim_capacity_response import EsimCapacityResponse as EsimCapacityResponse
-from .esim_retrieve_response import EsimRetrieveResponse as EsimRetrieveResponse
-from .esim_selector_response import EsimSelectorResponse as EsimSelectorResponse
 from .file_upload_url_params import FileUploadURLParams as FileUploadURLParams
 from .mailbox_restart_params import MailboxRestartParams as MailboxRestartParams
 from .number_create_response import NumberCreateResponse as NumberCreateResponse
@@ -134,11 +120,9 @@ from .task_send_message_response import TaskSendMessageResponse as TaskSendMessa
 from .app_confirm_upload_response import AppConfirmUploadResponse as AppConfirmUploadResponse
 from .app_event_retrieve_response import AppEventRetrieveResponse as AppEventRetrieveResponse
 from .device_fingerprint_response import DeviceFingerprintResponse as DeviceFingerprintResponse
-from .esim_install_status_response import EsimInstallStatusResponse as EsimInstallStatusResponse
 from .file_cancel_pending_response import FileCancelPendingResponse as FileCancelPendingResponse
 from .task_get_trajectory_response import TaskGetTrajectoryResponse as TaskGetTrajectoryResponse
 from .webhook_event_types_response import WebhookEventTypesResponse as WebhookEventTypesResponse
-from .esim_confirm_payment_response import EsimConfirmPaymentResponse as EsimConfirmPaymentResponse
 from .notification_catalog_response import NotificationCatalogResponse as NotificationCatalogResponse
 from .webhook_rotate_secret_response import WebhookRotateSecretResponse as WebhookRotateSecretResponse
 from .webhook_test_delivery_response import WebhookTestDeliveryResponse as WebhookTestDeliveryResponse

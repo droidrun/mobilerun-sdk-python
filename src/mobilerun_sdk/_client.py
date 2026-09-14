@@ -38,7 +38,6 @@ from ._base_client import (
 if TYPE_CHECKING:
     from .resources import (
         apps,
-        esims,
         files,
         store,
         tasks,
@@ -64,7 +63,6 @@ if TYPE_CHECKING:
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
     from .resources.carriers import CarriersResource, AsyncCarriersResource
     from .resources.profiles import ProfilesResource, AsyncProfilesResource
-    from .resources.esims.esims import EsimsResource, AsyncEsimsResource
     from .resources.store.store import StoreResource, AsyncStoreResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
     from .resources.notifications import NotificationsResource, AsyncNotificationsResource
@@ -248,12 +246,6 @@ class Mobilerun(SyncAPIClient):
         from .resources.notifications import NotificationsResource
 
         return NotificationsResource(self)
-
-    @cached_property
-    def esims(self) -> EsimsResource:
-        from .resources.esims import EsimsResource
-
-        return EsimsResource(self)
 
     @cached_property
     def messages(self) -> MessagesResource:
@@ -556,12 +548,6 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncNotificationsResource(self)
 
     @cached_property
-    def esims(self) -> AsyncEsimsResource:
-        from .resources.esims import AsyncEsimsResource
-
-        return AsyncEsimsResource(self)
-
-    @cached_property
     def messages(self) -> AsyncMessagesResource:
         from .resources.messages import AsyncMessagesResource
 
@@ -808,12 +794,6 @@ class MobilerunWithRawResponse:
         return NotificationsResourceWithRawResponse(self._client.notifications)
 
     @cached_property
-    def esims(self) -> esims.EsimsResourceWithRawResponse:
-        from .resources.esims import EsimsResourceWithRawResponse
-
-        return EsimsResourceWithRawResponse(self._client.esims)
-
-    @cached_property
     def messages(self) -> messages.MessagesResourceWithRawResponse:
         from .resources.messages import MessagesResourceWithRawResponse
 
@@ -935,12 +915,6 @@ class AsyncMobilerunWithRawResponse:
         from .resources.notifications import AsyncNotificationsResourceWithRawResponse
 
         return AsyncNotificationsResourceWithRawResponse(self._client.notifications)
-
-    @cached_property
-    def esims(self) -> esims.AsyncEsimsResourceWithRawResponse:
-        from .resources.esims import AsyncEsimsResourceWithRawResponse
-
-        return AsyncEsimsResourceWithRawResponse(self._client.esims)
 
     @cached_property
     def messages(self) -> messages.AsyncMessagesResourceWithRawResponse:
@@ -1066,12 +1040,6 @@ class MobilerunWithStreamedResponse:
         return NotificationsResourceWithStreamingResponse(self._client.notifications)
 
     @cached_property
-    def esims(self) -> esims.EsimsResourceWithStreamingResponse:
-        from .resources.esims import EsimsResourceWithStreamingResponse
-
-        return EsimsResourceWithStreamingResponse(self._client.esims)
-
-    @cached_property
     def messages(self) -> messages.MessagesResourceWithStreamingResponse:
         from .resources.messages import MessagesResourceWithStreamingResponse
 
@@ -1193,12 +1161,6 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.notifications import AsyncNotificationsResourceWithStreamingResponse
 
         return AsyncNotificationsResourceWithStreamingResponse(self._client.notifications)
-
-    @cached_property
-    def esims(self) -> esims.AsyncEsimsResourceWithStreamingResponse:
-        from .resources.esims import AsyncEsimsResourceWithStreamingResponse
-
-        return AsyncEsimsResourceWithStreamingResponse(self._client.esims)
 
     @cached_property
     def messages(self) -> messages.AsyncMessagesResourceWithStreamingResponse:

@@ -8,14 +8,6 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
-from .esims import (
-    EsimsResource,
-    AsyncEsimsResource,
-    EsimsResourceWithRawResponse,
-    AsyncEsimsResourceWithRawResponse,
-    EsimsResourceWithStreamingResponse,
-    AsyncEsimsResourceWithStreamingResponse,
-)
 from .files import (
     FilesResource,
     AsyncFilesResource,
@@ -258,12 +250,6 @@ __all__ = [
     "AsyncNotificationsResourceWithRawResponse",
     "NotificationsResourceWithStreamingResponse",
     "AsyncNotificationsResourceWithStreamingResponse",
-    "EsimsResource",
-    "AsyncEsimsResource",
-    "EsimsResourceWithRawResponse",
-    "AsyncEsimsResourceWithRawResponse",
-    "EsimsResourceWithStreamingResponse",
-    "AsyncEsimsResourceWithStreamingResponse",
     "MessagesResource",
     "AsyncMessagesResource",
     "MessagesResourceWithRawResponse",
