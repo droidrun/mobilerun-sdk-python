@@ -86,6 +86,7 @@ class ExecutionsResource(SyncAPIResource):
         *,
         flow_id: str | Omit = omit,
         from_: Optional[str] | Omit = omit,
+        invocation_id: str | Omit = omit,
         order_by: Literal["startedAt", "finishedAt", "status"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
@@ -104,8 +105,9 @@ class ExecutionsResource(SyncAPIResource):
         """Return a paginated history of flow executions.
 
         Supports filtering by `flowId`,
-        `triggerId`, `status`, and a `from`/`to` time range, plus free-text `search` and
-        ordering by startedAt, finishedAt, or status.
+        `triggerId`, `invocationId` (the client/verify key), `status`, and a `from`/`to`
+        time range, plus free-text `search` and ordering by startedAt, finishedAt, or
+        status.
 
         Args:
           extra_headers: Send extra headers
@@ -127,6 +129,7 @@ class ExecutionsResource(SyncAPIResource):
                     {
                         "flow_id": flow_id,
                         "from_": from_,
+                        "invocation_id": invocation_id,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,
@@ -284,6 +287,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
         *,
         flow_id: str | Omit = omit,
         from_: Optional[str] | Omit = omit,
+        invocation_id: str | Omit = omit,
         order_by: Literal["startedAt", "finishedAt", "status"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
@@ -302,8 +306,9 @@ class AsyncExecutionsResource(AsyncAPIResource):
         """Return a paginated history of flow executions.
 
         Supports filtering by `flowId`,
-        `triggerId`, `status`, and a `from`/`to` time range, plus free-text `search` and
-        ordering by startedAt, finishedAt, or status.
+        `triggerId`, `invocationId` (the client/verify key), `status`, and a `from`/`to`
+        time range, plus free-text `search` and ordering by startedAt, finishedAt, or
+        status.
 
         Args:
           extra_headers: Send extra headers
@@ -325,6 +330,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
                     {
                         "flow_id": flow_id,
                         "from_": from_,
+                        "invocation_id": invocation_id,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,

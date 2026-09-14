@@ -183,7 +183,9 @@ class AppsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AppConfirmUploadResponse:
         """
-        Verifies the APK file exists in R2 and sets the app status to available.
+        Verifies the uploaded files in R2 and sets the app version status to available.
+        Idempotent: replaying confirmation for an already-available version returns the
+        same successful response without re-verifying the files.
 
         Args:
           extra_headers: Send extra headers
@@ -506,7 +508,9 @@ class AsyncAppsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AppConfirmUploadResponse:
         """
-        Verifies the APK file exists in R2 and sets the app status to available.
+        Verifies the uploaded files in R2 and sets the app version status to available.
+        Idempotent: replaying confirmation for an already-available version returns the
+        same successful response without re-verifying the files.
 
         Args:
           extra_headers: Send extra headers

@@ -140,6 +140,7 @@ class TestRecordings:
         recording = client.devices.recordings.start(
             device_id="deviceId",
             name="name",
+            quality=1,
             retention_days=1,
             types=["string"],
         )
@@ -511,6 +512,7 @@ class TestAsyncRecordings:
         recording = await async_client.devices.recordings.start(
             device_id="deviceId",
             name="name",
+            quality=1,
             retention_days=1,
             types=["string"],
         )

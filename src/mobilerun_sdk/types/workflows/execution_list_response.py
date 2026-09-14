@@ -8,13 +8,49 @@ from pydantic import Field as FieldInfo
 from ..._models import BaseModel
 from ..shared.pagination import Pagination
 
-__all__ = ["ExecutionListResponse", "Item"]
+__all__ = ["ExecutionListResponse", "Item", "ItemRecording"]
+
+
+class ItemRecording(BaseModel):
+    id: str
+
+    attempt: int
+
+    child_index: int = FieldInfo(alias="childIndex")
+
+    flow_action_id: Optional[str] = FieldInfo(alias="flowActionId", default=None)
+
+    iteration_index: int = FieldInfo(alias="iterationIndex")
+
+    last_error: Optional[str] = FieldInfo(alias="lastError", default=None)
+
+    parent_index: int = FieldInfo(alias="parentIndex")
+
+    recording_device_id: Optional[str] = FieldInfo(alias="recordingDeviceId", default=None)
+
+    recording_id: Optional[str] = FieldInfo(alias="recordingId", default=None)
+
+    scope: Literal["flow", "step"]
+
+    started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
+
+    status: Literal["starting", "recording", "stopping", "stopped", "failed"]
+
+    step_index: int = FieldInfo(alias="stepIndex")
+
+    stopped_at: Optional[str] = FieldInfo(alias="stoppedAt", default=None)
 
 
 class Item(BaseModel):
     id: str
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
+    device_id: Optional[str] = FieldInfo(alias="deviceId", default=None)
+    """Device this execution targets (the job's deviceId).
+
+    Null for device-less (event-only) runs.
+    """
 
     error: Optional[str] = None
 
@@ -26,7 +62,14 @@ class Item(BaseModel):
 
     flow_name: Optional[str] = FieldInfo(alias="flowName", default=None)
 
-    kind: Literal["live", "dry_run"]
+    invocation_id: Optional[str] = FieldInfo(alias="invocationId", default=None)
+    """Client/verify invocation key this row belongs to.
+
+    Set on live custom fires (one row per device fan-out) and on verification runs;
+    null for event/schedule live rows.
+    """
+
+    kind: Literal["live", "dry_run", "verification"]
 
     recording_device_id: Optional[str] = FieldInfo(alias="recordingDeviceId", default=None)
 
@@ -35,6 +78,12 @@ class Item(BaseModel):
     Device-recording id (devices-api) for this execution, set once the worker starts
     a recording. Null when the flow has recording disabled, no device is bound, or
     the recording failed to start.
+    """
+
+    recordings: List[ItemRecording]
+    """Durable recording segments ordered by step/loop coordinate and retry attempt.
+
+    Whole-flow recordings use -1 for every coordinate.
     """
 
     started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)

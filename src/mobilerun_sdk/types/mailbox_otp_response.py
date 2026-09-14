@@ -13,7 +13,7 @@ __all__ = ["MailboxOtpResponse", "Data"]
 
 class Data(BaseModel):
     code: str
-    """String to preserve leading zeros"""
+    """OTP code as text to preserve leading zeros."""
 
     confidence: Literal["high", "medium", "low"]
 
