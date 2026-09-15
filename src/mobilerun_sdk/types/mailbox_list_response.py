@@ -27,7 +27,7 @@ class Item(BaseModel):
 
     address: Optional[str] = None
 
-    billing_mode: Literal["rent", "included"] = FieldInfo(alias="billingMode")
+    billing_mode: Literal["rent", "included", "domain"] = FieldInfo(alias="billingMode")
 
     cancel_at_period_end: bool = FieldInfo(alias="cancelAtPeriodEnd")
 
@@ -38,6 +38,8 @@ class Item(BaseModel):
     created_at: datetime = FieldInfo(alias="createdAt")
 
     current_period_end: Optional[datetime] = FieldInfo(alias="currentPeriodEnd", default=None)
+
+    domain_id: Optional[str] = FieldInfo(alias="domainId", default=None)
 
     inbound_messages: ItemInboundMessages = FieldInfo(alias="inboundMessages")
 

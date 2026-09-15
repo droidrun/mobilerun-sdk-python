@@ -17,6 +17,7 @@ from mobilerun_sdk.types.workflows import (
     FlowDryRunResponse,
     FlowUpdateResponse,
     FlowUnblockResponse,
+    FlowCapacityResponse,
     FlowRetrieveResponse,
     FlowListRepairsResponse,
 )
@@ -57,11 +58,13 @@ class TestFlows:
                             "continue_on_error": True,
                             "name_override": "x",
                             "overrides": {"params": {"foo": "bar"}},
+                            "recording_enabled": True,
                         }
                     ],
                     "continue_on_error": True,
                     "name_override": "x",
                     "overrides": {"params": {"foo": "bar"}},
+                    "recording_enabled": True,
                 }
             ],
             name="x",
@@ -76,6 +79,7 @@ class TestFlows:
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             recording_enabled=True,
+            recording_policy={"mode": "off"},
             self_healing_enabled=True,
             self_healing_max_attempts=1,
         )
@@ -182,11 +186,13 @@ class TestFlows:
             device_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             enabled=True,
             health_monitoring_enabled=True,
+            lifecycle_status="enabled",
             name="x",
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             recording_enabled=True,
+            recording_policy={"mode": "off"},
             self_healing_enabled=True,
             self_healing_max_attempts=1,
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -313,6 +319,34 @@ class TestFlows:
             client.workflows.flows.with_raw_response.delete(
                 "",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_capacity(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.capacity()
+        assert_matches_type(FlowCapacityResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_capacity(self, client: Mobilerun) -> None:
+        response = client.workflows.flows.with_raw_response.capacity()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = response.parse()
+        assert_matches_type(FlowCapacityResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_capacity(self, client: Mobilerun) -> None:
+        with client.workflows.flows.with_streaming_response.capacity() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = response.parse()
+            assert_matches_type(FlowCapacityResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -537,11 +571,13 @@ class TestAsyncFlows:
                             "continue_on_error": True,
                             "name_override": "x",
                             "overrides": {"params": {"foo": "bar"}},
+                            "recording_enabled": True,
                         }
                     ],
                     "continue_on_error": True,
                     "name_override": "x",
                     "overrides": {"params": {"foo": "bar"}},
+                    "recording_enabled": True,
                 }
             ],
             name="x",
@@ -556,6 +592,7 @@ class TestAsyncFlows:
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             recording_enabled=True,
+            recording_policy={"mode": "off"},
             self_healing_enabled=True,
             self_healing_max_attempts=1,
         )
@@ -662,11 +699,13 @@ class TestAsyncFlows:
             device_ids=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             enabled=True,
             health_monitoring_enabled=True,
+            lifecycle_status="enabled",
             name="x",
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             recording_enabled=True,
+            recording_policy={"mode": "off"},
             self_healing_enabled=True,
             self_healing_max_attempts=1,
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -793,6 +832,34 @@ class TestAsyncFlows:
             await async_client.workflows.flows.with_raw_response.delete(
                 "",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_capacity(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.capacity()
+        assert_matches_type(FlowCapacityResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_capacity(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.workflows.flows.with_raw_response.capacity()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = await response.parse()
+        assert_matches_type(FlowCapacityResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_capacity(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.workflows.flows.with_streaming_response.capacity() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = await response.parse()
+            assert_matches_type(FlowCapacityResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize

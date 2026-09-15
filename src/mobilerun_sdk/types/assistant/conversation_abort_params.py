@@ -11,3 +11,5 @@ __all__ = ["ConversationAbortParams"]
 
 class ConversationAbortParams(TypedDict, total=False):
     session_id: Required[Annotated[str, PropertyInfo(alias="sessionId")]]
+
+    expected_turn_id: Annotated[str, PropertyInfo(alias="expectedTurnId")]

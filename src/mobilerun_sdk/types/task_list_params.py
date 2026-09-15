@@ -28,4 +28,9 @@ class TaskListParams(TypedDict, total=False):
     query: Optional[str]
     """Search in task description."""
 
-    status: Optional[Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]]
+    source: Optional[Literal["api", "agent"]]
+    """Only tasks created via the API ('api') or spawned by an agent step ('agent')."""
+
+    status: Optional[
+        Literal["prepared", "queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
+    ]

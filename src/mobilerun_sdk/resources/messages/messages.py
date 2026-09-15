@@ -76,12 +76,9 @@ class MessagesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MessageListResponse:
-        """Lists the caller's own SMS messages, newest first.
-
-        Supports filtering by
-        direction, esimId, numberId, status, peerNumber (substring search, min 3
-        characters), and peerKey (exact thread match). Each row includes its canonical
-        thread key (`peerKey`).
+        """
+        Lists SMS messages newest first, with filters for direction, eSIM, phone number,
+        status, and conversation.
 
         Args:
           extra_headers: Send extra headers
@@ -162,12 +159,9 @@ class AsyncMessagesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MessageListResponse:
-        """Lists the caller's own SMS messages, newest first.
-
-        Supports filtering by
-        direction, esimId, numberId, status, peerNumber (substring search, min 3
-        characters), and peerKey (exact thread match). Each row includes its canonical
-        thread key (`peerKey`).
+        """
+        Lists SMS messages newest first, with filters for direction, eSIM, phone number,
+        status, and conversation.
 
         Args:
           extra_headers: Send extra headers

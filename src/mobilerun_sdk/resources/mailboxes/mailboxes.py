@@ -75,7 +75,8 @@ class MailboxesResource(SyncAPIResource):
         self,
         *,
         client_request_id: str,
-        billing_preference: Literal["included", "rent"] | Omit = omit,
+        billing_preference: Literal["included", "included_only", "rent"] | Omit = omit,
+        domain_id: str | Omit = omit,
         label: str | Omit = omit,
         local_part: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -85,22 +86,22 @@ class MailboxesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailboxCreateResponse:
-        """
-        Reserves a permanently-allocated, individually-rented mailbox and starts an
-        Autumn rental checkout. An optional localPart selects the full address local
-        part; omitting it keeps the default random, non-guessable mx\\__-prefixed address.
-        The address is withheld until the first payment is confirmed. Idempotent on
-        (owner, clientRequestId): same key + payload replays (200); a conflicting or
-        already-held local part returns 409. 201 when the checkout URL is already
-        persisted, otherwise 202 (poll GET for the URL).
+        """Creates a mailbox on the default domain or a connected custom domain.
+
+        An
+        optional `localPart` selects the address. Replaying the same `clientRequestId`
+        and payload returns the original mailbox. Poll the mailbox when a 202 response
+        does not yet include a checkout URL.
 
         Args:
-          billing_preference: Funding preference. Omit or use included for included-first activation; rent
-              always preserves package capacity and starts paid checkout.
+          billing_preference: included uses package capacity when available and otherwise starts paid
+              checkout; included_only fails without creating a paid reservation when no
+              included slot remains; rent always starts paid checkout.
 
-          local_part: Optional full mailbox local part (the address before "@"). Trimmed and
-              lowercased before validation. Omit for a random, non-guessable mx\\__-prefixed
-              address.
+          domain_id: Optional active custom mailbox domain owned by the caller. Omit to use the
+              system domain.
+
+          local_part: Optional mailbox name before the "@". Omit to generate a random address.
 
           extra_headers: Send extra headers
 
@@ -116,6 +117,7 @@ class MailboxesResource(SyncAPIResource):
                 {
                     "client_request_id": client_request_id,
                     "billing_preference": billing_preference,
+                    "domain_id": domain_id,
                     "label": label,
                     "local_part": local_part,
                 },
@@ -248,12 +250,9 @@ class MailboxesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailboxDeleteResponse:
-        """For paid rent, schedules end-of-cycle cancellation.
-
-        For an included generation,
-        archives immediately and releases its package seat. This never deletes the
-        mailbox, its address, or its messages — the address is permanently reserved.
-        Idempotent.
+        """
+        Cancels a pending mailbox or schedules an active paid mailbox for cancellation.
+        Existing addresses and messages are retained. Repeating the request is safe.
 
         Args:
           extra_headers: Send extra headers
@@ -284,10 +283,7 @@ class MailboxesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailboxCapacityResponse:
-        """
-        Returns the authoritative number of package-funded mailbox claims currently
-        available after local reservations.
-        """
+        """Returns the number of mailboxes currently available through included capacity."""
         return self._get(
             "/mailboxes/capacity",
             options=make_request_options(
@@ -311,10 +307,10 @@ class MailboxesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailboxOtpResponse:
-        """
-        Returns the highest-confidence, most recent OTP for the mailbox, restricted to
-        messages of completed/active paid intervals. Does not wait server-side (SDKs
-        poll). 200 with the best code, 204 when none matches.
+        """Returns the most likely recent OTP for the mailbox.
+
+        Returns 204 when no matching
+        code is available.
 
         Args:
           extra_headers: Send extra headers
@@ -351,7 +347,7 @@ class MailboxesResource(SyncAPIResource):
         self,
         mailbox_id: str,
         *,
-        billing_preference: Literal["included", "rent"] | Omit = omit,
+        billing_preference: Literal["included", "included_only", "rent"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -359,13 +355,15 @@ class MailboxesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailboxRestartResponse:
-        """
-        Starts a new generation on an archived mailbox, reusing the same permanent
-        address. Uses included capacity first unless paid rent is requested.
+        """Restarts an archived mailbox with the same address.
+
+        Uses included capacity when
+        available unless paid service is requested.
 
         Args:
-          billing_preference: Funding preference. Omit or use included for included-first activation; rent
-              always preserves package capacity and starts paid checkout.
+          billing_preference: included uses package capacity when available and otherwise starts paid
+              checkout; included_only fails without creating a paid reservation when no
+              included slot remains; rent always starts paid checkout.
 
           extra_headers: Send extra headers
 
@@ -399,10 +397,10 @@ class MailboxesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailboxUncancelResponse:
-        """Retracts a scheduled end-of-cycle cancellation for the current generation.
+        """Withdraws a scheduled cancellation.
 
-        Only
-        valid while cancellation is pending.
+        Only available while cancellation is
+        pending.
 
         Args:
           extra_headers: Send extra headers
@@ -452,7 +450,8 @@ class AsyncMailboxesResource(AsyncAPIResource):
         self,
         *,
         client_request_id: str,
-        billing_preference: Literal["included", "rent"] | Omit = omit,
+        billing_preference: Literal["included", "included_only", "rent"] | Omit = omit,
+        domain_id: str | Omit = omit,
         label: str | Omit = omit,
         local_part: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -462,22 +461,22 @@ class AsyncMailboxesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailboxCreateResponse:
-        """
-        Reserves a permanently-allocated, individually-rented mailbox and starts an
-        Autumn rental checkout. An optional localPart selects the full address local
-        part; omitting it keeps the default random, non-guessable mx\\__-prefixed address.
-        The address is withheld until the first payment is confirmed. Idempotent on
-        (owner, clientRequestId): same key + payload replays (200); a conflicting or
-        already-held local part returns 409. 201 when the checkout URL is already
-        persisted, otherwise 202 (poll GET for the URL).
+        """Creates a mailbox on the default domain or a connected custom domain.
+
+        An
+        optional `localPart` selects the address. Replaying the same `clientRequestId`
+        and payload returns the original mailbox. Poll the mailbox when a 202 response
+        does not yet include a checkout URL.
 
         Args:
-          billing_preference: Funding preference. Omit or use included for included-first activation; rent
-              always preserves package capacity and starts paid checkout.
+          billing_preference: included uses package capacity when available and otherwise starts paid
+              checkout; included_only fails without creating a paid reservation when no
+              included slot remains; rent always starts paid checkout.
 
-          local_part: Optional full mailbox local part (the address before "@"). Trimmed and
-              lowercased before validation. Omit for a random, non-guessable mx\\__-prefixed
-              address.
+          domain_id: Optional active custom mailbox domain owned by the caller. Omit to use the
+              system domain.
+
+          local_part: Optional mailbox name before the "@". Omit to generate a random address.
 
           extra_headers: Send extra headers
 
@@ -493,6 +492,7 @@ class AsyncMailboxesResource(AsyncAPIResource):
                 {
                     "client_request_id": client_request_id,
                     "billing_preference": billing_preference,
+                    "domain_id": domain_id,
                     "label": label,
                     "local_part": local_part,
                 },
@@ -625,12 +625,9 @@ class AsyncMailboxesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailboxDeleteResponse:
-        """For paid rent, schedules end-of-cycle cancellation.
-
-        For an included generation,
-        archives immediately and releases its package seat. This never deletes the
-        mailbox, its address, or its messages — the address is permanently reserved.
-        Idempotent.
+        """
+        Cancels a pending mailbox or schedules an active paid mailbox for cancellation.
+        Existing addresses and messages are retained. Repeating the request is safe.
 
         Args:
           extra_headers: Send extra headers
@@ -661,10 +658,7 @@ class AsyncMailboxesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailboxCapacityResponse:
-        """
-        Returns the authoritative number of package-funded mailbox claims currently
-        available after local reservations.
-        """
+        """Returns the number of mailboxes currently available through included capacity."""
         return await self._get(
             "/mailboxes/capacity",
             options=make_request_options(
@@ -688,10 +682,10 @@ class AsyncMailboxesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailboxOtpResponse:
-        """
-        Returns the highest-confidence, most recent OTP for the mailbox, restricted to
-        messages of completed/active paid intervals. Does not wait server-side (SDKs
-        poll). 200 with the best code, 204 when none matches.
+        """Returns the most likely recent OTP for the mailbox.
+
+        Returns 204 when no matching
+        code is available.
 
         Args:
           extra_headers: Send extra headers
@@ -728,7 +722,7 @@ class AsyncMailboxesResource(AsyncAPIResource):
         self,
         mailbox_id: str,
         *,
-        billing_preference: Literal["included", "rent"] | Omit = omit,
+        billing_preference: Literal["included", "included_only", "rent"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -736,13 +730,15 @@ class AsyncMailboxesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailboxRestartResponse:
-        """
-        Starts a new generation on an archived mailbox, reusing the same permanent
-        address. Uses included capacity first unless paid rent is requested.
+        """Restarts an archived mailbox with the same address.
+
+        Uses included capacity when
+        available unless paid service is requested.
 
         Args:
-          billing_preference: Funding preference. Omit or use included for included-first activation; rent
-              always preserves package capacity and starts paid checkout.
+          billing_preference: included uses package capacity when available and otherwise starts paid
+              checkout; included_only fails without creating a paid reservation when no
+              included slot remains; rent always starts paid checkout.
 
           extra_headers: Send extra headers
 
@@ -776,10 +772,10 @@ class AsyncMailboxesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailboxUncancelResponse:
-        """Retracts a scheduled end-of-cycle cancellation for the current generation.
+        """Withdraws a scheduled cancellation.
 
-        Only
-        valid while cancellation is pending.
+        Only available while cancellation is
+        pending.
 
         Args:
           extra_headers: Send extra headers
