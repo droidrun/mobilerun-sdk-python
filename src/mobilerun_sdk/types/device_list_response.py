@@ -2,6 +2,7 @@
 
 from typing import List, Optional
 from datetime import datetime
+from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
@@ -21,6 +22,9 @@ class Item(BaseModel):
     created_at: datetime = FieldInfo(alias="createdAt")
 
     name: str
+
+    platform: Literal["android", "ios"]
+    """Operating system the device runs."""
 
     state: str
 

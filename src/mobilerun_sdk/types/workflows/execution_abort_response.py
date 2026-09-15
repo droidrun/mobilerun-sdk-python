@@ -13,6 +13,12 @@ __all__ = ["ExecutionAbortResponse", "Data"]
 class Data(BaseModel):
     id: str
 
+    device_id: Optional[str] = FieldInfo(alias="deviceId", default=None)
+    """Device this execution targets (the job's deviceId).
+
+    Null for device-less (event-only) runs.
+    """
+
     error: Optional[str] = None
 
     event_id: Optional[str] = FieldInfo(alias="eventId", default=None)
@@ -23,7 +29,14 @@ class Data(BaseModel):
 
     flow_name: Optional[str] = FieldInfo(alias="flowName", default=None)
 
-    kind: Literal["live", "dry_run"]
+    invocation_id: Optional[str] = FieldInfo(alias="invocationId", default=None)
+    """Client/verify invocation key this row belongs to.
+
+    Set on live custom fires (one row per device fan-out) and on verification runs;
+    null for event/schedule live rows.
+    """
+
+    kind: Literal["live", "dry_run", "verification"]
 
     recording_device_id: Optional[str] = FieldInfo(alias="recordingDeviceId", default=None)
 

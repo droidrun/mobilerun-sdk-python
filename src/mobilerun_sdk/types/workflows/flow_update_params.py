@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Literal, Annotated, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 
-__all__ = ["FlowUpdateParams"]
+__all__ = ["FlowUpdateParams", "RecordingPolicy"]
 
 
 class FlowUpdateParams(TypedDict, total=False):
@@ -24,6 +24,9 @@ class FlowUpdateParams(TypedDict, total=False):
 
     health_monitoring_enabled: Annotated[bool, PropertyInfo(alias="healthMonitoringEnabled")]
 
+    lifecycle_status: Annotated[Literal["enabled", "disabled"], PropertyInfo(alias="lifecycleStatus")]
+    """Set the visible agent lifecycle. Archive remains available only through DELETE."""
+
     name: str
 
     notify_on_failure: Annotated[bool, PropertyInfo(alias="notifyOnFailure")]
@@ -33,9 +36,19 @@ class FlowUpdateParams(TypedDict, total=False):
     notify_webhook_id: Annotated[Optional[str], PropertyInfo(alias="notifyWebhookId")]
 
     recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
+    """Deprecated compatibility field.
+
+    true maps to recordingPolicy.mode="flow"; false maps to "off".
+    """
+
+    recording_policy: Annotated[RecordingPolicy, PropertyInfo(alias="recordingPolicy")]
 
     self_healing_enabled: Annotated[bool, PropertyInfo(alias="selfHealingEnabled")]
 
     self_healing_max_attempts: Annotated[int, PropertyInfo(alias="selfHealingMaxAttempts")]
 
     trigger_id: Annotated[str, PropertyInfo(alias="triggerId")]
+
+
+class RecordingPolicy(TypedDict, total=False):
+    mode: Required[Literal["off", "flow", "selected_steps"]]

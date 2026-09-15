@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ...types import number_list_params, number_create_params, number_update_params
+from ...types import number_list_params, number_create_params, number_update_params, number_capacity_params
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from .messages import (
@@ -31,6 +31,7 @@ from ...types.number_list_response import NumberListResponse
 from ...types.number_create_response import NumberCreateResponse
 from ...types.number_delete_response import NumberDeleteResponse
 from ...types.number_update_response import NumberUpdateResponse
+from ...types.number_capacity_response import NumberCapacityResponse
 from ...types.number_purposes_response import NumberPurposesResponse
 from ...types.number_retrieve_response import NumberRetrieveResponse
 from ...types.number_countries_response import NumberCountriesResponse
@@ -65,7 +66,7 @@ class NumbersResource(SyncAPIResource):
     def create(
         self,
         *,
-        billing_preference: Literal["included", "rent"] | Omit = omit,
+        billing_preference: Literal["included", "included_only", "rent"] | Omit = omit,
         country: str | Omit = omit,
         label: Optional[str] | Omit = omit,
         purpose: str | Omit = omit,
@@ -77,24 +78,23 @@ class NumbersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> NumberCreateResponse:
-        """Starts a Mobilerun Phone purchase for the authenticated owner.
+        """Starts a phone-number purchase.
 
-        Accepted requests
-        always return the same asynchronous envelope; poll GET /numbers/phones/{id} for
-        its business state. `purpose` and `country` are mutually exclusive.
+        Poll the returned phone number for status
+        updates. `purpose` and `country` cannot be combined.
 
         Args:
-          billing_preference: Prefer a free package seat ('included', default) or force the paid checkout
-              ('rent')
+          billing_preference: Use included capacity when available, require included capacity without paid
+              fallback (included_only), or start a paid checkout (rent).
 
-          country: Optional ISO 3166-1 alpha-2 country code from GET /numbers/countries. Cannot be
-              combined with `purpose`.
+          country: Optional ISO 3166-1 alpha-2 country code from GET /numbers/phones/countries.
+              Cannot be combined with `purpose`.
 
           label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
               code units; an emoji/flag may span several). Display-only, never used for
               routing. Also seeds the billing entity name at purchase.
 
-          purpose: Optional Mobilerun Phone purpose slug from GET /numbers/purposes.
+          purpose: Optional purpose from GET /numbers/phones/purposes.
 
           idempotency_key: Optional request idempotency key.
 
@@ -169,13 +169,10 @@ class NumbersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> NumberUpdateResponse:
-        """Updates the phone number's user-defined display label.
+        """Updates the display label.
 
-        Omitting `label` leaves
-        it unchanged; setting it to null or an empty string clears it. The label is
-        capped at 100 characters, is display-only, and never affects routing. It also
-        seeds the billing entity name when set at purchase time; a later change here
-        does not rename the already-created billing entity.
+        Omitting `label` leaves it unchanged; null or an
+        empty string clears it.
 
         Args:
           label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
@@ -214,8 +211,7 @@ class NumbersResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> NumberListResponse:
         """
-        Lists phone numbers owned by the authenticated user — both BYO (`user`) and
-        provisioned (`mobilerun`) numbers.
+        Lists the caller's phone numbers.
 
         Args:
           extra_headers: Send extra headers
@@ -255,25 +251,10 @@ class NumbersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> NumberDeleteResponse:
-        """Cancels a Mobilerun Phone.
-
-        The outcome depends on the number's current state:
-
-        - If the number is still awaiting payment and no payment for it is currently
-          being processed, the checkout is closed immediately and the number is retired.
-        - If the number is on the standard paid plan and already paid and in service,
-          cancellation is scheduled for the end of the current billing period rather
-          than taking effect immediately. The number stays usable through the period
-          already paid for, with no partial refund. Calling this again while a
-          cancellation is already scheduled is a no-op that returns the same result. The
-          response's `state` reflects this as `cancel_scheduled` with
-          `cancelAtPeriodEnd: true`; `currentPeriodEnd` is populated once billing
-          confirms the cancellation.
-
-        Any other state (already refunding, a permanent billing failure, a payment
-        currently being processed, an included-plan number, or a non-hosted/BYO number)
-        returns 409 `not_cancellable`. Returns 404 if the number doesn't exist or isn't
-        owned by the caller.
+        """
+        Cancels a pending purchase or schedules cancellation of an active paid phone
+        number. Repeating a scheduled cancellation is safe. Returns 409 when
+        cancellation is not available.
 
         Args:
           extra_headers: Send extra headers
@@ -294,6 +275,45 @@ class NumbersResource(SyncAPIResource):
             cast_to=NumberDeleteResponse,
         )
 
+    def capacity(
+        self,
+        *,
+        country: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> NumberCapacityResponse:
+        """Returns included phone capacity for a country.
+
+        Creating a phone is
+        authoritative.
+
+        Args:
+          country: ISO 3166-1 alpha-2 country code from GET /numbers/phones/countries.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/numbers/phones/capacity",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"country": country}, number_capacity_params.NumberCapacityParams),
+            ),
+            cast_to=NumberCapacityResponse,
+        )
+
     def countries(
         self,
         *,
@@ -304,10 +324,7 @@ class NumbersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> NumberCountriesResponse:
-        """
-        Lists the countries currently offered for a dedicated Mobilerun Phone, with live
-        stock status. Pass `country` as the `country` field on POST /numbers/phones.
-        """
+        """Lists available countries and current phone-number availability."""
         return self._get(
             "/numbers/phones/countries",
             options=make_request_options(
@@ -363,7 +380,7 @@ class AsyncNumbersResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        billing_preference: Literal["included", "rent"] | Omit = omit,
+        billing_preference: Literal["included", "included_only", "rent"] | Omit = omit,
         country: str | Omit = omit,
         label: Optional[str] | Omit = omit,
         purpose: str | Omit = omit,
@@ -375,24 +392,23 @@ class AsyncNumbersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> NumberCreateResponse:
-        """Starts a Mobilerun Phone purchase for the authenticated owner.
+        """Starts a phone-number purchase.
 
-        Accepted requests
-        always return the same asynchronous envelope; poll GET /numbers/phones/{id} for
-        its business state. `purpose` and `country` are mutually exclusive.
+        Poll the returned phone number for status
+        updates. `purpose` and `country` cannot be combined.
 
         Args:
-          billing_preference: Prefer a free package seat ('included', default) or force the paid checkout
-              ('rent')
+          billing_preference: Use included capacity when available, require included capacity without paid
+              fallback (included_only), or start a paid checkout (rent).
 
-          country: Optional ISO 3166-1 alpha-2 country code from GET /numbers/countries. Cannot be
-              combined with `purpose`.
+          country: Optional ISO 3166-1 alpha-2 country code from GET /numbers/phones/countries.
+              Cannot be combined with `purpose`.
 
           label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
               code units; an emoji/flag may span several). Display-only, never used for
               routing. Also seeds the billing entity name at purchase.
 
-          purpose: Optional Mobilerun Phone purpose slug from GET /numbers/purposes.
+          purpose: Optional purpose from GET /numbers/phones/purposes.
 
           idempotency_key: Optional request idempotency key.
 
@@ -467,13 +483,10 @@ class AsyncNumbersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> NumberUpdateResponse:
-        """Updates the phone number's user-defined display label.
+        """Updates the display label.
 
-        Omitting `label` leaves
-        it unchanged; setting it to null or an empty string clears it. The label is
-        capped at 100 characters, is display-only, and never affects routing. It also
-        seeds the billing entity name when set at purchase time; a later change here
-        does not rename the already-created billing entity.
+        Omitting `label` leaves it unchanged; null or an
+        empty string clears it.
 
         Args:
           label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
@@ -512,8 +525,7 @@ class AsyncNumbersResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> NumberListResponse:
         """
-        Lists phone numbers owned by the authenticated user — both BYO (`user`) and
-        provisioned (`mobilerun`) numbers.
+        Lists the caller's phone numbers.
 
         Args:
           extra_headers: Send extra headers
@@ -553,25 +565,10 @@ class AsyncNumbersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> NumberDeleteResponse:
-        """Cancels a Mobilerun Phone.
-
-        The outcome depends on the number's current state:
-
-        - If the number is still awaiting payment and no payment for it is currently
-          being processed, the checkout is closed immediately and the number is retired.
-        - If the number is on the standard paid plan and already paid and in service,
-          cancellation is scheduled for the end of the current billing period rather
-          than taking effect immediately. The number stays usable through the period
-          already paid for, with no partial refund. Calling this again while a
-          cancellation is already scheduled is a no-op that returns the same result. The
-          response's `state` reflects this as `cancel_scheduled` with
-          `cancelAtPeriodEnd: true`; `currentPeriodEnd` is populated once billing
-          confirms the cancellation.
-
-        Any other state (already refunding, a permanent billing failure, a payment
-        currently being processed, an included-plan number, or a non-hosted/BYO number)
-        returns 409 `not_cancellable`. Returns 404 if the number doesn't exist or isn't
-        owned by the caller.
+        """
+        Cancels a pending purchase or schedules cancellation of an active paid phone
+        number. Repeating a scheduled cancellation is safe. Returns 409 when
+        cancellation is not available.
 
         Args:
           extra_headers: Send extra headers
@@ -592,6 +589,45 @@ class AsyncNumbersResource(AsyncAPIResource):
             cast_to=NumberDeleteResponse,
         )
 
+    async def capacity(
+        self,
+        *,
+        country: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> NumberCapacityResponse:
+        """Returns included phone capacity for a country.
+
+        Creating a phone is
+        authoritative.
+
+        Args:
+          country: ISO 3166-1 alpha-2 country code from GET /numbers/phones/countries.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/numbers/phones/capacity",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"country": country}, number_capacity_params.NumberCapacityParams),
+            ),
+            cast_to=NumberCapacityResponse,
+        )
+
     async def countries(
         self,
         *,
@@ -602,10 +638,7 @@ class AsyncNumbersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> NumberCountriesResponse:
-        """
-        Lists the countries currently offered for a dedicated Mobilerun Phone, with live
-        stock status. Pass `country` as the `country` field on POST /numbers/phones.
-        """
+        """Lists available countries and current phone-number availability."""
         return await self._get(
             "/numbers/phones/countries",
             options=make_request_options(
@@ -653,6 +686,9 @@ class NumbersResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             numbers.delete,
         )
+        self.capacity = to_raw_response_wrapper(
+            numbers.capacity,
+        )
         self.countries = to_raw_response_wrapper(
             numbers.countries,
         )
@@ -683,6 +719,9 @@ class AsyncNumbersResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             numbers.delete,
+        )
+        self.capacity = async_to_raw_response_wrapper(
+            numbers.capacity,
         )
         self.countries = async_to_raw_response_wrapper(
             numbers.countries,
@@ -715,6 +754,9 @@ class NumbersResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             numbers.delete,
         )
+        self.capacity = to_streamed_response_wrapper(
+            numbers.capacity,
+        )
         self.countries = to_streamed_response_wrapper(
             numbers.countries,
         )
@@ -745,6 +787,9 @@ class AsyncNumbersResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             numbers.delete,
+        )
+        self.capacity = async_to_streamed_response_wrapper(
+            numbers.capacity,
         )
         self.countries = async_to_streamed_response_wrapper(
             numbers.countries,
