@@ -160,6 +160,14 @@ from .media_sessions import (
     MediaSessionsResourceWithStreamingResponse,
     AsyncMediaSessionsResourceWithStreamingResponse,
 )
+from .traffic_sessions import (
+    TrafficSessionsResource,
+    AsyncTrafficSessionsResource,
+    TrafficSessionsResourceWithRawResponse,
+    AsyncTrafficSessionsResourceWithRawResponse,
+    TrafficSessionsResourceWithStreamingResponse,
+    AsyncTrafficSessionsResourceWithStreamingResponse,
+)
 
 __all__ = [
     "ActionsResource",
@@ -276,6 +284,12 @@ __all__ = [
     "AsyncRecordingsResourceWithRawResponse",
     "RecordingsResourceWithStreamingResponse",
     "AsyncRecordingsResourceWithStreamingResponse",
+    "TrafficSessionsResource",
+    "AsyncTrafficSessionsResource",
+    "TrafficSessionsResourceWithRawResponse",
+    "AsyncTrafficSessionsResourceWithRawResponse",
+    "TrafficSessionsResourceWithStreamingResponse",
+    "AsyncTrafficSessionsResourceWithStreamingResponse",
     "DevicesResource",
     "AsyncDevicesResource",
     "DevicesResourceWithRawResponse",

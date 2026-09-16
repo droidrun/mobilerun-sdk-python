@@ -221,6 +221,7 @@ class ConversationsResource(SyncAPIResource):
         self,
         *,
         session_id: str,
+        expected_turn_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -244,7 +245,13 @@ class ConversationsResource(SyncAPIResource):
         """
         return self._post(
             "/assistant/chat/abort",
-            body=maybe_transform({"session_id": session_id}, conversation_abort_params.ConversationAbortParams),
+            body=maybe_transform(
+                {
+                    "session_id": session_id,
+                    "expected_turn_id": expected_turn_id,
+                },
+                conversation_abort_params.ConversationAbortParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -263,8 +270,14 @@ class ConversationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConversationAnswerPermissionResponse:
-        """
-        Deliver a HITL approval/rejection for an in-flight turn.
+        """Deliver a HITL approval/rejection for an in-flight turn.
+
+        Interactive HITL
+        clients must start the turn with `Accept: text/event-stream`, wait for a
+        `tool-hitl-approval` event, and send its `permissionId` here at
+        `/assistant/chat/permission`. Do not submit approval as free-form user text or
+        as `confirmed: true`. For `devices.reset`, only `once` and `reject` are allowed;
+        the generic `always` response is rejected with HTTP 400.
 
         Args:
           extra_headers: Send extra headers
@@ -428,9 +441,12 @@ class ConversationsResource(SyncAPIResource):
 
         The response format follows the Accept header:
         `text/event-stream` for SSE, `application/json` for a buffered assistant reply.
-        `sessionId` targets a concrete active chat. The resolved chat session ID is
-        returned as `chatSessionId` in the JSON body and as the `X-Chat-Session-Id`
-        response header on the SSE response.
+        Interactive HITL requires `Accept: text/event-stream`: the stream can emit a
+        `tool-hitl-approval` event, whose decision must be delivered to
+        `/assistant/chat/permission`. Buffered JSON responses do not provide an
+        interactive HITL continuation contract. `sessionId` targets a concrete active
+        chat. The resolved chat session ID is returned as `chatSessionId` in the JSON
+        body and as the `X-Chat-Session-Id` response header on the SSE response.
 
         Args:
           extra_headers: Send extra headers
@@ -677,6 +693,7 @@ class AsyncConversationsResource(AsyncAPIResource):
         self,
         *,
         session_id: str,
+        expected_turn_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -701,7 +718,11 @@ class AsyncConversationsResource(AsyncAPIResource):
         return await self._post(
             "/assistant/chat/abort",
             body=await async_maybe_transform(
-                {"session_id": session_id}, conversation_abort_params.ConversationAbortParams
+                {
+                    "session_id": session_id,
+                    "expected_turn_id": expected_turn_id,
+                },
+                conversation_abort_params.ConversationAbortParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -721,8 +742,14 @@ class AsyncConversationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConversationAnswerPermissionResponse:
-        """
-        Deliver a HITL approval/rejection for an in-flight turn.
+        """Deliver a HITL approval/rejection for an in-flight turn.
+
+        Interactive HITL
+        clients must start the turn with `Accept: text/event-stream`, wait for a
+        `tool-hitl-approval` event, and send its `permissionId` here at
+        `/assistant/chat/permission`. Do not submit approval as free-form user text or
+        as `confirmed: true`. For `devices.reset`, only `once` and `reject` are allowed;
+        the generic `always` response is rejected with HTTP 400.
 
         Args:
           extra_headers: Send extra headers
@@ -886,9 +913,12 @@ class AsyncConversationsResource(AsyncAPIResource):
 
         The response format follows the Accept header:
         `text/event-stream` for SSE, `application/json` for a buffered assistant reply.
-        `sessionId` targets a concrete active chat. The resolved chat session ID is
-        returned as `chatSessionId` in the JSON body and as the `X-Chat-Session-Id`
-        response header on the SSE response.
+        Interactive HITL requires `Accept: text/event-stream`: the stream can emit a
+        `tool-hitl-approval` event, whose decision must be delivered to
+        `/assistant/chat/permission`. Buffered JSON responses do not provide an
+        interactive HITL continuation contract. `sessionId` targets a concrete active
+        chat. The resolved chat session ID is returned as `chatSessionId` in the JSON
+        body and as the `X-Chat-Session-Id` response header on the SSE response.
 
         Args:
           extra_headers: Send extra headers

@@ -219,7 +219,9 @@ class TestApps:
             device_id="deviceId",
             bundle_id="x",
             background=True,
+            country="se",
             package_name="x",
+            version_code=1,
             x_device_display_id=0,
         )
         assert app is None
@@ -278,6 +280,8 @@ class TestApps:
             package_name="x",
             background=True,
             bundle_id="x",
+            country="se",
+            version_code=1,
             x_device_display_id=0,
         )
         assert app is None
@@ -769,7 +773,9 @@ class TestAsyncApps:
             device_id="deviceId",
             bundle_id="x",
             background=True,
+            country="se",
             package_name="x",
+            version_code=1,
             x_device_display_id=0,
         )
         assert app is None
@@ -828,6 +834,8 @@ class TestAsyncApps:
             package_name="x",
             background=True,
             bundle_id="x",
+            country="se",
+            version_code=1,
             x_device_display_id=0,
         )
         assert app is None

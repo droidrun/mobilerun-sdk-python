@@ -31,7 +31,7 @@ class Task(BaseModel):
 
     owner_id: str = FieldInfo(alias="ownerId")
 
-    status: Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
+    status: Literal["prepared", "queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
 
     task: str
 
@@ -41,8 +41,6 @@ class Task(BaseModel):
     """Deprecated: use ownerId (tenancy) / createdBy (actor)."""
 
     accessibility: Optional[bool] = None
-
-    agent_id: Optional[int] = FieldInfo(alias="agentId", default=None)
 
     apps: Optional[List[str]] = None
 
@@ -70,9 +68,6 @@ class Task(BaseModel):
 
     max_steps: Optional[int] = FieldInfo(alias="maxSteps", default=None)
 
-    memory_namespace: Optional[str] = FieldInfo(alias="memoryNamespace", default=None)
-    """Memory namespace for cross-task personalization"""
-
     message: Optional[str] = None
 
     output: Optional[Dict[str, object]] = None
@@ -80,6 +75,20 @@ class Task(BaseModel):
     output_schema: Optional[Dict[str, object]] = FieldInfo(alias="outputSchema", default=None)
 
     reasoning: Optional[bool] = None
+
+    recording_device_id: Optional[str] = FieldInfo(alias="recordingDeviceId", default=None)
+
+    recording_enabled: Optional[bool] = FieldInfo(alias="recordingEnabled", default=None)
+    """Record device video for the whole task and persist a retrievable reference"""
+
+    recording_id: Optional[str] = FieldInfo(alias="recordingId", default=None)
+
+    source: Optional[Literal["api", "agent"]] = None
+    """
+    Where the task came from: 'api' for tasks created via POST /tasks, 'agent' for
+    tasks spawned by an agent step. Agent tasks are readable (status, trajectory,
+    media) but not controllable via this API.
+    """
 
     stealth: Optional[bool] = None
 
@@ -93,6 +102,7 @@ class Task(BaseModel):
     succeeded: Optional[bool] = None
 
     temperature: Optional[float] = None
+    """Deprecated and ignored. Sampling behavior is controlled by the model provider."""
 
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 

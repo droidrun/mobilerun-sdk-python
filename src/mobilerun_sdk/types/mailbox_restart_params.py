@@ -10,9 +10,9 @@ __all__ = ["MailboxRestartParams"]
 
 
 class MailboxRestartParams(TypedDict, total=False):
-    billing_preference: Annotated[Literal["included", "rent"], PropertyInfo(alias="billingPreference")]
-    """Funding preference.
-
-    Omit or use included for included-first activation; rent always preserves
-    package capacity and starts paid checkout.
+    billing_preference: Annotated[Literal["included", "included_only", "rent"], PropertyInfo(alias="billingPreference")]
+    """
+    included uses package capacity when available and otherwise starts paid
+    checkout; included_only fails without creating a paid reservation when no
+    included slot remains; rent always starts paid checkout.
     """

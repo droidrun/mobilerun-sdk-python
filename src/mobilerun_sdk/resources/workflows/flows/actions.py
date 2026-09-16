@@ -91,6 +91,7 @@ class ActionsResource(SyncAPIResource):
         name_override: str | Omit = omit,
         overrides: Optional[action_add_params.Overrides] | Omit = omit,
         parent_flow_action_id: Optional[str] | Omit = omit,
+        recording_enabled: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -126,6 +127,7 @@ class ActionsResource(SyncAPIResource):
                     "name_override": name_override,
                     "overrides": overrides,
                     "parent_flow_action_id": parent_flow_action_id,
+                    "recording_enabled": recording_enabled,
                 },
                 action_add_params.ActionAddParams,
             ),
@@ -277,6 +279,7 @@ class AsyncActionsResource(AsyncAPIResource):
         name_override: str | Omit = omit,
         overrides: Optional[action_add_params.Overrides] | Omit = omit,
         parent_flow_action_id: Optional[str] | Omit = omit,
+        recording_enabled: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -312,6 +315,7 @@ class AsyncActionsResource(AsyncAPIResource):
                     "name_override": name_override,
                     "overrides": overrides,
                     "parent_flow_action_id": parent_flow_action_id,
+                    "recording_enabled": recording_enabled,
                 },
                 action_add_params.ActionAddParams,
             ),

@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from typing_extensions import Annotated, TypedDict
 
-from .._utils import PropertyInfo
+from ..._utils import PropertyInfo
 
-__all__ = ["EsimSelectorParams"]
+__all__ = ["TrafficSessionListParams"]
 
 
-class EsimSelectorParams(TypedDict, total=False):
+class TrafficSessionListParams(TypedDict, total=False):
     page: int
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
