@@ -431,6 +431,26 @@ Methods:
 - <code title="get /devices/{deviceId}/recordings/{recordingId}/trajectory">client.devices.recordings.<a href="./src/mobilerun_sdk/resources/devices/recordings.py">trajectory</a>(recording_id, \*, device_id) -> None</code>
 - <code title="get /devices/{deviceId}/recordings/{recordingId}/video">client.devices.recordings.<a href="./src/mobilerun_sdk/resources/devices/recordings.py">video</a>(recording_id, \*, device_id) -> None</code>
 
+## TrafficSessions
+
+Types:
+
+```python
+from mobilerun_sdk.types.devices import (
+    TrafficSessionCreateResponse,
+    TrafficSessionRetrieveResponse,
+    TrafficSessionListResponse,
+    TrafficSessionDeleteResponse,
+)
+```
+
+Methods:
+
+- <code title="post /devices/{deviceId}/traffic/sessions">client.devices.traffic_sessions.<a href="./src/mobilerun_sdk/resources/devices/traffic_sessions.py">create</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/traffic_session_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/traffic_session_create_response.py">TrafficSessionCreateResponse</a></code>
+- <code title="get /devices/{deviceId}/traffic/sessions/{sessionId}">client.devices.traffic_sessions.<a href="./src/mobilerun_sdk/resources/devices/traffic_sessions.py">retrieve</a>(session_id, \*, device_id) -> <a href="./src/mobilerun_sdk/types/devices/traffic_session_retrieve_response.py">TrafficSessionRetrieveResponse</a></code>
+- <code title="get /devices/{deviceId}/traffic/sessions">client.devices.traffic_sessions.<a href="./src/mobilerun_sdk/resources/devices/traffic_sessions.py">list</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/traffic_session_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/traffic_session_list_response.py">TrafficSessionListResponse</a></code>
+- <code title="delete /devices/{deviceId}/traffic/sessions/{sessionId}">client.devices.traffic_sessions.<a href="./src/mobilerun_sdk/resources/devices/traffic_sessions.py">delete</a>(session_id, \*, device_id) -> <a href="./src/mobilerun_sdk/types/devices/traffic_session_delete_response.py">TrafficSessionDeleteResponse</a></code>
+
 # Models
 
 Types:
@@ -688,6 +708,7 @@ from mobilerun_sdk.types.workflows import (
     FlowUpdateResponse,
     FlowListResponse,
     FlowDeleteResponse,
+    FlowCapacityResponse,
     FlowCloneResponse,
     FlowDryRunResponse,
     FlowListRepairsResponse,
@@ -702,6 +723,7 @@ Methods:
 - <code title="patch /flows/{flowId}">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">update</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_update_response.py">FlowUpdateResponse</a></code>
 - <code title="get /flows">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/flow_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_list_response.py">FlowListResponse</a></code>
 - <code title="delete /flows/{flowId}">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">delete</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_delete_response.py">FlowDeleteResponse</a></code>
+- <code title="get /flows/capacity">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">capacity</a>() -> <a href="./src/mobilerun_sdk/types/workflows/flow_capacity_response.py">FlowCapacityResponse</a></code>
 - <code title="post /flows/{flowId}/clone">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">clone</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_clone_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_clone_response.py">FlowCloneResponse</a></code>
 - <code title="post /flows/{flowId}/dry-run">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">dry_run</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_dry_run_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_dry_run_response.py">FlowDryRunResponse</a></code>
 - <code title="get /flows/{flowId}/repairs">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">list_repairs</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_list_repairs_response.py">FlowListRepairsResponse</a></code>
@@ -965,52 +987,6 @@ Methods:
 - <code title="get /notifications/preferences">client.notifications.<a href="./src/mobilerun_sdk/resources/notifications.py">get_preferences</a>() -> <a href="./src/mobilerun_sdk/types/notification_get_preferences_response.py">NotificationGetPreferencesResponse</a></code>
 - <code title="patch /notifications/preferences">client.notifications.<a href="./src/mobilerun_sdk/resources/notifications.py">update_preferences</a>(\*\*<a href="src/mobilerun_sdk/types/notification_update_preferences_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/notification_update_preferences_response.py">NotificationUpdatePreferencesResponse</a></code>
 
-# Esims
-
-Types:
-
-```python
-from mobilerun_sdk.types import (
-    EsimCreateResponse,
-    EsimRetrieveResponse,
-    EsimUpdateResponse,
-    EsimListResponse,
-    EsimCapacityResponse,
-    EsimConfirmPaymentResponse,
-    EsimImportResponse,
-    EsimInstallResponse,
-    EsimInstallStatusResponse,
-    EsimSelectorResponse,
-)
-```
-
-Methods:
-
-- <code title="post /numbers/esims">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/esim_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/esim_create_response.py">EsimCreateResponse</a></code>
-- <code title="get /numbers/esims/{id}">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">retrieve</a>(id) -> <a href="./src/mobilerun_sdk/types/esim_retrieve_response.py">EsimRetrieveResponse</a></code>
-- <code title="patch /numbers/esims/{id}">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">update</a>(id, \*\*<a href="src/mobilerun_sdk/types/esim_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/esim_update_response.py">EsimUpdateResponse</a></code>
-- <code title="get /numbers/esims">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/esim_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/esim_list_response.py">EsimListResponse</a></code>
-- <code title="delete /numbers/esims/{id}">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">delete</a>(id) -> None</code>
-- <code title="get /numbers/esims/capacity">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">capacity</a>() -> <a href="./src/mobilerun_sdk/types/esim_capacity_response.py">EsimCapacityResponse</a></code>
-- <code title="post /numbers/esims/{id}/confirm-payment">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">confirm_payment</a>(id) -> <a href="./src/mobilerun_sdk/types/esim_confirm_payment_response.py">EsimConfirmPaymentResponse</a></code>
-- <code title="post /numbers/esims/import">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">import\_</a>(\*\*<a href="src/mobilerun_sdk/types/esim_import_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/esim_import_response.py">EsimImportResponse</a></code>
-- <code title="post /numbers/esims/{id}/install">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">install</a>(id, \*\*<a href="src/mobilerun_sdk/types/esim_install_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/esim_install_response.py">EsimInstallResponse</a></code>
-- <code title="get /numbers/esims/{id}/install-status">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">install_status</a>(id) -> <a href="./src/mobilerun_sdk/types/esim_install_status_response.py">EsimInstallStatusResponse</a></code>
-- <code title="get /numbers/esims/selector">client.esims.<a href="./src/mobilerun_sdk/resources/esims/esims.py">selector</a>(\*\*<a href="src/mobilerun_sdk/types/esim_selector_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/esim_selector_response.py">EsimSelectorResponse</a></code>
-
-## Messages
-
-Types:
-
-```python
-from mobilerun_sdk.types.esims import MessageListResponse, MessageSendResponse
-```
-
-Methods:
-
-- <code title="get /numbers/esims/{id}/messages">client.esims.messages.<a href="./src/mobilerun_sdk/resources/esims/messages.py">list</a>(id, \*\*<a href="src/mobilerun_sdk/types/esims/message_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/esims/message_list_response.py">MessageListResponse</a></code>
-- <code title="post /numbers/esims/{id}/messages">client.esims.messages.<a href="./src/mobilerun_sdk/resources/esims/messages.py">send</a>(id, \*\*<a href="src/mobilerun_sdk/types/esims/message_send_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/esims/message_send_response.py">MessageSendResponse</a></code>
-
 # Messages
 
 Types:
@@ -1047,6 +1023,7 @@ from mobilerun_sdk.types import (
     NumberUpdateResponse,
     NumberListResponse,
     NumberDeleteResponse,
+    NumberCapacityResponse,
     NumberCountriesResponse,
     NumberPurposesResponse,
 )
@@ -1059,6 +1036,7 @@ Methods:
 - <code title="patch /numbers/phones/{id}">client.numbers.<a href="./src/mobilerun_sdk/resources/numbers/numbers.py">update</a>(id, \*\*<a href="src/mobilerun_sdk/types/number_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/number_update_response.py">NumberUpdateResponse</a></code>
 - <code title="get /numbers/phones">client.numbers.<a href="./src/mobilerun_sdk/resources/numbers/numbers.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/number_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/number_list_response.py">NumberListResponse</a></code>
 - <code title="delete /numbers/phones/{id}">client.numbers.<a href="./src/mobilerun_sdk/resources/numbers/numbers.py">delete</a>(id) -> <a href="./src/mobilerun_sdk/types/number_delete_response.py">NumberDeleteResponse</a></code>
+- <code title="get /numbers/phones/capacity">client.numbers.<a href="./src/mobilerun_sdk/resources/numbers/numbers.py">capacity</a>(\*\*<a href="src/mobilerun_sdk/types/number_capacity_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/number_capacity_response.py">NumberCapacityResponse</a></code>
 - <code title="get /numbers/phones/countries">client.numbers.<a href="./src/mobilerun_sdk/resources/numbers/numbers.py">countries</a>() -> <a href="./src/mobilerun_sdk/types/number_countries_response.py">NumberCountriesResponse</a></code>
 - <code title="get /numbers/phones/purposes">client.numbers.<a href="./src/mobilerun_sdk/resources/numbers/numbers.py">purposes</a>() -> <a href="./src/mobilerun_sdk/types/number_purposes_response.py">NumberPurposesResponse</a></code>
 

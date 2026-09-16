@@ -25,6 +25,8 @@ class ActionAddParams(TypedDict, total=False):
 
     parent_flow_action_id: Annotated[Optional[str], PropertyInfo(alias="parentFlowActionId")]
 
+    recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
+
 
 class ChildOverrides(TypedDict, total=False):
     params: Dict[str, object]
@@ -40,6 +42,8 @@ class Child(TypedDict, total=False):
     name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
 
     overrides: Optional[ChildOverrides]
+
+    recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
 
 
 class Overrides(TypedDict, total=False):

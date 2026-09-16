@@ -28,11 +28,10 @@ class Install(BaseModel):
 
     updated_at: datetime = FieldInfo(alias="updatedAt")
 
-    error_class: Optional[str] = FieldInfo(alias="errorClass", default=None)
-    """Closed set: download_failed, adb_install_failed, panic, timeout, failed.
-
-    Only present when status is failed.
-    """
+    error_class: Optional[Literal["download_failed", "adb_install_failed", "panic", "timeout", "failed"]] = FieldInfo(
+        alias="errorClass", default=None
+    )
+    """Only present when status is failed."""
 
 
 class AppListInstallsResponse(BaseModel):

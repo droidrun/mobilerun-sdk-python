@@ -42,6 +42,8 @@ class Capabilities(BaseModel):
 
     proxy: bool
 
+    recording: bool
+
     reset: bool
 
     shell: bool
@@ -53,6 +55,8 @@ class Capabilities(BaseModel):
     stream: bool
 
     time: bool
+
+    traffic_inspection: bool = FieldInfo(alias="trafficInspection")
 
 
 class DeviceRetrieveCapabilitiesResponse(BaseModel):

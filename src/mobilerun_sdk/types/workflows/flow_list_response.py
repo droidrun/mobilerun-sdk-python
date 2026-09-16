@@ -8,11 +8,17 @@ from pydantic import Field as FieldInfo
 from ..._models import BaseModel
 from ..shared.pagination import Pagination
 
-__all__ = ["FlowListResponse", "Item"]
+__all__ = ["FlowListResponse", "Item", "ItemRecordingPolicy"]
+
+
+class ItemRecordingPolicy(BaseModel):
+    mode: Literal["off", "flow", "selected_steps"]
 
 
 class Item(BaseModel):
     id: str
+
+    archived_at: Optional[str] = FieldInfo(alias="archivedAt", default=None)
 
     blocked_at: Optional[str] = FieldInfo(alias="blockedAt", default=None)
 
@@ -31,6 +37,10 @@ class Item(BaseModel):
     device_ids: List[str] = FieldInfo(alias="deviceIds")
 
     enabled: bool
+    """
+    Compatibility projection of lifecycleStatus; true only when lifecycleStatus is
+    enabled.
+    """
 
     health_monitoring_enabled: bool = FieldInfo(alias="healthMonitoringEnabled")
 
@@ -41,6 +51,8 @@ class Item(BaseModel):
     ] = FieldInfo(alias="lastFailureCode", default=None)
 
     last_triggered_at: Optional[str] = FieldInfo(alias="lastTriggeredAt", default=None)
+
+    lifecycle_status: Literal["enabled", "disabled", "archived"] = FieldInfo(alias="lifecycleStatus")
 
     name: str
 
@@ -53,6 +65,12 @@ class Item(BaseModel):
     owner_id: str = FieldInfo(alias="ownerId")
 
     recording_enabled: bool = FieldInfo(alias="recordingEnabled")
+    """
+    Deprecated: use recordingPolicy.mode ("flow" = recordingEnabled=true, "off" =
+    recordingEnabled=false).
+    """
+
+    recording_policy: ItemRecordingPolicy = FieldInfo(alias="recordingPolicy")
 
     self_healing_enabled: bool = FieldInfo(alias="selfHealingEnabled")
 

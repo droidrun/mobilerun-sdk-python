@@ -14,7 +14,7 @@ class TaskRunResponse(BaseModel):
     id: str
     """The ID of the task"""
 
-    status: Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
+    status: Literal["prepared", "queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
     """The status of the task (queued or created)"""
 
     stream_url: Optional[str] = FieldInfo(alias="streamUrl", default=None)
