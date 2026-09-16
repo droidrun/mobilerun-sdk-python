@@ -42,6 +42,7 @@ class TestMailboxes:
         mailbox = client.mailboxes.create(
             client_request_id="x",
             billing_preference="included",
+            domain_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             label="label",
             local_part="jane-doe",
         )
@@ -435,6 +436,7 @@ class TestAsyncMailboxes:
         mailbox = await async_client.mailboxes.create(
             client_request_id="x",
             billing_preference="included",
+            domain_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             label="label",
             local_part="jane-doe",
         )

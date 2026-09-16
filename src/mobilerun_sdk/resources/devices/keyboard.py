@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing_extensions import Literal
+
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
@@ -130,6 +132,7 @@ class KeyboardResource(SyncAPIResource):
         *,
         text: str,
         clear: bool | Omit = omit,
+        completion_mode: Literal["accepted", "committed"] | Omit = omit,
         error_rate: float | Omit = omit,
         stealth: bool | Omit = omit,
         wpm: int | Omit = omit,
@@ -141,13 +144,17 @@ class KeyboardResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Types the given text into the focused input field.
+        """Types text into the focused input field.
 
-        Supports optionally clearing
-        the field first and a stealth mode that emulates human typing speed and error
-        rate on supported devices.
+        The optional completionMode defaults to
+        accepted for backwards-compatible low latency; committed additionally waits for
+        the complete text or a quiescent UI state.
 
         Args:
+          completion_mode: Completion guarantee. accepted returns after the input provider accepts the
+              operation; committed additionally waits for the focused UI state to contain the
+              complete text or become quiescent.
+
           error_rate: Per-character mistake rate for humantouch typing. -1 uses server default.
 
           wpm: Words per minute for stealth typing. 0 uses portal default.
@@ -175,6 +182,7 @@ class KeyboardResource(SyncAPIResource):
                 {
                     "text": text,
                     "clear": clear,
+                    "completion_mode": completion_mode,
                     "error_rate": error_rate,
                     "stealth": stealth,
                     "wpm": wpm,
@@ -298,6 +306,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
         *,
         text: str,
         clear: bool | Omit = omit,
+        completion_mode: Literal["accepted", "committed"] | Omit = omit,
         error_rate: float | Omit = omit,
         stealth: bool | Omit = omit,
         wpm: int | Omit = omit,
@@ -309,13 +318,17 @@ class AsyncKeyboardResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Types the given text into the focused input field.
+        """Types text into the focused input field.
 
-        Supports optionally clearing
-        the field first and a stealth mode that emulates human typing speed and error
-        rate on supported devices.
+        The optional completionMode defaults to
+        accepted for backwards-compatible low latency; committed additionally waits for
+        the complete text or a quiescent UI state.
 
         Args:
+          completion_mode: Completion guarantee. accepted returns after the input provider accepts the
+              operation; committed additionally waits for the focused UI state to contain the
+              complete text or become quiescent.
+
           error_rate: Per-character mistake rate for humantouch typing. -1 uses server default.
 
           wpm: Words per minute for stealth typing. 0 uses portal default.
@@ -343,6 +356,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
                 {
                     "text": text,
                     "clear": clear,
+                    "completion_mode": completion_mode,
                     "error_rate": error_rate,
                     "stealth": stealth,
                     "wpm": wpm,
