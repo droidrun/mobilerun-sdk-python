@@ -115,6 +115,16 @@ class TestProxies:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_buy_with_all_params(self, client: Mobilerun) -> None:
+        proxy = client.connect.proxies.buy(
+            country="country",
+            type="dedicated_residential",
+            idempotency_key="Idempotency-Key",
+        )
+        assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_raw_response_buy(self, client: Mobilerun) -> None:
         response = client.connect.proxies.with_raw_response.buy(
             country="country",
@@ -392,6 +402,16 @@ class TestAsyncProxies:
         proxy = await async_client.connect.proxies.buy(
             country="country",
             type="dedicated_residential",
+        )
+        assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_buy_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        proxy = await async_client.connect.proxies.buy(
+            country="country",
+            type="dedicated_residential",
+            idempotency_key="Idempotency-Key",
         )
         assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
 

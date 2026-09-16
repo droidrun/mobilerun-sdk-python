@@ -88,12 +88,14 @@ class TestActions:
                     "continue_on_error": True,
                     "name_override": "x",
                     "overrides": {"params": {"foo": "bar"}},
+                    "recording_enabled": True,
                 }
             ],
             continue_on_error=True,
             name_override="x",
             overrides={"params": {"foo": "bar"}},
             parent_flow_action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            recording_enabled=True,
         )
         assert_matches_type(ActionAddResponse, action, path=["response"])
 
@@ -327,12 +329,14 @@ class TestAsyncActions:
                     "continue_on_error": True,
                     "name_override": "x",
                     "overrides": {"params": {"foo": "bar"}},
+                    "recording_enabled": True,
                 }
             ],
             continue_on_error=True,
             name_override="x",
             overrides={"params": {"foo": "bar"}},
             parent_flow_action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            recording_enabled=True,
         )
         assert_matches_type(ActionAddResponse, action, path=["response"])
 
