@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List
+from typing import List, Optional
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -25,19 +25,22 @@ class Item(BaseModel):
 
     port: int
 
-    status: Literal["pending_payment", "provisioning", "active", "cancelling", "ended", "error"]
+    status: Literal["checking", "pending_payment", "provisioning", "active", "cancelling", "ended", "error"]
     """Lifecycle of a proxy.
 
-    A freshly created proxy is `provisioning` — or `pending_payment` until the
-    customer completes checkout — and becomes `active` once its upstream is
-    assigned. `cancelling` retains full access through the paid period; when the
-    subscription expires the proxy is `ended`. `error` marks a failed provisioning
-    attempt.
+    A freshly created proxy is `checking` while its billing identity is being
+    resolved — clients should poll until a `paymentUrl` or a later status appears —
+    then `provisioning` — or `pending_payment` until the customer completes checkout
+    — and becomes `active` once its upstream is assigned. `cancelling` retains full
+    access through the paid period; when the subscription expires the proxy is
+    `ended`. `error` marks a failed provisioning attempt.
     """
 
     type: Literal["dedicated_residential", "residential", "mobile"]
 
     username: str
+
+    billing_mode: Optional[Literal["included", "standalone_paid"]] = FieldInfo(alias="billingMode", default=None)
 
 
 class Pagination(BaseModel):

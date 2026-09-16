@@ -76,6 +76,7 @@ class TestExecutions:
         execution = client.workflows.executions.list(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             from_="from",
+            invocation_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             order_by="startedAt",
             order_by_direction="asc",
             page=1,
@@ -250,6 +251,7 @@ class TestAsyncExecutions:
         execution = await async_client.workflows.executions.list(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             from_="from",
+            invocation_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             order_by="startedAt",
             order_by_direction="asc",
             page=1,

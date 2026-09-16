@@ -12,18 +12,20 @@ __all__ = ["MailboxCreateParams"]
 class MailboxCreateParams(TypedDict, total=False):
     client_request_id: Required[Annotated[str, PropertyInfo(alias="clientRequestId")]]
 
-    billing_preference: Annotated[Literal["included", "rent"], PropertyInfo(alias="billingPreference")]
-    """Funding preference.
+    billing_preference: Annotated[Literal["included", "included_only", "rent"], PropertyInfo(alias="billingPreference")]
+    """
+    included uses package capacity when available and otherwise starts paid
+    checkout; included_only fails without creating a paid reservation when no
+    included slot remains; rent always starts paid checkout.
+    """
 
-    Omit or use included for included-first activation; rent always preserves
-    package capacity and starts paid checkout.
+    domain_id: Annotated[str, PropertyInfo(alias="domainId")]
+    """Optional active custom mailbox domain owned by the caller.
+
+    Omit to use the system domain.
     """
 
     label: str
 
     local_part: Annotated[str, PropertyInfo(alias="localPart")]
-    """Optional full mailbox local part (the address before "@").
-
-    Trimmed and lowercased before validation. Omit for a random, non-guessable
-    mx\\__-prefixed address.
-    """
+    """Optional mailbox name before the "@". Omit to generate a random address."""

@@ -8,7 +8,7 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["ConversationHistoryResponse", "Message", "MessagePart", "MessageMetadata"]
+__all__ = ["ConversationHistoryResponse", "Message", "MessagePart", "MessageMetadata", "TurnState"]
 
 
 class MessagePart(BaseModel):
@@ -60,9 +60,33 @@ class Message(BaseModel):
     """Deprecated: use createdBy."""
 
 
+class TurnState(BaseModel):
+    id: str
+
+    abort_requested: bool = FieldInfo(alias="abortRequested")
+
+    attachable: bool
+
+    claim_held: bool = FieldInfo(alias="claimHeld")
+
+    outcome: Optional[str] = None
+
+    phase: Literal["created", "running", "closed", "delivered", "failed"]
+
+    reaping: bool
+
+    revision: int
+
+    started_at: str = FieldInfo(alias="startedAt")
+
+
 class ConversationHistoryResponse(BaseModel):
     messages: List[Message]
 
     turn_active: bool = FieldInfo(alias="turnActive")
 
+    last_turn_outcome: Optional[str] = FieldInfo(alias="lastTurnOutcome", default=None)
+
     truncated: Optional[bool] = None
+
+    turn_state: Optional[TurnState] = FieldInfo(alias="turnState", default=None)

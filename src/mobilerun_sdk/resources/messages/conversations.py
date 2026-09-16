@@ -60,19 +60,10 @@ class ConversationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConversationListResponse:
-        """Lists the caller's own SMS conversations, one row per thread.
+        """Lists SMS conversations by recent activity.
 
-        Each row includes
-        the most recent message in the thread, its unread inbound count, and the eSIMs
-        it was seen through. Optional `esimId` or `numberId` narrows to threads on one
-        eSIM or number.
-
-        Cursor-paginated via `limit` (default 20, max 100) and
-        `cursorLastOccurredAt`/`cursorLastMessageId` (both required together, taken from
-        a previous page's `nextCursor`). Pagination follows each thread's most recent
-        activity rather than a fixed snapshot, so a thread with new activity can move
-        ahead of an in-progress page fetch. Clients that need a stable ordering should
-        snapshot their own view.
+        Use both cursor fields from
+        `nextCursor` to fetch the next page.
 
         Args:
           extra_headers: Send extra headers
@@ -118,10 +109,8 @@ class ConversationsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConversationMarkReadResponse:
         """
-        Marks the caller's own inbound messages in a conversation thread as read, up to
-        and including the given `(upToOccurredAt, upToMessageId)` cursor — typically a
-        conversation row's `lastMessage`. Idempotent: repeating the call with the same
-        cursor updates 0 rows. Returns the number of rows updated.
+        Marks inbound messages in a conversation as read through the supplied cursor.
+        Repeating the request is safe.
 
         Args:
           peer_key: The thread's canonical peer key (see GET .../conversations)
@@ -189,19 +178,10 @@ class AsyncConversationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConversationListResponse:
-        """Lists the caller's own SMS conversations, one row per thread.
+        """Lists SMS conversations by recent activity.
 
-        Each row includes
-        the most recent message in the thread, its unread inbound count, and the eSIMs
-        it was seen through. Optional `esimId` or `numberId` narrows to threads on one
-        eSIM or number.
-
-        Cursor-paginated via `limit` (default 20, max 100) and
-        `cursorLastOccurredAt`/`cursorLastMessageId` (both required together, taken from
-        a previous page's `nextCursor`). Pagination follows each thread's most recent
-        activity rather than a fixed snapshot, so a thread with new activity can move
-        ahead of an in-progress page fetch. Clients that need a stable ordering should
-        snapshot their own view.
+        Use both cursor fields from
+        `nextCursor` to fetch the next page.
 
         Args:
           extra_headers: Send extra headers
@@ -247,10 +227,8 @@ class AsyncConversationsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConversationMarkReadResponse:
         """
-        Marks the caller's own inbound messages in a conversation thread as read, up to
-        and including the given `(upToOccurredAt, upToMessageId)` cursor — typically a
-        conversation row's `lastMessage`. Idempotent: repeating the call with the same
-        cursor updates 0 rows. Returns the number of rows updated.
+        Marks inbound messages in a conversation as read through the supplied cursor.
+        Repeating the request is safe.
 
         Args:
           peer_key: The thread's canonical peer key (see GET .../conversations)

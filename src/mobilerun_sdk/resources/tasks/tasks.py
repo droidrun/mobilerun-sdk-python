@@ -121,7 +121,10 @@ class TasksResource(SyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         query: Optional[str] | Omit = omit,
-        status: Optional[Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]]
+        source: Optional[Literal["api", "agent"]] | Omit = omit,
+        status: Optional[
+            Literal["prepared", "queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
+        ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -139,6 +142,8 @@ class TasksResource(SyncAPIResource):
           mine: Only tasks created by the calling user.
 
           query: Search in task description.
+
+          source: Only tasks created via the API ('api') or spawned by an agent step ('agent').
 
           extra_headers: Send extra headers
 
@@ -164,6 +169,7 @@ class TasksResource(SyncAPIResource):
                         "page": page,
                         "page_size": page_size,
                         "query": query,
+                        "source": source,
                         "status": status,
                     },
                     task_list_params.TaskListParams,
@@ -278,7 +284,6 @@ class TasksResource(SyncAPIResource):
         device_id: str,
         task: str,
         accessibility: bool | Omit = omit,
-        agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         continue_on_failure: bool | Omit = omit,
         credentials: Iterable[task_run_params.Credential] | Omit = omit,
@@ -287,11 +292,12 @@ class TasksResource(SyncAPIResource):
         files: SequenceNotStr[str] | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
-        memory_namespace: str | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
+        recording_enabled: bool | Omit = omit,
         stealth: bool | Omit = omit,
         subagent_model: str | Omit = omit,
+        system_prompt: Optional[str] | Omit = omit,
         temperature: float | Omit = omit,
         vision: bool | Omit = omit,
         vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
@@ -313,11 +319,18 @@ class TasksResource(SyncAPIResource):
 
           display_id: The display ID of the device to run the task on.
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')
+          execution_timeout: Maximum agent execution time in seconds (1–2700).
 
-          memory_namespace: Memory namespace for cross-task personalization
+          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')
+
+          recording_enabled: Record device video for the whole task and persist a retrievable reference
 
           subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
+
+          system_prompt: Optional custom behavioral overlay applied on top of the agent's default system
+              prompts. Never echoed back in responses or errors.
+
+          temperature: Deprecated and ignored. Sampling behavior is controlled by the model provider.
 
           extra_headers: Send extra headers
 
@@ -335,7 +348,6 @@ class TasksResource(SyncAPIResource):
                     "device_id": device_id,
                     "task": task,
                     "accessibility": accessibility,
-                    "agent_id": agent_id,
                     "apps": apps,
                     "continue_on_failure": continue_on_failure,
                     "credentials": credentials,
@@ -344,11 +356,12 @@ class TasksResource(SyncAPIResource):
                     "files": files,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
-                    "memory_namespace": memory_namespace,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
+                    "recording_enabled": recording_enabled,
                     "stealth": stealth,
                     "subagent_model": subagent_model,
+                    "system_prompt": system_prompt,
                     "temperature": temperature,
                     "vision": vision,
                     "vpn_country": vpn_country,
@@ -367,7 +380,6 @@ class TasksResource(SyncAPIResource):
         device_id: str,
         task: str,
         accessibility: bool | Omit = omit,
-        agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         continue_on_failure: bool | Omit = omit,
         credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
@@ -376,11 +388,12 @@ class TasksResource(SyncAPIResource):
         files: SequenceNotStr[str] | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
-        memory_namespace: str | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
+        recording_enabled: bool | Omit = omit,
         stealth: bool | Omit = omit,
         subagent_model: str | Omit = omit,
+        system_prompt: Optional[str] | Omit = omit,
         temperature: float | Omit = omit,
         vision: bool | Omit = omit,
         vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
@@ -400,11 +413,18 @@ class TasksResource(SyncAPIResource):
 
           display_id: The display ID of the device to run the task on.
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')
+          execution_timeout: Maximum agent execution time in seconds (1–2700).
 
-          memory_namespace: Memory namespace for cross-task personalization
+          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')
+
+          recording_enabled: Record device video for the whole task and persist a retrievable reference
 
           subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
+
+          system_prompt: Optional custom behavioral overlay applied on top of the agent's default system
+              prompts. Never echoed back in responses or errors.
+
+          temperature: Deprecated and ignored. Sampling behavior is controlled by the model provider.
 
           extra_headers: Send extra headers
 
@@ -421,7 +441,6 @@ class TasksResource(SyncAPIResource):
                     "device_id": device_id,
                     "task": task,
                     "accessibility": accessibility,
-                    "agent_id": agent_id,
                     "apps": apps,
                     "continue_on_failure": continue_on_failure,
                     "credentials": credentials,
@@ -430,11 +449,12 @@ class TasksResource(SyncAPIResource):
                     "files": files,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
-                    "memory_namespace": memory_namespace,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
+                    "recording_enabled": recording_enabled,
                     "stealth": stealth,
                     "subagent_model": subagent_model,
+                    "system_prompt": system_prompt,
                     "temperature": temperature,
                     "vision": vision,
                     "vpn_country": vpn_country,
@@ -597,7 +617,10 @@ class AsyncTasksResource(AsyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         query: Optional[str] | Omit = omit,
-        status: Optional[Literal["queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]]
+        source: Optional[Literal["api", "agent"]] | Omit = omit,
+        status: Optional[
+            Literal["prepared", "queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
+        ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -615,6 +638,8 @@ class AsyncTasksResource(AsyncAPIResource):
           mine: Only tasks created by the calling user.
 
           query: Search in task description.
+
+          source: Only tasks created via the API ('api') or spawned by an agent step ('agent').
 
           extra_headers: Send extra headers
 
@@ -640,6 +665,7 @@ class AsyncTasksResource(AsyncAPIResource):
                         "page": page,
                         "page_size": page_size,
                         "query": query,
+                        "source": source,
                         "status": status,
                     },
                     task_list_params.TaskListParams,
@@ -754,7 +780,6 @@ class AsyncTasksResource(AsyncAPIResource):
         device_id: str,
         task: str,
         accessibility: bool | Omit = omit,
-        agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         continue_on_failure: bool | Omit = omit,
         credentials: Iterable[task_run_params.Credential] | Omit = omit,
@@ -763,11 +788,12 @@ class AsyncTasksResource(AsyncAPIResource):
         files: SequenceNotStr[str] | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
-        memory_namespace: str | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
+        recording_enabled: bool | Omit = omit,
         stealth: bool | Omit = omit,
         subagent_model: str | Omit = omit,
+        system_prompt: Optional[str] | Omit = omit,
         temperature: float | Omit = omit,
         vision: bool | Omit = omit,
         vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
@@ -789,11 +815,18 @@ class AsyncTasksResource(AsyncAPIResource):
 
           display_id: The display ID of the device to run the task on.
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')
+          execution_timeout: Maximum agent execution time in seconds (1–2700).
 
-          memory_namespace: Memory namespace for cross-task personalization
+          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')
+
+          recording_enabled: Record device video for the whole task and persist a retrievable reference
 
           subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
+
+          system_prompt: Optional custom behavioral overlay applied on top of the agent's default system
+              prompts. Never echoed back in responses or errors.
+
+          temperature: Deprecated and ignored. Sampling behavior is controlled by the model provider.
 
           extra_headers: Send extra headers
 
@@ -811,7 +844,6 @@ class AsyncTasksResource(AsyncAPIResource):
                     "device_id": device_id,
                     "task": task,
                     "accessibility": accessibility,
-                    "agent_id": agent_id,
                     "apps": apps,
                     "continue_on_failure": continue_on_failure,
                     "credentials": credentials,
@@ -820,11 +852,12 @@ class AsyncTasksResource(AsyncAPIResource):
                     "files": files,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
-                    "memory_namespace": memory_namespace,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
+                    "recording_enabled": recording_enabled,
                     "stealth": stealth,
                     "subagent_model": subagent_model,
+                    "system_prompt": system_prompt,
                     "temperature": temperature,
                     "vision": vision,
                     "vpn_country": vpn_country,
@@ -843,7 +876,6 @@ class AsyncTasksResource(AsyncAPIResource):
         device_id: str,
         task: str,
         accessibility: bool | Omit = omit,
-        agent_id: int | Omit = omit,
         apps: SequenceNotStr[str] | Omit = omit,
         continue_on_failure: bool | Omit = omit,
         credentials: Iterable[task_run_streamed_params.Credential] | Omit = omit,
@@ -852,11 +884,12 @@ class AsyncTasksResource(AsyncAPIResource):
         files: SequenceNotStr[str] | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
-        memory_namespace: str | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
         reasoning: bool | Omit = omit,
+        recording_enabled: bool | Omit = omit,
         stealth: bool | Omit = omit,
         subagent_model: str | Omit = omit,
+        system_prompt: Optional[str] | Omit = omit,
         temperature: float | Omit = omit,
         vision: bool | Omit = omit,
         vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
@@ -876,11 +909,18 @@ class AsyncTasksResource(AsyncAPIResource):
 
           display_id: The display ID of the device to run the task on.
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'google/gemini-3.5-flash')
+          execution_timeout: Maximum agent execution time in seconds (1–2700).
 
-          memory_namespace: Memory namespace for cross-task personalization
+          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')
+
+          recording_enabled: Record device video for the whole task and persist a retrievable reference
 
           subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
+
+          system_prompt: Optional custom behavioral overlay applied on top of the agent's default system
+              prompts. Never echoed back in responses or errors.
+
+          temperature: Deprecated and ignored. Sampling behavior is controlled by the model provider.
 
           extra_headers: Send extra headers
 
@@ -897,7 +937,6 @@ class AsyncTasksResource(AsyncAPIResource):
                     "device_id": device_id,
                     "task": task,
                     "accessibility": accessibility,
-                    "agent_id": agent_id,
                     "apps": apps,
                     "continue_on_failure": continue_on_failure,
                     "credentials": credentials,
@@ -906,11 +945,12 @@ class AsyncTasksResource(AsyncAPIResource):
                     "files": files,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
-                    "memory_namespace": memory_namespace,
                     "output_schema": output_schema,
                     "reasoning": reasoning,
+                    "recording_enabled": recording_enabled,
                     "stealth": stealth,
                     "subagent_model": subagent_model,
+                    "system_prompt": system_prompt,
                     "temperature": temperature,
                     "vision": vision,
                     "vpn_country": vpn_country,
