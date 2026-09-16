@@ -295,6 +295,16 @@ class TestTriggers:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_fire_with_all_params(self, client: Mobilerun) -> None:
+        trigger = client.workflows.triggers.fire(
+            trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            payload={"foo": "bar"},
+            invocation_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(TriggerFireResponse, trigger, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_raw_response_fire(self, client: Mobilerun) -> None:
         response = client.workflows.triggers.with_raw_response.fire(
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -602,6 +612,16 @@ class TestAsyncTriggers:
         trigger = await async_client.workflows.triggers.fire(
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             payload={"foo": "bar"},
+        )
+        assert_matches_type(TriggerFireResponse, trigger, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_fire_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        trigger = await async_client.workflows.triggers.fire(
+            trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            payload={"foo": "bar"},
+            invocation_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(TriggerFireResponse, trigger, path=["response"])
 

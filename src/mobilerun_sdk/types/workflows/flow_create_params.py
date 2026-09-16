@@ -8,7 +8,7 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 
-__all__ = ["FlowCreateParams", "Action", "ActionChild", "ActionChildOverrides", "ActionOverrides"]
+__all__ = ["FlowCreateParams", "Action", "ActionChild", "ActionChildOverrides", "ActionOverrides", "RecordingPolicy"]
 
 
 class FlowCreateParams(TypedDict, total=False):
@@ -37,6 +37,12 @@ class FlowCreateParams(TypedDict, total=False):
     notify_webhook_id: Annotated[Optional[str], PropertyInfo(alias="notifyWebhookId")]
 
     recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
+    """Deprecated compatibility field.
+
+    true maps to recordingPolicy.mode="flow"; false maps to "off".
+    """
+
+    recording_policy: Annotated[RecordingPolicy, PropertyInfo(alias="recordingPolicy")]
 
     self_healing_enabled: Annotated[bool, PropertyInfo(alias="selfHealingEnabled")]
 
@@ -58,6 +64,8 @@ class ActionChild(TypedDict, total=False):
 
     overrides: Optional[ActionChildOverrides]
 
+    recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
+
 
 class ActionOverrides(TypedDict, total=False):
     params: Dict[str, object]
@@ -75,3 +83,9 @@ class Action(TypedDict, total=False):
     name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
 
     overrides: Optional[ActionOverrides]
+
+    recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
+
+
+class RecordingPolicy(TypedDict, total=False):
+    mode: Required[Literal["off", "flow", "selected_steps"]]

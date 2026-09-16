@@ -15,6 +15,8 @@ class ExecutionListParams(TypedDict, total=False):
 
     from_: Annotated[Optional[str], PropertyInfo(alias="from")]
 
+    invocation_id: Annotated[str, PropertyInfo(alias="invocationId")]
+
     order_by: Annotated[Literal["startedAt", "finishedAt", "status"], PropertyInfo(alias="orderBy")]
 
     order_by_direction: Annotated[Literal["asc", "desc"], PropertyInfo(alias="orderByDirection")]

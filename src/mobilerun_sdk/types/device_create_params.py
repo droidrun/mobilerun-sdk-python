@@ -18,9 +18,13 @@ class DeviceCreateParams(TypedDict, total=False):
     billing: Literal["auto", "subscription", "minute"]
     """Billing mode.
 
-    'auto' uses a subscription slot when available and otherwise bills per minute;
-    'subscription' requires an available subscription slot; 'minute' bills per
-    minute. Only cloud phone and cloud emulator devices support per-minute billing.
+    'auto' tries subscription first, then minute billing if no subscription
+    entitlement exists or all subscription slots are in use, provided minute billing
+    is enabled. When subscription billing is disabled, auto uses minutes directly.
+    Billing-service failures never trigger fallback. 'subscription' requires an
+    available subscription slot and never falls back. 'minute' uses minute billing
+    only, subject to balance and concurrency checks. Modes depend on the device
+    type's billing configuration.
     """
 
     query_country: Annotated[str, PropertyInfo(alias="country")]
@@ -29,21 +33,12 @@ class DeviceCreateParams(TypedDict, total=False):
     If omitted the system picks the country with the most availability.
     """
 
-    device_type: Annotated[
-        Literal[
-            "android_cloud_phone",
-            "dedicated_premium_device",
-            "dedicated_physical_device",
-            "dedicated_ios_device",
-            "dedicated_emulated_device",
-        ],
-        PropertyInfo(alias="deviceType"),
-    ]
-    """
-    Deprecated device type aliases are accepted during a compatibility grace period:
-    dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
-    maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
-    and dedicated_emulated_device maps to android_emulator.
+    device_type: Annotated[str, PropertyInfo(alias="deviceType")]
+    """Use android_cloud_phone for a cloud Android phone.
+
+    Only canonical identifiers are accepted. Other backends are deployment-specific;
+    recognized but unavailable types return DEVICE*TYPE_UNAVAILABLE (422). Retired
+    dedicated*\\** aliases are rejected with a canonical replacement.
     """
 
     profile_id: Annotated[str, PropertyInfo(alias="profileId")]
