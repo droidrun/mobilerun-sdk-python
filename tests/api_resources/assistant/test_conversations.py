@@ -174,6 +174,15 @@ class TestConversations:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_abort_with_all_params(self, client: Mobilerun) -> None:
+        conversation = client.assistant.conversations.abort(
+            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            expected_turn_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(ConversationAbortResponse, conversation, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_raw_response_abort(self, client: Mobilerun) -> None:
         response = client.assistant.conversations.with_raw_response.abort(
             session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -577,6 +586,15 @@ class TestAsyncConversations:
     async def test_method_abort(self, async_client: AsyncMobilerun) -> None:
         conversation = await async_client.assistant.conversations.abort(
             session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(ConversationAbortResponse, conversation, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_abort_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        conversation = await async_client.assistant.conversations.abort(
+            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            expected_turn_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(ConversationAbortResponse, conversation, path=["response"])
 

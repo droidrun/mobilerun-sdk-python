@@ -40,6 +40,7 @@ from ....types.workflows.flow_delete_response import FlowDeleteResponse
 from ....types.workflows.flow_update_response import FlowUpdateResponse
 from ....types.workflows.flow_dry_run_response import FlowDryRunResponse
 from ....types.workflows.flow_unblock_response import FlowUnblockResponse
+from ....types.workflows.flow_capacity_response import FlowCapacityResponse
 from ....types.workflows.flow_retrieve_response import FlowRetrieveResponse
 from ....types.workflows.flow_list_repairs_response import FlowListRepairsResponse
 
@@ -86,6 +87,7 @@ class FlowsResource(SyncAPIResource):
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
         recording_enabled: bool | Omit = omit,
+        recording_policy: flow_create_params.RecordingPolicy | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -102,6 +104,9 @@ class FlowsResource(SyncAPIResource):
         success or failure.
 
         Args:
+          recording_enabled: Deprecated compatibility field. true maps to recordingPolicy.mode="flow"; false
+              maps to "off".
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -127,6 +132,7 @@ class FlowsResource(SyncAPIResource):
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
                     "recording_enabled": recording_enabled,
+                    "recording_policy": recording_policy,
                     "self_healing_enabled": self_healing_enabled,
                     "self_healing_max_attempts": self_healing_max_attempts,
                 },
@@ -182,11 +188,13 @@ class FlowsResource(SyncAPIResource):
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
         health_monitoring_enabled: bool | Omit = omit,
+        lifecycle_status: Literal["enabled", "disabled"] | Omit = omit,
         name: str | Omit = omit,
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
         recording_enabled: bool | Omit = omit,
+        recording_policy: flow_update_params.RecordingPolicy | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -204,6 +212,11 @@ class FlowsResource(SyncAPIResource):
         does not exist.
 
         Args:
+          lifecycle_status: Set the visible agent lifecycle. Archive remains available only through DELETE.
+
+          recording_enabled: Deprecated compatibility field. true maps to recordingPolicy.mode="flow"; false
+              maps to "off".
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -224,11 +237,13 @@ class FlowsResource(SyncAPIResource):
                     "device_ids": device_ids,
                     "enabled": enabled,
                     "health_monitoring_enabled": health_monitoring_enabled,
+                    "lifecycle_status": lifecycle_status,
                     "name": name,
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
                     "recording_enabled": recording_enabled,
+                    "recording_policy": recording_policy,
                     "self_healing_enabled": self_healing_enabled,
                     "self_healing_max_attempts": self_healing_max_attempts,
                     "trigger_id": trigger_id,
@@ -318,9 +333,10 @@ class FlowsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowDeleteResponse:
-        """Delete a flow by its ID.
+        """Terminally archive a flow by its ID.
 
-        Returns 404 if no flow matches.
+        Archived flows cannot be restored and are
+        hidden from customer reads. Repeating the request is idempotent for the owner.
 
         Args:
           extra_headers: Send extra headers
@@ -339,6 +355,30 @@ class FlowsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FlowDeleteResponse,
+        )
+
+    def capacity(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowCapacityResponse:
+        """
+        Returns an owner-scoped snapshot of finite included workflow-agent capacity
+        after locally stored enabled and disabled agents. Available only while slot
+        enforcement is enabled; otherwise returns 503. This is advisory; create and
+        clone perform authoritative admission under an owner lock.
+        """
+        return self._get(
+            "/flows/capacity",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FlowCapacityResponse,
         )
 
     def clone(
@@ -543,6 +583,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
         recording_enabled: bool | Omit = omit,
+        recording_policy: flow_create_params.RecordingPolicy | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -559,6 +600,9 @@ class AsyncFlowsResource(AsyncAPIResource):
         success or failure.
 
         Args:
+          recording_enabled: Deprecated compatibility field. true maps to recordingPolicy.mode="flow"; false
+              maps to "off".
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -584,6 +628,7 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
                     "recording_enabled": recording_enabled,
+                    "recording_policy": recording_policy,
                     "self_healing_enabled": self_healing_enabled,
                     "self_healing_max_attempts": self_healing_max_attempts,
                 },
@@ -639,11 +684,13 @@ class AsyncFlowsResource(AsyncAPIResource):
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
         health_monitoring_enabled: bool | Omit = omit,
+        lifecycle_status: Literal["enabled", "disabled"] | Omit = omit,
         name: str | Omit = omit,
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
         recording_enabled: bool | Omit = omit,
+        recording_policy: flow_update_params.RecordingPolicy | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -661,6 +708,11 @@ class AsyncFlowsResource(AsyncAPIResource):
         does not exist.
 
         Args:
+          lifecycle_status: Set the visible agent lifecycle. Archive remains available only through DELETE.
+
+          recording_enabled: Deprecated compatibility field. true maps to recordingPolicy.mode="flow"; false
+              maps to "off".
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -681,11 +733,13 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "device_ids": device_ids,
                     "enabled": enabled,
                     "health_monitoring_enabled": health_monitoring_enabled,
+                    "lifecycle_status": lifecycle_status,
                     "name": name,
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
                     "recording_enabled": recording_enabled,
+                    "recording_policy": recording_policy,
                     "self_healing_enabled": self_healing_enabled,
                     "self_healing_max_attempts": self_healing_max_attempts,
                     "trigger_id": trigger_id,
@@ -775,9 +829,10 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowDeleteResponse:
-        """Delete a flow by its ID.
+        """Terminally archive a flow by its ID.
 
-        Returns 404 if no flow matches.
+        Archived flows cannot be restored and are
+        hidden from customer reads. Repeating the request is idempotent for the owner.
 
         Args:
           extra_headers: Send extra headers
@@ -796,6 +851,30 @@ class AsyncFlowsResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FlowDeleteResponse,
+        )
+
+    async def capacity(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowCapacityResponse:
+        """
+        Returns an owner-scoped snapshot of finite included workflow-agent capacity
+        after locally stored enabled and disabled agents. Available only while slot
+        enforcement is enabled; otherwise returns 503. This is advisory; create and
+        clone perform authoritative admission under an owner lock.
+        """
+        return await self._get(
+            "/flows/capacity",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FlowCapacityResponse,
         )
 
     async def clone(
@@ -979,6 +1058,9 @@ class FlowsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             flows.delete,
         )
+        self.capacity = to_raw_response_wrapper(
+            flows.capacity,
+        )
         self.clone = to_raw_response_wrapper(
             flows.clone,
         )
@@ -1015,6 +1097,9 @@ class AsyncFlowsResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             flows.delete,
+        )
+        self.capacity = async_to_raw_response_wrapper(
+            flows.capacity,
         )
         self.clone = async_to_raw_response_wrapper(
             flows.clone,
@@ -1053,6 +1138,9 @@ class FlowsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             flows.delete,
         )
+        self.capacity = to_streamed_response_wrapper(
+            flows.capacity,
+        )
         self.clone = to_streamed_response_wrapper(
             flows.clone,
         )
@@ -1089,6 +1177,9 @@ class AsyncFlowsResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             flows.delete,
+        )
+        self.capacity = async_to_streamed_response_wrapper(
+            flows.capacity,
         )
         self.clone = async_to_streamed_response_wrapper(
             flows.clone,

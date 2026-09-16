@@ -21,8 +21,20 @@ class Variant0(TypedDict, total=False):
     directly (200 on success, an error status on failure).
     """
 
+    country: str
+    """Optional ISO 3166-1 alpha-2 country of the uploaded app version (e.g.
+
+    MY or SG).
+    """
+
     package_name: Annotated[str, PropertyInfo(alias="packageName")]
     """Android package name (e.g. com.example.app)"""
+
+    version_code: Annotated[int, PropertyInfo(alias="versionCode")]
+    """Optional exact app-library version code.
+
+    Use with country when multiple regional versions share an identifier.
+    """
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
 
@@ -40,6 +52,18 @@ class Variant1(TypedDict, total=False):
 
     bundle_id: Annotated[str, PropertyInfo(alias="bundleId")]
     """iOS bundle identifier (e.g. com.example.app)"""
+
+    country: str
+    """Optional ISO 3166-1 alpha-2 country of the uploaded app version (e.g.
+
+    MY or SG).
+    """
+
+    version_code: Annotated[int, PropertyInfo(alias="versionCode")]
+    """Optional exact app-library version code.
+
+    Use with country when multiple regional versions share an identifier.
+    """
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
 

@@ -172,6 +172,14 @@ from .media_sessions import (
     MediaSessionsResourceWithStreamingResponse,
     AsyncMediaSessionsResourceWithStreamingResponse,
 )
+from .traffic_sessions import (
+    TrafficSessionsResource,
+    AsyncTrafficSessionsResource,
+    TrafficSessionsResourceWithRawResponse,
+    AsyncTrafficSessionsResourceWithRawResponse,
+    TrafficSessionsResourceWithStreamingResponse,
+    AsyncTrafficSessionsResourceWithStreamingResponse,
+)
 from ...types.device_list_response import DeviceListResponse
 from ...types.device_count_response import DeviceCountResponse
 from ...types.device_create_response import DeviceCreateResponse
@@ -263,6 +271,10 @@ class DevicesResource(SyncAPIResource):
     @cached_property
     def recordings(self) -> RecordingsResource:
         return RecordingsResource(self._client)
+
+    @cached_property
+    def traffic_sessions(self) -> TrafficSessionsResource:
+        return TrafficSessionsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> DevicesResourceWithRawResponse:
@@ -657,10 +669,9 @@ class DevicesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Wakes a parked device: capacity is preflighted (the device's data may be
-        replicated to another node if its home is full), the device starts running
-        again, and per-minute billing resumes. On a device that is not parked this is a
-        no-op ready transition.
+        Wakes a parked device: backend readiness and any required capacity are
+        preflighted, the same device starts running again, and per-minute billing
+        resumes. On a device that is not parked this is a no-op ready transition.
 
         Args:
           extra_headers: Send extra headers
@@ -950,6 +961,10 @@ class AsyncDevicesResource(AsyncAPIResource):
     @cached_property
     def recordings(self) -> AsyncRecordingsResource:
         return AsyncRecordingsResource(self._client)
+
+    @cached_property
+    def traffic_sessions(self) -> AsyncTrafficSessionsResource:
+        return AsyncTrafficSessionsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncDevicesResourceWithRawResponse:
@@ -1344,10 +1359,9 @@ class AsyncDevicesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Wakes a parked device: capacity is preflighted (the device's data may be
-        replicated to another node if its home is full), the device starts running
-        again, and per-minute billing resumes. On a device that is not parked this is a
-        no-op ready transition.
+        Wakes a parked device: backend readiness and any required capacity are
+        preflighted, the same device starts running again, and per-minute billing
+        resumes. On a device that is not parked this is a no-op ready transition.
 
         Args:
           extra_headers: Send extra headers
@@ -1681,6 +1695,10 @@ class DevicesResourceWithRawResponse:
     def recordings(self) -> RecordingsResourceWithRawResponse:
         return RecordingsResourceWithRawResponse(self._devices.recordings)
 
+    @cached_property
+    def traffic_sessions(self) -> TrafficSessionsResourceWithRawResponse:
+        return TrafficSessionsResourceWithRawResponse(self._devices.traffic_sessions)
+
 
 class AsyncDevicesResourceWithRawResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -1801,6 +1819,10 @@ class AsyncDevicesResourceWithRawResponse:
     @cached_property
     def recordings(self) -> AsyncRecordingsResourceWithRawResponse:
         return AsyncRecordingsResourceWithRawResponse(self._devices.recordings)
+
+    @cached_property
+    def traffic_sessions(self) -> AsyncTrafficSessionsResourceWithRawResponse:
+        return AsyncTrafficSessionsResourceWithRawResponse(self._devices.traffic_sessions)
 
 
 class DevicesResourceWithStreamingResponse:
@@ -1923,6 +1945,10 @@ class DevicesResourceWithStreamingResponse:
     def recordings(self) -> RecordingsResourceWithStreamingResponse:
         return RecordingsResourceWithStreamingResponse(self._devices.recordings)
 
+    @cached_property
+    def traffic_sessions(self) -> TrafficSessionsResourceWithStreamingResponse:
+        return TrafficSessionsResourceWithStreamingResponse(self._devices.traffic_sessions)
+
 
 class AsyncDevicesResourceWithStreamingResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -2043,3 +2069,7 @@ class AsyncDevicesResourceWithStreamingResponse:
     @cached_property
     def recordings(self) -> AsyncRecordingsResourceWithStreamingResponse:
         return AsyncRecordingsResourceWithStreamingResponse(self._devices.recordings)
+
+    @cached_property
+    def traffic_sessions(self) -> AsyncTrafficSessionsResourceWithStreamingResponse:
+        return AsyncTrafficSessionsResourceWithStreamingResponse(self._devices.traffic_sessions)
