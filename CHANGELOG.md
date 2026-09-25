@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.5.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.5.0...v5.5.1) (2026-09-25)
+
+
+### Chores
+
+* **contract:** sync openapi spec ([2bdbb90](https://github.com/droidrun/mobilerun-sdk-python/commit/2bdbb90fa60bc22198ee6f0aa8159e50009d7941))
+
 ## [5.5.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.4.0...v5.5.0) (2026-09-16)
 
 
