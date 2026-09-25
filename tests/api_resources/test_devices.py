@@ -21,6 +21,8 @@ from mobilerun_sdk.types import (
 )
 from mobilerun_sdk._utils import parse_datetime
 
+# pyright: reportDeprecated=false
+
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
@@ -207,13 +209,16 @@ class TestDevices:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_count(self, client: Mobilerun) -> None:
-        device = client.devices.count()
+        with pytest.warns(DeprecationWarning):
+            device = client.devices.count()
+
         assert_matches_type(DeviceCountResponse, device, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_count(self, client: Mobilerun) -> None:
-        response = client.devices.with_raw_response.count()
+        with pytest.warns(DeprecationWarning):
+            response = client.devices.with_raw_response.count()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -223,12 +228,13 @@ class TestDevices:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_count(self, client: Mobilerun) -> None:
-        with client.devices.with_streaming_response.count() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        with pytest.warns(DeprecationWarning):
+            with client.devices.with_streaming_response.count() as response:
+                assert not response.is_closed
+                assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            device = response.parse()
-            assert_matches_type(DeviceCountResponse, device, path=["response"])
+                device = response.parse()
+                assert_matches_type(DeviceCountResponse, device, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -819,13 +825,16 @@ class TestAsyncDevices:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_count(self, async_client: AsyncMobilerun) -> None:
-        device = await async_client.devices.count()
+        with pytest.warns(DeprecationWarning):
+            device = await async_client.devices.count()
+
         assert_matches_type(DeviceCountResponse, device, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_count(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.devices.with_raw_response.count()
+        with pytest.warns(DeprecationWarning):
+            response = await async_client.devices.with_raw_response.count()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -835,12 +844,13 @@ class TestAsyncDevices:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_count(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.devices.with_streaming_response.count() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        with pytest.warns(DeprecationWarning):
+            async with async_client.devices.with_streaming_response.count() as response:
+                assert not response.is_closed
+                assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            device = await response.parse()
-            assert_matches_type(DeviceCountResponse, device, path=["response"])
+                device = await response.parse()
+                assert_matches_type(DeviceCountResponse, device, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
