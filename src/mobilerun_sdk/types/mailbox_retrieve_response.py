@@ -26,7 +26,7 @@ class Data(BaseModel):
 
     address: Optional[str] = None
 
-    billing_mode: Literal["rent", "included", "domain"] = FieldInfo(alias="billingMode")
+    billing_mode: Literal["rent", "included", "domain", "external"] = FieldInfo(alias="billingMode")
 
     cancel_at_period_end: bool = FieldInfo(alias="cancelAtPeriodEnd")
 
@@ -44,7 +44,19 @@ class Data(BaseModel):
 
     label: Optional[str] = None
 
-    status: Literal["provisioning", "awaiting_payment", "active", "cancel_scheduled", "archived", "billing_error"]
+    provider: Literal["matix", "gmail"]
+
+    status: Literal[
+        "provisioning",
+        "awaiting_payment",
+        "active",
+        "cancel_scheduled",
+        "archived",
+        "billing_error",
+        "pending_connection",
+        "connection_expired",
+        "connection_removed",
+    ]
 
 
 class MailboxRetrieveResponse(BaseModel):
