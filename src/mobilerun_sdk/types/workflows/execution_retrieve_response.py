@@ -1,13 +1,45 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["ExecutionRetrieveResponse", "Data", "DataFile", "DataRecording"]
+__all__ = [
+    "ExecutionRetrieveResponse",
+    "Data",
+    "DataDelivery",
+    "DataFile",
+    "DataProgress",
+    "DataProgressStep",
+    "DataRecording",
+    "DataScreenshot",
+]
+
+
+class DataDelivery(BaseModel):
+    artifact: Literal["recording", "file", "screenshot"]
+
+    destination: Literal["one_drive", "google_drive"]
+
+    error_code: Optional[str] = FieldInfo(alias="errorCode", default=None)
+
+    filename: str
+
+    finished_at: Optional[str] = FieldInfo(alias="finishedAt", default=None)
+
+    folder: Optional[str] = None
+
+    started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
+
+    status: Literal["waiting", "uploading", "succeeded", "failed", "unknown", "cancelled"]
+
+    step_index: Optional[int] = FieldInfo(alias="stepIndex", default=None)
+
+    web_url: Optional[str] = FieldInfo(alias="webUrl", default=None)
 
 
 class DataFile(BaseModel):
@@ -18,6 +50,36 @@ class DataFile(BaseModel):
     mime_type: str = FieldInfo(alias="mimeType")
 
     size_bytes: int = FieldInfo(alias="sizeBytes")
+
+
+class DataProgressStep(BaseModel):
+    finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
+
+    index: int
+
+    method: str
+
+    name: str
+
+    service: str
+
+    session_id: Optional[str] = FieldInfo(alias="sessionId", default=None)
+
+    started_at: Optional[datetime] = FieldInfo(alias="startedAt", default=None)
+
+    status: Literal["pending", "running", "success", "failed", "skipped", "cancelled"]
+
+
+class DataProgress(BaseModel):
+    """
+    Live progress read from step_progress; null for runs started before this feature.
+    """
+
+    current_index: Optional[int] = FieldInfo(alias="currentIndex", default=None)
+
+    steps: List[DataProgressStep]
+
+    total: int
 
 
 class DataRecording(BaseModel):
@@ -50,10 +112,35 @@ class DataRecording(BaseModel):
     stopped_at: Optional[str] = FieldInfo(alias="stoppedAt", default=None)
 
 
+class DataScreenshot(BaseModel):
+    id: str
+
+    captured_at: Optional[str] = FieldInfo(alias="capturedAt", default=None)
+
+    iteration_index: int = FieldInfo(alias="iterationIndex")
+
+    mime_type: str = FieldInfo(alias="mimeType")
+
+    seq: int
+
+    source: Literal["task", "agent"]
+
+    step_index: int = FieldInfo(alias="stepIndex")
+
+    step_name: str = FieldInfo(alias="stepName")
+
+
 class Data(BaseModel):
     id: str
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
+    deliveries: List[DataDelivery]
+    """
+    OneDrive/Google Drive delivery lifecycle for this run's recording, file, and
+    screenshot uploads, ordered by startedAt. Empty when the flow has no delivery
+    configured.
+    """
 
     device_id: Optional[str] = FieldInfo(alias="deviceId", default=None)
     """Device this execution targets (the job's deviceId).
@@ -87,6 +174,12 @@ class Data(BaseModel):
 
     kind: Literal["live", "dry_run", "verification"]
 
+    progress: Optional[DataProgress] = None
+    """
+    Live progress read from step_progress; null for runs started before this
+    feature.
+    """
+
     recording_device_id: Optional[str] = FieldInfo(alias="recordingDeviceId", default=None)
 
     recording_id: Optional[str] = FieldInfo(alias="recordingId", default=None)
@@ -100,6 +193,13 @@ class Data(BaseModel):
     """Durable recording segments ordered by step/loop coordinate and retry attempt.
 
     Whole-flow recordings use -1 for every coordinate.
+    """
+
+    screenshots: List[DataScreenshot]
+    """Screenshots captured by tasks.run/agent.run steps, ordered by seq.
+
+    Image bytes are never returned here — fetch a fresh signed URL via GET
+    /executions/{id}/screenshots/{screenshotId}.
     """
 
     started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)

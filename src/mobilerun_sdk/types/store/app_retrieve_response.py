@@ -281,7 +281,7 @@ class DataVersion(BaseModel):
 
     size_bytes: Optional[int] = FieldInfo(alias="sizeBytes", default=None)
 
-    source: Literal["user", "system", "portal", "store", "catalog"]
+    source: Literal["user", "system", "portal", "store"]
 
     status: Literal["queued", "available", "failed"]
 
@@ -323,6 +323,8 @@ class Data(BaseModel):
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
     version: DataVersion
+
+    versions: List[DataVersion]
 
 
 class AppRetrieveResponse(BaseModel):

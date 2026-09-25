@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.5.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.4.0...v5.5.0) (2026-09-16)
+
+
+### Chores
+
+* **contract:** sync spec, map new resources ([326e225](https://github.com/droidrun/mobilerun-sdk-python/commit/326e225db015a7a1c157905931cac520d24fdeeb))
+* release 5.5.0 ([556dacd](https://github.com/droidrun/mobilerun-sdk-python/commit/556dacd6d70d48f1d953671653cd4dfd69260aa4))
+
 ## [5.4.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.3.0...v5.4.0) (2026-08-24)
 
 
