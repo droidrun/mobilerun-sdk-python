@@ -25,6 +25,8 @@ class Session(BaseModel):
 
     created_at: str = FieldInfo(alias="createdAt")
 
+    credits_used: Optional[float] = FieldInfo(alias="creditsUsed", default=None)
+
     description: Optional[str] = None
 
     last_active_at: str = FieldInfo(alias="lastActiveAt")

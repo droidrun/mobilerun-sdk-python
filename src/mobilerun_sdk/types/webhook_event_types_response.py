@@ -19,6 +19,8 @@ class DataSourceEventSurfaces(BaseModel):
 
     agent: Optional[bool] = None
 
+    live: Optional[bool] = None
+
 
 class DataSourceEvent(BaseModel):
     description: str

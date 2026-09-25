@@ -25,6 +25,8 @@ class SessionUnionMember0(BaseModel):
 
     created_at: str = FieldInfo(alias="createdAt")
 
+    credits_used: Optional[float] = FieldInfo(alias="creditsUsed", default=None)
+
     description: Optional[str] = None
 
     episode: int
@@ -68,6 +70,8 @@ class SessionUnionMember1(BaseModel):
     cost_usd: float = FieldInfo(alias="costUsd")
 
     created_at: str = FieldInfo(alias="createdAt")
+
+    credits_used: Optional[float] = FieldInfo(alias="creditsUsed", default=None)
 
     description: Optional[str] = None
 

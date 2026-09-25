@@ -8,7 +8,21 @@ from pydantic import Field as FieldInfo
 from ..._models import BaseModel
 from ..shared.pagination import Pagination
 
-__all__ = ["FlowListResponse", "Item", "ItemRecordingPolicy"]
+__all__ = ["FlowListResponse", "Item", "ItemDelivery", "ItemDeliveryRecording", "ItemRecordingPolicy"]
+
+
+class ItemDeliveryRecording(BaseModel):
+    filename: str
+
+
+class ItemDelivery(BaseModel):
+    destination: Literal["one_drive", "google_drive"]
+
+    folder: Optional[str] = None
+
+    recording: Optional[ItemDeliveryRecording] = None
+
+    screenshots: Optional[object] = None
 
 
 class ItemRecordingPolicy(BaseModel):
@@ -31,6 +45,8 @@ class Item(BaseModel):
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
+    delivery: Optional[ItemDelivery] = None
 
     description: Optional[str] = None
 

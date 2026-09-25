@@ -298,6 +298,9 @@ class TrajectoryTrajectoryFastAgentResponseEventData(BaseModel):
 
     code: Optional[str] = None
 
+    tool_call_status: Optional[Literal["valid", "no_markup", "malformed"]] = None
+    """Classification of tool-call markup in an LLM response."""
+
     usage: Optional[TrajectoryTrajectoryFastAgentResponseEventDataUsage] = None
 
 
