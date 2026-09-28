@@ -140,6 +140,7 @@ class ProxiesResource(SyncAPIResource):
         *,
         country: str,
         type: Literal["dedicated_residential", "residential", "mobile"],
+        name: str | Omit = omit,
         idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -153,6 +154,10 @@ class ProxiesResource(SyncAPIResource):
 
         Args:
           country: ISO 3166-1 alpha-2 country code to provision the proxy in.
+
+          name: Display name for the proxy, up to 64 characters excluding surrounding
+              whitespace, and containing no NUL. Omit it (or send only whitespace) to get a
+              generated label built from the country, type, and id.
 
           extra_headers: Send extra headers
 
@@ -169,6 +174,7 @@ class ProxiesResource(SyncAPIResource):
                 {
                     "country": country,
                     "type": type,
+                    "name": name,
                 },
                 proxy_buy_params.ProxyBuyParams,
             ),
@@ -507,6 +513,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         *,
         country: str,
         type: Literal["dedicated_residential", "residential", "mobile"],
+        name: str | Omit = omit,
         idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -520,6 +527,10 @@ class AsyncProxiesResource(AsyncAPIResource):
 
         Args:
           country: ISO 3166-1 alpha-2 country code to provision the proxy in.
+
+          name: Display name for the proxy, up to 64 characters excluding surrounding
+              whitespace, and containing no NUL. Omit it (or send only whitespace) to get a
+              generated label built from the country, type, and id.
 
           extra_headers: Send extra headers
 
@@ -536,6 +547,7 @@ class AsyncProxiesResource(AsyncAPIResource):
                 {
                     "country": country,
                     "type": type,
+                    "name": name,
                 },
                 proxy_buy_params.ProxyBuyParams,
             ),

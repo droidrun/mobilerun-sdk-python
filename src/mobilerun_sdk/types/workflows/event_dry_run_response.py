@@ -13,6 +13,8 @@ __all__ = [
     "DataMatchedFlow",
     "DataMatchedFlowAction",
     "DataMatchedFlowFlow",
+    "DataMatchedFlowFlowDelivery",
+    "DataMatchedFlowFlowDeliveryRecording",
     "DataMatchedFlowFlowRecordingPolicy",
     "DataMatchedFlowGates",
     "DataMatchedFlowTrigger",
@@ -32,7 +34,7 @@ class DataMatchedFlowAction(BaseModel):
 
     recording_enabled: bool = FieldInfo(alias="recordingEnabled")
 
-    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks"]
+    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"]
 
     children: Optional[List[object]] = None
     """
@@ -41,6 +43,20 @@ class DataMatchedFlowAction(BaseModel):
     """
 
     params: Optional[Dict[str, object]] = None
+
+
+class DataMatchedFlowFlowDeliveryRecording(BaseModel):
+    filename: str
+
+
+class DataMatchedFlowFlowDelivery(BaseModel):
+    destination: Literal["one_drive", "google_drive"]
+
+    folder: Optional[str] = None
+
+    recording: Optional[DataMatchedFlowFlowDeliveryRecording] = None
+
+    screenshots: Optional[object] = None
 
 
 class DataMatchedFlowFlowRecordingPolicy(BaseModel):
@@ -63,6 +79,8 @@ class DataMatchedFlowFlow(BaseModel):
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
+    delivery: Optional[DataMatchedFlowFlowDelivery] = None
 
     description: Optional[str] = None
 

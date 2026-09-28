@@ -252,7 +252,8 @@ class MailboxesResource(SyncAPIResource):
     ) -> MailboxDeleteResponse:
         """
         Cancels a pending mailbox or schedules an active paid mailbox for cancellation.
-        Existing addresses and messages are retained. Repeating the request is safe.
+        Existing addresses and messages are retained. Repeating the request is safe. An
+        external inbox (Gmail) cannot be cancelled here; disconnect the link instead.
 
         Args:
           extra_headers: Send extra headers
@@ -627,7 +628,8 @@ class AsyncMailboxesResource(AsyncAPIResource):
     ) -> MailboxDeleteResponse:
         """
         Cancels a pending mailbox or schedules an active paid mailbox for cancellation.
-        Existing addresses and messages are retained. Repeating the request is safe.
+        Existing addresses and messages are retained. Repeating the request is safe. An
+        external inbox (Gmail) cannot be cancelled here; disconnect the link instead.
 
         Args:
           extra_headers: Send extra headers

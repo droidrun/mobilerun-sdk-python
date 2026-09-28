@@ -79,6 +79,7 @@ class FlowsResource(SyncAPIResource):
         trigger_id: str,
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
+        delivery: flow_create_params.Delivery | Omit = omit,
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
@@ -104,9 +105,6 @@ class FlowsResource(SyncAPIResource):
         success or failure.
 
         Args:
-          recording_enabled: Deprecated compatibility field. true maps to recordingPolicy.mode="flow"; false
-              maps to "off".
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -124,6 +122,7 @@ class FlowsResource(SyncAPIResource):
                     "trigger_id": trigger_id,
                     "cooldown_scope": cooldown_scope,
                     "cooldown_seconds": cooldown_seconds,
+                    "delivery": delivery,
                     "description": description,
                     "device_ids": device_ids,
                     "enabled": enabled,
@@ -184,6 +183,7 @@ class FlowsResource(SyncAPIResource):
         *,
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
+        delivery: Optional[flow_update_params.Delivery] | Omit = omit,
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
@@ -233,6 +233,7 @@ class FlowsResource(SyncAPIResource):
                 {
                     "cooldown_scope": cooldown_scope,
                     "cooldown_seconds": cooldown_seconds,
+                    "delivery": delivery,
                     "description": description,
                     "device_ids": device_ids,
                     "enabled": enabled,
@@ -575,6 +576,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         trigger_id: str,
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
+        delivery: flow_create_params.Delivery | Omit = omit,
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
@@ -600,9 +602,6 @@ class AsyncFlowsResource(AsyncAPIResource):
         success or failure.
 
         Args:
-          recording_enabled: Deprecated compatibility field. true maps to recordingPolicy.mode="flow"; false
-              maps to "off".
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -620,6 +619,7 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "trigger_id": trigger_id,
                     "cooldown_scope": cooldown_scope,
                     "cooldown_seconds": cooldown_seconds,
+                    "delivery": delivery,
                     "description": description,
                     "device_ids": device_ids,
                     "enabled": enabled,
@@ -680,6 +680,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         *,
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
+        delivery: Optional[flow_update_params.Delivery] | Omit = omit,
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
@@ -729,6 +730,7 @@ class AsyncFlowsResource(AsyncAPIResource):
                 {
                     "cooldown_scope": cooldown_scope,
                     "cooldown_seconds": cooldown_seconds,
+                    "delivery": delivery,
                     "description": description,
                     "device_ids": device_ids,
                     "enabled": enabled,
