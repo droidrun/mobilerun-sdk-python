@@ -7,7 +7,21 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["FlowUpdateResponse", "Data", "DataRecordingPolicy"]
+__all__ = ["FlowUpdateResponse", "Data", "DataDelivery", "DataDeliveryRecording", "DataRecordingPolicy"]
+
+
+class DataDeliveryRecording(BaseModel):
+    filename: str
+
+
+class DataDelivery(BaseModel):
+    destination: Literal["one_drive", "google_drive"]
+
+    folder: Optional[str] = None
+
+    recording: Optional[DataDeliveryRecording] = None
+
+    screenshots: Optional[object] = None
 
 
 class DataRecordingPolicy(BaseModel):
@@ -30,6 +44,8 @@ class Data(BaseModel):
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
+    delivery: Optional[DataDelivery] = None
 
     description: Optional[str] = None
 

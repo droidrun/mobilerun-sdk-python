@@ -153,9 +153,11 @@ class RecordingsResource(SyncAPIResource):
               device's full quality. Honored by devices recording through the portal stream
               bridge.
 
-          types: Artifacts to capture: trajectory (input actions), video, and audio (captured
+          types: Artifacts to capture: trajectory (input actions; on portal stream-bridge devices
+              only when the handset announces trajectory capture), video, and audio (captured
               into the video artifact, so it requires video; honored by portal stream-bridge
-              recorders). Defaults to trajectory and video.
+              recorders). Defaults to trajectory and video, narrowed to what the device
+              produces.
 
           extra_headers: Send extra headers
 
@@ -468,9 +470,11 @@ class AsyncRecordingsResource(AsyncAPIResource):
               device's full quality. Honored by devices recording through the portal stream
               bridge.
 
-          types: Artifacts to capture: trajectory (input actions), video, and audio (captured
+          types: Artifacts to capture: trajectory (input actions; on portal stream-bridge devices
+              only when the handset announces trajectory capture), video, and audio (captured
               into the video artifact, so it requires video; honored by portal stream-bridge
-              recorders). Defaults to trajectory and video.
+              recorders). Defaults to trajectory and video, narrowed to what the device
+              produces.
 
           extra_headers: Send extra headers
 

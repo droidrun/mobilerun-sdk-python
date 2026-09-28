@@ -321,7 +321,7 @@ class TasksResource(SyncAPIResource):
 
           execution_timeout: Maximum agent execution time in seconds (1–2700).
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')
+          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -415,7 +415,7 @@ class TasksResource(SyncAPIResource):
 
           execution_timeout: Maximum agent execution time in seconds (1–2700).
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')
+          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -817,7 +817,7 @@ class AsyncTasksResource(AsyncAPIResource):
 
           execution_timeout: Maximum agent execution time in seconds (1–2700).
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')
+          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -911,7 +911,7 @@ class AsyncTasksResource(AsyncAPIResource):
 
           execution_timeout: Maximum agent execution time in seconds (1–2700).
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')
+          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
