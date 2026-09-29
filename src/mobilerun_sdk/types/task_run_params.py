@@ -65,8 +65,6 @@ class TaskRunParams(TypedDict, total=False):
         Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]], PropertyInfo(alias="vpnCountry")
     ]
 
-    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]
-
 
 class Credential(TypedDict, total=False):
     credential_names: Required[Annotated[SequenceNotStr[str], PropertyInfo(alias="credentialNames")]]

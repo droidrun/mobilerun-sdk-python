@@ -320,6 +320,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> DeviceCreateResponse:
         """Requests a new device from the specification in the request body.
 
@@ -354,6 +355,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/devices",
@@ -378,6 +381,7 @@ class DevicesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
+                idempotency_key=idempotency_key,
                 query=maybe_transform(
                     {
                         "billing": billing,
@@ -590,6 +594,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """Triggers a reboot of the device.
 
@@ -604,6 +609,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -611,7 +618,11 @@ class DevicesResource(SyncAPIResource):
         return self._post(
             path_template("/devices/{device_id}/reboot", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -626,6 +637,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Resets the device back to a clean state, clearing installed apps and user data
@@ -640,6 +652,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -647,7 +661,11 @@ class DevicesResource(SyncAPIResource):
         return self._post(
             path_template("/devices/{device_id}/reset", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -662,6 +680,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Wakes a parked device: backend readiness and any required capacity are
@@ -676,6 +695,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -683,7 +704,11 @@ class DevicesResource(SyncAPIResource):
         return self._post(
             path_template("/devices/{device_id}/resume", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -737,6 +762,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> DeviceSetNameResponse:
         """
         Sets the display name for a device from the name in the request body and returns
@@ -750,6 +776,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -757,7 +785,11 @@ class DevicesResource(SyncAPIResource):
             path_template("/devices/{device_id}/name", device_id=device_id),
             body=maybe_transform({"name": name}, device_set_name_params.DeviceSetNameParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=DeviceSetNameResponse,
         )
@@ -772,6 +804,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Parks the device: its data, apps and identity are kept, but nothing runs and
@@ -786,6 +819,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -793,7 +828,11 @@ class DevicesResource(SyncAPIResource):
         return self._post(
             path_template("/devices/{device_id}/stop", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -810,6 +849,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """Terminates the device and releases its resources.
 
@@ -825,6 +865,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -839,7 +881,11 @@ class DevicesResource(SyncAPIResource):
                 device_terminate_params.DeviceTerminateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -1004,6 +1050,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> DeviceCreateResponse:
         """Requests a new device from the specification in the request body.
 
@@ -1038,6 +1085,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/devices",
@@ -1062,6 +1111,7 @@ class AsyncDevicesResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
+                idempotency_key=idempotency_key,
                 query=await async_maybe_transform(
                     {
                         "billing": billing,
@@ -1274,6 +1324,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """Triggers a reboot of the device.
 
@@ -1288,6 +1339,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -1295,7 +1348,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         return await self._post(
             path_template("/devices/{device_id}/reboot", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -1310,6 +1367,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Resets the device back to a clean state, clearing installed apps and user data
@@ -1324,6 +1382,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -1331,7 +1391,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         return await self._post(
             path_template("/devices/{device_id}/reset", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -1346,6 +1410,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Wakes a parked device: backend readiness and any required capacity are
@@ -1360,6 +1425,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -1367,7 +1434,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         return await self._post(
             path_template("/devices/{device_id}/resume", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -1421,6 +1492,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> DeviceSetNameResponse:
         """
         Sets the display name for a device from the name in the request body and returns
@@ -1434,6 +1506,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -1441,7 +1515,11 @@ class AsyncDevicesResource(AsyncAPIResource):
             path_template("/devices/{device_id}/name", device_id=device_id),
             body=await async_maybe_transform({"name": name}, device_set_name_params.DeviceSetNameParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=DeviceSetNameResponse,
         )
@@ -1456,6 +1534,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Parks the device: its data, apps and identity are kept, but nothing runs and
@@ -1470,6 +1549,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -1477,7 +1558,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         return await self._post(
             path_template("/devices/{device_id}/stop", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -1494,6 +1579,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """Terminates the device and releases its resources.
 
@@ -1509,6 +1595,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -1523,7 +1611,11 @@ class AsyncDevicesResource(AsyncAPIResource):
                 device_terminate_params.DeviceTerminateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )

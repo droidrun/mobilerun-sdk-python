@@ -97,6 +97,7 @@ class FlowsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FlowCreateResponse:
         """
         Create a flow that binds a trigger (`triggerId`) to an ordered list of actions,
@@ -112,6 +113,8 @@ class FlowsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/flows",
@@ -138,7 +141,11 @@ class FlowsResource(SyncAPIResource):
                 flow_create_params.FlowCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FlowCreateResponse,
         )
@@ -204,6 +211,7 @@ class FlowsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FlowUpdateResponse:
         """
         Partially update a flow's settings — name, trigger binding, enabled state,
@@ -224,6 +232,8 @@ class FlowsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
@@ -252,7 +262,11 @@ class FlowsResource(SyncAPIResource):
                 flow_update_params.FlowUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FlowUpdateResponse,
         )
@@ -333,6 +347,7 @@ class FlowsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FlowDeleteResponse:
         """Terminally archive a flow by its ID.
 
@@ -347,13 +362,19 @@ class FlowsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
         return self._delete(
             path_template("/flows/{flow_id}", flow_id=flow_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FlowDeleteResponse,
         )
@@ -394,6 +415,7 @@ class FlowsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FlowCloneResponse:
         """Create a copy of an existing flow, including its actions and settings.
 
@@ -409,6 +431,8 @@ class FlowsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
@@ -422,7 +446,11 @@ class FlowsResource(SyncAPIResource):
                 flow_clone_params.FlowCloneParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FlowCloneResponse,
         )
@@ -438,6 +466,7 @@ class FlowsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FlowDryRunResponse:
         """
         Simulate this flow firing without storing events, enqueuing jobs, or consuming
@@ -463,6 +492,8 @@ class FlowsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
@@ -470,7 +501,11 @@ class FlowsResource(SyncAPIResource):
             path_template("/flows/{flow_id}/dry-run", flow_id=flow_id),
             body=maybe_transform({"payload": payload}, flow_dry_run_params.FlowDryRunParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FlowDryRunResponse,
         )
@@ -518,6 +553,7 @@ class FlowsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FlowUnblockResponse:
         """Clear a flow's blocked status after fixing the underlying issue.
 
@@ -532,13 +568,19 @@ class FlowsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
         return self._post(
             path_template("/flows/{flow_id}/unblock", flow_id=flow_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FlowUnblockResponse,
         )
@@ -594,6 +636,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FlowCreateResponse:
         """
         Create a flow that binds a trigger (`triggerId`) to an ordered list of actions,
@@ -609,6 +652,8 @@ class AsyncFlowsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/flows",
@@ -635,7 +680,11 @@ class AsyncFlowsResource(AsyncAPIResource):
                 flow_create_params.FlowCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FlowCreateResponse,
         )
@@ -701,6 +750,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FlowUpdateResponse:
         """
         Partially update a flow's settings — name, trigger binding, enabled state,
@@ -721,6 +771,8 @@ class AsyncFlowsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
@@ -749,7 +801,11 @@ class AsyncFlowsResource(AsyncAPIResource):
                 flow_update_params.FlowUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FlowUpdateResponse,
         )
@@ -830,6 +886,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FlowDeleteResponse:
         """Terminally archive a flow by its ID.
 
@@ -844,13 +901,19 @@ class AsyncFlowsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
         return await self._delete(
             path_template("/flows/{flow_id}", flow_id=flow_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FlowDeleteResponse,
         )
@@ -891,6 +954,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FlowCloneResponse:
         """Create a copy of an existing flow, including its actions and settings.
 
@@ -906,6 +970,8 @@ class AsyncFlowsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
@@ -919,7 +985,11 @@ class AsyncFlowsResource(AsyncAPIResource):
                 flow_clone_params.FlowCloneParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FlowCloneResponse,
         )
@@ -935,6 +1005,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FlowDryRunResponse:
         """
         Simulate this flow firing without storing events, enqueuing jobs, or consuming
@@ -960,6 +1031,8 @@ class AsyncFlowsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
@@ -967,7 +1040,11 @@ class AsyncFlowsResource(AsyncAPIResource):
             path_template("/flows/{flow_id}/dry-run", flow_id=flow_id),
             body=await async_maybe_transform({"payload": payload}, flow_dry_run_params.FlowDryRunParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FlowDryRunResponse,
         )
@@ -1015,6 +1092,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FlowUnblockResponse:
         """Clear a flow's blocked status after fixing the underlying issue.
 
@@ -1029,13 +1107,19 @@ class AsyncFlowsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
         return await self._post(
             path_template("/flows/{flow_id}/unblock", flow_id=flow_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FlowUnblockResponse,
         )

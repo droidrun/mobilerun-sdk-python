@@ -120,7 +120,6 @@ class TestProxies:
             country="country",
             type="dedicated_residential",
             name="name",
-            idempotency_key="Idempotency-Key",
         )
         assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
 
@@ -413,7 +412,6 @@ class TestAsyncProxies:
             country="country",
             type="dedicated_residential",
             name="name",
-            idempotency_key="Idempotency-Key",
         )
         assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
 

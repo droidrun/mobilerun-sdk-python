@@ -17,5 +17,3 @@ class FileUploadURLParams(TypedDict, total=False):
     size_bytes: Required[Annotated[int, PropertyInfo(alias="sizeBytes")]]
 
     zone: Literal["user", "skills"]
-
-    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]

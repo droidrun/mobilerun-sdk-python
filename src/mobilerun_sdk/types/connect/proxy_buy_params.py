@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Required, Annotated, TypedDict
-
-from ..._utils import PropertyInfo
+from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["ProxyBuyParams"]
 
@@ -21,5 +19,3 @@ class ProxyBuyParams(TypedDict, total=False):
     whitespace, and containing no NUL. Omit it (or send only whitespace) to get a
     generated label built from the country, type, and id.
     """
-
-    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]

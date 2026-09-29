@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, Annotated, TypedDict
-
-from ..._utils import PropertyInfo
+from typing_extensions import Required, TypedDict
 
 __all__ = ["ConversationCreateParams"]
 
@@ -15,10 +13,3 @@ class ConversationCreateParams(TypedDict, total=False):
     agent: str
 
     description: str
-
-    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]
-    """Optional client key.
-
-    Reusing the same key with the same request body by the same authenticated caller
-    within 24 hours returns the already-created session instead of a second one.
-    """

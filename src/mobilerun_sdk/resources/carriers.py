@@ -73,6 +73,7 @@ class CarriersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> CarrierCreateResponse:
         """
         Create a new carrier
@@ -117,6 +118,8 @@ class CarriersResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/carriers",
@@ -142,7 +145,11 @@ class CarriersResource(SyncAPIResource):
                 carrier_create_params.CarrierCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=CarrierCreateResponse,
         )
@@ -204,6 +211,7 @@ class CarriersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> CarrierUpdateResponse:
         """
         Update a carrier
@@ -246,6 +254,8 @@ class CarriersResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._patch(
             path_template("/carriers/{carrier_id}", carrier_id=carrier_id),
@@ -269,7 +279,11 @@ class CarriersResource(SyncAPIResource):
                 carrier_update_params.CarrierUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=CarrierUpdateResponse,
         )
@@ -346,6 +360,7 @@ class CarriersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> CarrierDeleteResponse:
         """
         Delete a carrier
@@ -360,11 +375,17 @@ class CarriersResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._delete(
             path_template("/carriers/{carrier_id}", carrier_id=carrier_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=CarrierDeleteResponse,
         )
@@ -461,6 +482,7 @@ class AsyncCarriersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> CarrierCreateResponse:
         """
         Create a new carrier
@@ -505,6 +527,8 @@ class AsyncCarriersResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/carriers",
@@ -530,7 +554,11 @@ class AsyncCarriersResource(AsyncAPIResource):
                 carrier_create_params.CarrierCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=CarrierCreateResponse,
         )
@@ -592,6 +620,7 @@ class AsyncCarriersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> CarrierUpdateResponse:
         """
         Update a carrier
@@ -634,6 +663,8 @@ class AsyncCarriersResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._patch(
             path_template("/carriers/{carrier_id}", carrier_id=carrier_id),
@@ -657,7 +688,11 @@ class AsyncCarriersResource(AsyncAPIResource):
                 carrier_update_params.CarrierUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=CarrierUpdateResponse,
         )
@@ -734,6 +769,7 @@ class AsyncCarriersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> CarrierDeleteResponse:
         """
         Delete a carrier
@@ -748,11 +784,17 @@ class AsyncCarriersResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._delete(
             path_template("/carriers/{carrier_id}", carrier_id=carrier_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=CarrierDeleteResponse,
         )
