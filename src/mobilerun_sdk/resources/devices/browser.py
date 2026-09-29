@@ -53,11 +53,16 @@ class BrowserResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> BrowserExecuteScriptResponse:
         """
-        Evaluates a JavaScript expression in the device's foreground Chrome tab via the
-        Chrome DevTools Protocol and returns its JSON-serialized result. Devices without
-        browser support return an unsupported-feature error.
+        Evaluates a JavaScript expression exactly once in the device's single, confirmed
+        foreground Chrome tab via the Chrome DevTools Protocol and returns its
+        JSON-serialized result. A responsive browser state without exactly one visible
+        page returns DEVICE_NO_BROWSER_TARGET (400). Transient discovery or target-probe
+        transport failures return CDP_TRANSPORT_UNAVAILABLE (503) with Retry-After and
+        an executionOutcome; the service never retries a user script after sending it.
+        Devices without browser support return an unsupported-feature error.
 
         Args:
           script: JavaScript expression to evaluate in the device's foreground Chrome tab (CDP
@@ -72,6 +77,8 @@ class BrowserResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -85,7 +92,11 @@ class BrowserResource(SyncAPIResource):
             path_template("/devices/{device_id}/browser/execute-script", device_id=device_id),
             body=maybe_transform({"script": script}, browser_execute_script_params.BrowserExecuteScriptParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=BrowserExecuteScriptResponse,
         )
@@ -123,11 +134,16 @@ class AsyncBrowserResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> BrowserExecuteScriptResponse:
         """
-        Evaluates a JavaScript expression in the device's foreground Chrome tab via the
-        Chrome DevTools Protocol and returns its JSON-serialized result. Devices without
-        browser support return an unsupported-feature error.
+        Evaluates a JavaScript expression exactly once in the device's single, confirmed
+        foreground Chrome tab via the Chrome DevTools Protocol and returns its
+        JSON-serialized result. A responsive browser state without exactly one visible
+        page returns DEVICE_NO_BROWSER_TARGET (400). Transient discovery or target-probe
+        transport failures return CDP_TRANSPORT_UNAVAILABLE (503) with Retry-After and
+        an executionOutcome; the service never retries a user script after sending it.
+        Devices without browser support return an unsupported-feature error.
 
         Args:
           script: JavaScript expression to evaluate in the device's foreground Chrome tab (CDP
@@ -142,6 +158,8 @@ class AsyncBrowserResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -157,7 +175,11 @@ class AsyncBrowserResource(AsyncAPIResource):
                 {"script": script}, browser_execute_script_params.BrowserExecuteScriptParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=BrowserExecuteScriptResponse,
         )

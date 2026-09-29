@@ -98,6 +98,7 @@ class ActionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ActionAddResponse:
         """
         Append a single action to a flow at the given `position`, optionally nesting it
@@ -113,6 +114,8 @@ class ActionsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
@@ -132,7 +135,11 @@ class ActionsResource(SyncAPIResource):
                 action_add_params.ActionAddParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ActionAddResponse,
         )
@@ -148,6 +155,7 @@ class ActionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ActionRemoveResponse:
         """Remove a single action from a flow by its `flowActionId`.
 
@@ -162,6 +170,8 @@ class ActionsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
@@ -170,7 +180,11 @@ class ActionsResource(SyncAPIResource):
         return self._delete(
             path_template("/flows/{flow_id}/actions/{flow_action_id}", flow_id=flow_id, flow_action_id=flow_action_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ActionRemoveResponse,
         )
@@ -186,6 +200,7 @@ class ActionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ActionReplaceResponse:
         """
         Replace a flow's entire action list with the supplied set (at least one
@@ -201,6 +216,8 @@ class ActionsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
@@ -208,7 +225,11 @@ class ActionsResource(SyncAPIResource):
             path_template("/flows/{flow_id}/actions", flow_id=flow_id),
             body=maybe_transform({"actions": actions}, action_replace_params.ActionReplaceParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ActionReplaceResponse,
         )
@@ -286,6 +307,7 @@ class AsyncActionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ActionAddResponse:
         """
         Append a single action to a flow at the given `position`, optionally nesting it
@@ -301,6 +323,8 @@ class AsyncActionsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
@@ -320,7 +344,11 @@ class AsyncActionsResource(AsyncAPIResource):
                 action_add_params.ActionAddParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ActionAddResponse,
         )
@@ -336,6 +364,7 @@ class AsyncActionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ActionRemoveResponse:
         """Remove a single action from a flow by its `flowActionId`.
 
@@ -350,6 +379,8 @@ class AsyncActionsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
@@ -358,7 +389,11 @@ class AsyncActionsResource(AsyncAPIResource):
         return await self._delete(
             path_template("/flows/{flow_id}/actions/{flow_action_id}", flow_id=flow_id, flow_action_id=flow_action_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ActionRemoveResponse,
         )
@@ -374,6 +409,7 @@ class AsyncActionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ActionReplaceResponse:
         """
         Replace a flow's entire action list with the supplied set (at least one
@@ -389,6 +425,8 @@ class AsyncActionsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not flow_id:
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
@@ -396,7 +434,11 @@ class AsyncActionsResource(AsyncAPIResource):
             path_template("/flows/{flow_id}/actions", flow_id=flow_id),
             body=await async_maybe_transform({"actions": actions}, action_replace_params.ActionReplaceParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ActionReplaceResponse,
         )

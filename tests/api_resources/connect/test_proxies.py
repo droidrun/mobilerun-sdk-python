@@ -119,7 +119,7 @@ class TestProxies:
         proxy = client.connect.proxies.buy(
             country="country",
             type="dedicated_residential",
-            idempotency_key="Idempotency-Key",
+            name="name",
         )
         assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
 
@@ -411,7 +411,7 @@ class TestAsyncProxies:
         proxy = await async_client.connect.proxies.buy(
             country="country",
             type="dedicated_residential",
-            idempotency_key="Idempotency-Key",
+            name="name",
         )
         assert_matches_type(ProxyBuyResponse, proxy, path=["response"])
 

@@ -34,7 +34,7 @@ class TaskRunStreamedParams(TypedDict, total=False):
     files: SequenceNotStr[str]
 
     llm_model: Annotated[str, PropertyInfo(alias="llmModel")]
-    """The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')"""
+    """The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')"""
 
     max_steps: Annotated[int, PropertyInfo(alias="maxSteps")]
 

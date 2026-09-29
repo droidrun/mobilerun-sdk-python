@@ -27,7 +27,6 @@ class TestTrafficSessions:
     def test_method_create(self, client: Mobilerun) -> None:
         traffic_session = client.devices.traffic_sessions.create(
             device_id="deviceId",
-            idempotency_key="x",
         )
         assert_matches_type(TrafficSessionCreateResponse, traffic_session, path=["response"])
 
@@ -36,7 +35,6 @@ class TestTrafficSessions:
     def test_method_create_with_all_params(self, client: Mobilerun) -> None:
         traffic_session = client.devices.traffic_sessions.create(
             device_id="deviceId",
-            idempotency_key="x",
             expires_in_seconds=60,
             max_body_bytes=0,
         )
@@ -47,7 +45,6 @@ class TestTrafficSessions:
     def test_raw_response_create(self, client: Mobilerun) -> None:
         response = client.devices.traffic_sessions.with_raw_response.create(
             device_id="deviceId",
-            idempotency_key="x",
         )
 
         assert response.is_closed is True
@@ -60,7 +57,6 @@ class TestTrafficSessions:
     def test_streaming_response_create(self, client: Mobilerun) -> None:
         with client.devices.traffic_sessions.with_streaming_response.create(
             device_id="deviceId",
-            idempotency_key="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -76,7 +72,6 @@ class TestTrafficSessions:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.traffic_sessions.with_raw_response.create(
                 device_id="",
-                idempotency_key="x",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -246,7 +241,6 @@ class TestAsyncTrafficSessions:
     async def test_method_create(self, async_client: AsyncMobilerun) -> None:
         traffic_session = await async_client.devices.traffic_sessions.create(
             device_id="deviceId",
-            idempotency_key="x",
         )
         assert_matches_type(TrafficSessionCreateResponse, traffic_session, path=["response"])
 
@@ -255,7 +249,6 @@ class TestAsyncTrafficSessions:
     async def test_method_create_with_all_params(self, async_client: AsyncMobilerun) -> None:
         traffic_session = await async_client.devices.traffic_sessions.create(
             device_id="deviceId",
-            idempotency_key="x",
             expires_in_seconds=60,
             max_body_bytes=0,
         )
@@ -266,7 +259,6 @@ class TestAsyncTrafficSessions:
     async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.traffic_sessions.with_raw_response.create(
             device_id="deviceId",
-            idempotency_key="x",
         )
 
         assert response.is_closed is True
@@ -279,7 +271,6 @@ class TestAsyncTrafficSessions:
     async def test_streaming_response_create(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.traffic_sessions.with_streaming_response.create(
             device_id="deviceId",
-            idempotency_key="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -295,7 +286,6 @@ class TestAsyncTrafficSessions:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.traffic_sessions.with_raw_response.create(
                 device_id="",
-                idempotency_key="x",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
