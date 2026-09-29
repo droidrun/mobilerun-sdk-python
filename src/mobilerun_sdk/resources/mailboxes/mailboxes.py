@@ -74,7 +74,6 @@ class MailboxesResource(SyncAPIResource):
     def create(
         self,
         *,
-        client_request_id: str,
         billing_preference: Literal["included", "included_only", "rent"] | Omit = omit,
         domain_id: str | Omit = omit,
         label: str | Omit = omit,
@@ -85,6 +84,7 @@ class MailboxesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> MailboxCreateResponse:
         """Creates a mailbox on the default domain or a connected custom domain.
 
@@ -110,12 +110,13 @@ class MailboxesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/mailboxes",
             body=maybe_transform(
                 {
-                    "client_request_id": client_request_id,
                     "billing_preference": billing_preference,
                     "domain_id": domain_id,
                     "label": label,
@@ -124,7 +125,11 @@ class MailboxesResource(SyncAPIResource):
                 mailbox_create_params.MailboxCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=MailboxCreateResponse,
         )
@@ -173,6 +178,7 @@ class MailboxesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> MailboxUpdateResponse:
         """
         Updates the label of a mailbox.
@@ -185,6 +191,8 @@ class MailboxesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not mailbox_id:
             raise ValueError(f"Expected a non-empty value for `mailbox_id` but received {mailbox_id!r}")
@@ -192,7 +200,11 @@ class MailboxesResource(SyncAPIResource):
             path_template("/mailboxes/{mailbox_id}", mailbox_id=mailbox_id),
             body=maybe_transform({"label": label}, mailbox_update_params.MailboxUpdateParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=MailboxUpdateResponse,
         )
@@ -249,10 +261,12 @@ class MailboxesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> MailboxDeleteResponse:
         """
         Cancels a pending mailbox or schedules an active paid mailbox for cancellation.
-        Existing addresses and messages are retained. Repeating the request is safe.
+        Existing addresses and messages are retained. Repeating the request is safe. An
+        external inbox (Gmail) cannot be cancelled here; disconnect the link instead.
 
         Args:
           extra_headers: Send extra headers
@@ -262,13 +276,19 @@ class MailboxesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not mailbox_id:
             raise ValueError(f"Expected a non-empty value for `mailbox_id` but received {mailbox_id!r}")
         return self._delete(
             path_template("/mailboxes/{mailbox_id}", mailbox_id=mailbox_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=MailboxDeleteResponse,
         )
@@ -354,6 +374,7 @@ class MailboxesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> MailboxRestartResponse:
         """Restarts an archived mailbox with the same address.
 
@@ -372,6 +393,8 @@ class MailboxesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not mailbox_id:
             raise ValueError(f"Expected a non-empty value for `mailbox_id` but received {mailbox_id!r}")
@@ -381,7 +404,11 @@ class MailboxesResource(SyncAPIResource):
                 {"billing_preference": billing_preference}, mailbox_restart_params.MailboxRestartParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=MailboxRestartResponse,
         )
@@ -396,6 +423,7 @@ class MailboxesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> MailboxUncancelResponse:
         """Withdraws a scheduled cancellation.
 
@@ -410,13 +438,19 @@ class MailboxesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not mailbox_id:
             raise ValueError(f"Expected a non-empty value for `mailbox_id` but received {mailbox_id!r}")
         return self._post(
             path_template("/mailboxes/{mailbox_id}/uncancel", mailbox_id=mailbox_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=MailboxUncancelResponse,
         )
@@ -449,7 +483,6 @@ class AsyncMailboxesResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        client_request_id: str,
         billing_preference: Literal["included", "included_only", "rent"] | Omit = omit,
         domain_id: str | Omit = omit,
         label: str | Omit = omit,
@@ -460,6 +493,7 @@ class AsyncMailboxesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> MailboxCreateResponse:
         """Creates a mailbox on the default domain or a connected custom domain.
 
@@ -485,12 +519,13 @@ class AsyncMailboxesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/mailboxes",
             body=await async_maybe_transform(
                 {
-                    "client_request_id": client_request_id,
                     "billing_preference": billing_preference,
                     "domain_id": domain_id,
                     "label": label,
@@ -499,7 +534,11 @@ class AsyncMailboxesResource(AsyncAPIResource):
                 mailbox_create_params.MailboxCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=MailboxCreateResponse,
         )
@@ -548,6 +587,7 @@ class AsyncMailboxesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> MailboxUpdateResponse:
         """
         Updates the label of a mailbox.
@@ -560,6 +600,8 @@ class AsyncMailboxesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not mailbox_id:
             raise ValueError(f"Expected a non-empty value for `mailbox_id` but received {mailbox_id!r}")
@@ -567,7 +609,11 @@ class AsyncMailboxesResource(AsyncAPIResource):
             path_template("/mailboxes/{mailbox_id}", mailbox_id=mailbox_id),
             body=await async_maybe_transform({"label": label}, mailbox_update_params.MailboxUpdateParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=MailboxUpdateResponse,
         )
@@ -624,10 +670,12 @@ class AsyncMailboxesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> MailboxDeleteResponse:
         """
         Cancels a pending mailbox or schedules an active paid mailbox for cancellation.
-        Existing addresses and messages are retained. Repeating the request is safe.
+        Existing addresses and messages are retained. Repeating the request is safe. An
+        external inbox (Gmail) cannot be cancelled here; disconnect the link instead.
 
         Args:
           extra_headers: Send extra headers
@@ -637,13 +685,19 @@ class AsyncMailboxesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not mailbox_id:
             raise ValueError(f"Expected a non-empty value for `mailbox_id` but received {mailbox_id!r}")
         return await self._delete(
             path_template("/mailboxes/{mailbox_id}", mailbox_id=mailbox_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=MailboxDeleteResponse,
         )
@@ -729,6 +783,7 @@ class AsyncMailboxesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> MailboxRestartResponse:
         """Restarts an archived mailbox with the same address.
 
@@ -747,6 +802,8 @@ class AsyncMailboxesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not mailbox_id:
             raise ValueError(f"Expected a non-empty value for `mailbox_id` but received {mailbox_id!r}")
@@ -756,7 +813,11 @@ class AsyncMailboxesResource(AsyncAPIResource):
                 {"billing_preference": billing_preference}, mailbox_restart_params.MailboxRestartParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=MailboxRestartResponse,
         )
@@ -771,6 +832,7 @@ class AsyncMailboxesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> MailboxUncancelResponse:
         """Withdraws a scheduled cancellation.
 
@@ -785,13 +847,19 @@ class AsyncMailboxesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not mailbox_id:
             raise ValueError(f"Expected a non-empty value for `mailbox_id` but received {mailbox_id!r}")
         return await self._post(
             path_template("/mailboxes/{mailbox_id}/uncancel", mailbox_id=mailbox_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=MailboxUncancelResponse,
         )

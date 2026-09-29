@@ -8,7 +8,16 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 
-__all__ = ["FlowCreateParams", "Action", "ActionChild", "ActionChildOverrides", "ActionOverrides", "RecordingPolicy"]
+__all__ = [
+    "FlowCreateParams",
+    "Action",
+    "ActionChild",
+    "ActionChildOverrides",
+    "ActionOverrides",
+    "Delivery",
+    "DeliveryRecording",
+    "RecordingPolicy",
+]
 
 
 class FlowCreateParams(TypedDict, total=False):
@@ -21,6 +30,8 @@ class FlowCreateParams(TypedDict, total=False):
     cooldown_scope: Annotated[Literal["flow", "device"], PropertyInfo(alias="cooldownScope")]
 
     cooldown_seconds: Annotated[Optional[int], PropertyInfo(alias="cooldownSeconds")]
+
+    delivery: Delivery
 
     description: str
 
@@ -37,10 +48,6 @@ class FlowCreateParams(TypedDict, total=False):
     notify_webhook_id: Annotated[Optional[str], PropertyInfo(alias="notifyWebhookId")]
 
     recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
-    """Deprecated compatibility field.
-
-    true maps to recordingPolicy.mode="flow"; false maps to "off".
-    """
 
     recording_policy: Annotated[RecordingPolicy, PropertyInfo(alias="recordingPolicy")]
 
@@ -85,6 +92,20 @@ class Action(TypedDict, total=False):
     overrides: Optional[ActionOverrides]
 
     recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
+
+
+class DeliveryRecording(TypedDict, total=False):
+    filename: Required[str]
+
+
+class Delivery(TypedDict, total=False):
+    destination: Required[Literal["one_drive", "google_drive"]]
+
+    folder: str
+
+    recording: DeliveryRecording
+
+    screenshots: object
 
 
 class RecordingPolicy(TypedDict, total=False):

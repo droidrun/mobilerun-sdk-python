@@ -32,6 +32,3 @@ class NumberCreateParams(TypedDict, total=False):
 
     purpose: str
     """Optional purpose from GET /numbers/phones/purposes."""
-
-    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]
-    """Optional request idempotency key."""
