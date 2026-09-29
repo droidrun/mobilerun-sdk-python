@@ -73,6 +73,7 @@ class ActionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ActionCreateResponse:
         """
         Create a reusable action from a catalog entry (`catalogEntryId`), with an
@@ -87,6 +88,8 @@ class ActionsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/actions",
@@ -100,7 +103,11 @@ class ActionsResource(SyncAPIResource):
                 action_create_params.ActionCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ActionCreateResponse,
         )
@@ -152,6 +159,7 @@ class ActionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ActionUpdateResponse:
         """
         Partially update an action's name, description, or params; all fields are
@@ -165,6 +173,8 @@ class ActionsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not action_id:
             raise ValueError(f"Expected a non-empty value for `action_id` but received {action_id!r}")
@@ -179,7 +189,11 @@ class ActionsResource(SyncAPIResource):
                 action_update_params.ActionUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ActionUpdateResponse,
         )
@@ -192,7 +206,7 @@ class ActionsResource(SyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         search: str | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks"] | Omit = omit,
+        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -246,6 +260,7 @@ class ActionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ActionDeleteResponse:
         """Delete an action by its ID.
 
@@ -259,13 +274,19 @@ class ActionsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not action_id:
             raise ValueError(f"Expected a non-empty value for `action_id` but received {action_id!r}")
         return self._delete(
             path_template("/actions/{action_id}", action_id=action_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ActionDeleteResponse,
         )
@@ -308,6 +329,7 @@ class AsyncActionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ActionCreateResponse:
         """
         Create a reusable action from a catalog entry (`catalogEntryId`), with an
@@ -322,6 +344,8 @@ class AsyncActionsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/actions",
@@ -335,7 +359,11 @@ class AsyncActionsResource(AsyncAPIResource):
                 action_create_params.ActionCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ActionCreateResponse,
         )
@@ -387,6 +415,7 @@ class AsyncActionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ActionUpdateResponse:
         """
         Partially update an action's name, description, or params; all fields are
@@ -400,6 +429,8 @@ class AsyncActionsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not action_id:
             raise ValueError(f"Expected a non-empty value for `action_id` but received {action_id!r}")
@@ -414,7 +445,11 @@ class AsyncActionsResource(AsyncAPIResource):
                 action_update_params.ActionUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ActionUpdateResponse,
         )
@@ -427,7 +462,7 @@ class AsyncActionsResource(AsyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         search: str | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks"] | Omit = omit,
+        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -481,6 +516,7 @@ class AsyncActionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ActionDeleteResponse:
         """Delete an action by its ID.
 
@@ -494,13 +530,19 @@ class AsyncActionsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not action_id:
             raise ValueError(f"Expected a non-empty value for `action_id` but received {action_id!r}")
         return await self._delete(
             path_template("/actions/{action_id}", action_id=action_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ActionDeleteResponse,
         )

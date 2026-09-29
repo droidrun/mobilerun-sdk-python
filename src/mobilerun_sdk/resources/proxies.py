@@ -64,6 +64,7 @@ class ProxiesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyCreateResponse:
         """Creates a proxy config.
 
@@ -80,6 +81,8 @@ class ProxiesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -96,6 +99,7 @@ class ProxiesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyCreateResponse:
         """Creates a proxy config.
 
@@ -112,6 +116,8 @@ class ProxiesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -132,6 +138,7 @@ class ProxiesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyCreateResponse:
         return self._post(
             "/proxies",
@@ -148,7 +155,11 @@ class ProxiesResource(SyncAPIResource):
                 proxy_create_params.ProxyCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ProxyCreateResponse,
         )
@@ -206,6 +217,7 @@ class ProxiesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyUpdateResponse:
         """Replaces the proxy config identified by `proxyId` with the provided body.
 
@@ -221,6 +233,8 @@ class ProxiesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -238,6 +252,7 @@ class ProxiesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyUpdateResponse:
         """Replaces the proxy config identified by `proxyId` with the provided body.
 
@@ -253,6 +268,8 @@ class ProxiesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -274,6 +291,7 @@ class ProxiesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyUpdateResponse:
         if not proxy_id:
             raise ValueError(f"Expected a non-empty value for `proxy_id` but received {proxy_id!r}")
@@ -292,7 +310,11 @@ class ProxiesResource(SyncAPIResource):
                 proxy_update_params.ProxyUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ProxyUpdateResponse,
         )
@@ -344,6 +366,7 @@ class ProxiesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyDeleteResponse:
         """
         Permanently deletes the proxy config identified by `proxyId` and returns the
@@ -357,13 +380,19 @@ class ProxiesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not proxy_id:
             raise ValueError(f"Expected a non-empty value for `proxy_id` but received {proxy_id!r}")
         return self._delete(
             path_template("/proxies/{proxy_id}", proxy_id=proxy_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ProxyDeleteResponse,
         )
@@ -378,6 +407,7 @@ class ProxiesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyLookupResponse:
         """
         Lookup proxy location
@@ -392,12 +422,18 @@ class ProxiesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/proxies/lookup",
             body=maybe_transform({"socks5": socks5}, proxy_lookup_params.ProxyLookupParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ProxyLookupResponse,
         )
@@ -439,6 +475,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyCreateResponse:
         """Creates a proxy config.
 
@@ -455,6 +492,8 @@ class AsyncProxiesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -471,6 +510,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyCreateResponse:
         """Creates a proxy config.
 
@@ -487,6 +527,8 @@ class AsyncProxiesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -507,6 +549,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyCreateResponse:
         return await self._post(
             "/proxies",
@@ -523,7 +566,11 @@ class AsyncProxiesResource(AsyncAPIResource):
                 proxy_create_params.ProxyCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ProxyCreateResponse,
         )
@@ -581,6 +628,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyUpdateResponse:
         """Replaces the proxy config identified by `proxyId` with the provided body.
 
@@ -596,6 +644,8 @@ class AsyncProxiesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -613,6 +663,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyUpdateResponse:
         """Replaces the proxy config identified by `proxyId` with the provided body.
 
@@ -628,6 +679,8 @@ class AsyncProxiesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -649,6 +702,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyUpdateResponse:
         if not proxy_id:
             raise ValueError(f"Expected a non-empty value for `proxy_id` but received {proxy_id!r}")
@@ -667,7 +721,11 @@ class AsyncProxiesResource(AsyncAPIResource):
                 proxy_update_params.ProxyUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ProxyUpdateResponse,
         )
@@ -719,6 +777,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyDeleteResponse:
         """
         Permanently deletes the proxy config identified by `proxyId` and returns the
@@ -732,13 +791,19 @@ class AsyncProxiesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not proxy_id:
             raise ValueError(f"Expected a non-empty value for `proxy_id` but received {proxy_id!r}")
         return await self._delete(
             path_template("/proxies/{proxy_id}", proxy_id=proxy_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ProxyDeleteResponse,
         )
@@ -753,6 +818,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ProxyLookupResponse:
         """
         Lookup proxy location
@@ -767,12 +833,18 @@ class AsyncProxiesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/proxies/lookup",
             body=await async_maybe_transform({"socks5": socks5}, proxy_lookup_params.ProxyLookupParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ProxyLookupResponse,
         )

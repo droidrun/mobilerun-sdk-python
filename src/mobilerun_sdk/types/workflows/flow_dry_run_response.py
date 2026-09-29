@@ -21,7 +21,7 @@ class DataAction(BaseModel):
 
     recording_enabled: bool = FieldInfo(alias="recordingEnabled")
 
-    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks"]
+    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"]
 
     children: Optional[List[object]] = None
     """
