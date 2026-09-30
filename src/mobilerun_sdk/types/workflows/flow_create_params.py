@@ -8,7 +8,16 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 
-__all__ = ["FlowCreateParams", "Action", "ActionChild", "ActionChildOverrides", "ActionOverrides", "RecordingPolicy"]
+__all__ = [
+    "FlowCreateParams",
+    "Action",
+    "ActionChild",
+    "ActionChildOverrides",
+    "ActionOverrides",
+    "Delivery",
+    "DeliveryRecording",
+    "RecordingPolicy",
+]
 
 
 class FlowCreateParams(TypedDict, total=False):
@@ -21,6 +30,8 @@ class FlowCreateParams(TypedDict, total=False):
     cooldown_scope: Annotated[Literal["flow", "device"], PropertyInfo(alias="cooldownScope")]
 
     cooldown_seconds: Annotated[Optional[int], PropertyInfo(alias="cooldownSeconds")]
+
+    delivery: Delivery
 
     description: str
 
@@ -37,10 +48,6 @@ class FlowCreateParams(TypedDict, total=False):
     notify_webhook_id: Annotated[Optional[str], PropertyInfo(alias="notifyWebhookId")]
 
     recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
-    """Deprecated compatibility field.
-
-    true maps to recordingPolicy.mode="flow"; false maps to "off".
-    """
 
     recording_policy: Annotated[RecordingPolicy, PropertyInfo(alias="recordingPolicy")]
 
@@ -59,6 +66,15 @@ class ActionChild(TypedDict, total=False):
     position: Required[int]
 
     continue_on_error: Annotated[bool, PropertyInfo(alias="continueOnError")]
+
+    key: str
+    """
+    Stable identifier used by template resolution v2+ to address this step as
+    {{key.field}}. Omitted keys are derived from the step name whenever a flow is
+    created. For template resolution v3, replacing an existing flow's full action
+    tree requires every step to carry an explicit key — a missing key is rejected
+    there, not derived, so a name change can never silently move a step's key.
+    """
 
     name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
 
@@ -80,11 +96,34 @@ class Action(TypedDict, total=False):
 
     continue_on_error: Annotated[bool, PropertyInfo(alias="continueOnError")]
 
+    key: str
+    """
+    Stable identifier used by template resolution v2+ to address this step as
+    {{key.field}}. Omitted keys are derived from the step name whenever a flow is
+    created. For template resolution v3, replacing an existing flow's full action
+    tree requires every step to carry an explicit key — a missing key is rejected
+    there, not derived, so a name change can never silently move a step's key.
+    """
+
     name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
 
     overrides: Optional[ActionOverrides]
 
     recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
+
+
+class DeliveryRecording(TypedDict, total=False):
+    filename: Required[str]
+
+
+class Delivery(TypedDict, total=False):
+    destination: Required[Literal["one_drive", "google_drive"]]
+
+    folder: str
+
+    recording: DeliveryRecording
+
+    screenshots: object
 
 
 class RecordingPolicy(TypedDict, total=False):

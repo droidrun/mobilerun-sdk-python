@@ -149,6 +149,8 @@ class Mobilerun(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
+        self._idempotency_header = "Idempotency-Key"
+
     @cached_property
     def apps(self) -> AppsResource:
         from .resources.apps import AppsResource
@@ -448,6 +450,8 @@ class AsyncMobilerun(AsyncAPIClient):
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
+
+        self._idempotency_header = "Idempotency-Key"
 
     @cached_property
     def apps(self) -> AsyncAppsResource:

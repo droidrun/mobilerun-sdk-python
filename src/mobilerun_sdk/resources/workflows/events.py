@@ -56,6 +56,7 @@ class EventsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> EventDryRunResponse:
         """Simulate an event against all configured flows.
 
@@ -70,6 +71,8 @@ class EventsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/events/dry-run",
@@ -82,7 +85,11 @@ class EventsResource(SyncAPIResource):
                 event_dry_run_params.EventDryRunParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=EventDryRunResponse,
         )
@@ -99,6 +106,7 @@ class EventsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> EventIngestResponse:
         """Ingest an event for trigger evaluation.
 
@@ -112,6 +120,8 @@ class EventsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/events/ingest",
@@ -124,7 +134,11 @@ class EventsResource(SyncAPIResource):
                 event_ingest_params.EventIngestParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=EventIngestResponse,
         )
@@ -162,6 +176,7 @@ class AsyncEventsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> EventDryRunResponse:
         """Simulate an event against all configured flows.
 
@@ -176,6 +191,8 @@ class AsyncEventsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/events/dry-run",
@@ -188,7 +205,11 @@ class AsyncEventsResource(AsyncAPIResource):
                 event_dry_run_params.EventDryRunParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=EventDryRunResponse,
         )
@@ -205,6 +226,7 @@ class AsyncEventsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> EventIngestResponse:
         """Ingest an event for trigger evaluation.
 
@@ -218,6 +240,8 @@ class AsyncEventsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/events/ingest",
@@ -230,7 +254,11 @@ class AsyncEventsResource(AsyncAPIResource):
                 event_ingest_params.EventIngestParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=EventIngestResponse,
         )

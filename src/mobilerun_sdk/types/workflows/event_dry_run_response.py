@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -13,9 +14,13 @@ __all__ = [
     "DataMatchedFlow",
     "DataMatchedFlowAction",
     "DataMatchedFlowFlow",
+    "DataMatchedFlowFlowDelivery",
+    "DataMatchedFlowFlowDeliveryRecording",
     "DataMatchedFlowFlowRecordingPolicy",
     "DataMatchedFlowGates",
     "DataMatchedFlowTrigger",
+    "DataMatchedFlowTriggerScheduleRule",
+    "DataMatchedFlowTriggerScheduleRuleJitter",
     "DataValidation",
     "DataValidationError",
 ]
@@ -26,13 +31,15 @@ class DataMatchedFlowAction(BaseModel):
 
     flow_action_id: str = FieldInfo(alias="flowActionId")
 
+    key: str
+
     method: str
 
     name: str
 
     recording_enabled: bool = FieldInfo(alias="recordingEnabled")
 
-    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks"]
+    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"]
 
     children: Optional[List[object]] = None
     """
@@ -43,6 +50,20 @@ class DataMatchedFlowAction(BaseModel):
     params: Optional[Dict[str, object]] = None
 
 
+class DataMatchedFlowFlowDeliveryRecording(BaseModel):
+    filename: str
+
+
+class DataMatchedFlowFlowDelivery(BaseModel):
+    destination: Literal["one_drive", "google_drive"]
+
+    folder: Optional[str] = None
+
+    recording: Optional[DataMatchedFlowFlowDeliveryRecording] = None
+
+    screenshots: Optional[object] = None
+
+
 class DataMatchedFlowFlowRecordingPolicy(BaseModel):
     mode: Literal["off", "flow", "selected_steps"]
 
@@ -50,9 +71,9 @@ class DataMatchedFlowFlowRecordingPolicy(BaseModel):
 class DataMatchedFlowFlow(BaseModel):
     id: str
 
-    archived_at: Optional[str] = FieldInfo(alias="archivedAt", default=None)
+    archived_at: Optional[datetime] = FieldInfo(alias="archivedAt", default=None)
 
-    blocked_at: Optional[str] = FieldInfo(alias="blockedAt", default=None)
+    blocked_at: Optional[datetime] = FieldInfo(alias="blockedAt", default=None)
 
     consecutive_failures: int = FieldInfo(alias="consecutiveFailures")
 
@@ -60,9 +81,11 @@ class DataMatchedFlowFlow(BaseModel):
 
     cooldown_seconds: Optional[int] = FieldInfo(alias="cooldownSeconds", default=None)
 
-    created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
+    delivery: Optional[DataMatchedFlowFlowDelivery] = None
 
     description: Optional[str] = None
 
@@ -76,13 +99,13 @@ class DataMatchedFlowFlow(BaseModel):
 
     health_monitoring_enabled: bool = FieldInfo(alias="healthMonitoringEnabled")
 
-    last_failure_at: Optional[str] = FieldInfo(alias="lastFailureAt", default=None)
+    last_failure_at: Optional[datetime] = FieldInfo(alias="lastFailureAt", default=None)
 
     last_failure_code: Optional[
         Literal["device_not_found", "permission_denied", "client_error", "transient", "logic", "invalid_config"]
     ] = FieldInfo(alias="lastFailureCode", default=None)
 
-    last_triggered_at: Optional[str] = FieldInfo(alias="lastTriggeredAt", default=None)
+    last_triggered_at: Optional[datetime] = FieldInfo(alias="lastTriggeredAt", default=None)
 
     lifecycle_status: Literal["enabled", "disabled", "archived"] = FieldInfo(alias="lifecycleStatus")
 
@@ -114,13 +137,15 @@ class DataMatchedFlowFlow(BaseModel):
     """Template-resolver semantics this flow runs under (MVA-23).
 
     1 = legacy (missing/forbidden/null all resolve to ''). 2 = typed
-    (missing/forbidden throw, a whole-token null stays JSON null). Existing flows
-    stay 1; new flows default to 2.
+    (missing/forbidden throw, a whole-token null stays JSON null). 3 = typed,
+    key-based (steps are addressed as {{steps.<key>...}} instead of by name;
+    trigger.payload is not available). Existing flows stay 1; new flows default to
+    the current version.
     """
 
     trigger_id: str = FieldInfo(alias="triggerId")
 
-    updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
+    updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
     user_id: str = FieldInfo(alias="userId")
     """Deprecated: use ownerId (tenancy) / createdBy (actor)."""
@@ -138,12 +163,36 @@ class DataMatchedFlowGates(BaseModel):
     enabled: bool
 
 
+class DataMatchedFlowTriggerScheduleRuleJitter(BaseModel):
+    """Optional per-occurrence random window around the nominal schedule time"""
+
+    after_minutes: Optional[int] = FieldInfo(alias="afterMinutes", default=None)
+
+    before_minutes: Optional[int] = FieldInfo(alias="beforeMinutes", default=None)
+
+
+class DataMatchedFlowTriggerScheduleRule(BaseModel):
+    type: Literal["once", "cron", "recurring"]
+
+    date_time: Optional[str] = FieldInfo(alias="dateTime", default=None)
+    """ISO 8601 datetime (for type=once)"""
+
+    expression: Optional[str] = None
+    """Cron expression (for type=cron)"""
+
+    jitter: Optional[DataMatchedFlowTriggerScheduleRuleJitter] = None
+    """Optional per-occurrence random window around the nominal schedule time"""
+
+    rrule: Optional[str] = None
+    """RRULE string (for type=recurring)"""
+
+
 class DataMatchedFlowTrigger(BaseModel):
     id: str
 
     activation: Literal["event", "schedule", "custom"]
 
-    created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
 
@@ -157,11 +206,11 @@ class DataMatchedFlowTrigger(BaseModel):
 
     owner_id: str = FieldInfo(alias="ownerId")
 
-    schedule_rule: object = FieldInfo(alias="scheduleRule")
+    schedule_rule: DataMatchedFlowTriggerScheduleRule = FieldInfo(alias="scheduleRule")
 
     timezone: Optional[str] = None
 
-    updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
+    updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
     user_id: str = FieldInfo(alias="userId")
     """Deprecated: use ownerId (tenancy) / createdBy (actor)."""

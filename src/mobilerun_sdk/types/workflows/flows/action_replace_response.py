@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Optional
+from datetime import datetime
 
 from pydantic import Field as FieldInfo
 
@@ -20,9 +21,11 @@ class Data(BaseModel):
 
     continue_on_error: bool = FieldInfo(alias="continueOnError")
 
-    created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     flow_id: str = FieldInfo(alias="flowId")
+
+    key: str
 
     name_override: Optional[str] = FieldInfo(alias="nameOverride", default=None)
 

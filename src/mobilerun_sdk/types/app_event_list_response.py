@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -14,7 +15,7 @@ __all__ = ["AppEventListResponse", "Item"]
 class Item(BaseModel):
     id: str
 
-    created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
 
@@ -22,7 +23,7 @@ class Item(BaseModel):
 
     event_type: str = FieldInfo(alias="eventType")
 
-    occurred_at: Optional[str] = FieldInfo(alias="occurredAt", default=None)
+    occurred_at: Optional[datetime] = FieldInfo(alias="occurredAt", default=None)
 
     owner_id: str = FieldInfo(alias="ownerId")
 

@@ -15,13 +15,15 @@ class DataAction(BaseModel):
 
     flow_action_id: str = FieldInfo(alias="flowActionId")
 
+    key: str
+
     method: str
 
     name: str
 
     recording_enabled: bool = FieldInfo(alias="recordingEnabled")
 
-    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks"]
+    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"]
 
     children: Optional[List[object]] = None
     """

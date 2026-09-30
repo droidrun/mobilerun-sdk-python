@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -39,7 +40,7 @@ class Data(BaseModel):
 
     activation: Literal["event", "schedule", "custom"]
 
-    created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
 
@@ -57,7 +58,7 @@ class Data(BaseModel):
 
     timezone: Optional[str] = None
 
-    updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
+    updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
     user_id: str = FieldInfo(alias="userId")
     """Deprecated: use ownerId (tenancy) / createdBy (actor)."""

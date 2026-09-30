@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -23,7 +24,7 @@ class Data(BaseModel):
 
     event_id: Optional[str] = FieldInfo(alias="eventId", default=None)
 
-    finished_at: Optional[str] = FieldInfo(alias="finishedAt", default=None)
+    finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
 
     flow_id: str = FieldInfo(alias="flowId")
 
@@ -47,7 +48,7 @@ class Data(BaseModel):
     the recording failed to start.
     """
 
-    started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
+    started_at: Optional[datetime] = FieldInfo(alias="startedAt", default=None)
 
     status: Optional[Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"]] = None
 

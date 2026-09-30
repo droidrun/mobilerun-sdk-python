@@ -66,12 +66,17 @@ class TriggersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TriggerCreateResponse:
         """
         Create a trigger with an activation type of `event`, `schedule`, or `custom`.
         Each type requires its own fields (e.g. `eventType` and optional `conditions`
         for events, `scheduleRule` and `timezone` for schedules, `customPayloadSchema`
         for custom triggers); mismatched fields are rejected.
+
+        Supports an optional `Idempotency-Key` header (1-255 printable ASCII
+        characters). Replays with the same key and an identical body return the original
+        201; a changed body under the same key returns 422 `idempotency_key_reused`.
 
         Args:
           custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
@@ -83,6 +88,8 @@ class TriggersResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/triggers",
@@ -100,7 +107,11 @@ class TriggersResource(SyncAPIResource):
                 trigger_create_params.TriggerCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TriggerCreateResponse,
         )
@@ -157,6 +168,7 @@ class TriggersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TriggerUpdateResponse:
         """Partially update a trigger; all fields are optional.
 
@@ -174,6 +186,8 @@ class TriggersResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not trigger_id:
             raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
@@ -193,7 +207,11 @@ class TriggersResource(SyncAPIResource):
                 trigger_update_params.TriggerUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TriggerUpdateResponse,
         )
@@ -262,6 +280,7 @@ class TriggersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TriggerDeleteResponse:
         """Delete a trigger by its ID.
 
@@ -275,13 +294,19 @@ class TriggersResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not trigger_id:
             raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
         return self._delete(
             path_template("/triggers/{trigger_id}", trigger_id=trigger_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TriggerDeleteResponse,
         )
@@ -291,13 +316,13 @@ class TriggersResource(SyncAPIResource):
         trigger_id: str,
         *,
         payload: Dict[str, object],
-        invocation_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TriggerFireResponse:
         """
         Invoke a custom trigger directly with an arbitrary JSON payload.
@@ -318,14 +343,20 @@ class TriggersResource(SyncAPIResource):
         Only triggers with `activation = "custom"` can be fired through this endpoint;
         event and schedule triggers return 409.
 
+        Supports an optional `Idempotency-Key` header (1-255 printable ASCII
+        characters), which maps to the derived `invocationId` used for fan-out
+        deduplication (the deprecated `invocationId` body field wins when both are
+        supplied, and a mismatch between them is logged). The payload is bound to the
+        key on the first accepted fire, before fan-out. A repeat with the same key and
+        an identical payload returns 202 with `Idempotent-Replayed: true`
+        (`deduplicated: true` when flows were skipped; `enqueuedCount` counts only
+        executions enqueued by that call); a changed payload under the same key returns
+        422 `idempotency_key_reused`.
+
         Args:
           payload: Arbitrary JSON object forwarded to every flow attached to this trigger.
               Validated against the trigger's customPayloadSchema when one is configured;
               otherwise only "must be a JSON object" is enforced.
-
-          invocation_id: Optional client-supplied idempotency key. When provided, a flow that already has
-              an execution for this (flow, invocationId) is skipped and `deduplicated` is
-              true. When omitted a fresh server-side id is generated (no dedup).
 
           extra_headers: Send extra headers
 
@@ -334,20 +365,20 @@ class TriggersResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not trigger_id:
             raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
         return self._post(
             path_template("/triggers/{trigger_id}/fire", trigger_id=trigger_id),
-            body=maybe_transform(
-                {
-                    "payload": payload,
-                    "invocation_id": invocation_id,
-                },
-                trigger_fire_params.TriggerFireParams,
-            ),
+            body=maybe_transform({"payload": payload}, trigger_fire_params.TriggerFireParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TriggerFireResponse,
         )
@@ -390,12 +421,17 @@ class AsyncTriggersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TriggerCreateResponse:
         """
         Create a trigger with an activation type of `event`, `schedule`, or `custom`.
         Each type requires its own fields (e.g. `eventType` and optional `conditions`
         for events, `scheduleRule` and `timezone` for schedules, `customPayloadSchema`
         for custom triggers); mismatched fields are rejected.
+
+        Supports an optional `Idempotency-Key` header (1-255 printable ASCII
+        characters). Replays with the same key and an identical body return the original
+        201; a changed body under the same key returns 422 `idempotency_key_reused`.
 
         Args:
           custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
@@ -407,6 +443,8 @@ class AsyncTriggersResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/triggers",
@@ -424,7 +462,11 @@ class AsyncTriggersResource(AsyncAPIResource):
                 trigger_create_params.TriggerCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TriggerCreateResponse,
         )
@@ -481,6 +523,7 @@ class AsyncTriggersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TriggerUpdateResponse:
         """Partially update a trigger; all fields are optional.
 
@@ -498,6 +541,8 @@ class AsyncTriggersResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not trigger_id:
             raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
@@ -517,7 +562,11 @@ class AsyncTriggersResource(AsyncAPIResource):
                 trigger_update_params.TriggerUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TriggerUpdateResponse,
         )
@@ -586,6 +635,7 @@ class AsyncTriggersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TriggerDeleteResponse:
         """Delete a trigger by its ID.
 
@@ -599,13 +649,19 @@ class AsyncTriggersResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not trigger_id:
             raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
         return await self._delete(
             path_template("/triggers/{trigger_id}", trigger_id=trigger_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TriggerDeleteResponse,
         )
@@ -615,13 +671,13 @@ class AsyncTriggersResource(AsyncAPIResource):
         trigger_id: str,
         *,
         payload: Dict[str, object],
-        invocation_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TriggerFireResponse:
         """
         Invoke a custom trigger directly with an arbitrary JSON payload.
@@ -642,14 +698,20 @@ class AsyncTriggersResource(AsyncAPIResource):
         Only triggers with `activation = "custom"` can be fired through this endpoint;
         event and schedule triggers return 409.
 
+        Supports an optional `Idempotency-Key` header (1-255 printable ASCII
+        characters), which maps to the derived `invocationId` used for fan-out
+        deduplication (the deprecated `invocationId` body field wins when both are
+        supplied, and a mismatch between them is logged). The payload is bound to the
+        key on the first accepted fire, before fan-out. A repeat with the same key and
+        an identical payload returns 202 with `Idempotent-Replayed: true`
+        (`deduplicated: true` when flows were skipped; `enqueuedCount` counts only
+        executions enqueued by that call); a changed payload under the same key returns
+        422 `idempotency_key_reused`.
+
         Args:
           payload: Arbitrary JSON object forwarded to every flow attached to this trigger.
               Validated against the trigger's customPayloadSchema when one is configured;
               otherwise only "must be a JSON object" is enforced.
-
-          invocation_id: Optional client-supplied idempotency key. When provided, a flow that already has
-              an execution for this (flow, invocationId) is skipped and `deduplicated` is
-              true. When omitted a fresh server-side id is generated (no dedup).
 
           extra_headers: Send extra headers
 
@@ -658,20 +720,20 @@ class AsyncTriggersResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not trigger_id:
             raise ValueError(f"Expected a non-empty value for `trigger_id` but received {trigger_id!r}")
         return await self._post(
             path_template("/triggers/{trigger_id}/fire", trigger_id=trigger_id),
-            body=await async_maybe_transform(
-                {
-                    "payload": payload,
-                    "invocation_id": invocation_id,
-                },
-                trigger_fire_params.TriggerFireParams,
-            ),
+            body=await async_maybe_transform({"payload": payload}, trigger_fire_params.TriggerFireParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TriggerFireResponse,
         )

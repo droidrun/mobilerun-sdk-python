@@ -19,11 +19,16 @@ class DataSourceEventSurfaces(BaseModel):
 
     agent: Optional[bool] = None
 
+    live: Optional[bool] = None
+
 
 class DataSourceEvent(BaseModel):
     description: str
 
     surfaces: DataSourceEventSurfaces
+
+    title: str
+    """Short human title, as used in integration messages."""
 
     type: str
 

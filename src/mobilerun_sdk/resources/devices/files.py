@@ -102,6 +102,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Deletes the file at the path given in the path query parameter from the device.
@@ -114,6 +115,8 @@ class FilesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -131,6 +134,7 @@ class FilesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
+                idempotency_key=idempotency_key,
                 query=maybe_transform({"path": path}, file_delete_params.FileDeleteParams),
             ),
             cast_to=NoneType,
@@ -195,6 +199,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Uploads a file to the device via multipart form data, writing it into the
@@ -208,6 +213,8 @@ class FilesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -233,6 +240,7 @@ class FilesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
+                idempotency_key=idempotency_key,
                 query=maybe_transform({"path": path}, file_upload_params.FileUploadParams),
             ),
             cast_to=NoneType,
@@ -317,6 +325,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Deletes the file at the path given in the path query parameter from the device.
@@ -329,6 +338,8 @@ class AsyncFilesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -346,6 +357,7 @@ class AsyncFilesResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
+                idempotency_key=idempotency_key,
                 query=await async_maybe_transform({"path": path}, file_delete_params.FileDeleteParams),
             ),
             cast_to=NoneType,
@@ -410,6 +422,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Uploads a file to the device via multipart form data, writing it into the
@@ -423,6 +436,8 @@ class AsyncFilesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -448,6 +463,7 @@ class AsyncFilesResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
+                idempotency_key=idempotency_key,
                 query=await async_maybe_transform({"path": path}, file_upload_params.FileUploadParams),
             ),
             cast_to=NoneType,

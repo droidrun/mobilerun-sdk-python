@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Union
+from datetime import datetime
 from typing_extensions import Literal, Annotated, TypedDict
 
 from .._utils import PropertyInfo
@@ -15,7 +16,7 @@ class AppEventListParams(TypedDict, total=False):
 
     event_type: Annotated[str, PropertyInfo(alias="eventType")]
 
-    from_: Annotated[Optional[str], PropertyInfo(alias="from")]
+    from_: Annotated[Union[str, datetime, None], PropertyInfo(alias="from", format="iso8601")]
 
     page: int
 
@@ -23,4 +24,4 @@ class AppEventListParams(TypedDict, total=False):
 
     source: Literal["app", "system", "device", "webhook"]
 
-    to: Optional[str]
+    to: Annotated[Union[str, datetime, None], PropertyInfo(format="iso8601")]

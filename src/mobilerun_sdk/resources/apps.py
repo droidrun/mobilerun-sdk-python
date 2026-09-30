@@ -146,6 +146,7 @@ class AppsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> AppDeleteResponse:
         """Deletes an uploaded app by ID.
 
@@ -160,13 +161,19 @@ class AppsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._delete(
             path_template("/apps/{id}", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=AppDeleteResponse,
         )
@@ -181,6 +188,7 @@ class AppsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> AppConfirmUploadResponse:
         """
         Verifies the uploaded files in R2 and sets the app version status to available.
@@ -195,13 +203,19 @@ class AppsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             path_template("/apps/{id}/confirm-upload", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=AppConfirmUploadResponse,
         )
@@ -226,6 +240,7 @@ class AppsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> AppCreateSignedUploadURLResponse:
         """
         Creates or updates an app and returns pre-signed Cloudflare R2 upload URLs for
@@ -241,6 +256,8 @@ class AppsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/apps/create-signed-upload-url",
@@ -261,7 +278,11 @@ class AppsResource(SyncAPIResource):
                 app_create_signed_upload_url_params.AppCreateSignedUploadURLParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=AppCreateSignedUploadURLResponse,
         )
@@ -310,6 +331,7 @@ class AppsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> AppMarkFailedResponse:
         """
         Sets the app status to failed.
@@ -322,13 +344,19 @@ class AppsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             path_template("/apps/{id}/mark-failed", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=AppMarkFailedResponse,
         )
@@ -344,8 +372,11 @@ class AppsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AppStorageUsageResponse:
         """
-        Returns the user’s total storage quota, bytes used, and remaining bytes — the
-        reliable maximum size for the next upload.
+        Returns the user’s storage allowance from Autumn storage_mb (decimal bytes):
+        bytes used, bytes included in the plan, the hard maximum (included + max
+        purchasable overage; null = unlimited) and whether usage above the included
+        amount is billed as overage. With storage billing off there is no limit: only
+        usedBytes is set.
         """
         return self._get(
             "/apps/storage-usage",
@@ -471,6 +502,7 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> AppDeleteResponse:
         """Deletes an uploaded app by ID.
 
@@ -485,13 +517,19 @@ class AsyncAppsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._delete(
             path_template("/apps/{id}", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=AppDeleteResponse,
         )
@@ -506,6 +544,7 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> AppConfirmUploadResponse:
         """
         Verifies the uploaded files in R2 and sets the app version status to available.
@@ -520,13 +559,19 @@ class AsyncAppsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             path_template("/apps/{id}/confirm-upload", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=AppConfirmUploadResponse,
         )
@@ -551,6 +596,7 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> AppCreateSignedUploadURLResponse:
         """
         Creates or updates an app and returns pre-signed Cloudflare R2 upload URLs for
@@ -566,6 +612,8 @@ class AsyncAppsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/apps/create-signed-upload-url",
@@ -586,7 +634,11 @@ class AsyncAppsResource(AsyncAPIResource):
                 app_create_signed_upload_url_params.AppCreateSignedUploadURLParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=AppCreateSignedUploadURLResponse,
         )
@@ -635,6 +687,7 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> AppMarkFailedResponse:
         """
         Sets the app status to failed.
@@ -647,13 +700,19 @@ class AsyncAppsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             path_template("/apps/{id}/mark-failed", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=AppMarkFailedResponse,
         )
@@ -669,8 +728,11 @@ class AsyncAppsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AppStorageUsageResponse:
         """
-        Returns the user’s total storage quota, bytes used, and remaining bytes — the
-        reliable maximum size for the next upload.
+        Returns the user’s storage allowance from Autumn storage_mb (decimal bytes):
+        bytes used, bytes included in the plan, the hard maximum (included + max
+        purchasable overage; null = unlimited) and whether usage above the included
+        amount is billed as overage. With storage billing off there is no limit: only
+        usedBytes is set.
         """
         return await self._get(
             "/apps/storage-usage",

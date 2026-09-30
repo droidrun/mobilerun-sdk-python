@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing_extensions import Literal, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
@@ -10,8 +10,6 @@ __all__ = ["MailboxCreateParams"]
 
 
 class MailboxCreateParams(TypedDict, total=False):
-    client_request_id: Required[Annotated[str, PropertyInfo(alias="clientRequestId")]]
-
     billing_preference: Annotated[Literal["included", "included_only", "rent"], PropertyInfo(alias="billingPreference")]
     """
     included uses package capacity when available and otherwise starts paid

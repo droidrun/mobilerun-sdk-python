@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -8,7 +9,31 @@ from pydantic import Field as FieldInfo
 from ..._models import BaseModel
 from ..shared.pagination import Pagination
 
-__all__ = ["TriggerListResponse", "Item"]
+__all__ = ["TriggerListResponse", "Item", "ItemScheduleRule", "ItemScheduleRuleJitter"]
+
+
+class ItemScheduleRuleJitter(BaseModel):
+    """Optional per-occurrence random window around the nominal schedule time"""
+
+    after_minutes: Optional[int] = FieldInfo(alias="afterMinutes", default=None)
+
+    before_minutes: Optional[int] = FieldInfo(alias="beforeMinutes", default=None)
+
+
+class ItemScheduleRule(BaseModel):
+    type: Literal["once", "cron", "recurring"]
+
+    date_time: Optional[str] = FieldInfo(alias="dateTime", default=None)
+    """ISO 8601 datetime (for type=once)"""
+
+    expression: Optional[str] = None
+    """Cron expression (for type=cron)"""
+
+    jitter: Optional[ItemScheduleRuleJitter] = None
+    """Optional per-occurrence random window around the nominal schedule time"""
+
+    rrule: Optional[str] = None
+    """RRULE string (for type=recurring)"""
 
 
 class Item(BaseModel):
@@ -16,7 +41,7 @@ class Item(BaseModel):
 
     activation: Literal["event", "schedule", "custom"]
 
-    created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
 
@@ -30,11 +55,11 @@ class Item(BaseModel):
 
     owner_id: str = FieldInfo(alias="ownerId")
 
-    schedule_rule: object = FieldInfo(alias="scheduleRule")
+    schedule_rule: ItemScheduleRule = FieldInfo(alias="scheduleRule")
 
     timezone: Optional[str] = None
 
-    updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
+    updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
     user_id: str = FieldInfo(alias="userId")
     """Deprecated: use ownerId (tenancy) / createdBy (actor)."""

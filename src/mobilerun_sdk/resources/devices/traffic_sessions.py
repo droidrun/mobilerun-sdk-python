@@ -48,7 +48,6 @@ class TrafficSessionsResource(SyncAPIResource):
         self,
         device_id: str,
         *,
-        idempotency_key: str,
         expires_in_seconds: int | Omit = omit,
         max_body_bytes: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -57,6 +56,7 @@ class TrafficSessionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TrafficSessionCreateResponse:
         """
         Starts one live-only decoded HTTP/1.1, HTTP/2, HTTP/3 and WebSocket traffic
@@ -70,10 +70,11 @@ class TrafficSessionsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"Idempotency-Key": idempotency_key, **(extra_headers or {})}
         return self._post(
             path_template("/devices/{device_id}/traffic/sessions", device_id=device_id),
             body=maybe_transform(
@@ -84,7 +85,11 @@ class TrafficSessionsResource(SyncAPIResource):
                 traffic_session_create_params.TrafficSessionCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TrafficSessionCreateResponse,
         )
@@ -183,6 +188,7 @@ class TrafficSessionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TrafficSessionDeleteResponse:
         """
         Stop device traffic inspection
@@ -195,6 +201,8 @@ class TrafficSessionsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -205,7 +213,11 @@ class TrafficSessionsResource(SyncAPIResource):
                 "/devices/{device_id}/traffic/sessions/{session_id}", device_id=device_id, session_id=session_id
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TrafficSessionDeleteResponse,
         )
@@ -235,7 +247,6 @@ class AsyncTrafficSessionsResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
-        idempotency_key: str,
         expires_in_seconds: int | Omit = omit,
         max_body_bytes: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -244,6 +255,7 @@ class AsyncTrafficSessionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TrafficSessionCreateResponse:
         """
         Starts one live-only decoded HTTP/1.1, HTTP/2, HTTP/3 and WebSocket traffic
@@ -257,10 +269,11 @@ class AsyncTrafficSessionsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
-        extra_headers = {"Idempotency-Key": idempotency_key, **(extra_headers or {})}
         return await self._post(
             path_template("/devices/{device_id}/traffic/sessions", device_id=device_id),
             body=await async_maybe_transform(
@@ -271,7 +284,11 @@ class AsyncTrafficSessionsResource(AsyncAPIResource):
                 traffic_session_create_params.TrafficSessionCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TrafficSessionCreateResponse,
         )
@@ -370,6 +387,7 @@ class AsyncTrafficSessionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TrafficSessionDeleteResponse:
         """
         Stop device traffic inspection
@@ -382,6 +400,8 @@ class AsyncTrafficSessionsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -392,7 +412,11 @@ class AsyncTrafficSessionsResource(AsyncAPIResource):
                 "/devices/{device_id}/traffic/sessions/{session_id}", device_id=device_id, session_id=session_id
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TrafficSessionDeleteResponse,
         )

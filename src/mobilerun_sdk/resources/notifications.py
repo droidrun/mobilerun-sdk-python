@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from typing_extensions import Literal
+
 import httpx
 
-from ..types import notification_update_preferences_params
+from ..types import notification_update_preferences_params, notification_apply_preferences_preset_params
 from .._types import Body, Query, Headers, NotGiven, SequenceNotStr, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -19,6 +21,7 @@ from .._base_client import make_request_options
 from ..types.notification_catalog_response import NotificationCatalogResponse
 from ..types.notification_get_preferences_response import NotificationGetPreferencesResponse
 from ..types.notification_update_preferences_response import NotificationUpdatePreferencesResponse
+from ..types.notification_apply_preferences_preset_response import NotificationApplyPreferencesPresetResponse
 
 __all__ = ["NotificationsResource", "AsyncNotificationsResource"]
 
@@ -42,6 +45,51 @@ class NotificationsResource(SyncAPIResource):
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
         """
         return NotificationsResourceWithStreamingResponse(self)
+
+    def apply_preferences_preset(
+        self,
+        *,
+        preset: Literal["recommended", "failures", "everything"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> NotificationApplyPreferencesPresetResponse:
+        """
+        Replaces your muted event types with a server-computed preset: `recommended`
+        mutes the mobilerun-default noisy lifecycle/progress events, `failures` mutes
+        everything except failures/timeouts/invalid runs, and `everything` unmutes all.
+        The response returns the muted types that were actually stored.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        return self._post(
+            "/notifications/preferences/apply-preset",
+            body=maybe_transform(
+                {"preset": preset},
+                notification_apply_preferences_preset_params.NotificationApplyPreferencesPresetParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=NotificationApplyPreferencesPresetResponse,
+        )
 
     def catalog(
         self,
@@ -100,6 +148,7 @@ class NotificationsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> NotificationUpdatePreferencesResponse:
         """Replaces your set of muted event types with the supplied list.
 
@@ -115,6 +164,8 @@ class NotificationsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._patch(
             "/notifications/preferences",
@@ -122,7 +173,11 @@ class NotificationsResource(SyncAPIResource):
                 {"muted_types": muted_types}, notification_update_preferences_params.NotificationUpdatePreferencesParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NotificationUpdatePreferencesResponse,
         )
@@ -147,6 +202,51 @@ class AsyncNotificationsResource(AsyncAPIResource):
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
         """
         return AsyncNotificationsResourceWithStreamingResponse(self)
+
+    async def apply_preferences_preset(
+        self,
+        *,
+        preset: Literal["recommended", "failures", "everything"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> NotificationApplyPreferencesPresetResponse:
+        """
+        Replaces your muted event types with a server-computed preset: `recommended`
+        mutes the mobilerun-default noisy lifecycle/progress events, `failures` mutes
+        everything except failures/timeouts/invalid runs, and `everything` unmutes all.
+        The response returns the muted types that were actually stored.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        return await self._post(
+            "/notifications/preferences/apply-preset",
+            body=await async_maybe_transform(
+                {"preset": preset},
+                notification_apply_preferences_preset_params.NotificationApplyPreferencesPresetParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=NotificationApplyPreferencesPresetResponse,
+        )
 
     async def catalog(
         self,
@@ -205,6 +305,7 @@ class AsyncNotificationsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> NotificationUpdatePreferencesResponse:
         """Replaces your set of muted event types with the supplied list.
 
@@ -220,6 +321,8 @@ class AsyncNotificationsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._patch(
             "/notifications/preferences",
@@ -227,7 +330,11 @@ class AsyncNotificationsResource(AsyncAPIResource):
                 {"muted_types": muted_types}, notification_update_preferences_params.NotificationUpdatePreferencesParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NotificationUpdatePreferencesResponse,
         )
@@ -237,6 +344,9 @@ class NotificationsResourceWithRawResponse:
     def __init__(self, notifications: NotificationsResource) -> None:
         self._notifications = notifications
 
+        self.apply_preferences_preset = to_raw_response_wrapper(
+            notifications.apply_preferences_preset,
+        )
         self.catalog = to_raw_response_wrapper(
             notifications.catalog,
         )
@@ -252,6 +362,9 @@ class AsyncNotificationsResourceWithRawResponse:
     def __init__(self, notifications: AsyncNotificationsResource) -> None:
         self._notifications = notifications
 
+        self.apply_preferences_preset = async_to_raw_response_wrapper(
+            notifications.apply_preferences_preset,
+        )
         self.catalog = async_to_raw_response_wrapper(
             notifications.catalog,
         )
@@ -267,6 +380,9 @@ class NotificationsResourceWithStreamingResponse:
     def __init__(self, notifications: NotificationsResource) -> None:
         self._notifications = notifications
 
+        self.apply_preferences_preset = to_streamed_response_wrapper(
+            notifications.apply_preferences_preset,
+        )
         self.catalog = to_streamed_response_wrapper(
             notifications.catalog,
         )
@@ -282,6 +398,9 @@ class AsyncNotificationsResourceWithStreamingResponse:
     def __init__(self, notifications: AsyncNotificationsResource) -> None:
         self._notifications = notifications
 
+        self.apply_preferences_preset = async_to_streamed_response_wrapper(
+            notifications.apply_preferences_preset,
+        )
         self.catalog = async_to_streamed_response_wrapper(
             notifications.catalog,
         )
