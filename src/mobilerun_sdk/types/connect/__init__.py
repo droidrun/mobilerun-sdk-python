@@ -12,12 +12,15 @@ from .user_update_params import UserUpdateParams as UserUpdateParams
 from .country_list_params import CountryListParams as CountryListParams
 from .proxy_list_response import ProxyListResponse as ProxyListResponse
 from .proxy_ping_response import ProxyPingResponse as ProxyPingResponse
+from .proxy_update_params import ProxyUpdateParams as ProxyUpdateParams
 from .user_create_response import UserCreateResponse as UserCreateResponse
 from .user_update_response import UserUpdateResponse as UserUpdateResponse
 from .country_list_response import CountryListResponse as CountryListResponse
+from .proxy_update_response import ProxyUpdateResponse as ProxyUpdateResponse
 from .user_retrieve_response import UserRetrieveResponse as UserRetrieveResponse
 from .proxy_retrieve_response import ProxyRetrieveResponse as ProxyRetrieveResponse
 from .user_list_connections_params import UserListConnectionsParams as UserListConnectionsParams
+from .proxy_ensure_healthy_response import ProxyEnsureHealthyResponse as ProxyEnsureHealthyResponse
 from .proxy_list_connections_params import ProxyListConnectionsParams as ProxyListConnectionsParams
 from .user_list_connections_response import UserListConnectionsResponse as UserListConnectionsResponse
 from .proxy_list_connections_response import ProxyListConnectionsResponse as ProxyListConnectionsResponse

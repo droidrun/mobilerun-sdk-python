@@ -298,7 +298,6 @@ class TestFiles:
             mime_type="x",
             size_bytes=1,
             zone="user",
-            idempotency_key="x",
         )
         assert_matches_type(FileUploadURLResponse, file, path=["response"])
 
@@ -612,7 +611,6 @@ class TestAsyncFiles:
             mime_type="x",
             size_bytes=1,
             zone="user",
-            idempotency_key="x",
         )
         assert_matches_type(FileUploadURLResponse, file, path=["response"])
 

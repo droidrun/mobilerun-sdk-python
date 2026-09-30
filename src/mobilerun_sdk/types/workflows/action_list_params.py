@@ -20,4 +20,4 @@ class ActionListParams(TypedDict, total=False):
 
     search: str
 
-    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks"]
+    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"]

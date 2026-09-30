@@ -27,7 +27,7 @@ class TestWebhooks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_create(self, client: Mobilerun) -> None:
+    def test_method_create_overload_1(self, client: Mobilerun) -> None:
         webhook = client.webhooks.create(
             url="https://example.com/webhooks/droidrun",
         )
@@ -35,17 +35,18 @@ class TestWebhooks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_create_with_all_params(self, client: Mobilerun) -> None:
+    def test_method_create_with_all_params_overload_1(self, client: Mobilerun) -> None:
         webhook = client.webhooks.create(
             url="https://example.com/webhooks/droidrun",
             description="description",
             event_types=["task.run.completed", "task.run.failed"],
+            kind="http",
         )
         assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_raw_response_create(self, client: Mobilerun) -> None:
+    def test_raw_response_create_overload_1(self, client: Mobilerun) -> None:
         response = client.webhooks.with_raw_response.create(
             url="https://example.com/webhooks/droidrun",
         )
@@ -57,9 +58,73 @@ class TestWebhooks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_streaming_response_create(self, client: Mobilerun) -> None:
+    def test_streaming_response_create_overload_1(self, client: Mobilerun) -> None:
         with client.webhooks.with_streaming_response.create(
             url="https://example.com/webhooks/droidrun",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            webhook = response.parse()
+            assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_create_overload_2(self, client: Mobilerun) -> None:
+        webhook = client.webhooks.create(
+            args={"channelId": "bar"},
+            capability={
+                "id": "slack.post_message",
+                "revision": 1,
+            },
+            kind="integration",
+        )
+        assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_create_with_all_params_overload_2(self, client: Mobilerun) -> None:
+        webhook = client.webhooks.create(
+            args={"channelId": "bar"},
+            capability={
+                "id": "slack.post_message",
+                "revision": 1,
+            },
+            kind="integration",
+            description="description",
+            event_types=["task.run.completed", "task.run.failed"],
+        )
+        assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_create_overload_2(self, client: Mobilerun) -> None:
+        response = client.webhooks.with_raw_response.create(
+            args={"channelId": "bar"},
+            capability={
+                "id": "slack.post_message",
+                "revision": 1,
+            },
+            kind="integration",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        webhook = response.parse()
+        assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_create_overload_2(self, client: Mobilerun) -> None:
+        with client.webhooks.with_streaming_response.create(
+            args={"channelId": "bar"},
+            capability={
+                "id": "slack.post_message",
+                "revision": 1,
+            },
+            kind="integration",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -175,6 +240,7 @@ class TestWebhooks:
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         webhook = client.webhooks.list(
             created_by="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            kind="http",
             mine="true",
             page=1,
             page_size=1,
@@ -367,7 +433,7 @@ class TestAsyncWebhooks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_create(self, async_client: AsyncMobilerun) -> None:
+    async def test_method_create_overload_1(self, async_client: AsyncMobilerun) -> None:
         webhook = await async_client.webhooks.create(
             url="https://example.com/webhooks/droidrun",
         )
@@ -375,17 +441,18 @@ class TestAsyncWebhooks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncMobilerun) -> None:
+    async def test_method_create_with_all_params_overload_1(self, async_client: AsyncMobilerun) -> None:
         webhook = await async_client.webhooks.create(
             url="https://example.com/webhooks/droidrun",
             description="description",
             event_types=["task.run.completed", "task.run.failed"],
+            kind="http",
         )
         assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
+    async def test_raw_response_create_overload_1(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.webhooks.with_raw_response.create(
             url="https://example.com/webhooks/droidrun",
         )
@@ -397,9 +464,73 @@ class TestAsyncWebhooks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncMobilerun) -> None:
+    async def test_streaming_response_create_overload_1(self, async_client: AsyncMobilerun) -> None:
         async with async_client.webhooks.with_streaming_response.create(
             url="https://example.com/webhooks/droidrun",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            webhook = await response.parse()
+            assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_create_overload_2(self, async_client: AsyncMobilerun) -> None:
+        webhook = await async_client.webhooks.create(
+            args={"channelId": "bar"},
+            capability={
+                "id": "slack.post_message",
+                "revision": 1,
+            },
+            kind="integration",
+        )
+        assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params_overload_2(self, async_client: AsyncMobilerun) -> None:
+        webhook = await async_client.webhooks.create(
+            args={"channelId": "bar"},
+            capability={
+                "id": "slack.post_message",
+                "revision": 1,
+            },
+            kind="integration",
+            description="description",
+            event_types=["task.run.completed", "task.run.failed"],
+        )
+        assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_create_overload_2(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.webhooks.with_raw_response.create(
+            args={"channelId": "bar"},
+            capability={
+                "id": "slack.post_message",
+                "revision": 1,
+            },
+            kind="integration",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        webhook = await response.parse()
+        assert_matches_type(WebhookCreateResponse, webhook, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_create_overload_2(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.webhooks.with_streaming_response.create(
+            args={"channelId": "bar"},
+            capability={
+                "id": "slack.post_message",
+                "revision": 1,
+            },
+            kind="integration",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -515,6 +646,7 @@ class TestAsyncWebhooks:
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         webhook = await async_client.webhooks.list(
             created_by="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            kind="http",
             mine="true",
             page=1,
             page_size=1,

@@ -1,5 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from typing import Optional
+
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
@@ -8,25 +10,27 @@ __all__ = ["AppStorageUsageResponse", "Data"]
 
 
 class Data(BaseModel):
-    available_bytes: float = FieldInfo(alias="availableBytes")
-    """Remaining bytes — the reliable maximum TOTAL size for the next upload.
+    included_bytes: Optional[float] = FieldInfo(alias="includedBytes", default=None)
+    """Bytes included in the plan (Autumn granted).
 
-    Advisory snapshot: the quota is enforced under a lock at confirm, so concurrent
-    uploads may reduce actual headroom.
+    Null when unlimited, unknown, or storage billing is off.
     """
 
-    max_file_bytes: float = FieldInfo(alias="maxFileBytes")
-    """Per-file upload cap in bytes (env.MAX_UPLOAD_FILE_BYTES).
-
-    A single file larger than this is rejected at confirm even when it fits the
-    remaining quota. Source of truth for the client-side per-file limit.
+    max_bytes: Optional[float] = FieldInfo(alias="maxBytes", default=None)
+    """
+    Hard admission bound in bytes: included + max purchasable overage, or included
+    when overage is not allowed. Null = unlimited, unknown, or storage billing is
+    off.
     """
 
-    quota_bytes: float = FieldInfo(alias="quotaBytes")
-    """Total storage allowance for the user, in bytes"""
+    overage_allowed: bool = FieldInfo(alias="overageAllowed")
+    """True when usage above includedBytes is billed as overage instead of blocked"""
 
     used_bytes: float = FieldInfo(alias="usedBytes")
-    """Bytes currently consumed across all of the user’s app versions"""
+    """
+    Bytes currently used (decimal: Autumn storage_mb × 1,000,000; the local sum of
+    the user’s app versions when storage billing is off)
+    """
 
 
 class AppStorageUsageResponse(BaseModel):

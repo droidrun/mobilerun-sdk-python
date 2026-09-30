@@ -40,7 +40,6 @@ class TestNumbers:
             country="de",
             label="Support line",
             purpose="telegram",
-            idempotency_key="x",
         )
         assert_matches_type(NumberCreateResponse, number, path=["response"])
 
@@ -348,7 +347,6 @@ class TestAsyncNumbers:
             country="de",
             label="Support line",
             purpose="telegram",
-            idempotency_key="x",
         )
         assert_matches_type(NumberCreateResponse, number, path=["response"])
 

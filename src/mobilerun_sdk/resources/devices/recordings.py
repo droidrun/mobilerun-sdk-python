@@ -102,6 +102,7 @@ class RecordingsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Delete a device recording
@@ -114,6 +115,8 @@ class RecordingsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -125,7 +128,11 @@ class RecordingsResource(SyncAPIResource):
                 "/devices/{device_id}/recordings/{recording_id}", device_id=device_id, recording_id=recording_id
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -144,6 +151,7 @@ class RecordingsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> RecordingStartResponse:
         """
         Start a device recording
@@ -153,9 +161,11 @@ class RecordingsResource(SyncAPIResource):
               device's full quality. Honored by devices recording through the portal stream
               bridge.
 
-          types: Artifacts to capture: trajectory (input actions), video, and audio (captured
+          types: Artifacts to capture: trajectory (input actions; on portal stream-bridge devices
+              only when the handset announces trajectory capture), video, and audio (captured
               into the video artifact, so it requires video; honored by portal stream-bridge
-              recorders). Defaults to trajectory and video.
+              recorders). Defaults to trajectory and video, narrowed to what the device
+              produces.
 
           extra_headers: Send extra headers
 
@@ -164,6 +174,8 @@ class RecordingsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -179,7 +191,11 @@ class RecordingsResource(SyncAPIResource):
                 recording_start_params.RecordingStartParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=RecordingStartResponse,
         )
@@ -233,6 +249,7 @@ class RecordingsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> RecordingStopResponse:
         """
         Stop a device recording
@@ -245,6 +262,8 @@ class RecordingsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -255,7 +274,11 @@ class RecordingsResource(SyncAPIResource):
                 "/devices/{device_id}/recordings/{recording_id}", device_id=device_id, recording_id=recording_id
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=RecordingStopResponse,
         )
@@ -417,6 +440,7 @@ class AsyncRecordingsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Delete a device recording
@@ -429,6 +453,8 @@ class AsyncRecordingsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -440,7 +466,11 @@ class AsyncRecordingsResource(AsyncAPIResource):
                 "/devices/{device_id}/recordings/{recording_id}", device_id=device_id, recording_id=recording_id
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -459,6 +489,7 @@ class AsyncRecordingsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> RecordingStartResponse:
         """
         Start a device recording
@@ -468,9 +499,11 @@ class AsyncRecordingsResource(AsyncAPIResource):
               device's full quality. Honored by devices recording through the portal stream
               bridge.
 
-          types: Artifacts to capture: trajectory (input actions), video, and audio (captured
+          types: Artifacts to capture: trajectory (input actions; on portal stream-bridge devices
+              only when the handset announces trajectory capture), video, and audio (captured
               into the video artifact, so it requires video; honored by portal stream-bridge
-              recorders). Defaults to trajectory and video.
+              recorders). Defaults to trajectory and video, narrowed to what the device
+              produces.
 
           extra_headers: Send extra headers
 
@@ -479,6 +512,8 @@ class AsyncRecordingsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -494,7 +529,11 @@ class AsyncRecordingsResource(AsyncAPIResource):
                 recording_start_params.RecordingStartParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=RecordingStartResponse,
         )
@@ -548,6 +587,7 @@ class AsyncRecordingsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> RecordingStopResponse:
         """
         Stop a device recording
@@ -560,6 +600,8 @@ class AsyncRecordingsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -570,7 +612,11 @@ class AsyncRecordingsResource(AsyncAPIResource):
                 "/devices/{device_id}/recordings/{recording_id}", device_id=device_id, recording_id=recording_id
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=RecordingStopResponse,
         )

@@ -19,8 +19,9 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.numbers import message_list_params
+from ...types.numbers import message_list_params, message_send_params
 from ...types.numbers.message_list_response import MessageListResponse
+from ...types.numbers.message_send_response import MessageSendResponse
 
 __all__ = ["MessagesResource", "AsyncMessagesResource"]
 
@@ -96,6 +97,79 @@ class MessagesResource(SyncAPIResource):
             cast_to=MessageListResponse,
         )
 
+    def send(
+        self,
+        id: str,
+        *,
+        body: str,
+        to: str,
+        client_request_id: str | Omit = omit,
+        delivery_report: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> MessageSendResponse:
+        """Queues an SMS from one of the caller's numbers that can send.
+
+        Same idempotency
+        contract as the eSIM send: replaying an Idempotency-Key with the same payload
+        returns the original message, reusing it with a different payload returns 422.
+        409 capability_unavailable: this number cannot send right now. 422
+        invalid_recipient / unsupported_destination / body_too_long: the recipient or
+        text does not fit the number. 429 daily_limit_reached: the rolling 24 h limit
+        for the account is used up; 429 rate_limited: too many sends in a short window.
+        403 send_disabled: self-service SMS send is switched off.
+
+        Args:
+          body: SMS body text, up to 1600 characters (rejected with 400 beyond that, before
+              hashing). A number's own limit may be lower and is answered 422 body_too_long.
+
+          to: Recipient phone number, as E.164 or a US 10/11-digit number. Destinations the
+              number cannot send to are rejected with 422 unsupported_destination, non-numbers
+              with 422 invalid_recipient.
+
+          client_request_id: Deprecated: use the Idempotency-Key header instead. Optional idempotency key.
+              Replaying the same key and payload returns the original send.
+
+          delivery_report: Request a delivery report. Defaults to false.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            path_template("/numbers/phones/{id}/messages", id=id),
+            body=maybe_transform(
+                {
+                    "body": body,
+                    "to": to,
+                    "client_request_id": client_request_id,
+                    "delivery_report": delivery_report,
+                },
+                message_send_params.MessageSendParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=MessageSendResponse,
+        )
+
 
 class AsyncMessagesResource(AsyncAPIResource):
     @cached_property
@@ -168,6 +242,79 @@ class AsyncMessagesResource(AsyncAPIResource):
             cast_to=MessageListResponse,
         )
 
+    async def send(
+        self,
+        id: str,
+        *,
+        body: str,
+        to: str,
+        client_request_id: str | Omit = omit,
+        delivery_report: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> MessageSendResponse:
+        """Queues an SMS from one of the caller's numbers that can send.
+
+        Same idempotency
+        contract as the eSIM send: replaying an Idempotency-Key with the same payload
+        returns the original message, reusing it with a different payload returns 422.
+        409 capability_unavailable: this number cannot send right now. 422
+        invalid_recipient / unsupported_destination / body_too_long: the recipient or
+        text does not fit the number. 429 daily_limit_reached: the rolling 24 h limit
+        for the account is used up; 429 rate_limited: too many sends in a short window.
+        403 send_disabled: self-service SMS send is switched off.
+
+        Args:
+          body: SMS body text, up to 1600 characters (rejected with 400 beyond that, before
+              hashing). A number's own limit may be lower and is answered 422 body_too_long.
+
+          to: Recipient phone number, as E.164 or a US 10/11-digit number. Destinations the
+              number cannot send to are rejected with 422 unsupported_destination, non-numbers
+              with 422 invalid_recipient.
+
+          client_request_id: Deprecated: use the Idempotency-Key header instead. Optional idempotency key.
+              Replaying the same key and payload returns the original send.
+
+          delivery_report: Request a delivery report. Defaults to false.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            path_template("/numbers/phones/{id}/messages", id=id),
+            body=await async_maybe_transform(
+                {
+                    "body": body,
+                    "to": to,
+                    "client_request_id": client_request_id,
+                    "delivery_report": delivery_report,
+                },
+                message_send_params.MessageSendParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=MessageSendResponse,
+        )
+
 
 class MessagesResourceWithRawResponse:
     def __init__(self, messages: MessagesResource) -> None:
@@ -175,6 +322,9 @@ class MessagesResourceWithRawResponse:
 
         self.list = to_raw_response_wrapper(
             messages.list,
+        )
+        self.send = to_raw_response_wrapper(
+            messages.send,
         )
 
 
@@ -185,6 +335,9 @@ class AsyncMessagesResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             messages.list,
         )
+        self.send = async_to_raw_response_wrapper(
+            messages.send,
+        )
 
 
 class MessagesResourceWithStreamingResponse:
@@ -194,6 +347,9 @@ class MessagesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             messages.list,
         )
+        self.send = to_streamed_response_wrapper(
+            messages.send,
+        )
 
 
 class AsyncMessagesResourceWithStreamingResponse:
@@ -202,4 +358,7 @@ class AsyncMessagesResourceWithStreamingResponse:
 
         self.list = async_to_streamed_response_wrapper(
             messages.list,
+        )
+        self.send = async_to_streamed_response_wrapper(
+            messages.send,
         )

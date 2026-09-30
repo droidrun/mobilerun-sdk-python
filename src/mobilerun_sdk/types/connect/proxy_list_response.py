@@ -23,6 +23,14 @@ class Item(BaseModel):
 
     host: str
 
+    name: str
+    """Display name for the proxy.
+
+    Set it on create or change it with PATCH; when no name has been set, a label
+    generated from the proxy's country, type, and id is returned instead — so this
+    is never empty.
+    """
+
     port: int
 
     status: Literal["checking", "pending_payment", "provisioning", "active", "cancelling", "ended", "error"]

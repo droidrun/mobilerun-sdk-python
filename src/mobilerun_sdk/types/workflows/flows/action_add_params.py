@@ -19,6 +19,15 @@ class ActionAddParams(TypedDict, total=False):
 
     continue_on_error: Annotated[bool, PropertyInfo(alias="continueOnError")]
 
+    key: str
+    """
+    Stable identifier used by template resolution v2+ to address this step as
+    {{key.field}}. Omitted keys are derived from the step name whenever a flow is
+    created. For template resolution v3, replacing an existing flow's full action
+    tree requires every step to carry an explicit key — a missing key is rejected
+    there, not derived, so a name change can never silently move a step's key.
+    """
+
     name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
 
     overrides: Optional[Overrides]
@@ -38,6 +47,15 @@ class Child(TypedDict, total=False):
     position: Required[int]
 
     continue_on_error: Annotated[bool, PropertyInfo(alias="continueOnError")]
+
+    key: str
+    """
+    Stable identifier used by template resolution v2+ to address this step as
+    {{key.field}}. Omitted keys are derived from the step name whenever a flow is
+    created. For template resolution v3, replacing an existing flow's full action
+    tree requires every step to carry an explicit key — a missing key is rejected
+    there, not derived, so a name change can never silently move a step's key.
+    """
 
     name_override: Annotated[str, PropertyInfo(alias="nameOverride")]
 

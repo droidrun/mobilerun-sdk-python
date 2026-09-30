@@ -15,6 +15,9 @@ class DeliveryListParams(TypedDict, total=False):
     event_id: Annotated[str, PropertyInfo(alias="eventId")]
     """Exact text match against the originating event id."""
 
+    kind: Literal["http", "integration"]
+    """Only include deliveries to endpoints of this kind."""
+
     page: int
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]

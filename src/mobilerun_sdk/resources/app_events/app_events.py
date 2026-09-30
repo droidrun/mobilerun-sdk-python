@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Union
+from datetime import datetime
 from typing_extensions import Literal
 
 import httpx
@@ -96,11 +97,11 @@ class AppEventsResource(SyncAPIResource):
         *,
         device_id: str | Omit = omit,
         event_type: str | Omit = omit,
-        from_: Optional[str] | Omit = omit,
+        from_: Union[str, datetime, None] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         source: Literal["app", "system", "device", "webhook"] | Omit = omit,
-        to: Optional[str] | Omit = omit,
+        to: Union[str, datetime, None] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -210,11 +211,11 @@ class AsyncAppEventsResource(AsyncAPIResource):
         *,
         device_id: str | Omit = omit,
         event_type: str | Omit = omit,
-        from_: Optional[str] | Omit = omit,
+        from_: Union[str, datetime, None] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         source: Literal["app", "system", "device", "webhook"] | Omit = omit,
-        to: Optional[str] | Omit = omit,
+        to: Union[str, datetime, None] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

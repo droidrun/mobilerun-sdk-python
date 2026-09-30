@@ -27,14 +27,6 @@ from .timezones import (
     TimezonesResourceWithStreamingResponse,
     AsyncTimezonesResourceWithStreamingResponse,
 )
-from .executions import (
-    ExecutionsResource,
-    AsyncExecutionsResource,
-    ExecutionsResourceWithRawResponse,
-    AsyncExecutionsResourceWithRawResponse,
-    ExecutionsResourceWithStreamingResponse,
-    AsyncExecutionsResourceWithStreamingResponse,
-)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from .flows.flows import (
     FlowsResource,
@@ -59,6 +51,14 @@ from .actions.actions import (
     AsyncActionsResourceWithRawResponse,
     ActionsResourceWithStreamingResponse,
     AsyncActionsResourceWithStreamingResponse,
+)
+from .executions.executions import (
+    ExecutionsResource,
+    AsyncExecutionsResource,
+    ExecutionsResourceWithRawResponse,
+    AsyncExecutionsResourceWithRawResponse,
+    ExecutionsResourceWithStreamingResponse,
+    AsyncExecutionsResourceWithStreamingResponse,
 )
 
 __all__ = ["WorkflowsResource", "AsyncWorkflowsResource"]
