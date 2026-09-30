@@ -88,6 +88,7 @@ class ActionsResource(SyncAPIResource):
         position: int,
         children: Iterable[action_add_params.Child] | Omit = omit,
         continue_on_error: bool | Omit = omit,
+        key: str | Omit = omit,
         name_override: str | Omit = omit,
         overrides: Optional[action_add_params.Overrides] | Omit = omit,
         parent_flow_action_id: Optional[str] | Omit = omit,
@@ -106,7 +107,17 @@ class ActionsResource(SyncAPIResource):
         `nameOverride`, param `overrides`, and `continueOnError`. Returns 404 if the
         flow does not exist.
 
+        Supports an optional `Idempotency-Key` header (1-255 printable ASCII
+        characters). Replays with the same key and an identical body return the original
+        201; a changed body under the same key returns 422 `idempotency_key_reused`.
+
         Args:
+          key: Stable identifier used by template resolution v2+ to address this step as
+              {{key.field}}. Omitted keys are derived from the step name whenever a flow is
+              created. For template resolution v3, replacing an existing flow's full action
+              tree requires every step to carry an explicit key — a missing key is rejected
+              there, not derived, so a name change can never silently move a step's key.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -127,6 +138,7 @@ class ActionsResource(SyncAPIResource):
                     "position": position,
                     "children": children,
                     "continue_on_error": continue_on_error,
+                    "key": key,
                     "name_override": name_override,
                     "overrides": overrides,
                     "parent_flow_action_id": parent_flow_action_id,
@@ -297,6 +309,7 @@ class AsyncActionsResource(AsyncAPIResource):
         position: int,
         children: Iterable[action_add_params.Child] | Omit = omit,
         continue_on_error: bool | Omit = omit,
+        key: str | Omit = omit,
         name_override: str | Omit = omit,
         overrides: Optional[action_add_params.Overrides] | Omit = omit,
         parent_flow_action_id: Optional[str] | Omit = omit,
@@ -315,7 +328,17 @@ class AsyncActionsResource(AsyncAPIResource):
         `nameOverride`, param `overrides`, and `continueOnError`. Returns 404 if the
         flow does not exist.
 
+        Supports an optional `Idempotency-Key` header (1-255 printable ASCII
+        characters). Replays with the same key and an identical body return the original
+        201; a changed body under the same key returns 422 `idempotency_key_reused`.
+
         Args:
+          key: Stable identifier used by template resolution v2+ to address this step as
+              {{key.field}}. Omitted keys are derived from the step name whenever a flow is
+              created. For template resolution v3, replacing an existing flow's full action
+              tree requires every step to carry an explicit key — a missing key is rejected
+              there, not derived, so a name change can never silently move a step's key.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -336,6 +359,7 @@ class AsyncActionsResource(AsyncAPIResource):
                     "position": position,
                     "children": children,
                     "continue_on_error": continue_on_error,
+                    "key": key,
                     "name_override": name_override,
                     "overrides": overrides,
                     "parent_flow_action_id": parent_flow_action_id,

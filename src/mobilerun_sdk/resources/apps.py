@@ -372,8 +372,11 @@ class AppsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AppStorageUsageResponse:
         """
-        Returns the user’s total storage quota, bytes used, and remaining bytes — the
-        reliable maximum size for the next upload.
+        Returns the user’s storage allowance from Autumn storage_mb (decimal bytes):
+        bytes used, bytes included in the plan, the hard maximum (included + max
+        purchasable overage; null = unlimited) and whether usage above the included
+        amount is billed as overage. With storage billing off there is no limit: only
+        usedBytes is set.
         """
         return self._get(
             "/apps/storage-usage",
@@ -725,8 +728,11 @@ class AsyncAppsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AppStorageUsageResponse:
         """
-        Returns the user’s total storage quota, bytes used, and remaining bytes — the
-        reliable maximum size for the next upload.
+        Returns the user’s storage allowance from Autumn storage_mb (decimal bytes):
+        bytes used, bytes included in the plan, the hard maximum (included + max
+        purchasable overage; null = unlimited) and whether usage above the included
+        amount is billed as overage. With storage billing off there is no limit: only
+        usedBytes is set.
         """
         return await self._get(
             "/apps/storage-usage",

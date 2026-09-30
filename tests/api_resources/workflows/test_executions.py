@@ -9,6 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
+from mobilerun_sdk._utils import parse_datetime
 from mobilerun_sdk.types.workflows import (
     ExecutionListResponse,
     ExecutionAbortResponse,
@@ -75,7 +76,7 @@ class TestExecutions:
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         execution = client.workflows.executions.list(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            from_="from",
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
             invocation_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             order_by="startedAt",
             order_by_direction="asc",
@@ -83,7 +84,7 @@ class TestExecutions:
             page_size=1,
             search="x",
             status="pending",
-            to="to",
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(ExecutionListResponse, execution, path=["response"])
@@ -163,8 +164,8 @@ class TestExecutions:
     def test_method_get_metrics_with_all_params(self, client: Mobilerun) -> None:
         execution = client.workflows.executions.get_metrics(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            from_="from",
-            to="to",
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(ExecutionGetMetricsResponse, execution, path=["response"])
@@ -250,7 +251,7 @@ class TestAsyncExecutions:
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         execution = await async_client.workflows.executions.list(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            from_="from",
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
             invocation_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             order_by="startedAt",
             order_by_direction="asc",
@@ -258,7 +259,7 @@ class TestAsyncExecutions:
             page_size=1,
             search="x",
             status="pending",
-            to="to",
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(ExecutionListResponse, execution, path=["response"])
@@ -338,8 +339,8 @@ class TestAsyncExecutions:
     async def test_method_get_metrics_with_all_params(self, async_client: AsyncMobilerun) -> None:
         execution = await async_client.workflows.executions.get_metrics(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            from_="from",
-            to="to",
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(ExecutionGetMetricsResponse, execution, path=["response"])

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union
+from typing import Union, Optional
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -19,11 +19,13 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.connect import proxy_buy_params, proxy_list_params, proxy_list_connections_params
+from ...types.connect import proxy_buy_params, proxy_list_params, proxy_update_params, proxy_list_connections_params
 from ...types.connect.proxy_buy_response import ProxyBuyResponse
 from ...types.connect.proxy_list_response import ProxyListResponse
 from ...types.connect.proxy_ping_response import ProxyPingResponse
+from ...types.connect.proxy_update_response import ProxyUpdateResponse
 from ...types.connect.proxy_retrieve_response import ProxyRetrieveResponse
+from ...types.connect.proxy_ensure_healthy_response import ProxyEnsureHealthyResponse
 from ...types.connect.proxy_list_connections_response import ProxyListConnectionsResponse
 
 __all__ = ["ProxiesResource", "AsyncProxiesResource"]
@@ -82,6 +84,53 @@ class ProxiesResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=ProxyRetrieveResponse,
+        )
+
+    def update(
+        self,
+        id: str,
+        *,
+        name: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ProxyUpdateResponse:
+        """
+        Renames the proxy identified by the path ID.
+
+        Args:
+          name: New display name, up to 64 characters excluding surrounding whitespace, and
+              containing no NUL. Send null (or an empty/whitespace-only string) to drop a
+              custom name and go back to the generated label. Omit to leave the name
+              unchanged.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._patch(
+            path_template("/connect/proxies/{id}", id=id),
+            body=maybe_transform({"name": name}, proxy_update_params.ProxyUpdateParams),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=ProxyUpdateResponse,
         )
 
     def list(
@@ -229,6 +278,53 @@ class ProxiesResource(SyncAPIResource):
                 idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
+        )
+
+    def ensure_healthy(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ProxyEnsureHealthyResponse:
+        """
+        Checks right now that the proxy's upstream accepts a connection through its
+        current session. If the upstream refuses the session and the proxy is a rotating
+        (sticky-session) proxy, the proxy is moved onto a fresh session that has been
+        checked to work; its credentials and country stay the same, its exit IP changes.
+        Intended for callers that are about to depend on the proxy (e.g. while
+        provisioning a phone). After `rotated`, the gateway uses the new session within
+        about 30 seconds. A `refused` or `unreachable` result is not an error: the
+        response describes the proxy's state.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            path_template("/connect/proxies/{id}/ensure-healthy", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=ProxyEnsureHealthyResponse,
         )
 
     def list_connections(
@@ -469,6 +565,53 @@ class AsyncProxiesResource(AsyncAPIResource):
             cast_to=ProxyRetrieveResponse,
         )
 
+    async def update(
+        self,
+        id: str,
+        *,
+        name: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ProxyUpdateResponse:
+        """
+        Renames the proxy identified by the path ID.
+
+        Args:
+          name: New display name, up to 64 characters excluding surrounding whitespace, and
+              containing no NUL. Send null (or an empty/whitespace-only string) to drop a
+              custom name and go back to the generated label. Omit to leave the name
+              unchanged.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._patch(
+            path_template("/connect/proxies/{id}", id=id),
+            body=await async_maybe_transform({"name": name}, proxy_update_params.ProxyUpdateParams),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=ProxyUpdateResponse,
+        )
+
     async def list(
         self,
         *,
@@ -614,6 +757,53 @@ class AsyncProxiesResource(AsyncAPIResource):
                 idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
+        )
+
+    async def ensure_healthy(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ProxyEnsureHealthyResponse:
+        """
+        Checks right now that the proxy's upstream accepts a connection through its
+        current session. If the upstream refuses the session and the proxy is a rotating
+        (sticky-session) proxy, the proxy is moved onto a fresh session that has been
+        checked to work; its credentials and country stay the same, its exit IP changes.
+        Intended for callers that are about to depend on the proxy (e.g. while
+        provisioning a phone). After `rotated`, the gateway uses the new session within
+        about 30 seconds. A `refused` or `unreachable` result is not an error: the
+        response describes the proxy's state.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            path_template("/connect/proxies/{id}/ensure-healthy", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=ProxyEnsureHealthyResponse,
         )
 
     async def list_connections(
@@ -806,6 +996,9 @@ class ProxiesResourceWithRawResponse:
         self.retrieve = to_raw_response_wrapper(
             proxies.retrieve,
         )
+        self.update = to_raw_response_wrapper(
+            proxies.update,
+        )
         self.list = to_raw_response_wrapper(
             proxies.list,
         )
@@ -814,6 +1007,9 @@ class ProxiesResourceWithRawResponse:
         )
         self.cancel = to_raw_response_wrapper(
             proxies.cancel,
+        )
+        self.ensure_healthy = to_raw_response_wrapper(
+            proxies.ensure_healthy,
         )
         self.list_connections = to_raw_response_wrapper(
             proxies.list_connections,
@@ -830,6 +1026,9 @@ class AsyncProxiesResourceWithRawResponse:
         self.retrieve = async_to_raw_response_wrapper(
             proxies.retrieve,
         )
+        self.update = async_to_raw_response_wrapper(
+            proxies.update,
+        )
         self.list = async_to_raw_response_wrapper(
             proxies.list,
         )
@@ -838,6 +1037,9 @@ class AsyncProxiesResourceWithRawResponse:
         )
         self.cancel = async_to_raw_response_wrapper(
             proxies.cancel,
+        )
+        self.ensure_healthy = async_to_raw_response_wrapper(
+            proxies.ensure_healthy,
         )
         self.list_connections = async_to_raw_response_wrapper(
             proxies.list_connections,
@@ -854,6 +1056,9 @@ class ProxiesResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             proxies.retrieve,
         )
+        self.update = to_streamed_response_wrapper(
+            proxies.update,
+        )
         self.list = to_streamed_response_wrapper(
             proxies.list,
         )
@@ -862,6 +1067,9 @@ class ProxiesResourceWithStreamingResponse:
         )
         self.cancel = to_streamed_response_wrapper(
             proxies.cancel,
+        )
+        self.ensure_healthy = to_streamed_response_wrapper(
+            proxies.ensure_healthy,
         )
         self.list_connections = to_streamed_response_wrapper(
             proxies.list_connections,
@@ -878,6 +1086,9 @@ class AsyncProxiesResourceWithStreamingResponse:
         self.retrieve = async_to_streamed_response_wrapper(
             proxies.retrieve,
         )
+        self.update = async_to_streamed_response_wrapper(
+            proxies.update,
+        )
         self.list = async_to_streamed_response_wrapper(
             proxies.list,
         )
@@ -886,6 +1097,9 @@ class AsyncProxiesResourceWithStreamingResponse:
         )
         self.cancel = async_to_streamed_response_wrapper(
             proxies.cancel,
+        )
+        self.ensure_healthy = async_to_streamed_response_wrapper(
+            proxies.ensure_healthy,
         )
         self.list_connections = async_to_streamed_response_wrapper(
             proxies.list_connections,

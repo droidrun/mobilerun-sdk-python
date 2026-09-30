@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -32,13 +33,13 @@ class ItemRecording(BaseModel):
 
     scope: Literal["flow", "step"]
 
-    started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
+    started_at: Optional[datetime] = FieldInfo(alias="startedAt", default=None)
 
     status: Literal["starting", "recording", "stopping", "stopped", "failed"]
 
     step_index: int = FieldInfo(alias="stepIndex")
 
-    stopped_at: Optional[str] = FieldInfo(alias="stoppedAt", default=None)
+    stopped_at: Optional[datetime] = FieldInfo(alias="stoppedAt", default=None)
 
 
 class Item(BaseModel):
@@ -56,7 +57,7 @@ class Item(BaseModel):
 
     event_id: Optional[str] = FieldInfo(alias="eventId", default=None)
 
-    finished_at: Optional[str] = FieldInfo(alias="finishedAt", default=None)
+    finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
 
     flow_id: str = FieldInfo(alias="flowId")
 
@@ -86,7 +87,7 @@ class Item(BaseModel):
     Whole-flow recordings use -1 for every coordinate.
     """
 
-    started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
+    started_at: Optional[datetime] = FieldInfo(alias="startedAt", default=None)
 
     status: Optional[Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"]] = None
 

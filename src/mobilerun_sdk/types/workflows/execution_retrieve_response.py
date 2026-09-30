@@ -29,11 +29,11 @@ class DataDelivery(BaseModel):
 
     filename: str
 
-    finished_at: Optional[str] = FieldInfo(alias="finishedAt", default=None)
+    finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
 
     folder: Optional[str] = None
 
-    started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
+    started_at: Optional[datetime] = FieldInfo(alias="startedAt", default=None)
 
     status: Literal["waiting", "uploading", "succeeded", "failed", "unknown", "cancelled"]
 
@@ -103,19 +103,19 @@ class DataRecording(BaseModel):
 
     scope: Literal["flow", "step"]
 
-    started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
+    started_at: Optional[datetime] = FieldInfo(alias="startedAt", default=None)
 
     status: Literal["starting", "recording", "stopping", "stopped", "failed"]
 
     step_index: int = FieldInfo(alias="stepIndex")
 
-    stopped_at: Optional[str] = FieldInfo(alias="stoppedAt", default=None)
+    stopped_at: Optional[datetime] = FieldInfo(alias="stoppedAt", default=None)
 
 
 class DataScreenshot(BaseModel):
     id: str
 
-    captured_at: Optional[str] = FieldInfo(alias="capturedAt", default=None)
+    captured_at: Optional[datetime] = FieldInfo(alias="capturedAt", default=None)
 
     iteration_index: int = FieldInfo(alias="iterationIndex")
 
@@ -159,7 +159,7 @@ class Data(BaseModel):
     the turn); derived server-side at read time.
     """
 
-    finished_at: Optional[str] = FieldInfo(alias="finishedAt", default=None)
+    finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
 
     flow_id: str = FieldInfo(alias="flowId")
 
@@ -202,7 +202,7 @@ class Data(BaseModel):
     /executions/{id}/screenshots/{screenshotId}.
     """
 
-    started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
+    started_at: Optional[datetime] = FieldInfo(alias="startedAt", default=None)
 
     status: Optional[Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"]] = None
 

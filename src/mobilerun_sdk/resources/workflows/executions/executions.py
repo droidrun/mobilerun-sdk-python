@@ -2,32 +2,45 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Union
+from datetime import datetime
 from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
-from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
+from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ...._utils import path_template, maybe_transform, async_maybe_transform
+from ...._compat import cached_property
+from .screenshots import (
+    ScreenshotsResource,
+    AsyncScreenshotsResource,
+    ScreenshotsResourceWithRawResponse,
+    AsyncScreenshotsResourceWithRawResponse,
+    ScreenshotsResourceWithStreamingResponse,
+    AsyncScreenshotsResourceWithStreamingResponse,
+)
+from ...._resource import SyncAPIResource, AsyncAPIResource
+from ...._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import make_request_options
-from ...types.workflows import execution_list_params, execution_get_metrics_params
-from ...types.workflows.execution_list_response import ExecutionListResponse
-from ...types.workflows.execution_abort_response import ExecutionAbortResponse
-from ...types.workflows.execution_retrieve_response import ExecutionRetrieveResponse
-from ...types.workflows.execution_get_metrics_response import ExecutionGetMetricsResponse
+from ...._base_client import make_request_options
+from ....types.workflows import execution_list_params, execution_get_metrics_params
+from ....types.workflows.execution_list_response import ExecutionListResponse
+from ....types.workflows.execution_abort_response import ExecutionAbortResponse
+from ....types.workflows.execution_retrieve_response import ExecutionRetrieveResponse
+from ....types.workflows.execution_get_metrics_response import ExecutionGetMetricsResponse
 
 __all__ = ["ExecutionsResource", "AsyncExecutionsResource"]
 
 
 class ExecutionsResource(SyncAPIResource):
+    @cached_property
+    def screenshots(self) -> ScreenshotsResource:
+        return ScreenshotsResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> ExecutionsResourceWithRawResponse:
         """
@@ -85,7 +98,7 @@ class ExecutionsResource(SyncAPIResource):
         self,
         *,
         flow_id: str | Omit = omit,
-        from_: Optional[str] | Omit = omit,
+        from_: Union[str, datetime, None] | Omit = omit,
         invocation_id: str | Omit = omit,
         order_by: Literal["startedAt", "finishedAt", "status"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
@@ -93,7 +106,7 @@ class ExecutionsResource(SyncAPIResource):
         page_size: int | Omit = omit,
         search: str | Omit = omit,
         status: Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"] | Omit = omit,
-        to: Optional[str] | Omit = omit,
+        to: Union[str, datetime, None] | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -190,8 +203,8 @@ class ExecutionsResource(SyncAPIResource):
         self,
         *,
         flow_id: str | Omit = omit,
-        from_: Optional[str] | Omit = omit,
-        to: Optional[str] | Omit = omit,
+        from_: Union[str, datetime, None] | Omit = omit,
+        to: Union[str, datetime, None] | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -236,6 +249,10 @@ class ExecutionsResource(SyncAPIResource):
 
 
 class AsyncExecutionsResource(AsyncAPIResource):
+    @cached_property
+    def screenshots(self) -> AsyncScreenshotsResource:
+        return AsyncScreenshotsResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> AsyncExecutionsResourceWithRawResponse:
         """
@@ -293,7 +310,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
         self,
         *,
         flow_id: str | Omit = omit,
-        from_: Optional[str] | Omit = omit,
+        from_: Union[str, datetime, None] | Omit = omit,
         invocation_id: str | Omit = omit,
         order_by: Literal["startedAt", "finishedAt", "status"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
@@ -301,7 +318,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
         page_size: int | Omit = omit,
         search: str | Omit = omit,
         status: Literal["pending", "running", "success", "failed", "cancelled", "skipped", "invalid"] | Omit = omit,
-        to: Optional[str] | Omit = omit,
+        to: Union[str, datetime, None] | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -398,8 +415,8 @@ class AsyncExecutionsResource(AsyncAPIResource):
         self,
         *,
         flow_id: str | Omit = omit,
-        from_: Optional[str] | Omit = omit,
-        to: Optional[str] | Omit = omit,
+        from_: Union[str, datetime, None] | Omit = omit,
+        to: Union[str, datetime, None] | Omit = omit,
         trigger_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -460,6 +477,10 @@ class ExecutionsResourceWithRawResponse:
             executions.get_metrics,
         )
 
+    @cached_property
+    def screenshots(self) -> ScreenshotsResourceWithRawResponse:
+        return ScreenshotsResourceWithRawResponse(self._executions.screenshots)
+
 
 class AsyncExecutionsResourceWithRawResponse:
     def __init__(self, executions: AsyncExecutionsResource) -> None:
@@ -477,6 +498,10 @@ class AsyncExecutionsResourceWithRawResponse:
         self.get_metrics = async_to_raw_response_wrapper(
             executions.get_metrics,
         )
+
+    @cached_property
+    def screenshots(self) -> AsyncScreenshotsResourceWithRawResponse:
+        return AsyncScreenshotsResourceWithRawResponse(self._executions.screenshots)
 
 
 class ExecutionsResourceWithStreamingResponse:
@@ -496,6 +521,10 @@ class ExecutionsResourceWithStreamingResponse:
             executions.get_metrics,
         )
 
+    @cached_property
+    def screenshots(self) -> ScreenshotsResourceWithStreamingResponse:
+        return ScreenshotsResourceWithStreamingResponse(self._executions.screenshots)
+
 
 class AsyncExecutionsResourceWithStreamingResponse:
     def __init__(self, executions: AsyncExecutionsResource) -> None:
@@ -513,3 +542,7 @@ class AsyncExecutionsResourceWithStreamingResponse:
         self.get_metrics = async_to_streamed_response_wrapper(
             executions.get_metrics,
         )
+
+    @cached_property
+    def screenshots(self) -> AsyncScreenshotsResourceWithStreamingResponse:
+        return AsyncScreenshotsResourceWithStreamingResponse(self._executions.screenshots)

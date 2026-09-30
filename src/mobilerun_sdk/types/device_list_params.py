@@ -32,6 +32,12 @@ class DeviceListParams(TypedDict, total=False):
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
 
+    platform: Literal["android", "ios"]
+    """
+    Filter by the device's platform as served in the platform field (runtime,
+    announced, else type-derived).
+    """
+
     provider_id: Annotated[str, PropertyInfo(alias="providerId")]
 
     state: Optional[
@@ -52,7 +58,12 @@ class DeviceListParams(TypedDict, total=False):
     ]
 
     type: Literal[
-        "android_cloud_phone", "android_physical_phone", "ios_stealth_phone", "android_emulator", "ios_simulator"
+        "android_cloud_phone",
+        "android_physical_phone",
+        "ios_stealth_phone",
+        "android_emulator",
+        "ios_simulator",
+        "device_slot",
     ]
     """Canonical device type.
 

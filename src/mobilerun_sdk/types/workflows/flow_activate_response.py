@@ -1,0 +1,116 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from typing import List, Optional
+from datetime import datetime
+from typing_extensions import Literal
+
+from pydantic import Field as FieldInfo
+
+from ..._models import BaseModel
+
+__all__ = ["FlowActivateResponse", "Data", "DataDelivery", "DataDeliveryRecording", "DataRecordingPolicy"]
+
+
+class DataDeliveryRecording(BaseModel):
+    filename: str
+
+
+class DataDelivery(BaseModel):
+    destination: Literal["one_drive", "google_drive"]
+
+    folder: Optional[str] = None
+
+    recording: Optional[DataDeliveryRecording] = None
+
+    screenshots: Optional[object] = None
+
+
+class DataRecordingPolicy(BaseModel):
+    mode: Literal["off", "flow", "selected_steps"]
+
+
+class Data(BaseModel):
+    id: str
+
+    archived_at: Optional[datetime] = FieldInfo(alias="archivedAt", default=None)
+
+    blocked_at: Optional[datetime] = FieldInfo(alias="blockedAt", default=None)
+
+    consecutive_failures: int = FieldInfo(alias="consecutiveFailures")
+
+    cooldown_scope: Literal["flow", "device"] = FieldInfo(alias="cooldownScope")
+
+    cooldown_seconds: Optional[int] = FieldInfo(alias="cooldownSeconds", default=None)
+
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
+
+    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
+    delivery: Optional[DataDelivery] = None
+
+    description: Optional[str] = None
+
+    device_ids: List[str] = FieldInfo(alias="deviceIds")
+
+    enabled: bool
+    """
+    Compatibility projection of lifecycleStatus; true only when lifecycleStatus is
+    enabled.
+    """
+
+    health_monitoring_enabled: bool = FieldInfo(alias="healthMonitoringEnabled")
+
+    last_failure_at: Optional[datetime] = FieldInfo(alias="lastFailureAt", default=None)
+
+    last_failure_code: Optional[
+        Literal["device_not_found", "permission_denied", "client_error", "transient", "logic", "invalid_config"]
+    ] = FieldInfo(alias="lastFailureCode", default=None)
+
+    last_triggered_at: Optional[datetime] = FieldInfo(alias="lastTriggeredAt", default=None)
+
+    lifecycle_status: Literal["enabled", "disabled", "archived"] = FieldInfo(alias="lifecycleStatus")
+
+    name: str
+
+    notify_on_failure: bool = FieldInfo(alias="notifyOnFailure")
+
+    notify_on_success: bool = FieldInfo(alias="notifyOnSuccess")
+
+    notify_webhook_id: Optional[str] = FieldInfo(alias="notifyWebhookId", default=None)
+
+    owner_id: str = FieldInfo(alias="ownerId")
+
+    recording_enabled: bool = FieldInfo(alias="recordingEnabled")
+    """
+    Deprecated: use recordingPolicy.mode ("flow" = recordingEnabled=true, "off" =
+    recordingEnabled=false).
+    """
+
+    recording_policy: DataRecordingPolicy = FieldInfo(alias="recordingPolicy")
+
+    self_healing_enabled: bool = FieldInfo(alias="selfHealingEnabled")
+
+    self_healing_max_attempts: int = FieldInfo(alias="selfHealingMaxAttempts")
+
+    status: Literal["healthy", "failing", "blocked"]
+
+    template_resolution_version: int = FieldInfo(alias="templateResolutionVersion")
+    """Template-resolver semantics this flow runs under (MVA-23).
+
+    1 = legacy (missing/forbidden/null all resolve to ''). 2 = typed
+    (missing/forbidden throw, a whole-token null stays JSON null). 3 = typed,
+    key-based (steps are addressed as {{steps.<key>...}} instead of by name;
+    trigger.payload is not available). Existing flows stay 1; new flows default to
+    the current version.
+    """
+
+    trigger_id: str = FieldInfo(alias="triggerId")
+
+    updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
+
+    user_id: str = FieldInfo(alias="userId")
+    """Deprecated: use ownerId (tenancy) / createdBy (actor)."""
+
+
+class FlowActivateResponse(BaseModel):
+    data: Data

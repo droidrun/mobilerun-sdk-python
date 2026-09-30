@@ -8,17 +8,37 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["NumberDeleteResponse", "Data"]
+__all__ = ["NumberDeleteResponse", "Data", "DataActions"]
+
+
+class DataActions(BaseModel):
+    """Actions currently available for this phone number."""
+
+    cancel: bool
+    """True when DELETE /numbers/phones/{id} would currently succeed."""
+
+    send: bool
+    """
+    True when this number passes the send gate of POST
+    /numbers/phones/{id}/messages: self-service sending is switched on and the
+    number is active and able to send SMS. Daily and burst limits and recipient/body
+    checks still apply; the send endpoint stays the final judge.
+    """
 
 
 class Data(BaseModel):
     id: str
 
+    actions: DataActions
+    """Actions currently available for this phone number."""
+
     cancel_at_period_end: bool = FieldInfo(alias="cancelAtPeriodEnd")
 
     cancellable: bool
+    """Deprecated: use `actions.cancel`"""
 
     can_send: bool = FieldInfo(alias="canSend")
+    """Deprecated: use `actions.send`"""
 
     capabilities: Optional[List[Literal["sms", "voice"]]] = None
 

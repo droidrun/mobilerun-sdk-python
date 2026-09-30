@@ -57,7 +57,13 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
-from ...types import device_list_params, device_create_params, device_set_name_params, device_terminate_params
+from ...types import (
+    device_list_params,
+    device_create_params,
+    device_summary_params,
+    device_set_name_params,
+    device_terminate_params,
+)
 from .actions import (
     ActionsResource,
     AsyncActionsResource,
@@ -185,6 +191,7 @@ from ...types.device_list_response import DeviceListResponse
 from ...types.device_count_response import DeviceCountResponse
 from ...types.device_create_response import DeviceCreateResponse
 from ...types.shared_params.location import Location
+from ...types.device_summary_response import DeviceSummaryResponse
 from ...types.device_retrieve_response import DeviceRetrieveResponse
 from ...types.device_set_name_response import DeviceSetNameResponse
 from ...types.device_wait_ready_response import DeviceWaitReadyResponse
@@ -441,6 +448,7 @@ class DevicesResource(SyncAPIResource):
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        platform: Literal["android", "ios"] | Omit = omit,
         provider_id: str | Omit = omit,
         state: Optional[
             List[
@@ -460,7 +468,12 @@ class DevicesResource(SyncAPIResource):
         ]
         | Omit = omit,
         type: Literal[
-            "android_cloud_phone", "android_physical_phone", "ios_stealth_phone", "android_emulator", "ios_simulator"
+            "android_cloud_phone",
+            "android_physical_phone",
+            "ios_stealth_phone",
+            "android_emulator",
+            "ios_simulator",
+            "device_slot",
         ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -478,6 +491,9 @@ class DevicesResource(SyncAPIResource):
 
           mine: When true, only return devices created by the calling user (resolved from
               X-User-ID, never a client-supplied id).
+
+          platform: Filter by the device's platform as served in the platform field (runtime,
+              announced, else type-derived).
 
           type: Canonical device type. Retired dedicated\\__\\** aliases are no longer accepted.
               Availability depends on the deployment.
@@ -507,6 +523,7 @@ class DevicesResource(SyncAPIResource):
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
+                        "platform": platform,
                         "provider_id": provider_id,
                         "state": state,
                         "type": type,
@@ -835,6 +852,58 @@ class DevicesResource(SyncAPIResource):
                 idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
+        )
+
+    def summary(
+        self,
+        *,
+        state: Optional[
+            List[
+                Literal[
+                    "creating",
+                    "assigned",
+                    "ready",
+                    "rebooting",
+                    "migrating",
+                    "resetting",
+                    "terminated",
+                    "maintenance",
+                    "stopped",
+                    "unknown",
+                ]
+            ]
+        ]
+        | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> DeviceSummaryResponse:
+        """
+        Returns the total number of the user's devices and counts grouped by current
+        state and device type.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/devices/summary",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"state": state}, device_summary_params.DeviceSummaryParams),
+            ),
+            cast_to=DeviceSummaryResponse,
         )
 
     def terminate(
@@ -1171,6 +1240,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        platform: Literal["android", "ios"] | Omit = omit,
         provider_id: str | Omit = omit,
         state: Optional[
             List[
@@ -1190,7 +1260,12 @@ class AsyncDevicesResource(AsyncAPIResource):
         ]
         | Omit = omit,
         type: Literal[
-            "android_cloud_phone", "android_physical_phone", "ios_stealth_phone", "android_emulator", "ios_simulator"
+            "android_cloud_phone",
+            "android_physical_phone",
+            "ios_stealth_phone",
+            "android_emulator",
+            "ios_simulator",
+            "device_slot",
         ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1208,6 +1283,9 @@ class AsyncDevicesResource(AsyncAPIResource):
 
           mine: When true, only return devices created by the calling user (resolved from
               X-User-ID, never a client-supplied id).
+
+          platform: Filter by the device's platform as served in the platform field (runtime,
+              announced, else type-derived).
 
           type: Canonical device type. Retired dedicated\\__\\** aliases are no longer accepted.
               Availability depends on the deployment.
@@ -1237,6 +1315,7 @@ class AsyncDevicesResource(AsyncAPIResource):
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
+                        "platform": platform,
                         "provider_id": provider_id,
                         "state": state,
                         "type": type,
@@ -1567,6 +1646,58 @@ class AsyncDevicesResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def summary(
+        self,
+        *,
+        state: Optional[
+            List[
+                Literal[
+                    "creating",
+                    "assigned",
+                    "ready",
+                    "rebooting",
+                    "migrating",
+                    "resetting",
+                    "terminated",
+                    "maintenance",
+                    "stopped",
+                    "unknown",
+                ]
+            ]
+        ]
+        | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> DeviceSummaryResponse:
+        """
+        Returns the total number of the user's devices and counts grouped by current
+        state and device type.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/devices/summary",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"state": state}, device_summary_params.DeviceSummaryParams),
+            ),
+            cast_to=DeviceSummaryResponse,
+        )
+
     async def terminate(
         self,
         device_id: str,
@@ -1695,6 +1826,9 @@ class DevicesResourceWithRawResponse:
         self.stop = to_raw_response_wrapper(
             devices.stop,
         )
+        self.summary = to_raw_response_wrapper(
+            devices.summary,
+        )
         self.terminate = to_raw_response_wrapper(
             devices.terminate,
         )
@@ -1821,6 +1955,9 @@ class AsyncDevicesResourceWithRawResponse:
         )
         self.stop = async_to_raw_response_wrapper(
             devices.stop,
+        )
+        self.summary = async_to_raw_response_wrapper(
+            devices.summary,
         )
         self.terminate = async_to_raw_response_wrapper(
             devices.terminate,
@@ -1949,6 +2086,9 @@ class DevicesResourceWithStreamingResponse:
         self.stop = to_streamed_response_wrapper(
             devices.stop,
         )
+        self.summary = to_streamed_response_wrapper(
+            devices.summary,
+        )
         self.terminate = to_streamed_response_wrapper(
             devices.terminate,
         )
@@ -2075,6 +2215,9 @@ class AsyncDevicesResourceWithStreamingResponse:
         )
         self.stop = async_to_streamed_response_wrapper(
             devices.stop,
+        )
+        self.summary = async_to_streamed_response_wrapper(
+            devices.summary,
         )
         self.terminate = async_to_streamed_response_wrapper(
             devices.terminate,

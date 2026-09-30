@@ -52,6 +52,7 @@ class DeliveriesResource(SyncAPIResource):
         self,
         *,
         event_id: str | Omit = omit,
+        kind: Literal["http", "integration"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         since: Union[str, datetime] | Omit = omit,
@@ -67,10 +68,13 @@ class DeliveriesResource(SyncAPIResource):
         Returns a paginated feed of webhook deliveries across all of your subscriptions,
         with the originating endpoint URL included on each record. Results can be
         filtered by delivery status (pending, success, skipped, or dead), by a `since`
-        timestamp, and by `eventId` (exact match against the originating event id).
+        timestamp, by `eventId` (exact match against the originating event id), and/or
+        by endpoint delivery `kind`.
 
         Args:
           event_id: Exact text match against the originating event id.
+
+          kind: Only include deliveries to endpoints of this kind.
 
           extra_headers: Send extra headers
 
@@ -90,6 +94,7 @@ class DeliveriesResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "event_id": event_id,
+                        "kind": kind,
                         "page": page,
                         "page_size": page_size,
                         "since": since,
@@ -194,6 +199,7 @@ class DeliveriesResource(SyncAPIResource):
     def stats(
         self,
         *,
+        kind: Literal["http", "integration"] | Omit = omit,
         since: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -205,10 +211,12 @@ class DeliveriesResource(SyncAPIResource):
         """
         Returns aggregate delivery statistics across all of your webhooks, including the
         total count, a breakdown by status (pending, success, skipped, dead), and the
-        overall success rate. An optional `since` timestamp narrows the reporting
-        window.
+        overall success rate. Optional `since` and endpoint delivery `kind` filters
+        narrow the reporting window.
 
         Args:
+          kind: Only include deliveries to endpoints of this kind.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -224,7 +232,13 @@ class DeliveriesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"since": since}, delivery_stats_params.DeliveryStatsParams),
+                query=maybe_transform(
+                    {
+                        "kind": kind,
+                        "since": since,
+                    },
+                    delivery_stats_params.DeliveryStatsParams,
+                ),
             ),
             cast_to=DeliveryStatsResponse,
         )
@@ -254,6 +268,7 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         self,
         *,
         event_id: str | Omit = omit,
+        kind: Literal["http", "integration"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         since: Union[str, datetime] | Omit = omit,
@@ -269,10 +284,13 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         Returns a paginated feed of webhook deliveries across all of your subscriptions,
         with the originating endpoint URL included on each record. Results can be
         filtered by delivery status (pending, success, skipped, or dead), by a `since`
-        timestamp, and by `eventId` (exact match against the originating event id).
+        timestamp, by `eventId` (exact match against the originating event id), and/or
+        by endpoint delivery `kind`.
 
         Args:
           event_id: Exact text match against the originating event id.
+
+          kind: Only include deliveries to endpoints of this kind.
 
           extra_headers: Send extra headers
 
@@ -292,6 +310,7 @@ class AsyncDeliveriesResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "event_id": event_id,
+                        "kind": kind,
                         "page": page,
                         "page_size": page_size,
                         "since": since,
@@ -396,6 +415,7 @@ class AsyncDeliveriesResource(AsyncAPIResource):
     async def stats(
         self,
         *,
+        kind: Literal["http", "integration"] | Omit = omit,
         since: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -407,10 +427,12 @@ class AsyncDeliveriesResource(AsyncAPIResource):
         """
         Returns aggregate delivery statistics across all of your webhooks, including the
         total count, a breakdown by status (pending, success, skipped, dead), and the
-        overall success rate. An optional `since` timestamp narrows the reporting
-        window.
+        overall success rate. Optional `since` and endpoint delivery `kind` filters
+        narrow the reporting window.
 
         Args:
+          kind: Only include deliveries to endpoints of this kind.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -426,7 +448,13 @@ class AsyncDeliveriesResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"since": since}, delivery_stats_params.DeliveryStatsParams),
+                query=await async_maybe_transform(
+                    {
+                        "kind": kind,
+                        "since": since,
+                    },
+                    delivery_stats_params.DeliveryStatsParams,
+                ),
             ),
             cast_to=DeliveryStatsResponse,
         )

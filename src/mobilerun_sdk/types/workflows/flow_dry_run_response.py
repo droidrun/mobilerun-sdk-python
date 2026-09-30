@@ -15,6 +15,8 @@ class DataAction(BaseModel):
 
     flow_action_id: str = FieldInfo(alias="flowActionId")
 
+    key: str
+
     method: str
 
     name: str

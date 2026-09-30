@@ -84,7 +84,8 @@ class ConversationsResource(SyncAPIResource):
         Setup may occur on the first prompt. Idempotent
         via the `Idempotency-Key` header — a duplicate submit by the same authenticated
         caller within the 24-hour idempotency window returns the already-created session
-        instead of a second one.
+        instead of a second one. Reusing the same key with a different request body is a
+        422 `idempotency_key_reused`.
 
         Args:
           extra_headers: Send extra headers
@@ -599,7 +600,8 @@ class AsyncConversationsResource(AsyncAPIResource):
         Setup may occur on the first prompt. Idempotent
         via the `Idempotency-Key` header — a duplicate submit by the same authenticated
         caller within the 24-hour idempotency window returns the already-created session
-        instead of a second one.
+        instead of a second one. Reusing the same key with a different request body is a
+        422 `idempotency_key_reused`.
 
         Args:
           extra_headers: Send extra headers

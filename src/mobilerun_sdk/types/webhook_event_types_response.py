@@ -27,6 +27,9 @@ class DataSourceEvent(BaseModel):
 
     surfaces: DataSourceEventSurfaces
 
+    title: str
+    """Short human title, as used in integration messages."""
+
     type: str
 
 

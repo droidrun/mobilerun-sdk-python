@@ -74,6 +74,10 @@ class TriggersResource(SyncAPIResource):
         for events, `scheduleRule` and `timezone` for schedules, `customPayloadSchema`
         for custom triggers); mismatched fields are rejected.
 
+        Supports an optional `Idempotency-Key` header (1-255 printable ASCII
+        characters). Replays with the same key and an identical body return the original
+        201; a changed body under the same key returns 422 `idempotency_key_reused`.
+
         Args:
           custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
 
@@ -339,6 +343,16 @@ class TriggersResource(SyncAPIResource):
         Only triggers with `activation = "custom"` can be fired through this endpoint;
         event and schedule triggers return 409.
 
+        Supports an optional `Idempotency-Key` header (1-255 printable ASCII
+        characters), which maps to the derived `invocationId` used for fan-out
+        deduplication (the deprecated `invocationId` body field wins when both are
+        supplied, and a mismatch between them is logged). The payload is bound to the
+        key on the first accepted fire, before fan-out. A repeat with the same key and
+        an identical payload returns 202 with `Idempotent-Replayed: true`
+        (`deduplicated: true` when flows were skipped; `enqueuedCount` counts only
+        executions enqueued by that call); a changed payload under the same key returns
+        422 `idempotency_key_reused`.
+
         Args:
           payload: Arbitrary JSON object forwarded to every flow attached to this trigger.
               Validated against the trigger's customPayloadSchema when one is configured;
@@ -414,6 +428,10 @@ class AsyncTriggersResource(AsyncAPIResource):
         Each type requires its own fields (e.g. `eventType` and optional `conditions`
         for events, `scheduleRule` and `timezone` for schedules, `customPayloadSchema`
         for custom triggers); mismatched fields are rejected.
+
+        Supports an optional `Idempotency-Key` header (1-255 printable ASCII
+        characters). Replays with the same key and an identical body return the original
+        201; a changed body under the same key returns 422 `idempotency_key_reused`.
 
         Args:
           custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
@@ -679,6 +697,16 @@ class AsyncTriggersResource(AsyncAPIResource):
 
         Only triggers with `activation = "custom"` can be fired through this endpoint;
         event and schedule triggers return 409.
+
+        Supports an optional `Idempotency-Key` header (1-255 printable ASCII
+        characters), which maps to the derived `invocationId` used for fan-out
+        deduplication (the deprecated `invocationId` body field wins when both are
+        supplied, and a mismatch between them is logged). The payload is bound to the
+        key on the first accepted fire, before fan-out. A repeat with the same key and
+        an identical payload returns 202 with `Idempotent-Replayed: true`
+        (`deduplicated: true` when flows were skipped; `enqueuedCount` counts only
+        executions enqueued by that call); a changed payload under the same key returns
+        422 `idempotency_key_reused`.
 
         Args:
           payload: Arbitrary JSON object forwarded to every flow attached to this trigger.
