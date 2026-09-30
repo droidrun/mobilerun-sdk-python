@@ -77,9 +77,13 @@ class File(BaseModel):
 
 
 class Quota(BaseModel):
-    current_bytes: int = FieldInfo(alias="currentBytes")
+    included_bytes: Optional[int] = FieldInfo(alias="includedBytes", default=None)
 
-    quota_bytes: int = FieldInfo(alias="quotaBytes")
+    max_bytes: Optional[int] = FieldInfo(alias="maxBytes", default=None)
+
+    overage_allowed: bool = FieldInfo(alias="overageAllowed")
+
+    used_bytes: int = FieldInfo(alias="usedBytes")
 
 
 class FileListResponse(BaseModel):

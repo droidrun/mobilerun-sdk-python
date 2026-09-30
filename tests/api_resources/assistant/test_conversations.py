@@ -42,7 +42,6 @@ class TestConversations:
             title="x",
             agent="x",
             description="description",
-            idempotency_key="Idempotency-Key",
         )
         assert_matches_type(ConversationCreateResponse, conversation, path=["response"])
 
@@ -459,7 +458,6 @@ class TestAsyncConversations:
             title="x",
             agent="x",
             description="description",
-            idempotency_key="Idempotency-Key",
         )
         assert_matches_type(ConversationCreateResponse, conversation, path=["response"])
 

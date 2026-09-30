@@ -16,8 +16,22 @@ from .deliveries import (
     DeliveriesResourceWithStreamingResponse,
     AsyncDeliveriesResourceWithStreamingResponse,
 )
+from .integrations import (
+    IntegrationsResource,
+    AsyncIntegrationsResource,
+    IntegrationsResourceWithRawResponse,
+    AsyncIntegrationsResourceWithRawResponse,
+    IntegrationsResourceWithStreamingResponse,
+    AsyncIntegrationsResourceWithStreamingResponse,
+)
 
 __all__ = [
+    "IntegrationsResource",
+    "AsyncIntegrationsResource",
+    "IntegrationsResourceWithRawResponse",
+    "AsyncIntegrationsResourceWithRawResponse",
+    "IntegrationsResourceWithStreamingResponse",
+    "AsyncIntegrationsResourceWithStreamingResponse",
     "DeliveriesResource",
     "AsyncDeliveriesResource",
     "DeliveriesResourceWithRawResponse",

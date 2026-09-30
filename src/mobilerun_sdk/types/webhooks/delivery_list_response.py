@@ -30,7 +30,16 @@ class Item(BaseModel):
 
     endpoint_id: str = FieldInfo(alias="endpointId")
 
-    endpoint_url: str = FieldInfo(alias="endpointUrl")
+    endpoint_kind: Literal["http", "integration"] = FieldInfo(alias="endpointKind")
+
+    endpoint_label: Optional[str] = FieldInfo(alias="endpointLabel", default=None)
+    """Integration target label of the parent webhook (e.g.
+
+    `#ops`); null for `http` webhooks.
+    """
+
+    endpoint_url: Optional[str] = FieldInfo(alias="endpointUrl", default=None)
+    """Delivery URL of the parent webhook; null for `integration` webhooks."""
 
     event_id: str = FieldInfo(alias="eventId")
 

@@ -134,6 +134,7 @@ class AppsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> AppAddToWorkspaceResponse:
         """
         Installs a published store app into the caller's workspace — the existing
@@ -147,13 +148,19 @@ class AppsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not app_id:
             raise ValueError(f"Expected a non-empty value for `app_id` but received {app_id!r}")
         return self._post(
             path_template("/store/apps/{app_id}/add", app_id=app_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=AppAddToWorkspaceResponse,
         )
@@ -270,6 +277,7 @@ class AsyncAppsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> AppAddToWorkspaceResponse:
         """
         Installs a published store app into the caller's workspace — the existing
@@ -283,13 +291,19 @@ class AsyncAppsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not app_id:
             raise ValueError(f"Expected a non-empty value for `app_id` but received {app_id!r}")
         return await self._post(
             path_template("/store/apps/{app_id}/add", app_id=app_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=AppAddToWorkspaceResponse,
         )

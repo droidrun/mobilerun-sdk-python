@@ -10,6 +10,7 @@ import pytest
 from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
 from mobilerun_sdk.types import AppEventListResponse, AppEventRetrieveResponse
+from mobilerun_sdk._utils import parse_datetime
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -71,11 +72,11 @@ class TestAppEvents:
         app_event = client.app_events.list(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             event_type="eventType",
-            from_="from",
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
             page=1,
             page_size=1,
             source="app",
-            to="to",
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(AppEventListResponse, app_event, path=["response"])
 
@@ -161,11 +162,11 @@ class TestAsyncAppEvents:
         app_event = await async_client.app_events.list(
             device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             event_type="eventType",
-            from_="from",
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
             page=1,
             page_size=1,
             source="app",
-            to="to",
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(AppEventListResponse, app_event, path=["response"])
 

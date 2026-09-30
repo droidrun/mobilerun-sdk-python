@@ -1,13 +1,38 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["TriggerUpdateResponse", "Data"]
+__all__ = ["TriggerUpdateResponse", "Data", "DataScheduleRule", "DataScheduleRuleJitter"]
+
+
+class DataScheduleRuleJitter(BaseModel):
+    """Optional per-occurrence random window around the nominal schedule time"""
+
+    after_minutes: Optional[int] = FieldInfo(alias="afterMinutes", default=None)
+
+    before_minutes: Optional[int] = FieldInfo(alias="beforeMinutes", default=None)
+
+
+class DataScheduleRule(BaseModel):
+    type: Literal["once", "cron", "recurring"]
+
+    date_time: Optional[str] = FieldInfo(alias="dateTime", default=None)
+    """ISO 8601 datetime (for type=once)"""
+
+    expression: Optional[str] = None
+    """Cron expression (for type=cron)"""
+
+    jitter: Optional[DataScheduleRuleJitter] = None
+    """Optional per-occurrence random window around the nominal schedule time"""
+
+    rrule: Optional[str] = None
+    """RRULE string (for type=recurring)"""
 
 
 class Data(BaseModel):
@@ -15,7 +40,7 @@ class Data(BaseModel):
 
     activation: Literal["event", "schedule", "custom"]
 
-    created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
 
@@ -29,11 +54,11 @@ class Data(BaseModel):
 
     owner_id: str = FieldInfo(alias="ownerId")
 
-    schedule_rule: object = FieldInfo(alias="scheduleRule")
+    schedule_rule: DataScheduleRule = FieldInfo(alias="scheduleRule")
 
     timezone: Optional[str] = None
 
-    updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
+    updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
     user_id: str = FieldInfo(alias="userId")
     """Deprecated: use ownerId (tenancy) / createdBy (actor)."""

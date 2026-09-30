@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -29,7 +30,7 @@ class Data(BaseModel):
 
     chat_session_id: Optional[str] = FieldInfo(alias="chatSessionId", default=None)
 
-    created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     device_id: Optional[str] = FieldInfo(alias="deviceId", default=None)
 
@@ -39,7 +40,7 @@ class Data(BaseModel):
 
     failed_step_index: int = FieldInfo(alias="failedStepIndex")
 
-    finished_at: Optional[str] = FieldInfo(alias="finishedAt", default=None)
+    finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
 
     flow_id: str = FieldInfo(alias="flowId")
 
@@ -49,11 +50,11 @@ class Data(BaseModel):
 
     source_execution_id: str = FieldInfo(alias="sourceExecutionId")
 
-    started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
+    started_at: Optional[datetime] = FieldInfo(alias="startedAt", default=None)
 
     status: Literal["pending", "running", "canary", "promoting", "repaired", "failed", "escalated"]
 
-    updated_at: Optional[str] = FieldInfo(alias="updatedAt", default=None)
+    updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
     verdict: Optional[DataVerdict] = None
 

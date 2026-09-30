@@ -16,8 +16,22 @@ from .mailboxes import (
     MailboxesResourceWithStreamingResponse,
     AsyncMailboxesResourceWithStreamingResponse,
 )
+from .connections import (
+    ConnectionsResource,
+    AsyncConnectionsResource,
+    ConnectionsResourceWithRawResponse,
+    AsyncConnectionsResourceWithRawResponse,
+    ConnectionsResourceWithStreamingResponse,
+    AsyncConnectionsResourceWithStreamingResponse,
+)
 
 __all__ = [
+    "ConnectionsResource",
+    "AsyncConnectionsResource",
+    "ConnectionsResourceWithRawResponse",
+    "AsyncConnectionsResourceWithRawResponse",
+    "ConnectionsResourceWithStreamingResponse",
+    "AsyncConnectionsResourceWithStreamingResponse",
     "MessagesResource",
     "AsyncMessagesResource",
     "MessagesResourceWithRawResponse",

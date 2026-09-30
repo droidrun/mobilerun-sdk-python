@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import typing_extensions
 from typing import List, Union, Optional
 from datetime import datetime
 from typing_extensions import Literal
@@ -56,7 +57,13 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
-from ...types import device_list_params, device_create_params, device_set_name_params, device_terminate_params
+from ...types import (
+    device_list_params,
+    device_create_params,
+    device_summary_params,
+    device_set_name_params,
+    device_terminate_params,
+)
 from .actions import (
     ActionsResource,
     AsyncActionsResource,
@@ -184,6 +191,7 @@ from ...types.device_list_response import DeviceListResponse
 from ...types.device_count_response import DeviceCountResponse
 from ...types.device_create_response import DeviceCreateResponse
 from ...types.shared_params.location import Location
+from ...types.device_summary_response import DeviceSummaryResponse
 from ...types.device_retrieve_response import DeviceRetrieveResponse
 from ...types.device_set_name_response import DeviceSetNameResponse
 from ...types.device_wait_ready_response import DeviceWaitReadyResponse
@@ -300,14 +308,7 @@ class DevicesResource(SyncAPIResource):
         *,
         billing: Literal["auto", "subscription", "minute"] | Omit = omit,
         query_country: str | Omit = omit,
-        device_type: Literal[
-            "android_cloud_phone",
-            "dedicated_premium_device",
-            "dedicated_physical_device",
-            "dedicated_ios_device",
-            "dedicated_emulated_device",
-        ]
-        | Omit = omit,
+        device_type: str | Omit = omit,
         profile_id: str | Omit = omit,
         android_version: int | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -326,28 +327,31 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> DeviceCreateResponse:
-        """
-        Requests a new device for the authenticated user from the device spec in the
-        request body. Optional query parameters select the canonical device type, target
-        country, billing mode, and a profile to use as the base spec; deprecated
-        device-type aliases remain accepted only during the documented compatibility
-        grace period. The response returns the device and its stream token.
+        """Requests a new device from the specification in the request body.
+
+        Optional query
+        parameters select the canonical device type, country, billing mode, and base
+        profile. Returns the device, its resolved billing strategy, and its stream
+        token.
 
         Args:
-          billing: Billing mode. 'auto' uses a subscription slot when available and otherwise bills
-              per minute; 'subscription' requires an available subscription slot; 'minute'
-              bills per minute. Only cloud phone and cloud emulator devices support per-minute
-              billing.
+          billing: Billing mode. 'auto' tries subscription first, then minute billing if no
+              subscription entitlement exists or all subscription slots are in use, provided
+              minute billing is enabled. When subscription billing is disabled, auto uses
+              minutes directly. Billing-service failures never trigger fallback.
+              'subscription' requires an available subscription slot and never falls back.
+              'minute' uses minute billing only, subject to balance and concurrency checks.
+              Modes depend on the device type's billing configuration.
 
           query_country: ISO 3166-1 alpha-2 country code. If omitted the system picks the country with
               the most availability.
 
-          device_type:
-              Deprecated device type aliases are accepted during a compatibility grace period:
-              dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
-              maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
-              and dedicated_emulated_device maps to android_emulator.
+          device_type: Use android*cloud_phone for a cloud Android phone. Only canonical identifiers
+              are accepted. Other backends are deployment-specific; recognized but unavailable
+              types return DEVICE_TYPE_UNAVAILABLE (422). Retired dedicated*\\** aliases are
+              rejected with a canonical replacement.
 
           profile_id: Profile ID to use as device spec
 
@@ -358,6 +362,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/devices",
@@ -382,6 +388,7 @@ class DevicesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
+                idempotency_key=idempotency_key,
                 query=maybe_transform(
                     {
                         "billing": billing,
@@ -441,6 +448,7 @@ class DevicesResource(SyncAPIResource):
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        platform: Literal["android", "ios"] | Omit = omit,
         provider_id: str | Omit = omit,
         state: Optional[
             List[
@@ -461,10 +469,11 @@ class DevicesResource(SyncAPIResource):
         | Omit = omit,
         type: Literal[
             "android_cloud_phone",
-            "dedicated_premium_device",
-            "dedicated_physical_device",
-            "dedicated_ios_device",
-            "dedicated_emulated_device",
+            "android_physical_phone",
+            "ios_stealth_phone",
+            "android_emulator",
+            "ios_simulator",
+            "device_slot",
         ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -483,11 +492,11 @@ class DevicesResource(SyncAPIResource):
           mine: When true, only return devices created by the calling user (resolved from
               X-User-ID, never a client-supplied id).
 
-          type:
-              Deprecated device type aliases are accepted during a compatibility grace period:
-              dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
-              maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
-              and dedicated_emulated_device maps to android_emulator.
+          platform: Filter by the device's platform as served in the platform field (runtime,
+              announced, else type-derived).
+
+          type: Canonical device type. Retired dedicated\\__\\** aliases are no longer accepted.
+              Availability depends on the deployment.
 
           extra_headers: Send extra headers
 
@@ -514,6 +523,7 @@ class DevicesResource(SyncAPIResource):
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
+                        "platform": platform,
                         "provider_id": provider_id,
                         "state": state,
                         "type": type,
@@ -524,6 +534,7 @@ class DevicesResource(SyncAPIResource):
             cast_to=DeviceListResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     def count(
         self,
         *,
@@ -534,7 +545,12 @@ class DevicesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeviceCountResponse:
-        """Returns the number of claimed devices for the user, broken down by device type."""
+        """Deprecated: use GET /devices/summary instead.
+
+        Returns the number of active
+        claimed devices for the user, broken down by device type, in the legacy response
+        shape.
+        """
         return self._get(
             "/devices/count",
             options=make_request_options(
@@ -595,6 +611,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """Triggers a reboot of the device.
 
@@ -609,6 +626,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -616,7 +635,11 @@ class DevicesResource(SyncAPIResource):
         return self._post(
             path_template("/devices/{device_id}/reboot", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -631,6 +654,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Resets the device back to a clean state, clearing installed apps and user data
@@ -645,6 +669,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -652,7 +678,11 @@ class DevicesResource(SyncAPIResource):
         return self._post(
             path_template("/devices/{device_id}/reset", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -667,6 +697,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Wakes a parked device: backend readiness and any required capacity are
@@ -681,6 +712,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -688,7 +721,11 @@ class DevicesResource(SyncAPIResource):
         return self._post(
             path_template("/devices/{device_id}/resume", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -742,6 +779,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> DeviceSetNameResponse:
         """
         Sets the display name for a device from the name in the request body and returns
@@ -755,6 +793,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -762,7 +802,11 @@ class DevicesResource(SyncAPIResource):
             path_template("/devices/{device_id}/name", device_id=device_id),
             body=maybe_transform({"name": name}, device_set_name_params.DeviceSetNameParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=DeviceSetNameResponse,
         )
@@ -777,6 +821,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Parks the device: its data, apps and identity are kept, but nothing runs and
@@ -791,6 +836,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -798,9 +845,65 @@ class DevicesResource(SyncAPIResource):
         return self._post(
             path_template("/devices/{device_id}/stop", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
+        )
+
+    def summary(
+        self,
+        *,
+        state: Optional[
+            List[
+                Literal[
+                    "creating",
+                    "assigned",
+                    "ready",
+                    "rebooting",
+                    "migrating",
+                    "resetting",
+                    "terminated",
+                    "maintenance",
+                    "stopped",
+                    "unknown",
+                ]
+            ]
+        ]
+        | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> DeviceSummaryResponse:
+        """
+        Returns the total number of the user's devices and counts grouped by current
+        state and device type.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/devices/summary",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"state": state}, device_summary_params.DeviceSummaryParams),
+            ),
+            cast_to=DeviceSummaryResponse,
         )
 
     def terminate(
@@ -815,6 +918,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """Terminates the device and releases its resources.
 
@@ -830,6 +934,8 @@ class DevicesResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -844,7 +950,11 @@ class DevicesResource(SyncAPIResource):
                 device_terminate_params.DeviceTerminateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -990,14 +1100,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         *,
         billing: Literal["auto", "subscription", "minute"] | Omit = omit,
         query_country: str | Omit = omit,
-        device_type: Literal[
-            "android_cloud_phone",
-            "dedicated_premium_device",
-            "dedicated_physical_device",
-            "dedicated_ios_device",
-            "dedicated_emulated_device",
-        ]
-        | Omit = omit,
+        device_type: str | Omit = omit,
         profile_id: str | Omit = omit,
         android_version: int | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -1016,28 +1119,31 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> DeviceCreateResponse:
-        """
-        Requests a new device for the authenticated user from the device spec in the
-        request body. Optional query parameters select the canonical device type, target
-        country, billing mode, and a profile to use as the base spec; deprecated
-        device-type aliases remain accepted only during the documented compatibility
-        grace period. The response returns the device and its stream token.
+        """Requests a new device from the specification in the request body.
+
+        Optional query
+        parameters select the canonical device type, country, billing mode, and base
+        profile. Returns the device, its resolved billing strategy, and its stream
+        token.
 
         Args:
-          billing: Billing mode. 'auto' uses a subscription slot when available and otherwise bills
-              per minute; 'subscription' requires an available subscription slot; 'minute'
-              bills per minute. Only cloud phone and cloud emulator devices support per-minute
-              billing.
+          billing: Billing mode. 'auto' tries subscription first, then minute billing if no
+              subscription entitlement exists or all subscription slots are in use, provided
+              minute billing is enabled. When subscription billing is disabled, auto uses
+              minutes directly. Billing-service failures never trigger fallback.
+              'subscription' requires an available subscription slot and never falls back.
+              'minute' uses minute billing only, subject to balance and concurrency checks.
+              Modes depend on the device type's billing configuration.
 
           query_country: ISO 3166-1 alpha-2 country code. If omitted the system picks the country with
               the most availability.
 
-          device_type:
-              Deprecated device type aliases are accepted during a compatibility grace period:
-              dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
-              maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
-              and dedicated_emulated_device maps to android_emulator.
+          device_type: Use android*cloud_phone for a cloud Android phone. Only canonical identifiers
+              are accepted. Other backends are deployment-specific; recognized but unavailable
+              types return DEVICE_TYPE_UNAVAILABLE (422). Retired dedicated*\\** aliases are
+              rejected with a canonical replacement.
 
           profile_id: Profile ID to use as device spec
 
@@ -1048,6 +1154,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/devices",
@@ -1072,6 +1180,7 @@ class AsyncDevicesResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
+                idempotency_key=idempotency_key,
                 query=await async_maybe_transform(
                     {
                         "billing": billing,
@@ -1131,6 +1240,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        platform: Literal["android", "ios"] | Omit = omit,
         provider_id: str | Omit = omit,
         state: Optional[
             List[
@@ -1151,10 +1261,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         | Omit = omit,
         type: Literal[
             "android_cloud_phone",
-            "dedicated_premium_device",
-            "dedicated_physical_device",
-            "dedicated_ios_device",
-            "dedicated_emulated_device",
+            "android_physical_phone",
+            "ios_stealth_phone",
+            "android_emulator",
+            "ios_simulator",
+            "device_slot",
         ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1173,11 +1284,11 @@ class AsyncDevicesResource(AsyncAPIResource):
           mine: When true, only return devices created by the calling user (resolved from
               X-User-ID, never a client-supplied id).
 
-          type:
-              Deprecated device type aliases are accepted during a compatibility grace period:
-              dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
-              maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
-              and dedicated_emulated_device maps to android_emulator.
+          platform: Filter by the device's platform as served in the platform field (runtime,
+              announced, else type-derived).
+
+          type: Canonical device type. Retired dedicated\\__\\** aliases are no longer accepted.
+              Availability depends on the deployment.
 
           extra_headers: Send extra headers
 
@@ -1204,6 +1315,7 @@ class AsyncDevicesResource(AsyncAPIResource):
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
+                        "platform": platform,
                         "provider_id": provider_id,
                         "state": state,
                         "type": type,
@@ -1214,6 +1326,7 @@ class AsyncDevicesResource(AsyncAPIResource):
             cast_to=DeviceListResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     async def count(
         self,
         *,
@@ -1224,7 +1337,12 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeviceCountResponse:
-        """Returns the number of claimed devices for the user, broken down by device type."""
+        """Deprecated: use GET /devices/summary instead.
+
+        Returns the number of active
+        claimed devices for the user, broken down by device type, in the legacy response
+        shape.
+        """
         return await self._get(
             "/devices/count",
             options=make_request_options(
@@ -1285,6 +1403,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """Triggers a reboot of the device.
 
@@ -1299,6 +1418,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -1306,7 +1427,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         return await self._post(
             path_template("/devices/{device_id}/reboot", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -1321,6 +1446,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Resets the device back to a clean state, clearing installed apps and user data
@@ -1335,6 +1461,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -1342,7 +1470,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         return await self._post(
             path_template("/devices/{device_id}/reset", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -1357,6 +1489,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Wakes a parked device: backend readiness and any required capacity are
@@ -1371,6 +1504,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -1378,7 +1513,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         return await self._post(
             path_template("/devices/{device_id}/resume", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -1432,6 +1571,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> DeviceSetNameResponse:
         """
         Sets the display name for a device from the name in the request body and returns
@@ -1445,6 +1585,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -1452,7 +1594,11 @@ class AsyncDevicesResource(AsyncAPIResource):
             path_template("/devices/{device_id}/name", device_id=device_id),
             body=await async_maybe_transform({"name": name}, device_set_name_params.DeviceSetNameParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=DeviceSetNameResponse,
         )
@@ -1467,6 +1613,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Parks the device: its data, apps and identity are kept, but nothing runs and
@@ -1481,6 +1628,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -1488,9 +1637,65 @@ class AsyncDevicesResource(AsyncAPIResource):
         return await self._post(
             path_template("/devices/{device_id}/stop", device_id=device_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
+        )
+
+    async def summary(
+        self,
+        *,
+        state: Optional[
+            List[
+                Literal[
+                    "creating",
+                    "assigned",
+                    "ready",
+                    "rebooting",
+                    "migrating",
+                    "resetting",
+                    "terminated",
+                    "maintenance",
+                    "stopped",
+                    "unknown",
+                ]
+            ]
+        ]
+        | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> DeviceSummaryResponse:
+        """
+        Returns the total number of the user's devices and counts grouped by current
+        state and device type.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/devices/summary",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"state": state}, device_summary_params.DeviceSummaryParams),
+            ),
+            cast_to=DeviceSummaryResponse,
         )
 
     async def terminate(
@@ -1505,6 +1710,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """Terminates the device and releases its resources.
 
@@ -1520,6 +1726,8 @@ class AsyncDevicesResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not device_id:
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
@@ -1534,7 +1742,11 @@ class AsyncDevicesResource(AsyncAPIResource):
                 device_terminate_params.DeviceTerminateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -1588,8 +1800,10 @@ class DevicesResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             devices.list,
         )
-        self.count = to_raw_response_wrapper(
-            devices.count,
+        self.count = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                devices.count,  # pyright: ignore[reportDeprecated],
+            )
         )
         self.fingerprint = to_raw_response_wrapper(
             devices.fingerprint,
@@ -1611,6 +1825,9 @@ class DevicesResourceWithRawResponse:
         )
         self.stop = to_raw_response_wrapper(
             devices.stop,
+        )
+        self.summary = to_raw_response_wrapper(
+            devices.summary,
         )
         self.terminate = to_raw_response_wrapper(
             devices.terminate,
@@ -1713,8 +1930,10 @@ class AsyncDevicesResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             devices.list,
         )
-        self.count = async_to_raw_response_wrapper(
-            devices.count,
+        self.count = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                devices.count,  # pyright: ignore[reportDeprecated],
+            )
         )
         self.fingerprint = async_to_raw_response_wrapper(
             devices.fingerprint,
@@ -1736,6 +1955,9 @@ class AsyncDevicesResourceWithRawResponse:
         )
         self.stop = async_to_raw_response_wrapper(
             devices.stop,
+        )
+        self.summary = async_to_raw_response_wrapper(
+            devices.summary,
         )
         self.terminate = async_to_raw_response_wrapper(
             devices.terminate,
@@ -1838,8 +2060,10 @@ class DevicesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             devices.list,
         )
-        self.count = to_streamed_response_wrapper(
-            devices.count,
+        self.count = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                devices.count,  # pyright: ignore[reportDeprecated],
+            )
         )
         self.fingerprint = to_streamed_response_wrapper(
             devices.fingerprint,
@@ -1861,6 +2085,9 @@ class DevicesResourceWithStreamingResponse:
         )
         self.stop = to_streamed_response_wrapper(
             devices.stop,
+        )
+        self.summary = to_streamed_response_wrapper(
+            devices.summary,
         )
         self.terminate = to_streamed_response_wrapper(
             devices.terminate,
@@ -1963,8 +2190,10 @@ class AsyncDevicesResourceWithStreamingResponse:
         self.list = async_to_streamed_response_wrapper(
             devices.list,
         )
-        self.count = async_to_streamed_response_wrapper(
-            devices.count,
+        self.count = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                devices.count,  # pyright: ignore[reportDeprecated],
+            )
         )
         self.fingerprint = async_to_streamed_response_wrapper(
             devices.fingerprint,
@@ -1986,6 +2215,9 @@ class AsyncDevicesResourceWithStreamingResponse:
         )
         self.stop = async_to_streamed_response_wrapper(
             devices.stop,
+        )
+        self.summary = async_to_streamed_response_wrapper(
+            devices.summary,
         )
         self.terminate = async_to_streamed_response_wrapper(
             devices.terminate,

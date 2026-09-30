@@ -8,7 +8,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -71,26 +71,23 @@ class ConversationsResource(SyncAPIResource):
         title: str,
         agent: str | Omit = omit,
         description: str | Omit = omit,
-        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationCreateResponse:
         """Creates a titled agent session.
 
         Setup may occur on the first prompt. Idempotent
         via the `Idempotency-Key` header — a duplicate submit by the same authenticated
         caller within the 24-hour idempotency window returns the already-created session
-        instead of a second one.
+        instead of a second one. Reusing the same key with a different request body is a
+        422 `idempotency_key_reused`.
 
         Args:
-          idempotency_key: Optional client key. Reusing the same key with the same request body by the same
-              authenticated caller within 24 hours returns the already-created session instead
-              of a second one.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -98,8 +95,9 @@ class ConversationsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
-        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return self._post(
             "/assistant/chat/sessions",
             body=maybe_transform(
@@ -111,7 +109,11 @@ class ConversationsResource(SyncAPIResource):
                 conversation_create_params.ConversationCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationCreateResponse,
         )
@@ -130,6 +132,7 @@ class ConversationsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationUpdateResponse:
         """Rename, change status, and/or pin.
 
@@ -148,6 +151,8 @@ class ConversationsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
@@ -163,7 +168,11 @@ class ConversationsResource(SyncAPIResource):
                 conversation_update_params.ConversationUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationUpdateResponse,
         )
@@ -228,6 +237,7 @@ class ConversationsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationAbortResponse:
         """Abort the in-flight chat turn owned by `sessionId`.
 
@@ -242,6 +252,8 @@ class ConversationsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/assistant/chat/abort",
@@ -253,7 +265,11 @@ class ConversationsResource(SyncAPIResource):
                 conversation_abort_params.ConversationAbortParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationAbortResponse,
         )
@@ -269,6 +285,7 @@ class ConversationsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationAnswerPermissionResponse:
         """Deliver a HITL approval/rejection for an in-flight turn.
 
@@ -287,6 +304,8 @@ class ConversationsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/assistant/chat/permission",
@@ -298,7 +317,11 @@ class ConversationsResource(SyncAPIResource):
                 conversation_answer_permission_params.ConversationAnswerPermissionParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationAnswerPermissionResponse,
         )
@@ -314,6 +337,7 @@ class ConversationsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationAnswerQuestionResponse:
         """Deliver the user's answers to the agent's pending question for an in-flight
         turn.
@@ -328,6 +352,8 @@ class ConversationsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/assistant/chat/question",
@@ -339,7 +365,11 @@ class ConversationsResource(SyncAPIResource):
                 conversation_answer_question_params.ConversationAnswerQuestionParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationAnswerQuestionResponse,
         )
@@ -398,6 +428,7 @@ class ConversationsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationRejectQuestionResponse:
         """Dismiss the agent's pending question.
 
@@ -412,6 +443,8 @@ class ConversationsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/assistant/chat/question/reject",
@@ -419,7 +452,11 @@ class ConversationsResource(SyncAPIResource):
                 {"question_id": question_id}, conversation_reject_question_params.ConversationRejectQuestionParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationRejectQuestionResponse,
         )
@@ -436,6 +473,7 @@ class ConversationsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationSendResponse:
         """Send a single user message.
 
@@ -456,6 +494,8 @@ class ConversationsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/assistant/chat/message",
@@ -468,7 +508,11 @@ class ConversationsResource(SyncAPIResource):
                 conversation_send_params.ConversationSendParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationSendResponse,
         )
@@ -543,26 +587,23 @@ class AsyncConversationsResource(AsyncAPIResource):
         title: str,
         agent: str | Omit = omit,
         description: str | Omit = omit,
-        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationCreateResponse:
         """Creates a titled agent session.
 
         Setup may occur on the first prompt. Idempotent
         via the `Idempotency-Key` header — a duplicate submit by the same authenticated
         caller within the 24-hour idempotency window returns the already-created session
-        instead of a second one.
+        instead of a second one. Reusing the same key with a different request body is a
+        422 `idempotency_key_reused`.
 
         Args:
-          idempotency_key: Optional client key. Reusing the same key with the same request body by the same
-              authenticated caller within 24 hours returns the already-created session instead
-              of a second one.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -570,8 +611,9 @@ class AsyncConversationsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
-        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return await self._post(
             "/assistant/chat/sessions",
             body=await async_maybe_transform(
@@ -583,7 +625,11 @@ class AsyncConversationsResource(AsyncAPIResource):
                 conversation_create_params.ConversationCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationCreateResponse,
         )
@@ -602,6 +648,7 @@ class AsyncConversationsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationUpdateResponse:
         """Rename, change status, and/or pin.
 
@@ -620,6 +667,8 @@ class AsyncConversationsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
@@ -635,7 +684,11 @@ class AsyncConversationsResource(AsyncAPIResource):
                 conversation_update_params.ConversationUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationUpdateResponse,
         )
@@ -700,6 +753,7 @@ class AsyncConversationsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationAbortResponse:
         """Abort the in-flight chat turn owned by `sessionId`.
 
@@ -714,6 +768,8 @@ class AsyncConversationsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/assistant/chat/abort",
@@ -725,7 +781,11 @@ class AsyncConversationsResource(AsyncAPIResource):
                 conversation_abort_params.ConversationAbortParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationAbortResponse,
         )
@@ -741,6 +801,7 @@ class AsyncConversationsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationAnswerPermissionResponse:
         """Deliver a HITL approval/rejection for an in-flight turn.
 
@@ -759,6 +820,8 @@ class AsyncConversationsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/assistant/chat/permission",
@@ -770,7 +833,11 @@ class AsyncConversationsResource(AsyncAPIResource):
                 conversation_answer_permission_params.ConversationAnswerPermissionParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationAnswerPermissionResponse,
         )
@@ -786,6 +853,7 @@ class AsyncConversationsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationAnswerQuestionResponse:
         """Deliver the user's answers to the agent's pending question for an in-flight
         turn.
@@ -800,6 +868,8 @@ class AsyncConversationsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/assistant/chat/question",
@@ -811,7 +881,11 @@ class AsyncConversationsResource(AsyncAPIResource):
                 conversation_answer_question_params.ConversationAnswerQuestionParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationAnswerQuestionResponse,
         )
@@ -870,6 +944,7 @@ class AsyncConversationsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationRejectQuestionResponse:
         """Dismiss the agent's pending question.
 
@@ -884,6 +959,8 @@ class AsyncConversationsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/assistant/chat/question/reject",
@@ -891,7 +968,11 @@ class AsyncConversationsResource(AsyncAPIResource):
                 {"question_id": question_id}, conversation_reject_question_params.ConversationRejectQuestionParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationRejectQuestionResponse,
         )
@@ -908,6 +989,7 @@ class AsyncConversationsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConversationSendResponse:
         """Send a single user message.
 
@@ -928,6 +1010,8 @@ class AsyncConversationsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/assistant/chat/message",
@@ -940,7 +1024,11 @@ class AsyncConversationsResource(AsyncAPIResource):
                 conversation_send_params.ConversationSendParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConversationSendResponse,
         )

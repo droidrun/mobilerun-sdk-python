@@ -60,6 +60,7 @@ class FieldsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FieldCreateResponse:
         """Adds a single field to an existing credential.
 
@@ -75,6 +76,8 @@ class FieldsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
@@ -94,7 +97,11 @@ class FieldsResource(SyncAPIResource):
                 field_create_params.FieldCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FieldCreateResponse,
         )
@@ -114,6 +121,7 @@ class FieldsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FieldUpdateResponse:
         """
         Updates the value of an existing field on a credential, identified by
@@ -128,6 +136,8 @@ class FieldsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
@@ -144,7 +154,11 @@ class FieldsResource(SyncAPIResource):
             ),
             body=maybe_transform({"value": value}, field_update_params.FieldUpdateParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FieldUpdateResponse,
         )
@@ -163,6 +177,7 @@ class FieldsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FieldDeleteResponse:
         """
         Removes a single field of the given `fieldType` from the specified credential
@@ -176,6 +191,8 @@ class FieldsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
@@ -191,7 +208,11 @@ class FieldsResource(SyncAPIResource):
                 field_type=field_type,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FieldDeleteResponse,
         )
@@ -232,6 +253,7 @@ class AsyncFieldsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FieldCreateResponse:
         """Adds a single field to an existing credential.
 
@@ -247,6 +269,8 @@ class AsyncFieldsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
@@ -266,7 +290,11 @@ class AsyncFieldsResource(AsyncAPIResource):
                 field_create_params.FieldCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FieldCreateResponse,
         )
@@ -286,6 +314,7 @@ class AsyncFieldsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FieldUpdateResponse:
         """
         Updates the value of an existing field on a credential, identified by
@@ -300,6 +329,8 @@ class AsyncFieldsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
@@ -316,7 +347,11 @@ class AsyncFieldsResource(AsyncAPIResource):
             ),
             body=await async_maybe_transform({"value": value}, field_update_params.FieldUpdateParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FieldUpdateResponse,
         )
@@ -335,6 +370,7 @@ class AsyncFieldsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> FieldDeleteResponse:
         """
         Removes a single field of the given `fieldType` from the specified credential
@@ -348,6 +384,8 @@ class AsyncFieldsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
@@ -363,7 +401,11 @@ class AsyncFieldsResource(AsyncAPIResource):
                 field_type=field_type,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=FieldDeleteResponse,
         )
