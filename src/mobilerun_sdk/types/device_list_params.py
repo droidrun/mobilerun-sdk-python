@@ -52,15 +52,10 @@ class DeviceListParams(TypedDict, total=False):
     ]
 
     type: Literal[
-        "android_cloud_phone",
-        "dedicated_premium_device",
-        "dedicated_physical_device",
-        "dedicated_ios_device",
-        "dedicated_emulated_device",
+        "android_cloud_phone", "android_physical_phone", "ios_stealth_phone", "android_emulator", "ios_simulator"
     ]
-    """
-    Deprecated device type aliases are accepted during a compatibility grace period:
-    dedicated_premium_device maps to android_cloud_phone, dedicated_physical_device
-    maps to android_physical_phone, dedicated_ios_device maps to ios_stealth_phone,
-    and dedicated_emulated_device maps to android_emulator.
+    """Canonical device type.
+
+    Retired dedicated\\__\\** aliases are no longer accepted. Availability depends on
+    the deployment.
     """

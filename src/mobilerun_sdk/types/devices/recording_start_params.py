@@ -25,7 +25,9 @@ class RecordingStartParams(TypedDict, total=False):
 
     types: Optional[SequenceNotStr[str]]
     """
-    Artifacts to capture: trajectory (input actions), video, and audio (captured
+    Artifacts to capture: trajectory (input actions; on portal stream-bridge devices
+    only when the handset announces trajectory capture), video, and audio (captured
     into the video artifact, so it requires video; honored by portal stream-bridge
-    recorders). Defaults to trajectory and video.
+    recorders). Defaults to trajectory and video, narrowed to what the device
+    produces.
     """

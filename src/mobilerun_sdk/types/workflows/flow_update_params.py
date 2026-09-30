@@ -8,13 +8,15 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 
-__all__ = ["FlowUpdateParams", "RecordingPolicy"]
+__all__ = ["FlowUpdateParams", "Delivery", "DeliveryRecording", "RecordingPolicy"]
 
 
 class FlowUpdateParams(TypedDict, total=False):
     cooldown_scope: Annotated[Literal["flow", "device"], PropertyInfo(alias="cooldownScope")]
 
     cooldown_seconds: Annotated[Optional[int], PropertyInfo(alias="cooldownSeconds")]
+
+    delivery: Optional[Delivery]
 
     description: str
 
@@ -48,6 +50,20 @@ class FlowUpdateParams(TypedDict, total=False):
     self_healing_max_attempts: Annotated[int, PropertyInfo(alias="selfHealingMaxAttempts")]
 
     trigger_id: Annotated[str, PropertyInfo(alias="triggerId")]
+
+
+class DeliveryRecording(TypedDict, total=False):
+    filename: Required[str]
+
+
+class Delivery(TypedDict, total=False):
+    destination: Required[Literal["one_drive", "google_drive"]]
+
+    folder: str
+
+    recording: DeliveryRecording
+
+    screenshots: object
 
 
 class RecordingPolicy(TypedDict, total=False):

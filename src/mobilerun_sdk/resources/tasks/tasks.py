@@ -9,7 +9,7 @@ import httpx
 
 from ...types import task_run_params, task_list_params, task_run_streamed_params, task_send_message_params
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
-from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from .ui_states import (
     UiStatesResource,
@@ -301,13 +301,13 @@ class TasksResource(SyncAPIResource):
         temperature: float | Omit = omit,
         vision: bool | Omit = omit,
         vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
-        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TaskRunResponse:
         """Create and dispatch a new agent task.
 
@@ -321,7 +321,7 @@ class TasksResource(SyncAPIResource):
 
           execution_timeout: Maximum agent execution time in seconds (1–2700).
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')
+          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -339,8 +339,9 @@ class TasksResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
-        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return self._post(
             "/tasks",
             body=maybe_transform(
@@ -369,7 +370,11 @@ class TasksResource(SyncAPIResource):
                 task_run_params.TaskRunParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TaskRunResponse,
         )
@@ -403,6 +408,7 @@ class TasksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> object:
         """
         Create and dispatch a new agent task, returning an SSE stream of task events.
@@ -415,7 +421,7 @@ class TasksResource(SyncAPIResource):
 
           execution_timeout: Maximum agent execution time in seconds (1–2700).
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')
+          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -433,6 +439,8 @@ class TasksResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/tasks/stream",
@@ -462,7 +470,11 @@ class TasksResource(SyncAPIResource):
                 task_run_streamed_params.TaskRunStreamedParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=object,
         )
@@ -478,6 +490,7 @@ class TasksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TaskSendMessageResponse:
         """Send a message to a running agent task.
 
@@ -494,6 +507,8 @@ class TasksResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
@@ -501,7 +516,11 @@ class TasksResource(SyncAPIResource):
             path_template("/tasks/{task_id}/message", task_id=task_id),
             body=maybe_transform({"message": message}, task_send_message_params.TaskSendMessageParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TaskSendMessageResponse,
         )
@@ -516,6 +535,7 @@ class TasksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TaskStopResponse:
         """Cancel a running task.
 
@@ -530,13 +550,19 @@ class TasksResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
         return self._post(
             path_template("/tasks/{task_id}/cancel", task_id=task_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TaskStopResponse,
         )
@@ -797,13 +823,13 @@ class AsyncTasksResource(AsyncAPIResource):
         temperature: float | Omit = omit,
         vision: bool | Omit = omit,
         vpn_country: Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]] | Omit = omit,
-        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TaskRunResponse:
         """Create and dispatch a new agent task.
 
@@ -817,7 +843,7 @@ class AsyncTasksResource(AsyncAPIResource):
 
           execution_timeout: Maximum agent execution time in seconds (1–2700).
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')
+          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -835,8 +861,9 @@ class AsyncTasksResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
-        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return await self._post(
             "/tasks",
             body=await async_maybe_transform(
@@ -865,7 +892,11 @@ class AsyncTasksResource(AsyncAPIResource):
                 task_run_params.TaskRunParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TaskRunResponse,
         )
@@ -899,6 +930,7 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> object:
         """
         Create and dispatch a new agent task, returning an SSE stream of task events.
@@ -911,7 +943,7 @@ class AsyncTasksResource(AsyncAPIResource):
 
           execution_timeout: Maximum agent execution time in seconds (1–2700).
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')
+          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -929,6 +961,8 @@ class AsyncTasksResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/tasks/stream",
@@ -958,7 +992,11 @@ class AsyncTasksResource(AsyncAPIResource):
                 task_run_streamed_params.TaskRunStreamedParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=object,
         )
@@ -974,6 +1012,7 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TaskSendMessageResponse:
         """Send a message to a running agent task.
 
@@ -990,6 +1029,8 @@ class AsyncTasksResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
@@ -997,7 +1038,11 @@ class AsyncTasksResource(AsyncAPIResource):
             path_template("/tasks/{task_id}/message", task_id=task_id),
             body=await async_maybe_transform({"message": message}, task_send_message_params.TaskSendMessageParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TaskSendMessageResponse,
         )
@@ -1012,6 +1057,7 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> TaskStopResponse:
         """Cancel a running task.
 
@@ -1026,13 +1072,19 @@ class AsyncTasksResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
         return await self._post(
             path_template("/tasks/{task_id}/cancel", task_id=task_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=TaskStopResponse,
         )

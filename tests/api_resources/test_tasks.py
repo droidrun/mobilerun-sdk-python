@@ -275,7 +275,6 @@ class TestTasks:
             temperature=0,
             vision=True,
             vpn_country="US",
-            idempotency_key="x",
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
 
@@ -720,7 +719,6 @@ class TestAsyncTasks:
             temperature=0,
             vision=True,
             vpn_country="US",
-            idempotency_key="x",
         )
         assert_matches_type(TaskRunResponse, task, path=["response"])
 

@@ -34,7 +34,7 @@ class TaskRunParams(TypedDict, total=False):
     files: SequenceNotStr[str]
 
     llm_model: Annotated[str, PropertyInfo(alias="llmModel")]
-    """The LLM model identifier to use for the task (e.g. 'openai/gpt-5.6-luna')"""
+    """The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')"""
 
     max_steps: Annotated[int, PropertyInfo(alias="maxSteps")]
 
@@ -64,8 +64,6 @@ class TaskRunParams(TypedDict, total=False):
     vpn_country: Annotated[
         Optional[Literal["US", "BR", "FR", "DE", "IN", "JP", "KR", "ZA"]], PropertyInfo(alias="vpnCountry")
     ]
-
-    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]
 
 
 class Credential(TypedDict, total=False):

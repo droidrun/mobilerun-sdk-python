@@ -31,16 +31,13 @@ class TestMailboxes:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Mobilerun) -> None:
-        mailbox = client.mailboxes.create(
-            client_request_id="x",
-        )
+        mailbox = client.mailboxes.create()
         assert_matches_type(MailboxCreateResponse, mailbox, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Mobilerun) -> None:
         mailbox = client.mailboxes.create(
-            client_request_id="x",
             billing_preference="included",
             domain_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             label="label",
@@ -51,9 +48,7 @@ class TestMailboxes:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Mobilerun) -> None:
-        response = client.mailboxes.with_raw_response.create(
-            client_request_id="x",
-        )
+        response = client.mailboxes.with_raw_response.create()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -63,9 +58,7 @@ class TestMailboxes:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Mobilerun) -> None:
-        with client.mailboxes.with_streaming_response.create(
-            client_request_id="x",
-        ) as response:
+        with client.mailboxes.with_streaming_response.create() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -425,16 +418,13 @@ class TestAsyncMailboxes:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncMobilerun) -> None:
-        mailbox = await async_client.mailboxes.create(
-            client_request_id="x",
-        )
+        mailbox = await async_client.mailboxes.create()
         assert_matches_type(MailboxCreateResponse, mailbox, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncMobilerun) -> None:
         mailbox = await async_client.mailboxes.create(
-            client_request_id="x",
             billing_preference="included",
             domain_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             label="label",
@@ -445,9 +435,7 @@ class TestAsyncMailboxes:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.mailboxes.with_raw_response.create(
-            client_request_id="x",
-        )
+        response = await async_client.mailboxes.with_raw_response.create()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -457,9 +445,7 @@ class TestAsyncMailboxes:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.mailboxes.with_streaming_response.create(
-            client_request_id="x",
-        ) as response:
+        async with async_client.mailboxes.with_streaming_response.create() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
