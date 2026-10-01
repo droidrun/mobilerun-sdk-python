@@ -1,5 +1,19 @@
 # Changelog
 
+## [5.6.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.5.0...v5.6.0) (2026-09-30)
+
+
+### Features
+
+* **sdk:** idempotency key header ([6712fda](https://github.com/droidrun/mobilerun-sdk-python/commit/6712fda113af81732bdd82dea3483f94183b29d2))
+
+
+### Chores
+
+* **contract:** sync openapi spec ([2bdbb90](https://github.com/droidrun/mobilerun-sdk-python/commit/2bdbb90fa60bc22198ee6f0aa8159e50009d7941))
+* release 5.6.0 ([2ffebd1](https://github.com/droidrun/mobilerun-sdk-python/commit/2ffebd18c0230097baa64b78423e6f9b243313cf))
+* **sdk:** release 5.6.0 ([bf924cb](https://github.com/droidrun/mobilerun-sdk-python/commit/bf924cb2e9fdf3973e66645c4ee1901207cb4f36))
+
 ## [5.5.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.4.0...v5.5.0) (2026-09-16)
 
 
