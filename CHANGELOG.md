@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.6.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.6.0...v5.6.1) (2026-10-01)
+
+
+### Bug Fixes
+
+* **sdk:** repair post-5.6.0 tracking ([48b47c0](https://github.com/droidrun/mobilerun-sdk-python/commit/48b47c09f9947feed837a12a5d6512dc23f19a04))
+
 ## [5.6.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.5.0...v5.6.0) (2026-09-30)
 
 
