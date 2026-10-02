@@ -444,7 +444,7 @@ class DevicesResource(SyncAPIResource):
         created_by: str | Omit = omit,
         mine: bool | Omit = omit,
         name: str | Omit = omit,
-        order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
+        order_by: Literal["id", "createdAt", "updatedAt", "assignedAt", "gridPosition"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
@@ -489,8 +489,7 @@ class DevicesResource(SyncAPIResource):
         Args:
           created_by: Filter to devices created by this user id. Mutually exclusive with mine.
 
-          mine: When true, only return devices created by the calling user (resolved from
-              X-User-ID, never a client-supplied id).
+          mine: When true, only return devices created by the authenticated caller.
 
           platform: Filter by the device's platform as served in the platform field (runtime,
               announced, else type-derived).
@@ -743,11 +742,8 @@ class DevicesResource(SyncAPIResource):
     ) -> DeviceRetrieveCapabilitiesResponse:
         """Returns the set of capabilities supported by this device.
 
-        For a legacy device
-        this reflects the live instance's actual tools rather than its static type; for
-        a core-managed device it is resolved from provider/pool configuration without
-        guaranteeing a live instance. Used to determine which tools and features are
-        available for the device.
+        Used to determine
+        which tools and features are available for the device.
 
         Args:
           extra_headers: Send extra headers
@@ -922,9 +918,9 @@ class DevicesResource(SyncAPIResource):
     ) -> None:
         """Terminates the device and releases its resources.
 
-        Termination can be scheduled
-        for a future time or chained from a previous device via the request body, in
-        which case a service key is required.
+        The optional `terminateAt` and
+        `previousDeviceId` body fields are not available to API-key callers; requests
+        that set them are rejected with 401.
 
         Args:
           extra_headers: Send extra headers
@@ -1236,7 +1232,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         created_by: str | Omit = omit,
         mine: bool | Omit = omit,
         name: str | Omit = omit,
-        order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
+        order_by: Literal["id", "createdAt", "updatedAt", "assignedAt", "gridPosition"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
@@ -1281,8 +1277,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         Args:
           created_by: Filter to devices created by this user id. Mutually exclusive with mine.
 
-          mine: When true, only return devices created by the calling user (resolved from
-              X-User-ID, never a client-supplied id).
+          mine: When true, only return devices created by the authenticated caller.
 
           platform: Filter by the device's platform as served in the platform field (runtime,
               announced, else type-derived).
@@ -1535,11 +1530,8 @@ class AsyncDevicesResource(AsyncAPIResource):
     ) -> DeviceRetrieveCapabilitiesResponse:
         """Returns the set of capabilities supported by this device.
 
-        For a legacy device
-        this reflects the live instance's actual tools rather than its static type; for
-        a core-managed device it is resolved from provider/pool configuration without
-        guaranteeing a live instance. Used to determine which tools and features are
-        available for the device.
+        Used to determine
+        which tools and features are available for the device.
 
         Args:
           extra_headers: Send extra headers
@@ -1714,9 +1706,9 @@ class AsyncDevicesResource(AsyncAPIResource):
     ) -> None:
         """Terminates the device and releases its resources.
 
-        Termination can be scheduled
-        for a future time or chained from a previous device via the request body, in
-        which case a service key is required.
+        The optional `terminateAt` and
+        `previousDeviceId` body fields are not available to API-key callers; requests
+        that set them are rejected with 401.
 
         Args:
           extra_headers: Send extra headers

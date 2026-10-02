@@ -14,7 +14,6 @@ from mobilerun_sdk.types import (
     WebhookCreateResponse,
     WebhookUpdateResponse,
     WebhookRetrieveResponse,
-    WebhookEventTypesResponse,
     WebhookRotateSecretResponse,
     WebhookTestDeliveryResponse,
 )
@@ -312,34 +311,6 @@ class TestWebhooks:
             client.webhooks.with_raw_response.delete(
                 "",
             )
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_method_event_types(self, client: Mobilerun) -> None:
-        webhook = client.webhooks.event_types()
-        assert_matches_type(WebhookEventTypesResponse, webhook, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_raw_response_event_types(self, client: Mobilerun) -> None:
-        response = client.webhooks.with_raw_response.event_types()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        webhook = response.parse()
-        assert_matches_type(WebhookEventTypesResponse, webhook, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_streaming_response_event_types(self, client: Mobilerun) -> None:
-        with client.webhooks.with_streaming_response.event_types() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            webhook = response.parse()
-            assert_matches_type(WebhookEventTypesResponse, webhook, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -718,34 +689,6 @@ class TestAsyncWebhooks:
             await async_client.webhooks.with_raw_response.delete(
                 "",
             )
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_event_types(self, async_client: AsyncMobilerun) -> None:
-        webhook = await async_client.webhooks.event_types()
-        assert_matches_type(WebhookEventTypesResponse, webhook, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_raw_response_event_types(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.webhooks.with_raw_response.event_types()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        webhook = await response.parse()
-        assert_matches_type(WebhookEventTypesResponse, webhook, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_streaming_response_event_types(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.webhooks.with_streaming_response.event_types() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            webhook = await response.parse()
-            assert_matches_type(WebhookEventTypesResponse, webhook, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize

@@ -27,7 +27,7 @@ class NumberCreateParams(TypedDict, total=False):
     """
     User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
     code units; an emoji/flag may span several). Display-only, never used for
-    routing. Also seeds the billing entity name at purchase.
+    routing.
     """
 
     purpose: str

@@ -11,7 +11,7 @@ __all__ = ["AppStorageUsageResponse", "Data"]
 
 class Data(BaseModel):
     included_bytes: Optional[float] = FieldInfo(alias="includedBytes", default=None)
-    """Bytes included in the plan (Autumn granted).
+    """Bytes included in the plan.
 
     Null when unlimited, unknown, or storage billing is off.
     """
@@ -28,8 +28,8 @@ class Data(BaseModel):
 
     used_bytes: float = FieldInfo(alias="usedBytes")
     """
-    Bytes currently used (decimal: Autumn storage_mb × 1,000,000; the local sum of
-    the user’s app versions when storage billing is off)
+    Bytes currently used (the sum of the user’s app versions when storage billing is
+    off)
     """
 
 

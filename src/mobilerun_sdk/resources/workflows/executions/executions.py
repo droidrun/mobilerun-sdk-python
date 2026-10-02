@@ -170,9 +170,10 @@ class ExecutionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> ExecutionAbortResponse:
-        """
-        Signals the worker to stop the execution between steps and marks it cancelled.
-        Idempotent-ish: already-terminal executions return 409.
+        """Stops the execution between steps and marks it cancelled.
+
+        Idempotent-ish:
+        already-terminal executions return 409.
 
         Args:
           extra_headers: Send extra headers
@@ -382,9 +383,10 @@ class AsyncExecutionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> ExecutionAbortResponse:
-        """
-        Signals the worker to stop the execution between steps and marks it cancelled.
-        Idempotent-ish: already-terminal executions return 409.
+        """Stops the execution between steps and marks it cancelled.
+
+        Idempotent-ish:
+        already-terminal executions return 409.
 
         Args:
           extra_headers: Send extra headers

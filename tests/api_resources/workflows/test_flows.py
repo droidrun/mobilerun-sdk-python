@@ -80,7 +80,7 @@ class TestFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
-                "destination": "one_drive",
+                "destination": "mobilerun",
                 "folder": "x",
                 "recording": {"filename": "x"},
                 "screenshots": {},
@@ -197,7 +197,7 @@ class TestFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
-                "destination": "one_drive",
+                "destination": "mobilerun",
                 "folder": "x",
                 "recording": {"filename": "x"},
                 "screenshots": {},
@@ -774,7 +774,7 @@ class TestFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
-                "destination": "one_drive",
+                "destination": "mobilerun",
                 "folder": "x",
                 "recording": {"filename": "x"},
                 "screenshots": {},
@@ -941,7 +941,7 @@ class TestAsyncFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
-                "destination": "one_drive",
+                "destination": "mobilerun",
                 "folder": "x",
                 "recording": {"filename": "x"},
                 "screenshots": {},
@@ -1058,7 +1058,7 @@ class TestAsyncFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
-                "destination": "one_drive",
+                "destination": "mobilerun",
                 "folder": "x",
                 "recording": {"filename": "x"},
                 "screenshots": {},
@@ -1635,7 +1635,7 @@ class TestAsyncFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
-                "destination": "one_drive",
+                "destination": "mobilerun",
                 "folder": "x",
                 "recording": {"filename": "x"},
                 "screenshots": {},

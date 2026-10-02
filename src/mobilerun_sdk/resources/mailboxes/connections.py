@@ -59,15 +59,15 @@ class ConnectionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> ConnectionCreateResponse:
-        """
-        Links the caller’s Gmail account through the shared integrations connect.
-        Replaying the same Idempotency-Key (or, during migration, the deprecated
-        `clientRequestId` body field) returns the same mailbox. When Gmail is already
-        active, redirectUrl is null and the mailbox is usable immediately.
+        """Links the caller’s Gmail account.
+
+        Replaying the same Idempotency-Key (or the
+        deprecated `clientRequestId` body field, still accepted as a fallback) returns
+        the same mailbox. When Gmail is already active, redirectUrl is null and the
+        mailbox is usable immediately.
 
         Args:
-          binding_hash: sha256 hex of the browser-held connect binding secret; forwarded to integrations
-              connect
+          binding_hash: sha256 hex of the browser-held connect binding secret.
 
           client_request_id: Use the Idempotency-Key header.
 
@@ -172,15 +172,15 @@ class AsyncConnectionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> ConnectionCreateResponse:
-        """
-        Links the caller’s Gmail account through the shared integrations connect.
-        Replaying the same Idempotency-Key (or, during migration, the deprecated
-        `clientRequestId` body field) returns the same mailbox. When Gmail is already
-        active, redirectUrl is null and the mailbox is usable immediately.
+        """Links the caller’s Gmail account.
+
+        Replaying the same Idempotency-Key (or the
+        deprecated `clientRequestId` body field, still accepted as a fallback) returns
+        the same mailbox. When Gmail is already active, redirectUrl is null and the
+        mailbox is usable immediately.
 
         Args:
-          binding_hash: sha256 hex of the browser-held connect binding secret; forwarded to integrations
-              connect
+          binding_hash: sha256 hex of the browser-held connect binding secret.
 
           client_request_id: Use the Idempotency-Key header.
 
