@@ -83,7 +83,7 @@ class ProxyListConnectionsParams(TypedDict, total=False):
     """Filter to connections of this transport protocol."""
 
     provider: str
-    """Filter to connections served by this upstream provider."""
+    """Filter to connections served by this upstream provider identifier."""
 
     session_id: Annotated[str, PropertyInfo(alias="sessionId")]
     """Filter to a single connection by its session id."""

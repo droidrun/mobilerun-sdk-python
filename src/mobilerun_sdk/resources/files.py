@@ -189,9 +189,9 @@ class FilesResource(SyncAPIResource):
     ) -> FileCancelPendingResponse:
         """Soft-cancels an in-flight upload before confirm.
 
-        Only acts on `pending` rows —
-        refuses to touch `ready` to avoid wiping confirmed files. Idempotent:
-        `{ cancelled: false }` if the row exists but is no longer pending.
+        Only acts on `pending` uploads
+        — refuses to touch `ready` files, so confirmed files are never removed.
+        Idempotent: `{ cancelled: false }` if the file exists but is no longer pending.
 
         Args:
           extra_headers: Send extra headers
@@ -505,9 +505,9 @@ class AsyncFilesResource(AsyncAPIResource):
     ) -> FileCancelPendingResponse:
         """Soft-cancels an in-flight upload before confirm.
 
-        Only acts on `pending` rows —
-        refuses to touch `ready` to avoid wiping confirmed files. Idempotent:
-        `{ cancelled: false }` if the row exists but is no longer pending.
+        Only acts on `pending` uploads
+        — refuses to touch `ready` files, so confirmed files are never removed.
+        Idempotent: `{ cancelled: false }` if the file exists but is no longer pending.
 
         Args:
           extra_headers: Send extra headers

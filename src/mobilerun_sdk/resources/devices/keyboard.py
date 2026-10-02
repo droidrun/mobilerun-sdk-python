@@ -172,7 +172,7 @@ class KeyboardResource(SyncAPIResource):
 
           error_rate: Per-character mistake rate for humantouch typing. -1 uses server default.
 
-          wpm: Words per minute for stealth typing. 0 uses portal default.
+          wpm: Words per minute for stealth typing. 0 uses the device default.
 
           extra_headers: Send extra headers
 
@@ -367,7 +367,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
 
           error_rate: Per-character mistake rate for humantouch typing. -1 uses server default.
 
-          wpm: Words per minute for stealth typing. 0 uses portal default.
+          wpm: Words per minute for stealth typing. 0 uses the device default.
 
           extra_headers: Send extra headers
 

@@ -17,14 +17,13 @@ class DeviceListParams(TypedDict, total=False):
     """Filter to devices created by this user id. Mutually exclusive with mine."""
 
     mine: bool
-    """
-    When true, only return devices created by the calling user (resolved from
-    X-User-ID, never a client-supplied id).
-    """
+    """When true, only return devices created by the authenticated caller."""
 
     name: str
 
-    order_by: Annotated[Literal["id", "createdAt", "updatedAt", "assignedAt"], PropertyInfo(alias="orderBy")]
+    order_by: Annotated[
+        Literal["id", "createdAt", "updatedAt", "assignedAt", "gridPosition"], PropertyInfo(alias="orderBy")
+    ]
 
     order_by_direction: Annotated[Literal["asc", "desc"], PropertyInfo(alias="orderByDirection")]
 

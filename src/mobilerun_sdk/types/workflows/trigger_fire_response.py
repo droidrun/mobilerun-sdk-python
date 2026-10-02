@@ -25,6 +25,5 @@ class TriggerFireResponse(BaseModel):
     invocation_id: str = FieldInfo(alias="invocationId")
     """
     Unique ID for this fire invocation (echoes the client-supplied invocationId, or
-    a generated one). Job IDs in the execution queue are derived from it (one per
-    enqueued flow).
+    a generated one).
     """

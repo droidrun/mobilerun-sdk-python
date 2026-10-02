@@ -17,7 +17,7 @@ class DataDestination(BaseModel):
 
     icon_url: Optional[str] = FieldInfo(alias="iconUrl", default=None)
 
-    key: Literal["one_drive", "google_drive"]
+    key: Literal["mobilerun", "one_drive", "google_drive"]
 
     label: str
 
@@ -32,7 +32,7 @@ class Data(BaseModel):
     can_deliver_recording: bool = FieldInfo(alias="canDeliverRecording")
 
     destinations: List[DataDestination]
-    """Delivery destinations in registry order."""
+    """Delivery destinations in their canonical order."""
 
     direct_upload_step: Optional[DataDirectUploadStep] = FieldInfo(alias="directUploadStep", default=None)
 

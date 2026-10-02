@@ -12,4 +12,11 @@ __all__ = ["StateScreenshotParams"]
 class StateScreenshotParams(TypedDict, total=False):
     hide_overlay: Annotated[bool, PropertyInfo(alias="hideOverlay")]
 
+    save: bool
+    """Also store the screenshot in the device's active recording.
+
+    The response is unchanged; the X-Screenshot-Saved header reports whether it was
+    stored.
+    """
+
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

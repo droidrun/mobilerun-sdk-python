@@ -42,30 +42,6 @@ Methods:
 - <code title="post /apps/{id}/mark-failed">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">mark_failed</a>(id) -> <a href="./src/mobilerun_sdk/types/app_mark_failed_response.py">AppMarkFailedResponse</a></code>
 - <code title="get /apps/storage-usage">client.apps.<a href="./src/mobilerun_sdk/resources/apps.py">storage_usage</a>() -> <a href="./src/mobilerun_sdk/types/app_storage_usage_response.py">AppStorageUsageResponse</a></code>
 
-# Carriers
-
-Types:
-
-```python
-from mobilerun_sdk.types import (
-    CarrierCreateResponse,
-    CarrierRetrieveResponse,
-    CarrierUpdateResponse,
-    CarrierListResponse,
-    CarrierDeleteResponse,
-    CarrierLookupResponse,
-)
-```
-
-Methods:
-
-- <code title="post /carriers">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/carrier_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/carrier_create_response.py">CarrierCreateResponse</a></code>
-- <code title="get /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">retrieve</a>(carrier_id) -> <a href="./src/mobilerun_sdk/types/carrier_retrieve_response.py">CarrierRetrieveResponse</a></code>
-- <code title="patch /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">update</a>(carrier_id, \*\*<a href="src/mobilerun_sdk/types/carrier_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/carrier_update_response.py">CarrierUpdateResponse</a></code>
-- <code title="get /carriers">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/carrier_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/carrier_list_response.py">CarrierListResponse</a></code>
-- <code title="delete /carriers/{carrierId}">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">delete</a>(carrier_id) -> <a href="./src/mobilerun_sdk/types/carrier_delete_response.py">CarrierDeleteResponse</a></code>
-- <code title="get /carriers/lookup">client.carriers.<a href="./src/mobilerun_sdk/resources/carriers.py">lookup</a>(\*\*<a href="src/mobilerun_sdk/types/carrier_lookup_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/carrier_lookup_response.py">CarrierLookupResponse</a></code>
-
 # Credentials
 
 Types:
@@ -465,28 +441,6 @@ Methods:
 
 - <code title="get /models">client.models.<a href="./src/mobilerun_sdk/resources/models.py">list</a>() -> <a href="./src/mobilerun_sdk/types/model_list_response.py">ModelListResponse</a></code>
 
-# Profiles
-
-Types:
-
-```python
-from mobilerun_sdk.types import (
-    ProfileCreateResponse,
-    ProfileRetrieveResponse,
-    ProfileUpdateResponse,
-    ProfileListResponse,
-    ProfileDeleteResponse,
-)
-```
-
-Methods:
-
-- <code title="post /profiles">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/profile_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/profile_create_response.py">ProfileCreateResponse</a></code>
-- <code title="get /profiles/{profileId}">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">retrieve</a>(profile_id) -> <a href="./src/mobilerun_sdk/types/profile_retrieve_response.py">ProfileRetrieveResponse</a></code>
-- <code title="put /profiles/{profileId}">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">update</a>(profile_id, \*\*<a href="src/mobilerun_sdk/types/profile_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/profile_update_response.py">ProfileUpdateResponse</a></code>
-- <code title="get /profiles">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/profile_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/profile_list_response.py">ProfileListResponse</a></code>
-- <code title="delete /profiles/{profileId}">client.profiles.<a href="./src/mobilerun_sdk/resources/profiles.py">delete</a>(profile_id) -> <a href="./src/mobilerun_sdk/types/profile_delete_response.py">ProfileDeleteResponse</a></code>
-
 # Proxies
 
 Types:
@@ -498,7 +452,6 @@ from mobilerun_sdk.types import (
     ProxyUpdateResponse,
     ProxyListResponse,
     ProxyDeleteResponse,
-    ProxyLookupResponse,
 )
 ```
 
@@ -509,7 +462,6 @@ Methods:
 - <code title="put /proxies/{proxyId}">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">update</a>(proxy_id, \*\*<a href="src/mobilerun_sdk/types/proxy_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/proxy_update_response.py">ProxyUpdateResponse</a></code>
 - <code title="get /proxies">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/proxy_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/proxy_list_response.py">ProxyListResponse</a></code>
 - <code title="delete /proxies/{proxyId}">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">delete</a>(proxy_id) -> <a href="./src/mobilerun_sdk/types/proxy_delete_response.py">ProxyDeleteResponse</a></code>
-- <code title="post /proxies/lookup">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">lookup</a>(\*\*<a href="src/mobilerun_sdk/types/proxy_lookup_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/proxy_lookup_response.py">ProxyLookupResponse</a></code>
 
 # Connect
 
@@ -828,7 +780,6 @@ from mobilerun_sdk.types import (
     WebhookRetrieveResponse,
     WebhookUpdateResponse,
     WebhookListResponse,
-    WebhookEventTypesResponse,
     WebhookRotateSecretResponse,
     WebhookTestDeliveryResponse,
 )
@@ -841,7 +792,6 @@ Methods:
 - <code title="patch /webhooks/{id}">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">update</a>(id, \*\*<a href="src/mobilerun_sdk/types/webhook_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/webhook_update_response.py">WebhookUpdateResponse</a></code>
 - <code title="get /webhooks">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/webhook_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/webhook_list_response.py">WebhookListResponse</a></code>
 - <code title="delete /webhooks/{id}">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">delete</a>(id) -> None</code>
-- <code title="get /event-types">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">event_types</a>() -> <a href="./src/mobilerun_sdk/types/webhook_event_types_response.py">WebhookEventTypesResponse</a></code>
 - <code title="post /webhooks/{id}/rotate-secret">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">rotate_secret</a>(id) -> <a href="./src/mobilerun_sdk/types/webhook_rotate_secret_response.py">WebhookRotateSecretResponse</a></code>
 - <code title="post /webhooks/{id}/test">client.webhooks.<a href="./src/mobilerun_sdk/resources/webhooks/webhooks.py">test_delivery</a>(id) -> <a href="./src/mobilerun_sdk/types/webhook_test_delivery_response.py">WebhookTestDeliveryResponse</a></code>
 
@@ -995,52 +945,6 @@ Methods:
 - <code title="post /assistant/chat/message">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">send</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_send_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_send_response.py">ConversationSendResponse</a></code>
 - <code title="get /assistant/chat/stream">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">stream</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_stream_params.py">params</a>) -> str</code>
 
-# AppEvents
-
-Types:
-
-```python
-from mobilerun_sdk.types import AppEventRetrieveResponse, AppEventListResponse
-```
-
-Methods:
-
-- <code title="get /app-events/{id}">client.app_events.<a href="./src/mobilerun_sdk/resources/app_events/app_events.py">retrieve</a>(id) -> <a href="./src/mobilerun_sdk/types/app_event_retrieve_response.py">AppEventRetrieveResponse</a></code>
-- <code title="get /app-events">client.app_events.<a href="./src/mobilerun_sdk/resources/app_events/app_events.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/app_event_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/app_event_list_response.py">AppEventListResponse</a></code>
-
-## Catalog
-
-Types:
-
-```python
-from mobilerun_sdk.types.app_events import CatalogRetrieveResponse, CatalogListResponse
-```
-
-Methods:
-
-- <code title="get /app-events/catalog/{appEventType}">client.app_events.catalog.<a href="./src/mobilerun_sdk/resources/app_events/catalog.py">retrieve</a>(app_event_type) -> <a href="./src/mobilerun_sdk/types/app_events/catalog_retrieve_response.py">CatalogRetrieveResponse</a></code>
-- <code title="get /app-events/catalog">client.app_events.catalog.<a href="./src/mobilerun_sdk/resources/app_events/catalog.py">list</a>() -> <a href="./src/mobilerun_sdk/types/app_events/catalog_list_response.py">CatalogListResponse</a></code>
-
-# Notifications
-
-Types:
-
-```python
-from mobilerun_sdk.types import (
-    NotificationApplyPreferencesPresetResponse,
-    NotificationCatalogResponse,
-    NotificationGetPreferencesResponse,
-    NotificationUpdatePreferencesResponse,
-)
-```
-
-Methods:
-
-- <code title="post /notifications/preferences/apply-preset">client.notifications.<a href="./src/mobilerun_sdk/resources/notifications.py">apply_preferences_preset</a>(\*\*<a href="src/mobilerun_sdk/types/notification_apply_preferences_preset_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/notification_apply_preferences_preset_response.py">NotificationApplyPreferencesPresetResponse</a></code>
-- <code title="get /notifications/catalog">client.notifications.<a href="./src/mobilerun_sdk/resources/notifications.py">catalog</a>() -> <a href="./src/mobilerun_sdk/types/notification_catalog_response.py">NotificationCatalogResponse</a></code>
-- <code title="get /notifications/preferences">client.notifications.<a href="./src/mobilerun_sdk/resources/notifications.py">get_preferences</a>() -> <a href="./src/mobilerun_sdk/types/notification_get_preferences_response.py">NotificationGetPreferencesResponse</a></code>
-- <code title="patch /notifications/preferences">client.notifications.<a href="./src/mobilerun_sdk/resources/notifications.py">update_preferences</a>(\*\*<a href="src/mobilerun_sdk/types/notification_update_preferences_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/notification_update_preferences_response.py">NotificationUpdatePreferencesResponse</a></code>
-
 # Messages
 
 Types:
@@ -1107,33 +1011,3 @@ Methods:
 
 - <code title="get /numbers/phones/{id}/messages">client.numbers.messages.<a href="./src/mobilerun_sdk/resources/numbers/messages.py">list</a>(id, \*\*<a href="src/mobilerun_sdk/types/numbers/message_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/numbers/message_list_response.py">MessageListResponse</a></code>
 - <code title="post /numbers/phones/{id}/messages">client.numbers.messages.<a href="./src/mobilerun_sdk/resources/numbers/messages.py">send</a>(id, \*\*<a href="src/mobilerun_sdk/types/numbers/message_send_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/numbers/message_send_response.py">MessageSendResponse</a></code>
-
-# Store
-
-Types:
-
-```python
-from mobilerun_sdk.types import StoreCategoriesResponse
-```
-
-Methods:
-
-- <code title="get /store/categories">client.store.<a href="./src/mobilerun_sdk/resources/store/store.py">categories</a>() -> <a href="./src/mobilerun_sdk/types/store_categories_response.py">StoreCategoriesResponse</a></code>
-
-## Apps
-
-Types:
-
-```python
-from mobilerun_sdk.types.store import (
-    AppRetrieveResponse,
-    AppListResponse,
-    AppAddToWorkspaceResponse,
-)
-```
-
-Methods:
-
-- <code title="get /store/apps/{appId}">client.store.apps.<a href="./src/mobilerun_sdk/resources/store/apps.py">retrieve</a>(app_id) -> <a href="./src/mobilerun_sdk/types/store/app_retrieve_response.py">AppRetrieveResponse</a></code>
-- <code title="get /store/apps">client.store.apps.<a href="./src/mobilerun_sdk/resources/store/apps.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/store/app_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/store/app_list_response.py">AppListResponse</a></code>
-- <code title="post /store/apps/{appId}/add">client.store.apps.<a href="./src/mobilerun_sdk/resources/store/apps.py">add_to_workspace</a>(app_id) -> <a href="./src/mobilerun_sdk/types/store/app_add_to_workspace_response.py">AppAddToWorkspaceResponse</a></code>

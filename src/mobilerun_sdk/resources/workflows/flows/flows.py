@@ -452,9 +452,9 @@ class FlowsResource(SyncAPIResource):
     ) -> FlowCapacityResponse:
         """
         Returns an owner-scoped snapshot of finite included workflow-agent capacity
-        after locally stored enabled and disabled agents. Available only while slot
-        enforcement is enabled; otherwise returns 503. This is advisory; create and
-        clone perform authoritative admission under an owner lock.
+        after accounting for enabled and disabled agents. Returns 503 when a finite
+        capacity snapshot is unavailable, including for unlimited plans. This is
+        advisory; create and clone perform the authoritative capacity check.
         """
         return self._get(
             "/flows/capacity",
@@ -535,8 +535,8 @@ class FlowsResource(SyncAPIResource):
         Return the recording/delivery readiness for a flow (recording mode, whether
         delivery can include the recording, whether a files.upload action exists, the
         first direct OneDrive/Google Drive upload step if any) plus, per destination,
-        whether the flow owner has an active integrations-api connection. Returns 404 if
-        the flow does not exist.
+        whether the flow owner has an active connection. Returns 404 if the flow does
+        not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -866,8 +866,8 @@ class FlowsResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FlowVerifyResponse:
         """
-        Run a bound, deduplicated **verification** of this flow on exactly one device
-        through the real worker.
+        Run a bound, deduplicated **verification** of this flow on exactly one device as
+        a real run.
 
         Unlike a normal trigger firing, verification:
 
@@ -1322,9 +1322,9 @@ class AsyncFlowsResource(AsyncAPIResource):
     ) -> FlowCapacityResponse:
         """
         Returns an owner-scoped snapshot of finite included workflow-agent capacity
-        after locally stored enabled and disabled agents. Available only while slot
-        enforcement is enabled; otherwise returns 503. This is advisory; create and
-        clone perform authoritative admission under an owner lock.
+        after accounting for enabled and disabled agents. Returns 503 when a finite
+        capacity snapshot is unavailable, including for unlimited plans. This is
+        advisory; create and clone perform the authoritative capacity check.
         """
         return await self._get(
             "/flows/capacity",
@@ -1405,8 +1405,8 @@ class AsyncFlowsResource(AsyncAPIResource):
         Return the recording/delivery readiness for a flow (recording mode, whether
         delivery can include the recording, whether a files.upload action exists, the
         first direct OneDrive/Google Drive upload step if any) plus, per destination,
-        whether the flow owner has an active integrations-api connection. Returns 404 if
-        the flow does not exist.
+        whether the flow owner has an active connection. Returns 404 if the flow does
+        not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -1736,8 +1736,8 @@ class AsyncFlowsResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FlowVerifyResponse:
         """
-        Run a bound, deduplicated **verification** of this flow on exactly one device
-        through the real worker.
+        Run a bound, deduplicated **verification** of this flow on exactly one device as
+        a real run.
 
         Unlike a normal trigger firing, verification:
 

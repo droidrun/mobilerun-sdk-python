@@ -39,7 +39,6 @@ from ...types.webhook_list_response import WebhookListResponse
 from ...types.webhook_create_response import WebhookCreateResponse
 from ...types.webhook_update_response import WebhookUpdateResponse
 from ...types.webhook_retrieve_response import WebhookRetrieveResponse
-from ...types.webhook_event_types_response import WebhookEventTypesResponse
 from ...types.webhook_rotate_secret_response import WebhookRotateSecretResponse
 from ...types.webhook_test_delivery_response import WebhookTestDeliveryResponse
 
@@ -397,29 +396,6 @@ class WebhooksResource(SyncAPIResource):
                 idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
-        )
-
-    def event_types(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookEventTypesResponse:
-        """
-        Returns the catalog of event types that webhook subscriptions can subscribe to,
-        grouped by source. Use the returned type identifiers as the `eventTypes` values
-        when creating or updating a webhook.
-        """
-        return self._get(
-            "/event-types",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=WebhookEventTypesResponse,
         )
 
     def rotate_secret(
@@ -861,29 +837,6 @@ class AsyncWebhooksResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
-    async def event_types(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> WebhookEventTypesResponse:
-        """
-        Returns the catalog of event types that webhook subscriptions can subscribe to,
-        grouped by source. Use the returned type identifiers as the `eventTypes` values
-        when creating or updating a webhook.
-        """
-        return await self._get(
-            "/event-types",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=WebhookEventTypesResponse,
-        )
-
     async def rotate_secret(
         self,
         id: str,
@@ -989,9 +942,6 @@ class WebhooksResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             webhooks.delete,
         )
-        self.event_types = to_raw_response_wrapper(
-            webhooks.event_types,
-        )
         self.rotate_secret = to_raw_response_wrapper(
             webhooks.rotate_secret,
         )
@@ -1026,9 +976,6 @@ class AsyncWebhooksResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             webhooks.delete,
-        )
-        self.event_types = async_to_raw_response_wrapper(
-            webhooks.event_types,
         )
         self.rotate_secret = async_to_raw_response_wrapper(
             webhooks.rotate_secret,
@@ -1065,9 +1012,6 @@ class WebhooksResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             webhooks.delete,
         )
-        self.event_types = to_streamed_response_wrapper(
-            webhooks.event_types,
-        )
         self.rotate_secret = to_streamed_response_wrapper(
             webhooks.rotate_secret,
         )
@@ -1102,9 +1046,6 @@ class AsyncWebhooksResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             webhooks.delete,
-        )
-        self.event_types = async_to_streamed_response_wrapper(
-            webhooks.event_types,
         )
         self.rotate_secret = async_to_streamed_response_wrapper(
             webhooks.rotate_secret,

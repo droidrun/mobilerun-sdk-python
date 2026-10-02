@@ -42,7 +42,7 @@ class Item(BaseModel):
     """Transport protocol of a connection."""
 
     provider: str
-    """Upstream provider that served the connection."""
+    """Identifier of the upstream provider that served the connection."""
 
     proxy_id: str = FieldInfo(alias="proxyId")
     """The proxy the connection was routed through.

@@ -46,6 +46,7 @@ class StateResource(SyncAPIResource):
         device_id: str,
         *,
         hide_overlay: bool | Omit = omit,
+        save: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -60,6 +61,9 @@ class StateResource(SyncAPIResource):
         hideOverlay query parameter excludes the accessibility overlay from the capture.
 
         Args:
+          save: Also store the screenshot in the device's active recording. The response is
+              unchanged; the X-Screenshot-Saved header reports whether it was stored.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -83,7 +87,13 @@ class StateResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"hide_overlay": hide_overlay}, state_screenshot_params.StateScreenshotParams),
+                query=maybe_transform(
+                    {
+                        "hide_overlay": hide_overlay,
+                        "save": save,
+                    },
+                    state_screenshot_params.StateScreenshotParams,
+                ),
             ),
             cast_to=str,
         )
@@ -201,6 +211,7 @@ class AsyncStateResource(AsyncAPIResource):
         device_id: str,
         *,
         hide_overlay: bool | Omit = omit,
+        save: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -215,6 +226,9 @@ class AsyncStateResource(AsyncAPIResource):
         hideOverlay query parameter excludes the accessibility overlay from the capture.
 
         Args:
+          save: Also store the screenshot in the device's active recording. The response is
+              unchanged; the X-Screenshot-Saved header reports whether it was stored.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -239,7 +253,11 @@ class AsyncStateResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"hide_overlay": hide_overlay}, state_screenshot_params.StateScreenshotParams
+                    {
+                        "hide_overlay": hide_overlay,
+                        "save": save,
+                    },
+                    state_screenshot_params.StateScreenshotParams,
                 ),
             ),
             cast_to=str,
