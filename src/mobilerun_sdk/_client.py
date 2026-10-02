@@ -39,33 +39,24 @@ if TYPE_CHECKING:
     from .resources import (
         apps,
         files,
-        store,
         tasks,
         models,
         connect,
         devices,
         numbers,
         proxies,
-        carriers,
         messages,
-        profiles,
         webhooks,
         assistant,
         mailboxes,
         workflows,
-        app_events,
         credentials,
-        notifications,
     )
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.files import FilesResource, AsyncFilesResource
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
-    from .resources.carriers import CarriersResource, AsyncCarriersResource
-    from .resources.profiles import ProfilesResource, AsyncProfilesResource
-    from .resources.store.store import StoreResource, AsyncStoreResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
-    from .resources.notifications import NotificationsResource, AsyncNotificationsResource
     from .resources.connect.connect import ConnectResource, AsyncConnectResource
     from .resources.devices.devices import DevicesResource, AsyncDevicesResource
     from .resources.numbers.numbers import NumbersResource, AsyncNumbersResource
@@ -74,7 +65,6 @@ if TYPE_CHECKING:
     from .resources.assistant.assistant import AssistantResource, AsyncAssistantResource
     from .resources.mailboxes.mailboxes import MailboxesResource, AsyncMailboxesResource
     from .resources.workflows.workflows import WorkflowsResource, AsyncWorkflowsResource
-    from .resources.app_events.app_events import AppEventsResource, AsyncAppEventsResource
     from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
 
 __all__ = [
@@ -158,12 +148,6 @@ class Mobilerun(SyncAPIClient):
         return AppsResource(self)
 
     @cached_property
-    def carriers(self) -> CarriersResource:
-        from .resources.carriers import CarriersResource
-
-        return CarriersResource(self)
-
-    @cached_property
     def credentials(self) -> CredentialsResource:
         from .resources.credentials import CredentialsResource
 
@@ -177,16 +161,9 @@ class Mobilerun(SyncAPIClient):
 
     @cached_property
     def models(self) -> ModelsResource:
-        """LLM Models"""
         from .resources.models import ModelsResource
 
         return ModelsResource(self)
-
-    @cached_property
-    def profiles(self) -> ProfilesResource:
-        from .resources.profiles import ProfilesResource
-
-        return ProfilesResource(self)
 
     @cached_property
     def proxies(self) -> ProxiesResource:
@@ -238,18 +215,6 @@ class Mobilerun(SyncAPIClient):
         return AssistantResource(self)
 
     @cached_property
-    def app_events(self) -> AppEventsResource:
-        from .resources.app_events import AppEventsResource
-
-        return AppEventsResource(self)
-
-    @cached_property
-    def notifications(self) -> NotificationsResource:
-        from .resources.notifications import NotificationsResource
-
-        return NotificationsResource(self)
-
-    @cached_property
     def messages(self) -> MessagesResource:
         from .resources.messages import MessagesResource
 
@@ -260,12 +225,6 @@ class Mobilerun(SyncAPIClient):
         from .resources.numbers import NumbersResource
 
         return NumbersResource(self)
-
-    @cached_property
-    def store(self) -> StoreResource:
-        from .resources.store import StoreResource
-
-        return StoreResource(self)
 
     @cached_property
     def with_raw_response(self) -> MobilerunWithRawResponse:
@@ -460,12 +419,6 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncAppsResource(self)
 
     @cached_property
-    def carriers(self) -> AsyncCarriersResource:
-        from .resources.carriers import AsyncCarriersResource
-
-        return AsyncCarriersResource(self)
-
-    @cached_property
     def credentials(self) -> AsyncCredentialsResource:
         from .resources.credentials import AsyncCredentialsResource
 
@@ -479,16 +432,9 @@ class AsyncMobilerun(AsyncAPIClient):
 
     @cached_property
     def models(self) -> AsyncModelsResource:
-        """LLM Models"""
         from .resources.models import AsyncModelsResource
 
         return AsyncModelsResource(self)
-
-    @cached_property
-    def profiles(self) -> AsyncProfilesResource:
-        from .resources.profiles import AsyncProfilesResource
-
-        return AsyncProfilesResource(self)
 
     @cached_property
     def proxies(self) -> AsyncProxiesResource:
@@ -540,18 +486,6 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncAssistantResource(self)
 
     @cached_property
-    def app_events(self) -> AsyncAppEventsResource:
-        from .resources.app_events import AsyncAppEventsResource
-
-        return AsyncAppEventsResource(self)
-
-    @cached_property
-    def notifications(self) -> AsyncNotificationsResource:
-        from .resources.notifications import AsyncNotificationsResource
-
-        return AsyncNotificationsResource(self)
-
-    @cached_property
     def messages(self) -> AsyncMessagesResource:
         from .resources.messages import AsyncMessagesResource
 
@@ -562,12 +496,6 @@ class AsyncMobilerun(AsyncAPIClient):
         from .resources.numbers import AsyncNumbersResource
 
         return AsyncNumbersResource(self)
-
-    @cached_property
-    def store(self) -> AsyncStoreResource:
-        from .resources.store import AsyncStoreResource
-
-        return AsyncStoreResource(self)
 
     @cached_property
     def with_raw_response(self) -> AsyncMobilerunWithRawResponse:
@@ -706,12 +634,6 @@ class MobilerunWithRawResponse:
         return AppsResourceWithRawResponse(self._client.apps)
 
     @cached_property
-    def carriers(self) -> carriers.CarriersResourceWithRawResponse:
-        from .resources.carriers import CarriersResourceWithRawResponse
-
-        return CarriersResourceWithRawResponse(self._client.carriers)
-
-    @cached_property
     def credentials(self) -> credentials.CredentialsResourceWithRawResponse:
         from .resources.credentials import CredentialsResourceWithRawResponse
 
@@ -725,16 +647,9 @@ class MobilerunWithRawResponse:
 
     @cached_property
     def models(self) -> models.ModelsResourceWithRawResponse:
-        """LLM Models"""
         from .resources.models import ModelsResourceWithRawResponse
 
         return ModelsResourceWithRawResponse(self._client.models)
-
-    @cached_property
-    def profiles(self) -> profiles.ProfilesResourceWithRawResponse:
-        from .resources.profiles import ProfilesResourceWithRawResponse
-
-        return ProfilesResourceWithRawResponse(self._client.profiles)
 
     @cached_property
     def proxies(self) -> proxies.ProxiesResourceWithRawResponse:
@@ -786,18 +701,6 @@ class MobilerunWithRawResponse:
         return AssistantResourceWithRawResponse(self._client.assistant)
 
     @cached_property
-    def app_events(self) -> app_events.AppEventsResourceWithRawResponse:
-        from .resources.app_events import AppEventsResourceWithRawResponse
-
-        return AppEventsResourceWithRawResponse(self._client.app_events)
-
-    @cached_property
-    def notifications(self) -> notifications.NotificationsResourceWithRawResponse:
-        from .resources.notifications import NotificationsResourceWithRawResponse
-
-        return NotificationsResourceWithRawResponse(self._client.notifications)
-
-    @cached_property
     def messages(self) -> messages.MessagesResourceWithRawResponse:
         from .resources.messages import MessagesResourceWithRawResponse
 
@@ -808,12 +711,6 @@ class MobilerunWithRawResponse:
         from .resources.numbers import NumbersResourceWithRawResponse
 
         return NumbersResourceWithRawResponse(self._client.numbers)
-
-    @cached_property
-    def store(self) -> store.StoreResourceWithRawResponse:
-        from .resources.store import StoreResourceWithRawResponse
-
-        return StoreResourceWithRawResponse(self._client.store)
 
 
 class AsyncMobilerunWithRawResponse:
@@ -829,12 +726,6 @@ class AsyncMobilerunWithRawResponse:
         return AsyncAppsResourceWithRawResponse(self._client.apps)
 
     @cached_property
-    def carriers(self) -> carriers.AsyncCarriersResourceWithRawResponse:
-        from .resources.carriers import AsyncCarriersResourceWithRawResponse
-
-        return AsyncCarriersResourceWithRawResponse(self._client.carriers)
-
-    @cached_property
     def credentials(self) -> credentials.AsyncCredentialsResourceWithRawResponse:
         from .resources.credentials import AsyncCredentialsResourceWithRawResponse
 
@@ -848,16 +739,9 @@ class AsyncMobilerunWithRawResponse:
 
     @cached_property
     def models(self) -> models.AsyncModelsResourceWithRawResponse:
-        """LLM Models"""
         from .resources.models import AsyncModelsResourceWithRawResponse
 
         return AsyncModelsResourceWithRawResponse(self._client.models)
-
-    @cached_property
-    def profiles(self) -> profiles.AsyncProfilesResourceWithRawResponse:
-        from .resources.profiles import AsyncProfilesResourceWithRawResponse
-
-        return AsyncProfilesResourceWithRawResponse(self._client.profiles)
 
     @cached_property
     def proxies(self) -> proxies.AsyncProxiesResourceWithRawResponse:
@@ -909,18 +793,6 @@ class AsyncMobilerunWithRawResponse:
         return AsyncAssistantResourceWithRawResponse(self._client.assistant)
 
     @cached_property
-    def app_events(self) -> app_events.AsyncAppEventsResourceWithRawResponse:
-        from .resources.app_events import AsyncAppEventsResourceWithRawResponse
-
-        return AsyncAppEventsResourceWithRawResponse(self._client.app_events)
-
-    @cached_property
-    def notifications(self) -> notifications.AsyncNotificationsResourceWithRawResponse:
-        from .resources.notifications import AsyncNotificationsResourceWithRawResponse
-
-        return AsyncNotificationsResourceWithRawResponse(self._client.notifications)
-
-    @cached_property
     def messages(self) -> messages.AsyncMessagesResourceWithRawResponse:
         from .resources.messages import AsyncMessagesResourceWithRawResponse
 
@@ -931,12 +803,6 @@ class AsyncMobilerunWithRawResponse:
         from .resources.numbers import AsyncNumbersResourceWithRawResponse
 
         return AsyncNumbersResourceWithRawResponse(self._client.numbers)
-
-    @cached_property
-    def store(self) -> store.AsyncStoreResourceWithRawResponse:
-        from .resources.store import AsyncStoreResourceWithRawResponse
-
-        return AsyncStoreResourceWithRawResponse(self._client.store)
 
 
 class MobilerunWithStreamedResponse:
@@ -952,12 +818,6 @@ class MobilerunWithStreamedResponse:
         return AppsResourceWithStreamingResponse(self._client.apps)
 
     @cached_property
-    def carriers(self) -> carriers.CarriersResourceWithStreamingResponse:
-        from .resources.carriers import CarriersResourceWithStreamingResponse
-
-        return CarriersResourceWithStreamingResponse(self._client.carriers)
-
-    @cached_property
     def credentials(self) -> credentials.CredentialsResourceWithStreamingResponse:
         from .resources.credentials import CredentialsResourceWithStreamingResponse
 
@@ -971,16 +831,9 @@ class MobilerunWithStreamedResponse:
 
     @cached_property
     def models(self) -> models.ModelsResourceWithStreamingResponse:
-        """LLM Models"""
         from .resources.models import ModelsResourceWithStreamingResponse
 
         return ModelsResourceWithStreamingResponse(self._client.models)
-
-    @cached_property
-    def profiles(self) -> profiles.ProfilesResourceWithStreamingResponse:
-        from .resources.profiles import ProfilesResourceWithStreamingResponse
-
-        return ProfilesResourceWithStreamingResponse(self._client.profiles)
 
     @cached_property
     def proxies(self) -> proxies.ProxiesResourceWithStreamingResponse:
@@ -1032,18 +885,6 @@ class MobilerunWithStreamedResponse:
         return AssistantResourceWithStreamingResponse(self._client.assistant)
 
     @cached_property
-    def app_events(self) -> app_events.AppEventsResourceWithStreamingResponse:
-        from .resources.app_events import AppEventsResourceWithStreamingResponse
-
-        return AppEventsResourceWithStreamingResponse(self._client.app_events)
-
-    @cached_property
-    def notifications(self) -> notifications.NotificationsResourceWithStreamingResponse:
-        from .resources.notifications import NotificationsResourceWithStreamingResponse
-
-        return NotificationsResourceWithStreamingResponse(self._client.notifications)
-
-    @cached_property
     def messages(self) -> messages.MessagesResourceWithStreamingResponse:
         from .resources.messages import MessagesResourceWithStreamingResponse
 
@@ -1054,12 +895,6 @@ class MobilerunWithStreamedResponse:
         from .resources.numbers import NumbersResourceWithStreamingResponse
 
         return NumbersResourceWithStreamingResponse(self._client.numbers)
-
-    @cached_property
-    def store(self) -> store.StoreResourceWithStreamingResponse:
-        from .resources.store import StoreResourceWithStreamingResponse
-
-        return StoreResourceWithStreamingResponse(self._client.store)
 
 
 class AsyncMobilerunWithStreamedResponse:
@@ -1075,12 +910,6 @@ class AsyncMobilerunWithStreamedResponse:
         return AsyncAppsResourceWithStreamingResponse(self._client.apps)
 
     @cached_property
-    def carriers(self) -> carriers.AsyncCarriersResourceWithStreamingResponse:
-        from .resources.carriers import AsyncCarriersResourceWithStreamingResponse
-
-        return AsyncCarriersResourceWithStreamingResponse(self._client.carriers)
-
-    @cached_property
     def credentials(self) -> credentials.AsyncCredentialsResourceWithStreamingResponse:
         from .resources.credentials import AsyncCredentialsResourceWithStreamingResponse
 
@@ -1094,16 +923,9 @@ class AsyncMobilerunWithStreamedResponse:
 
     @cached_property
     def models(self) -> models.AsyncModelsResourceWithStreamingResponse:
-        """LLM Models"""
         from .resources.models import AsyncModelsResourceWithStreamingResponse
 
         return AsyncModelsResourceWithStreamingResponse(self._client.models)
-
-    @cached_property
-    def profiles(self) -> profiles.AsyncProfilesResourceWithStreamingResponse:
-        from .resources.profiles import AsyncProfilesResourceWithStreamingResponse
-
-        return AsyncProfilesResourceWithStreamingResponse(self._client.profiles)
 
     @cached_property
     def proxies(self) -> proxies.AsyncProxiesResourceWithStreamingResponse:
@@ -1155,18 +977,6 @@ class AsyncMobilerunWithStreamedResponse:
         return AsyncAssistantResourceWithStreamingResponse(self._client.assistant)
 
     @cached_property
-    def app_events(self) -> app_events.AsyncAppEventsResourceWithStreamingResponse:
-        from .resources.app_events import AsyncAppEventsResourceWithStreamingResponse
-
-        return AsyncAppEventsResourceWithStreamingResponse(self._client.app_events)
-
-    @cached_property
-    def notifications(self) -> notifications.AsyncNotificationsResourceWithStreamingResponse:
-        from .resources.notifications import AsyncNotificationsResourceWithStreamingResponse
-
-        return AsyncNotificationsResourceWithStreamingResponse(self._client.notifications)
-
-    @cached_property
     def messages(self) -> messages.AsyncMessagesResourceWithStreamingResponse:
         from .resources.messages import AsyncMessagesResourceWithStreamingResponse
 
@@ -1177,12 +987,6 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.numbers import AsyncNumbersResourceWithStreamingResponse
 
         return AsyncNumbersResourceWithStreamingResponse(self._client.numbers)
-
-    @cached_property
-    def store(self) -> store.AsyncStoreResourceWithStreamingResponse:
-        from .resources.store import AsyncStoreResourceWithStreamingResponse
-
-        return AsyncStoreResourceWithStreamingResponse(self._client.store)
 
 
 Client = Mobilerun

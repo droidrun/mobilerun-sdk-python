@@ -13,7 +13,6 @@ from mobilerun_sdk.types import (
     ProxyListResponse,
     ProxyCreateResponse,
     ProxyDeleteResponse,
-    ProxyLookupResponse,
     ProxyUpdateResponse,
     ProxyRetrieveResponse,
 )
@@ -353,62 +352,6 @@ class TestProxies:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_method_lookup(self, client: Mobilerun) -> None:
-        proxy = client.proxies.lookup(
-            socks5={
-                "host": "host",
-                "port": 1,
-            },
-        )
-        assert_matches_type(ProxyLookupResponse, proxy, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_method_lookup_with_all_params(self, client: Mobilerun) -> None:
-        proxy = client.proxies.lookup(
-            socks5={
-                "host": "host",
-                "port": 1,
-                "password": "password",
-                "user": "user",
-            },
-        )
-        assert_matches_type(ProxyLookupResponse, proxy, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_raw_response_lookup(self, client: Mobilerun) -> None:
-        response = client.proxies.with_raw_response.lookup(
-            socks5={
-                "host": "host",
-                "port": 1,
-            },
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        proxy = response.parse()
-        assert_matches_type(ProxyLookupResponse, proxy, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_streaming_response_lookup(self, client: Mobilerun) -> None:
-        with client.proxies.with_streaming_response.lookup(
-            socks5={
-                "host": "host",
-                "port": 1,
-            },
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            proxy = response.parse()
-            assert_matches_type(ProxyLookupResponse, proxy, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
 
 class TestAsyncProxies:
     parametrize = pytest.mark.parametrize(
@@ -743,59 +686,3 @@ class TestAsyncProxies:
             await async_client.proxies.with_raw_response.delete(
                 "",
             )
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_lookup(self, async_client: AsyncMobilerun) -> None:
-        proxy = await async_client.proxies.lookup(
-            socks5={
-                "host": "host",
-                "port": 1,
-            },
-        )
-        assert_matches_type(ProxyLookupResponse, proxy, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_lookup_with_all_params(self, async_client: AsyncMobilerun) -> None:
-        proxy = await async_client.proxies.lookup(
-            socks5={
-                "host": "host",
-                "port": 1,
-                "password": "password",
-                "user": "user",
-            },
-        )
-        assert_matches_type(ProxyLookupResponse, proxy, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_raw_response_lookup(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.proxies.with_raw_response.lookup(
-            socks5={
-                "host": "host",
-                "port": 1,
-            },
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        proxy = await response.parse()
-        assert_matches_type(ProxyLookupResponse, proxy, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_streaming_response_lookup(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.proxies.with_streaming_response.lookup(
-            socks5={
-                "host": "host",
-                "port": 1,
-            },
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            proxy = await response.parse()
-            assert_matches_type(ProxyLookupResponse, proxy, path=["response"])
-
-        assert cast(Any, response.is_closed) is True

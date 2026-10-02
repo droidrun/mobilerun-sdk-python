@@ -133,14 +133,11 @@ class TrajectoryTrajectoryScreenshotEvent(BaseModel):
 
 class TrajectoryTrajectoryStartEvent(BaseModel):
     data: object
-    """Implicit entry event sent to kick off a `Workflow.run()`."""
 
     event: Literal["StartEvent"]
 
 
 class TrajectoryTrajectoryFinalizeEventData(BaseModel):
-    """Trigger finalization."""
-
     reason: str
 
     success: bool
@@ -148,43 +145,18 @@ class TrajectoryTrajectoryFinalizeEventData(BaseModel):
 
 class TrajectoryTrajectoryFinalizeEvent(BaseModel):
     data: TrajectoryTrajectoryFinalizeEventData
-    """Trigger finalization."""
 
     event: Literal["FinalizeEvent"]
 
 
 class TrajectoryTrajectoryStopEvent(BaseModel):
     data: object
-    """Terminal event that signals the workflow has completed.
-
-    The `result` property contains the return value of the workflow run. When a
-    custom stop event subclass is used, the workflow result is that event instance
-    itself.
-
-    Examples:
-    `python # default stop event: result holds the value return StopEvent(result={"answer": 42}) `
-
-        Subclassing to provide a custom result:
-
-        ```python
-        class MyStopEv(StopEvent):
-            pass
-
-        @step
-        async def my_step(self, ctx: Context, ev: StartEvent) -> MyStopEv:
-            return MyStopEv(result={"answer": 42})
-    """
 
     event: Literal["StopEvent"]
 
 
 class TrajectoryTrajectoryResultEventData(BaseModel):
-    """Lazy wrapper — avoids importing droidrun at module level.
-
-    The worker uses droidrun's ResultEvent directly; this model only
-    exists so the API OpenAPI schema can reference it without the heavy
-    droidrun import.
-    """
+    """Final result of a task run."""
 
     message: Optional[str] = None
 
@@ -197,29 +169,18 @@ class TrajectoryTrajectoryResultEventData(BaseModel):
 
 class TrajectoryTrajectoryResultEvent(BaseModel):
     data: TrajectoryTrajectoryResultEventData
-    """Lazy wrapper — avoids importing droidrun at module level.
-
-    The worker uses droidrun's ResultEvent directly; this model only exists so the
-    API OpenAPI schema can reference it without the heavy droidrun import.
-    """
+    """Final result of a task run."""
 
     event: Literal["ResultEvent"]
 
 
 class TrajectoryTrajectoryManagerInputEvent(BaseModel):
     data: object
-    """Trigger Manager workflow for planning"""
 
     event: Literal["ManagerInputEvent"]
 
 
 class TrajectoryTrajectoryManagerPlanEventData(BaseModel):
-    """Coordination event from ManagerAgent to MobileAgent.
-
-    Used for workflow step routing only (NOT streamed to frontend).
-    For internal events with memory_update metadata, see ManagerPlanDetailsEvent.
-    """
-
     current_subgoal: str
 
     plan: str
@@ -233,31 +194,21 @@ class TrajectoryTrajectoryManagerPlanEventData(BaseModel):
 
 class TrajectoryTrajectoryManagerPlanEvent(BaseModel):
     data: TrajectoryTrajectoryManagerPlanEventData
-    """Coordination event from ManagerAgent to MobileAgent.
-
-    Used for workflow step routing only (NOT streamed to frontend). For internal
-    events with memory_update metadata, see ManagerPlanDetailsEvent.
-    """
 
     event: Literal["ManagerPlanEvent"]
 
 
 class TrajectoryTrajectoryExecutorInputEventData(BaseModel):
-    """Trigger Executor workflow for action execution"""
-
     current_subgoal: str
 
 
 class TrajectoryTrajectoryExecutorInputEvent(BaseModel):
     data: TrajectoryTrajectoryExecutorInputEventData
-    """Trigger Executor workflow for action execution"""
 
     event: Literal["ExecutorInputEvent"]
 
 
 class TrajectoryTrajectoryExecutorResultEventData(BaseModel):
-    """Executor finished with action result."""
-
     action: Dict[str, object]
 
     error: str
@@ -269,14 +220,12 @@ class TrajectoryTrajectoryExecutorResultEventData(BaseModel):
 
 class TrajectoryTrajectoryExecutorResultEvent(BaseModel):
     data: TrajectoryTrajectoryExecutorResultEventData
-    """Executor finished with action result."""
 
     event: Literal["ExecutorResultEvent"]
 
 
 class TrajectoryTrajectoryFastAgentInputEvent(BaseModel):
     data: object
-    """Input ready for LLM."""
 
     event: Literal["FastAgentInputEvent"]
 
@@ -292,8 +241,6 @@ class TrajectoryTrajectoryFastAgentResponseEventDataUsage(BaseModel):
 
 
 class TrajectoryTrajectoryFastAgentResponseEventData(BaseModel):
-    """LLM response received."""
-
     thought: str
 
     code: Optional[str] = None
@@ -306,40 +253,31 @@ class TrajectoryTrajectoryFastAgentResponseEventData(BaseModel):
 
 class TrajectoryTrajectoryFastAgentResponseEvent(BaseModel):
     data: TrajectoryTrajectoryFastAgentResponseEventData
-    """LLM response received."""
 
     event: Literal["FastAgentResponseEvent"]
 
 
 class TrajectoryTrajectoryFastAgentToolCallEventData(BaseModel):
-    """Tool calls ready to execute."""
-
     tool_calls_repr: str
 
 
 class TrajectoryTrajectoryFastAgentToolCallEvent(BaseModel):
     data: TrajectoryTrajectoryFastAgentToolCallEventData
-    """Tool calls ready to execute."""
 
     event: Literal["FastAgentToolCallEvent"]
 
 
 class TrajectoryTrajectoryFastAgentOutputEventData(BaseModel):
-    """Tool execution result."""
-
     output: str
 
 
 class TrajectoryTrajectoryFastAgentOutputEvent(BaseModel):
     data: TrajectoryTrajectoryFastAgentOutputEventData
-    """Tool execution result."""
 
     event: Literal["FastAgentOutputEvent"]
 
 
 class TrajectoryTrajectoryFastAgentEndEventData(BaseModel):
-    """FastAgent finished."""
-
     reason: str
 
     success: bool
@@ -349,7 +287,6 @@ class TrajectoryTrajectoryFastAgentEndEventData(BaseModel):
 
 class TrajectoryTrajectoryFastAgentEndEvent(BaseModel):
     data: TrajectoryTrajectoryFastAgentEndEventData
-    """FastAgent finished."""
 
     event: Literal["FastAgentEndEvent"]
 
@@ -379,8 +316,6 @@ class TrajectoryTrajectoryFastAgentResultEvent(BaseModel):
 
 
 class TrajectoryTrajectoryToolExecutionEventData(BaseModel):
-    """Emitted after every tool call dispatched through ToolRegistry."""
-
     success: bool
 
     summary: str
@@ -392,7 +327,6 @@ class TrajectoryTrajectoryToolExecutionEventData(BaseModel):
 
 class TrajectoryTrajectoryToolExecutionEvent(BaseModel):
     data: TrajectoryTrajectoryToolExecutionEventData
-    """Emitted after every tool call dispatched through ToolRegistry."""
 
     event: Literal["ToolExecutionEvent"]
 
@@ -411,7 +345,6 @@ class TrajectoryTrajectoryRecordUiStateEvent(BaseModel):
 
 class TrajectoryTrajectoryManagerContextEvent(BaseModel):
     data: object
-    """Context prepared, ready for LLM call."""
 
     event: Literal["ManagerContextEvent"]
 
@@ -427,8 +360,6 @@ class TrajectoryTrajectoryManagerResponseEventDataUsage(BaseModel):
 
 
 class TrajectoryTrajectoryManagerResponseEventData(BaseModel):
-    """LLM response received, ready for parsing."""
-
     response: str
 
     usage: Optional[TrajectoryTrajectoryManagerResponseEventDataUsage] = None
@@ -436,14 +367,11 @@ class TrajectoryTrajectoryManagerResponseEventData(BaseModel):
 
 class TrajectoryTrajectoryManagerResponseEvent(BaseModel):
     data: TrajectoryTrajectoryManagerResponseEventData
-    """LLM response received, ready for parsing."""
 
     event: Literal["ManagerResponseEvent"]
 
 
 class TrajectoryTrajectoryManagerPlanDetailsEventData(BaseModel):
-    """Plan parsed and ready (internal event with full details)."""
-
     plan: str
 
     subgoal: str
@@ -463,20 +391,16 @@ class TrajectoryTrajectoryManagerPlanDetailsEventData(BaseModel):
 
 class TrajectoryTrajectoryManagerPlanDetailsEvent(BaseModel):
     data: TrajectoryTrajectoryManagerPlanDetailsEventData
-    """Plan parsed and ready (internal event with full details)."""
 
     event: Literal["ManagerPlanDetailsEvent"]
 
 
 class TrajectoryTrajectoryExecutorContextEventData(BaseModel):
-    """Context prepared, ready for LLM call."""
-
     subgoal: str
 
 
 class TrajectoryTrajectoryExecutorContextEvent(BaseModel):
     data: TrajectoryTrajectoryExecutorContextEventData
-    """Context prepared, ready for LLM call."""
 
     event: Literal["ExecutorContextEvent"]
 
@@ -492,8 +416,6 @@ class TrajectoryTrajectoryExecutorResponseEventDataUsage(BaseModel):
 
 
 class TrajectoryTrajectoryExecutorResponseEventData(BaseModel):
-    """LLM response received, ready for parsing."""
-
     response: str
 
     usage: Optional[TrajectoryTrajectoryExecutorResponseEventDataUsage] = None
@@ -501,14 +423,11 @@ class TrajectoryTrajectoryExecutorResponseEventData(BaseModel):
 
 class TrajectoryTrajectoryExecutorResponseEvent(BaseModel):
     data: TrajectoryTrajectoryExecutorResponseEventData
-    """LLM response received, ready for parsing."""
 
     event: Literal["ExecutorResponseEvent"]
 
 
 class TrajectoryTrajectoryExecutorActionEventData(BaseModel):
-    """Action parsed, ready to execute."""
-
     action_json: str
 
     description: str
@@ -520,14 +439,11 @@ class TrajectoryTrajectoryExecutorActionEventData(BaseModel):
 
 class TrajectoryTrajectoryExecutorActionEvent(BaseModel):
     data: TrajectoryTrajectoryExecutorActionEventData
-    """Action parsed, ready to execute."""
 
     event: Literal["ExecutorActionEvent"]
 
 
 class TrajectoryTrajectoryExecutorActionResultEventData(BaseModel):
-    """Action execution result (internal event with full details)."""
-
     action: Dict[str, object]
 
     error: str
@@ -543,7 +459,6 @@ class TrajectoryTrajectoryExecutorActionResultEventData(BaseModel):
 
 class TrajectoryTrajectoryExecutorActionResultEvent(BaseModel):
     data: TrajectoryTrajectoryExecutorActionResultEventData
-    """Action execution result (internal event with full details)."""
 
     event: Literal["ExecutorActionResultEvent"]
 

@@ -92,7 +92,7 @@ class NumbersResource(SyncAPIResource):
 
           label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
               code units; an emoji/flag may span several). Display-only, never used for
-              routing. Also seeds the billing entity name at purchase.
+              routing.
 
           purpose: Optional purpose from GET /numbers/phones/purposes.
 
@@ -181,7 +181,7 @@ class NumbersResource(SyncAPIResource):
         Args:
           label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
               code units; an emoji/flag may span several). Display-only, never used for
-              routing. Also seeds the billing entity name at purchase.
+              routing.
 
           extra_headers: Send extra headers
 
@@ -423,7 +423,7 @@ class AsyncNumbersResource(AsyncAPIResource):
 
           label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
               code units; an emoji/flag may span several). Display-only, never used for
-              routing. Also seeds the billing entity name at purchase.
+              routing.
 
           purpose: Optional purpose from GET /numbers/phones/purposes.
 
@@ -512,7 +512,7 @@ class AsyncNumbersResource(AsyncAPIResource):
         Args:
           label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
               code units; an emoji/flag may span several). Display-only, never used for
-              routing. Also seeds the billing entity name at purchase.
+              routing.
 
           extra_headers: Send extra headers
 

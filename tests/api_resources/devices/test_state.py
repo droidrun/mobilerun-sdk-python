@@ -33,6 +33,7 @@ class TestState:
         state = client.devices.state.screenshot(
             device_id="deviceId",
             hide_overlay=True,
+            save=True,
             x_device_display_id=0,
         )
         assert_matches_type(str, state, path=["response"])
@@ -194,6 +195,7 @@ class TestAsyncState:
         state = await async_client.devices.state.screenshot(
             device_id="deviceId",
             hide_overlay=True,
+            save=True,
             x_device_display_id=0,
         )
         assert_matches_type(str, state, path=["response"])

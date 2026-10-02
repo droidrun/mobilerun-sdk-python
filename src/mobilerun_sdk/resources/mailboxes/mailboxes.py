@@ -102,10 +102,10 @@ class MailboxesResource(SyncAPIResource):
         """Creates a mailbox on the default domain or a connected custom domain.
 
         An
-        optional `localPart` selects the address. Replaying the same Idempotency-Key
-        (or, during migration, the deprecated `clientRequestId` body field) and payload
-        returns the original mailbox. Poll the mailbox when a 202 response does not yet
-        include a checkout URL.
+        optional `localPart` selects the address. Replaying the same Idempotency-Key (or
+        the deprecated `clientRequestId` body field, still accepted as a fallback) and
+        payload returns the original mailbox. Poll the mailbox when a 202 response does
+        not yet include a checkout URL.
 
         Args:
           billing_preference: included uses package capacity when available and otherwise starts paid
@@ -340,7 +340,8 @@ class MailboxesResource(SyncAPIResource):
     ) -> MailboxDisconnectResponse:
         """Removes only this mailbox link.
 
-        The agent Composio connection stays in place.
+        The Gmail connection used by your agents stays
+        in place.
 
         Args:
           extra_headers: Send extra headers
@@ -557,10 +558,10 @@ class AsyncMailboxesResource(AsyncAPIResource):
         """Creates a mailbox on the default domain or a connected custom domain.
 
         An
-        optional `localPart` selects the address. Replaying the same Idempotency-Key
-        (or, during migration, the deprecated `clientRequestId` body field) and payload
-        returns the original mailbox. Poll the mailbox when a 202 response does not yet
-        include a checkout URL.
+        optional `localPart` selects the address. Replaying the same Idempotency-Key (or
+        the deprecated `clientRequestId` body field, still accepted as a fallback) and
+        payload returns the original mailbox. Poll the mailbox when a 202 response does
+        not yet include a checkout URL.
 
         Args:
           billing_preference: included uses package capacity when available and otherwise starts paid
@@ -795,7 +796,8 @@ class AsyncMailboxesResource(AsyncAPIResource):
     ) -> MailboxDisconnectResponse:
         """Removes only this mailbox link.
 
-        The agent Composio connection stays in place.
+        The Gmail connection used by your agents stays
+        in place.
 
         Args:
           extra_headers: Send extra headers

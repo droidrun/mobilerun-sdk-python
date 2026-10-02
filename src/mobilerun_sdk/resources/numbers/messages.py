@@ -115,18 +115,18 @@ class MessagesResource(SyncAPIResource):
     ) -> MessageSendResponse:
         """Queues an SMS from one of the caller's numbers that can send.
 
-        Same idempotency
-        contract as the eSIM send: replaying an Idempotency-Key with the same payload
-        returns the original message, reusing it with a different payload returns 422.
-        409 capability_unavailable: this number cannot send right now. 422
-        invalid_recipient / unsupported_destination / body_too_long: the recipient or
-        text does not fit the number. 429 daily_limit_reached: the rolling 24 h limit
-        for the account is used up; 429 rate_limited: too many sends in a short window.
-        403 send_disabled: self-service SMS send is switched off.
+        Replaying an
+        Idempotency-Key with the same payload returns the original message, reusing it
+        with a different payload returns 422. 409 capability_unavailable: this number
+        cannot send right now. 422 invalid_recipient / unsupported_destination /
+        body_too_long: the recipient or text does not fit the number. 429
+        daily_limit_reached: the rolling 24 h limit for the account is used up; 429
+        rate_limited: too many sends in a short window. 403 send_disabled: self-service
+        SMS send is switched off.
 
         Args:
-          body: SMS body text, up to 1600 characters (rejected with 400 beyond that, before
-              hashing). A number's own limit may be lower and is answered 422 body_too_long.
+          body: SMS body text, up to 1600 characters (longer bodies are rejected with 400). A
+              number's own limit may be lower and is answered 422 body_too_long.
 
           to: Recipient phone number, as E.164 or a US 10/11-digit number. Destinations the
               number cannot send to are rejected with 422 unsupported_destination, non-numbers
@@ -260,18 +260,18 @@ class AsyncMessagesResource(AsyncAPIResource):
     ) -> MessageSendResponse:
         """Queues an SMS from one of the caller's numbers that can send.
 
-        Same idempotency
-        contract as the eSIM send: replaying an Idempotency-Key with the same payload
-        returns the original message, reusing it with a different payload returns 422.
-        409 capability_unavailable: this number cannot send right now. 422
-        invalid_recipient / unsupported_destination / body_too_long: the recipient or
-        text does not fit the number. 429 daily_limit_reached: the rolling 24 h limit
-        for the account is used up; 429 rate_limited: too many sends in a short window.
-        403 send_disabled: self-service SMS send is switched off.
+        Replaying an
+        Idempotency-Key with the same payload returns the original message, reusing it
+        with a different payload returns 422. 409 capability_unavailable: this number
+        cannot send right now. 422 invalid_recipient / unsupported_destination /
+        body_too_long: the recipient or text does not fit the number. 429
+        daily_limit_reached: the rolling 24 h limit for the account is used up; 429
+        rate_limited: too many sends in a short window. 403 send_disabled: self-service
+        SMS send is switched off.
 
         Args:
-          body: SMS body text, up to 1600 characters (rejected with 400 beyond that, before
-              hashing). A number's own limit may be lower and is answered 422 body_too_long.
+          body: SMS body text, up to 1600 characters (longer bodies are rejected with 400). A
+              number's own limit may be lower and is answered 422 body_too_long.
 
           to: Recipient phone number, as E.164 or a US 10/11-digit number. Destinations the
               number cannot send to are rejected with 422 unsupported_destination, non-numbers

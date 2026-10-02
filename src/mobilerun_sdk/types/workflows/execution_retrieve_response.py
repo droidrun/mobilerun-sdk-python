@@ -23,7 +23,7 @@ __all__ = [
 class DataDelivery(BaseModel):
     artifact: Literal["recording", "file", "screenshot"]
 
-    destination: Literal["one_drive", "google_drive"]
+    destination: Literal["mobilerun", "one_drive", "google_drive"]
 
     error_code: Optional[str] = FieldInfo(alias="errorCode", default=None)
 
@@ -71,9 +71,7 @@ class DataProgressStep(BaseModel):
 
 
 class DataProgress(BaseModel):
-    """
-    Live progress read from step_progress; null for runs started before this feature.
-    """
+    """Live progress; null for runs started before this feature."""
 
     current_index: Optional[int] = FieldInfo(alias="currentIndex", default=None)
 
@@ -123,7 +121,7 @@ class DataScreenshot(BaseModel):
 
     seq: int
 
-    source: Literal["task", "agent"]
+    source: Literal["task", "agent", "recording"]
 
     step_index: int = FieldInfo(alias="stepIndex")
 
@@ -175,18 +173,15 @@ class Data(BaseModel):
     kind: Literal["live", "dry_run", "verification"]
 
     progress: Optional[DataProgress] = None
-    """
-    Live progress read from step_progress; null for runs started before this
-    feature.
-    """
+    """Live progress; null for runs started before this feature."""
 
     recording_device_id: Optional[str] = FieldInfo(alias="recordingDeviceId", default=None)
 
     recording_id: Optional[str] = FieldInfo(alias="recordingId", default=None)
-    """
-    Device-recording id (devices-api) for this execution, set once the worker starts
-    a recording. Null when the flow has recording disabled, no device is bound, or
-    the recording failed to start.
+    """Device recording id for this execution, set once recording starts.
+
+    Null when the flow has recording disabled, no device is bound, or the recording
+    failed to start.
     """
 
     recordings: List[DataRecording]
@@ -196,9 +191,10 @@ class Data(BaseModel):
     """
 
     screenshots: List[DataScreenshot]
-    """Screenshots captured by tasks.run/agent.run steps, ordered by seq.
-
-    Image bytes are never returned here — fetch a fresh signed URL via GET
+    """
+    Screenshots captured by tasks.run/agent.run steps and saved by scripts into the
+    flow screenshots recording (source recording), ordered by seq. Image bytes are
+    never returned here — fetch a fresh signed URL via GET
     /executions/{id}/screenshots/{screenshotId}.
     """
 
@@ -215,9 +211,9 @@ class Data(BaseModel):
 
     Each step additionally carries a `verdict` field ({ outcome, summary, reason? }
     | null) when it is an agent.run step that opted into a verdict — null otherwise.
-    Table-backed steps (current executions) also carry a `status` string (e.g.
-    success/failed/stopped, see deriveStepStatus); it is optional and absent on
-    legacy blob-only executions, so clients must not assume its presence.
+    Steps of current executions also carry a `status` string (e.g.
+    success/failed/stopped); it is optional and absent on older executions, so
+    clients must not assume its presence.
     """
 
 
