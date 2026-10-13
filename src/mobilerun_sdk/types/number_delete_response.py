@@ -50,6 +50,13 @@ class Data(BaseModel):
 
     current_period_end: Optional[datetime] = FieldInfo(alias="currentPeriodEnd", default=None)
 
+    failure_reason: Optional[Literal["out_of_stock", "unknown"]] = FieldInfo(alias="failureReason", default=None)
+    """Why setup failed.
+
+    Null unless state is failed, and null when the failure has no classified reason.
+    out_of_stock: no number is currently available for the requested country.
+    """
+
     label: Optional[str] = None
 
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)

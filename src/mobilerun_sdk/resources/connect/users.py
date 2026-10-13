@@ -319,8 +319,8 @@ class UsersResource(SyncAPIResource):
         """
         Returns the connection history recorded for this user, one item per connection
         (aggregated across the connection's lifetime). Supports filtering on every
-        property plus ordering and pagination. Returns 503 when the connection-insights
-        backend is disabled or unreachable.
+        property plus ordering and pagination. Returns 503 when connection history is
+        temporarily unavailable.
 
         Args:
           close_reason: Filter to connections that closed with this reason (closed connections only).
@@ -363,7 +363,7 @@ class UsersResource(SyncAPIResource):
 
           protocol: Filter to connections of this transport protocol.
 
-          provider: Filter to connections served by this upstream provider.
+          provider: Filter to connections served by this upstream provider identifier.
 
           proxy_id: Filter to connections routed through this proxy.
 
@@ -717,8 +717,8 @@ class AsyncUsersResource(AsyncAPIResource):
         """
         Returns the connection history recorded for this user, one item per connection
         (aggregated across the connection's lifetime). Supports filtering on every
-        property plus ordering and pagination. Returns 503 when the connection-insights
-        backend is disabled or unreachable.
+        property plus ordering and pagination. Returns 503 when connection history is
+        temporarily unavailable.
 
         Args:
           close_reason: Filter to connections that closed with this reason (closed connections only).
@@ -761,7 +761,7 @@ class AsyncUsersResource(AsyncAPIResource):
 
           protocol: Filter to connections of this transport protocol.
 
-          provider: Filter to connections served by this upstream provider.
+          provider: Filter to connections served by this upstream provider identifier.
 
           proxy_id: Filter to connections routed through this proxy.
 

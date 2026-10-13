@@ -205,6 +205,7 @@ class TestActions:
             end_y=0,
             start_x=0,
             start_y=0,
+            hold_ms=0,
             stealth=True,
             x_device_display_id=0,
         )
@@ -513,6 +514,7 @@ class TestAsyncActions:
             end_y=0,
             start_x=0,
             start_y=0,
+            hold_ms=0,
             stealth=True,
             x_device_display_id=0,
         )

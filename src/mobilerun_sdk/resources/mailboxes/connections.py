@@ -49,7 +49,6 @@ class ConnectionsResource(SyncAPIResource):
         *,
         provider: Literal["gmail"],
         binding_hash: str | Omit = omit,
-        client_request_id: str | Omit = omit,
         label: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -59,17 +58,14 @@ class ConnectionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> ConnectionCreateResponse:
-        """
-        Links the caller’s Gmail account through the shared integrations connect.
-        Replaying the same Idempotency-Key (or, during migration, the deprecated
-        `clientRequestId` body field) returns the same mailbox. When Gmail is already
-        active, redirectUrl is null and the mailbox is usable immediately.
+        """Links the caller’s Gmail account.
+
+        Replaying the same Idempotency-Key returns the
+        same mailbox. When Gmail is already active, redirectUrl is null and the mailbox
+        is usable immediately.
 
         Args:
-          binding_hash: sha256 hex of the browser-held connect binding secret; forwarded to integrations
-              connect
-
-          client_request_id: Use the Idempotency-Key header.
+          binding_hash: sha256 hex of the browser-held connect binding secret.
 
           extra_headers: Send extra headers
 
@@ -87,7 +83,6 @@ class ConnectionsResource(SyncAPIResource):
                 {
                     "provider": provider,
                     "binding_hash": binding_hash,
-                    "client_request_id": client_request_id,
                     "label": label,
                 },
                 connection_create_params.ConnectionCreateParams,
@@ -162,7 +157,6 @@ class AsyncConnectionsResource(AsyncAPIResource):
         *,
         provider: Literal["gmail"],
         binding_hash: str | Omit = omit,
-        client_request_id: str | Omit = omit,
         label: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -172,17 +166,14 @@ class AsyncConnectionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> ConnectionCreateResponse:
-        """
-        Links the caller’s Gmail account through the shared integrations connect.
-        Replaying the same Idempotency-Key (or, during migration, the deprecated
-        `clientRequestId` body field) returns the same mailbox. When Gmail is already
-        active, redirectUrl is null and the mailbox is usable immediately.
+        """Links the caller’s Gmail account.
+
+        Replaying the same Idempotency-Key returns the
+        same mailbox. When Gmail is already active, redirectUrl is null and the mailbox
+        is usable immediately.
 
         Args:
-          binding_hash: sha256 hex of the browser-held connect binding secret; forwarded to integrations
-              connect
-
-          client_request_id: Use the Idempotency-Key header.
+          binding_hash: sha256 hex of the browser-held connect binding secret.
 
           extra_headers: Send extra headers
 
@@ -200,7 +191,6 @@ class AsyncConnectionsResource(AsyncAPIResource):
                 {
                     "provider": provider,
                     "binding_hash": binding_hash,
-                    "client_request_id": client_request_id,
                     "label": label,
                 },
                 connection_create_params.ConnectionCreateParams,

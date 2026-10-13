@@ -32,7 +32,6 @@ from ...types.number_create_response import NumberCreateResponse
 from ...types.number_delete_response import NumberDeleteResponse
 from ...types.number_update_response import NumberUpdateResponse
 from ...types.number_capacity_response import NumberCapacityResponse
-from ...types.number_purposes_response import NumberPurposesResponse
 from ...types.number_retrieve_response import NumberRetrieveResponse
 from ...types.number_countries_response import NumberCountriesResponse
 
@@ -69,7 +68,6 @@ class NumbersResource(SyncAPIResource):
         billing_preference: Literal["included", "included_only", "rent"] | Omit = omit,
         country: str | Omit = omit,
         label: Optional[str] | Omit = omit,
-        purpose: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -81,20 +79,17 @@ class NumbersResource(SyncAPIResource):
         """Starts a phone-number purchase.
 
         Poll the returned phone number for status
-        updates. `purpose` and `country` cannot be combined.
+        updates.
 
         Args:
           billing_preference: Use included capacity when available, require included capacity without paid
               fallback (included_only), or start a paid checkout (rent).
 
           country: Optional ISO 3166-1 alpha-2 country code from GET /numbers/phones/countries.
-              Cannot be combined with `purpose`.
 
           label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
               code units; an emoji/flag may span several). Display-only, never used for
-              routing. Also seeds the billing entity name at purchase.
-
-          purpose: Optional purpose from GET /numbers/phones/purposes.
+              routing.
 
           extra_headers: Send extra headers
 
@@ -113,7 +108,6 @@ class NumbersResource(SyncAPIResource):
                     "billing_preference": billing_preference,
                     "country": country,
                     "label": label,
-                    "purpose": purpose,
                 },
                 number_create_params.NumberCreateParams,
             ),
@@ -181,7 +175,7 @@ class NumbersResource(SyncAPIResource):
         Args:
           label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
               code units; an emoji/flag may span several). Display-only, never used for
-              routing. Also seeds the billing entity name at purchase.
+              routing.
 
           extra_headers: Send extra headers
 
@@ -350,25 +344,6 @@ class NumbersResource(SyncAPIResource):
             cast_to=NumberCountriesResponse,
         )
 
-    def purposes(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> NumberPurposesResponse:
-        """Lists the optional purposes currently available for a Mobilerun Phone."""
-        return self._get(
-            "/numbers/phones/purposes",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NumberPurposesResponse,
-        )
-
 
 class AsyncNumbersResource(AsyncAPIResource):
     @cached_property
@@ -400,7 +375,6 @@ class AsyncNumbersResource(AsyncAPIResource):
         billing_preference: Literal["included", "included_only", "rent"] | Omit = omit,
         country: str | Omit = omit,
         label: Optional[str] | Omit = omit,
-        purpose: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -412,20 +386,17 @@ class AsyncNumbersResource(AsyncAPIResource):
         """Starts a phone-number purchase.
 
         Poll the returned phone number for status
-        updates. `purpose` and `country` cannot be combined.
+        updates.
 
         Args:
           billing_preference: Use included capacity when available, require included capacity without paid
               fallback (included_only), or start a paid checkout (rent).
 
           country: Optional ISO 3166-1 alpha-2 country code from GET /numbers/phones/countries.
-              Cannot be combined with `purpose`.
 
           label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
               code units; an emoji/flag may span several). Display-only, never used for
-              routing. Also seeds the billing entity name at purchase.
-
-          purpose: Optional purpose from GET /numbers/phones/purposes.
+              routing.
 
           extra_headers: Send extra headers
 
@@ -444,7 +415,6 @@ class AsyncNumbersResource(AsyncAPIResource):
                     "billing_preference": billing_preference,
                     "country": country,
                     "label": label,
-                    "purpose": purpose,
                 },
                 number_create_params.NumberCreateParams,
             ),
@@ -512,7 +482,7 @@ class AsyncNumbersResource(AsyncAPIResource):
         Args:
           label: User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
               code units; an emoji/flag may span several). Display-only, never used for
-              routing. Also seeds the billing entity name at purchase.
+              routing.
 
           extra_headers: Send extra headers
 
@@ -681,25 +651,6 @@ class AsyncNumbersResource(AsyncAPIResource):
             cast_to=NumberCountriesResponse,
         )
 
-    async def purposes(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> NumberPurposesResponse:
-        """Lists the optional purposes currently available for a Mobilerun Phone."""
-        return await self._get(
-            "/numbers/phones/purposes",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NumberPurposesResponse,
-        )
-
 
 class NumbersResourceWithRawResponse:
     def __init__(self, numbers: NumbersResource) -> None:
@@ -725,9 +676,6 @@ class NumbersResourceWithRawResponse:
         )
         self.countries = to_raw_response_wrapper(
             numbers.countries,
-        )
-        self.purposes = to_raw_response_wrapper(
-            numbers.purposes,
         )
 
     @cached_property
@@ -760,9 +708,6 @@ class AsyncNumbersResourceWithRawResponse:
         self.countries = async_to_raw_response_wrapper(
             numbers.countries,
         )
-        self.purposes = async_to_raw_response_wrapper(
-            numbers.purposes,
-        )
 
     @cached_property
     def messages(self) -> AsyncMessagesResourceWithRawResponse:
@@ -794,9 +739,6 @@ class NumbersResourceWithStreamingResponse:
         self.countries = to_streamed_response_wrapper(
             numbers.countries,
         )
-        self.purposes = to_streamed_response_wrapper(
-            numbers.purposes,
-        )
 
     @cached_property
     def messages(self) -> MessagesResourceWithStreamingResponse:
@@ -827,9 +769,6 @@ class AsyncNumbersResourceWithStreamingResponse:
         )
         self.countries = async_to_streamed_response_wrapper(
             numbers.countries,
-        )
-        self.purposes = async_to_streamed_response_wrapper(
-            numbers.purposes,
         )
 
     @cached_property

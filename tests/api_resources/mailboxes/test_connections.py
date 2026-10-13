@@ -31,7 +31,6 @@ class TestConnections:
         connection = client.mailboxes.connections.create(
             provider="gmail",
             binding_hash="ecc2efdd09bd231a9ad9bd2aada37aa7ccc3d38a03cc25beb6c28aa0aaa316be",
-            client_request_id="x",
             label="label",
         )
         assert_matches_type(ConnectionCreateResponse, connection, path=["response"])
@@ -124,7 +123,6 @@ class TestAsyncConnections:
         connection = await async_client.mailboxes.connections.create(
             provider="gmail",
             binding_hash="ecc2efdd09bd231a9ad9bd2aada37aa7ccc3d38a03cc25beb6c28aa0aaa316be",
-            client_request_id="x",
             label="label",
         )
         assert_matches_type(ConnectionCreateResponse, connection, path=["response"])

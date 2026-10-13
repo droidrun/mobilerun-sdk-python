@@ -80,7 +80,7 @@ class TestFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
-                "destination": "one_drive",
+                "destination": "mobilerun",
                 "folder": "x",
                 "recording": {"filename": "x"},
                 "screenshots": {},
@@ -197,7 +197,7 @@ class TestFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
-                "destination": "one_drive",
+                "destination": "mobilerun",
                 "folder": "x",
                 "recording": {"filename": "x"},
                 "screenshots": {},
@@ -614,6 +614,7 @@ class TestFlows:
     def test_method_run_with_all_params(self, client: Mobilerun) -> None:
         flow = client.workflows.flows.run(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            capture_screenshots=True,
             payload={"foo": "bar"},
         )
         assert_matches_type(FlowRunResponse, flow, path=["response"])
@@ -774,7 +775,7 @@ class TestFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
-                "destination": "one_drive",
+                "destination": "mobilerun",
                 "folder": "x",
                 "recording": {"filename": "x"},
                 "screenshots": {},
@@ -941,7 +942,7 @@ class TestAsyncFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
-                "destination": "one_drive",
+                "destination": "mobilerun",
                 "folder": "x",
                 "recording": {"filename": "x"},
                 "screenshots": {},
@@ -1058,7 +1059,7 @@ class TestAsyncFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
-                "destination": "one_drive",
+                "destination": "mobilerun",
                 "folder": "x",
                 "recording": {"filename": "x"},
                 "screenshots": {},
@@ -1475,6 +1476,7 @@ class TestAsyncFlows:
     async def test_method_run_with_all_params(self, async_client: AsyncMobilerun) -> None:
         flow = await async_client.workflows.flows.run(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            capture_screenshots=True,
             payload={"foo": "bar"},
         )
         assert_matches_type(FlowRunResponse, flow, path=["response"])
@@ -1635,7 +1637,7 @@ class TestAsyncFlows:
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
-                "destination": "one_drive",
+                "destination": "mobilerun",
                 "folder": "x",
                 "recording": {"filename": "x"},
                 "screenshots": {},

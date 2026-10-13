@@ -1,0 +1,527 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+import httpx
+
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ..._base_client import make_request_options
+from ...types.devices import screenshot_list_params, screenshot_capture_params
+from ...types.devices.screenshot_list_response import ScreenshotListResponse
+
+__all__ = ["ScreenshotsResource", "AsyncScreenshotsResource"]
+
+
+class ScreenshotsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> ScreenshotsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
+        """
+        return ScreenshotsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> ScreenshotsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
+        """
+        return ScreenshotsResourceWithStreamingResponse(self)
+
+    def list(
+        self,
+        device_id: str,
+        *,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ScreenshotListResponse:
+        """Saved screenshots, newest first.
+
+        Pass nextCursor as cursor to retrieve the next
+        page.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        return self._get(
+            path_template("/devices/{device_id}/screenshots", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "limit": limit,
+                    },
+                    screenshot_list_params.ScreenshotListParams,
+                ),
+            ),
+            cast_to=ScreenshotListResponse,
+        )
+
+    def delete(
+        self,
+        screenshot_id: str,
+        *,
+        device_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> None:
+        """
+        Delete a device screenshot
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        if not screenshot_id:
+            raise ValueError(f"Expected a non-empty value for `screenshot_id` but received {screenshot_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._delete(
+            path_template(
+                "/devices/{device_id}/screenshots/{screenshot_id}", device_id=device_id, screenshot_id=screenshot_id
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=NoneType,
+        )
+
+    def capture(
+        self,
+        device_id: str,
+        *,
+        hide_overlay: bool | Omit = omit,
+        save: bool | Omit = omit,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> str:
+        """Captures the device screen and returns it as a PNG image.
+
+        Pass save=true to
+        store it as device media.
+
+        Args:
+          save: Store the screenshot as device media: in the owner's active recording, or
+              standalone for 7 days. Without save=true nothing is stored. The PNG response is
+              unchanged; X-Screenshot-Saved reports whether it was stored.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return self._post(
+            path_template("/devices/{device_id}/screenshots", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+                query=maybe_transform(
+                    {
+                        "hide_overlay": hide_overlay,
+                        "save": save,
+                    },
+                    screenshot_capture_params.ScreenshotCaptureParams,
+                ),
+            ),
+            cast_to=str,
+        )
+
+    def image(
+        self,
+        screenshot_id: str,
+        *,
+        device_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Redirects to a presigned PNG URL valid for 15 minutes.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        if not screenshot_id:
+            raise ValueError(f"Expected a non-empty value for `screenshot_id` but received {screenshot_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._get(
+            path_template(
+                "/devices/{device_id}/screenshots/{screenshot_id}/image",
+                device_id=device_id,
+                screenshot_id=screenshot_id,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+
+class AsyncScreenshotsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncScreenshotsResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
+        """
+        return AsyncScreenshotsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncScreenshotsResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
+        """
+        return AsyncScreenshotsResourceWithStreamingResponse(self)
+
+    async def list(
+        self,
+        device_id: str,
+        *,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ScreenshotListResponse:
+        """Saved screenshots, newest first.
+
+        Pass nextCursor as cursor to retrieve the next
+        page.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        return await self._get(
+            path_template("/devices/{device_id}/screenshots", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "limit": limit,
+                    },
+                    screenshot_list_params.ScreenshotListParams,
+                ),
+            ),
+            cast_to=ScreenshotListResponse,
+        )
+
+    async def delete(
+        self,
+        screenshot_id: str,
+        *,
+        device_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> None:
+        """
+        Delete a device screenshot
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        if not screenshot_id:
+            raise ValueError(f"Expected a non-empty value for `screenshot_id` but received {screenshot_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._delete(
+            path_template(
+                "/devices/{device_id}/screenshots/{screenshot_id}", device_id=device_id, screenshot_id=screenshot_id
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=NoneType,
+        )
+
+    async def capture(
+        self,
+        device_id: str,
+        *,
+        hide_overlay: bool | Omit = omit,
+        save: bool | Omit = omit,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> str:
+        """Captures the device screen and returns it as a PNG image.
+
+        Pass save=true to
+        store it as device media.
+
+        Args:
+          save: Store the screenshot as device media: in the owner's active recording, or
+              standalone for 7 days. Without save=true nothing is stored. The PNG response is
+              unchanged; X-Screenshot-Saved reports whether it was stored.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        extra_headers = {
+            **strip_not_given(
+                {"X-Device-Display-ID": str(x_device_display_id) if is_given(x_device_display_id) else not_given}
+            ),
+            **(extra_headers or {}),
+        }
+        return await self._post(
+            path_template("/devices/{device_id}/screenshots", device_id=device_id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+                query=await async_maybe_transform(
+                    {
+                        "hide_overlay": hide_overlay,
+                        "save": save,
+                    },
+                    screenshot_capture_params.ScreenshotCaptureParams,
+                ),
+            ),
+            cast_to=str,
+        )
+
+    async def image(
+        self,
+        screenshot_id: str,
+        *,
+        device_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Redirects to a presigned PNG URL valid for 15 minutes.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        if not screenshot_id:
+            raise ValueError(f"Expected a non-empty value for `screenshot_id` but received {screenshot_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._get(
+            path_template(
+                "/devices/{device_id}/screenshots/{screenshot_id}/image",
+                device_id=device_id,
+                screenshot_id=screenshot_id,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+
+class ScreenshotsResourceWithRawResponse:
+    def __init__(self, screenshots: ScreenshotsResource) -> None:
+        self._screenshots = screenshots
+
+        self.list = to_raw_response_wrapper(
+            screenshots.list,
+        )
+        self.delete = to_raw_response_wrapper(
+            screenshots.delete,
+        )
+        self.capture = to_raw_response_wrapper(
+            screenshots.capture,
+        )
+        self.image = to_raw_response_wrapper(
+            screenshots.image,
+        )
+
+
+class AsyncScreenshotsResourceWithRawResponse:
+    def __init__(self, screenshots: AsyncScreenshotsResource) -> None:
+        self._screenshots = screenshots
+
+        self.list = async_to_raw_response_wrapper(
+            screenshots.list,
+        )
+        self.delete = async_to_raw_response_wrapper(
+            screenshots.delete,
+        )
+        self.capture = async_to_raw_response_wrapper(
+            screenshots.capture,
+        )
+        self.image = async_to_raw_response_wrapper(
+            screenshots.image,
+        )
+
+
+class ScreenshotsResourceWithStreamingResponse:
+    def __init__(self, screenshots: ScreenshotsResource) -> None:
+        self._screenshots = screenshots
+
+        self.list = to_streamed_response_wrapper(
+            screenshots.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            screenshots.delete,
+        )
+        self.capture = to_streamed_response_wrapper(
+            screenshots.capture,
+        )
+        self.image = to_streamed_response_wrapper(
+            screenshots.image,
+        )
+
+
+class AsyncScreenshotsResourceWithStreamingResponse:
+    def __init__(self, screenshots: AsyncScreenshotsResource) -> None:
+        self._screenshots = screenshots
+
+        self.list = async_to_streamed_response_wrapper(
+            screenshots.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            screenshots.delete,
+        )
+        self.capture = async_to_streamed_response_wrapper(
+            screenshots.capture,
+        )
+        self.image = async_to_streamed_response_wrapper(
+            screenshots.image,
+        )

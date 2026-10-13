@@ -16,9 +16,10 @@ class DataDeliveryRecording(BaseModel):
 
 
 class DataDelivery(BaseModel):
-    destination: Literal["one_drive", "google_drive"]
+    destination: Literal["mobilerun", "one_drive", "google_drive"]
 
     folder: Optional[str] = None
+    """not allowed when destination is mobilerun"""
 
     recording: Optional[DataDeliveryRecording] = None
 
@@ -95,7 +96,7 @@ class Data(BaseModel):
     status: Literal["healthy", "failing", "blocked"]
 
     template_resolution_version: int = FieldInfo(alias="templateResolutionVersion")
-    """Template-resolver semantics this flow runs under (MVA-23).
+    """Template-resolver semantics this flow runs under.
 
     1 = legacy (missing/forbidden/null all resolve to ''). 2 = typed
     (missing/forbidden throw, a whole-token null stays JSON null). 3 = typed,

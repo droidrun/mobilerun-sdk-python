@@ -161,9 +161,10 @@ class DeliveryRecording(TypedDict, total=False):
 
 
 class Delivery(TypedDict, total=False):
-    destination: Required[Literal["one_drive", "google_drive"]]
+    destination: Required[Literal["mobilerun", "one_drive", "google_drive"]]
 
     folder: str
+    """not allowed when destination is mobilerun"""
 
     recording: DeliveryRecording
 
