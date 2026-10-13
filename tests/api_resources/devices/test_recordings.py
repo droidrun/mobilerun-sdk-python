@@ -14,6 +14,7 @@ from mobilerun_sdk.types.devices import (
     RecordingStopResponse,
     RecordingStartResponse,
     RecordingStatusResponse,
+    RecordingScreenshotsResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -122,6 +123,58 @@ class TestRecordings:
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `recording_id` but received ''"):
             client.devices.recordings.with_raw_response.delete(
+                recording_id="",
+                device_id="deviceId",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_screenshots(self, client: Mobilerun) -> None:
+        recording = client.devices.recordings.screenshots(
+            recording_id="recordingId",
+            device_id="deviceId",
+        )
+        assert_matches_type(Optional[RecordingScreenshotsResponse], recording, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_screenshots(self, client: Mobilerun) -> None:
+        response = client.devices.recordings.with_raw_response.screenshots(
+            recording_id="recordingId",
+            device_id="deviceId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        recording = response.parse()
+        assert_matches_type(Optional[RecordingScreenshotsResponse], recording, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_screenshots(self, client: Mobilerun) -> None:
+        with client.devices.recordings.with_streaming_response.screenshots(
+            recording_id="recordingId",
+            device_id="deviceId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            recording = response.parse()
+            assert_matches_type(Optional[RecordingScreenshotsResponse], recording, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_screenshots(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            client.devices.recordings.with_raw_response.screenshots(
+                recording_id="recordingId",
+                device_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `recording_id` but received ''"):
+            client.devices.recordings.with_raw_response.screenshots(
                 recording_id="",
                 device_id="deviceId",
             )
@@ -494,6 +547,58 @@ class TestAsyncRecordings:
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `recording_id` but received ''"):
             await async_client.devices.recordings.with_raw_response.delete(
+                recording_id="",
+                device_id="deviceId",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_screenshots(self, async_client: AsyncMobilerun) -> None:
+        recording = await async_client.devices.recordings.screenshots(
+            recording_id="recordingId",
+            device_id="deviceId",
+        )
+        assert_matches_type(Optional[RecordingScreenshotsResponse], recording, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_screenshots(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.recordings.with_raw_response.screenshots(
+            recording_id="recordingId",
+            device_id="deviceId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        recording = await response.parse()
+        assert_matches_type(Optional[RecordingScreenshotsResponse], recording, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_screenshots(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.recordings.with_streaming_response.screenshots(
+            recording_id="recordingId",
+            device_id="deviceId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            recording = await response.parse()
+            assert_matches_type(Optional[RecordingScreenshotsResponse], recording, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_screenshots(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            await async_client.devices.recordings.with_raw_response.screenshots(
+                recording_id="recordingId",
+                device_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `recording_id` but received ''"):
+            await async_client.devices.recordings.with_raw_response.screenshots(
                 recording_id="",
                 device_id="deviceId",
             )

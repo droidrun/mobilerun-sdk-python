@@ -93,7 +93,7 @@ class AppsResource(SyncAPIResource):
         platform: Literal["all", "android", "ios"] | Omit = omit,
         query: str | Omit = omit,
         sort_by: Literal["createdAt", "name"] | Omit = omit,
-        status: Literal["all", "queued", "available", "failed"] | Omit = omit,
+        status: Literal["all", "queued", "available", "failed", "pruned"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -150,8 +150,7 @@ class AppsResource(SyncAPIResource):
     ) -> AppDeleteResponse:
         """Deletes an uploaded app by ID.
 
-        Removes files from R2 storage and the database
-        entry.
+        Removes its files and metadata.
 
         Args:
           extra_headers: Send extra headers
@@ -191,7 +190,7 @@ class AppsResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> AppConfirmUploadResponse:
         """
-        Verifies the uploaded files in R2 and sets the app version status to available.
+        Verifies the uploaded files and sets the app version status to available.
         Idempotent: replaying confirmation for an already-available version returns the
         same successful response without re-verifying the files.
 
@@ -243,8 +242,20 @@ class AppsResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> AppCreateSignedUploadURLResponse:
         """
-        Creates or updates an app and returns pre-signed Cloudflare R2 upload URLs for
-        each file
+        Creates or updates an app and returns pre-signed upload URLs for each file.
+        Honours an optional `Idempotency-Key` header: a retry with the same key and body
+        returns the same app and version with freshly signed URLs and
+        `Idempotent-Replayed: true`, and never creates a second version. An
+        Idempotency-Key is honoured for 7 days; after that it behaves like a fresh
+        request. A replay whose version was deleted is a 404; a replay whose version
+        already left the queued state is a 409 `idempotency_key_consumed`; a replay that
+        cannot get the version lock within 5 s is a 409
+        `idempotency_request_in_progress`. Every response produced by a replay,
+        including those 404/409 errors, carries `Idempotent-Replayed: true`. A same-key
+        request still in flight after a 5 s wait is a 409
+        `idempotency_request_in_progress` (retry after `Retry-After`). If signing fails,
+        nothing is persisted (with or without a key) and the same request, key included,
+        can be retried.
 
         Args:
           country: Country code for Search Results
@@ -372,11 +383,10 @@ class AppsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AppStorageUsageResponse:
         """
-        Returns the user’s storage allowance from Autumn storage_mb (decimal bytes):
-        bytes used, bytes included in the plan, the hard maximum (included + max
-        purchasable overage; null = unlimited) and whether usage above the included
-        amount is billed as overage. With storage billing off there is no limit: only
-        usedBytes is set.
+        Returns the user’s storage allowance in bytes: bytes used, bytes included in the
+        plan, the hard maximum (included + max purchasable overage; null = unlimited)
+        and whether usage above the included amount is billed as overage. With storage
+        billing off there is no limit: only usedBytes is set.
         """
         return self._get(
             "/apps/storage-usage",
@@ -449,7 +459,7 @@ class AsyncAppsResource(AsyncAPIResource):
         platform: Literal["all", "android", "ios"] | Omit = omit,
         query: str | Omit = omit,
         sort_by: Literal["createdAt", "name"] | Omit = omit,
-        status: Literal["all", "queued", "available", "failed"] | Omit = omit,
+        status: Literal["all", "queued", "available", "failed", "pruned"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -506,8 +516,7 @@ class AsyncAppsResource(AsyncAPIResource):
     ) -> AppDeleteResponse:
         """Deletes an uploaded app by ID.
 
-        Removes files from R2 storage and the database
-        entry.
+        Removes its files and metadata.
 
         Args:
           extra_headers: Send extra headers
@@ -547,7 +556,7 @@ class AsyncAppsResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> AppConfirmUploadResponse:
         """
-        Verifies the uploaded files in R2 and sets the app version status to available.
+        Verifies the uploaded files and sets the app version status to available.
         Idempotent: replaying confirmation for an already-available version returns the
         same successful response without re-verifying the files.
 
@@ -599,8 +608,20 @@ class AsyncAppsResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> AppCreateSignedUploadURLResponse:
         """
-        Creates or updates an app and returns pre-signed Cloudflare R2 upload URLs for
-        each file
+        Creates or updates an app and returns pre-signed upload URLs for each file.
+        Honours an optional `Idempotency-Key` header: a retry with the same key and body
+        returns the same app and version with freshly signed URLs and
+        `Idempotent-Replayed: true`, and never creates a second version. An
+        Idempotency-Key is honoured for 7 days; after that it behaves like a fresh
+        request. A replay whose version was deleted is a 404; a replay whose version
+        already left the queued state is a 409 `idempotency_key_consumed`; a replay that
+        cannot get the version lock within 5 s is a 409
+        `idempotency_request_in_progress`. Every response produced by a replay,
+        including those 404/409 errors, carries `Idempotent-Replayed: true`. A same-key
+        request still in flight after a 5 s wait is a 409
+        `idempotency_request_in_progress` (retry after `Retry-After`). If signing fails,
+        nothing is persisted (with or without a key) and the same request, key included,
+        can be retried.
 
         Args:
           country: Country code for Search Results
@@ -728,11 +749,10 @@ class AsyncAppsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AppStorageUsageResponse:
         """
-        Returns the user’s storage allowance from Autumn storage_mb (decimal bytes):
-        bytes used, bytes included in the plan, the hard maximum (included + max
-        purchasable overage; null = unlimited) and whether usage above the included
-        amount is billed as overage. With storage billing off there is no limit: only
-        usedBytes is set.
+        Returns the user’s storage allowance in bytes: bytes used, bytes included in the
+        plan, the hard maximum (included + max purchasable overage; null = unlimited)
+        and whether usage above the included amount is billed as overage. With storage
+        billing off there is no limit: only usedBytes is set.
         """
         return await self._get(
             "/apps/storage-usage",

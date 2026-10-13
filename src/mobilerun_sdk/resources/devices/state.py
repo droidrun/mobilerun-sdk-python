@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import typing_extensions
+
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
@@ -41,11 +43,13 @@ class StateResource(SyncAPIResource):
         """
         return StateResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated("deprecated")
     def screenshot(
         self,
         device_id: str,
         *,
         hide_overlay: bool | Omit = omit,
+        save: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -54,12 +58,17 @@ class StateResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> str:
-        """Captures the device screen and returns it as a PNG image.
+        """Deprecated: use POST /devices/{deviceId}/screenshots.
 
-        An optional
-        hideOverlay query parameter excludes the accessibility overlay from the capture.
+        Captures the device screen
+        and returns it as a PNG image. An optional hideOverlay query parameter excludes
+        the accessibility overlay from the capture.
 
         Args:
+          save: Store the screenshot as device media: in the owner's active recording, or
+              standalone for 7 days. Without save=true nothing is stored. The PNG response is
+              unchanged; X-Screenshot-Saved reports whether it was stored.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -83,7 +92,13 @@ class StateResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"hide_overlay": hide_overlay}, state_screenshot_params.StateScreenshotParams),
+                query=maybe_transform(
+                    {
+                        "hide_overlay": hide_overlay,
+                        "save": save,
+                    },
+                    state_screenshot_params.StateScreenshotParams,
+                ),
             ),
             cast_to=str,
         )
@@ -196,11 +211,13 @@ class AsyncStateResource(AsyncAPIResource):
         """
         return AsyncStateResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated("deprecated")
     async def screenshot(
         self,
         device_id: str,
         *,
         hide_overlay: bool | Omit = omit,
+        save: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -209,12 +226,17 @@ class AsyncStateResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> str:
-        """Captures the device screen and returns it as a PNG image.
+        """Deprecated: use POST /devices/{deviceId}/screenshots.
 
-        An optional
-        hideOverlay query parameter excludes the accessibility overlay from the capture.
+        Captures the device screen
+        and returns it as a PNG image. An optional hideOverlay query parameter excludes
+        the accessibility overlay from the capture.
 
         Args:
+          save: Store the screenshot as device media: in the owner's active recording, or
+              standalone for 7 days. Without save=true nothing is stored. The PNG response is
+              unchanged; X-Screenshot-Saved reports whether it was stored.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -239,7 +261,11 @@ class AsyncStateResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"hide_overlay": hide_overlay}, state_screenshot_params.StateScreenshotParams
+                    {
+                        "hide_overlay": hide_overlay,
+                        "save": save,
+                    },
+                    state_screenshot_params.StateScreenshotParams,
                 ),
             ),
             cast_to=str,
@@ -337,8 +363,10 @@ class StateResourceWithRawResponse:
     def __init__(self, state: StateResource) -> None:
         self._state = state
 
-        self.screenshot = to_raw_response_wrapper(
-            state.screenshot,
+        self.screenshot = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                state.screenshot,  # pyright: ignore[reportDeprecated],
+            )
         )
         self.time = to_raw_response_wrapper(
             state.time,
@@ -352,8 +380,10 @@ class AsyncStateResourceWithRawResponse:
     def __init__(self, state: AsyncStateResource) -> None:
         self._state = state
 
-        self.screenshot = async_to_raw_response_wrapper(
-            state.screenshot,
+        self.screenshot = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                state.screenshot,  # pyright: ignore[reportDeprecated],
+            )
         )
         self.time = async_to_raw_response_wrapper(
             state.time,
@@ -367,8 +397,10 @@ class StateResourceWithStreamingResponse:
     def __init__(self, state: StateResource) -> None:
         self._state = state
 
-        self.screenshot = to_streamed_response_wrapper(
-            state.screenshot,
+        self.screenshot = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                state.screenshot,  # pyright: ignore[reportDeprecated],
+            )
         )
         self.time = to_streamed_response_wrapper(
             state.time,
@@ -382,8 +414,10 @@ class AsyncStateResourceWithStreamingResponse:
     def __init__(self, state: AsyncStateResource) -> None:
         self._state = state
 
-        self.screenshot = async_to_streamed_response_wrapper(
-            state.screenshot,
+        self.screenshot = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                state.screenshot,  # pyright: ignore[reportDeprecated],
+            )
         )
         self.time = async_to_streamed_response_wrapper(
             state.time,

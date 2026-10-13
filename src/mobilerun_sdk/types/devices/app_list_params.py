@@ -14,4 +14,10 @@ class AppListParams(TypedDict, total=False):
 
     include_system_apps: Annotated[bool, PropertyInfo(alias="includeSystemApps")]
 
+    include_updates: Annotated[bool, PropertyInfo(alias="includeUpdates")]
+    """Resolve availableUpdate for Android user apps (one library lookup per app).
+
+    Off by default.
+    """
+
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

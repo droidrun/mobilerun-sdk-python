@@ -40,6 +40,7 @@ class ConnectResource(SyncAPIResource):
 
     @cached_property
     def proxies(self) -> ProxiesResource:
+        """Manage your Mobilerun Connect Proxies"""
         return ProxiesResource(self._client)
 
     @cached_property
@@ -75,6 +76,7 @@ class AsyncConnectResource(AsyncAPIResource):
 
     @cached_property
     def proxies(self) -> AsyncProxiesResource:
+        """Manage your Mobilerun Connect Proxies"""
         return AsyncProxiesResource(self._client)
 
     @cached_property
@@ -113,6 +115,7 @@ class ConnectResourceWithRawResponse:
 
     @cached_property
     def proxies(self) -> ProxiesResourceWithRawResponse:
+        """Manage your Mobilerun Connect Proxies"""
         return ProxiesResourceWithRawResponse(self._connect.proxies)
 
     @cached_property
@@ -132,6 +135,7 @@ class AsyncConnectResourceWithRawResponse:
 
     @cached_property
     def proxies(self) -> AsyncProxiesResourceWithRawResponse:
+        """Manage your Mobilerun Connect Proxies"""
         return AsyncProxiesResourceWithRawResponse(self._connect.proxies)
 
     @cached_property
@@ -151,6 +155,7 @@ class ConnectResourceWithStreamingResponse:
 
     @cached_property
     def proxies(self) -> ProxiesResourceWithStreamingResponse:
+        """Manage your Mobilerun Connect Proxies"""
         return ProxiesResourceWithStreamingResponse(self._connect.proxies)
 
     @cached_property
@@ -170,6 +175,7 @@ class AsyncConnectResourceWithStreamingResponse:
 
     @cached_property
     def proxies(self) -> AsyncProxiesResourceWithStreamingResponse:
+        """Manage your Mobilerun Connect Proxies"""
         return AsyncProxiesResourceWithStreamingResponse(self._connect.proxies)
 
     @cached_property

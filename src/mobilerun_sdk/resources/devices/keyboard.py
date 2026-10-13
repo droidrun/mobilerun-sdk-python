@@ -148,6 +148,7 @@ class KeyboardResource(SyncAPIResource):
         clear: bool | Omit = omit,
         completion_mode: Literal["accepted", "committed"] | Omit = omit,
         error_rate: float | Omit = omit,
+        humanize: bool | Omit = omit,
         stealth: bool | Omit = omit,
         wpm: int | Omit = omit,
         x_device_display_id: int | Omit = omit,
@@ -172,7 +173,11 @@ class KeyboardResource(SyncAPIResource):
 
           error_rate: Per-character mistake rate for humantouch typing. -1 uses server default.
 
-          wpm: Words per minute for stealth typing. 0 uses portal default.
+          humanize: Request human-like input where supported by the device. Defaults to false.
+
+          stealth: Deprecated: use humanize. Both names must agree when supplied together.
+
+          wpm: Words per minute for humanized typing. 0 uses the device default.
 
           extra_headers: Send extra headers
 
@@ -201,6 +206,7 @@ class KeyboardResource(SyncAPIResource):
                     "clear": clear,
                     "completion_mode": completion_mode,
                     "error_rate": error_rate,
+                    "humanize": humanize,
                     "stealth": stealth,
                     "wpm": wpm,
                 },
@@ -343,6 +349,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
         clear: bool | Omit = omit,
         completion_mode: Literal["accepted", "committed"] | Omit = omit,
         error_rate: float | Omit = omit,
+        humanize: bool | Omit = omit,
         stealth: bool | Omit = omit,
         wpm: int | Omit = omit,
         x_device_display_id: int | Omit = omit,
@@ -367,7 +374,11 @@ class AsyncKeyboardResource(AsyncAPIResource):
 
           error_rate: Per-character mistake rate for humantouch typing. -1 uses server default.
 
-          wpm: Words per minute for stealth typing. 0 uses portal default.
+          humanize: Request human-like input where supported by the device. Defaults to false.
+
+          stealth: Deprecated: use humanize. Both names must agree when supplied together.
+
+          wpm: Words per minute for humanized typing. 0 uses the device default.
 
           extra_headers: Send extra headers
 
@@ -396,6 +407,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
                     "clear": clear,
                     "completion_mode": completion_mode,
                     "error_rate": error_rate,
+                    "humanize": humanize,
                     "stealth": stealth,
                     "wpm": wpm,
                 },

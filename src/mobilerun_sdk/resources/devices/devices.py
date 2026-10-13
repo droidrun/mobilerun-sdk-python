@@ -170,6 +170,14 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .screenshots import (
+    ScreenshotsResource,
+    AsyncScreenshotsResource,
+    ScreenshotsResourceWithRawResponse,
+    AsyncScreenshotsResourceWithRawResponse,
+    ScreenshotsResourceWithStreamingResponse,
+    AsyncScreenshotsResourceWithStreamingResponse,
+)
 from ..._base_client import make_request_options
 from .media_sessions import (
     MediaSessionsResource,
@@ -239,6 +247,10 @@ class DevicesResource(SyncAPIResource):
     @cached_property
     def proxy(self) -> ProxyResource:
         return ProxyResource(self._client)
+
+    @cached_property
+    def screenshots(self) -> ScreenshotsResource:
+        return ScreenshotsResource(self._client)
 
     @cached_property
     def state(self) -> StateResource:
@@ -441,11 +453,14 @@ class DevicesResource(SyncAPIResource):
         self,
         *,
         country: str | Omit = omit,
+        created_after: Union[str, datetime] | Omit = omit,
+        created_before: Union[str, datetime] | Omit = omit,
         created_by: str | Omit = omit,
         mine: bool | Omit = omit,
         name: str | Omit = omit,
-        order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
+        order_by: Literal["id", "createdAt", "updatedAt", "assignedAt", "gridPosition"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
+        owner_id: Optional[SequenceNotStr[str]] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         platform: Literal["android", "ios"] | Omit = omit,
@@ -485,15 +500,30 @@ class DevicesResource(SyncAPIResource):
     ) -> DeviceListResponse:
         """
         Returns a paginated list of the user's devices along with pagination metadata.
+        By default every device except terminated and unknown-state ones is listed,
+        including stopped and maintenance devices; narrow with e.g. `state=ready` or
+        `state=stopped,maintenance`, and pass `state=terminated` or `state=unknown` to
+        see those.
 
         Args:
+          created_after: Include devices created at or after this RFC3339 timestamp.
+
+          created_before: Include devices created before this RFC3339 timestamp (exclusive). Must be later
+              than createdAfter when both are set.
+
           created_by: Filter to devices created by this user id. Mutually exclusive with mine.
 
-          mine: When true, only return devices created by the calling user (resolved from
-              X-User-ID, never a client-supplied id).
+          mine: When true, only return devices created by the authenticated caller.
+
+          owner_id: Filter by owner IDs. Comma-separated or repeated parameters. Restricted to
+              platform administrators.
 
           platform: Filter by the device's platform as served in the platform field (runtime,
               announced, else type-derived).
+
+          state: Filter by current device state. Comma-separated (state=ready,stopped). Defaults
+              to every state except terminated and unknown, so stopped and maintenance devices
+              are listed; pass state=terminated or state=unknown to see those.
 
           type: Canonical device type. Retired dedicated\\__\\** aliases are no longer accepted.
               Availability depends on the deployment.
@@ -516,11 +546,14 @@ class DevicesResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "country": country,
+                        "created_after": created_after,
+                        "created_before": created_before,
                         "created_by": created_by,
                         "mine": mine,
                         "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
+                        "owner_id": owner_id,
                         "page": page,
                         "page_size": page_size,
                         "platform": platform,
@@ -743,11 +776,8 @@ class DevicesResource(SyncAPIResource):
     ) -> DeviceRetrieveCapabilitiesResponse:
         """Returns the set of capabilities supported by this device.
 
-        For a legacy device
-        this reflects the live instance's actual tools rather than its static type; for
-        a core-managed device it is resolved from provider/pool configuration without
-        guaranteeing a live instance. Used to determine which tools and features are
-        available for the device.
+        Used to determine
+        which tools and features are available for the device.
 
         Args:
           extra_headers: Send extra headers
@@ -922,9 +952,9 @@ class DevicesResource(SyncAPIResource):
     ) -> None:
         """Terminates the device and releases its resources.
 
-        Termination can be scheduled
-        for a future time or chained from a previous device via the request body, in
-        which case a service key is required.
+        The optional `terminateAt` and
+        `previousDeviceId` body fields are not available to API-key callers; requests
+        that set them are rejected with 401.
 
         Args:
           extra_headers: Send extra headers
@@ -1031,6 +1061,10 @@ class AsyncDevicesResource(AsyncAPIResource):
     @cached_property
     def proxy(self) -> AsyncProxyResource:
         return AsyncProxyResource(self._client)
+
+    @cached_property
+    def screenshots(self) -> AsyncScreenshotsResource:
+        return AsyncScreenshotsResource(self._client)
 
     @cached_property
     def state(self) -> AsyncStateResource:
@@ -1233,11 +1267,14 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         *,
         country: str | Omit = omit,
+        created_after: Union[str, datetime] | Omit = omit,
+        created_before: Union[str, datetime] | Omit = omit,
         created_by: str | Omit = omit,
         mine: bool | Omit = omit,
         name: str | Omit = omit,
-        order_by: Literal["id", "createdAt", "updatedAt", "assignedAt"] | Omit = omit,
+        order_by: Literal["id", "createdAt", "updatedAt", "assignedAt", "gridPosition"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
+        owner_id: Optional[SequenceNotStr[str]] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         platform: Literal["android", "ios"] | Omit = omit,
@@ -1277,15 +1314,30 @@ class AsyncDevicesResource(AsyncAPIResource):
     ) -> DeviceListResponse:
         """
         Returns a paginated list of the user's devices along with pagination metadata.
+        By default every device except terminated and unknown-state ones is listed,
+        including stopped and maintenance devices; narrow with e.g. `state=ready` or
+        `state=stopped,maintenance`, and pass `state=terminated` or `state=unknown` to
+        see those.
 
         Args:
+          created_after: Include devices created at or after this RFC3339 timestamp.
+
+          created_before: Include devices created before this RFC3339 timestamp (exclusive). Must be later
+              than createdAfter when both are set.
+
           created_by: Filter to devices created by this user id. Mutually exclusive with mine.
 
-          mine: When true, only return devices created by the calling user (resolved from
-              X-User-ID, never a client-supplied id).
+          mine: When true, only return devices created by the authenticated caller.
+
+          owner_id: Filter by owner IDs. Comma-separated or repeated parameters. Restricted to
+              platform administrators.
 
           platform: Filter by the device's platform as served in the platform field (runtime,
               announced, else type-derived).
+
+          state: Filter by current device state. Comma-separated (state=ready,stopped). Defaults
+              to every state except terminated and unknown, so stopped and maintenance devices
+              are listed; pass state=terminated or state=unknown to see those.
 
           type: Canonical device type. Retired dedicated\\__\\** aliases are no longer accepted.
               Availability depends on the deployment.
@@ -1308,11 +1360,14 @@ class AsyncDevicesResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "country": country,
+                        "created_after": created_after,
+                        "created_before": created_before,
                         "created_by": created_by,
                         "mine": mine,
                         "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
+                        "owner_id": owner_id,
                         "page": page,
                         "page_size": page_size,
                         "platform": platform,
@@ -1535,11 +1590,8 @@ class AsyncDevicesResource(AsyncAPIResource):
     ) -> DeviceRetrieveCapabilitiesResponse:
         """Returns the set of capabilities supported by this device.
 
-        For a legacy device
-        this reflects the live instance's actual tools rather than its static type; for
-        a core-managed device it is resolved from provider/pool configuration without
-        guaranteeing a live instance. Used to determine which tools and features are
-        available for the device.
+        Used to determine
+        which tools and features are available for the device.
 
         Args:
           extra_headers: Send extra headers
@@ -1714,9 +1766,9 @@ class AsyncDevicesResource(AsyncAPIResource):
     ) -> None:
         """Terminates the device and releases its resources.
 
-        Termination can be scheduled
-        for a future time or chained from a previous device via the request body, in
-        which case a service key is required.
+        The optional `terminateAt` and
+        `previousDeviceId` body fields are not available to API-key callers; requests
+        that set them are rejected with 401.
 
         Args:
           extra_headers: Send extra headers
@@ -1873,6 +1925,10 @@ class DevicesResourceWithRawResponse:
         return ProxyResourceWithRawResponse(self._devices.proxy)
 
     @cached_property
+    def screenshots(self) -> ScreenshotsResourceWithRawResponse:
+        return ScreenshotsResourceWithRawResponse(self._devices.screenshots)
+
+    @cached_property
     def state(self) -> StateResourceWithRawResponse:
         return StateResourceWithRawResponse(self._devices.state)
 
@@ -2001,6 +2057,10 @@ class AsyncDevicesResourceWithRawResponse:
     @cached_property
     def proxy(self) -> AsyncProxyResourceWithRawResponse:
         return AsyncProxyResourceWithRawResponse(self._devices.proxy)
+
+    @cached_property
+    def screenshots(self) -> AsyncScreenshotsResourceWithRawResponse:
+        return AsyncScreenshotsResourceWithRawResponse(self._devices.screenshots)
 
     @cached_property
     def state(self) -> AsyncStateResourceWithRawResponse:
@@ -2133,6 +2193,10 @@ class DevicesResourceWithStreamingResponse:
         return ProxyResourceWithStreamingResponse(self._devices.proxy)
 
     @cached_property
+    def screenshots(self) -> ScreenshotsResourceWithStreamingResponse:
+        return ScreenshotsResourceWithStreamingResponse(self._devices.screenshots)
+
+    @cached_property
     def state(self) -> StateResourceWithStreamingResponse:
         return StateResourceWithStreamingResponse(self._devices.state)
 
@@ -2261,6 +2325,10 @@ class AsyncDevicesResourceWithStreamingResponse:
     @cached_property
     def proxy(self) -> AsyncProxyResourceWithStreamingResponse:
         return AsyncProxyResourceWithStreamingResponse(self._devices.proxy)
+
+    @cached_property
+    def screenshots(self) -> AsyncScreenshotsResourceWithStreamingResponse:
+        return AsyncScreenshotsResourceWithStreamingResponse(self._devices.screenshots)
 
     @cached_property
     def state(self) -> AsyncStateResourceWithStreamingResponse:

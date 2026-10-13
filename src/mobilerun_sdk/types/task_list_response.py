@@ -67,6 +67,12 @@ class Item(BaseModel):
 
     finished_at: Optional[datetime] = FieldInfo(alias="finishedAt", default=None)
 
+    humanize: Optional[bool] = None
+    """Whether human-like input was requested.
+
+    Always equal to the deprecated stealth field.
+    """
+
     max_steps: Optional[int] = FieldInfo(alias="maxSteps", default=None)
 
     message: Optional[str] = None
@@ -92,6 +98,7 @@ class Item(BaseModel):
     """
 
     stealth: Optional[bool] = None
+    """Deprecated: use humanize. Both names must agree when supplied together."""
 
     steps: Optional[int] = None
 
