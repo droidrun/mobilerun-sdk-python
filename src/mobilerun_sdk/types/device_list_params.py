@@ -39,10 +39,9 @@ class DeviceListParams(TypedDict, total=False):
     order_by_direction: Annotated[Literal["asc", "desc"], PropertyInfo(alias="orderByDirection")]
 
     owner_id: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="ownerId")]
-    """Filter by tenant owner UUIDs.
+    """Filter by owner IDs.
 
-    Comma-separated or repeated parameters. Only allowed for service-key callers
-    without X-User-ID.
+    Comma-separated or repeated parameters. Restricted to platform administrators.
     """
 
     page: int

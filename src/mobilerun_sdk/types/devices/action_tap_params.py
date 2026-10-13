@@ -14,6 +14,10 @@ class ActionTapParams(TypedDict, total=False):
 
     y: Required[int]
 
+    humanize: bool
+    """Request human-like input where supported by the device. Defaults to false."""
+
     stealth: bool
+    """Deprecated: use humanize. Both names must agree when supplied together."""
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

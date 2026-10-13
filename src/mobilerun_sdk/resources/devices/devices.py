@@ -515,8 +515,8 @@ class DevicesResource(SyncAPIResource):
 
           mine: When true, only return devices created by the authenticated caller.
 
-          owner_id: Filter by tenant owner UUIDs. Comma-separated or repeated parameters. Only
-              allowed for service-key callers without X-User-ID.
+          owner_id: Filter by owner IDs. Comma-separated or repeated parameters. Restricted to
+              platform administrators.
 
           platform: Filter by the device's platform as served in the platform field (runtime,
               announced, else type-derived).
@@ -1329,8 +1329,8 @@ class AsyncDevicesResource(AsyncAPIResource):
 
           mine: When true, only return devices created by the authenticated caller.
 
-          owner_id: Filter by tenant owner UUIDs. Comma-separated or repeated parameters. Only
-              allowed for service-key callers without X-User-ID.
+          owner_id: Filter by owner IDs. Comma-separated or repeated parameters. Restricted to
+              platform administrators.
 
           platform: Filter by the device's platform as served in the platform field (runtime,
               announced, else type-derived).

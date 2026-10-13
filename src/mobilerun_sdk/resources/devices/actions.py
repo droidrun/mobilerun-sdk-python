@@ -198,6 +198,7 @@ class ActionsResource(SyncAPIResource):
         start_x: int,
         start_y: int,
         hold_ms: int | Omit = omit,
+        humanize: bool | Omit = omit,
         stealth: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -210,9 +211,9 @@ class ActionsResource(SyncAPIResource):
     ) -> None:
         """
         Swipes from a start coordinate to an end coordinate over the given duration in
-        milliseconds. An optional stealth flag applies human-like jitter and curved
+        milliseconds. An optional humanize flag applies human-like jitter and curved
         paths on devices that support it. With holdMs > 0 the request returns 422 when
-        combined with stealth, when duration + holdMs exceeds 9000 ms, or on devices
+        combined with humanize, when duration + holdMs exceeds 9000 ms, or on devices
         that do not support it.
 
         Args:
@@ -220,6 +221,10 @@ class ActionsResource(SyncAPIResource):
 
           hold_ms: Keep the finger at the end point for holdMs and suppress fling before lifting,
               so content moves by about the finger travel. Supported on Android cloud phones.
+
+          humanize: Request human-like input where supported by the device. Defaults to false.
+
+          stealth: Deprecated: use humanize. Both names must agree when supplied together.
 
           extra_headers: Send extra headers
 
@@ -250,6 +255,7 @@ class ActionsResource(SyncAPIResource):
                     "start_x": start_x,
                     "start_y": start_y,
                     "hold_ms": hold_ms,
+                    "humanize": humanize,
                     "stealth": stealth,
                 },
                 action_swipe_params.ActionSwipeParams,
@@ -270,6 +276,7 @@ class ActionsResource(SyncAPIResource):
         *,
         x: int,
         y: int,
+        humanize: bool | Omit = omit,
         stealth: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -282,10 +289,14 @@ class ActionsResource(SyncAPIResource):
     ) -> None:
         """Taps the device screen at the given x/y coordinates.
 
-        An optional stealth flag
+        An optional humanize flag
         routes the tap through human-like input on devices that support it.
 
         Args:
+          humanize: Request human-like input where supported by the device. Defaults to false.
+
+          stealth: Deprecated: use humanize. Both names must agree when supplied together.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -311,6 +322,7 @@ class ActionsResource(SyncAPIResource):
                 {
                     "x": x,
                     "y": y,
+                    "humanize": humanize,
                     "stealth": stealth,
                 },
                 action_tap_params.ActionTapParams,
@@ -500,6 +512,7 @@ class AsyncActionsResource(AsyncAPIResource):
         start_x: int,
         start_y: int,
         hold_ms: int | Omit = omit,
+        humanize: bool | Omit = omit,
         stealth: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -512,9 +525,9 @@ class AsyncActionsResource(AsyncAPIResource):
     ) -> None:
         """
         Swipes from a start coordinate to an end coordinate over the given duration in
-        milliseconds. An optional stealth flag applies human-like jitter and curved
+        milliseconds. An optional humanize flag applies human-like jitter and curved
         paths on devices that support it. With holdMs > 0 the request returns 422 when
-        combined with stealth, when duration + holdMs exceeds 9000 ms, or on devices
+        combined with humanize, when duration + holdMs exceeds 9000 ms, or on devices
         that do not support it.
 
         Args:
@@ -522,6 +535,10 @@ class AsyncActionsResource(AsyncAPIResource):
 
           hold_ms: Keep the finger at the end point for holdMs and suppress fling before lifting,
               so content moves by about the finger travel. Supported on Android cloud phones.
+
+          humanize: Request human-like input where supported by the device. Defaults to false.
+
+          stealth: Deprecated: use humanize. Both names must agree when supplied together.
 
           extra_headers: Send extra headers
 
@@ -552,6 +569,7 @@ class AsyncActionsResource(AsyncAPIResource):
                     "start_x": start_x,
                     "start_y": start_y,
                     "hold_ms": hold_ms,
+                    "humanize": humanize,
                     "stealth": stealth,
                 },
                 action_swipe_params.ActionSwipeParams,
@@ -572,6 +590,7 @@ class AsyncActionsResource(AsyncAPIResource):
         *,
         x: int,
         y: int,
+        humanize: bool | Omit = omit,
         stealth: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -584,10 +603,14 @@ class AsyncActionsResource(AsyncAPIResource):
     ) -> None:
         """Taps the device screen at the given x/y coordinates.
 
-        An optional stealth flag
+        An optional humanize flag
         routes the tap through human-like input on devices that support it.
 
         Args:
+          humanize: Request human-like input where supported by the device. Defaults to false.
+
+          stealth: Deprecated: use humanize. Both names must agree when supplied together.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -613,6 +636,7 @@ class AsyncActionsResource(AsyncAPIResource):
                 {
                     "x": x,
                     "y": y,
+                    "humanize": humanize,
                     "stealth": stealth,
                 },
                 action_tap_params.ActionTapParams,

@@ -24,9 +24,9 @@ class Data(BaseModel):
     order: Optional[int] = None
 
     surfaces: Optional[List[Literal["assistant", "tasks"]]] = None
-    """Model pickers this model is offered in, from LiteLLM model_info.ui_surfaces.
+    """Model pickers in which this model is available.
 
-    Omitted when unset, which means every picker.
+    When omitted, the model is available in every picker.
     """
 
 
