@@ -25,9 +25,13 @@ class KeyboardWriteParams(TypedDict, total=False):
     error_rate: Annotated[float, PropertyInfo(alias="errorRate")]
     """Per-character mistake rate for humantouch typing. -1 uses server default."""
 
+    humanize: bool
+    """Request human-like input where supported by the device. Defaults to false."""
+
     stealth: bool
+    """Deprecated: use humanize. Both names must agree when supplied together."""
 
     wpm: int
-    """Words per minute for stealth typing. 0 uses portal default."""
+    """Words per minute for humanized typing. 0 uses the device default."""
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

@@ -20,8 +20,6 @@ __all__ = ["ModelsResource", "AsyncModelsResource"]
 
 
 class ModelsResource(SyncAPIResource):
-    """LLM Models"""
-
     @cached_property
     def with_raw_response(self) -> ModelsResourceWithRawResponse:
         """
@@ -51,7 +49,11 @@ class ModelsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ModelListResponse:
-        """List available LLM models."""
+        """
+        Returns the available LLM models with their identifiers, providers, and optional
+        display metadata. Requires only your normal API authentication. Token prices are
+        not included.
+        """
         return self._get(
             "/models",
             options=make_request_options(
@@ -62,8 +64,6 @@ class ModelsResource(SyncAPIResource):
 
 
 class AsyncModelsResource(AsyncAPIResource):
-    """LLM Models"""
-
     @cached_property
     def with_raw_response(self) -> AsyncModelsResourceWithRawResponse:
         """
@@ -93,7 +93,11 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ModelListResponse:
-        """List available LLM models."""
+        """
+        Returns the available LLM models with their identifiers, providers, and optional
+        display metadata. Requires only your normal API authentication. Token prices are
+        not included.
+        """
         return await self._get(
             "/models",
             options=make_request_options(

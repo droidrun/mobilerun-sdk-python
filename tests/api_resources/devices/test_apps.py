@@ -35,6 +35,7 @@ class TestApps:
             device_id="deviceId",
             include_protected_apps=True,
             include_system_apps=True,
+            include_updates=True,
             x_device_display_id=0,
         )
         assert_matches_type(Optional[AppListResponse], app, path=["response"])
@@ -589,6 +590,7 @@ class TestAsyncApps:
             device_id="deviceId",
             include_protected_apps=True,
             include_system_apps=True,
+            include_updates=True,
             x_device_display_id=0,
         )
         assert_matches_type(Optional[AppListResponse], app, path=["response"])

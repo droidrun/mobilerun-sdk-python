@@ -33,6 +33,12 @@ class TaskRunParams(TypedDict, total=False):
 
     files: SequenceNotStr[str]
 
+    humanize: bool
+    """Request human-like input where supported by the device.
+
+    Replaces the deprecated stealth field; both must agree when supplied together.
+    """
+
     llm_model: Annotated[str, PropertyInfo(alias="llmModel")]
     """The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')"""
 
@@ -46,6 +52,7 @@ class TaskRunParams(TypedDict, total=False):
     """Record device video for the whole task and persist a retrievable reference"""
 
     stealth: bool
+    """Deprecated: use humanize. Both names must agree when supplied together."""
 
     subagent_model: Annotated[str, PropertyInfo(alias="subagentModel")]
     """LLM model used by sub-agent roles: executor, app_opener, structured_output"""

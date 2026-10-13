@@ -18,17 +18,11 @@ class NumberCreateParams(TypedDict, total=False):
     """
 
     country: str
-    """Optional ISO 3166-1 alpha-2 country code from GET /numbers/phones/countries.
-
-    Cannot be combined with `purpose`.
-    """
+    """Optional ISO 3166-1 alpha-2 country code from GET /numbers/phones/countries."""
 
     label: Optional[str]
     """
     User-defined display label — NFC-normalized, up to 100 GRAPHEMES (not UTF-16
     code units; an emoji/flag may span several). Display-only, never used for
-    routing. Also seeds the billing entity name at purchase.
+    routing.
     """
-
-    purpose: str
-    """Optional purpose from GET /numbers/phones/purposes."""
