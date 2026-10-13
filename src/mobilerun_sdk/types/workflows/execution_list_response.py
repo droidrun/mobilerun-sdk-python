@@ -75,10 +75,10 @@ class Item(BaseModel):
     recording_device_id: Optional[str] = FieldInfo(alias="recordingDeviceId", default=None)
 
     recording_id: Optional[str] = FieldInfo(alias="recordingId", default=None)
-    """
-    Device-recording id (devices-api) for this execution, set once the worker starts
-    a recording. Null when the flow has recording disabled, no device is bound, or
-    the recording failed to start.
+    """Device recording id for this execution, set once recording starts.
+
+    Null when the flow has recording disabled, no device is bound, or the recording
+    failed to start.
     """
 
     recordings: List[ItemRecording]
@@ -100,9 +100,9 @@ class Item(BaseModel):
 
     Each step additionally carries a `verdict` field ({ outcome, summary, reason? }
     | null) when it is an agent.run step that opted into a verdict — null otherwise.
-    Table-backed steps (current executions) also carry a `status` string (e.g.
-    success/failed/stopped, see deriveStepStatus); it is optional and absent on
-    legacy blob-only executions, so clients must not assume its presence.
+    Steps of current executions also carry a `status` string (e.g.
+    success/failed/stopped); it is optional and absent on older executions, so
+    clients must not assume its presence.
     """
 
 

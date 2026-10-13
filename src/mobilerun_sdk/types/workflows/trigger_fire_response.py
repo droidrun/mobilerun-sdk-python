@@ -11,8 +11,8 @@ class TriggerFireResponse(BaseModel):
     deduplicated: bool
     """
     True when at least one attached flow was skipped because it already had an
-    execution for this (flow, invocationId). Only ever true when the client supplied
-    invocationId.
+    execution for this (flow, invocationId). Only ever true when the request carried
+    an `Idempotency-Key`.
     """
 
     enqueued_count: int = FieldInfo(alias="enqueuedCount")
@@ -24,7 +24,6 @@ class TriggerFireResponse(BaseModel):
 
     invocation_id: str = FieldInfo(alias="invocationId")
     """
-    Unique ID for this fire invocation (echoes the client-supplied invocationId, or
-    a generated one). Job IDs in the execution queue are derived from it (one per
-    enqueued flow).
+    Unique ID for this fire invocation (derived from the `Idempotency-Key` header
+    when one is sent, otherwise generated).
     """

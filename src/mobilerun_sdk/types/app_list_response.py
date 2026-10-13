@@ -294,7 +294,7 @@ class ItemVersion(BaseModel):
 
     source: Literal["user", "system", "portal", "store"]
 
-    status: Literal["queued", "available", "failed"]
+    status: Literal["queued", "available", "failed", "pruned"]
 
     target_sdk: Optional[int] = FieldInfo(alias="targetSdk", default=None)
 

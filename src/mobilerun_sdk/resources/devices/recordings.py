@@ -22,6 +22,7 @@ from ...types.devices.recording_list_response import RecordingListResponse
 from ...types.devices.recording_stop_response import RecordingStopResponse
 from ...types.devices.recording_start_response import RecordingStartResponse
 from ...types.devices.recording_status_response import RecordingStatusResponse
+from ...types.devices.recording_screenshots_response import RecordingScreenshotsResponse
 
 __all__ = ["RecordingsResource", "AsyncRecordingsResource"]
 
@@ -137,6 +138,48 @@ class RecordingsResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
+    def screenshots(
+        self,
+        recording_id: str,
+        *,
+        device_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Optional[RecordingScreenshotsResponse]:
+        """
+        Screenshots saved into the recording with
+        `GET /devices/{deviceId}/screenshot?save=true`, oldest first, each with a
+        presigned download URL.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        if not recording_id:
+            raise ValueError(f"Expected a non-empty value for `recording_id` but received {recording_id!r}")
+        return self._get(
+            path_template(
+                "/devices/{device_id}/recordings/{recording_id}/screenshots",
+                device_id=device_id,
+                recording_id=recording_id,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=RecordingScreenshotsResponse,
+        )
+
     def start(
         self,
         device_id: str,
@@ -158,13 +201,13 @@ class RecordingsResource(SyncAPIResource):
 
         Args:
           quality: Capture quality from 1 (lowest) to 10 (full stream quality). Defaults to the
-              device's full quality. Honored by devices recording through the portal stream
-              bridge.
+              device's full quality. Honored only by devices that support adjustable capture
+              quality.
 
-          types: Artifacts to capture: trajectory (input actions; on portal stream-bridge devices
-              only when the handset announces trajectory capture), video, and audio (captured
-              into the video artifact, so it requires video; honored by portal stream-bridge
-              recorders). Defaults to trajectory and video, narrowed to what the device
+          types: Artifacts to capture: trajectory (input actions; on some devices only when the
+              device announces trajectory capture), video, and audio (captured into the video
+              artifact, so it requires video; honored only by devices that support audio
+              capture). Defaults to trajectory and video, narrowed to what the device
               produces.
 
           extra_headers: Send extra headers
@@ -475,6 +518,48 @@ class AsyncRecordingsResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def screenshots(
+        self,
+        recording_id: str,
+        *,
+        device_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Optional[RecordingScreenshotsResponse]:
+        """
+        Screenshots saved into the recording with
+        `GET /devices/{deviceId}/screenshot?save=true`, oldest first, each with a
+        presigned download URL.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        if not recording_id:
+            raise ValueError(f"Expected a non-empty value for `recording_id` but received {recording_id!r}")
+        return await self._get(
+            path_template(
+                "/devices/{device_id}/recordings/{recording_id}/screenshots",
+                device_id=device_id,
+                recording_id=recording_id,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=RecordingScreenshotsResponse,
+        )
+
     async def start(
         self,
         device_id: str,
@@ -496,13 +581,13 @@ class AsyncRecordingsResource(AsyncAPIResource):
 
         Args:
           quality: Capture quality from 1 (lowest) to 10 (full stream quality). Defaults to the
-              device's full quality. Honored by devices recording through the portal stream
-              bridge.
+              device's full quality. Honored only by devices that support adjustable capture
+              quality.
 
-          types: Artifacts to capture: trajectory (input actions; on portal stream-bridge devices
-              only when the handset announces trajectory capture), video, and audio (captured
-              into the video artifact, so it requires video; honored by portal stream-bridge
-              recorders). Defaults to trajectory and video, narrowed to what the device
+          types: Artifacts to capture: trajectory (input actions; on some devices only when the
+              device announces trajectory capture), video, and audio (captured into the video
+              artifact, so it requires video; honored only by devices that support audio
+              capture). Defaults to trajectory and video, narrowed to what the device
               produces.
 
           extra_headers: Send extra headers
@@ -712,6 +797,9 @@ class RecordingsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             recordings.delete,
         )
+        self.screenshots = to_raw_response_wrapper(
+            recordings.screenshots,
+        )
         self.start = to_raw_response_wrapper(
             recordings.start,
         )
@@ -738,6 +826,9 @@ class AsyncRecordingsResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             recordings.delete,
+        )
+        self.screenshots = async_to_raw_response_wrapper(
+            recordings.screenshots,
         )
         self.start = async_to_raw_response_wrapper(
             recordings.start,
@@ -766,6 +857,9 @@ class RecordingsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             recordings.delete,
         )
+        self.screenshots = to_streamed_response_wrapper(
+            recordings.screenshots,
+        )
         self.start = to_streamed_response_wrapper(
             recordings.start,
         )
@@ -792,6 +886,9 @@ class AsyncRecordingsResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             recordings.delete,
+        )
+        self.screenshots = async_to_streamed_response_wrapper(
+            recordings.screenshots,
         )
         self.start = async_to_streamed_response_wrapper(
             recordings.start,

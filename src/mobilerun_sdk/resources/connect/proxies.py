@@ -32,6 +32,8 @@ __all__ = ["ProxiesResource", "AsyncProxiesResource"]
 
 
 class ProxiesResource(SyncAPIResource):
+    """Manage your Mobilerun Connect Proxies"""
+
     @cached_property
     def with_raw_response(self) -> ProxiesResourceWithRawResponse:
         """
@@ -146,9 +148,9 @@ class ProxiesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyListResponse:
-        """
-        Returns proxies owned by the calling tenant (the X-Owner-Id header, falling back
-        to X-User-ID). Credentials are omitted from the list.
+        """Returns proxies owned by the caller.
+
+        Credentials are omitted from the list.
 
         Args:
           country: Filter to proxies in this country (ISO 3166-1 alpha-2, lowercase).
@@ -366,8 +368,8 @@ class ProxiesResource(SyncAPIResource):
         """
         Returns the connection history recorded for this proxy, one item per connection
         (aggregated across the connection's lifetime). Supports filtering on every
-        property plus ordering and pagination. Returns 503 when the connection-insights
-        backend is disabled or unreachable.
+        property plus ordering and pagination. Returns 503 when connection history is
+        temporarily unavailable.
 
         Args:
           close_reason: Filter to connections that closed with this reason (closed connections only).
@@ -410,7 +412,7 @@ class ProxiesResource(SyncAPIResource):
 
           protocol: Filter to connections of this transport protocol.
 
-          provider: Filter to connections served by this upstream provider.
+          provider: Filter to connections served by this upstream provider identifier.
 
           session_id: Filter to a single connection by its session id.
 
@@ -511,6 +513,8 @@ class ProxiesResource(SyncAPIResource):
 
 
 class AsyncProxiesResource(AsyncAPIResource):
+    """Manage your Mobilerun Connect Proxies"""
+
     @cached_property
     def with_raw_response(self) -> AsyncProxiesResourceWithRawResponse:
         """
@@ -625,9 +629,9 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyListResponse:
-        """
-        Returns proxies owned by the calling tenant (the X-Owner-Id header, falling back
-        to X-User-ID). Credentials are omitted from the list.
+        """Returns proxies owned by the caller.
+
+        Credentials are omitted from the list.
 
         Args:
           country: Filter to proxies in this country (ISO 3166-1 alpha-2, lowercase).
@@ -845,8 +849,8 @@ class AsyncProxiesResource(AsyncAPIResource):
         """
         Returns the connection history recorded for this proxy, one item per connection
         (aggregated across the connection's lifetime). Supports filtering on every
-        property plus ordering and pagination. Returns 503 when the connection-insights
-        backend is disabled or unreachable.
+        property plus ordering and pagination. Returns 503 when connection history is
+        temporarily unavailable.
 
         Args:
           close_reason: Filter to connections that closed with this reason (closed connections only).
@@ -889,7 +893,7 @@ class AsyncProxiesResource(AsyncAPIResource):
 
           protocol: Filter to connections of this transport protocol.
 
-          provider: Filter to connections served by this upstream provider.
+          provider: Filter to connections served by this upstream provider identifier.
 
           session_id: Filter to a single connection by its session id.
 

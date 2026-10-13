@@ -152,6 +152,14 @@ from .recordings import (
     RecordingsResourceWithStreamingResponse,
     AsyncRecordingsResourceWithStreamingResponse,
 )
+from .screenshots import (
+    ScreenshotsResource,
+    AsyncScreenshotsResource,
+    ScreenshotsResourceWithRawResponse,
+    AsyncScreenshotsResourceWithRawResponse,
+    ScreenshotsResourceWithStreamingResponse,
+    AsyncScreenshotsResourceWithStreamingResponse,
+)
 from .media_sessions import (
     MediaSessionsResource,
     AsyncMediaSessionsResource,
@@ -224,6 +232,12 @@ __all__ = [
     "AsyncProxyResourceWithRawResponse",
     "ProxyResourceWithStreamingResponse",
     "AsyncProxyResourceWithStreamingResponse",
+    "ScreenshotsResource",
+    "AsyncScreenshotsResource",
+    "ScreenshotsResourceWithRawResponse",
+    "AsyncScreenshotsResourceWithRawResponse",
+    "ScreenshotsResourceWithStreamingResponse",
+    "AsyncScreenshotsResourceWithStreamingResponse",
     "StateResource",
     "AsyncStateResource",
     "StateResourceWithRawResponse",

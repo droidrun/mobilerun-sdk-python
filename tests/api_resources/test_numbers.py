@@ -15,7 +15,6 @@ from mobilerun_sdk.types import (
     NumberDeleteResponse,
     NumberUpdateResponse,
     NumberCapacityResponse,
-    NumberPurposesResponse,
     NumberRetrieveResponse,
     NumberCountriesResponse,
 )
@@ -39,7 +38,6 @@ class TestNumbers:
             billing_preference="included",
             country="de",
             label="Support line",
-            purpose="telegram",
         )
         assert_matches_type(NumberCreateResponse, number, path=["response"])
 
@@ -299,34 +297,6 @@ class TestNumbers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_method_purposes(self, client: Mobilerun) -> None:
-        number = client.numbers.purposes()
-        assert_matches_type(NumberPurposesResponse, number, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_raw_response_purposes(self, client: Mobilerun) -> None:
-        response = client.numbers.with_raw_response.purposes()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        number = response.parse()
-        assert_matches_type(NumberPurposesResponse, number, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_streaming_response_purposes(self, client: Mobilerun) -> None:
-        with client.numbers.with_streaming_response.purposes() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            number = response.parse()
-            assert_matches_type(NumberPurposesResponse, number, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
 
 class TestAsyncNumbers:
     parametrize = pytest.mark.parametrize(
@@ -346,7 +316,6 @@ class TestAsyncNumbers:
             billing_preference="included",
             country="de",
             label="Support line",
-            purpose="telegram",
         )
         assert_matches_type(NumberCreateResponse, number, path=["response"])
 
@@ -603,33 +572,5 @@ class TestAsyncNumbers:
 
             number = await response.parse()
             assert_matches_type(NumberCountriesResponse, number, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_purposes(self, async_client: AsyncMobilerun) -> None:
-        number = await async_client.numbers.purposes()
-        assert_matches_type(NumberPurposesResponse, number, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_raw_response_purposes(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.numbers.with_raw_response.purposes()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        number = await response.parse()
-        assert_matches_type(NumberPurposesResponse, number, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_streaming_response_purposes(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.numbers.with_streaming_response.purposes() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            number = await response.parse()
-            assert_matches_type(NumberPurposesResponse, number, path=["response"])
 
         assert cast(Any, response.is_closed) is True
