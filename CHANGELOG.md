@@ -1,5 +1,26 @@
 # Changelog
 
+## [6.0.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.6.0...v6.0.0) (2026-10-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* **sdk:** public sdk 6.0.0
+
+### Features
+
+* **sdk:** public sdk 6.0.0 ([4bb292a](https://github.com/droidrun/mobilerun-sdk-python/commit/4bb292a308567db499d755bc08e8246630f88ee5))
+
+
+### Bug Fixes
+
+* **sdk:** repair post-5.6.0 tracking ([48b47c0](https://github.com/droidrun/mobilerun-sdk-python/commit/48b47c09f9947feed837a12a5d6512dc23f19a04))
+
+
+### Chores
+
+* release 6.0.0 ([ce591f3](https://github.com/droidrun/mobilerun-sdk-python/commit/ce591f3373e53087066c04bb15f7ba26c0fd4eb6))
+
 ## [5.6.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v5.5.0...v5.6.0) (2026-09-30)
 
 
