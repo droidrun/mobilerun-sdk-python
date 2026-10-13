@@ -172,11 +172,14 @@ class TestDevices:
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         device = client.devices.list(
             country="country",
+            created_after=parse_datetime("2019-12-27T18:11:19.117Z"),
+            created_before=parse_datetime("2019-12-27T18:11:19.117Z"),
             created_by="createdBy",
             mine=True,
             name="name",
             order_by="id",
             order_by_direction="asc",
+            owner_id=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             page=0,
             page_size=0,
             platform="android",
@@ -825,11 +828,14 @@ class TestAsyncDevices:
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.list(
             country="country",
+            created_after=parse_datetime("2019-12-27T18:11:19.117Z"),
+            created_before=parse_datetime("2019-12-27T18:11:19.117Z"),
             created_by="createdBy",
             mine=True,
             name="name",
             order_by="id",
             order_by_direction="asc",
+            owner_id=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             page=0,
             page_size=0,
             platform="android",

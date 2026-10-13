@@ -21,6 +21,12 @@ class ActionSwipeParams(TypedDict, total=False):
 
     start_y: Required[Annotated[int, PropertyInfo(alias="startY")]]
 
+    hold_ms: Annotated[int, PropertyInfo(alias="holdMs")]
+    """
+    Keep the finger at the end point for holdMs and suppress fling before lifting,
+    so content moves by about the finger travel. Supported on Android cloud phones.
+    """
+
     stealth: bool
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

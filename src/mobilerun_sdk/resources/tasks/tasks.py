@@ -290,6 +290,7 @@ class TasksResource(SyncAPIResource):
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
+        humanize: bool | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
@@ -321,9 +322,14 @@ class TasksResource(SyncAPIResource):
 
           execution_timeout: Maximum agent execution time in seconds (1–2700).
 
+          humanize: Request human-like input where supported by the device. Replaces the deprecated
+              stealth field; both must agree when supplied together.
+
           llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
+
+          stealth: Deprecated: use humanize. Both names must agree when supplied together.
 
           subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
 
@@ -355,6 +361,7 @@ class TasksResource(SyncAPIResource):
                     "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
+                    "humanize": humanize,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
@@ -391,6 +398,7 @@ class TasksResource(SyncAPIResource):
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
+        humanize: bool | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
@@ -421,9 +429,14 @@ class TasksResource(SyncAPIResource):
 
           execution_timeout: Maximum agent execution time in seconds (1–2700).
 
+          humanize: Request human-like input where supported by the device. Replaces the deprecated
+              stealth field; both must agree when supplied together.
+
           llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
+
+          stealth: Deprecated: use humanize. Both names must agree when supplied together.
 
           subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
 
@@ -455,6 +468,7 @@ class TasksResource(SyncAPIResource):
                     "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
+                    "humanize": humanize,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
@@ -812,6 +826,7 @@ class AsyncTasksResource(AsyncAPIResource):
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
+        humanize: bool | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
@@ -843,9 +858,14 @@ class AsyncTasksResource(AsyncAPIResource):
 
           execution_timeout: Maximum agent execution time in seconds (1–2700).
 
+          humanize: Request human-like input where supported by the device. Replaces the deprecated
+              stealth field; both must agree when supplied together.
+
           llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
+
+          stealth: Deprecated: use humanize. Both names must agree when supplied together.
 
           subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
 
@@ -877,6 +897,7 @@ class AsyncTasksResource(AsyncAPIResource):
                     "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
+                    "humanize": humanize,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
@@ -913,6 +934,7 @@ class AsyncTasksResource(AsyncAPIResource):
         display_id: int | Omit = omit,
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
+        humanize: bool | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
@@ -943,9 +965,14 @@ class AsyncTasksResource(AsyncAPIResource):
 
           execution_timeout: Maximum agent execution time in seconds (1–2700).
 
+          humanize: Request human-like input where supported by the device. Replaces the deprecated
+              stealth field; both must agree when supplied together.
+
           llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
+
+          stealth: Deprecated: use humanize. Both names must agree when supplied together.
 
           subagent_model: LLM model used by sub-agent roles: executor, app_opener, structured_output
 
@@ -977,6 +1004,7 @@ class AsyncTasksResource(AsyncAPIResource):
                     "display_id": display_id,
                     "execution_timeout": execution_timeout,
                     "files": files,
+                    "humanize": humanize,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,

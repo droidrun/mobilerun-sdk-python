@@ -197,6 +197,7 @@ class ActionsResource(SyncAPIResource):
         end_y: int,
         start_x: int,
         start_y: int,
+        hold_ms: int | Omit = omit,
         stealth: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -210,10 +211,15 @@ class ActionsResource(SyncAPIResource):
         """
         Swipes from a start coordinate to an end coordinate over the given duration in
         milliseconds. An optional stealth flag applies human-like jitter and curved
-        paths on devices that support it.
+        paths on devices that support it. With holdMs > 0 the request returns 422 when
+        combined with stealth, when duration + holdMs exceeds 9000 ms, or on devices
+        that do not support it.
 
         Args:
           duration: Swipe duration in milliseconds
+
+          hold_ms: Keep the finger at the end point for holdMs and suppress fling before lifting,
+              so content moves by about the finger travel. Supported on Android cloud phones.
 
           extra_headers: Send extra headers
 
@@ -243,6 +249,7 @@ class ActionsResource(SyncAPIResource):
                     "end_y": end_y,
                     "start_x": start_x,
                     "start_y": start_y,
+                    "hold_ms": hold_ms,
                     "stealth": stealth,
                 },
                 action_swipe_params.ActionSwipeParams,
@@ -492,6 +499,7 @@ class AsyncActionsResource(AsyncAPIResource):
         end_y: int,
         start_x: int,
         start_y: int,
+        hold_ms: int | Omit = omit,
         stealth: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -505,10 +513,15 @@ class AsyncActionsResource(AsyncAPIResource):
         """
         Swipes from a start coordinate to an end coordinate over the given duration in
         milliseconds. An optional stealth flag applies human-like jitter and curved
-        paths on devices that support it.
+        paths on devices that support it. With holdMs > 0 the request returns 422 when
+        combined with stealth, when duration + holdMs exceeds 9000 ms, or on devices
+        that do not support it.
 
         Args:
           duration: Swipe duration in milliseconds
+
+          hold_ms: Keep the finger at the end point for holdMs and suppress fling before lifting,
+              so content moves by about the finger travel. Supported on Android cloud phones.
 
           extra_headers: Send extra headers
 
@@ -538,6 +551,7 @@ class AsyncActionsResource(AsyncAPIResource):
                     "end_y": end_y,
                     "start_x": start_x,
                     "start_y": start_y,
+                    "hold_ms": hold_ms,
                     "stealth": stealth,
                 },
                 action_swipe_params.ActionSwipeParams,

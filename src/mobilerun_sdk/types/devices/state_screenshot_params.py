@@ -12,4 +12,11 @@ __all__ = ["StateScreenshotParams"]
 class StateScreenshotParams(TypedDict, total=False):
     hide_overlay: Annotated[bool, PropertyInfo(alias="hideOverlay")]
 
+    save: bool
+    """
+    Store the screenshot as device media: in the owner's active recording, or
+    standalone for 7 days. Without save=true nothing is stored. The PNG response is
+    unchanged; X-Screenshot-Saved reports whether it was stored.
+    """
+
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]

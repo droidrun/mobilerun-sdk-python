@@ -452,9 +452,9 @@ class FlowsResource(SyncAPIResource):
     ) -> FlowCapacityResponse:
         """
         Returns an owner-scoped snapshot of finite included workflow-agent capacity
-        after locally stored enabled and disabled agents. Available only while slot
-        enforcement is enabled; otherwise returns 503. This is advisory; create and
-        clone perform authoritative admission under an owner lock.
+        after accounting for enabled and disabled agents. Returns 503 when a finite
+        capacity snapshot is unavailable, including for unlimited plans. This is
+        advisory; create and clone perform the authoritative capacity check.
         """
         return self._get(
             "/flows/capacity",
@@ -535,8 +535,8 @@ class FlowsResource(SyncAPIResource):
         Return the recording/delivery readiness for a flow (recording mode, whether
         delivery can include the recording, whether a files.upload action exists, the
         first direct OneDrive/Google Drive upload step if any) plus, per destination,
-        whether the flow owner has an active integrations-api connection. Returns 404 if
-        the flow does not exist.
+        whether the flow owner has an active connection. Returns 404 if the flow does
+        not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -649,6 +649,7 @@ class FlowsResource(SyncAPIResource):
         self,
         flow_id: str,
         *,
+        capture_screenshots: bool | Omit = omit,
         payload: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -669,6 +670,10 @@ class FlowsResource(SyncAPIResource):
         returns 422 `idempotency_key_reused`.
 
         Args:
+          capture_screenshots: Record and keep this run's scripts.run screenshots
+              (device.screenshot(save=True)) even without flow delivery. Used for a one-off
+              proof run.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -683,7 +688,13 @@ class FlowsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
         return self._post(
             path_template("/flows/{flow_id}/run", flow_id=flow_id),
-            body=maybe_transform({"payload": payload}, flow_run_params.FlowRunParams),
+            body=maybe_transform(
+                {
+                    "capture_screenshots": capture_screenshots,
+                    "payload": payload,
+                },
+                flow_run_params.FlowRunParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -866,8 +877,8 @@ class FlowsResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FlowVerifyResponse:
         """
-        Run a bound, deduplicated **verification** of this flow on exactly one device
-        through the real worker.
+        Run a bound, deduplicated **verification** of this flow on exactly one device as
+        a real run.
 
         Unlike a normal trigger firing, verification:
 
@@ -1322,9 +1333,9 @@ class AsyncFlowsResource(AsyncAPIResource):
     ) -> FlowCapacityResponse:
         """
         Returns an owner-scoped snapshot of finite included workflow-agent capacity
-        after locally stored enabled and disabled agents. Available only while slot
-        enforcement is enabled; otherwise returns 503. This is advisory; create and
-        clone perform authoritative admission under an owner lock.
+        after accounting for enabled and disabled agents. Returns 503 when a finite
+        capacity snapshot is unavailable, including for unlimited plans. This is
+        advisory; create and clone perform the authoritative capacity check.
         """
         return await self._get(
             "/flows/capacity",
@@ -1405,8 +1416,8 @@ class AsyncFlowsResource(AsyncAPIResource):
         Return the recording/delivery readiness for a flow (recording mode, whether
         delivery can include the recording, whether a files.upload action exists, the
         first direct OneDrive/Google Drive upload step if any) plus, per destination,
-        whether the flow owner has an active integrations-api connection. Returns 404 if
-        the flow does not exist.
+        whether the flow owner has an active connection. Returns 404 if the flow does
+        not exist.
 
         Args:
           extra_headers: Send extra headers
@@ -1519,6 +1530,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         self,
         flow_id: str,
         *,
+        capture_screenshots: bool | Omit = omit,
         payload: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1539,6 +1551,10 @@ class AsyncFlowsResource(AsyncAPIResource):
         returns 422 `idempotency_key_reused`.
 
         Args:
+          capture_screenshots: Record and keep this run's scripts.run screenshots
+              (device.screenshot(save=True)) even without flow delivery. Used for a one-off
+              proof run.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1553,7 +1569,13 @@ class AsyncFlowsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
         return await self._post(
             path_template("/flows/{flow_id}/run", flow_id=flow_id),
-            body=await async_maybe_transform({"payload": payload}, flow_run_params.FlowRunParams),
+            body=await async_maybe_transform(
+                {
+                    "capture_screenshots": capture_screenshots,
+                    "payload": payload,
+                },
+                flow_run_params.FlowRunParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1736,8 +1758,8 @@ class AsyncFlowsResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FlowVerifyResponse:
         """
-        Run a bound, deduplicated **verification** of this flow on exactly one device
-        through the real worker.
+        Run a bound, deduplicated **verification** of this flow on exactly one device as
+        a real run.
 
         Unlike a normal trigger firing, verification:
 

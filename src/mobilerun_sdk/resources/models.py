@@ -20,8 +20,6 @@ __all__ = ["ModelsResource", "AsyncModelsResource"]
 
 
 class ModelsResource(SyncAPIResource):
-    """LLM Models"""
-
     @cached_property
     def with_raw_response(self) -> ModelsResourceWithRawResponse:
         """
@@ -51,7 +49,14 @@ class ModelsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ModelListResponse:
-        """List available LLM models."""
+        """The single model-list endpoint for all consumers.
+
+        Served unauthenticated by the
+        gateway: at the edge it sits behind api-key rate limiting and cloud-auth (so
+        callers use an API key); in-cluster callers reach it directly. Takes no headers
+        and needs no service key. Team-scoped when PLATFORM_CATALOG_TEAM_ID is set;
+        token prices are never included.
+        """
         return self._get(
             "/models",
             options=make_request_options(
@@ -62,8 +67,6 @@ class ModelsResource(SyncAPIResource):
 
 
 class AsyncModelsResource(AsyncAPIResource):
-    """LLM Models"""
-
     @cached_property
     def with_raw_response(self) -> AsyncModelsResourceWithRawResponse:
         """
@@ -93,7 +96,14 @@ class AsyncModelsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ModelListResponse:
-        """List available LLM models."""
+        """The single model-list endpoint for all consumers.
+
+        Served unauthenticated by the
+        gateway: at the edge it sits behind api-key rate limiting and cloud-auth (so
+        callers use an API key); in-cluster callers reach it directly. Takes no headers
+        and needs no service key. Team-scoped when PLATFORM_CATALOG_TEAM_ID is set;
+        token prices are never included.
+        """
         return await self._get(
             "/models",
             options=make_request_options(

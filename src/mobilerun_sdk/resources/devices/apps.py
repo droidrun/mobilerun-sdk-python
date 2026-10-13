@@ -51,6 +51,7 @@ class AppsResource(SyncAPIResource):
         *,
         include_protected_apps: bool | Omit = omit,
         include_system_apps: bool | Omit = omit,
+        include_updates: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -65,6 +66,9 @@ class AppsResource(SyncAPIResource):
         corresponding query parameters are set.
 
         Args:
+          include_updates: Resolve availableUpdate for Android user apps (one library lookup per app). Off
+              by default.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -92,6 +96,7 @@ class AppsResource(SyncAPIResource):
                     {
                         "include_protected_apps": include_protected_apps,
                         "include_system_apps": include_system_apps,
+                        "include_updates": include_updates,
                     },
                     app_list_params.AppListParams,
                 ),
@@ -629,6 +634,7 @@ class AsyncAppsResource(AsyncAPIResource):
         *,
         include_protected_apps: bool | Omit = omit,
         include_system_apps: bool | Omit = omit,
+        include_updates: bool | Omit = omit,
         x_device_display_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -643,6 +649,9 @@ class AsyncAppsResource(AsyncAPIResource):
         corresponding query parameters are set.
 
         Args:
+          include_updates: Resolve availableUpdate for Android user apps (one library lookup per app). Off
+              by default.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -670,6 +679,7 @@ class AsyncAppsResource(AsyncAPIResource):
                     {
                         "include_protected_apps": include_protected_apps,
                         "include_system_apps": include_system_apps,
+                        "include_updates": include_updates,
                     },
                     app_list_params.AppListParams,
                 ),

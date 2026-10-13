@@ -11,9 +11,9 @@ __all__ = ["MessageSendParams"]
 
 class MessageSendParams(TypedDict, total=False):
     body: Required[str]
-    """
-    SMS body text, up to 1600 characters (rejected with 400 beyond that, before
-    hashing). A number's own limit may be lower and is answered 422 body_too_long.
+    """SMS body text, up to 1600 characters (longer bodies are rejected with 400).
+
+    A number's own limit may be lower and is answered 422 body_too_long.
     """
 
     to: Required[str]
@@ -21,13 +21,6 @@ class MessageSendParams(TypedDict, total=False):
 
     Destinations the number cannot send to are rejected with 422
     unsupported_destination, non-numbers with 422 invalid_recipient.
-    """
-
-    client_request_id: Annotated[str, PropertyInfo(alias="clientRequestId")]
-    """Deprecated: use the Idempotency-Key header instead.
-
-    Optional idempotency key. Replaying the same key and payload returns the
-    original send.
     """
 
     delivery_report: Annotated[bool, PropertyInfo(alias="deliveryReport")]
