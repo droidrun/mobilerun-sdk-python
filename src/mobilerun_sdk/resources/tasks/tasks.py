@@ -325,7 +325,8 @@ class TasksResource(SyncAPIResource):
           humanize: Request human-like input where supported by the device. Replaces the deprecated
               stealth field; both must agree when supplied together.
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
+          llm_model: The LLM model identifier to use for the task (e.g.
+              'mobilerun/mobile-agent-fast')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -432,7 +433,8 @@ class TasksResource(SyncAPIResource):
           humanize: Request human-like input where supported by the device. Replaces the deprecated
               stealth field; both must agree when supplied together.
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
+          llm_model: The LLM model identifier to use for the task (e.g.
+              'mobilerun/mobile-agent-fast')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -861,7 +863,8 @@ class AsyncTasksResource(AsyncAPIResource):
           humanize: Request human-like input where supported by the device. Replaces the deprecated
               stealth field; both must agree when supplied together.
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
+          llm_model: The LLM model identifier to use for the task (e.g.
+              'mobilerun/mobile-agent-fast')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -968,7 +971,8 @@ class AsyncTasksResource(AsyncAPIResource):
           humanize: Request human-like input where supported by the device. Replaces the deprecated
               stealth field; both must agree when supplied together.
 
-          llm_model: The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')
+          llm_model: The LLM model identifier to use for the task (e.g.
+              'mobilerun/mobile-agent-fast')
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 

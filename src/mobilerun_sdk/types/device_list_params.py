@@ -6,7 +6,6 @@ from typing import List, Union, Optional
 from datetime import datetime
 from typing_extensions import Literal, Annotated, TypedDict
 
-from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["DeviceListParams"]
@@ -38,12 +37,6 @@ class DeviceListParams(TypedDict, total=False):
 
     order_by_direction: Annotated[Literal["asc", "desc"], PropertyInfo(alias="orderByDirection")]
 
-    owner_id: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="ownerId")]
-    """Filter by owner IDs.
-
-    Comma-separated or repeated parameters. Restricted to platform administrators.
-    """
-
     page: int
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
@@ -55,6 +48,12 @@ class DeviceListParams(TypedDict, total=False):
     """
 
     provider_id: Annotated[str, PropertyInfo(alias="providerId")]
+
+    search: str
+    """
+    Case-insensitive search: matches devices whose name contains the term or whose
+    ID starts with it. Combined with all other filters.
+    """
 
     state: Optional[
         List[

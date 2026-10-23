@@ -72,6 +72,8 @@ class DataMatchedFlowFlowRecordingPolicy(BaseModel):
 class DataMatchedFlowFlow(BaseModel):
     id: str
 
+    agent_id: Optional[str] = FieldInfo(alias="agentId", default=None)
+
     archived_at: Optional[datetime] = FieldInfo(alias="archivedAt", default=None)
 
     blocked_at: Optional[datetime] = FieldInfo(alias="blockedAt", default=None)

@@ -40,7 +40,10 @@ class TaskRunParams(TypedDict, total=False):
     """
 
     llm_model: Annotated[str, PropertyInfo(alias="llmModel")]
-    """The LLM model identifier to use for the task (e.g. 'openai/gpt-6-luna')"""
+    """The LLM model identifier to use for the task (e.g.
+
+    'mobilerun/mobile-agent-fast')
+    """
 
     max_steps: Annotated[int, PropertyInfo(alias="maxSteps")]
 
