@@ -263,6 +263,7 @@ class TestFlows:
     @parametrize
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         flow = client.workflows.flows.list(
+            agent_id="unassigned",
             created_by="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             enabled="true",
             mine="true",
@@ -390,6 +391,14 @@ class TestFlows:
     @parametrize
     def test_method_capacity(self, client: Mobilerun) -> None:
         flow = client.workflows.flows.capacity()
+        assert_matches_type(FlowCapacityResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_capacity_with_all_params(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.capacity(
+            agent_id="unassigned",
+        )
         assert_matches_type(FlowCapacityResponse, flow, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -1125,6 +1134,7 @@ class TestAsyncFlows:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         flow = await async_client.workflows.flows.list(
+            agent_id="unassigned",
             created_by="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             enabled="true",
             mine="true",
@@ -1252,6 +1262,14 @@ class TestAsyncFlows:
     @parametrize
     async def test_method_capacity(self, async_client: AsyncMobilerun) -> None:
         flow = await async_client.workflows.flows.capacity()
+        assert_matches_type(FlowCapacityResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_capacity_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.capacity(
+            agent_id="unassigned",
+        )
         assert_matches_type(FlowCapacityResponse, flow, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")

@@ -8,7 +8,7 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["NumberDeleteResponse", "Data", "DataActions"]
+__all__ = ["NumberDeleteResponse", "Data", "DataActions", "DataLineCapabilities", "DataLineCapabilitiesSMS"]
 
 
 class DataActions(BaseModel):
@@ -26,6 +26,23 @@ class DataActions(BaseModel):
     """
 
 
+class DataLineCapabilitiesSMS(BaseModel):
+    inbound: bool
+    """This line can receive on this channel."""
+
+    outbound: bool
+    """This line can send on this channel."""
+
+
+class DataLineCapabilities(BaseModel):
+    """What this line supports in principle, per channel.
+
+    Use `actions` for what you can do right now.
+    """
+
+    sms: DataLineCapabilitiesSMS
+
+
 class Data(BaseModel):
     id: str
 
@@ -41,6 +58,7 @@ class Data(BaseModel):
     """Deprecated: use `actions.send`"""
 
     capabilities: Optional[List[Literal["sms", "voice"]]] = None
+    """Deprecated: use `lineCapabilities`"""
 
     checkout_url: Optional[str] = FieldInfo(alias="checkoutUrl", default=None)
 
@@ -58,6 +76,12 @@ class Data(BaseModel):
     """
 
     label: Optional[str] = None
+
+    line_capabilities: DataLineCapabilities = FieldInfo(alias="lineCapabilities")
+    """What this line supports in principle, per channel.
+
+    Use `actions` for what you can do right now.
+    """
 
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
 

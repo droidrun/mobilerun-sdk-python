@@ -21,6 +21,7 @@ from .action_list_response import ActionListResponse as ActionListResponse
 from .action_update_params import ActionUpdateParams as ActionUpdateParams
 from .event_dry_run_params import EventDryRunParams as EventDryRunParams
 from .flow_activate_params import FlowActivateParams as FlowActivateParams
+from .flow_capacity_params import FlowCapacityParams as FlowCapacityParams
 from .flow_create_response import FlowCreateResponse as FlowCreateResponse
 from .flow_delete_response import FlowDeleteResponse as FlowDeleteResponse
 from .flow_update_response import FlowUpdateResponse as FlowUpdateResponse

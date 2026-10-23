@@ -59,6 +59,7 @@ from .tasks import (
 )
 from ...types import (
     device_list_params,
+    device_reset_params,
     device_create_params,
     device_summary_params,
     device_set_name_params,
@@ -179,14 +180,6 @@ from .screenshots import (
     AsyncScreenshotsResourceWithStreamingResponse,
 )
 from ..._base_client import make_request_options
-from .media_sessions import (
-    MediaSessionsResource,
-    AsyncMediaSessionsResource,
-    MediaSessionsResourceWithRawResponse,
-    AsyncMediaSessionsResourceWithRawResponse,
-    MediaSessionsResourceWithStreamingResponse,
-    AsyncMediaSessionsResourceWithStreamingResponse,
-)
 from .traffic_sessions import (
     TrafficSessionsResource,
     AsyncTrafficSessionsResource,
@@ -283,10 +276,6 @@ class DevicesResource(SyncAPIResource):
     @cached_property
     def kiosk(self) -> KioskResource:
         return KioskResource(self._client)
-
-    @cached_property
-    def media_sessions(self) -> MediaSessionsResource:
-        return MediaSessionsResource(self._client)
 
     @cached_property
     def recordings(self) -> RecordingsResource:
@@ -460,11 +449,11 @@ class DevicesResource(SyncAPIResource):
         name: str | Omit = omit,
         order_by: Literal["id", "createdAt", "updatedAt", "assignedAt", "gridPosition"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        owner_id: Optional[SequenceNotStr[str]] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         platform: Literal["android", "ios"] | Omit = omit,
         provider_id: str | Omit = omit,
+        search: str | Omit = omit,
         state: Optional[
             List[
                 Literal[
@@ -515,11 +504,11 @@ class DevicesResource(SyncAPIResource):
 
           mine: When true, only return devices created by the authenticated caller.
 
-          owner_id: Filter by owner IDs. Comma-separated or repeated parameters. Restricted to
-              platform administrators.
-
           platform: Filter by the device's platform as served in the platform field (runtime,
               announced, else type-derived).
+
+          search: Case-insensitive search: matches devices whose name contains the term or whose
+              ID starts with it. Combined with all other filters.
 
           state: Filter by current device state. Comma-separated (state=ready,stopped). Defaults
               to every state except terminated and unknown, so stopped and maintenance devices
@@ -553,11 +542,11 @@ class DevicesResource(SyncAPIResource):
                         "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
-                        "owner_id": owner_id,
                         "page": page,
                         "page_size": page_size,
                         "platform": platform,
                         "provider_id": provider_id,
+                        "search": search,
                         "state": state,
                         "type": type,
                     },
@@ -681,6 +670,7 @@ class DevicesResource(SyncAPIResource):
         self,
         device_id: str,
         *,
+        mode: Literal["full", "identity"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -689,12 +679,25 @@ class DevicesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> None:
-        """
-        Resets the device back to a clean state, clearing installed apps and user data
-        accumulated during the session. The device transitions through its reset
-        lifecycle before becoming ready again.
+        """Resets the device.
+
+        The optional body `mode` selects what is erased: `full` is a
+        factory reset that erases installed apps, accounts and storage and gives the
+        device a new identity; `identity` gives the device a new fingerprint and keeps
+        its apps and data. When `mode` is omitted the reset is `full`, or `identity` on
+        devices whose capabilities report `factoryReset=false`. A mode the device does
+        not support (see `factoryReset` / `identityReset` in the device capabilities) is
+        refused with 400 `DEVICE_TOOL_UNSUPPORTED`; legacy devices accept an explicit
+        mode only when it is the one their capabilities advertise, and always accept a
+        reset without a mode. The device transitions through its reset lifecycle before
+        becoming ready again.
 
         Args:
+          mode: What to erase. full: factory reset — erases the user data (apps, accounts,
+              storage) and gives the device a new identity. identity: new device fingerprint,
+              apps and data are kept. When omitted: full, or identity on devices whose
+              capabilities report factoryReset=false.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -710,6 +713,7 @@ class DevicesResource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             path_template("/devices/{device_id}/reset", device_id=device_id),
+            body=maybe_transform({"mode": mode}, device_reset_params.DeviceResetParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1099,10 +1103,6 @@ class AsyncDevicesResource(AsyncAPIResource):
         return AsyncKioskResource(self._client)
 
     @cached_property
-    def media_sessions(self) -> AsyncMediaSessionsResource:
-        return AsyncMediaSessionsResource(self._client)
-
-    @cached_property
     def recordings(self) -> AsyncRecordingsResource:
         return AsyncRecordingsResource(self._client)
 
@@ -1274,11 +1274,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         name: str | Omit = omit,
         order_by: Literal["id", "createdAt", "updatedAt", "assignedAt", "gridPosition"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
-        owner_id: Optional[SequenceNotStr[str]] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         platform: Literal["android", "ios"] | Omit = omit,
         provider_id: str | Omit = omit,
+        search: str | Omit = omit,
         state: Optional[
             List[
                 Literal[
@@ -1329,11 +1329,11 @@ class AsyncDevicesResource(AsyncAPIResource):
 
           mine: When true, only return devices created by the authenticated caller.
 
-          owner_id: Filter by owner IDs. Comma-separated or repeated parameters. Restricted to
-              platform administrators.
-
           platform: Filter by the device's platform as served in the platform field (runtime,
               announced, else type-derived).
+
+          search: Case-insensitive search: matches devices whose name contains the term or whose
+              ID starts with it. Combined with all other filters.
 
           state: Filter by current device state. Comma-separated (state=ready,stopped). Defaults
               to every state except terminated and unknown, so stopped and maintenance devices
@@ -1367,11 +1367,11 @@ class AsyncDevicesResource(AsyncAPIResource):
                         "name": name,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
-                        "owner_id": owner_id,
                         "page": page,
                         "page_size": page_size,
                         "platform": platform,
                         "provider_id": provider_id,
+                        "search": search,
                         "state": state,
                         "type": type,
                     },
@@ -1495,6 +1495,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
+        mode: Literal["full", "identity"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1503,12 +1504,25 @@ class AsyncDevicesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> None:
-        """
-        Resets the device back to a clean state, clearing installed apps and user data
-        accumulated during the session. The device transitions through its reset
-        lifecycle before becoming ready again.
+        """Resets the device.
+
+        The optional body `mode` selects what is erased: `full` is a
+        factory reset that erases installed apps, accounts and storage and gives the
+        device a new identity; `identity` gives the device a new fingerprint and keeps
+        its apps and data. When `mode` is omitted the reset is `full`, or `identity` on
+        devices whose capabilities report `factoryReset=false`. A mode the device does
+        not support (see `factoryReset` / `identityReset` in the device capabilities) is
+        refused with 400 `DEVICE_TOOL_UNSUPPORTED`; legacy devices accept an explicit
+        mode only when it is the one their capabilities advertise, and always accept a
+        reset without a mode. The device transitions through its reset lifecycle before
+        becoming ready again.
 
         Args:
+          mode: What to erase. full: factory reset — erases the user data (apps, accounts,
+              storage) and gives the device a new identity. identity: new device fingerprint,
+              apps and data are kept. When omitted: full, or identity on devices whose
+              capabilities report factoryReset=false.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1524,6 +1538,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             path_template("/devices/{device_id}/reset", device_id=device_id),
+            body=await async_maybe_transform({"mode": mode}, device_reset_params.DeviceResetParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1961,10 +1976,6 @@ class DevicesResourceWithRawResponse:
         return KioskResourceWithRawResponse(self._devices.kiosk)
 
     @cached_property
-    def media_sessions(self) -> MediaSessionsResourceWithRawResponse:
-        return MediaSessionsResourceWithRawResponse(self._devices.media_sessions)
-
-    @cached_property
     def recordings(self) -> RecordingsResourceWithRawResponse:
         return RecordingsResourceWithRawResponse(self._devices.recordings)
 
@@ -2093,10 +2104,6 @@ class AsyncDevicesResourceWithRawResponse:
     @cached_property
     def kiosk(self) -> AsyncKioskResourceWithRawResponse:
         return AsyncKioskResourceWithRawResponse(self._devices.kiosk)
-
-    @cached_property
-    def media_sessions(self) -> AsyncMediaSessionsResourceWithRawResponse:
-        return AsyncMediaSessionsResourceWithRawResponse(self._devices.media_sessions)
 
     @cached_property
     def recordings(self) -> AsyncRecordingsResourceWithRawResponse:
@@ -2229,10 +2236,6 @@ class DevicesResourceWithStreamingResponse:
         return KioskResourceWithStreamingResponse(self._devices.kiosk)
 
     @cached_property
-    def media_sessions(self) -> MediaSessionsResourceWithStreamingResponse:
-        return MediaSessionsResourceWithStreamingResponse(self._devices.media_sessions)
-
-    @cached_property
     def recordings(self) -> RecordingsResourceWithStreamingResponse:
         return RecordingsResourceWithStreamingResponse(self._devices.recordings)
 
@@ -2361,10 +2364,6 @@ class AsyncDevicesResourceWithStreamingResponse:
     @cached_property
     def kiosk(self) -> AsyncKioskResourceWithStreamingResponse:
         return AsyncKioskResourceWithStreamingResponse(self._devices.kiosk)
-
-    @cached_property
-    def media_sessions(self) -> AsyncMediaSessionsResourceWithStreamingResponse:
-        return AsyncMediaSessionsResourceWithStreamingResponse(self._devices.media_sessions)
 
     @cached_property
     def recordings(self) -> AsyncRecordingsResourceWithStreamingResponse:

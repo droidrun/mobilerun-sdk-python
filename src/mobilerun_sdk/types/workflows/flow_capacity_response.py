@@ -12,7 +12,7 @@ class Data(BaseModel):
 
     remaining: int
 
-    status: Literal["available", "exhausted", "not_included"]
+    status: Literal["available", "exhausted"]
 
 
 class FlowCapacityResponse(BaseModel):

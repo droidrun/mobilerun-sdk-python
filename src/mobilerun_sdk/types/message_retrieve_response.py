@@ -8,13 +8,19 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["MessageRetrieveResponse", "Data"]
+__all__ = ["MessageRetrieveResponse", "Data", "DataClassification"]
+
+
+class DataClassification(BaseModel):
+    spam: bool
 
 
 class Data(BaseModel):
     id: str
 
     body: Optional[str] = None
+
+    classification: Optional[DataClassification] = None
 
     created_at: datetime = FieldInfo(alias="createdAt")
 

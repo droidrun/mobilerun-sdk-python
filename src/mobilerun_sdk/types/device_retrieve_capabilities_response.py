@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Optional
+from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
@@ -24,6 +25,8 @@ class Capabilities(BaseModel):
 
     esim: bool
 
+    factory_reset: bool = FieldInfo(alias="factoryReset")
+
     files: bool
 
     fingerprint: bool
@@ -33,6 +36,8 @@ class Capabilities(BaseModel):
     geo: bool
 
     human_touch: bool = FieldInfo(alias="humanTouch")
+
+    identity_reset: bool = FieldInfo(alias="identityReset")
 
     language: bool
 
@@ -57,6 +62,8 @@ class Capabilities(BaseModel):
     time: bool
 
     traffic_inspection: bool = FieldInfo(alias="trafficInspection")
+
+    media_injection_transport: Optional[Literal["direct"]] = FieldInfo(alias="mediaInjectionTransport", default=None)
 
 
 class DeviceRetrieveCapabilitiesResponse(BaseModel):

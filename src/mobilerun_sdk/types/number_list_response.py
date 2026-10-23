@@ -9,7 +9,7 @@ from pydantic import Field as FieldInfo
 from .._models import BaseModel
 from .shared.pagination import Pagination
 
-__all__ = ["NumberListResponse", "Item", "ItemActions"]
+__all__ = ["NumberListResponse", "Item", "ItemActions", "ItemLineCapabilities", "ItemLineCapabilitiesSMS"]
 
 
 class ItemActions(BaseModel):
@@ -27,6 +27,23 @@ class ItemActions(BaseModel):
     """
 
 
+class ItemLineCapabilitiesSMS(BaseModel):
+    inbound: bool
+    """This line can receive on this channel."""
+
+    outbound: bool
+    """This line can send on this channel."""
+
+
+class ItemLineCapabilities(BaseModel):
+    """What this line supports in principle, per channel.
+
+    Use `actions` for what you can do right now.
+    """
+
+    sms: ItemLineCapabilitiesSMS
+
+
 class Item(BaseModel):
     id: str
 
@@ -42,6 +59,7 @@ class Item(BaseModel):
     """Deprecated: use `actions.send`"""
 
     capabilities: Optional[List[Literal["sms", "voice"]]] = None
+    """Deprecated: use `lineCapabilities`"""
 
     checkout_url: Optional[str] = FieldInfo(alias="checkoutUrl", default=None)
 
@@ -59,6 +77,12 @@ class Item(BaseModel):
     """
 
     label: Optional[str] = None
+
+    line_capabilities: ItemLineCapabilities = FieldInfo(alias="lineCapabilities")
+    """What this line supports in principle, per channel.
+
+    Use `actions` for what you can do right now.
+    """
 
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
 
