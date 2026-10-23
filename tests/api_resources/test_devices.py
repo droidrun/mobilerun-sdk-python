@@ -179,11 +179,11 @@ class TestDevices:
             name="name",
             order_by="id",
             order_by_direction="asc",
-            owner_id=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             page=0,
             page_size=0,
             platform="android",
             provider_id="providerId",
+            search="search",
             state=["creating"],
             type="android_cloud_phone",
         )
@@ -340,7 +340,16 @@ class TestDevices:
     @parametrize
     def test_method_reset(self, client: Mobilerun) -> None:
         device = client.devices.reset(
-            "deviceId",
+            device_id="deviceId",
+        )
+        assert device is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_reset_with_all_params(self, client: Mobilerun) -> None:
+        device = client.devices.reset(
+            device_id="deviceId",
+            mode="full",
         )
         assert device is None
 
@@ -348,7 +357,7 @@ class TestDevices:
     @parametrize
     def test_raw_response_reset(self, client: Mobilerun) -> None:
         response = client.devices.with_raw_response.reset(
-            "deviceId",
+            device_id="deviceId",
         )
 
         assert response.is_closed is True
@@ -360,7 +369,7 @@ class TestDevices:
     @parametrize
     def test_streaming_response_reset(self, client: Mobilerun) -> None:
         with client.devices.with_streaming_response.reset(
-            "deviceId",
+            device_id="deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -375,7 +384,7 @@ class TestDevices:
     def test_path_params_reset(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.with_raw_response.reset(
-                "",
+                device_id="",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -835,11 +844,11 @@ class TestAsyncDevices:
             name="name",
             order_by="id",
             order_by_direction="asc",
-            owner_id=["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
             page=0,
             page_size=0,
             platform="android",
             provider_id="providerId",
+            search="search",
             state=["creating"],
             type="android_cloud_phone",
         )
@@ -996,7 +1005,16 @@ class TestAsyncDevices:
     @parametrize
     async def test_method_reset(self, async_client: AsyncMobilerun) -> None:
         device = await async_client.devices.reset(
-            "deviceId",
+            device_id="deviceId",
+        )
+        assert device is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_reset_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        device = await async_client.devices.reset(
+            device_id="deviceId",
+            mode="full",
         )
         assert device is None
 
@@ -1004,7 +1022,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_raw_response_reset(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.devices.with_raw_response.reset(
-            "deviceId",
+            device_id="deviceId",
         )
 
         assert response.is_closed is True
@@ -1016,7 +1034,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_streaming_response_reset(self, async_client: AsyncMobilerun) -> None:
         async with async_client.devices.with_streaming_response.reset(
-            "deviceId",
+            device_id="deviceId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -1031,7 +1049,7 @@ class TestAsyncDevices:
     async def test_path_params_reset(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.with_raw_response.reset(
-                "",
+                device_id="",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")

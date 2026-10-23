@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Iterable, Optional
+from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -35,6 +35,7 @@ from ....types.workflows import (
     flow_verify_params,
     flow_dry_run_params,
     flow_activate_params,
+    flow_capacity_params,
     flow_validate_params,
     flow_template_context_params,
 )
@@ -289,6 +290,7 @@ class FlowsResource(SyncAPIResource):
     def list(
         self,
         *,
+        agent_id: Union[str, Literal["unassigned"]] | Omit = omit,
         created_by: str | Omit = omit,
         enabled: Literal["true", "false"] | Omit = omit,
         mine: Literal["true", "false"] | Omit = omit,
@@ -308,12 +310,16 @@ class FlowsResource(SyncAPIResource):
     ) -> FlowListResponse:
         """Return a paginated list of flows.
 
-        Supports filtering by `triggerId`, `enabled`,
-        one or more health `status` values (healthy, failing, blocked), `mine` (flows
-        created by the calling actor), `createdBy` (flows created by a given actor id —
-        mutually exclusive with `mine`), plus free-text `search` and ordering.
+        Supports filtering by `agentId` (UUID or
+        `unassigned`; omit for all buckets), `triggerId`, `enabled`, one or more health
+        `status` values (healthy, failing, blocked), `mine` (flows created by the
+        calling actor), `createdBy` (flows created by a given actor id — mutually
+        exclusive with `mine`), plus free-text `search` and ordering.
 
         Args:
+          agent_id: Agent bucket UUID or unassigned. Omit on list to include every bucket; omit on
+              capacity for unassigned.
+
           enabled: Only include flows with this enabled state.
 
           mine: Only include flows created by you.
@@ -335,6 +341,7 @@ class FlowsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "agent_id": agent_id,
                         "created_by": created_by,
                         "enabled": enabled,
                         "mine": mine,
@@ -443,6 +450,7 @@ class FlowsResource(SyncAPIResource):
     def capacity(
         self,
         *,
+        agent_id: Union[str, Literal["unassigned"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -451,15 +459,31 @@ class FlowsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowCapacityResponse:
         """
-        Returns an owner-scoped snapshot of finite included workflow-agent capacity
-        after accounting for enabled and disabled agents. Returns 503 when a finite
-        capacity snapshot is unavailable, including for unlimited plans. This is
-        advisory; create and clone perform the authoritative capacity check.
+        Returns the environment routine limit and remaining capacity for this owner and
+        agent bucket, counting enabled and disabled non-deleted flows. Omit agentId (or
+        use unassigned) for the unassigned bucket. This is advisory; create and clone
+        enforce admission under a bucket lock.
+
+        Args:
+          agent_id: Agent bucket UUID or unassigned. Omit on list to include every bucket; omit on
+              capacity for unassigned.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._get(
             "/flows/capacity",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"agent_id": agent_id}, flow_capacity_params.FlowCapacityParams),
             ),
             cast_to=FlowCapacityResponse,
         )
@@ -1170,6 +1194,7 @@ class AsyncFlowsResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        agent_id: Union[str, Literal["unassigned"]] | Omit = omit,
         created_by: str | Omit = omit,
         enabled: Literal["true", "false"] | Omit = omit,
         mine: Literal["true", "false"] | Omit = omit,
@@ -1189,12 +1214,16 @@ class AsyncFlowsResource(AsyncAPIResource):
     ) -> FlowListResponse:
         """Return a paginated list of flows.
 
-        Supports filtering by `triggerId`, `enabled`,
-        one or more health `status` values (healthy, failing, blocked), `mine` (flows
-        created by the calling actor), `createdBy` (flows created by a given actor id —
-        mutually exclusive with `mine`), plus free-text `search` and ordering.
+        Supports filtering by `agentId` (UUID or
+        `unassigned`; omit for all buckets), `triggerId`, `enabled`, one or more health
+        `status` values (healthy, failing, blocked), `mine` (flows created by the
+        calling actor), `createdBy` (flows created by a given actor id — mutually
+        exclusive with `mine`), plus free-text `search` and ordering.
 
         Args:
+          agent_id: Agent bucket UUID or unassigned. Omit on list to include every bucket; omit on
+              capacity for unassigned.
+
           enabled: Only include flows with this enabled state.
 
           mine: Only include flows created by you.
@@ -1216,6 +1245,7 @@ class AsyncFlowsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "agent_id": agent_id,
                         "created_by": created_by,
                         "enabled": enabled,
                         "mine": mine,
@@ -1324,6 +1354,7 @@ class AsyncFlowsResource(AsyncAPIResource):
     async def capacity(
         self,
         *,
+        agent_id: Union[str, Literal["unassigned"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1332,15 +1363,31 @@ class AsyncFlowsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FlowCapacityResponse:
         """
-        Returns an owner-scoped snapshot of finite included workflow-agent capacity
-        after accounting for enabled and disabled agents. Returns 503 when a finite
-        capacity snapshot is unavailable, including for unlimited plans. This is
-        advisory; create and clone perform the authoritative capacity check.
+        Returns the environment routine limit and remaining capacity for this owner and
+        agent bucket, counting enabled and disabled non-deleted flows. Omit agentId (or
+        use unassigned) for the unassigned bucket. This is advisory; create and clone
+        enforce admission under a bucket lock.
+
+        Args:
+          agent_id: Agent bucket UUID or unassigned. Omit on list to include every bucket; omit on
+              capacity for unassigned.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._get(
             "/flows/capacity",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"agent_id": agent_id}, flow_capacity_params.FlowCapacityParams),
             ),
             cast_to=FlowCapacityResponse,
         )

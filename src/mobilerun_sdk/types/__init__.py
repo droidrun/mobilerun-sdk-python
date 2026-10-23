@@ -30,6 +30,7 @@ from .number_list_params import NumberListParams as NumberListParams
 from .task_list_response import TaskListResponse as TaskListResponse
 from .task_stop_response import TaskStopResponse as TaskStopResponse
 from .app_delete_response import AppDeleteResponse as AppDeleteResponse
+from .device_reset_params import DeviceResetParams as DeviceResetParams
 from .mailbox_list_params import MailboxListParams as MailboxListParams
 from .message_list_params import MessageListParams as MessageListParams
 from .model_list_response import ModelListResponse as ModelListResponse

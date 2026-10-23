@@ -9,13 +9,19 @@ from pydantic import Field as FieldInfo
 from .._models import BaseModel
 from .shared.pagination import Pagination
 
-__all__ = ["MessageListResponse", "Item"]
+__all__ = ["MessageListResponse", "Item", "ItemClassification"]
+
+
+class ItemClassification(BaseModel):
+    spam: bool
 
 
 class Item(BaseModel):
     id: str
 
     body: Optional[str] = None
+
+    classification: Optional[ItemClassification] = None
 
     created_at: datetime = FieldInfo(alias="createdAt")
 
