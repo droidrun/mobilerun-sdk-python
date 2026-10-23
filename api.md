@@ -134,7 +134,7 @@ Methods:
 - <code title="get /devices/count">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">count</a>() -> <a href="./src/mobilerun_sdk/types/device_count_response.py">DeviceCountResponse</a></code>
 - <code title="get /devices/{deviceId}/fingerprint">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">fingerprint</a>(device_id) -> <a href="./src/mobilerun_sdk/types/device_fingerprint_response.py">DeviceFingerprintResponse</a></code>
 - <code title="post /devices/{deviceId}/reboot">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">reboot</a>(device_id) -> None</code>
-- <code title="post /devices/{deviceId}/reset">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">reset</a>(device_id) -> None</code>
+- <code title="post /devices/{deviceId}/reset">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">reset</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/device_reset_params.py">params</a>) -> None</code>
 - <code title="post /devices/{deviceId}/resume">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">resume</a>(device_id) -> None</code>
 - <code title="get /devices/{deviceId}/capabilities">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">retrieve_capabilities</a>(device_id) -> <a href="./src/mobilerun_sdk/types/device_retrieve_capabilities_response.py">DeviceRetrieveCapabilitiesResponse</a></code>
 - <code title="put /devices/{deviceId}/name">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">set_name</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/device_set_name_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/device_set_name_response.py">DeviceSetNameResponse</a></code>
@@ -381,25 +381,6 @@ Methods:
 
 - <code title="delete /devices/{deviceId}/kiosk">client.devices.kiosk.<a href="./src/mobilerun_sdk/resources/devices/kiosk.py">disable</a>(device_id) -> None</code>
 - <code title="put /devices/{deviceId}/kiosk">client.devices.kiosk.<a href="./src/mobilerun_sdk/resources/devices/kiosk.py">enable</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/kiosk_enable_params.py">params</a>) -> None</code>
-
-## MediaSessions
-
-Types:
-
-```python
-from mobilerun_sdk.types.devices import (
-    MediaSessionCreateResponse,
-    MediaSessionActivateResponse,
-    MediaSessionRetrieveCurrentResponse,
-)
-```
-
-Methods:
-
-- <code title="post /devices/{deviceId}/media-sessions">client.devices.media_sessions.<a href="./src/mobilerun_sdk/resources/devices/media_sessions.py">create</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/media_session_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/media_session_create_response.py">MediaSessionCreateResponse</a></code>
-- <code title="delete /devices/{deviceId}/media-sessions/{sessionId}">client.devices.media_sessions.<a href="./src/mobilerun_sdk/resources/devices/media_sessions.py">delete</a>(session_id, \*, device_id) -> None</code>
-- <code title="post /devices/{deviceId}/media-sessions/{sessionId}/activate">client.devices.media_sessions.<a href="./src/mobilerun_sdk/resources/devices/media_sessions.py">activate</a>(session_id, \*, device_id) -> <a href="./src/mobilerun_sdk/types/devices/media_session_activate_response.py">MediaSessionActivateResponse</a></code>
-- <code title="get /devices/{deviceId}/media-sessions/current">client.devices.media_sessions.<a href="./src/mobilerun_sdk/resources/devices/media_sessions.py">retrieve_current</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/media_session_retrieve_current_response.py">MediaSessionRetrieveCurrentResponse</a></code>
 
 ## Recordings
 
@@ -705,7 +686,7 @@ Methods:
 - <code title="get /flows">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/flow_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_list_response.py">FlowListResponse</a></code>
 - <code title="delete /flows/{flowId}">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">delete</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_delete_response.py">FlowDeleteResponse</a></code>
 - <code title="post /flows/{flowId}/activate">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">activate</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_activate_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_activate_response.py">FlowActivateResponse</a></code>
-- <code title="get /flows/capacity">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">capacity</a>() -> <a href="./src/mobilerun_sdk/types/workflows/flow_capacity_response.py">FlowCapacityResponse</a></code>
+- <code title="get /flows/capacity">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">capacity</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/flow_capacity_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_capacity_response.py">FlowCapacityResponse</a></code>
 - <code title="post /flows/{flowId}/clone">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">clone</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_clone_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_clone_response.py">FlowCloneResponse</a></code>
 - <code title="get /flows/{flowId}/delivery-options">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">delivery_options</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_delivery_options_response.py">FlowDeliveryOptionsResponse</a></code>
 - <code title="post /flows/{flowId}/dry-run">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">dry_run</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_dry_run_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_dry_run_response.py">FlowDryRunResponse</a></code>

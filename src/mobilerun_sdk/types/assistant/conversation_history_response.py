@@ -8,7 +8,14 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["ConversationHistoryResponse", "Message", "MessagePart", "MessageMetadata", "TurnState"]
+__all__ = [
+    "ConversationHistoryResponse",
+    "Message",
+    "MessagePart",
+    "MessageMetadata",
+    "MessageMetadataSteer",
+    "TurnState",
+]
 
 
 class MessagePart(BaseModel):
@@ -27,12 +34,34 @@ class MessagePart(BaseModel):
         __pydantic_extra__: Dict[str, object]
 
 
+class MessageMetadataSteer(BaseModel):
+    """
+    Steer user rows appear directly above the collapsed assistant group of their turn, matching live cloud ordering.
+    """
+
+    agent_message_id: str = FieldInfo(alias="agentMessageId")
+
+    state: Literal["accepted", "consumed", "dropped"]
+
+    target_role: Literal["root", "worker"] = FieldInfo(alias="targetRole")
+
+    consumed_at: Optional[datetime] = FieldInfo(alias="consumedAt", default=None)
+
+    drop_reason: Optional[Literal["turn_closed", "aborted"]] = FieldInfo(alias="dropReason", default=None)
+
+
 class MessageMetadata(BaseModel):
     agent: Optional[str] = None
 
     agent_message_id: Optional[str] = FieldInfo(alias="agentMessageId", default=None)
 
     agent_session_id: Optional[str] = FieldInfo(alias="agentSessionId", default=None)
+
+    steer: Optional[MessageMetadataSteer] = None
+    """
+    Steer user rows appear directly above the collapsed assistant group of their
+    turn, matching live cloud ordering.
+    """
 
     turn_anchor_message_id: Optional[str] = FieldInfo(alias="turnAnchorMessageId", default=None)
 
@@ -55,6 +84,8 @@ class Message(BaseModel):
     source: Optional[Literal["cloud", "telegram", "api", "workflow", "notification"]] = None
 
     synthetic: Optional[bool] = None
+
+    turn_id: Optional[str] = FieldInfo(alias="turnId", default=None)
 
     user_id: Optional[str] = FieldInfo(alias="userId", default=None)
     """Deprecated: use createdBy."""

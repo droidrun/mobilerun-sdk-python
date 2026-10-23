@@ -69,6 +69,13 @@ class DataProgressStep(BaseModel):
 
     status: Literal["pending", "running", "success", "failed", "skipped", "cancelled"]
 
+    attempt: Optional[int] = None
+    """
+    Zero-based retry attempt of the execution job during which this step last ran (0
+    = initial attempt). Not a per-step retry counter; may undercount after crash
+    recovery.
+    """
+
 
 class DataProgress(BaseModel):
     """Live progress; null for runs started before this feature."""
@@ -130,6 +137,9 @@ class DataScreenshot(BaseModel):
 
 class Data(BaseModel):
     id: str
+
+    agent_id: Optional[str] = FieldInfo(alias="agentId", default=None)
+    """Current agent assignment of the owner-scoped parent flow; null when unassigned."""
 
     created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
 
