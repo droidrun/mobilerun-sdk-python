@@ -376,8 +376,9 @@ class ConversationsResource(SyncAPIResource):
 
     def history(
         self,
+        id: str,
         *,
-        session_id: str,
+        before: str | Omit = omit,
         limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -388,10 +389,12 @@ class ConversationsResource(SyncAPIResource):
     ) -> ConversationHistoryResponse:
         """Return the user's chat history for the given session.
 
-        History remains readable
-        after the session is no longer active.
+        Inactive chat sessions
+        return 404; workflow transcripts remain readable after completion.
 
         Args:
+          before: Any real row in this session; its containing turn is excluded.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -400,8 +403,10 @@ class ConversationsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            "/assistant/chat/messages",
+            path_template("/assistant/chat/sessions/{id}/messages", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -409,7 +414,7 @@ class ConversationsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
-                        "session_id": session_id,
+                        "before": before,
                         "limit": limit,
                     },
                     conversation_history_params.ConversationHistoryParams,
@@ -892,8 +897,9 @@ class AsyncConversationsResource(AsyncAPIResource):
 
     async def history(
         self,
+        id: str,
         *,
-        session_id: str,
+        before: str | Omit = omit,
         limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -904,10 +910,12 @@ class AsyncConversationsResource(AsyncAPIResource):
     ) -> ConversationHistoryResponse:
         """Return the user's chat history for the given session.
 
-        History remains readable
-        after the session is no longer active.
+        Inactive chat sessions
+        return 404; workflow transcripts remain readable after completion.
 
         Args:
+          before: Any real row in this session; its containing turn is excluded.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -916,8 +924,10 @@ class AsyncConversationsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            "/assistant/chat/messages",
+            path_template("/assistant/chat/sessions/{id}/messages", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -925,7 +935,7 @@ class AsyncConversationsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
-                        "session_id": session_id,
+                        "before": before,
                         "limit": limit,
                     },
                     conversation_history_params.ConversationHistoryParams,

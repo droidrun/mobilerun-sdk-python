@@ -284,7 +284,7 @@ class TestConversations:
     @parametrize
     def test_method_history(self, client: Mobilerun) -> None:
         conversation = client.assistant.conversations.history(
-            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(ConversationHistoryResponse, conversation, path=["response"])
 
@@ -292,7 +292,8 @@ class TestConversations:
     @parametrize
     def test_method_history_with_all_params(self, client: Mobilerun) -> None:
         conversation = client.assistant.conversations.history(
-            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            before="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             limit=1,
         )
         assert_matches_type(ConversationHistoryResponse, conversation, path=["response"])
@@ -301,7 +302,7 @@ class TestConversations:
     @parametrize
     def test_raw_response_history(self, client: Mobilerun) -> None:
         response = client.assistant.conversations.with_raw_response.history(
-            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
@@ -313,7 +314,7 @@ class TestConversations:
     @parametrize
     def test_streaming_response_history(self, client: Mobilerun) -> None:
         with client.assistant.conversations.with_streaming_response.history(
-            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -322,6 +323,14 @@ class TestConversations:
             assert_matches_type(ConversationHistoryResponse, conversation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_history(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.assistant.conversations.with_raw_response.history(
+                id="",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -700,7 +709,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_method_history(self, async_client: AsyncMobilerun) -> None:
         conversation = await async_client.assistant.conversations.history(
-            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
         assert_matches_type(ConversationHistoryResponse, conversation, path=["response"])
 
@@ -708,7 +717,8 @@ class TestAsyncConversations:
     @parametrize
     async def test_method_history_with_all_params(self, async_client: AsyncMobilerun) -> None:
         conversation = await async_client.assistant.conversations.history(
-            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            before="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             limit=1,
         )
         assert_matches_type(ConversationHistoryResponse, conversation, path=["response"])
@@ -717,7 +727,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_raw_response_history(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.assistant.conversations.with_raw_response.history(
-            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
@@ -729,7 +739,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_streaming_response_history(self, async_client: AsyncMobilerun) -> None:
         async with async_client.assistant.conversations.with_streaming_response.history(
-            session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -738,6 +748,14 @@ class TestAsyncConversations:
             assert_matches_type(ConversationHistoryResponse, conversation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_history(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.assistant.conversations.with_raw_response.history(
+                id="",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
