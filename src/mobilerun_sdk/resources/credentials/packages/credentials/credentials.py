@@ -28,7 +28,6 @@ from ....._base_client import make_request_options
 from .....types.credentials.packages import credential_create_params
 from .....types.credentials.packages.credential_create_response import CredentialCreateResponse
 from .....types.credentials.packages.credential_delete_response import CredentialDeleteResponse
-from .....types.credentials.packages.credential_retrieve_response import CredentialRetrieveResponse
 
 __all__ = ["CredentialsResource", "AsyncCredentialsResource"]
 
@@ -106,47 +105,6 @@ class CredentialsResource(SyncAPIResource):
                 idempotency_key=idempotency_key,
             ),
             cast_to=CredentialCreateResponse,
-        )
-
-    def retrieve(
-        self,
-        credential_name: str,
-        *,
-        package_name: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CredentialRetrieveResponse:
-        """
-        Fetches a single credential by `packageName` and `credentialName`, including all
-        of its stored fields. Returns not found if no matching credential exists.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
-        if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
-        return self._get(
-            path_template(
-                "/credentials/packages/{package_name}/credentials/{credential_name}",
-                package_name=package_name,
-                credential_name=credential_name,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=CredentialRetrieveResponse,
         )
 
     def delete(
@@ -273,47 +231,6 @@ class AsyncCredentialsResource(AsyncAPIResource):
             cast_to=CredentialCreateResponse,
         )
 
-    async def retrieve(
-        self,
-        credential_name: str,
-        *,
-        package_name: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CredentialRetrieveResponse:
-        """
-        Fetches a single credential by `packageName` and `credentialName`, including all
-        of its stored fields. Returns not found if no matching credential exists.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not package_name:
-            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
-        if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
-        return await self._get(
-            path_template(
-                "/credentials/packages/{package_name}/credentials/{credential_name}",
-                package_name=package_name,
-                credential_name=credential_name,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=CredentialRetrieveResponse,
-        )
-
     async def delete(
         self,
         credential_name: str,
@@ -370,9 +287,6 @@ class CredentialsResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             credentials.create,
         )
-        self.retrieve = to_raw_response_wrapper(
-            credentials.retrieve,
-        )
         self.delete = to_raw_response_wrapper(
             credentials.delete,
         )
@@ -388,9 +302,6 @@ class AsyncCredentialsResourceWithRawResponse:
 
         self.create = async_to_raw_response_wrapper(
             credentials.create,
-        )
-        self.retrieve = async_to_raw_response_wrapper(
-            credentials.retrieve,
         )
         self.delete = async_to_raw_response_wrapper(
             credentials.delete,
@@ -408,9 +319,6 @@ class CredentialsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             credentials.create,
         )
-        self.retrieve = to_streamed_response_wrapper(
-            credentials.retrieve,
-        )
         self.delete = to_streamed_response_wrapper(
             credentials.delete,
         )
@@ -426,9 +334,6 @@ class AsyncCredentialsResourceWithStreamingResponse:
 
         self.create = async_to_streamed_response_wrapper(
             credentials.create,
-        )
-        self.retrieve = async_to_streamed_response_wrapper(
-            credentials.retrieve,
         )
         self.delete = async_to_streamed_response_wrapper(
             credentials.delete,

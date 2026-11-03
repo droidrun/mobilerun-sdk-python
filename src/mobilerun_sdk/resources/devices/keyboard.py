@@ -171,7 +171,7 @@ class KeyboardResource(SyncAPIResource):
               operation; committed additionally waits for the focused UI state to contain the
               complete text or become quiescent.
 
-          error_rate: Per-character mistake rate for humantouch typing. -1 uses server default.
+          error_rate: Per-character mistake rate for humanized typing. -1 uses server default.
 
           humanize: Request human-like input where supported by the device. Defaults to false.
 
@@ -372,7 +372,7 @@ class AsyncKeyboardResource(AsyncAPIResource):
               operation; committed additionally waits for the focused UI state to contain the
               complete text or become quiescent.
 
-          error_rate: Per-character mistake rate for humantouch typing. -1 uses server default.
+          error_rate: Per-character mistake rate for humanized typing. -1 uses server default.
 
           humanize: Request human-like input where supported by the device. Defaults to false.
 
