@@ -351,6 +351,7 @@ class TestDevices:
         device = client.devices.reset(
             device_id="deviceId",
             mode="full",
+            preserve=["proxy"],
         )
         assert device is None
 
@@ -1017,6 +1018,7 @@ class TestAsyncDevices:
         device = await async_client.devices.reset(
             device_id="deviceId",
             mode="full",
+            preserve=["proxy"],
         )
         assert device is None
 
