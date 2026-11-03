@@ -44,6 +44,16 @@ class DeviceCreateParams(TypedDict, total=False):
     profile_id: Annotated[str, PropertyInfo(alias="profileId")]
     """Profile ID to use as device spec"""
 
+    template: str
+    """Optional device template, e.g.
+
+    onboarding. The device gets the template's Android version and preinstalled apps
+    and is ready in seconds when a prepared phone is available; otherwise it boots
+    with the same setup. Country, name and proxy still come from this request.
+    Cannot be combined with profileId, apps or androidVersion. Omit it to create
+    from the request alone.
+    """
+
     android_version: Annotated[int, PropertyInfo(alias="androidVersion")]
 
     apps: Optional[SequenceNotStr[str]]

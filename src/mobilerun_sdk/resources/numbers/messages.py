@@ -133,7 +133,9 @@ class MessagesResource(SyncAPIResource):
               number cannot send to are rejected with 422 unsupported_destination, non-numbers
               with 422 invalid_recipient.
 
-          delivery_report: Request a delivery report. Defaults to false.
+          delivery_report: Deprecated: best effort and ignored on most lines. Hosted SIM numbers return no
+              carrier delivery report, so their messages end at `sent` and no
+              `sms.send.delivered` event follows. Defaults to false.
 
           extra_headers: Send extra headers
 
@@ -275,7 +277,9 @@ class AsyncMessagesResource(AsyncAPIResource):
               number cannot send to are rejected with 422 unsupported_destination, non-numbers
               with 422 invalid_recipient.
 
-          delivery_report: Request a delivery report. Defaults to false.
+          delivery_report: Deprecated: best effort and ignored on most lines. Hosted SIM numbers return no
+              carrier delivery report, so their messages end at `sent` and no
+              `sms.send.delivered` event follows. Defaults to false.
 
           extra_headers: Send extra headers
 

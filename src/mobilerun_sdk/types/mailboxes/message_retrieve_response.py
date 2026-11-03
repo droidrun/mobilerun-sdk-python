@@ -39,6 +39,14 @@ class Data(BaseModel):
 
     text_body: Optional[str] = FieldInfo(alias="textBody", default=None)
 
+    html_body: Optional[str] = FieldInfo(alias="htmlBody", default=None)
+    """Raw HTML part as received.
+
+    Present only with includeHtml=true; null when the mail has no HTML part or it
+    exceeds 1 MiB (UTF-8 bytes). Untrusted content: render only in an isolated
+    sandboxed frame, never inline.
+    """
+
 
 class MessageRetrieveResponse(BaseModel):
     data: Data

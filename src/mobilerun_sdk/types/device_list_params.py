@@ -82,6 +82,7 @@ class DeviceListParams(TypedDict, total=False):
         "android_cloud_phone",
         "android_physical_phone",
         "ios_stealth_phone",
+        "ios_phone",
         "android_emulator",
         "ios_simulator",
         "device_slot",
