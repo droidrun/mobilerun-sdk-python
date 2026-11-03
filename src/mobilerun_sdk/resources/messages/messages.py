@@ -118,6 +118,9 @@ class MessagesResource(SyncAPIResource):
         status, and conversation.
 
         Args:
+          status: Filter by message status. `delivered` and `sent_unconfirmed` are kept for
+              compatibility and are not emitted on current lines.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -237,6 +240,9 @@ class AsyncMessagesResource(AsyncAPIResource):
         status, and conversation.
 
         Args:
+          status: Filter by message status. `delivered` and `sent_unconfirmed` are kept for
+              compatibility and are not emitted on current lines.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

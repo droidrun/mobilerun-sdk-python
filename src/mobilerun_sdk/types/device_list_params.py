@@ -42,10 +42,7 @@ class DeviceListParams(TypedDict, total=False):
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
 
     platform: Literal["android", "ios"]
-    """
-    Filter by the device's platform as served in the platform field (runtime,
-    announced, else type-derived).
-    """
+    """Filter by the device's platform as served in the platform field."""
 
     provider_id: Annotated[str, PropertyInfo(alias="providerId")]
 
@@ -78,16 +75,5 @@ class DeviceListParams(TypedDict, total=False):
     state=terminated or state=unknown to see those.
     """
 
-    type: Literal[
-        "android_cloud_phone",
-        "android_physical_phone",
-        "ios_stealth_phone",
-        "android_emulator",
-        "ios_simulator",
-        "device_slot",
-    ]
-    """Canonical device type.
-
-    Retired dedicated\\__\\** aliases are no longer accepted. Availability depends on
-    the deployment.
-    """
+    type: Literal["android_cloud_phone", "ios_phone", "device_slot"]
+    """Filter by device type."""

@@ -16,6 +16,14 @@ from .credentials import (
     CredentialsResourceWithStreamingResponse,
     AsyncCredentialsResourceWithStreamingResponse,
 )
+from .onepassword import (
+    OnepasswordResource,
+    AsyncOnepasswordResource,
+    OnepasswordResourceWithRawResponse,
+    AsyncOnepasswordResourceWithRawResponse,
+    OnepasswordResourceWithStreamingResponse,
+    AsyncOnepasswordResourceWithStreamingResponse,
+)
 
 __all__ = [
     "PackagesResource",
@@ -24,6 +32,12 @@ __all__ = [
     "AsyncPackagesResourceWithRawResponse",
     "PackagesResourceWithStreamingResponse",
     "AsyncPackagesResourceWithStreamingResponse",
+    "OnepasswordResource",
+    "AsyncOnepasswordResource",
+    "OnepasswordResourceWithRawResponse",
+    "AsyncOnepasswordResourceWithRawResponse",
+    "OnepasswordResourceWithStreamingResponse",
+    "AsyncOnepasswordResourceWithStreamingResponse",
     "CredentialsResource",
     "AsyncCredentialsResource",
     "CredentialsResourceWithRawResponse",

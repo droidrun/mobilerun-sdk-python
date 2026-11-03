@@ -79,7 +79,6 @@ Types:
 ```python
 from mobilerun_sdk.types.credentials.packages import (
     CredentialCreateResponse,
-    CredentialRetrieveResponse,
     CredentialDeleteResponse,
 )
 ```
@@ -87,7 +86,6 @@ from mobilerun_sdk.types.credentials.packages import (
 Methods:
 
 - <code title="post /credentials/packages/{packageName}">client.credentials.packages.credentials.<a href="./src/mobilerun_sdk/resources/credentials/packages/credentials/credentials.py">create</a>(package_name, \*\*<a href="src/mobilerun_sdk/types/credentials/packages/credential_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/credentials/packages/credential_create_response.py">CredentialCreateResponse</a></code>
-- <code title="get /credentials/packages/{packageName}/credentials/{credentialName}">client.credentials.packages.credentials.<a href="./src/mobilerun_sdk/resources/credentials/packages/credentials/credentials.py">retrieve</a>(credential_name, \*, package_name) -> <a href="./src/mobilerun_sdk/types/credentials/packages/credential_retrieve_response.py">CredentialRetrieveResponse</a></code>
 - <code title="delete /credentials/packages/{packageName}/credentials/{credentialName}">client.credentials.packages.credentials.<a href="./src/mobilerun_sdk/resources/credentials/packages/credentials/credentials.py">delete</a>(credential_name, \*, package_name) -> <a href="./src/mobilerun_sdk/types/credentials/packages/credential_delete_response.py">CredentialDeleteResponse</a></code>
 
 #### Fields
@@ -107,6 +105,62 @@ Methods:
 - <code title="post /credentials/packages/{packageName}/credentials/{credentialName}/fields">client.credentials.packages.credentials.fields.<a href="./src/mobilerun_sdk/resources/credentials/packages/credentials/fields.py">create</a>(credential_name, \*, package_name, \*\*<a href="src/mobilerun_sdk/types/credentials/packages/credentials/field_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/credentials/packages/credentials/field_create_response.py">FieldCreateResponse</a></code>
 - <code title="patch /credentials/packages/{packageName}/credentials/{credentialName}/fields/{fieldType}">client.credentials.packages.credentials.fields.<a href="./src/mobilerun_sdk/resources/credentials/packages/credentials/fields.py">update</a>(field_type, \*, package_name, credential_name, \*\*<a href="src/mobilerun_sdk/types/credentials/packages/credentials/field_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/credentials/packages/credentials/field_update_response.py">FieldUpdateResponse</a></code>
 - <code title="delete /credentials/packages/{packageName}/credentials/{credentialName}/fields/{fieldType}">client.credentials.packages.credentials.fields.<a href="./src/mobilerun_sdk/resources/credentials/packages/credentials/fields.py">delete</a>(field_type, \*, package_name, credential_name) -> <a href="./src/mobilerun_sdk/types/credentials/packages/credentials/field_delete_response.py">FieldDeleteResponse</a></code>
+
+### Links
+
+Types:
+
+```python
+from mobilerun_sdk.types.credentials.packages import LinkCreateResponse
+```
+
+Methods:
+
+- <code title="post /credentials/packages/{packageName}/links">client.credentials.packages.links.<a href="./src/mobilerun_sdk/resources/credentials/packages/links.py">create</a>(package_name, \*\*<a href="src/mobilerun_sdk/types/credentials/packages/link_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/credentials/packages/link_create_response.py">LinkCreateResponse</a></code>
+
+## Onepassword
+
+Types:
+
+```python
+from mobilerun_sdk.types.credentials import (
+    OnepasswordRetrieveResponse,
+    OnepasswordConnectResponse,
+    OnepasswordDisconnectResponse,
+)
+```
+
+Methods:
+
+- <code title="get /credentials/onepassword">client.credentials.onepassword.<a href="./src/mobilerun_sdk/resources/credentials/onepassword/onepassword.py">retrieve</a>() -> <a href="./src/mobilerun_sdk/types/credentials/onepassword_retrieve_response.py">OnepasswordRetrieveResponse</a></code>
+- <code title="put /credentials/onepassword">client.credentials.onepassword.<a href="./src/mobilerun_sdk/resources/credentials/onepassword/onepassword.py">connect</a>(\*\*<a href="src/mobilerun_sdk/types/credentials/onepassword_connect_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/credentials/onepassword_connect_response.py">OnepasswordConnectResponse</a></code>
+- <code title="delete /credentials/onepassword">client.credentials.onepassword.<a href="./src/mobilerun_sdk/resources/credentials/onepassword/onepassword.py">disconnect</a>() -> <a href="./src/mobilerun_sdk/types/credentials/onepassword_disconnect_response.py">OnepasswordDisconnectResponse</a></code>
+
+### Vaults
+
+#### Items
+
+Types:
+
+```python
+from mobilerun_sdk.types.credentials.onepassword.vaults import ItemListResponse
+```
+
+Methods:
+
+- <code title="get /credentials/onepassword/vaults/{vaultId}/items">client.credentials.onepassword.vaults.items.<a href="./src/mobilerun_sdk/resources/credentials/onepassword/vaults/items/items.py">list</a>(vault_id) -> <a href="./src/mobilerun_sdk/types/credentials/onepassword/vaults/item_list_response.py">ItemListResponse</a></code>
+
+##### Fields
+
+Types:
+
+```python
+from mobilerun_sdk.types.credentials.onepassword.vaults.items import FieldListResponse
+```
+
+Methods:
+
+- <code title="get /credentials/onepassword/vaults/{vaultId}/items/{itemId}/fields">client.credentials.onepassword.vaults.items.fields.<a href="./src/mobilerun_sdk/resources/credentials/onepassword/vaults/items/fields.py">list</a>(item_id, \*, vault_id) -> <a href="./src/mobilerun_sdk/types/credentials/onepassword/vaults/items/field_list_response.py">FieldListResponse</a></code>
 
 # Devices
 
@@ -485,6 +539,7 @@ from mobilerun_sdk.types.connect import (
     ProxyUpdateResponse,
     ProxyListResponse,
     ProxyBuyResponse,
+    ProxyCheckoutResponse,
     ProxyEnsureHealthyResponse,
     ProxyListConnectionsResponse,
     ProxyPingResponse,
@@ -498,6 +553,7 @@ Methods:
 - <code title="get /connect/proxies">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/connect/proxy_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/connect/proxy_list_response.py">ProxyListResponse</a></code>
 - <code title="post /connect/proxies">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">buy</a>(\*\*<a href="src/mobilerun_sdk/types/connect/proxy_buy_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/connect/proxy_buy_response.py">ProxyBuyResponse</a></code>
 - <code title="delete /connect/proxies/{id}">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">cancel</a>(id) -> None</code>
+- <code title="post /connect/proxies/{id}/checkout">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">checkout</a>(id) -> <a href="./src/mobilerun_sdk/types/connect/proxy_checkout_response.py">ProxyCheckoutResponse</a></code>
 - <code title="post /connect/proxies/{id}/ensure-healthy">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">ensure_healthy</a>(id) -> <a href="./src/mobilerun_sdk/types/connect/proxy_ensure_healthy_response.py">ProxyEnsureHealthyResponse</a></code>
 - <code title="get /connect/proxies/{id}/connections">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">list_connections</a>(id, \*\*<a href="src/mobilerun_sdk/types/connect/proxy_list_connections_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/connect/proxy_list_connections_response.py">ProxyListConnectionsResponse</a></code>
 - <code title="get /connect/proxies/{id}/ping">client.connect.proxies.<a href="./src/mobilerun_sdk/resources/connect/proxies.py">ping</a>(id) -> <a href="./src/mobilerun_sdk/types/connect/proxy_ping_response.py">ProxyPingResponse</a></code>
@@ -881,7 +937,7 @@ from mobilerun_sdk.types.mailboxes import MessageRetrieveResponse, MessageListRe
 
 Methods:
 
-- <code title="get /mailboxes/{mailboxId}/messages/{messageId}">client.mailboxes.messages.<a href="./src/mobilerun_sdk/resources/mailboxes/messages.py">retrieve</a>(message_id, \*, mailbox_id) -> <a href="./src/mobilerun_sdk/types/mailboxes/message_retrieve_response.py">MessageRetrieveResponse</a></code>
+- <code title="get /mailboxes/{mailboxId}/messages/{messageId}">client.mailboxes.messages.<a href="./src/mobilerun_sdk/resources/mailboxes/messages.py">retrieve</a>(message_id, \*, mailbox_id, \*\*<a href="src/mobilerun_sdk/types/mailboxes/message_retrieve_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/mailboxes/message_retrieve_response.py">MessageRetrieveResponse</a></code>
 - <code title="get /mailboxes/{mailboxId}/messages">client.mailboxes.messages.<a href="./src/mobilerun_sdk/resources/mailboxes/messages.py">list</a>(mailbox_id, \*\*<a href="src/mobilerun_sdk/types/mailboxes/message_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/mailboxes/message_list_response.py">MessageListResponse</a></code>
 
 # Files

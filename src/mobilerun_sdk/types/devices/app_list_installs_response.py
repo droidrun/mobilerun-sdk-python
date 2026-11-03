@@ -22,8 +22,8 @@ class Install(BaseModel):
 
     status: Literal["running", "succeeded", "failed"]
     """
-    On iOS MDM devices, succeeded means the install command was accepted by the
-    device's MDM channel, not that the install finished on-device.
+    On some iOS devices, succeeded means the device accepted the install command;
+    the install may still be running on the device.
     """
 
     updated_at: datetime = FieldInfo(alias="updatedAt")

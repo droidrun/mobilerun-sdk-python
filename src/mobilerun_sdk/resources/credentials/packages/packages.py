@@ -4,6 +4,14 @@ from __future__ import annotations
 
 import httpx
 
+from .links import (
+    LinksResource,
+    AsyncLinksResource,
+    LinksResourceWithRawResponse,
+    AsyncLinksResourceWithRawResponse,
+    LinksResourceWithStreamingResponse,
+    AsyncLinksResourceWithStreamingResponse,
+)
 from ...._types import Body, Query, Headers, NotGiven, not_given
 from ...._utils import path_template, maybe_transform, async_maybe_transform
 from ...._compat import cached_property
@@ -35,6 +43,10 @@ class PackagesResource(SyncAPIResource):
     @cached_property
     def credentials(self) -> CredentialsResource:
         return CredentialsResource(self._client)
+
+    @cached_property
+    def links(self) -> LinksResource:
+        return LinksResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> PackagesResourceWithRawResponse:
@@ -159,6 +171,10 @@ class AsyncPackagesResource(AsyncAPIResource):
     @cached_property
     def credentials(self) -> AsyncCredentialsResource:
         return AsyncCredentialsResource(self._client)
+
+    @cached_property
+    def links(self) -> AsyncLinksResource:
+        return AsyncLinksResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncPackagesResourceWithRawResponse:
@@ -297,6 +313,10 @@ class PackagesResourceWithRawResponse:
     def credentials(self) -> CredentialsResourceWithRawResponse:
         return CredentialsResourceWithRawResponse(self._packages.credentials)
 
+    @cached_property
+    def links(self) -> LinksResourceWithRawResponse:
+        return LinksResourceWithRawResponse(self._packages.links)
+
 
 class AsyncPackagesResourceWithRawResponse:
     def __init__(self, packages: AsyncPackagesResource) -> None:
@@ -315,6 +335,10 @@ class AsyncPackagesResourceWithRawResponse:
     @cached_property
     def credentials(self) -> AsyncCredentialsResourceWithRawResponse:
         return AsyncCredentialsResourceWithRawResponse(self._packages.credentials)
+
+    @cached_property
+    def links(self) -> AsyncLinksResourceWithRawResponse:
+        return AsyncLinksResourceWithRawResponse(self._packages.links)
 
 
 class PackagesResourceWithStreamingResponse:
@@ -335,6 +359,10 @@ class PackagesResourceWithStreamingResponse:
     def credentials(self) -> CredentialsResourceWithStreamingResponse:
         return CredentialsResourceWithStreamingResponse(self._packages.credentials)
 
+    @cached_property
+    def links(self) -> LinksResourceWithStreamingResponse:
+        return LinksResourceWithStreamingResponse(self._packages.links)
+
 
 class AsyncPackagesResourceWithStreamingResponse:
     def __init__(self, packages: AsyncPackagesResource) -> None:
@@ -353,3 +381,7 @@ class AsyncPackagesResourceWithStreamingResponse:
     @cached_property
     def credentials(self) -> AsyncCredentialsResourceWithStreamingResponse:
         return AsyncCredentialsResourceWithStreamingResponse(self._packages.credentials)
+
+    @cached_property
+    def links(self) -> AsyncLinksResourceWithStreamingResponse:
+        return AsyncLinksResourceWithStreamingResponse(self._packages.links)
