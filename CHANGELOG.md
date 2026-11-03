@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.1.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.0.1...v6.1.0) (2026-11-03)
+
+
+### Chores
+
+* release 6.1.0 ([0e8fe1b](https://github.com/droidrun/mobilerun-sdk-python/commit/0e8fe1b135db2e979139c48494b2a6aba037dbe2))
+* **sdk:** release 6.1.0 ([0db4591](https://github.com/droidrun/mobilerun-sdk-python/commit/0db4591518fa60cadba69c2ed64b5ffdac1e5dee))
+
 ## [6.0.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.0.0...v6.0.1) (2026-10-23)
 
 
