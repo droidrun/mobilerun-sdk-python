@@ -15,6 +15,7 @@ from mobilerun_sdk.types.connect import (
     ProxyListResponse,
     ProxyPingResponse,
     ProxyUpdateResponse,
+    ProxyCheckoutResponse,
     ProxyRetrieveResponse,
     ProxyEnsureHealthyResponse,
     ProxyListConnectionsResponse,
@@ -243,6 +244,48 @@ class TestProxies:
     def test_path_params_cancel(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.connect.proxies.with_raw_response.cancel(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_checkout(self, client: Mobilerun) -> None:
+        proxy = client.connect.proxies.checkout(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(ProxyCheckoutResponse, proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_checkout(self, client: Mobilerun) -> None:
+        response = client.connect.proxies.with_raw_response.checkout(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        proxy = response.parse()
+        assert_matches_type(ProxyCheckoutResponse, proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_checkout(self, client: Mobilerun) -> None:
+        with client.connect.proxies.with_streaming_response.checkout(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            proxy = response.parse()
+            assert_matches_type(ProxyCheckoutResponse, proxy, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_checkout(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.connect.proxies.with_raw_response.checkout(
                 "",
             )
 
@@ -628,6 +671,48 @@ class TestAsyncProxies:
     async def test_path_params_cancel(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.connect.proxies.with_raw_response.cancel(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_checkout(self, async_client: AsyncMobilerun) -> None:
+        proxy = await async_client.connect.proxies.checkout(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(ProxyCheckoutResponse, proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_checkout(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.connect.proxies.with_raw_response.checkout(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        proxy = await response.parse()
+        assert_matches_type(ProxyCheckoutResponse, proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_checkout(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.connect.proxies.with_streaming_response.checkout(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            proxy = await response.parse()
+            assert_matches_type(ProxyCheckoutResponse, proxy, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_checkout(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.connect.proxies.with_raw_response.checkout(
                 "",
             )
 

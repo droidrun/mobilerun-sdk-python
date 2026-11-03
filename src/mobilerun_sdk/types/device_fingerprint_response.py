@@ -28,8 +28,6 @@ class Model(BaseModel):
 
     hardware: Optional[str] = None
 
-    image_repository: Optional[str] = FieldInfo(alias="imageRepository", default=None)
-
     manufacturer: Optional[str] = None
 
     model: Optional[str] = None

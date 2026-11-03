@@ -44,6 +44,7 @@ class TestDevices:
             query_country="country",
             device_type="android_cloud_phone",
             profile_id="profileId",
+            template="onboarding",
             android_version=0,
             apps=["string"],
             carrier={
@@ -709,6 +710,7 @@ class TestAsyncDevices:
             query_country="country",
             device_type="android_cloud_phone",
             profile_id="profileId",
+            template="onboarding",
             android_version=0,
             apps=["string"],
             carrier={

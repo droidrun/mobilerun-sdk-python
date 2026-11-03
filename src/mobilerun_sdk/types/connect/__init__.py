@@ -18,6 +18,7 @@ from .user_update_response import UserUpdateResponse as UserUpdateResponse
 from .country_list_response import CountryListResponse as CountryListResponse
 from .proxy_update_response import ProxyUpdateResponse as ProxyUpdateResponse
 from .user_retrieve_response import UserRetrieveResponse as UserRetrieveResponse
+from .proxy_checkout_response import ProxyCheckoutResponse as ProxyCheckoutResponse
 from .proxy_retrieve_response import ProxyRetrieveResponse as ProxyRetrieveResponse
 from .user_list_connections_params import UserListConnectionsParams as UserListConnectionsParams
 from .proxy_ensure_healthy_response import ProxyEnsureHealthyResponse as ProxyEnsureHealthyResponse
