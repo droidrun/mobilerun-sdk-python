@@ -19,7 +19,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.mailboxes import message_list_params
+from ...types.mailboxes import message_list_params, message_retrieve_params
 from ...types.mailboxes.message_list_response import MessageListResponse
 from ...types.mailboxes.message_retrieve_response import MessageRetrieveResponse
 
@@ -51,6 +51,7 @@ class MessagesResource(SyncAPIResource):
         message_id: str,
         *,
         mailbox_id: str,
+        include_html: Literal["true", "false"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -62,6 +63,8 @@ class MessagesResource(SyncAPIResource):
         Get a mailbox message
 
         Args:
+          include_html: Return the raw HTML part as htmlBody (untrusted; render isolated).
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -79,7 +82,11 @@ class MessagesResource(SyncAPIResource):
                 "/mailboxes/{mailbox_id}/messages/{message_id}", mailbox_id=mailbox_id, message_id=message_id
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"include_html": include_html}, message_retrieve_params.MessageRetrieveParams),
             ),
             cast_to=MessageRetrieveResponse,
         )
@@ -162,6 +169,7 @@ class AsyncMessagesResource(AsyncAPIResource):
         message_id: str,
         *,
         mailbox_id: str,
+        include_html: Literal["true", "false"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -173,6 +181,8 @@ class AsyncMessagesResource(AsyncAPIResource):
         Get a mailbox message
 
         Args:
+          include_html: Return the raw HTML part as htmlBody (untrusted; render isolated).
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -190,7 +200,13 @@ class AsyncMessagesResource(AsyncAPIResource):
                 "/mailboxes/{mailbox_id}/messages/{message_id}", mailbox_id=mailbox_id, message_id=message_id
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"include_html": include_html}, message_retrieve_params.MessageRetrieveParams
+                ),
             ),
             cast_to=MessageRetrieveResponse,
         )

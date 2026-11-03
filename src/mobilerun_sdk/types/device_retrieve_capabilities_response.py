@@ -47,6 +47,8 @@ class Capabilities(BaseModel):
 
     proxy: bool
 
+    reboot: bool
+
     recording: bool
 
     reset: bool
