@@ -23,7 +23,7 @@ class KeyboardWriteParams(TypedDict, total=False):
     """
 
     error_rate: Annotated[float, PropertyInfo(alias="errorRate")]
-    """Per-character mistake rate for humantouch typing. -1 uses server default."""
+    """Per-character mistake rate for humanized typing. -1 uses server default."""
 
     humanize: bool
     """Request human-like input where supported by the device. Defaults to false."""

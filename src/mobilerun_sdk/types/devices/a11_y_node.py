@@ -56,4 +56,6 @@ class A11YNode(BaseModel):
 
     text: str
 
+    hint: Optional[str] = None
+
     is_visible_to_user: Optional[bool] = FieldInfo(alias="isVisibleToUser", default=None)

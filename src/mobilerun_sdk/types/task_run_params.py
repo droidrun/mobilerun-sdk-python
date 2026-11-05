@@ -42,7 +42,8 @@ class TaskRunParams(TypedDict, total=False):
     llm_model: Annotated[str, PropertyInfo(alias="llmModel")]
     """The LLM model identifier to use for the task (e.g.
 
-    'mobilerun/mobile-agent-fast')
+    'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
+    default model is used.
     """
 
     max_steps: Annotated[int, PropertyInfo(alias="maxSteps")]

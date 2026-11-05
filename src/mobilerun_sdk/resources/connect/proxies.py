@@ -24,6 +24,7 @@ from ...types.connect.proxy_buy_response import ProxyBuyResponse
 from ...types.connect.proxy_list_response import ProxyListResponse
 from ...types.connect.proxy_ping_response import ProxyPingResponse
 from ...types.connect.proxy_update_response import ProxyUpdateResponse
+from ...types.connect.proxy_checkout_response import ProxyCheckoutResponse
 from ...types.connect.proxy_retrieve_response import ProxyRetrieveResponse
 from ...types.connect.proxy_ensure_healthy_response import ProxyEnsureHealthyResponse
 from ...types.connect.proxy_list_connections_response import ProxyListConnectionsResponse
@@ -280,6 +281,48 @@ class ProxiesResource(SyncAPIResource):
                 idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
+        )
+
+    def checkout(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ProxyCheckoutResponse:
+        """
+        Refreshes a pending dedicated proxy's checkout on explicit payment intent.
+        Already-paid proxies (provisioning, active, or cancelling) return their current
+        status without a payment URL. An expired checkout requires a new purchase.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            path_template("/connect/proxies/{id}/checkout", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=ProxyCheckoutResponse,
         )
 
     def ensure_healthy(
@@ -763,6 +806,48 @@ class AsyncProxiesResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def checkout(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ProxyCheckoutResponse:
+        """
+        Refreshes a pending dedicated proxy's checkout on explicit payment intent.
+        Already-paid proxies (provisioning, active, or cancelling) return their current
+        status without a payment URL. An expired checkout requires a new purchase.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            path_template("/connect/proxies/{id}/checkout", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=ProxyCheckoutResponse,
+        )
+
     async def ensure_healthy(
         self,
         id: str,
@@ -1012,6 +1097,9 @@ class ProxiesResourceWithRawResponse:
         self.cancel = to_raw_response_wrapper(
             proxies.cancel,
         )
+        self.checkout = to_raw_response_wrapper(
+            proxies.checkout,
+        )
         self.ensure_healthy = to_raw_response_wrapper(
             proxies.ensure_healthy,
         )
@@ -1041,6 +1129,9 @@ class AsyncProxiesResourceWithRawResponse:
         )
         self.cancel = async_to_raw_response_wrapper(
             proxies.cancel,
+        )
+        self.checkout = async_to_raw_response_wrapper(
+            proxies.checkout,
         )
         self.ensure_healthy = async_to_raw_response_wrapper(
             proxies.ensure_healthy,
@@ -1072,6 +1163,9 @@ class ProxiesResourceWithStreamingResponse:
         self.cancel = to_streamed_response_wrapper(
             proxies.cancel,
         )
+        self.checkout = to_streamed_response_wrapper(
+            proxies.checkout,
+        )
         self.ensure_healthy = to_streamed_response_wrapper(
             proxies.ensure_healthy,
         )
@@ -1101,6 +1195,9 @@ class AsyncProxiesResourceWithStreamingResponse:
         )
         self.cancel = async_to_streamed_response_wrapper(
             proxies.cancel,
+        )
+        self.checkout = async_to_streamed_response_wrapper(
+            proxies.checkout,
         )
         self.ensure_healthy = async_to_streamed_response_wrapper(
             proxies.ensure_healthy,

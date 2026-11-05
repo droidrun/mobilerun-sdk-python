@@ -24,6 +24,14 @@ from .packages.packages import (
     PackagesResourceWithStreamingResponse,
     AsyncPackagesResourceWithStreamingResponse,
 )
+from .onepassword.onepassword import (
+    OnepasswordResource,
+    AsyncOnepasswordResource,
+    OnepasswordResourceWithRawResponse,
+    AsyncOnepasswordResourceWithRawResponse,
+    OnepasswordResourceWithStreamingResponse,
+    AsyncOnepasswordResourceWithStreamingResponse,
+)
 from ...types.credential_list_response import CredentialListResponse
 
 __all__ = ["CredentialsResource", "AsyncCredentialsResource"]
@@ -33,6 +41,10 @@ class CredentialsResource(SyncAPIResource):
     @cached_property
     def packages(self) -> PackagesResource:
         return PackagesResource(self._client)
+
+    @cached_property
+    def onepassword(self) -> OnepasswordResource:
+        return OnepasswordResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> CredentialsResourceWithRawResponse:
@@ -102,6 +114,10 @@ class AsyncCredentialsResource(AsyncAPIResource):
     @cached_property
     def packages(self) -> AsyncPackagesResource:
         return AsyncPackagesResource(self._client)
+
+    @cached_property
+    def onepassword(self) -> AsyncOnepasswordResource:
+        return AsyncOnepasswordResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncCredentialsResourceWithRawResponse:
@@ -179,6 +195,10 @@ class CredentialsResourceWithRawResponse:
     def packages(self) -> PackagesResourceWithRawResponse:
         return PackagesResourceWithRawResponse(self._credentials.packages)
 
+    @cached_property
+    def onepassword(self) -> OnepasswordResourceWithRawResponse:
+        return OnepasswordResourceWithRawResponse(self._credentials.onepassword)
+
 
 class AsyncCredentialsResourceWithRawResponse:
     def __init__(self, credentials: AsyncCredentialsResource) -> None:
@@ -191,6 +211,10 @@ class AsyncCredentialsResourceWithRawResponse:
     @cached_property
     def packages(self) -> AsyncPackagesResourceWithRawResponse:
         return AsyncPackagesResourceWithRawResponse(self._credentials.packages)
+
+    @cached_property
+    def onepassword(self) -> AsyncOnepasswordResourceWithRawResponse:
+        return AsyncOnepasswordResourceWithRawResponse(self._credentials.onepassword)
 
 
 class CredentialsResourceWithStreamingResponse:
@@ -205,6 +229,10 @@ class CredentialsResourceWithStreamingResponse:
     def packages(self) -> PackagesResourceWithStreamingResponse:
         return PackagesResourceWithStreamingResponse(self._credentials.packages)
 
+    @cached_property
+    def onepassword(self) -> OnepasswordResourceWithStreamingResponse:
+        return OnepasswordResourceWithStreamingResponse(self._credentials.onepassword)
+
 
 class AsyncCredentialsResourceWithStreamingResponse:
     def __init__(self, credentials: AsyncCredentialsResource) -> None:
@@ -217,3 +245,7 @@ class AsyncCredentialsResourceWithStreamingResponse:
     @cached_property
     def packages(self) -> AsyncPackagesResourceWithStreamingResponse:
         return AsyncPackagesResourceWithStreamingResponse(self._credentials.packages)
+
+    @cached_property
+    def onepassword(self) -> AsyncOnepasswordResourceWithStreamingResponse:
+        return AsyncOnepasswordResourceWithStreamingResponse(self._credentials.onepassword)

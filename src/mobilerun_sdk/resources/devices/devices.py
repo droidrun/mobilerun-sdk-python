@@ -309,8 +309,9 @@ class DevicesResource(SyncAPIResource):
         *,
         billing: Literal["auto", "subscription", "minute"] | Omit = omit,
         query_country: str | Omit = omit,
-        device_type: str | Omit = omit,
+        device_type: Literal["android_cloud_phone", "ios_phone", "device_slot"] | Omit = omit,
         profile_id: str | Omit = omit,
+        template: str | Omit = omit,
         android_version: int | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         carrier: DeviceCarrier | Omit = omit,
@@ -349,12 +350,18 @@ class DevicesResource(SyncAPIResource):
           query_country: ISO 3166-1 alpha-2 country code. If omitted the system picks the country with
               the most availability.
 
-          device_type: Use android*cloud_phone for a cloud Android phone. Only canonical identifiers
-              are accepted. Other backends are deployment-specific; recognized but unavailable
-              types return DEVICE_TYPE_UNAVAILABLE (422). Retired dedicated*\\** aliases are
-              rejected with a canonical replacement.
+          device_type: Device type: android_cloud_phone (cloud Android phone), ios_phone or
+              device_slot. Any other value is rejected with 422. Not every device type is
+              available for creation; an unavailable type returns DEVICE_TYPE_UNAVAILABLE
+              (422).
 
           profile_id: Profile ID to use as device spec
+
+          template: Optional device template, e.g. onboarding. The device gets the template's
+              Android version and preinstalled apps and is ready in seconds when a prepared
+              phone is available; otherwise it boots with the same setup. Country, name and
+              proxy still come from this request. Cannot be combined with profileId, apps or
+              androidVersion. Omit it to create from the request alone.
 
           extra_headers: Send extra headers
 
@@ -396,6 +403,7 @@ class DevicesResource(SyncAPIResource):
                         "query_country": query_country,
                         "device_type": device_type,
                         "profile_id": profile_id,
+                        "template": template,
                     },
                     device_create_params.DeviceCreateParams,
                 ),
@@ -471,15 +479,7 @@ class DevicesResource(SyncAPIResource):
             ]
         ]
         | Omit = omit,
-        type: Literal[
-            "android_cloud_phone",
-            "android_physical_phone",
-            "ios_stealth_phone",
-            "android_emulator",
-            "ios_simulator",
-            "device_slot",
-        ]
-        | Omit = omit,
+        type: Literal["android_cloud_phone", "ios_phone", "device_slot"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -504,8 +504,7 @@ class DevicesResource(SyncAPIResource):
 
           mine: When true, only return devices created by the authenticated caller.
 
-          platform: Filter by the device's platform as served in the platform field (runtime,
-              announced, else type-derived).
+          platform: Filter by the device's platform as served in the platform field.
 
           search: Case-insensitive search: matches devices whose name contains the term or whose
               ID starts with it. Combined with all other filters.
@@ -514,8 +513,7 @@ class DevicesResource(SyncAPIResource):
               to every state except terminated and unknown, so stopped and maintenance devices
               are listed; pass state=terminated or state=unknown to see those.
 
-          type: Canonical device type. Retired dedicated\\__\\** aliases are no longer accepted.
-              Availability depends on the deployment.
+          type: Filter by device type.
 
           extra_headers: Send extra headers
 
@@ -638,7 +636,10 @@ class DevicesResource(SyncAPIResource):
         """Triggers a reboot of the device.
 
         The device transitions through its reboot
-        lifecycle and becomes ready again once the restart completes.
+        lifecycle and becomes ready again once the restart completes. Only devices whose
+        capabilities report `reboot=true` can be rebooted. Personal (BYOD) devices
+        cannot be rebooted remotely: the request is refused with 400
+        `DEVICE_TOOL_UNSUPPORTED` and nothing happens on the device.
 
         Args:
           extra_headers: Send extra headers
@@ -671,6 +672,7 @@ class DevicesResource(SyncAPIResource):
         device_id: str,
         *,
         mode: Literal["full", "identity"] | Omit = omit,
+        preserve: Optional[List[Literal["proxy", "location", "locale", "timezone"]]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -681,22 +683,22 @@ class DevicesResource(SyncAPIResource):
     ) -> None:
         """Resets the device.
 
-        The optional body `mode` selects what is erased: `full` is a
-        factory reset that erases installed apps, accounts and storage and gives the
-        device a new identity; `identity` gives the device a new fingerprint and keeps
-        its apps and data. When `mode` is omitted the reset is `full`, or `identity` on
-        devices whose capabilities report `factoryReset=false`. A mode the device does
-        not support (see `factoryReset` / `identityReset` in the device capabilities) is
-        refused with 400 `DEVICE_TOOL_UNSUPPORTED`; legacy devices accept an explicit
-        mode only when it is the one their capabilities advertise, and always accept a
-        reset without a mode. The device transitions through its reset lifecycle before
-        becoming ready again.
+        `mode` selects what is erased: `full` (factory reset: apps,
+        accounts, storage, new identity) or `identity` (new fingerprint, apps and data
+        kept). Without `mode` the reset is `full`, or `identity` on devices with
+        `factoryReset=false`. A mode or `preserve` value the device does not support is
+        refused with 400 `DEVICE_TOOL_UNSUPPORTED`. `preserve` restores the latest
+        proxy, location, locale or timezone set through the API after the reset; omitted
+        or empty preserves nothing. The device becomes ready again after the reset.
 
         Args:
           mode: What to erase. full: factory reset — erases the user data (apps, accounts,
               storage) and gives the device a new identity. identity: new device fingerprint,
               apps and data are kept. When omitted: full, or identity on devices whose
               capabilities report factoryReset=false.
+
+          preserve: Device configuration to restore after the reset: the latest value set through
+              the API. Omitted, null or empty preserves nothing.
 
           extra_headers: Send extra headers
 
@@ -713,7 +715,13 @@ class DevicesResource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             path_template("/devices/{device_id}/reset", device_id=device_id),
-            body=maybe_transform({"mode": mode}, device_reset_params.DeviceResetParams),
+            body=maybe_transform(
+                {
+                    "mode": mode,
+                    "preserve": preserve,
+                },
+                device_reset_params.DeviceResetParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -737,9 +745,9 @@ class DevicesResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> None:
         """
-        Wakes a parked device: backend readiness and any required capacity are
-        preflighted, the same device starts running again, and per-minute billing
-        resumes. On a device that is not parked this is a no-op ready transition.
+        Wakes a parked device: it first checks that the device can run again, then the
+        same device starts and per-minute billing resumes. On a device that is not
+        parked, the request does nothing.
 
         Args:
           extra_headers: Send extra headers
@@ -956,9 +964,13 @@ class DevicesResource(SyncAPIResource):
     ) -> None:
         """Terminates the device and releases its resources.
 
-        The optional `terminateAt` and
-        `previousDeviceId` body fields are not available to API-key callers; requests
-        that set them are rejected with 401.
+        For a personal (BYOD) device
+        the owner (API key or user) can instead remove the phone from the account so
+        anyone can pair it again; the phone must be disconnected first, otherwise the
+        request is rejected with 409 BYOD_DEVICE_CONNECTED. Other subscription-billed
+        devices cannot be terminated with this request; it is rejected with 401. The
+        `terminateAt` and `previousDeviceId` body fields are reserved for internal use;
+        requests that set them are rejected with 401.
 
         Args:
           extra_headers: Send extra headers
@@ -1134,8 +1146,9 @@ class AsyncDevicesResource(AsyncAPIResource):
         *,
         billing: Literal["auto", "subscription", "minute"] | Omit = omit,
         query_country: str | Omit = omit,
-        device_type: str | Omit = omit,
+        device_type: Literal["android_cloud_phone", "ios_phone", "device_slot"] | Omit = omit,
         profile_id: str | Omit = omit,
+        template: str | Omit = omit,
         android_version: int | Omit = omit,
         apps: Optional[SequenceNotStr[str]] | Omit = omit,
         carrier: DeviceCarrier | Omit = omit,
@@ -1174,12 +1187,18 @@ class AsyncDevicesResource(AsyncAPIResource):
           query_country: ISO 3166-1 alpha-2 country code. If omitted the system picks the country with
               the most availability.
 
-          device_type: Use android*cloud_phone for a cloud Android phone. Only canonical identifiers
-              are accepted. Other backends are deployment-specific; recognized but unavailable
-              types return DEVICE_TYPE_UNAVAILABLE (422). Retired dedicated*\\** aliases are
-              rejected with a canonical replacement.
+          device_type: Device type: android_cloud_phone (cloud Android phone), ios_phone or
+              device_slot. Any other value is rejected with 422. Not every device type is
+              available for creation; an unavailable type returns DEVICE_TYPE_UNAVAILABLE
+              (422).
 
           profile_id: Profile ID to use as device spec
+
+          template: Optional device template, e.g. onboarding. The device gets the template's
+              Android version and preinstalled apps and is ready in seconds when a prepared
+              phone is available; otherwise it boots with the same setup. Country, name and
+              proxy still come from this request. Cannot be combined with profileId, apps or
+              androidVersion. Omit it to create from the request alone.
 
           extra_headers: Send extra headers
 
@@ -1221,6 +1240,7 @@ class AsyncDevicesResource(AsyncAPIResource):
                         "query_country": query_country,
                         "device_type": device_type,
                         "profile_id": profile_id,
+                        "template": template,
                     },
                     device_create_params.DeviceCreateParams,
                 ),
@@ -1296,15 +1316,7 @@ class AsyncDevicesResource(AsyncAPIResource):
             ]
         ]
         | Omit = omit,
-        type: Literal[
-            "android_cloud_phone",
-            "android_physical_phone",
-            "ios_stealth_phone",
-            "android_emulator",
-            "ios_simulator",
-            "device_slot",
-        ]
-        | Omit = omit,
+        type: Literal["android_cloud_phone", "ios_phone", "device_slot"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1329,8 +1341,7 @@ class AsyncDevicesResource(AsyncAPIResource):
 
           mine: When true, only return devices created by the authenticated caller.
 
-          platform: Filter by the device's platform as served in the platform field (runtime,
-              announced, else type-derived).
+          platform: Filter by the device's platform as served in the platform field.
 
           search: Case-insensitive search: matches devices whose name contains the term or whose
               ID starts with it. Combined with all other filters.
@@ -1339,8 +1350,7 @@ class AsyncDevicesResource(AsyncAPIResource):
               to every state except terminated and unknown, so stopped and maintenance devices
               are listed; pass state=terminated or state=unknown to see those.
 
-          type: Canonical device type. Retired dedicated\\__\\** aliases are no longer accepted.
-              Availability depends on the deployment.
+          type: Filter by device type.
 
           extra_headers: Send extra headers
 
@@ -1463,7 +1473,10 @@ class AsyncDevicesResource(AsyncAPIResource):
         """Triggers a reboot of the device.
 
         The device transitions through its reboot
-        lifecycle and becomes ready again once the restart completes.
+        lifecycle and becomes ready again once the restart completes. Only devices whose
+        capabilities report `reboot=true` can be rebooted. Personal (BYOD) devices
+        cannot be rebooted remotely: the request is refused with 400
+        `DEVICE_TOOL_UNSUPPORTED` and nothing happens on the device.
 
         Args:
           extra_headers: Send extra headers
@@ -1496,6 +1509,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         device_id: str,
         *,
         mode: Literal["full", "identity"] | Omit = omit,
+        preserve: Optional[List[Literal["proxy", "location", "locale", "timezone"]]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1506,22 +1520,22 @@ class AsyncDevicesResource(AsyncAPIResource):
     ) -> None:
         """Resets the device.
 
-        The optional body `mode` selects what is erased: `full` is a
-        factory reset that erases installed apps, accounts and storage and gives the
-        device a new identity; `identity` gives the device a new fingerprint and keeps
-        its apps and data. When `mode` is omitted the reset is `full`, or `identity` on
-        devices whose capabilities report `factoryReset=false`. A mode the device does
-        not support (see `factoryReset` / `identityReset` in the device capabilities) is
-        refused with 400 `DEVICE_TOOL_UNSUPPORTED`; legacy devices accept an explicit
-        mode only when it is the one their capabilities advertise, and always accept a
-        reset without a mode. The device transitions through its reset lifecycle before
-        becoming ready again.
+        `mode` selects what is erased: `full` (factory reset: apps,
+        accounts, storage, new identity) or `identity` (new fingerprint, apps and data
+        kept). Without `mode` the reset is `full`, or `identity` on devices with
+        `factoryReset=false`. A mode or `preserve` value the device does not support is
+        refused with 400 `DEVICE_TOOL_UNSUPPORTED`. `preserve` restores the latest
+        proxy, location, locale or timezone set through the API after the reset; omitted
+        or empty preserves nothing. The device becomes ready again after the reset.
 
         Args:
           mode: What to erase. full: factory reset — erases the user data (apps, accounts,
               storage) and gives the device a new identity. identity: new device fingerprint,
               apps and data are kept. When omitted: full, or identity on devices whose
               capabilities report factoryReset=false.
+
+          preserve: Device configuration to restore after the reset: the latest value set through
+              the API. Omitted, null or empty preserves nothing.
 
           extra_headers: Send extra headers
 
@@ -1538,7 +1552,13 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             path_template("/devices/{device_id}/reset", device_id=device_id),
-            body=await async_maybe_transform({"mode": mode}, device_reset_params.DeviceResetParams),
+            body=await async_maybe_transform(
+                {
+                    "mode": mode,
+                    "preserve": preserve,
+                },
+                device_reset_params.DeviceResetParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1562,9 +1582,9 @@ class AsyncDevicesResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> None:
         """
-        Wakes a parked device: backend readiness and any required capacity are
-        preflighted, the same device starts running again, and per-minute billing
-        resumes. On a device that is not parked this is a no-op ready transition.
+        Wakes a parked device: it first checks that the device can run again, then the
+        same device starts and per-minute billing resumes. On a device that is not
+        parked, the request does nothing.
 
         Args:
           extra_headers: Send extra headers
@@ -1781,9 +1801,13 @@ class AsyncDevicesResource(AsyncAPIResource):
     ) -> None:
         """Terminates the device and releases its resources.
 
-        The optional `terminateAt` and
-        `previousDeviceId` body fields are not available to API-key callers; requests
-        that set them are rejected with 401.
+        For a personal (BYOD) device
+        the owner (API key or user) can instead remove the phone from the account so
+        anyone can pair it again; the phone must be disconnected first, otherwise the
+        request is rejected with 409 BYOD_DEVICE_CONNECTED. Other subscription-billed
+        devices cannot be terminated with this request; it is rejected with 401. The
+        `terminateAt` and `previousDeviceId` body fields are reserved for internal use;
+        requests that set them are rejected with 401.
 
         Args:
           extra_headers: Send extra headers
