@@ -27,3 +27,8 @@ class MessageListParams(TypedDict, total=False):
     status: Literal[
         "all", "received", "queued", "claimed", "sending", "sent", "sent_unconfirmed", "delivered", "failed"
     ]
+    """Filter by message status.
+
+    `delivered` and `sent_unconfirmed` are kept for compatibility and are not
+    emitted on current lines.
+    """

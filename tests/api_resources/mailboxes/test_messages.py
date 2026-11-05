@@ -10,7 +10,10 @@ import pytest
 from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
 from mobilerun_sdk._utils import parse_datetime
-from mobilerun_sdk.types.mailboxes import MessageListResponse, MessageRetrieveResponse
+from mobilerun_sdk.types.mailboxes import (
+    MessageListResponse,
+    MessageRetrieveResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -24,6 +27,16 @@ class TestMessages:
         message = client.mailboxes.messages.retrieve(
             message_id="x",
             mailbox_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(MessageRetrieveResponse, message, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_retrieve_with_all_params(self, client: Mobilerun) -> None:
+        message = client.mailboxes.messages.retrieve(
+            message_id="x",
+            mailbox_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            include_html="true",
         )
         assert_matches_type(MessageRetrieveResponse, message, path=["response"])
 
@@ -137,6 +150,16 @@ class TestAsyncMessages:
         message = await async_client.mailboxes.messages.retrieve(
             message_id="x",
             mailbox_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(MessageRetrieveResponse, message, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        message = await async_client.mailboxes.messages.retrieve(
+            message_id="x",
+            mailbox_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            include_html="true",
         )
         assert_matches_type(MessageRetrieveResponse, message, path=["response"])
 
