@@ -326,7 +326,8 @@ class TasksResource(SyncAPIResource):
               stealth field; both must agree when supplied together.
 
           llm_model: The LLM model identifier to use for the task (e.g.
-              'mobilerun/mobile-agent-fast')
+              'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
+              default model is used.
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -434,7 +435,8 @@ class TasksResource(SyncAPIResource):
               stealth field; both must agree when supplied together.
 
           llm_model: The LLM model identifier to use for the task (e.g.
-              'mobilerun/mobile-agent-fast')
+              'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
+              default model is used.
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -864,7 +866,8 @@ class AsyncTasksResource(AsyncAPIResource):
               stealth field; both must agree when supplied together.
 
           llm_model: The LLM model identifier to use for the task (e.g.
-              'mobilerun/mobile-agent-fast')
+              'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
+              default model is used.
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 
@@ -972,7 +975,8 @@ class AsyncTasksResource(AsyncAPIResource):
               stealth field; both must agree when supplied together.
 
           llm_model: The LLM model identifier to use for the task (e.g.
-              'mobilerun/mobile-agent-fast')
+              'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
+              default model is used.
 
           recording_enabled: Record device video for the whole task and persist a retrievable reference
 

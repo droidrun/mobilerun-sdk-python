@@ -99,15 +99,17 @@ class LanguageResource(SyncAPIResource):
         """Sets the device language/locale to the BCP-47 locale in the request body.
 
         An
-        optional restart flag applies the change immediately by restarting the zygote
-        instead of waiting for the next reboot.
+        optional restart flag applies the change immediately by restarting the Android
+        system framework (open apps are closed) instead of waiting for the next reboot;
+        some devices ignore it.
 
         Args:
           locale: BCP-47 locale: a 2–3 letter language tag, optionally followed by a 4-letter
               script and/or a 2-letter region (e.g. en-US, de-DE, ja-JP, zh-Hans-CN).
 
-          restart: Restart zygote so the locale change takes full effect immediately. Without it,
-              the locale is written but won't fully apply until the next reboot.
+          restart: Restart the Android system framework so the locale change takes full effect
+              immediately; open apps are closed. Without it, the change may not fully apply
+              until the next reboot. Some devices ignore this flag.
 
           extra_headers: Send extra headers
 
@@ -226,15 +228,17 @@ class AsyncLanguageResource(AsyncAPIResource):
         """Sets the device language/locale to the BCP-47 locale in the request body.
 
         An
-        optional restart flag applies the change immediately by restarting the zygote
-        instead of waiting for the next reboot.
+        optional restart flag applies the change immediately by restarting the Android
+        system framework (open apps are closed) instead of waiting for the next reboot;
+        some devices ignore it.
 
         Args:
           locale: BCP-47 locale: a 2–3 letter language tag, optionally followed by a 4-letter
               script and/or a 2-letter region (e.g. en-US, de-DE, ja-JP, zh-Hans-CN).
 
-          restart: Restart zygote so the locale change takes full effect immediately. Without it,
-              the locale is written but won't fully apply until the next reboot.
+          restart: Restart the Android system framework so the locale change takes full effect
+              immediately; open apps are closed. Without it, the change may not fully apply
+              until the next reboot. Some devices ignore this flag.
 
           extra_headers: Send extra headers
 

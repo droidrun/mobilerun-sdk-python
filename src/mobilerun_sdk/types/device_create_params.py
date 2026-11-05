@@ -33,16 +33,26 @@ class DeviceCreateParams(TypedDict, total=False):
     If omitted the system picks the country with the most availability.
     """
 
-    device_type: Annotated[str, PropertyInfo(alias="deviceType")]
-    """Use android_cloud_phone for a cloud Android phone.
+    device_type: Annotated[Literal["android_cloud_phone", "ios_phone", "device_slot"], PropertyInfo(alias="deviceType")]
+    """Device type: android_cloud_phone (cloud Android phone), ios_phone or
+    device_slot.
 
-    Only canonical identifiers are accepted. Other backends are deployment-specific;
-    recognized but unavailable types return DEVICE*TYPE_UNAVAILABLE (422). Retired
-    dedicated*\\** aliases are rejected with a canonical replacement.
+    Any other value is rejected with 422. Not every device type is available for
+    creation; an unavailable type returns DEVICE_TYPE_UNAVAILABLE (422).
     """
 
     profile_id: Annotated[str, PropertyInfo(alias="profileId")]
     """Profile ID to use as device spec"""
+
+    template: str
+    """Optional device template, e.g.
+
+    onboarding. The device gets the template's Android version and preinstalled apps
+    and is ready in seconds when a prepared phone is available; otherwise it boots
+    with the same setup. Country, name and proxy still come from this request.
+    Cannot be combined with profileId, apps or androidVersion. Omit it to create
+    from the request alone.
+    """
 
     android_version: Annotated[int, PropertyInfo(alias="androidVersion")]
 

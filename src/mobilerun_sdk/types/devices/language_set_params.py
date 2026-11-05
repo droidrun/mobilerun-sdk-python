@@ -17,9 +17,10 @@ class LanguageSetParams(TypedDict, total=False):
     """
 
     restart: bool
-    """Restart zygote so the locale change takes full effect immediately.
-
-    Without it, the locale is written but won't fully apply until the next reboot.
+    """
+    Restart the Android system framework so the locale change takes full effect
+    immediately; open apps are closed. Without it, the change may not fully apply
+    until the next reboot. Some devices ignore this flag.
     """
 
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
