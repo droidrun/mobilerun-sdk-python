@@ -24,4 +24,8 @@ class MessageSendParams(TypedDict, total=False):
     """
 
     delivery_report: Annotated[bool, PropertyInfo(alias="deliveryReport")]
-    """Request a delivery report. Defaults to false."""
+    """Deprecated: best effort and ignored on most lines.
+
+    Hosted SIM numbers return no carrier delivery report, so their messages end at
+    `sent` and no `sms.send.delivered` event follows. Defaults to false.
+    """

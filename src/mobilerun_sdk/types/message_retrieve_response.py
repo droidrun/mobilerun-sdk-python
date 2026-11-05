@@ -41,6 +41,13 @@ class Data(BaseModel):
     provider_code: Optional[str] = FieldInfo(alias="providerCode", default=None)
 
     status: Literal["received", "queued", "claimed", "sending", "sent", "sent_unconfirmed", "delivered", "failed"]
+    """Message status.
+
+    Outbound messages move queued → sending → sent, or end at failed. `sent` means
+    the mobile network accepted the message and is the final success status.
+    `delivered` and `sent_unconfirmed` are kept for compatibility; current lines
+    return no carrier delivery report, so neither is emitted.
+    """
 
 
 class MessageRetrieveResponse(BaseModel):

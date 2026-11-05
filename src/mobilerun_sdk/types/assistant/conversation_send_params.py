@@ -15,3 +15,5 @@ class ConversationSendParams(TypedDict, total=False):
     session_id: Required[Annotated[str, PropertyInfo(alias="sessionId")]]
 
     agent: str
+
+    model: str

@@ -373,6 +373,7 @@ class TestConversations:
             message="x",
             session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             agent="agent",
+            model="x",
         )
         assert_matches_type(ConversationSendResponse, conversation, path=["response"])
 
@@ -789,6 +790,7 @@ class TestAsyncConversations:
             message="x",
             session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             agent="agent",
+            model="x",
         )
         assert_matches_type(ConversationSendResponse, conversation, path=["response"])
 
