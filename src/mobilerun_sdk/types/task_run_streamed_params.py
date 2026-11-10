@@ -39,6 +39,14 @@ class TaskRunStreamedParams(TypedDict, total=False):
     Replaces the deprecated stealth field; both must agree when supplied together.
     """
 
+    internal: bool
+    """Mark a task started by an agent or worker on the user's behalf.
+
+    It is listed as source='agent' (excluded from source='api' lists) and its events
+    carry internal=true so user-facing notifications and webhooks skip it. It is
+    still billed, controllable and retrievable by id.
+    """
+
     llm_model: Annotated[str, PropertyInfo(alias="llmModel")]
     """The LLM model identifier to use for the task (e.g.
 

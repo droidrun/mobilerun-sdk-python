@@ -93,8 +93,10 @@ class Item(BaseModel):
     source: Optional[Literal["api", "agent"]] = None
     """
     Where the task came from: 'api' for tasks created via POST /tasks, 'agent' for
-    tasks spawned by an agent step. Agent tasks are readable (status, trajectory,
-    media) but not controllable via this API.
+    tasks spawned by an agent step or created with internal=true. 'source'
+    classifies visibility only: tasks created with internal=true stay controllable
+    via this API, while tasks spawned by an agent step are readable (status,
+    trajectory, media) but not controllable.
     """
 
     stealth: Optional[bool] = None

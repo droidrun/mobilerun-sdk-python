@@ -73,6 +73,8 @@ class File(BaseModel):
 
     zone: Literal["user", "agent", "workflow", "skills"]
 
+    agent_id: Optional[str] = FieldInfo(alias="agentId", default=None)
+
     collection_status: Optional[FileCollectionStatus] = FieldInfo(alias="collectionStatus", default=None)
 
 

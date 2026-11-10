@@ -17,7 +17,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.workflows import action_catalog_list_params
+from ...types.workflows import action_catalog_list_params, action_catalog_retrieve_params
 from ...types.workflows.action_catalog_list_response import ActionCatalogListResponse
 from ...types.workflows.action_catalog_retrieve_response import ActionCatalogRetrieveResponse
 
@@ -48,6 +48,7 @@ class ActionCatalogResource(SyncAPIResource):
         self,
         catalog_entry_id: str,
         *,
+        profile: Literal["agent_routine"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -57,9 +58,13 @@ class ActionCatalogResource(SyncAPIResource):
     ) -> ActionCatalogRetrieveResponse:
         """
         Fetch a single action catalog entry by its ID, including its service, method,
-        and parameter schema. Returns 404 if no entry matches.
+        parameter schema, and `deviceFree` eligibility. Supports
+        `profile=agent_routine`; returns 404 if no entry matches or the entry is outside
+        that profile.
 
         Args:
+          profile: Restrict reads to the agent routine step surface.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -73,7 +78,11 @@ class ActionCatalogResource(SyncAPIResource):
         return self._get(
             path_template("/action-catalog/{catalog_entry_id}", catalog_entry_id=catalog_entry_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"profile": profile}, action_catalog_retrieve_params.ActionCatalogRetrieveParams),
             ),
             cast_to=ActionCatalogRetrieveResponse,
         )
@@ -83,7 +92,9 @@ class ActionCatalogResource(SyncAPIResource):
         *,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"] | Omit = omit,
+        profile: Literal["agent_routine"] | Omit = omit,
+        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -93,10 +104,12 @@ class ActionCatalogResource(SyncAPIResource):
     ) -> ActionCatalogListResponse:
         """
         Return a paginated list of catalog entries — the service/method templates that
-        actions are created from, each carrying its parameter schema. Supports filtering
-        by `service`.
+        actions are created from, each carrying its parameter schema and `deviceFree`
+        eligibility. Supports filtering by `service` and `profile=agent_routine`.
 
         Args:
+          profile: Restrict reads to the agent routine step surface.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -116,6 +129,7 @@ class ActionCatalogResource(SyncAPIResource):
                     {
                         "page": page,
                         "page_size": page_size,
+                        "profile": profile,
                         "service": service,
                     },
                     action_catalog_list_params.ActionCatalogListParams,
@@ -149,6 +163,7 @@ class AsyncActionCatalogResource(AsyncAPIResource):
         self,
         catalog_entry_id: str,
         *,
+        profile: Literal["agent_routine"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -158,9 +173,13 @@ class AsyncActionCatalogResource(AsyncAPIResource):
     ) -> ActionCatalogRetrieveResponse:
         """
         Fetch a single action catalog entry by its ID, including its service, method,
-        and parameter schema. Returns 404 if no entry matches.
+        parameter schema, and `deviceFree` eligibility. Supports
+        `profile=agent_routine`; returns 404 if no entry matches or the entry is outside
+        that profile.
 
         Args:
+          profile: Restrict reads to the agent routine step surface.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -174,7 +193,13 @@ class AsyncActionCatalogResource(AsyncAPIResource):
         return await self._get(
             path_template("/action-catalog/{catalog_entry_id}", catalog_entry_id=catalog_entry_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"profile": profile}, action_catalog_retrieve_params.ActionCatalogRetrieveParams
+                ),
             ),
             cast_to=ActionCatalogRetrieveResponse,
         )
@@ -184,7 +209,9 @@ class AsyncActionCatalogResource(AsyncAPIResource):
         *,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"] | Omit = omit,
+        profile: Literal["agent_routine"] | Omit = omit,
+        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -194,10 +221,12 @@ class AsyncActionCatalogResource(AsyncAPIResource):
     ) -> ActionCatalogListResponse:
         """
         Return a paginated list of catalog entries — the service/method templates that
-        actions are created from, each carrying its parameter schema. Supports filtering
-        by `service`.
+        actions are created from, each carrying its parameter schema and `deviceFree`
+        eligibility. Supports filtering by `service` and `profile=agent_routine`.
 
         Args:
+          profile: Restrict reads to the agent routine step surface.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -217,6 +246,7 @@ class AsyncActionCatalogResource(AsyncAPIResource):
                     {
                         "page": page,
                         "page_size": page_size,
+                        "profile": profile,
                         "service": service,
                     },
                     action_catalog_list_params.ActionCatalogListParams,

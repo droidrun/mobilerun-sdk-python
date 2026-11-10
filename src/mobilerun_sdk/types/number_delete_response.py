@@ -8,7 +8,14 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["NumberDeleteResponse", "Data", "DataActions", "DataLineCapabilities", "DataLineCapabilitiesSMS"]
+__all__ = [
+    "NumberDeleteResponse",
+    "Data",
+    "DataActions",
+    "DataDeviceBinding",
+    "DataLineCapabilities",
+    "DataLineCapabilitiesSMS",
+]
 
 
 class DataActions(BaseModel):
@@ -24,6 +31,16 @@ class DataActions(BaseModel):
     number is active and able to send SMS. Daily and burst limits and recipient/body
     checks still apply; the send endpoint stays the final judge.
     """
+
+
+class DataDeviceBinding(BaseModel):
+    """The device this number is bound to, or null."""
+
+    bound_at: datetime = FieldInfo(alias="boundAt")
+
+    device_id: str = FieldInfo(alias="deviceId")
+
+    device_type: Optional[str] = FieldInfo(alias="deviceType", default=None)
 
 
 class DataLineCapabilitiesSMS(BaseModel):
@@ -67,6 +84,9 @@ class Data(BaseModel):
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     current_period_end: Optional[datetime] = FieldInfo(alias="currentPeriodEnd", default=None)
+
+    device_binding: Optional[DataDeviceBinding] = FieldInfo(alias="deviceBinding", default=None)
+    """The device this number is bound to, or null."""
 
     failure_reason: Optional[Literal["out_of_stock", "unknown"]] = FieldInfo(alias="failureReason", default=None)
     """Why setup failed.

@@ -58,6 +58,7 @@ class TriggersResource(SyncAPIResource):
         custom_payload_schema: Dict[str, object] | Omit = omit,
         description: str | Omit = omit,
         event_type: str | Omit = omit,
+        payload: Dict[str, object] | Omit = omit,
         schedule_rule: trigger_create_params.ScheduleRule | Omit = omit,
         timezone: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -72,14 +73,22 @@ class TriggersResource(SyncAPIResource):
         Create a trigger with an activation type of `event`, `schedule`, or `custom`.
         Each type requires its own fields (e.g. `eventType` and optional `conditions`
         for events, `scheduleRule` and `timezone` for schedules, `customPayloadSchema`
-        for custom triggers); mismatched fields are rejected.
+        for custom or schedule triggers); mismatched fields are rejected. Schedule
+        triggers may store an optional JSON object `payload` (at most 1 MiB); it
+        requires `customPayloadSchema`, is validated against it (422 on mismatch), and
+        is available as `event.payload` on every scheduled, manual, or verification run.
+        When a schema is configured, omitted payload values are validated as an empty
+        object.
 
         Supports an optional `Idempotency-Key` header (1-255 printable ASCII
         characters). Replays with the same key and an identical body return the original
         201; a changed body under the same key returns 422 `idempotency_key_reused`.
 
         Args:
-          custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
+          custom_payload_schema: Optional JSON Schema for validating payloads for custom or schedule triggers
+
+          payload: Stored input values for schedule triggers (maximum 1 MiB of JSON). Requires
+              customPayloadSchema; available as event.payload on every run.
 
           extra_headers: Send extra headers
 
@@ -101,6 +110,7 @@ class TriggersResource(SyncAPIResource):
                     "custom_payload_schema": custom_payload_schema,
                     "description": description,
                     "event_type": event_type,
+                    "payload": payload,
                     "schedule_rule": schedule_rule,
                     "timezone": timezone,
                 },
@@ -160,6 +170,7 @@ class TriggersResource(SyncAPIResource):
         description: str | Omit = omit,
         event_type: str | Omit = omit,
         name: str | Omit = omit,
+        payload: Optional[Dict[str, object]] | Omit = omit,
         schedule_rule: Optional[trigger_update_params.ScheduleRule] | Omit = omit,
         timezone: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -173,11 +184,18 @@ class TriggersResource(SyncAPIResource):
         """Partially update a trigger; all fields are optional.
 
         When `activation` is
-        changed, the type-specific field rules are re-validated. Returns 404 if the
-        trigger does not exist.
+        changed, the type-specific field rules are re-validated. Schedule triggers
+        accept stored `payload` values (at most 1 MiB); null clears them. The resulting
+        payload must match customPayloadSchema (422 on mismatch, including schema
+        changes that invalidate stored values). Absent or null values are validated as
+        an empty object when a schema is configured. Changes apply from the next run.
+        Returns 404 if the trigger does not exist.
 
         Args:
-          custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
+          custom_payload_schema: Optional JSON Schema for validating payloads for custom or schedule triggers
+
+          payload: Stored schedule input values (maximum 1 MiB of JSON); null clears them. Requires
+              customPayloadSchema.
 
           extra_headers: Send extra headers
 
@@ -201,6 +219,7 @@ class TriggersResource(SyncAPIResource):
                     "description": description,
                     "event_type": event_type,
                     "name": name,
+                    "payload": payload,
                     "schedule_rule": schedule_rule,
                     "timezone": timezone,
                 },
@@ -411,6 +430,7 @@ class AsyncTriggersResource(AsyncAPIResource):
         custom_payload_schema: Dict[str, object] | Omit = omit,
         description: str | Omit = omit,
         event_type: str | Omit = omit,
+        payload: Dict[str, object] | Omit = omit,
         schedule_rule: trigger_create_params.ScheduleRule | Omit = omit,
         timezone: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -425,14 +445,22 @@ class AsyncTriggersResource(AsyncAPIResource):
         Create a trigger with an activation type of `event`, `schedule`, or `custom`.
         Each type requires its own fields (e.g. `eventType` and optional `conditions`
         for events, `scheduleRule` and `timezone` for schedules, `customPayloadSchema`
-        for custom triggers); mismatched fields are rejected.
+        for custom or schedule triggers); mismatched fields are rejected. Schedule
+        triggers may store an optional JSON object `payload` (at most 1 MiB); it
+        requires `customPayloadSchema`, is validated against it (422 on mismatch), and
+        is available as `event.payload` on every scheduled, manual, or verification run.
+        When a schema is configured, omitted payload values are validated as an empty
+        object.
 
         Supports an optional `Idempotency-Key` header (1-255 printable ASCII
         characters). Replays with the same key and an identical body return the original
         201; a changed body under the same key returns 422 `idempotency_key_reused`.
 
         Args:
-          custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
+          custom_payload_schema: Optional JSON Schema for validating payloads for custom or schedule triggers
+
+          payload: Stored input values for schedule triggers (maximum 1 MiB of JSON). Requires
+              customPayloadSchema; available as event.payload on every run.
 
           extra_headers: Send extra headers
 
@@ -454,6 +482,7 @@ class AsyncTriggersResource(AsyncAPIResource):
                     "custom_payload_schema": custom_payload_schema,
                     "description": description,
                     "event_type": event_type,
+                    "payload": payload,
                     "schedule_rule": schedule_rule,
                     "timezone": timezone,
                 },
@@ -513,6 +542,7 @@ class AsyncTriggersResource(AsyncAPIResource):
         description: str | Omit = omit,
         event_type: str | Omit = omit,
         name: str | Omit = omit,
+        payload: Optional[Dict[str, object]] | Omit = omit,
         schedule_rule: Optional[trigger_update_params.ScheduleRule] | Omit = omit,
         timezone: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -526,11 +556,18 @@ class AsyncTriggersResource(AsyncAPIResource):
         """Partially update a trigger; all fields are optional.
 
         When `activation` is
-        changed, the type-specific field rules are re-validated. Returns 404 if the
-        trigger does not exist.
+        changed, the type-specific field rules are re-validated. Schedule triggers
+        accept stored `payload` values (at most 1 MiB); null clears them. The resulting
+        payload must match customPayloadSchema (422 on mismatch, including schema
+        changes that invalidate stored values). Absent or null values are validated as
+        an empty object when a schema is configured. Changes apply from the next run.
+        Returns 404 if the trigger does not exist.
 
         Args:
-          custom_payload_schema: Optional JSON Schema for validating payloads sent to this custom trigger
+          custom_payload_schema: Optional JSON Schema for validating payloads for custom or schedule triggers
+
+          payload: Stored schedule input values (maximum 1 MiB of JSON); null clears them. Requires
+              customPayloadSchema.
 
           extra_headers: Send extra headers
 
@@ -554,6 +591,7 @@ class AsyncTriggersResource(AsyncAPIResource):
                     "description": description,
                     "event_type": event_type,
                     "name": name,
+                    "payload": payload,
                     "schedule_rule": schedule_rule,
                     "timezone": timezone,
                 },
