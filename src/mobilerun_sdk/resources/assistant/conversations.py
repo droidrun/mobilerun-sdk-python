@@ -137,11 +137,8 @@ class ConversationsResource(SyncAPIResource):
         """Rename, change status, and/or pin.
 
         Title updates apply best-effort. Archiving
-        always clears the pinned flag. `title` is rejected with 409
-        `code: "session_title_managed_by_workflow"` when this chat is bound to a
-        workflow — a bound chat's title is managed by the workflow. Other fields
-        (description, status, pinned) remain updateable; archiving a bound chat stays
-        allowed.
+        always clears the pinned flag. Archiving a session with an in-flight turn is
+        rejected with 409.
 
         Args:
           extra_headers: Send extra headers
@@ -279,6 +276,7 @@ class ConversationsResource(SyncAPIResource):
         *,
         permission_id: str,
         response: Literal["once", "always", "reject"],
+        session_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -291,10 +289,11 @@ class ConversationsResource(SyncAPIResource):
 
         Interactive HITL
         clients must start the turn with `Accept: text/event-stream`, wait for a
-        `tool-hitl-approval` event, and send its `permissionId` here at
-        `/assistant/chat/permission`. Do not submit approval as free-form user text or
-        as `confirmed: true`. For `devices.reset`, only `once` and `reject` are allowed;
-        the generic `always` response is rejected with HTTP 400.
+        `tool-input-available` event with `toolName: "hitl-approval"`, and send its
+        `toolCallId` as `permissionId` here at `/assistant/chat/permission`. Do not
+        submit approval as free-form user text or as `confirmed: true`. For
+        `devices.reset`, only `once` and `reject` are allowed; the generic `always`
+        response is rejected with HTTP 400.
 
         Args:
           extra_headers: Send extra headers
@@ -313,6 +312,7 @@ class ConversationsResource(SyncAPIResource):
                 {
                     "permission_id": permission_id,
                     "response": response,
+                    "session_id": session_id,
                 },
                 conversation_answer_permission_params.ConversationAnswerPermissionParams,
             ),
@@ -331,6 +331,7 @@ class ConversationsResource(SyncAPIResource):
         *,
         answers: Iterable[Iterable[conversation_answer_question_params.Answer]],
         question_id: str,
+        session_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -361,6 +362,7 @@ class ConversationsResource(SyncAPIResource):
                 {
                     "answers": answers,
                     "question_id": question_id,
+                    "session_id": session_id,
                 },
                 conversation_answer_question_params.ConversationAnswerQuestionParams,
             ),
@@ -376,8 +378,9 @@ class ConversationsResource(SyncAPIResource):
 
     def history(
         self,
+        id: str,
         *,
-        session_id: str,
+        before: str | Omit = omit,
         limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -388,10 +391,12 @@ class ConversationsResource(SyncAPIResource):
     ) -> ConversationHistoryResponse:
         """Return the user's chat history for the given session.
 
-        History remains readable
-        after the session is no longer active.
+        Inactive chat sessions
+        return 404; workflow transcripts remain readable after completion.
 
         Args:
+          before: Any real row in this session; its containing turn is excluded.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -400,8 +405,10 @@ class ConversationsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            "/assistant/chat/messages",
+            path_template("/assistant/chat/sessions/{id}/messages", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -409,7 +416,7 @@ class ConversationsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
-                        "session_id": session_id,
+                        "before": before,
                         "limit": limit,
                     },
                     conversation_history_params.ConversationHistoryParams,
@@ -422,6 +429,7 @@ class ConversationsResource(SyncAPIResource):
         self,
         *,
         question_id: str,
+        session_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -449,7 +457,11 @@ class ConversationsResource(SyncAPIResource):
         return self._post(
             "/assistant/chat/question/reject",
             body=maybe_transform(
-                {"question_id": question_id}, conversation_reject_question_params.ConversationRejectQuestionParams
+                {
+                    "question_id": question_id,
+                    "session_id": session_id,
+                },
+                conversation_reject_question_params.ConversationRejectQuestionParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -480,12 +492,15 @@ class ConversationsResource(SyncAPIResource):
 
         The response format follows the Accept header:
         `text/event-stream` for SSE, `application/json` for a buffered assistant reply.
-        Interactive HITL requires `Accept: text/event-stream`: the stream can emit a
-        `tool-hitl-approval` event, whose decision must be delivered to
-        `/assistant/chat/permission`. Buffered JSON responses do not provide an
-        interactive HITL continuation contract. `sessionId` targets a concrete active
-        chat. The resolved chat session ID is returned as `chatSessionId` in the JSON
-        body and as the `X-Chat-Session-Id` response header on the SSE response.
+        Interactive HITL requires `Accept: text/event-stream`. An approval request
+        arrives as a `tool-input-available` event with `toolName: "hitl-approval"`. Its
+        `toolCallId` (equal to `input.permissionID`) is the permission id; deliver the
+        decision to `/assistant/chat/permission`. In the message history, the same
+        request appears as a `tool-hitl-approval` part. Buffered JSON responses do not
+        provide an interactive HITL continuation contract. `sessionId` targets a
+        concrete active chat. The resolved chat session ID is returned as
+        `chatSessionId` in the JSON body and as the `X-Chat-Session-Id` response header
+        on the SSE response.
 
         Args:
           extra_headers: Send extra headers
@@ -655,11 +670,8 @@ class AsyncConversationsResource(AsyncAPIResource):
         """Rename, change status, and/or pin.
 
         Title updates apply best-effort. Archiving
-        always clears the pinned flag. `title` is rejected with 409
-        `code: "session_title_managed_by_workflow"` when this chat is bound to a
-        workflow — a bound chat's title is managed by the workflow. Other fields
-        (description, status, pinned) remain updateable; archiving a bound chat stays
-        allowed.
+        always clears the pinned flag. Archiving a session with an in-flight turn is
+        rejected with 409.
 
         Args:
           extra_headers: Send extra headers
@@ -797,6 +809,7 @@ class AsyncConversationsResource(AsyncAPIResource):
         *,
         permission_id: str,
         response: Literal["once", "always", "reject"],
+        session_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -809,10 +822,11 @@ class AsyncConversationsResource(AsyncAPIResource):
 
         Interactive HITL
         clients must start the turn with `Accept: text/event-stream`, wait for a
-        `tool-hitl-approval` event, and send its `permissionId` here at
-        `/assistant/chat/permission`. Do not submit approval as free-form user text or
-        as `confirmed: true`. For `devices.reset`, only `once` and `reject` are allowed;
-        the generic `always` response is rejected with HTTP 400.
+        `tool-input-available` event with `toolName: "hitl-approval"`, and send its
+        `toolCallId` as `permissionId` here at `/assistant/chat/permission`. Do not
+        submit approval as free-form user text or as `confirmed: true`. For
+        `devices.reset`, only `once` and `reject` are allowed; the generic `always`
+        response is rejected with HTTP 400.
 
         Args:
           extra_headers: Send extra headers
@@ -831,6 +845,7 @@ class AsyncConversationsResource(AsyncAPIResource):
                 {
                     "permission_id": permission_id,
                     "response": response,
+                    "session_id": session_id,
                 },
                 conversation_answer_permission_params.ConversationAnswerPermissionParams,
             ),
@@ -849,6 +864,7 @@ class AsyncConversationsResource(AsyncAPIResource):
         *,
         answers: Iterable[Iterable[conversation_answer_question_params.Answer]],
         question_id: str,
+        session_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -879,6 +895,7 @@ class AsyncConversationsResource(AsyncAPIResource):
                 {
                     "answers": answers,
                     "question_id": question_id,
+                    "session_id": session_id,
                 },
                 conversation_answer_question_params.ConversationAnswerQuestionParams,
             ),
@@ -894,8 +911,9 @@ class AsyncConversationsResource(AsyncAPIResource):
 
     async def history(
         self,
+        id: str,
         *,
-        session_id: str,
+        before: str | Omit = omit,
         limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -906,10 +924,12 @@ class AsyncConversationsResource(AsyncAPIResource):
     ) -> ConversationHistoryResponse:
         """Return the user's chat history for the given session.
 
-        History remains readable
-        after the session is no longer active.
+        Inactive chat sessions
+        return 404; workflow transcripts remain readable after completion.
 
         Args:
+          before: Any real row in this session; its containing turn is excluded.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -918,8 +938,10 @@ class AsyncConversationsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            "/assistant/chat/messages",
+            path_template("/assistant/chat/sessions/{id}/messages", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -927,7 +949,7 @@ class AsyncConversationsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
-                        "session_id": session_id,
+                        "before": before,
                         "limit": limit,
                     },
                     conversation_history_params.ConversationHistoryParams,
@@ -940,6 +962,7 @@ class AsyncConversationsResource(AsyncAPIResource):
         self,
         *,
         question_id: str,
+        session_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -967,7 +990,11 @@ class AsyncConversationsResource(AsyncAPIResource):
         return await self._post(
             "/assistant/chat/question/reject",
             body=await async_maybe_transform(
-                {"question_id": question_id}, conversation_reject_question_params.ConversationRejectQuestionParams
+                {
+                    "question_id": question_id,
+                    "session_id": session_id,
+                },
+                conversation_reject_question_params.ConversationRejectQuestionParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -998,12 +1025,15 @@ class AsyncConversationsResource(AsyncAPIResource):
 
         The response format follows the Accept header:
         `text/event-stream` for SSE, `application/json` for a buffered assistant reply.
-        Interactive HITL requires `Accept: text/event-stream`: the stream can emit a
-        `tool-hitl-approval` event, whose decision must be delivered to
-        `/assistant/chat/permission`. Buffered JSON responses do not provide an
-        interactive HITL continuation contract. `sessionId` targets a concrete active
-        chat. The resolved chat session ID is returned as `chatSessionId` in the JSON
-        body and as the `X-Chat-Session-Id` response header on the SSE response.
+        Interactive HITL requires `Accept: text/event-stream`. An approval request
+        arrives as a `tool-input-available` event with `toolName: "hitl-approval"`. Its
+        `toolCallId` (equal to `input.permissionID`) is the permission id; deliver the
+        decision to `/assistant/chat/permission`. In the message history, the same
+        request appears as a `tool-hitl-approval` part. Buffered JSON responses do not
+        provide an interactive HITL continuation contract. `sessionId` targets a
+        concrete active chat. The resolved chat session ID is returned as
+        `chatSessionId` in the JSON body and as the `X-Chat-Session-Id` response header
+        on the SSE response.
 
         Args:
           extra_headers: Send extra headers

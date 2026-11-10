@@ -29,7 +29,7 @@ class Item(BaseModel):
 
     owner_id: str = FieldInfo(alias="ownerId")
 
-    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"]
+    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
 
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 

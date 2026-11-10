@@ -13,3 +13,5 @@ class ConversationAnswerPermissionParams(TypedDict, total=False):
     permission_id: Required[Annotated[str, PropertyInfo(alias="permissionId")]]
 
     response: Required[Literal["once", "always", "reject"]]
+
+    session_id: Annotated[str, PropertyInfo(alias="sessionId")]

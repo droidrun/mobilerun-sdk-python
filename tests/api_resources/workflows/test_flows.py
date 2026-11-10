@@ -24,6 +24,7 @@ from mobilerun_sdk.types.workflows import (
     FlowRetrieveResponse,
     FlowValidateResponse,
     FlowListRepairsResponse,
+    FlowRetrieveRepairResponse,
     FlowDeliveryOptionsResponse,
     FlowTemplateContextResponse,
 )
@@ -92,6 +93,7 @@ class TestFlows:
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            owner_wake="final",
             recording_enabled=True,
             recording_policy={"mode": "off"},
             self_healing_enabled=True,
@@ -211,6 +213,7 @@ class TestFlows:
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            owner_wake="final",
             recording_enabled=True,
             recording_policy={"mode": "off"},
             self_healing_enabled=True,
@@ -612,6 +615,58 @@ class TestFlows:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_retrieve_repair(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.retrieve_repair(
+            episode_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(FlowRetrieveRepairResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_retrieve_repair(self, client: Mobilerun) -> None:
+        response = client.workflows.flows.with_raw_response.retrieve_repair(
+            episode_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = response.parse()
+        assert_matches_type(FlowRetrieveRepairResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_retrieve_repair(self, client: Mobilerun) -> None:
+        with client.workflows.flows.with_streaming_response.retrieve_repair(
+            episode_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = response.parse()
+            assert_matches_type(FlowRetrieveRepairResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_retrieve_repair(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `flow_id` but received ''"):
+            client.workflows.flows.with_raw_response.retrieve_repair(
+                episode_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                flow_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `episode_id` but received ''"):
+            client.workflows.flows.with_raw_response.retrieve_repair(
+                episode_id="",
+                flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_method_run(self, client: Mobilerun) -> None:
         flow = client.workflows.flows.run(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -742,7 +797,7 @@ class TestFlows:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_validate(self, client: Mobilerun) -> None:
+    def test_method_validate_overload_1(self, client: Mobilerun) -> None:
         flow = client.workflows.flows.validate(
             actions=[
                 {
@@ -756,7 +811,7 @@ class TestFlows:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_validate_with_all_params(self, client: Mobilerun) -> None:
+    def test_method_validate_with_all_params_overload_1(self, client: Mobilerun) -> None:
         flow = client.workflows.flows.validate(
             actions=[
                 {
@@ -796,6 +851,7 @@ class TestFlows:
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            owner_wake="final",
             recording_enabled=True,
             recording_policy={"mode": "off"},
             self_healing_enabled=True,
@@ -806,7 +862,7 @@ class TestFlows:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_raw_response_validate(self, client: Mobilerun) -> None:
+    def test_raw_response_validate_overload_1(self, client: Mobilerun) -> None:
         response = client.workflows.flows.with_raw_response.validate(
             actions=[
                 {
@@ -824,7 +880,7 @@ class TestFlows:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_streaming_response_validate(self, client: Mobilerun) -> None:
+    def test_streaming_response_validate_overload_1(self, client: Mobilerun) -> None:
         with client.workflows.flows.with_streaming_response.validate(
             actions=[
                 {
@@ -833,6 +889,163 @@ class TestFlows:
                 }
             ],
             name="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = response.parse()
+            assert_matches_type(FlowValidateResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_validate_overload_2(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.validate(
+            draft={
+                "actions": [
+                    {
+                        "catalog_entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "name": "name",
+                        "position": 0,
+                        "role": "role",
+                    }
+                ],
+                "flow": {},
+                "trigger": {"foo": "bar"},
+            },
+        )
+        assert_matches_type(FlowValidateResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_validate_with_all_params_overload_2(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.validate(
+            draft={
+                "actions": [
+                    {
+                        "catalog_entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "name": "name",
+                        "position": 0,
+                        "role": "role",
+                        "description": "description",
+                        "params": {"foo": "bar"},
+                    }
+                ],
+                "flow": {
+                    "cooldown_scope": "flow",
+                    "cooldown_seconds": 0,
+                    "delivery": {
+                        "destination": "mobilerun",
+                        "folder": "x",
+                        "recording": {"filename": "x"},
+                        "screenshots": {},
+                    },
+                    "description": "description",
+                    "device_ids": ["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+                    "execution_mode": "device",
+                    "health_monitoring_enabled": True,
+                    "name": "x",
+                    "recording_policy": {"mode": "off"},
+                    "self_healing_enabled": True,
+                    "self_healing_max_attempts": 1,
+                },
+                "trigger": {"foo": "bar"},
+            },
+            agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            contract={
+                "deliverable": "none",
+                "integration_role": "integrationRole",
+                "meta": {
+                    "flow": {
+                        "health_monitoring_enabled": True,
+                        "self_healing_enabled": True,
+                        "self_healing_max_attempts": 1,
+                        "recording_mode": "off",
+                        "result_delivery": "none",
+                    },
+                    "sink": {
+                        "type": "chat",
+                        "endpoint_id": "endpointId",
+                    },
+                    "timezone": "timezone",
+                    "trigger": {
+                        "activation": "event",
+                        "cadence": "cadence",
+                        "event_type": "eventType",
+                        "schedule_rule": {
+                            "type": "once",
+                            "date_time": "dateTime",
+                            "expression": "expression",
+                            "jitter": {
+                                "after_minutes": 0,
+                                "before_minutes": 0,
+                            },
+                            "rrule": "rrule",
+                        },
+                        "timezone": "timezone",
+                        "type": "schedule",
+                    },
+                    "verification": "rules",
+                    "cloud_actions": [
+                        {
+                            "method": "method",
+                            "role": "role",
+                        }
+                    ],
+                    "output_filename": "outputFilename",
+                },
+                "producer_roles": ["string"],
+                "profile": "agent_routine",
+                "slug": "slug",
+                "upload_role": "uploadRole",
+            },
+            verify={
+                "device_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "payload": {"foo": "bar"},
+            },
+        )
+        assert_matches_type(FlowValidateResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_validate_overload_2(self, client: Mobilerun) -> None:
+        response = client.workflows.flows.with_raw_response.validate(
+            draft={
+                "actions": [
+                    {
+                        "catalog_entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "name": "name",
+                        "position": 0,
+                        "role": "role",
+                    }
+                ],
+                "flow": {},
+                "trigger": {"foo": "bar"},
+            },
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = response.parse()
+        assert_matches_type(FlowValidateResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_validate_overload_2(self, client: Mobilerun) -> None:
+        with client.workflows.flows.with_streaming_response.validate(
+            draft={
+                "actions": [
+                    {
+                        "catalog_entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "name": "name",
+                        "position": 0,
+                        "role": "role",
+                    }
+                ],
+                "flow": {},
+                "trigger": {"foo": "bar"},
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -963,6 +1176,7 @@ class TestAsyncFlows:
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            owner_wake="final",
             recording_enabled=True,
             recording_policy={"mode": "off"},
             self_healing_enabled=True,
@@ -1082,6 +1296,7 @@ class TestAsyncFlows:
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            owner_wake="final",
             recording_enabled=True,
             recording_policy={"mode": "off"},
             self_healing_enabled=True,
@@ -1483,6 +1698,58 @@ class TestAsyncFlows:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    async def test_method_retrieve_repair(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.retrieve_repair(
+            episode_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(FlowRetrieveRepairResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_retrieve_repair(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.workflows.flows.with_raw_response.retrieve_repair(
+            episode_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = await response.parse()
+        assert_matches_type(FlowRetrieveRepairResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_retrieve_repair(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.workflows.flows.with_streaming_response.retrieve_repair(
+            episode_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = await response.parse()
+            assert_matches_type(FlowRetrieveRepairResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_retrieve_repair(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `flow_id` but received ''"):
+            await async_client.workflows.flows.with_raw_response.retrieve_repair(
+                episode_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                flow_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `episode_id` but received ''"):
+            await async_client.workflows.flows.with_raw_response.retrieve_repair(
+                episode_id="",
+                flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     async def test_method_run(self, async_client: AsyncMobilerun) -> None:
         flow = await async_client.workflows.flows.run(
             flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -1613,7 +1880,7 @@ class TestAsyncFlows:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_validate(self, async_client: AsyncMobilerun) -> None:
+    async def test_method_validate_overload_1(self, async_client: AsyncMobilerun) -> None:
         flow = await async_client.workflows.flows.validate(
             actions=[
                 {
@@ -1627,7 +1894,7 @@ class TestAsyncFlows:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_validate_with_all_params(self, async_client: AsyncMobilerun) -> None:
+    async def test_method_validate_with_all_params_overload_1(self, async_client: AsyncMobilerun) -> None:
         flow = await async_client.workflows.flows.validate(
             actions=[
                 {
@@ -1667,6 +1934,7 @@ class TestAsyncFlows:
             notify_on_failure=True,
             notify_on_success=True,
             notify_webhook_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            owner_wake="final",
             recording_enabled=True,
             recording_policy={"mode": "off"},
             self_healing_enabled=True,
@@ -1677,7 +1945,7 @@ class TestAsyncFlows:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_raw_response_validate(self, async_client: AsyncMobilerun) -> None:
+    async def test_raw_response_validate_overload_1(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.workflows.flows.with_raw_response.validate(
             actions=[
                 {
@@ -1695,7 +1963,7 @@ class TestAsyncFlows:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_streaming_response_validate(self, async_client: AsyncMobilerun) -> None:
+    async def test_streaming_response_validate_overload_1(self, async_client: AsyncMobilerun) -> None:
         async with async_client.workflows.flows.with_streaming_response.validate(
             actions=[
                 {
@@ -1704,6 +1972,163 @@ class TestAsyncFlows:
                 }
             ],
             name="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = await response.parse()
+            assert_matches_type(FlowValidateResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_validate_overload_2(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.validate(
+            draft={
+                "actions": [
+                    {
+                        "catalog_entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "name": "name",
+                        "position": 0,
+                        "role": "role",
+                    }
+                ],
+                "flow": {},
+                "trigger": {"foo": "bar"},
+            },
+        )
+        assert_matches_type(FlowValidateResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_validate_with_all_params_overload_2(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.validate(
+            draft={
+                "actions": [
+                    {
+                        "catalog_entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "name": "name",
+                        "position": 0,
+                        "role": "role",
+                        "description": "description",
+                        "params": {"foo": "bar"},
+                    }
+                ],
+                "flow": {
+                    "cooldown_scope": "flow",
+                    "cooldown_seconds": 0,
+                    "delivery": {
+                        "destination": "mobilerun",
+                        "folder": "x",
+                        "recording": {"filename": "x"},
+                        "screenshots": {},
+                    },
+                    "description": "description",
+                    "device_ids": ["182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"],
+                    "execution_mode": "device",
+                    "health_monitoring_enabled": True,
+                    "name": "x",
+                    "recording_policy": {"mode": "off"},
+                    "self_healing_enabled": True,
+                    "self_healing_max_attempts": 1,
+                },
+                "trigger": {"foo": "bar"},
+            },
+            agent_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            contract={
+                "deliverable": "none",
+                "integration_role": "integrationRole",
+                "meta": {
+                    "flow": {
+                        "health_monitoring_enabled": True,
+                        "self_healing_enabled": True,
+                        "self_healing_max_attempts": 1,
+                        "recording_mode": "off",
+                        "result_delivery": "none",
+                    },
+                    "sink": {
+                        "type": "chat",
+                        "endpoint_id": "endpointId",
+                    },
+                    "timezone": "timezone",
+                    "trigger": {
+                        "activation": "event",
+                        "cadence": "cadence",
+                        "event_type": "eventType",
+                        "schedule_rule": {
+                            "type": "once",
+                            "date_time": "dateTime",
+                            "expression": "expression",
+                            "jitter": {
+                                "after_minutes": 0,
+                                "before_minutes": 0,
+                            },
+                            "rrule": "rrule",
+                        },
+                        "timezone": "timezone",
+                        "type": "schedule",
+                    },
+                    "verification": "rules",
+                    "cloud_actions": [
+                        {
+                            "method": "method",
+                            "role": "role",
+                        }
+                    ],
+                    "output_filename": "outputFilename",
+                },
+                "producer_roles": ["string"],
+                "profile": "agent_routine",
+                "slug": "slug",
+                "upload_role": "uploadRole",
+            },
+            verify={
+                "device_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                "payload": {"foo": "bar"},
+            },
+        )
+        assert_matches_type(FlowValidateResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_validate_overload_2(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.workflows.flows.with_raw_response.validate(
+            draft={
+                "actions": [
+                    {
+                        "catalog_entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "name": "name",
+                        "position": 0,
+                        "role": "role",
+                    }
+                ],
+                "flow": {},
+                "trigger": {"foo": "bar"},
+            },
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = await response.parse()
+        assert_matches_type(FlowValidateResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_validate_overload_2(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.workflows.flows.with_streaming_response.validate(
+            draft={
+                "actions": [
+                    {
+                        "catalog_entry_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "name": "name",
+                        "position": 0,
+                        "role": "role",
+                    }
+                ],
+                "flow": {},
+                "trigger": {"foo": "bar"},
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

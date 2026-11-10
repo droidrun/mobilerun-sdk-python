@@ -15,7 +15,7 @@ class DataParam(BaseModel):
 
     required: bool
 
-    type: Literal["string", "number", "boolean", "object", "array"]
+    type: Literal["string", "number", "boolean", "object", "array", "any"]
 
     default: Optional[object] = None
 

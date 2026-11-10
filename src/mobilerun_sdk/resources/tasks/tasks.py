@@ -143,7 +143,8 @@ class TasksResource(SyncAPIResource):
 
           query: Search in task description.
 
-          source: Only tasks created via the API ('api') or spawned by an agent step ('agent').
+          source: Only tasks created via the API ('api') or tasks spawned by an agent step or
+              created with internal=true ('agent').
 
           extra_headers: Send extra headers
 
@@ -291,6 +292,7 @@ class TasksResource(SyncAPIResource):
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         humanize: bool | Omit = omit,
+        internal: bool | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
@@ -324,6 +326,11 @@ class TasksResource(SyncAPIResource):
 
           humanize: Request human-like input where supported by the device. Replaces the deprecated
               stealth field; both must agree when supplied together.
+
+          internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
+              source='agent' (excluded from source='api' lists) and its events carry
+              internal=true so user-facing notifications and webhooks skip it. It is still
+              billed, controllable and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -364,6 +371,7 @@ class TasksResource(SyncAPIResource):
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "humanize": humanize,
+                    "internal": internal,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
@@ -401,6 +409,7 @@ class TasksResource(SyncAPIResource):
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         humanize: bool | Omit = omit,
+        internal: bool | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
@@ -433,6 +442,11 @@ class TasksResource(SyncAPIResource):
 
           humanize: Request human-like input where supported by the device. Replaces the deprecated
               stealth field; both must agree when supplied together.
+
+          internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
+              source='agent' (excluded from source='api' lists) and its events carry
+              internal=true so user-facing notifications and webhooks skip it. It is still
+              billed, controllable and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -473,6 +487,7 @@ class TasksResource(SyncAPIResource):
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "humanize": humanize,
+                    "internal": internal,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
@@ -683,7 +698,8 @@ class AsyncTasksResource(AsyncAPIResource):
 
           query: Search in task description.
 
-          source: Only tasks created via the API ('api') or spawned by an agent step ('agent').
+          source: Only tasks created via the API ('api') or tasks spawned by an agent step or
+              created with internal=true ('agent').
 
           extra_headers: Send extra headers
 
@@ -831,6 +847,7 @@ class AsyncTasksResource(AsyncAPIResource):
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         humanize: bool | Omit = omit,
+        internal: bool | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
@@ -864,6 +881,11 @@ class AsyncTasksResource(AsyncAPIResource):
 
           humanize: Request human-like input where supported by the device. Replaces the deprecated
               stealth field; both must agree when supplied together.
+
+          internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
+              source='agent' (excluded from source='api' lists) and its events carry
+              internal=true so user-facing notifications and webhooks skip it. It is still
+              billed, controllable and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -904,6 +926,7 @@ class AsyncTasksResource(AsyncAPIResource):
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "humanize": humanize,
+                    "internal": internal,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,
@@ -941,6 +964,7 @@ class AsyncTasksResource(AsyncAPIResource):
         execution_timeout: int | Omit = omit,
         files: SequenceNotStr[str] | Omit = omit,
         humanize: bool | Omit = omit,
+        internal: bool | Omit = omit,
         llm_model: str | Omit = omit,
         max_steps: int | Omit = omit,
         output_schema: Optional[Dict[str, object]] | Omit = omit,
@@ -973,6 +997,11 @@ class AsyncTasksResource(AsyncAPIResource):
 
           humanize: Request human-like input where supported by the device. Replaces the deprecated
               stealth field; both must agree when supplied together.
+
+          internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
+              source='agent' (excluded from source='api' lists) and its events carry
+              internal=true so user-facing notifications and webhooks skip it. It is still
+              billed, controllable and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -1013,6 +1042,7 @@ class AsyncTasksResource(AsyncAPIResource):
                     "execution_timeout": execution_timeout,
                     "files": files,
                     "humanize": humanize,
+                    "internal": internal,
                     "llm_model": llm_model,
                     "max_steps": max_steps,
                     "output_schema": output_schema,

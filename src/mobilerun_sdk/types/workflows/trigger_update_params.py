@@ -16,13 +16,19 @@ class TriggerUpdateParams(TypedDict, total=False):
     conditions: Optional[Conditions]
 
     custom_payload_schema: Annotated[Optional[Dict[str, object]], PropertyInfo(alias="customPayloadSchema")]
-    """Optional JSON Schema for validating payloads sent to this custom trigger"""
+    """Optional JSON Schema for validating payloads for custom or schedule triggers"""
 
     description: str
 
     event_type: Annotated[str, PropertyInfo(alias="eventType")]
 
     name: str
+
+    payload: Optional[Dict[str, object]]
+    """Stored schedule input values (maximum 1 MiB of JSON); null clears them.
+
+    Requires customPayloadSchema.
+    """
 
     schedule_rule: Annotated[Optional[ScheduleRule], PropertyInfo(alias="scheduleRule")]
 

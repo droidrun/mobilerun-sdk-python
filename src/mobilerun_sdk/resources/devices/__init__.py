@@ -56,6 +56,14 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
+from .number import (
+    NumberResource,
+    AsyncNumberResource,
+    NumberResourceWithRawResponse,
+    AsyncNumberResourceWithRawResponse,
+    NumberResourceWithStreamingResponse,
+    AsyncNumberResourceWithStreamingResponse,
+)
 from .actions import (
     ActionsResource,
     AsyncActionsResource,
@@ -159,6 +167,14 @@ from .screenshots import (
     AsyncScreenshotsResourceWithRawResponse,
     ScreenshotsResourceWithStreamingResponse,
     AsyncScreenshotsResourceWithStreamingResponse,
+)
+from .number_bindings import (
+    NumberBindingsResource,
+    AsyncNumberBindingsResource,
+    NumberBindingsResourceWithRawResponse,
+    AsyncNumberBindingsResourceWithRawResponse,
+    NumberBindingsResourceWithStreamingResponse,
+    AsyncNumberBindingsResourceWithStreamingResponse,
 )
 from .traffic_sessions import (
     TrafficSessionsResource,
@@ -290,6 +306,18 @@ __all__ = [
     "AsyncTrafficSessionsResourceWithRawResponse",
     "TrafficSessionsResourceWithStreamingResponse",
     "AsyncTrafficSessionsResourceWithStreamingResponse",
+    "NumberResource",
+    "AsyncNumberResource",
+    "NumberResourceWithRawResponse",
+    "AsyncNumberResourceWithRawResponse",
+    "NumberResourceWithStreamingResponse",
+    "AsyncNumberResourceWithStreamingResponse",
+    "NumberBindingsResource",
+    "AsyncNumberBindingsResource",
+    "NumberBindingsResourceWithRawResponse",
+    "AsyncNumberBindingsResourceWithRawResponse",
+    "NumberBindingsResourceWithStreamingResponse",
+    "AsyncNumberBindingsResourceWithStreamingResponse",
     "DevicesResource",
     "AsyncDevicesResource",
     "DevicesResourceWithRawResponse",

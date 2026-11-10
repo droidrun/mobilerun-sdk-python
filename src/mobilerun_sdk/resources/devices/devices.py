@@ -57,6 +57,14 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
+from .number import (
+    NumberResource,
+    AsyncNumberResource,
+    NumberResourceWithRawResponse,
+    AsyncNumberResourceWithRawResponse,
+    NumberResourceWithStreamingResponse,
+    AsyncNumberResourceWithStreamingResponse,
+)
 from ...types import (
     device_list_params,
     device_reset_params,
@@ -180,6 +188,14 @@ from .screenshots import (
     AsyncScreenshotsResourceWithStreamingResponse,
 )
 from ..._base_client import make_request_options
+from .number_bindings import (
+    NumberBindingsResource,
+    AsyncNumberBindingsResource,
+    NumberBindingsResourceWithRawResponse,
+    AsyncNumberBindingsResourceWithRawResponse,
+    NumberBindingsResourceWithStreamingResponse,
+    AsyncNumberBindingsResourceWithStreamingResponse,
+)
 from .traffic_sessions import (
     TrafficSessionsResource,
     AsyncTrafficSessionsResource,
@@ -284,6 +300,14 @@ class DevicesResource(SyncAPIResource):
     @cached_property
     def traffic_sessions(self) -> TrafficSessionsResource:
         return TrafficSessionsResource(self._client)
+
+    @cached_property
+    def number(self) -> NumberResource:
+        return NumberResource(self._client)
+
+    @cached_property
+    def number_bindings(self) -> NumberBindingsResource:
+        return NumberBindingsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> DevicesResourceWithRawResponse:
@@ -1121,6 +1145,14 @@ class AsyncDevicesResource(AsyncAPIResource):
     @cached_property
     def traffic_sessions(self) -> AsyncTrafficSessionsResource:
         return AsyncTrafficSessionsResource(self._client)
+
+    @cached_property
+    def number(self) -> AsyncNumberResource:
+        return AsyncNumberResource(self._client)
+
+    @cached_property
+    def number_bindings(self) -> AsyncNumberBindingsResource:
+        return AsyncNumberBindingsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncDevicesResourceWithRawResponse:
@@ -2007,6 +2039,14 @@ class DevicesResourceWithRawResponse:
     def traffic_sessions(self) -> TrafficSessionsResourceWithRawResponse:
         return TrafficSessionsResourceWithRawResponse(self._devices.traffic_sessions)
 
+    @cached_property
+    def number(self) -> NumberResourceWithRawResponse:
+        return NumberResourceWithRawResponse(self._devices.number)
+
+    @cached_property
+    def number_bindings(self) -> NumberBindingsResourceWithRawResponse:
+        return NumberBindingsResourceWithRawResponse(self._devices.number_bindings)
+
 
 class AsyncDevicesResourceWithRawResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -2136,6 +2176,14 @@ class AsyncDevicesResourceWithRawResponse:
     @cached_property
     def traffic_sessions(self) -> AsyncTrafficSessionsResourceWithRawResponse:
         return AsyncTrafficSessionsResourceWithRawResponse(self._devices.traffic_sessions)
+
+    @cached_property
+    def number(self) -> AsyncNumberResourceWithRawResponse:
+        return AsyncNumberResourceWithRawResponse(self._devices.number)
+
+    @cached_property
+    def number_bindings(self) -> AsyncNumberBindingsResourceWithRawResponse:
+        return AsyncNumberBindingsResourceWithRawResponse(self._devices.number_bindings)
 
 
 class DevicesResourceWithStreamingResponse:
@@ -2267,6 +2315,14 @@ class DevicesResourceWithStreamingResponse:
     def traffic_sessions(self) -> TrafficSessionsResourceWithStreamingResponse:
         return TrafficSessionsResourceWithStreamingResponse(self._devices.traffic_sessions)
 
+    @cached_property
+    def number(self) -> NumberResourceWithStreamingResponse:
+        return NumberResourceWithStreamingResponse(self._devices.number)
+
+    @cached_property
+    def number_bindings(self) -> NumberBindingsResourceWithStreamingResponse:
+        return NumberBindingsResourceWithStreamingResponse(self._devices.number_bindings)
+
 
 class AsyncDevicesResourceWithStreamingResponse:
     def __init__(self, devices: AsyncDevicesResource) -> None:
@@ -2396,3 +2452,11 @@ class AsyncDevicesResourceWithStreamingResponse:
     @cached_property
     def traffic_sessions(self) -> AsyncTrafficSessionsResourceWithStreamingResponse:
         return AsyncTrafficSessionsResourceWithStreamingResponse(self._devices.traffic_sessions)
+
+    @cached_property
+    def number(self) -> AsyncNumberResourceWithStreamingResponse:
+        return AsyncNumberResourceWithStreamingResponse(self._devices.number)
+
+    @cached_property
+    def number_bindings(self) -> AsyncNumberBindingsResourceWithStreamingResponse:
+        return AsyncNumberBindingsResourceWithStreamingResponse(self._devices.number_bindings)

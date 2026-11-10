@@ -18,6 +18,9 @@ class ActionListParams(TypedDict, total=False):
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
 
+    profile: Literal["agent_routine"]
+    """Restrict reads to the agent routine step surface."""
+
     search: str
 
-    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"]
+    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]

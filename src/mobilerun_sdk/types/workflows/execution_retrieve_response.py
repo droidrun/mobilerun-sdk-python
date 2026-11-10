@@ -16,6 +16,8 @@ __all__ = [
     "DataProgress",
     "DataProgressStep",
     "DataRecording",
+    "DataRepair",
+    "DataRepairVerdict",
     "DataScreenshot",
 ]
 
@@ -117,6 +119,28 @@ class DataRecording(BaseModel):
     stopped_at: Optional[datetime] = FieldInfo(alias="stoppedAt", default=None)
 
 
+class DataRepairVerdict(BaseModel):
+    outcome: Literal["ok", "flaky", "broken"]
+
+    summary: str
+
+    reason: Optional[str] = None
+
+
+class DataRepair(BaseModel):
+    chat_session_id: Optional[str] = FieldInfo(alias="chatSessionId", default=None)
+
+    episode: int
+
+    episode_id: str = FieldInfo(alias="episodeId")
+
+    status: Literal["pending", "running", "canary", "promoting", "repaired", "failed", "escalated"]
+
+    terminal: bool
+
+    verdict: Optional[DataRepairVerdict] = None
+
+
 class DataScreenshot(BaseModel):
     id: str
 
@@ -199,6 +223,8 @@ class Data(BaseModel):
 
     Whole-flow recordings use -1 for every coordinate.
     """
+
+    repair: Optional[DataRepair] = None
 
     screenshots: List[DataScreenshot]
     """
