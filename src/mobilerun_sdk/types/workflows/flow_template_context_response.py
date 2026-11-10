@@ -6,7 +6,7 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["FlowTemplateContextResponse", "Data", "DataLoop", "DataRoot", "DataStepReference"]
+__all__ = ["FlowTemplateContextResponse", "Data", "DataLoop", "DataRoot", "DataRootShape", "DataStepReference"]
 
 
 class DataLoop(BaseModel):
@@ -17,12 +17,21 @@ class DataLoop(BaseModel):
     name: str
 
 
+class DataRootShape(BaseModel):
+    description: str
+
+    example: str
+
+    name: str
+
+
 class DataRoot(BaseModel):
     description: str
 
     name: str
 
-    shape: Optional[object] = None
+    shape: Optional[List[DataRootShape]] = None
+    """Known root members; meta lists all execution calendar variables"""
 
 
 class DataStepReference(BaseModel):

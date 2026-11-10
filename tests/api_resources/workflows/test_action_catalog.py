@@ -24,7 +24,16 @@ class TestActionCatalog:
     @parametrize
     def test_method_retrieve(self, client: Mobilerun) -> None:
         action_catalog = client.workflows.action_catalog.retrieve(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(ActionCatalogRetrieveResponse, action_catalog, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_retrieve_with_all_params(self, client: Mobilerun) -> None:
+        action_catalog = client.workflows.action_catalog.retrieve(
+            catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            profile="agent_routine",
         )
         assert_matches_type(ActionCatalogRetrieveResponse, action_catalog, path=["response"])
 
@@ -32,7 +41,7 @@ class TestActionCatalog:
     @parametrize
     def test_raw_response_retrieve(self, client: Mobilerun) -> None:
         response = client.workflows.action_catalog.with_raw_response.retrieve(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
@@ -44,7 +53,7 @@ class TestActionCatalog:
     @parametrize
     def test_streaming_response_retrieve(self, client: Mobilerun) -> None:
         with client.workflows.action_catalog.with_streaming_response.retrieve(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -59,7 +68,7 @@ class TestActionCatalog:
     def test_path_params_retrieve(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `catalog_entry_id` but received ''"):
             client.workflows.action_catalog.with_raw_response.retrieve(
-                "",
+                catalog_entry_id="",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -74,6 +83,7 @@ class TestActionCatalog:
         action_catalog = client.workflows.action_catalog.list(
             page=1,
             page_size=1,
+            profile="agent_routine",
             service="tasks_api",
         )
         assert_matches_type(ActionCatalogListResponse, action_catalog, path=["response"])
@@ -110,7 +120,16 @@ class TestAsyncActionCatalog:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncMobilerun) -> None:
         action_catalog = await async_client.workflows.action_catalog.retrieve(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(ActionCatalogRetrieveResponse, action_catalog, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        action_catalog = await async_client.workflows.action_catalog.retrieve(
+            catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            profile="agent_routine",
         )
         assert_matches_type(ActionCatalogRetrieveResponse, action_catalog, path=["response"])
 
@@ -118,7 +137,7 @@ class TestAsyncActionCatalog:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.workflows.action_catalog.with_raw_response.retrieve(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
@@ -130,7 +149,7 @@ class TestAsyncActionCatalog:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         async with async_client.workflows.action_catalog.with_streaming_response.retrieve(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            catalog_entry_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -145,7 +164,7 @@ class TestAsyncActionCatalog:
     async def test_path_params_retrieve(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `catalog_entry_id` but received ''"):
             await async_client.workflows.action_catalog.with_raw_response.retrieve(
-                "",
+                catalog_entry_id="",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -160,6 +179,7 @@ class TestAsyncActionCatalog:
         action_catalog = await async_client.workflows.action_catalog.list(
             page=1,
             page_size=1,
+            profile="agent_routine",
             service="tasks_api",
         )
         assert_matches_type(ActionCatalogListResponse, action_catalog, path=["response"])

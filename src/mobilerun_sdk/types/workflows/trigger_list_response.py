@@ -55,6 +55,8 @@ class Item(BaseModel):
 
     owner_id: str = FieldInfo(alias="ownerId")
 
+    payload: Optional[Dict[str, object]] = None
+
     schedule_rule: ItemScheduleRule = FieldInfo(alias="scheduleRule")
 
     timezone: Optional[str] = None

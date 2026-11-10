@@ -75,7 +75,16 @@ class TestActions:
     @parametrize
     def test_method_retrieve(self, client: Mobilerun) -> None:
         action = client.workflows.actions.retrieve(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(ActionRetrieveResponse, action, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_retrieve_with_all_params(self, client: Mobilerun) -> None:
+        action = client.workflows.actions.retrieve(
+            action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            profile="agent_routine",
         )
         assert_matches_type(ActionRetrieveResponse, action, path=["response"])
 
@@ -83,7 +92,7 @@ class TestActions:
     @parametrize
     def test_raw_response_retrieve(self, client: Mobilerun) -> None:
         response = client.workflows.actions.with_raw_response.retrieve(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
@@ -95,7 +104,7 @@ class TestActions:
     @parametrize
     def test_streaming_response_retrieve(self, client: Mobilerun) -> None:
         with client.workflows.actions.with_streaming_response.retrieve(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -110,7 +119,7 @@ class TestActions:
     def test_path_params_retrieve(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `action_id` but received ''"):
             client.workflows.actions.with_raw_response.retrieve(
-                "",
+                action_id="",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -180,6 +189,7 @@ class TestActions:
             order_by_direction="asc",
             page=1,
             page_size=1,
+            profile="agent_routine",
             search="x",
             service="tasks_api",
         )
@@ -307,7 +317,16 @@ class TestAsyncActions:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncMobilerun) -> None:
         action = await async_client.workflows.actions.retrieve(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(ActionRetrieveResponse, action, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        action = await async_client.workflows.actions.retrieve(
+            action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            profile="agent_routine",
         )
         assert_matches_type(ActionRetrieveResponse, action, path=["response"])
 
@@ -315,7 +334,7 @@ class TestAsyncActions:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.workflows.actions.with_raw_response.retrieve(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
@@ -327,7 +346,7 @@ class TestAsyncActions:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMobilerun) -> None:
         async with async_client.workflows.actions.with_streaming_response.retrieve(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            action_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -342,7 +361,7 @@ class TestAsyncActions:
     async def test_path_params_retrieve(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `action_id` but received ''"):
             await async_client.workflows.actions.with_raw_response.retrieve(
-                "",
+                action_id="",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -412,6 +431,7 @@ class TestAsyncActions:
             order_by_direction="asc",
             page=1,
             page_size=1,
+            profile="agent_routine",
             search="x",
             service="tasks_api",
         )

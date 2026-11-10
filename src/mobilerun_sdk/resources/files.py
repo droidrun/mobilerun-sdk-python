@@ -112,7 +112,7 @@ class FilesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileListResponse:
         """
-        List the user's ready files, optionally filtered by zone
+        List the user's ready files, optionally filtered by zone.
 
         Args:
           extra_headers: Send extra headers
@@ -148,7 +148,7 @@ class FilesResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FileDeleteResponse:
         """
-        Hard-delete a file
+        Hard-delete a file.
 
         Args:
           extra_headers: Send extra headers
@@ -187,11 +187,11 @@ class FilesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> FileCancelPendingResponse:
-        """Soft-cancels an in-flight upload before confirm.
-
-        Only acts on `pending` uploads
-        — refuses to touch `ready` files, so confirmed files are never removed.
-        Idempotent: `{ cancelled: false }` if the file exists but is no longer pending.
+        """
+        Soft-cancels an in-flight upload before confirm, transitioning it to expired and
+        deleting the underlying object. Only acts on `pending` uploads — refuses to
+        touch `ready` files, so confirmed files are never removed. Idempotent:
+        `{ cancelled: false }` if the file exists but is no longer pending.
 
         Args:
           extra_headers: Send extra headers
@@ -231,7 +231,8 @@ class FilesResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FileConfirmResponse:
         """
-        Confirm a file upload by server-side HEAD validation
+        Confirm a file upload after validating the stored object with a server-side HEAD
+        request.
 
         Args:
           extra_headers: Send extra headers
@@ -300,6 +301,7 @@ class FilesResource(SyncAPIResource):
         filename: str,
         mime_type: str,
         size_bytes: int,
+        chat_session_id: str | Omit = omit,
         zone: Literal["user", "skills"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -310,7 +312,7 @@ class FilesResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FileUploadURLResponse:
         """
-        Mint a presigned PUT URL for a user file upload
+        Mint a presigned PUT URL and a fileId for uploading a user file.
 
         Args:
           extra_headers: Send extra headers
@@ -330,6 +332,7 @@ class FilesResource(SyncAPIResource):
                     "filename": filename,
                     "mime_type": mime_type,
                     "size_bytes": size_bytes,
+                    "chat_session_id": chat_session_id,
                     "zone": zone,
                 },
                 file_upload_url_params.FileUploadURLParams,
@@ -428,7 +431,7 @@ class AsyncFilesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileListResponse:
         """
-        List the user's ready files, optionally filtered by zone
+        List the user's ready files, optionally filtered by zone.
 
         Args:
           extra_headers: Send extra headers
@@ -464,7 +467,7 @@ class AsyncFilesResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FileDeleteResponse:
         """
-        Hard-delete a file
+        Hard-delete a file.
 
         Args:
           extra_headers: Send extra headers
@@ -503,11 +506,11 @@ class AsyncFilesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> FileCancelPendingResponse:
-        """Soft-cancels an in-flight upload before confirm.
-
-        Only acts on `pending` uploads
-        — refuses to touch `ready` files, so confirmed files are never removed.
-        Idempotent: `{ cancelled: false }` if the file exists but is no longer pending.
+        """
+        Soft-cancels an in-flight upload before confirm, transitioning it to expired and
+        deleting the underlying object. Only acts on `pending` uploads — refuses to
+        touch `ready` files, so confirmed files are never removed. Idempotent:
+        `{ cancelled: false }` if the file exists but is no longer pending.
 
         Args:
           extra_headers: Send extra headers
@@ -547,7 +550,8 @@ class AsyncFilesResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FileConfirmResponse:
         """
-        Confirm a file upload by server-side HEAD validation
+        Confirm a file upload after validating the stored object with a server-side HEAD
+        request.
 
         Args:
           extra_headers: Send extra headers
@@ -616,6 +620,7 @@ class AsyncFilesResource(AsyncAPIResource):
         filename: str,
         mime_type: str,
         size_bytes: int,
+        chat_session_id: str | Omit = omit,
         zone: Literal["user", "skills"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -626,7 +631,7 @@ class AsyncFilesResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FileUploadURLResponse:
         """
-        Mint a presigned PUT URL for a user file upload
+        Mint a presigned PUT URL and a fileId for uploading a user file.
 
         Args:
           extra_headers: Send extra headers
@@ -646,6 +651,7 @@ class AsyncFilesResource(AsyncAPIResource):
                     "filename": filename,
                     "mime_type": mime_type,
                     "size_bytes": size_bytes,
+                    "chat_session_id": chat_session_id,
                     "zone": zone,
                 },
                 file_upload_url_params.FileUploadURLParams,

@@ -16,4 +16,6 @@ class FileUploadURLParams(TypedDict, total=False):
 
     size_bytes: Required[Annotated[int, PropertyInfo(alias="sizeBytes")]]
 
+    chat_session_id: Annotated[str, PropertyInfo(alias="chatSessionId")]
+
     zone: Literal["user", "skills"]
