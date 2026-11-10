@@ -3,10 +3,18 @@
 from __future__ import annotations
 
 from typing import Dict, List, Union, Iterable, Optional
-from typing_extensions import Literal
+from typing_extensions import Literal, overload
 
 import httpx
 
+from .state import (
+    StateResource,
+    AsyncStateResource,
+    StateResourceWithRawResponse,
+    AsyncStateResourceWithRawResponse,
+    StateResourceWithStreamingResponse,
+    AsyncStateResourceWithStreamingResponse,
+)
 from .actions import (
     ActionsResource,
     AsyncActionsResource,
@@ -16,7 +24,7 @@ from .actions import (
     AsyncActionsResourceWithStreamingResponse,
 )
 from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from ...._utils import path_template, maybe_transform, async_maybe_transform
+from ...._utils import path_template, required_args, maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -53,6 +61,7 @@ from ....types.workflows.flow_capacity_response import FlowCapacityResponse
 from ....types.workflows.flow_retrieve_response import FlowRetrieveResponse
 from ....types.workflows.flow_validate_response import FlowValidateResponse
 from ....types.workflows.flow_list_repairs_response import FlowListRepairsResponse
+from ....types.workflows.flow_retrieve_repair_response import FlowRetrieveRepairResponse
 from ....types.workflows.flow_delivery_options_response import FlowDeliveryOptionsResponse
 from ....types.workflows.flow_template_context_response import FlowTemplateContextResponse
 
@@ -63,6 +72,10 @@ class FlowsResource(SyncAPIResource):
     @cached_property
     def actions(self) -> ActionsResource:
         return ActionsResource(self._client)
+
+    @cached_property
+    def state(self) -> StateResource:
+        return StateResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> FlowsResourceWithRawResponse:
@@ -99,6 +112,7 @@ class FlowsResource(SyncAPIResource):
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_create_params.RecordingPolicy | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
@@ -149,6 +163,7 @@ class FlowsResource(SyncAPIResource):
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "owner_wake": owner_wake,
                     "recording_enabled": recording_enabled,
                     "recording_policy": recording_policy,
                     "self_healing_enabled": self_healing_enabled,
@@ -216,6 +231,7 @@ class FlowsResource(SyncAPIResource):
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_update_params.RecordingPolicy | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
@@ -269,6 +285,7 @@ class FlowsResource(SyncAPIResource):
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "owner_wake": owner_wake,
                     "recording_enabled": recording_enabled,
                     "recording_policy": recording_policy,
                     "self_healing_enabled": self_healing_enabled,
@@ -604,7 +621,8 @@ class FlowsResource(SyncAPIResource):
           the trigger conditions.
         - `custom`: validates the payload against the custom payload schema (conditions
           do not apply).
-        - `schedule`: ignores the payload and reports the next fire time.
+        - `schedule`: validates the stored trigger payload and its step references, and
+          reports the next fire time; request payload overrides are ignored.
 
         The response reports `wouldFire` — whether the flow would actually run right now
         — alongside the gates that decide it (enabled, device attached, blocked,
@@ -667,6 +685,42 @@ class FlowsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FlowListRepairsResponse,
+        )
+
+    def retrieve_repair(
+        self,
+        episode_id: str,
+        *,
+        flow_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowRetrieveRepairResponse:
+        """
+        Get a self-healing repair episode
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        if not episode_id:
+            raise ValueError(f"Expected a non-empty value for `episode_id` but received {episode_id!r}")
+        return self._get(
+            path_template("/flows/{flow_id}/repairs/{episode_id}", flow_id=flow_id, episode_id=episode_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FlowRetrieveRepairResponse,
         )
 
     def run(
@@ -809,14 +863,15 @@ class FlowsResource(SyncAPIResource):
             cast_to=FlowUnblockResponse,
         )
 
+    @overload
     def validate(
         self,
         *,
-        actions: Iterable[flow_validate_params.Action],
+        actions: Iterable[flow_validate_params.Variant0Action],
         name: str,
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
-        delivery: flow_validate_params.Delivery | Omit = omit,
+        delivery: flow_validate_params.Variant0Delivery | Omit = omit,
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
@@ -824,8 +879,9 @@ class FlowsResource(SyncAPIResource):
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
-        recording_policy: flow_validate_params.RecordingPolicy | Omit = omit,
+        recording_policy: flow_validate_params.Variant0RecordingPolicy | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -851,6 +907,74 @@ class FlowsResource(SyncAPIResource):
 
           idempotency_key: Specify a custom idempotency key for this request
         """
+        ...
+
+    @overload
+    def validate(
+        self,
+        *,
+        draft: flow_validate_params.Variant1Draft,
+        agent_id: str | Omit = omit,
+        contract: flow_validate_params.Variant1Contract | Omit = omit,
+        verify: flow_validate_params.Variant1Verify | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowValidateResponse:
+        """
+        Validate a flow
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        ...
+
+    @required_args(["actions", "name"], ["draft"])
+    def validate(
+        self,
+        *,
+        actions: Iterable[flow_validate_params.Variant0Action] | Omit = omit,
+        name: str | Omit = omit,
+        cooldown_scope: Literal["flow", "device"] | Omit = omit,
+        cooldown_seconds: Optional[int] | Omit = omit,
+        delivery: flow_validate_params.Variant0Delivery | Omit = omit,
+        description: str | Omit = omit,
+        device_ids: SequenceNotStr[str] | Omit = omit,
+        enabled: bool | Omit = omit,
+        health_monitoring_enabled: bool | Omit = omit,
+        notify_on_failure: bool | Omit = omit,
+        notify_on_success: bool | Omit = omit,
+        notify_webhook_id: Optional[str] | Omit = omit,
+        owner_wake: Literal["final", "off"] | Omit = omit,
+        recording_enabled: bool | Omit = omit,
+        recording_policy: flow_validate_params.Variant0RecordingPolicy | Omit = omit,
+        self_healing_enabled: bool | Omit = omit,
+        self_healing_max_attempts: int | Omit = omit,
+        trigger_id: str | Omit = omit,
+        draft: flow_validate_params.Variant1Draft | Omit = omit,
+        agent_id: str | Omit = omit,
+        contract: flow_validate_params.Variant1Contract | Omit = omit,
+        verify: flow_validate_params.Variant1Verify | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowValidateResponse:
         return self._post(
             "/flows/validate",
             body=maybe_transform(
@@ -867,11 +991,16 @@ class FlowsResource(SyncAPIResource):
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "owner_wake": owner_wake,
                     "recording_enabled": recording_enabled,
                     "recording_policy": recording_policy,
                     "self_healing_enabled": self_healing_enabled,
                     "self_healing_max_attempts": self_healing_max_attempts,
                     "trigger_id": trigger_id,
+                    "draft": draft,
+                    "agent_id": agent_id,
+                    "contract": contract,
+                    "verify": verify,
                 },
                 flow_validate_params.FlowValidateParams,
             ),
@@ -919,7 +1048,8 @@ class FlowsResource(SyncAPIResource):
         - `event`: validates the payload against the event catalog schema and evaluates
           the trigger conditions; a failing gate returns 409 `conditions_not_met` with
           the dry-run report.
-        - `schedule`: the payload is ignored.
+        - `schedule`: uses the stored trigger payload as event.payload; request payload
+          overrides are ignored.
 
         Args:
           invocation_id: Client-supplied idempotency key. A repeat request for the same (flow,
@@ -969,6 +1099,10 @@ class AsyncFlowsResource(AsyncAPIResource):
         return AsyncActionsResource(self._client)
 
     @cached_property
+    def state(self) -> AsyncStateResource:
+        return AsyncStateResource(self._client)
+
+    @cached_property
     def with_raw_response(self) -> AsyncFlowsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
@@ -1003,6 +1137,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_create_params.RecordingPolicy | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
@@ -1053,6 +1188,7 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "owner_wake": owner_wake,
                     "recording_enabled": recording_enabled,
                     "recording_policy": recording_policy,
                     "self_healing_enabled": self_healing_enabled,
@@ -1120,6 +1256,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_update_params.RecordingPolicy | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
@@ -1173,6 +1310,7 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "owner_wake": owner_wake,
                     "recording_enabled": recording_enabled,
                     "recording_policy": recording_policy,
                     "self_healing_enabled": self_healing_enabled,
@@ -1508,7 +1646,8 @@ class AsyncFlowsResource(AsyncAPIResource):
           the trigger conditions.
         - `custom`: validates the payload against the custom payload schema (conditions
           do not apply).
-        - `schedule`: ignores the payload and reports the next fire time.
+        - `schedule`: validates the stored trigger payload and its step references, and
+          reports the next fire time; request payload overrides are ignored.
 
         The response reports `wouldFire` — whether the flow would actually run right now
         — alongside the gates that decide it (enabled, device attached, blocked,
@@ -1571,6 +1710,42 @@ class AsyncFlowsResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FlowListRepairsResponse,
+        )
+
+    async def retrieve_repair(
+        self,
+        episode_id: str,
+        *,
+        flow_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowRetrieveRepairResponse:
+        """
+        Get a self-healing repair episode
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        if not episode_id:
+            raise ValueError(f"Expected a non-empty value for `episode_id` but received {episode_id!r}")
+        return await self._get(
+            path_template("/flows/{flow_id}/repairs/{episode_id}", flow_id=flow_id, episode_id=episode_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FlowRetrieveRepairResponse,
         )
 
     async def run(
@@ -1713,14 +1888,15 @@ class AsyncFlowsResource(AsyncAPIResource):
             cast_to=FlowUnblockResponse,
         )
 
+    @overload
     async def validate(
         self,
         *,
-        actions: Iterable[flow_validate_params.Action],
+        actions: Iterable[flow_validate_params.Variant0Action],
         name: str,
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
-        delivery: flow_validate_params.Delivery | Omit = omit,
+        delivery: flow_validate_params.Variant0Delivery | Omit = omit,
         description: str | Omit = omit,
         device_ids: SequenceNotStr[str] | Omit = omit,
         enabled: bool | Omit = omit,
@@ -1728,8 +1904,9 @@ class AsyncFlowsResource(AsyncAPIResource):
         notify_on_failure: bool | Omit = omit,
         notify_on_success: bool | Omit = omit,
         notify_webhook_id: Optional[str] | Omit = omit,
+        owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
-        recording_policy: flow_validate_params.RecordingPolicy | Omit = omit,
+        recording_policy: flow_validate_params.Variant0RecordingPolicy | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -1755,6 +1932,74 @@ class AsyncFlowsResource(AsyncAPIResource):
 
           idempotency_key: Specify a custom idempotency key for this request
         """
+        ...
+
+    @overload
+    async def validate(
+        self,
+        *,
+        draft: flow_validate_params.Variant1Draft,
+        agent_id: str | Omit = omit,
+        contract: flow_validate_params.Variant1Contract | Omit = omit,
+        verify: flow_validate_params.Variant1Verify | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowValidateResponse:
+        """
+        Validate a flow
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        ...
+
+    @required_args(["actions", "name"], ["draft"])
+    async def validate(
+        self,
+        *,
+        actions: Iterable[flow_validate_params.Variant0Action] | Omit = omit,
+        name: str | Omit = omit,
+        cooldown_scope: Literal["flow", "device"] | Omit = omit,
+        cooldown_seconds: Optional[int] | Omit = omit,
+        delivery: flow_validate_params.Variant0Delivery | Omit = omit,
+        description: str | Omit = omit,
+        device_ids: SequenceNotStr[str] | Omit = omit,
+        enabled: bool | Omit = omit,
+        health_monitoring_enabled: bool | Omit = omit,
+        notify_on_failure: bool | Omit = omit,
+        notify_on_success: bool | Omit = omit,
+        notify_webhook_id: Optional[str] | Omit = omit,
+        owner_wake: Literal["final", "off"] | Omit = omit,
+        recording_enabled: bool | Omit = omit,
+        recording_policy: flow_validate_params.Variant0RecordingPolicy | Omit = omit,
+        self_healing_enabled: bool | Omit = omit,
+        self_healing_max_attempts: int | Omit = omit,
+        trigger_id: str | Omit = omit,
+        draft: flow_validate_params.Variant1Draft | Omit = omit,
+        agent_id: str | Omit = omit,
+        contract: flow_validate_params.Variant1Contract | Omit = omit,
+        verify: flow_validate_params.Variant1Verify | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowValidateResponse:
         return await self._post(
             "/flows/validate",
             body=await async_maybe_transform(
@@ -1771,11 +2016,16 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "notify_on_failure": notify_on_failure,
                     "notify_on_success": notify_on_success,
                     "notify_webhook_id": notify_webhook_id,
+                    "owner_wake": owner_wake,
                     "recording_enabled": recording_enabled,
                     "recording_policy": recording_policy,
                     "self_healing_enabled": self_healing_enabled,
                     "self_healing_max_attempts": self_healing_max_attempts,
                     "trigger_id": trigger_id,
+                    "draft": draft,
+                    "agent_id": agent_id,
+                    "contract": contract,
+                    "verify": verify,
                 },
                 flow_validate_params.FlowValidateParams,
             ),
@@ -1823,7 +2073,8 @@ class AsyncFlowsResource(AsyncAPIResource):
         - `event`: validates the payload against the event catalog schema and evaluates
           the trigger conditions; a failing gate returns 409 `conditions_not_met` with
           the dry-run report.
-        - `schedule`: the payload is ignored.
+        - `schedule`: uses the stored trigger payload as event.payload; request payload
+          overrides are ignored.
 
         Args:
           invocation_id: Client-supplied idempotency key. A repeat request for the same (flow,
@@ -1904,6 +2155,9 @@ class FlowsResourceWithRawResponse:
         self.list_repairs = to_raw_response_wrapper(
             flows.list_repairs,
         )
+        self.retrieve_repair = to_raw_response_wrapper(
+            flows.retrieve_repair,
+        )
         self.run = to_raw_response_wrapper(
             flows.run,
         )
@@ -1923,6 +2177,10 @@ class FlowsResourceWithRawResponse:
     @cached_property
     def actions(self) -> ActionsResourceWithRawResponse:
         return ActionsResourceWithRawResponse(self._flows.actions)
+
+    @cached_property
+    def state(self) -> StateResourceWithRawResponse:
+        return StateResourceWithRawResponse(self._flows.state)
 
 
 class AsyncFlowsResourceWithRawResponse:
@@ -1962,6 +2220,9 @@ class AsyncFlowsResourceWithRawResponse:
         self.list_repairs = async_to_raw_response_wrapper(
             flows.list_repairs,
         )
+        self.retrieve_repair = async_to_raw_response_wrapper(
+            flows.retrieve_repair,
+        )
         self.run = async_to_raw_response_wrapper(
             flows.run,
         )
@@ -1981,6 +2242,10 @@ class AsyncFlowsResourceWithRawResponse:
     @cached_property
     def actions(self) -> AsyncActionsResourceWithRawResponse:
         return AsyncActionsResourceWithRawResponse(self._flows.actions)
+
+    @cached_property
+    def state(self) -> AsyncStateResourceWithRawResponse:
+        return AsyncStateResourceWithRawResponse(self._flows.state)
 
 
 class FlowsResourceWithStreamingResponse:
@@ -2020,6 +2285,9 @@ class FlowsResourceWithStreamingResponse:
         self.list_repairs = to_streamed_response_wrapper(
             flows.list_repairs,
         )
+        self.retrieve_repair = to_streamed_response_wrapper(
+            flows.retrieve_repair,
+        )
         self.run = to_streamed_response_wrapper(
             flows.run,
         )
@@ -2039,6 +2307,10 @@ class FlowsResourceWithStreamingResponse:
     @cached_property
     def actions(self) -> ActionsResourceWithStreamingResponse:
         return ActionsResourceWithStreamingResponse(self._flows.actions)
+
+    @cached_property
+    def state(self) -> StateResourceWithStreamingResponse:
+        return StateResourceWithStreamingResponse(self._flows.state)
 
 
 class AsyncFlowsResourceWithStreamingResponse:
@@ -2078,6 +2350,9 @@ class AsyncFlowsResourceWithStreamingResponse:
         self.list_repairs = async_to_streamed_response_wrapper(
             flows.list_repairs,
         )
+        self.retrieve_repair = async_to_streamed_response_wrapper(
+            flows.retrieve_repair,
+        )
         self.run = async_to_streamed_response_wrapper(
             flows.run,
         )
@@ -2097,3 +2372,7 @@ class AsyncFlowsResourceWithStreamingResponse:
     @cached_property
     def actions(self) -> AsyncActionsResourceWithStreamingResponse:
         return AsyncActionsResourceWithStreamingResponse(self._flows.actions)
+
+    @cached_property
+    def state(self) -> AsyncStateResourceWithStreamingResponse:
+        return AsyncStateResourceWithStreamingResponse(self._flows.state)

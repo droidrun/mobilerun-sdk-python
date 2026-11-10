@@ -297,6 +297,7 @@ class TestFiles:
             filename="x",
             mime_type="x",
             size_bytes=1,
+            chat_session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             zone="user",
         )
         assert_matches_type(FileUploadURLResponse, file, path=["response"])
@@ -610,6 +611,7 @@ class TestAsyncFiles:
             filename="x",
             mime_type="x",
             size_bytes=1,
+            chat_session_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             zone="user",
         )
         assert_matches_type(FileUploadURLResponse, file, path=["response"])

@@ -71,4 +71,6 @@ class FileUpdateResponse(BaseModel):
 
     zone: Literal["user", "agent", "workflow", "skills"]
 
+    agent_id: Optional[str] = FieldInfo(alias="agentId", default=None)
+
     collection_status: Optional[CollectionStatus] = FieldInfo(alias="collectionStatus", default=None)

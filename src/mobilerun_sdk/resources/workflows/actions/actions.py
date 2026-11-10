@@ -26,7 +26,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.workflows import action_list_params, action_create_params, action_update_params
+from ....types.workflows import action_list_params, action_create_params, action_update_params, action_retrieve_params
 from ....types.workflows.action_list_response import ActionListResponse
 from ....types.workflows.action_create_response import ActionCreateResponse
 from ....types.workflows.action_delete_response import ActionDeleteResponse
@@ -120,6 +120,7 @@ class ActionsResource(SyncAPIResource):
         self,
         action_id: str,
         *,
+        profile: Literal["agent_routine"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -129,9 +130,12 @@ class ActionsResource(SyncAPIResource):
     ) -> ActionRetrieveResponse:
         """
         Fetch a single action by its ID, including its configured service, method, and
-        params. Returns 404 if no action matches.
+        params. Supports `profile=agent_routine`; returns 404 if no action matches or
+        the action is outside that profile.
 
         Args:
+          profile: Restrict reads to the agent routine step surface.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -145,7 +149,11 @@ class ActionsResource(SyncAPIResource):
         return self._get(
             path_template("/actions/{action_id}", action_id=action_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"profile": profile}, action_retrieve_params.ActionRetrieveParams),
             ),
             cast_to=ActionRetrieveResponse,
         )
@@ -209,8 +217,10 @@ class ActionsResource(SyncAPIResource):
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        profile: Literal["agent_routine"] | Omit = omit,
         search: str | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"] | Omit = omit,
+        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -220,10 +230,13 @@ class ActionsResource(SyncAPIResource):
     ) -> ActionListResponse:
         """Return a paginated list of actions.
 
-        Supports filtering by `service`, free-text
-        `search`, and ordering by name, createdAt, or updatedAt.
+        Supports filtering by
+        `profile=agent_routine`, `service`, free-text `search`, and ordering by name,
+        createdAt, or updatedAt.
 
         Args:
+          profile: Restrict reads to the agent routine step surface.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -245,6 +258,7 @@ class ActionsResource(SyncAPIResource):
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
+                        "profile": profile,
                         "search": search,
                         "service": service,
                     },
@@ -380,6 +394,7 @@ class AsyncActionsResource(AsyncAPIResource):
         self,
         action_id: str,
         *,
+        profile: Literal["agent_routine"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -389,9 +404,12 @@ class AsyncActionsResource(AsyncAPIResource):
     ) -> ActionRetrieveResponse:
         """
         Fetch a single action by its ID, including its configured service, method, and
-        params. Returns 404 if no action matches.
+        params. Supports `profile=agent_routine`; returns 404 if no action matches or
+        the action is outside that profile.
 
         Args:
+          profile: Restrict reads to the agent routine step surface.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -405,7 +423,11 @@ class AsyncActionsResource(AsyncAPIResource):
         return await self._get(
             path_template("/actions/{action_id}", action_id=action_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"profile": profile}, action_retrieve_params.ActionRetrieveParams),
             ),
             cast_to=ActionRetrieveResponse,
         )
@@ -469,8 +491,10 @@ class AsyncActionsResource(AsyncAPIResource):
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        profile: Literal["agent_routine"] | Omit = omit,
         search: str | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"] | Omit = omit,
+        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -480,10 +504,13 @@ class AsyncActionsResource(AsyncAPIResource):
     ) -> ActionListResponse:
         """Return a paginated list of actions.
 
-        Supports filtering by `service`, free-text
-        `search`, and ordering by name, createdAt, or updatedAt.
+        Supports filtering by
+        `profile=agent_routine`, `service`, free-text `search`, and ordering by name,
+        createdAt, or updatedAt.
 
         Args:
+          profile: Restrict reads to the agent routine step surface.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -505,6 +532,7 @@ class AsyncActionsResource(AsyncAPIResource):
                         "order_by_direction": order_by_direction,
                         "page": page,
                         "page_size": page_size,
+                        "profile": profile,
                         "search": search,
                         "service": service,
                     },

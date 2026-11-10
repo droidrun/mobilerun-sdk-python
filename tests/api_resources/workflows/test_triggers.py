@@ -46,6 +46,7 @@ class TestTriggers:
             custom_payload_schema={"foo": "bar"},
             description="description",
             event_type="eventType",
+            payload={"foo": "bar"},
             schedule_rule={
                 "type": "once",
                 "date_time": "dateTime",
@@ -152,6 +153,7 @@ class TestTriggers:
             description="description",
             event_type="eventType",
             name="x",
+            payload={"foo": "bar"},
             schedule_rule={
                 "type": "once",
                 "date_time": "dateTime",
@@ -358,6 +360,7 @@ class TestAsyncTriggers:
             custom_payload_schema={"foo": "bar"},
             description="description",
             event_type="eventType",
+            payload={"foo": "bar"},
             schedule_rule={
                 "type": "once",
                 "date_time": "dateTime",
@@ -464,6 +467,7 @@ class TestAsyncTriggers:
             description="description",
             event_type="eventType",
             name="x",
+            payload={"foo": "bar"},
             schedule_rule={
                 "type": "once",
                 "date_time": "dateTime",

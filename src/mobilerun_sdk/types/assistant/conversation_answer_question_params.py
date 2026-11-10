@@ -15,6 +15,8 @@ class ConversationAnswerQuestionParams(TypedDict, total=False):
 
     question_id: Required[Annotated[str, PropertyInfo(alias="questionId")]]
 
+    session_id: Annotated[str, PropertyInfo(alias="sessionId")]
+
 
 class AnswerLabel(TypedDict, total=False):
     label: Required[str]

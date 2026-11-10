@@ -481,6 +481,40 @@ Methods:
 - <code title="get /devices/{deviceId}/traffic/sessions">client.devices.traffic_sessions.<a href="./src/mobilerun_sdk/resources/devices/traffic_sessions.py">list</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/traffic_session_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/traffic_session_list_response.py">TrafficSessionListResponse</a></code>
 - <code title="delete /devices/{deviceId}/traffic/sessions/{sessionId}">client.devices.traffic_sessions.<a href="./src/mobilerun_sdk/resources/devices/traffic_sessions.py">delete</a>(session_id, \*, device_id) -> <a href="./src/mobilerun_sdk/types/devices/traffic_session_delete_response.py">TrafficSessionDeleteResponse</a></code>
 
+## Number
+
+Types:
+
+```python
+from mobilerun_sdk.types.devices import (
+    NumberRetrieveResponse,
+    NumberBindResponse,
+    NumberUnbindResponse,
+)
+```
+
+Methods:
+
+- <code title="get /devices/{deviceId}/number">client.devices.number.<a href="./src/mobilerun_sdk/resources/devices/number.py">retrieve</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/number_retrieve_response.py">NumberRetrieveResponse</a></code>
+- <code title="post /devices/{deviceId}/number">client.devices.number.<a href="./src/mobilerun_sdk/resources/devices/number.py">bind</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/number_bind_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/number_bind_response.py">NumberBindResponse</a></code>
+- <code title="delete /devices/{deviceId}/number">client.devices.number.<a href="./src/mobilerun_sdk/resources/devices/number.py">unbind</a>(device_id) -> <a href="./src/mobilerun_sdk/types/devices/number_unbind_response.py">NumberUnbindResponse</a></code>
+
+## NumberBindings
+
+Types:
+
+```python
+from mobilerun_sdk.types.devices import (
+    NumberBindingListResponse,
+    NumberBindingListCandidatesResponse,
+)
+```
+
+Methods:
+
+- <code title="get /devices/number-bindings">client.devices.number_bindings.<a href="./src/mobilerun_sdk/resources/devices/number_bindings.py">list</a>() -> <a href="./src/mobilerun_sdk/types/devices/number_binding_list_response.py">NumberBindingListResponse</a></code>
+- <code title="get /devices/number-bindings/candidates">client.devices.number_bindings.<a href="./src/mobilerun_sdk/resources/devices/number_bindings.py">list_candidates</a>() -> <a href="./src/mobilerun_sdk/types/devices/number_binding_list_candidates_response.py">NumberBindingListCandidatesResponse</a></code>
+
 # Models
 
 Types:
@@ -671,7 +705,7 @@ from mobilerun_sdk.types.workflows import ActionCatalogRetrieveResponse, ActionC
 
 Methods:
 
-- <code title="get /action-catalog/{catalogEntryId}">client.workflows.action_catalog.<a href="./src/mobilerun_sdk/resources/workflows/action_catalog.py">retrieve</a>(catalog_entry_id) -> <a href="./src/mobilerun_sdk/types/workflows/action_catalog_retrieve_response.py">ActionCatalogRetrieveResponse</a></code>
+- <code title="get /action-catalog/{catalogEntryId}">client.workflows.action_catalog.<a href="./src/mobilerun_sdk/resources/workflows/action_catalog.py">retrieve</a>(catalog_entry_id, \*\*<a href="src/mobilerun_sdk/types/workflows/action_catalog_retrieve_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/action_catalog_retrieve_response.py">ActionCatalogRetrieveResponse</a></code>
 - <code title="get /action-catalog">client.workflows.action_catalog.<a href="./src/mobilerun_sdk/resources/workflows/action_catalog.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/action_catalog_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/action_catalog_list_response.py">ActionCatalogListResponse</a></code>
 
 ## Actions
@@ -691,7 +725,7 @@ from mobilerun_sdk.types.workflows import (
 Methods:
 
 - <code title="post /actions">client.workflows.actions.<a href="./src/mobilerun_sdk/resources/workflows/actions/actions.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/action_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/action_create_response.py">ActionCreateResponse</a></code>
-- <code title="get /actions/{actionId}">client.workflows.actions.<a href="./src/mobilerun_sdk/resources/workflows/actions/actions.py">retrieve</a>(action_id) -> <a href="./src/mobilerun_sdk/types/workflows/action_retrieve_response.py">ActionRetrieveResponse</a></code>
+- <code title="get /actions/{actionId}">client.workflows.actions.<a href="./src/mobilerun_sdk/resources/workflows/actions/actions.py">retrieve</a>(action_id, \*\*<a href="src/mobilerun_sdk/types/workflows/action_retrieve_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/action_retrieve_response.py">ActionRetrieveResponse</a></code>
 - <code title="patch /actions/{actionId}">client.workflows.actions.<a href="./src/mobilerun_sdk/resources/workflows/actions/actions.py">update</a>(action_id, \*\*<a href="src/mobilerun_sdk/types/workflows/action_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/action_update_response.py">ActionUpdateResponse</a></code>
 - <code title="get /actions">client.workflows.actions.<a href="./src/mobilerun_sdk/resources/workflows/actions/actions.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/action_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/action_list_response.py">ActionListResponse</a></code>
 - <code title="delete /actions/{actionId}">client.workflows.actions.<a href="./src/mobilerun_sdk/resources/workflows/actions/actions.py">delete</a>(action_id) -> <a href="./src/mobilerun_sdk/types/workflows/action_delete_response.py">ActionDeleteResponse</a></code>
@@ -726,6 +760,7 @@ from mobilerun_sdk.types.workflows import (
     FlowDeliveryOptionsResponse,
     FlowDryRunResponse,
     FlowListRepairsResponse,
+    FlowRetrieveRepairResponse,
     FlowRunResponse,
     FlowTemplateContextResponse,
     FlowUnblockResponse,
@@ -747,6 +782,7 @@ Methods:
 - <code title="get /flows/{flowId}/delivery-options">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">delivery_options</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_delivery_options_response.py">FlowDeliveryOptionsResponse</a></code>
 - <code title="post /flows/{flowId}/dry-run">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">dry_run</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_dry_run_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_dry_run_response.py">FlowDryRunResponse</a></code>
 - <code title="get /flows/{flowId}/repairs">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">list_repairs</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_list_repairs_response.py">FlowListRepairsResponse</a></code>
+- <code title="get /flows/{flowId}/repairs/{episodeId}">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">retrieve_repair</a>(episode_id, \*, flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_retrieve_repair_response.py">FlowRetrieveRepairResponse</a></code>
 - <code title="post /flows/{flowId}/run">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">run</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_run_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_run_response.py">FlowRunResponse</a></code>
 - <code title="get /flows/template-context">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">template_context</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/flow_template_context_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_template_context_response.py">FlowTemplateContextResponse</a></code>
 - <code title="post /flows/{flowId}/unblock">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">unblock</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_unblock_response.py">FlowUnblockResponse</a></code>
@@ -772,6 +808,24 @@ Methods:
 - <code title="post /flows/{flowId}/actions">client.workflows.flows.actions.<a href="./src/mobilerun_sdk/resources/workflows/flows/actions.py">add</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flows/action_add_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flows/action_add_response.py">ActionAddResponse</a></code>
 - <code title="delete /flows/{flowId}/actions/{flowActionId}">client.workflows.flows.actions.<a href="./src/mobilerun_sdk/resources/workflows/flows/actions.py">remove</a>(flow_action_id, \*, flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flows/action_remove_response.py">ActionRemoveResponse</a></code>
 - <code title="put /flows/{flowId}/actions">client.workflows.flows.actions.<a href="./src/mobilerun_sdk/resources/workflows/flows/actions.py">replace</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flows/action_replace_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flows/action_replace_response.py">ActionReplaceResponse</a></code>
+
+### State
+
+Types:
+
+```python
+from mobilerun_sdk.types.workflows.flows import (
+    StateListResponse,
+    StateDeleteResponse,
+    StateListVersionsResponse,
+)
+```
+
+Methods:
+
+- <code title="get /flows/{flowId}/state">client.workflows.flows.state.<a href="./src/mobilerun_sdk/resources/workflows/flows/state.py">list</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flows/state_list_response.py">StateListResponse</a></code>
+- <code title="delete /flows/{flowId}/state/{key}">client.workflows.flows.state.<a href="./src/mobilerun_sdk/resources/workflows/flows/state.py">delete</a>(key, \*, flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flows/state_delete_response.py">StateDeleteResponse</a></code>
+- <code title="get /flows/{flowId}/state/{key}/versions">client.workflows.flows.state.<a href="./src/mobilerun_sdk/resources/workflows/flows/state.py">list_versions</a>(key, \*, flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flows/state_list_versions_response.py">StateListVersionsResponse</a></code>
 
 ## Events
 
@@ -965,6 +1019,90 @@ Methods:
 - <code title="get /agents/files/{fileId}/download">client.files.<a href="./src/mobilerun_sdk/resources/files.py">download</a>(file_id) -> None</code>
 - <code title="post /agents/files/upload-url">client.files.<a href="./src/mobilerun_sdk/resources/files.py">upload_url</a>(\*\*<a href="src/mobilerun_sdk/types/file_upload_url_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/file_upload_url_response.py">FileUploadURLResponse</a></code>
 
+# Agents
+
+Types:
+
+```python
+from mobilerun_sdk.types import AgentCreateResponse, AgentListResponse, AgentModelProfilesResponse
+```
+
+Methods:
+
+- <code title="post /agents">client.agents.<a href="./src/mobilerun_sdk/resources/agents/agents.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/agent_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agent_create_response.py">AgentCreateResponse</a></code>
+- <code title="get /agents">client.agents.<a href="./src/mobilerun_sdk/resources/agents/agents.py">list</a>() -> <a href="./src/mobilerun_sdk/types/agent_list_response.py">AgentListResponse</a></code>
+- <code title="get /agents/model-profiles">client.agents.<a href="./src/mobilerun_sdk/resources/agents/agents.py">model_profiles</a>() -> <a href="./src/mobilerun_sdk/types/agent_model_profiles_response.py">AgentModelProfilesResponse</a></code>
+
+## Profile
+
+Types:
+
+```python
+from mobilerun_sdk.types.agents import ProfileUpdateResponse
+```
+
+Methods:
+
+- <code title="patch /agents/{agentId}/profile">client.agents.profile.<a href="./src/mobilerun_sdk/resources/agents/profile.py">update</a>(agent_id, \*\*<a href="src/mobilerun_sdk/types/agents/profile_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/profile_update_response.py">ProfileUpdateResponse</a></code>
+
+## Files
+
+Types:
+
+```python
+from mobilerun_sdk.types.agents import FileListResponse
+```
+
+Methods:
+
+- <code title="get /agents/{agentId}/files">client.agents.files.<a href="./src/mobilerun_sdk/resources/agents/files.py">list</a>(agent_id, \*\*<a href="src/mobilerun_sdk/types/agents/file_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/file_list_response.py">FileListResponse</a></code>
+
+## Conversations
+
+Types:
+
+```python
+from mobilerun_sdk.types.agents import ConversationCreateResponse, ConversationListResponse
+```
+
+Methods:
+
+- <code title="post /agents/{agentId}/chat/sessions">client.agents.conversations.<a href="./src/mobilerun_sdk/resources/agents/conversations.py">create</a>(agent_id, \*\*<a href="src/mobilerun_sdk/types/agents/conversation_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/conversation_create_response.py">ConversationCreateResponse</a></code>
+- <code title="get /agents/{agentId}/chat/sessions">client.agents.conversations.<a href="./src/mobilerun_sdk/resources/agents/conversations.py">list</a>(agent_id, \*\*<a href="src/mobilerun_sdk/types/agents/conversation_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/conversation_list_response.py">ConversationListResponse</a></code>
+
+## Requests
+
+Types:
+
+```python
+from mobilerun_sdk.types.agents import (
+    RequestRetrieveResponse,
+    RequestListResponse,
+    RequestListForAgentResponse,
+    RequestRetrieveBySessionResponse,
+)
+```
+
+Methods:
+
+- <code title="get /agents/requests/{requestId}">client.agents.requests.<a href="./src/mobilerun_sdk/resources/agents/requests.py">retrieve</a>(request_id) -> <a href="./src/mobilerun_sdk/types/agents/request_retrieve_response.py">RequestRetrieveResponse</a></code>
+- <code title="get /agents/requests">client.agents.requests.<a href="./src/mobilerun_sdk/resources/agents/requests.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/agents/request_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/request_list_response.py">RequestListResponse</a></code>
+- <code title="get /agents/{agentId}/requests">client.agents.requests.<a href="./src/mobilerun_sdk/resources/agents/requests.py">list_for_agent</a>(agent_id, \*\*<a href="src/mobilerun_sdk/types/agents/request_list_for_agent_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/request_list_for_agent_response.py">RequestListForAgentResponse</a></code>
+- <code title="get /agents/sessions/{sessionId}/request">client.agents.requests.<a href="./src/mobilerun_sdk/resources/agents/requests.py">retrieve_by_session</a>(session_id) -> <a href="./src/mobilerun_sdk/types/agents/request_retrieve_by_session_response.py">RequestRetrieveBySessionResponse</a></code>
+
+## Routines
+
+Types:
+
+```python
+from mobilerun_sdk.types.agents import RoutineCreateResponse, RoutineCloneResponse
+```
+
+Methods:
+
+- <code title="post /agents/{agentId}/routines">client.agents.routines.<a href="./src/mobilerun_sdk/resources/agents/routines.py">create</a>(agent_id, \*\*<a href="src/mobilerun_sdk/types/agents/routine_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/routine_create_response.py">RoutineCreateResponse</a></code>
+- <code title="post /agents/{agentId}/routines/{routineId}/clone">client.agents.routines.<a href="./src/mobilerun_sdk/resources/agents/routines.py">clone</a>(routine_id, \*, agent_id, \*\*<a href="src/mobilerun_sdk/types/agents/routine_clone_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/agents/routine_clone_response.py">RoutineCloneResponse</a></code>
+
 # Assistant
 
 ## Conversations
@@ -994,7 +1132,7 @@ Methods:
 - <code title="post /assistant/chat/abort">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">abort</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_abort_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_abort_response.py">ConversationAbortResponse</a></code>
 - <code title="post /assistant/chat/permission">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">answer_permission</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_answer_permission_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_answer_permission_response.py">ConversationAnswerPermissionResponse</a></code>
 - <code title="post /assistant/chat/question">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">answer_question</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_answer_question_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_answer_question_response.py">ConversationAnswerQuestionResponse</a></code>
-- <code title="get /assistant/chat/messages">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">history</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_history_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_history_response.py">ConversationHistoryResponse</a></code>
+- <code title="get /assistant/chat/sessions/{id}/messages">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">history</a>(id, \*\*<a href="src/mobilerun_sdk/types/assistant/conversation_history_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_history_response.py">ConversationHistoryResponse</a></code>
 - <code title="post /assistant/chat/question/reject">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">reject_question</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_reject_question_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_reject_question_response.py">ConversationRejectQuestionResponse</a></code>
 - <code title="post /assistant/chat/message">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">send</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_send_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/assistant/conversation_send_response.py">ConversationSendResponse</a></code>
 - <code title="get /assistant/chat/stream">client.assistant.conversations.<a href="./src/mobilerun_sdk/resources/assistant/conversations.py">stream</a>(\*\*<a href="src/mobilerun_sdk/types/assistant/conversation_stream_params.py">params</a>) -> str</code>

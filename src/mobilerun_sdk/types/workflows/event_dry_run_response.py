@@ -39,7 +39,7 @@ class DataMatchedFlowAction(BaseModel):
 
     recording_enabled: bool = FieldInfo(alias="recordingEnabled")
 
-    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api"]
+    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
 
     children: Optional[List[object]] = None
     """
@@ -58,7 +58,17 @@ class DataMatchedFlowFlowDelivery(BaseModel):
     destination: Literal["mobilerun", "one_drive", "google_drive"]
 
     folder: Optional[str] = None
-    """not allowed when destination is mobilerun"""
+    """Absolute destination folder; not allowed when destination is mobilerun.
+
+    May contain {{meta.<name>}} (for example {{meta.shortDate}} = YYMMDD,
+    {{meta.fileTime}} = HH-mm, in the trigger timezone) and
+    {{event.payload.<field>}} placeholders, resolved once per run so every artifact
+    of that run lands in the same folder. Each substituted value must be a single
+    safe folder name (no "/", "\", "..", control characters); otherwise delivery
+    fails with invalid_delivery_folder. With a placeholder folder, screenshots are
+    delivered directly into the resolved folder; with a static folder they go into a
+    per-run "<flow>-<timestamp>-<id>-screenshots" subfolder.
+    """
 
     recording: Optional[DataMatchedFlowFlowDeliveryRecording] = None
 
@@ -105,8 +115,22 @@ class DataMatchedFlowFlow(BaseModel):
     last_failure_at: Optional[datetime] = FieldInfo(alias="lastFailureAt", default=None)
 
     last_failure_code: Optional[
-        Literal["device_not_found", "permission_denied", "client_error", "transient", "logic", "invalid_config"]
+        Literal[
+            "device_not_found",
+            "device_unavailable",
+            "permission_denied",
+            "client_error",
+            "transient",
+            "logic",
+            "invalid_config",
+        ]
     ] = FieldInfo(alias="lastFailureCode", default=None)
+    """Curated flow failure class.
+
+    device_unavailable blocks immediately for a terminated device or a device
+    confirmed gone; event deviceState="gone" is triggers-defined for a
+    deleted/not-found device.
+    """
 
     last_triggered_at: Optional[datetime] = FieldInfo(alias="lastTriggeredAt", default=None)
 
@@ -122,6 +146,8 @@ class DataMatchedFlowFlow(BaseModel):
 
     owner_id: str = FieldInfo(alias="ownerId")
 
+    owner_wake: Literal["final", "off"] = FieldInfo(alias="ownerWake")
+
     recording_enabled: bool = FieldInfo(alias="recordingEnabled")
     """
     Deprecated: use recordingPolicy.mode ("flow" = recordingEnabled=true, "off" =
@@ -129,6 +155,12 @@ class DataMatchedFlowFlow(BaseModel):
     """
 
     recording_policy: DataMatchedFlowFlowRecordingPolicy = FieldInfo(alias="recordingPolicy")
+
+    result_delivery: Literal["none", "message", "wake"] = FieldInfo(alias="resultDelivery")
+    """
+    Effective routine result delivery: the stored setting, else message for a chat
+    sink, else none.
+    """
 
     self_healing_enabled: bool = FieldInfo(alias="selfHealingEnabled")
 
@@ -208,6 +240,8 @@ class DataMatchedFlowTrigger(BaseModel):
     name: str
 
     owner_id: str = FieldInfo(alias="ownerId")
+
+    payload: Optional[Dict[str, object]] = None
 
     schedule_rule: DataMatchedFlowTriggerScheduleRule = FieldInfo(alias="scheduleRule")
 

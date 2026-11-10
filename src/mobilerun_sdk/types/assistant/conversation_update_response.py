@@ -15,6 +15,8 @@ class Session(BaseModel):
 
     agent: Optional[str] = None
 
+    agent_id: Optional[str] = FieldInfo(alias="agentId", default=None)
+
     base_prompt_tokens: Optional[float] = FieldInfo(alias="basePromptTokens", default=None)
 
     context_exhausted_at: Optional[str] = FieldInfo(alias="contextExhaustedAt", default=None)

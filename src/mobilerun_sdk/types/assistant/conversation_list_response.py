@@ -15,6 +15,8 @@ class SessionUnionMember0(BaseModel):
 
     agent: Optional[str] = None
 
+    agent_id: Optional[str] = FieldInfo(alias="agentId", default=None)
+
     base_prompt_tokens: Optional[float] = FieldInfo(alias="basePromptTokens", default=None)
 
     context_exhausted_at: Optional[str] = FieldInfo(alias="contextExhaustedAt", default=None)
@@ -60,6 +62,8 @@ class SessionUnionMember1(BaseModel):
     id: str
 
     agent: Optional[str] = None
+
+    agent_id: Optional[str] = FieldInfo(alias="agentId", default=None)
 
     base_prompt_tokens: Optional[float] = FieldInfo(alias="basePromptTokens", default=None)
 

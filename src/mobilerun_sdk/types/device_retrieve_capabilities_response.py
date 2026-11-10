@@ -61,6 +61,8 @@ class Capabilities(BaseModel):
 
     stream: bool
 
+    telephony: bool
+
     time: bool
 
     traffic_inspection: bool = FieldInfo(alias="trafficInspection")
