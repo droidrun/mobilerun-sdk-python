@@ -404,7 +404,7 @@ class TestMobilerun:
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
-        with update_env(**{"MOBILERUN_CLOUD_API_KEY": Omit()}):
+        with update_env(**{"MOBILERUN_API_KEY": Omit()}):
             client2 = Mobilerun(base_url=base_url, api_key=None, _strict_response_validation=True)
 
         with pytest.raises(
@@ -1359,7 +1359,7 @@ class TestAsyncMobilerun:
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
-        with update_env(**{"MOBILERUN_CLOUD_API_KEY": Omit()}):
+        with update_env(**{"MOBILERUN_API_KEY": Omit()}):
             client2 = AsyncMobilerun(base_url=base_url, api_key=None, _strict_response_validation=True)
 
         with pytest.raises(
