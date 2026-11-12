@@ -549,6 +549,29 @@ Methods:
 - <code title="get /proxies">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/proxy_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/proxy_list_response.py">ProxyListResponse</a></code>
 - <code title="delete /proxies/{proxyId}">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">delete</a>(proxy_id) -> <a href="./src/mobilerun_sdk/types/proxy_delete_response.py">ProxyDeleteResponse</a></code>
 
+# Scripts
+
+Types:
+
+```python
+from mobilerun_sdk.types import (
+    Script,
+    ScriptSource,
+    ScriptCreateResponse,
+    ScriptRetrieveResponse,
+    ScriptListResponse,
+    ScriptSourceResponse,
+)
+```
+
+Methods:
+
+- <code title="post /sandbox/scripts">client.scripts.<a href="./src/mobilerun_sdk/resources/scripts.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/script_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/script_create_response.py">ScriptCreateResponse</a></code>
+- <code title="get /sandbox/scripts/{scriptId}">client.scripts.<a href="./src/mobilerun_sdk/resources/scripts.py">retrieve</a>(script_id) -> <a href="./src/mobilerun_sdk/types/script_retrieve_response.py">ScriptRetrieveResponse</a></code>
+- <code title="get /sandbox/scripts">client.scripts.<a href="./src/mobilerun_sdk/resources/scripts.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/script_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/script_list_response.py">ScriptListResponse</a></code>
+- <code title="delete /sandbox/scripts/{scriptId}">client.scripts.<a href="./src/mobilerun_sdk/resources/scripts.py">delete</a>(script_id) -> None</code>
+- <code title="get /sandbox/scripts/{scriptId}/source">client.scripts.<a href="./src/mobilerun_sdk/resources/scripts.py">source</a>(script_id) -> <a href="./src/mobilerun_sdk/types/script_source_response.py">ScriptSourceResponse</a></code>
+
 # Connect
 
 ## Countries
