@@ -404,7 +404,7 @@ class TestMobilerun:
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
-        with update_env(**{"MOBILERUN_CLOUD_API_KEY": Omit()}):
+        with update_env(**{"MOBILERUN_API_KEY": Omit(), "MOBILERUN_CLOUD_API_KEY": Omit()}):
             client2 = Mobilerun(base_url=base_url, api_key=None, _strict_response_validation=True)
 
         with pytest.raises(
@@ -417,6 +417,24 @@ class TestMobilerun:
             FinalRequestOptions(method="get", url="/foo", headers={"Authorization": Omit()})
         )
         assert request2.headers.get("Authorization") is None
+
+    def test_api_key_env_names(self) -> None:
+        none = {"MOBILERUN_API_KEY": Omit(), "MOBILERUN_CLOUD_API_KEY": Omit()}
+
+        with update_env(**{**none, "MOBILERUN_API_KEY": "new key"}):
+            assert Mobilerun(base_url=base_url, _strict_response_validation=True).api_key == "new key"
+
+        with update_env(**{**none, "MOBILERUN_CLOUD_API_KEY": "old key"}):
+            assert Mobilerun(base_url=base_url, _strict_response_validation=True).api_key == "old key"
+
+        with update_env(**{**none, "MOBILERUN_API_KEY": "", "MOBILERUN_CLOUD_API_KEY": "old key"}):
+            assert Mobilerun(base_url=base_url, _strict_response_validation=True).api_key == "old key"
+
+        with update_env(**{**none, "MOBILERUN_API_KEY": "new key", "MOBILERUN_CLOUD_API_KEY": "old key"}):
+            assert Mobilerun(base_url=base_url, _strict_response_validation=True).api_key == "new key"
+
+        with update_env(**none):
+            assert Mobilerun(base_url=base_url, _strict_response_validation=True).api_key is None
 
     def test_default_query_option(self) -> None:
         client = Mobilerun(
@@ -1359,7 +1377,7 @@ class TestAsyncMobilerun:
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
-        with update_env(**{"MOBILERUN_CLOUD_API_KEY": Omit()}):
+        with update_env(**{"MOBILERUN_API_KEY": Omit(), "MOBILERUN_CLOUD_API_KEY": Omit()}):
             client2 = AsyncMobilerun(base_url=base_url, api_key=None, _strict_response_validation=True)
 
         with pytest.raises(
@@ -1372,6 +1390,24 @@ class TestAsyncMobilerun:
             FinalRequestOptions(method="get", url="/foo", headers={"Authorization": Omit()})
         )
         assert request2.headers.get("Authorization") is None
+
+    def test_api_key_env_names(self) -> None:
+        none = {"MOBILERUN_API_KEY": Omit(), "MOBILERUN_CLOUD_API_KEY": Omit()}
+
+        with update_env(**{**none, "MOBILERUN_API_KEY": "new key"}):
+            assert AsyncMobilerun(base_url=base_url, _strict_response_validation=True).api_key == "new key"
+
+        with update_env(**{**none, "MOBILERUN_CLOUD_API_KEY": "old key"}):
+            assert AsyncMobilerun(base_url=base_url, _strict_response_validation=True).api_key == "old key"
+
+        with update_env(**{**none, "MOBILERUN_API_KEY": "", "MOBILERUN_CLOUD_API_KEY": "old key"}):
+            assert AsyncMobilerun(base_url=base_url, _strict_response_validation=True).api_key == "old key"
+
+        with update_env(**{**none, "MOBILERUN_API_KEY": "new key", "MOBILERUN_CLOUD_API_KEY": "old key"}):
+            assert AsyncMobilerun(base_url=base_url, _strict_response_validation=True).api_key == "new key"
+
+        with update_env(**none):
+            assert AsyncMobilerun(base_url=base_url, _strict_response_validation=True).api_key is None
 
     async def test_default_query_option(self) -> None:
         client = AsyncMobilerun(

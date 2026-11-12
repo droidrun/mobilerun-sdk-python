@@ -110,10 +110,10 @@ class Mobilerun(SyncAPIClient):
     ) -> None:
         """Construct a new synchronous Mobilerun client instance.
 
-        This automatically infers the `api_key` argument from the `MOBILERUN_CLOUD_API_KEY` environment variable if it is not provided.
+        This automatically infers the `api_key` argument from the `MOBILERUN_API_KEY` environment variable (falling back to `MOBILERUN_CLOUD_API_KEY`) if it is not provided.
         """
         if api_key is None:
-            api_key = os.environ.get("MOBILERUN_CLOUD_API_KEY")
+            api_key = os.environ.get("MOBILERUN_API_KEY") or os.environ.get("MOBILERUN_CLOUD_API_KEY")
         self.api_key = api_key
 
         if base_url is None:
@@ -270,7 +270,7 @@ class Mobilerun(SyncAPIClient):
             return
 
         raise TypeError(
-            '"Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted"'
+            '"Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted (api_key can be set via the MOBILERUN_API_KEY environment variable)"'
         )
 
     def copy(
@@ -387,10 +387,10 @@ class AsyncMobilerun(AsyncAPIClient):
     ) -> None:
         """Construct a new async AsyncMobilerun client instance.
 
-        This automatically infers the `api_key` argument from the `MOBILERUN_CLOUD_API_KEY` environment variable if it is not provided.
+        This automatically infers the `api_key` argument from the `MOBILERUN_API_KEY` environment variable (falling back to `MOBILERUN_CLOUD_API_KEY`) if it is not provided.
         """
         if api_key is None:
-            api_key = os.environ.get("MOBILERUN_CLOUD_API_KEY")
+            api_key = os.environ.get("MOBILERUN_API_KEY") or os.environ.get("MOBILERUN_CLOUD_API_KEY")
         self.api_key = api_key
 
         if base_url is None:
@@ -547,7 +547,7 @@ class AsyncMobilerun(AsyncAPIClient):
             return
 
         raise TypeError(
-            '"Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted"'
+            '"Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted (api_key can be set via the MOBILERUN_API_KEY environment variable)"'
         )
 
     def copy(

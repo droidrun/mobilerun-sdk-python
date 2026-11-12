@@ -32,7 +32,7 @@ import os
 from mobilerun_sdk import Mobilerun
 
 client = Mobilerun(
-    api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
+    api_key=os.environ.get("MOBILERUN_API_KEY"),  # This is the default and can be omitted
 )
 
 devices = client.devices.list()
@@ -41,7 +41,7 @@ print(devices.items)
 
 While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `MOBILERUN_CLOUD_API_KEY="My API Key"` to your `.env` file
+to add `MOBILERUN_API_KEY="My API Key"` to your `.env` file
 so that your API Key is not stored in source control.
 
 ## Async usage
@@ -54,7 +54,7 @@ import asyncio
 from mobilerun_sdk import AsyncMobilerun
 
 client = AsyncMobilerun(
-    api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
+    api_key=os.environ.get("MOBILERUN_API_KEY"),  # This is the default and can be omitted
 )
 
 
@@ -90,7 +90,7 @@ from mobilerun_sdk import AsyncMobilerun
 
 async def main() -> None:
     async with AsyncMobilerun(
-        api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
+        api_key=os.environ.get("MOBILERUN_API_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         devices = await client.devices.list()
