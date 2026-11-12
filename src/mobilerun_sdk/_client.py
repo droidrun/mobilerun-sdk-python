@@ -46,6 +46,7 @@ if TYPE_CHECKING:
         devices,
         numbers,
         proxies,
+        scripts,
         messages,
         webhooks,
         assistant,
@@ -57,6 +58,7 @@ if TYPE_CHECKING:
     from .resources.files import FilesResource, AsyncFilesResource
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
+    from .resources.scripts import ScriptsResource, AsyncScriptsResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
     from .resources.agents.agents import AgentsResource, AsyncAgentsResource
     from .resources.connect.connect import ConnectResource, AsyncConnectResource
@@ -172,6 +174,12 @@ class Mobilerun(SyncAPIClient):
         from .resources.proxies import ProxiesResource
 
         return ProxiesResource(self)
+
+    @cached_property
+    def scripts(self) -> ScriptsResource:
+        from .resources.scripts import ScriptsResource
+
+        return ScriptsResource(self)
 
     @cached_property
     def connect(self) -> ConnectResource:
@@ -451,6 +459,12 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncProxiesResource(self)
 
     @cached_property
+    def scripts(self) -> AsyncScriptsResource:
+        from .resources.scripts import AsyncScriptsResource
+
+        return AsyncScriptsResource(self)
+
+    @cached_property
     def connect(self) -> AsyncConnectResource:
         from .resources.connect import AsyncConnectResource
 
@@ -672,6 +686,12 @@ class MobilerunWithRawResponse:
         return ProxiesResourceWithRawResponse(self._client.proxies)
 
     @cached_property
+    def scripts(self) -> scripts.ScriptsResourceWithRawResponse:
+        from .resources.scripts import ScriptsResourceWithRawResponse
+
+        return ScriptsResourceWithRawResponse(self._client.scripts)
+
+    @cached_property
     def connect(self) -> connect.ConnectResourceWithRawResponse:
         from .resources.connect import ConnectResourceWithRawResponse
 
@@ -768,6 +788,12 @@ class AsyncMobilerunWithRawResponse:
         from .resources.proxies import AsyncProxiesResourceWithRawResponse
 
         return AsyncProxiesResourceWithRawResponse(self._client.proxies)
+
+    @cached_property
+    def scripts(self) -> scripts.AsyncScriptsResourceWithRawResponse:
+        from .resources.scripts import AsyncScriptsResourceWithRawResponse
+
+        return AsyncScriptsResourceWithRawResponse(self._client.scripts)
 
     @cached_property
     def connect(self) -> connect.AsyncConnectResourceWithRawResponse:
@@ -868,6 +894,12 @@ class MobilerunWithStreamedResponse:
         return ProxiesResourceWithStreamingResponse(self._client.proxies)
 
     @cached_property
+    def scripts(self) -> scripts.ScriptsResourceWithStreamingResponse:
+        from .resources.scripts import ScriptsResourceWithStreamingResponse
+
+        return ScriptsResourceWithStreamingResponse(self._client.scripts)
+
+    @cached_property
     def connect(self) -> connect.ConnectResourceWithStreamingResponse:
         from .resources.connect import ConnectResourceWithStreamingResponse
 
@@ -964,6 +996,12 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.proxies import AsyncProxiesResourceWithStreamingResponse
 
         return AsyncProxiesResourceWithStreamingResponse(self._client.proxies)
+
+    @cached_property
+    def scripts(self) -> scripts.AsyncScriptsResourceWithStreamingResponse:
+        from .resources.scripts import AsyncScriptsResourceWithStreamingResponse
+
+        return AsyncScriptsResourceWithStreamingResponse(self._client.scripts)
 
     @cached_property
     def connect(self) -> connect.AsyncConnectResourceWithStreamingResponse:
