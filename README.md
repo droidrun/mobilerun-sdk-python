@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 [![PyPI version](https://img.shields.io/pypi/v/mobilerun-sdk.svg?label=pypi%20(stable))](https://pypi.org/project/mobilerun-sdk/)
 
-The Mobilerun Python library provides convenient access to the Mobilerun REST API from any Python 3.9+
+The Mobilerun Python library provides convenient access to the Mobilerun REST API from any Python 3.10+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -32,7 +32,7 @@ import os
 from mobilerun_sdk import Mobilerun
 
 client = Mobilerun(
-    api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
+    api_key=os.environ.get("MOBILERUN_API_KEY"),  # This is the default and can be omitted
 )
 
 devices = client.devices.list()
@@ -41,7 +41,7 @@ print(devices.items)
 
 While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `MOBILERUN_CLOUD_API_KEY="My API Key"` to your `.env` file
+to add `MOBILERUN_API_KEY="My API Key"` to your `.env` file
 so that your API Key is not stored in source control.
 
 ## Async usage
@@ -54,7 +54,7 @@ import asyncio
 from mobilerun_sdk import AsyncMobilerun
 
 client = AsyncMobilerun(
-    api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
+    api_key=os.environ.get("MOBILERUN_API_KEY"),  # This is the default and can be omitted
 )
 
 
@@ -90,7 +90,7 @@ from mobilerun_sdk import AsyncMobilerun
 
 async def main() -> None:
     async with AsyncMobilerun(
-        api_key=os.environ.get("MOBILERUN_CLOUD_API_KEY"),  # This is the default and can be omitted
+        api_key=os.environ.get("MOBILERUN_API_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         devices = await client.devices.list()
@@ -401,7 +401,7 @@ print(mobilerun_sdk.__version__)
 
 ## Requirements
 
-Python 3.9 or higher.
+Python 3.10 or higher.
 
 ## Contributing
 
