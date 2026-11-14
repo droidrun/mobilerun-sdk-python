@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.2.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.1.1...v6.2.0) (2026-11-14)
+
+
+### Features
+
+* **sdk:** object api and helpers ([4460e14](https://github.com/droidrun/mobilerun-sdk-python/commit/4460e146011be505f48e25183f685d5b405c6bf3))
+* **sdk:** read MOBILERUN_API_KEY first ([5ff01fe](https://github.com/droidrun/mobilerun-sdk-python/commit/5ff01fe8b4ab4e9e1f7ae0db834fddc1589b9e6f))
+
+
+### Chores
+
+* release 6.2.0 ([32a1d26](https://github.com/droidrun/mobilerun-sdk-python/commit/32a1d26b2cb9d7ae415a9d14dc7680b1f49cabe7))
+* **sdk:** regenerate from a792995 ([f9e70bc](https://github.com/droidrun/mobilerun-sdk-python/commit/f9e70bc4f415dcce9ad2acf62dfe9804fd767a2a))
+
 ## [6.1.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.1.0...v6.1.1) (2026-11-10)
 
 
