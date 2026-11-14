@@ -7,8 +7,6 @@ The Mobilerun Python library provides convenient access to the Mobilerun REST AP
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
-It is generated with [Stainless](https://www.stainless.com/).
-
 ## Documentation
 
 The full API of this library can be found in [api.md](api.md).
@@ -16,14 +14,29 @@ The full API of this library can be found in [api.md](api.md).
 ## Installation
 
 ```sh
-# install from the production repo
-pip install git+ssh://git@github.com/droidrun/mobilerun-sdk-python.git
+pip install mobilerun-sdk
 ```
 
-> [!NOTE]
-> Once this package is [published to PyPI](https://www.stainless.com/docs/guides/publish), this will become: `pip install mobilerun-sdk`
-
 ## Usage
+
+Creating a device uses device minutes until you stop or terminate it. This example selects minute billing and stops the device at the end.
+
+```python
+from mobilerun_sdk import MobilerunSDK
+
+sdk = MobilerunSDK()
+device = sdk.devices.create(billing="minute", device_type="android_cloud_phone")
+try:
+    task = device.run(task="Open Settings")
+    result = task.wait()
+    print(result.status, device.name)
+finally:
+    device.stop()
+```
+
+Stopping requires a device type that supports stop; otherwise use `device.terminate()`.
+
+### Full client (`.api`)
 
 The full API of this library can be found in [api.md](api.md).
 
@@ -43,6 +56,189 @@ While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
 to add `MOBILERUN_API_KEY="My API Key"` to your `.env` file
 so that your API Key is not stored in source control.
+
+## Object API
+
+The object API is additive. Existing client APIs are unchanged and the complete raw client is available as `.api`. Properties such as `device.name` and `task.status` read the last response in `info` without making a request. Call `refresh()` to update it. Object-layer logs show class, ID and declared fields, never `info` or the client; the explicit `.api` escape hatch stays raw. Waits poll with bounded requests and back off on 408/409/429/5xx.
+
+### Objects
+
+| Object             | How to get it                    | Main methods                                                                                 |
+| ------------------ | -------------------------------- | -------------------------------------------------------------------------------------------- |
+| Device             | `sdk.devices`                    | `get, list, create, run, screenshot, recordings`                                             |
+| Task               | `sdk.tasks / device.run()`       | `run, get, list, wait, wait_output`                                                          |
+| App                | `sdk.apps`                       | `get, list, upload, delete, list_versions`                                                   |
+| ProxyConfiguration | `sdk.proxies`                    | `get, list, create, update, delete`                                                          |
+| Trigger            | `sdk.workflows.triggers`         | `get, list, create, update, delete, fire`                                                    |
+| WorkflowAction     | `sdk.workflows.actions`          | `get, list, create, update, delete`                                                          |
+| CatalogEntry       | `sdk.workflows.action_catalog`   | `get, list`                                                                                  |
+| Flow               | `sdk.workflows.flows`            | `get, list, create, clone, run, verify`                                                      |
+| Execution          | `sdk.workflows.executions`       | `get, list, wait`                                                                            |
+| Agent              | `sdk.agents`                     | `create, list, profile.update, files.list, conversations, routines, requests.list_for_agent` |
+| AgentRequest       | `sdk.agents.requests`            | `get, list, retrieve_by_session`                                                             |
+| AgentFile          | `sdk.files / agent.files.list()` | `upload, list, update, delete, confirm, cancel_pending, download`                            |
+| ConnectUser        | `sdk.connect.users`              | `get, list, create, update, delete, list_connections`                                        |
+| ConnectProxy       | `sdk.connect.proxies`            | `get, list, buy, update, ping, ensure_healthy, checkout, cancel`                             |
+| CredentialPackage  | `sdk.credentials.packages`       | `get, list, create, credentials`                                                             |
+| Credential         | `package.credentials`            | `create, list, delete, fields`                                                               |
+| NumberMessage      | `sdk.messages`                   | `get, list`                                                                                  |
+| Mailbox            | `sdk.mailboxes`                  | `get, list, create, wait_for_otp, messages`                                                  |
+| MailboxMessage     | `mailbox.messages`               | `get, list`                                                                                  |
+| PhoneNumber        | `sdk.numbers`                    | `get, list, create, send, messages.list, wait_until_active`                                  |
+| Webhook            | `sdk.webhooks`                   | `get, list, create, verify, update, delete, test, rotate_secret`                             |
+| TrafficSession     | `device.traffic_sessions`        | `create, get, list, delete`                                                                  |
+| MailboxConnection  | `sdk.mailboxes.connections`      | `create, get`                                                                                |
+| SavedScreenshot    | `device.screenshots`             | `list, image, delete`                                                                        |
+| WebhookDelivery    | `webhook.deliveries`             | `get, list`                                                                                  |
+| Recording          | `device.recordings`              | `get, list, start, stop, wait, delete, trajectory, video, screenshots`                       |
+
+Every manager has `fromId(id)` / `from_id(id)` for an unfetched handle. Child managers carry their parent context. Agent and AgentFile have no get or refresh: their fields carry only the last create/list snapshot; fromId/from_id handles have no data. Agent profile.update returns a fresh Agent and leaves the original snapshot unchanged. Package get retains the full credentials-array response and takes its canonical name from the first row; an empty response keeps the requested name. Credential list maps that same package route to child handles. Recording start is its only factory and owns stop on scope exit; handles from get/list/fromId never stop automatically. Recording video/trajectory and AgentFile download return bytes. SavedScreenshot.image returns bytes; Screenshot remains the capture result returned by device.screenshot().
+
+Object purchase methods keep the API's own operation name:
+
+- Device.create uses device minutes until the device is stopped or terminated.
+- ConnectProxy.buy and ConnectProxy.checkout can incur upstream proxy charges.
+- PhoneNumber.create can incur upstream number rental charges.
+- Mailbox.create and Mailbox.restart can incur upstream mailbox rental charges; included capacity may apply.
+
+### Upload an app
+
+Uploading uses storage quota and may incur storage charges. A string upload input always names a local file path. Paths stream from disk with a measured Content-Length; bytes and binary file objects can specify metadata with `UploadFile(data, filename=..., content_type=...)`. `sdk.files.upload(file=Path("notes.txt"))` uploads an agent file. Cleanup runs best-effort only for definite failures before confirmation; ambiguous confirm failures and failures after successful confirmation do not mark the upload failed; `UploadError.__cause__` retains the original failure. Sync and async clients share the same inputs.
+
+```python
+from pathlib import Path
+from mobilerun_sdk import MobilerunSDK
+
+sdk = MobilerunSDK()
+app = sdk.apps.upload(
+    bundle_id="com.example.app",
+    display_name="Example",
+    version_code=1,
+    version_name="1.0",
+    files=[Path("app.apk")],
+)
+print(app.id)
+```
+
+### Verify webhook signatures
+
+Verify the exact raw body before JSON parsing. Deduplicate replays within the tolerance window using an ID inside the signed body, never the unsigned `x-mobilerun-event-id` header. The helper needs the endpoint signing secret, but no API key. It checks both past and future timestamps with a five-minute tolerance. `sdk.webhooks.verify` offers the same synchronous verification on both clients. Failures raise `WebhookVerificationError` with a `reason` code. `now` is epoch seconds; `tolerance` overrides the tolerance in seconds.
+
+```python
+import os
+from http.server import BaseHTTPRequestHandler
+from mobilerun_sdk import verify_webhook
+
+
+class WebhookHandler(BaseHTTPRequestHandler):
+    def do_POST(self) -> None:
+        body = self.rfile.read(int(self.headers.get("Content-Length", "0")))
+        verify_webhook(
+            body,
+            {name: self.headers.get_all(name) for name in self.headers},
+            os.environ["WEBHOOK_SECRET"],
+        )
+        self.send_response(204)
+        self.end_headers()
+```
+
+### Existing devices and screenshots
+
+```python
+from mobilerun_sdk import MobilerunSDK
+
+sdk = MobilerunSDK()
+device = sdk.devices.get("device-id")
+device.home()
+device.open_app("com.android.settings")
+device.back()
+device.stop_app("com.android.settings")
+device.swipe(300, 800, 300, 200, 400)
+screenshot = device.screenshot()
+screenshot.save("screenshot.png")
+for existing in sdk.devices.list():
+    print(existing.id, existing.name, existing.state)
+```
+
+### Park and wake a device
+
+```python
+from mobilerun_sdk import MobilerunSDK
+
+device = MobilerunSDK().devices.from_id("device-id")
+device.stop()
+# Later, when the customer returns:
+device.resume()
+```
+
+Both methods return the handle once the device has reached its target state: stopped or ready; async clients use `await`.
+
+### Typed task output
+
+`wait_output` validates output with the supplied Pydantic model and returns `WaitOutput` containing `output` and the raw `response`. Validation failures raise `OutputValidationError` with `object_id` and the response.
+
+```python
+from pydantic import BaseModel
+from mobilerun_sdk import MobilerunSDK
+
+
+class Heading(BaseModel):
+    heading: str
+
+
+sdk = MobilerunSDK()
+device = sdk.devices.get("device-id")
+task = device.run(task="Read the visible heading", output_schema=Heading)
+result = task.wait_output()
+heading: str = result.output.heading
+print(heading)
+```
+
+### Recording uploads
+
+```python
+from pathlib import Path
+from mobilerun_sdk import MobilerunSDK
+
+sdk = MobilerunSDK()
+device = sdk.devices.from_id("device-id")
+recording = device.recordings.start()
+task = device.run(task="Open Settings")
+task.wait()
+recording.stop()
+recording.wait()
+video = recording.video()
+Path("recording.mp4").write_bytes(video)
+```
+
+The async client uses `await` for start, stop, wait and video.
+
+The Python SDK runs on your server; to show a device in a web app, pass `device.info.stream_url` and `device.info.stream_token` for a device the authenticated end user may see to the frontend and render it with [`@mobilerun/react`](https://github.com/droidrun/mobilerun-react#readme), keeping the API key on the server.
+
+### Automatic cleanup and async
+
+If readiness inside `create` fails, the new resource is disposed best-effort by default; set `dispose_on_ready_failure=False` to retain it. `ObjectReadyError` keeps the handle and readiness cause, with `disposed` and `cleanup_error` reporting cleanup; async cancellation keeps its original exception type after shielded cleanup.
+
+Only lifecycle factories own their resources: `create` normally, and `Recording.start` for recordings. `with` and `async with` terminate that device on exit. Handles from `get`, `from_id`, lists and returned task handles do not clean up automatically. The async client provides the same methods with `await`.
+
+```python
+from mobilerun_sdk import MobilerunSDK, AsyncMobilerunSDK
+
+sdk = MobilerunSDK()
+with sdk.devices.create(billing="minute", device_type="android_cloud_phone") as device:
+    device.run(task="Open Settings").wait()
+
+
+async def run_once() -> None:
+    sdk = AsyncMobilerunSDK()
+    async with await sdk.devices.create(
+        billing="minute", device_type="android_cloud_phone"
+    ) as device:
+        task = await device.run(task="Open Settings")
+        await task.wait()
+```
+
+Examples: see [`examples/`](https://github.com/droidrun/mobilerun-sdk-python/tree/HEAD/examples)
 
 ## Async usage
 
