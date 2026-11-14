@@ -634,9 +634,10 @@ def verify_signature(
     if not hmac.compare_digest(expected, bytes.fromhex(digest)):
         raise WebhookVerificationError("invalid_signature")
     try:
-        return json.loads(raw)
+        return json.loads(raw.decode("utf-8-sig"))
     except (ValueError, UnicodeError):
-        raise WebhookVerificationError("malformed") from None
+        pass
+    raise WebhookVerificationError("invalid_json") from None
 
 
 def definite_confirm_failure(error: BaseException) -> bool:
