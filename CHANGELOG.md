@@ -1,5 +1,17 @@
 # Changelog
 
+## [6.2.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.2.0...v6.2.1) (2026-11-14)
+
+
+### Bug Fixes
+
+* **sdk:** webhook invalid json reason ([3c7ad92](https://github.com/droidrun/mobilerun-sdk-python/commit/3c7ad929b50391289984db56e80f2db232d2844a))
+
+
+### Chores
+
+* release 6.2.1 ([7f0745f](https://github.com/droidrun/mobilerun-sdk-python/commit/7f0745fc84c4f315920a083915f9ae0370b5a325))
+
 ## [6.2.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.1.1...v6.2.0) (2026-11-14)
 
 
