@@ -6,27 +6,39 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import script_list_params, script_create_params
-from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from .._utils import path_template, maybe_transform, async_maybe_transform
-from .._compat import cached_property
-from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import (
+from ...types import script_list_params, script_create_params
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ..._utils import path_template, maybe_transform, async_maybe_transform
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
-from ..types.script_list_response import ScriptListResponse
-from ..types.script_create_response import ScriptCreateResponse
-from ..types.script_source_response import ScriptSourceResponse
-from ..types.script_retrieve_response import ScriptRetrieveResponse
+from .validations import (
+    ValidationsResource,
+    AsyncValidationsResource,
+    ValidationsResourceWithRawResponse,
+    AsyncValidationsResourceWithRawResponse,
+    ValidationsResourceWithStreamingResponse,
+    AsyncValidationsResourceWithStreamingResponse,
+)
+from ..._base_client import make_request_options
+from ...types.script_list_response import ScriptListResponse
+from ...types.script_create_response import ScriptCreateResponse
+from ...types.script_source_response import ScriptSourceResponse
+from ...types.script_retrieve_response import ScriptRetrieveResponse
 
 __all__ = ["ScriptsResource", "AsyncScriptsResource"]
 
 
 class ScriptsResource(SyncAPIResource):
+    @cached_property
+    def validations(self) -> ValidationsResource:
+        return ValidationsResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> ScriptsResourceWithRawResponse:
         """
@@ -260,6 +272,10 @@ class ScriptsResource(SyncAPIResource):
 
 
 class AsyncScriptsResource(AsyncAPIResource):
+    @cached_property
+    def validations(self) -> AsyncValidationsResource:
+        return AsyncValidationsResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> AsyncScriptsResourceWithRawResponse:
         """
@@ -512,6 +528,10 @@ class ScriptsResourceWithRawResponse:
             scripts.source,
         )
 
+    @cached_property
+    def validations(self) -> ValidationsResourceWithRawResponse:
+        return ValidationsResourceWithRawResponse(self._scripts.validations)
+
 
 class AsyncScriptsResourceWithRawResponse:
     def __init__(self, scripts: AsyncScriptsResource) -> None:
@@ -532,6 +552,10 @@ class AsyncScriptsResourceWithRawResponse:
         self.source = async_to_raw_response_wrapper(
             scripts.source,
         )
+
+    @cached_property
+    def validations(self) -> AsyncValidationsResourceWithRawResponse:
+        return AsyncValidationsResourceWithRawResponse(self._scripts.validations)
 
 
 class ScriptsResourceWithStreamingResponse:
@@ -554,6 +578,10 @@ class ScriptsResourceWithStreamingResponse:
             scripts.source,
         )
 
+    @cached_property
+    def validations(self) -> ValidationsResourceWithStreamingResponse:
+        return ValidationsResourceWithStreamingResponse(self._scripts.validations)
+
 
 class AsyncScriptsResourceWithStreamingResponse:
     def __init__(self, scripts: AsyncScriptsResource) -> None:
@@ -574,3 +602,7 @@ class AsyncScriptsResourceWithStreamingResponse:
         self.source = async_to_streamed_response_wrapper(
             scripts.source,
         )
+
+    @cached_property
+    def validations(self) -> AsyncValidationsResourceWithStreamingResponse:
+        return AsyncValidationsResourceWithStreamingResponse(self._scripts.validations)

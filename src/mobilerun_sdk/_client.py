@@ -58,12 +58,12 @@ if TYPE_CHECKING:
     from .resources.files import FilesResource, AsyncFilesResource
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
-    from .resources.scripts import ScriptsResource, AsyncScriptsResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
     from .resources.agents.agents import AgentsResource, AsyncAgentsResource
     from .resources.connect.connect import ConnectResource, AsyncConnectResource
     from .resources.devices.devices import DevicesResource, AsyncDevicesResource
     from .resources.numbers.numbers import NumbersResource, AsyncNumbersResource
+    from .resources.scripts.scripts import ScriptsResource, AsyncScriptsResource
     from .resources.messages.messages import MessagesResource, AsyncMessagesResource
     from .resources.webhooks.webhooks import WebhooksResource, AsyncWebhooksResource
     from .resources.assistant.assistant import AssistantResource, AsyncAssistantResource
