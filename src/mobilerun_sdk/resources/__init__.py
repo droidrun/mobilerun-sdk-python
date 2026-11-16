@@ -72,6 +72,14 @@ from .proxies import (
     ProxiesResourceWithStreamingResponse,
     AsyncProxiesResourceWithStreamingResponse,
 )
+from .scripts import (
+    ScriptsResource,
+    AsyncScriptsResource,
+    ScriptsResourceWithRawResponse,
+    AsyncScriptsResourceWithRawResponse,
+    ScriptsResourceWithStreamingResponse,
+    AsyncScriptsResourceWithStreamingResponse,
+)
 from .messages import (
     MessagesResource,
     AsyncMessagesResource,
@@ -152,6 +160,12 @@ __all__ = [
     "AsyncProxiesResourceWithRawResponse",
     "ProxiesResourceWithStreamingResponse",
     "AsyncProxiesResourceWithStreamingResponse",
+    "ScriptsResource",
+    "AsyncScriptsResource",
+    "ScriptsResourceWithRawResponse",
+    "AsyncScriptsResourceWithRawResponse",
+    "ScriptsResourceWithStreamingResponse",
+    "AsyncScriptsResourceWithStreamingResponse",
     "ConnectResource",
     "AsyncConnectResource",
     "ConnectResourceWithRawResponse",
