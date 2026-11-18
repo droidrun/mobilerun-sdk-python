@@ -6,22 +6,22 @@ from typing_extensions import Literal, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["ScriptListParams"]
+__all__ = ["FunctionListParams"]
 
 
-class ScriptListParams(TypedDict, total=False):
+class FunctionListParams(TypedDict, total=False):
     latest: Literal["true", "false"]
     """
-    Return one row per script name: its newest upload (any status), with
+    Return one row per function name: its newest upload (any status), with
     versionCount. Combined with name, returns that single row.
     """
 
     name: str
-    """Exact script name. Returns every active version of that name, newest first."""
+    """Exact function name. Returns every active version of that name, newest first."""
 
     page: int
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
 
     search: str
-    """Case-insensitive substring match against the script name."""
+    """Case-insensitive substring match against the function name."""

@@ -17,9 +17,9 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.scripts import validation_create_params, validation_retrieve_params
-from ...types.scripts.validation_create_response import ValidationCreateResponse
-from ...types.scripts.validation_retrieve_response import ValidationRetrieveResponse
+from ...types.functions import validation_create_params, validation_retrieve_params
+from ...types.functions.validation_create_response import ValidationCreateResponse
+from ...types.functions.validation_retrieve_response import ValidationRetrieveResponse
 
 __all__ = ["ValidationsResource", "AsyncValidationsResource"]
 
@@ -59,7 +59,7 @@ class ValidationsResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> ValidationCreateResponse:
         """
-        Validate Python script source without uploading it
+        Validate Python function source without uploading it
 
         Args:
           wait_s: Wait up to 25 seconds for validation to finish. Excess waiters return
@@ -76,7 +76,7 @@ class ValidationsResource(SyncAPIResource):
           idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
-            "/sandbox/scripts/validations",
+            "/functions/validations",
             body=maybe_transform(
                 {
                     "source": source,
@@ -108,7 +108,7 @@ class ValidationsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ValidationRetrieveResponse:
         """
-        Retrieve a script validation owned by this organisation
+        Retrieve a function validation owned by this organisation
 
         Args:
           wait_s: Wait up to 25 seconds for validation to finish. Excess waiters return
@@ -125,7 +125,7 @@ class ValidationsResource(SyncAPIResource):
         if not validation_id:
             raise ValueError(f"Expected a non-empty value for `validation_id` but received {validation_id!r}")
         return self._get(
-            path_template("/sandbox/scripts/validations/{validation_id}", validation_id=validation_id),
+            path_template("/functions/validations/{validation_id}", validation_id=validation_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -172,7 +172,7 @@ class AsyncValidationsResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> ValidationCreateResponse:
         """
-        Validate Python script source without uploading it
+        Validate Python function source without uploading it
 
         Args:
           wait_s: Wait up to 25 seconds for validation to finish. Excess waiters return
@@ -189,7 +189,7 @@ class AsyncValidationsResource(AsyncAPIResource):
           idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
-            "/sandbox/scripts/validations",
+            "/functions/validations",
             body=await async_maybe_transform(
                 {
                     "source": source,
@@ -221,7 +221,7 @@ class AsyncValidationsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ValidationRetrieveResponse:
         """
-        Retrieve a script validation owned by this organisation
+        Retrieve a function validation owned by this organisation
 
         Args:
           wait_s: Wait up to 25 seconds for validation to finish. Excess waiters return
@@ -238,7 +238,7 @@ class AsyncValidationsResource(AsyncAPIResource):
         if not validation_id:
             raise ValueError(f"Expected a non-empty value for `validation_id` but received {validation_id!r}")
         return await self._get(
-            path_template("/sandbox/scripts/validations/{validation_id}", validation_id=validation_id),
+            path_template("/functions/validations/{validation_id}", validation_id=validation_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

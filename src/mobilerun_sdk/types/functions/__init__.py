@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from .validation import Validation as Validation
+from .function_validation import FunctionValidation as FunctionValidation
 from .validation_create_params import ValidationCreateParams as ValidationCreateParams
 from .validation_create_response import ValidationCreateResponse as ValidationCreateResponse
 from .validation_retrieve_params import ValidationRetrieveParams as ValidationRetrieveParams

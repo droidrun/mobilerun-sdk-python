@@ -8,7 +8,7 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["Validation", "Error", "ErrorRepair", "Warning", "WarningRepair"]
+__all__ = ["FunctionValidation", "Error", "ErrorRepair", "Warning", "WarningRepair"]
 
 
 class ErrorRepair(BaseModel):
@@ -43,7 +43,7 @@ class Warning(BaseModel):
     repair: Optional[WarningRepair] = None
 
 
-class Validation(BaseModel):
+class FunctionValidation(BaseModel):
     id: str
 
     created_at: datetime = FieldInfo(alias="createdAt")

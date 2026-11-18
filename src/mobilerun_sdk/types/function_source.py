@@ -4,11 +4,11 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["ScriptSource"]
+__all__ = ["FunctionSource"]
 
 
-class ScriptSource(BaseModel):
-    script_id: str = FieldInfo(alias="scriptId")
+class FunctionSource(BaseModel):
+    function_id: str = FieldInfo(alias="functionId")
 
     sha256: str
 

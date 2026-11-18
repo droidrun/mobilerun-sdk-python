@@ -323,7 +323,7 @@ class MobilerunSDK:
         self.devices = DeviceManager(self.api)
         self.models = self.api.models
         self.proxies = ProxyConfigurationManager(self.api)
-        self.scripts = self.api.scripts
+        self.functions = self.api.functions
         self.connect = _SDKConnect(self.api)
         self.tasks = TaskManager(self.api)
         self.workflows = _SDKWorkflows(self.api)

@@ -8,13 +8,38 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["Script", "InspectError", "Manifest", "ManifestCredential"]
+__all__ = [
+    "ServerlessFunction",
+    "InspectError",
+    "InspectErrorError",
+    "InspectErrorErrorRepair",
+    "Manifest",
+    "ManifestCredential",
+]
+
+
+class InspectErrorErrorRepair(BaseModel):
+    action: str
+
+    hint: str
+
+
+class InspectErrorError(BaseModel):
+    code: str
+
+    message: str
+
+    line: Optional[int] = None
+
+    repair: Optional[InspectErrorErrorRepair] = None
 
 
 class InspectError(BaseModel):
     code: str
 
     message: str
+
+    errors: Optional[List[InspectErrorError]] = None
 
 
 class ManifestCredential(BaseModel):
@@ -31,7 +56,7 @@ class Manifest(BaseModel):
     scopes: Optional[List[str]] = None
 
 
-class Script(BaseModel):
+class ServerlessFunction(BaseModel):
     id: str
 
     created_at: datetime = FieldInfo(alias="createdAt")

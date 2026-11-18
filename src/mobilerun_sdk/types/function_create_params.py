@@ -8,10 +8,10 @@ from typing_extensions import Required, Annotated, TypedDict
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["ScriptCreateParams", "Manifest", "ManifestCredential"]
+__all__ = ["FunctionCreateParams", "Manifest", "ManifestCredential"]
 
 
-class ScriptCreateParams(TypedDict, total=False):
+class FunctionCreateParams(TypedDict, total=False):
     name: Required[str]
 
     source: Required[str]

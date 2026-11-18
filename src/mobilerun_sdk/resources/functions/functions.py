@@ -6,7 +6,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ...types import script_list_params, script_create_params
+from ...types import function_list_params, function_create_params
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -26,37 +26,37 @@ from .validations import (
     AsyncValidationsResourceWithStreamingResponse,
 )
 from ..._base_client import make_request_options
-from ...types.script_list_response import ScriptListResponse
-from ...types.script_create_response import ScriptCreateResponse
-from ...types.script_source_response import ScriptSourceResponse
-from ...types.script_retrieve_response import ScriptRetrieveResponse
+from ...types.function_list_response import FunctionListResponse
+from ...types.function_create_response import FunctionCreateResponse
+from ...types.function_source_response import FunctionSourceResponse
+from ...types.function_retrieve_response import FunctionRetrieveResponse
 
-__all__ = ["ScriptsResource", "AsyncScriptsResource"]
+__all__ = ["FunctionsResource", "AsyncFunctionsResource"]
 
 
-class ScriptsResource(SyncAPIResource):
+class FunctionsResource(SyncAPIResource):
     @cached_property
     def validations(self) -> ValidationsResource:
         return ValidationsResource(self._client)
 
     @cached_property
-    def with_raw_response(self) -> ScriptsResourceWithRawResponse:
+    def with_raw_response(self) -> FunctionsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
         """
-        return ScriptsResourceWithRawResponse(self)
+        return FunctionsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> ScriptsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> FunctionsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
         """
-        return ScriptsResourceWithStreamingResponse(self)
+        return FunctionsResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -64,7 +64,7 @@ class ScriptsResource(SyncAPIResource):
         name: str,
         source: str,
         description: str | Omit = omit,
-        manifest: script_create_params.Manifest | Omit = omit,
+        manifest: function_create_params.Manifest | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -72,9 +72,9 @@ class ScriptsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
-    ) -> ScriptCreateResponse:
+    ) -> FunctionCreateResponse:
         """
-        Upload an immutable Python script as the next version of its name
+        Upload an immutable Python function as the next version of its name
 
         Args:
           extra_headers: Send extra headers
@@ -88,7 +88,7 @@ class ScriptsResource(SyncAPIResource):
           idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
-            "/sandbox/scripts",
+            "/functions",
             body=maybe_transform(
                 {
                     "name": name,
@@ -96,7 +96,7 @@ class ScriptsResource(SyncAPIResource):
                     "description": description,
                     "manifest": manifest,
                 },
-                script_create_params.ScriptCreateParams,
+                function_create_params.FunctionCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -105,12 +105,12 @@ class ScriptsResource(SyncAPIResource):
                 timeout=timeout,
                 idempotency_key=idempotency_key,
             ),
-            cast_to=ScriptCreateResponse,
+            cast_to=FunctionCreateResponse,
         )
 
     def retrieve(
         self,
-        script_id: str,
+        function_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -118,9 +118,9 @@ class ScriptsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ScriptRetrieveResponse:
+    ) -> FunctionRetrieveResponse:
         """
-        Get script metadata
+        Get function metadata
 
         Args:
           extra_headers: Send extra headers
@@ -131,14 +131,14 @@ class ScriptsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not script_id:
-            raise ValueError(f"Expected a non-empty value for `script_id` but received {script_id!r}")
+        if not function_id:
+            raise ValueError(f"Expected a non-empty value for `function_id` but received {function_id!r}")
         return self._get(
-            path_template("/sandbox/scripts/{script_id}", script_id=script_id),
+            path_template("/functions/{function_id}", function_id=function_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ScriptRetrieveResponse,
+            cast_to=FunctionRetrieveResponse,
         )
 
     def list(
@@ -155,17 +155,17 @@ class ScriptsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ScriptListResponse:
+    ) -> FunctionListResponse:
         """
-        List scripts owned by this organisation
+        List functions owned by this organisation
 
         Args:
-          latest: Return one row per script name: its newest upload (any status), with
+          latest: Return one row per function name: its newest upload (any status), with
               versionCount. Combined with name, returns that single row.
 
-          name: Exact script name. Returns every active version of that name, newest first.
+          name: Exact function name. Returns every active version of that name, newest first.
 
-          search: Case-insensitive substring match against the script name.
+          search: Case-insensitive substring match against the function name.
 
           extra_headers: Send extra headers
 
@@ -176,7 +176,7 @@ class ScriptsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._get(
-            "/sandbox/scripts",
+            "/functions",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -190,15 +190,15 @@ class ScriptsResource(SyncAPIResource):
                         "page_size": page_size,
                         "search": search,
                     },
-                    script_list_params.ScriptListParams,
+                    function_list_params.FunctionListParams,
                 ),
             ),
-            cast_to=ScriptListResponse,
+            cast_to=FunctionListResponse,
         )
 
     def delete(
         self,
-        script_id: str,
+        function_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -209,7 +209,7 @@ class ScriptsResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> None:
         """
-        Delete a script
+        Delete a function
 
         Args:
           extra_headers: Send extra headers
@@ -222,11 +222,11 @@ class ScriptsResource(SyncAPIResource):
 
           idempotency_key: Specify a custom idempotency key for this request
         """
-        if not script_id:
-            raise ValueError(f"Expected a non-empty value for `script_id` but received {script_id!r}")
+        if not function_id:
+            raise ValueError(f"Expected a non-empty value for `function_id` but received {function_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            path_template("/sandbox/scripts/{script_id}", script_id=script_id),
+            path_template("/functions/{function_id}", function_id=function_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -239,7 +239,7 @@ class ScriptsResource(SyncAPIResource):
 
     def source(
         self,
-        script_id: str,
+        function_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -247,9 +247,9 @@ class ScriptsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ScriptSourceResponse:
+    ) -> FunctionSourceResponse:
         """
-        Read verified script source
+        Read verified function source
 
         Args:
           extra_headers: Send extra headers
@@ -260,40 +260,40 @@ class ScriptsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not script_id:
-            raise ValueError(f"Expected a non-empty value for `script_id` but received {script_id!r}")
+        if not function_id:
+            raise ValueError(f"Expected a non-empty value for `function_id` but received {function_id!r}")
         return self._get(
-            path_template("/sandbox/scripts/{script_id}/source", script_id=script_id),
+            path_template("/functions/{function_id}/source", function_id=function_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ScriptSourceResponse,
+            cast_to=FunctionSourceResponse,
         )
 
 
-class AsyncScriptsResource(AsyncAPIResource):
+class AsyncFunctionsResource(AsyncAPIResource):
     @cached_property
     def validations(self) -> AsyncValidationsResource:
         return AsyncValidationsResource(self._client)
 
     @cached_property
-    def with_raw_response(self) -> AsyncScriptsResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncFunctionsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncScriptsResourceWithRawResponse(self)
+        return AsyncFunctionsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncScriptsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncFunctionsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/droidrun/mobilerun-sdk-python#with_streaming_response
         """
-        return AsyncScriptsResourceWithStreamingResponse(self)
+        return AsyncFunctionsResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -301,7 +301,7 @@ class AsyncScriptsResource(AsyncAPIResource):
         name: str,
         source: str,
         description: str | Omit = omit,
-        manifest: script_create_params.Manifest | Omit = omit,
+        manifest: function_create_params.Manifest | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -309,9 +309,9 @@ class AsyncScriptsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
-    ) -> ScriptCreateResponse:
+    ) -> FunctionCreateResponse:
         """
-        Upload an immutable Python script as the next version of its name
+        Upload an immutable Python function as the next version of its name
 
         Args:
           extra_headers: Send extra headers
@@ -325,7 +325,7 @@ class AsyncScriptsResource(AsyncAPIResource):
           idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
-            "/sandbox/scripts",
+            "/functions",
             body=await async_maybe_transform(
                 {
                     "name": name,
@@ -333,7 +333,7 @@ class AsyncScriptsResource(AsyncAPIResource):
                     "description": description,
                     "manifest": manifest,
                 },
-                script_create_params.ScriptCreateParams,
+                function_create_params.FunctionCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -342,12 +342,12 @@ class AsyncScriptsResource(AsyncAPIResource):
                 timeout=timeout,
                 idempotency_key=idempotency_key,
             ),
-            cast_to=ScriptCreateResponse,
+            cast_to=FunctionCreateResponse,
         )
 
     async def retrieve(
         self,
-        script_id: str,
+        function_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -355,9 +355,9 @@ class AsyncScriptsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ScriptRetrieveResponse:
+    ) -> FunctionRetrieveResponse:
         """
-        Get script metadata
+        Get function metadata
 
         Args:
           extra_headers: Send extra headers
@@ -368,14 +368,14 @@ class AsyncScriptsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not script_id:
-            raise ValueError(f"Expected a non-empty value for `script_id` but received {script_id!r}")
+        if not function_id:
+            raise ValueError(f"Expected a non-empty value for `function_id` but received {function_id!r}")
         return await self._get(
-            path_template("/sandbox/scripts/{script_id}", script_id=script_id),
+            path_template("/functions/{function_id}", function_id=function_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ScriptRetrieveResponse,
+            cast_to=FunctionRetrieveResponse,
         )
 
     async def list(
@@ -392,17 +392,17 @@ class AsyncScriptsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ScriptListResponse:
+    ) -> FunctionListResponse:
         """
-        List scripts owned by this organisation
+        List functions owned by this organisation
 
         Args:
-          latest: Return one row per script name: its newest upload (any status), with
+          latest: Return one row per function name: its newest upload (any status), with
               versionCount. Combined with name, returns that single row.
 
-          name: Exact script name. Returns every active version of that name, newest first.
+          name: Exact function name. Returns every active version of that name, newest first.
 
-          search: Case-insensitive substring match against the script name.
+          search: Case-insensitive substring match against the function name.
 
           extra_headers: Send extra headers
 
@@ -413,7 +413,7 @@ class AsyncScriptsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._get(
-            "/sandbox/scripts",
+            "/functions",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -427,15 +427,15 @@ class AsyncScriptsResource(AsyncAPIResource):
                         "page_size": page_size,
                         "search": search,
                     },
-                    script_list_params.ScriptListParams,
+                    function_list_params.FunctionListParams,
                 ),
             ),
-            cast_to=ScriptListResponse,
+            cast_to=FunctionListResponse,
         )
 
     async def delete(
         self,
-        script_id: str,
+        function_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -446,7 +446,7 @@ class AsyncScriptsResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> None:
         """
-        Delete a script
+        Delete a function
 
         Args:
           extra_headers: Send extra headers
@@ -459,11 +459,11 @@ class AsyncScriptsResource(AsyncAPIResource):
 
           idempotency_key: Specify a custom idempotency key for this request
         """
-        if not script_id:
-            raise ValueError(f"Expected a non-empty value for `script_id` but received {script_id!r}")
+        if not function_id:
+            raise ValueError(f"Expected a non-empty value for `function_id` but received {function_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            path_template("/sandbox/scripts/{script_id}", script_id=script_id),
+            path_template("/functions/{function_id}", function_id=function_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -476,7 +476,7 @@ class AsyncScriptsResource(AsyncAPIResource):
 
     async def source(
         self,
-        script_id: str,
+        function_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -484,9 +484,9 @@ class AsyncScriptsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ScriptSourceResponse:
+    ) -> FunctionSourceResponse:
         """
-        Read verified script source
+        Read verified function source
 
         Args:
           extra_headers: Send extra headers
@@ -497,112 +497,112 @@ class AsyncScriptsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not script_id:
-            raise ValueError(f"Expected a non-empty value for `script_id` but received {script_id!r}")
+        if not function_id:
+            raise ValueError(f"Expected a non-empty value for `function_id` but received {function_id!r}")
         return await self._get(
-            path_template("/sandbox/scripts/{script_id}/source", script_id=script_id),
+            path_template("/functions/{function_id}/source", function_id=function_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ScriptSourceResponse,
+            cast_to=FunctionSourceResponse,
         )
 
 
-class ScriptsResourceWithRawResponse:
-    def __init__(self, scripts: ScriptsResource) -> None:
-        self._scripts = scripts
+class FunctionsResourceWithRawResponse:
+    def __init__(self, functions: FunctionsResource) -> None:
+        self._functions = functions
 
         self.create = to_raw_response_wrapper(
-            scripts.create,
+            functions.create,
         )
         self.retrieve = to_raw_response_wrapper(
-            scripts.retrieve,
+            functions.retrieve,
         )
         self.list = to_raw_response_wrapper(
-            scripts.list,
+            functions.list,
         )
         self.delete = to_raw_response_wrapper(
-            scripts.delete,
+            functions.delete,
         )
         self.source = to_raw_response_wrapper(
-            scripts.source,
+            functions.source,
         )
 
     @cached_property
     def validations(self) -> ValidationsResourceWithRawResponse:
-        return ValidationsResourceWithRawResponse(self._scripts.validations)
+        return ValidationsResourceWithRawResponse(self._functions.validations)
 
 
-class AsyncScriptsResourceWithRawResponse:
-    def __init__(self, scripts: AsyncScriptsResource) -> None:
-        self._scripts = scripts
+class AsyncFunctionsResourceWithRawResponse:
+    def __init__(self, functions: AsyncFunctionsResource) -> None:
+        self._functions = functions
 
         self.create = async_to_raw_response_wrapper(
-            scripts.create,
+            functions.create,
         )
         self.retrieve = async_to_raw_response_wrapper(
-            scripts.retrieve,
+            functions.retrieve,
         )
         self.list = async_to_raw_response_wrapper(
-            scripts.list,
+            functions.list,
         )
         self.delete = async_to_raw_response_wrapper(
-            scripts.delete,
+            functions.delete,
         )
         self.source = async_to_raw_response_wrapper(
-            scripts.source,
+            functions.source,
         )
 
     @cached_property
     def validations(self) -> AsyncValidationsResourceWithRawResponse:
-        return AsyncValidationsResourceWithRawResponse(self._scripts.validations)
+        return AsyncValidationsResourceWithRawResponse(self._functions.validations)
 
 
-class ScriptsResourceWithStreamingResponse:
-    def __init__(self, scripts: ScriptsResource) -> None:
-        self._scripts = scripts
+class FunctionsResourceWithStreamingResponse:
+    def __init__(self, functions: FunctionsResource) -> None:
+        self._functions = functions
 
         self.create = to_streamed_response_wrapper(
-            scripts.create,
+            functions.create,
         )
         self.retrieve = to_streamed_response_wrapper(
-            scripts.retrieve,
+            functions.retrieve,
         )
         self.list = to_streamed_response_wrapper(
-            scripts.list,
+            functions.list,
         )
         self.delete = to_streamed_response_wrapper(
-            scripts.delete,
+            functions.delete,
         )
         self.source = to_streamed_response_wrapper(
-            scripts.source,
+            functions.source,
         )
 
     @cached_property
     def validations(self) -> ValidationsResourceWithStreamingResponse:
-        return ValidationsResourceWithStreamingResponse(self._scripts.validations)
+        return ValidationsResourceWithStreamingResponse(self._functions.validations)
 
 
-class AsyncScriptsResourceWithStreamingResponse:
-    def __init__(self, scripts: AsyncScriptsResource) -> None:
-        self._scripts = scripts
+class AsyncFunctionsResourceWithStreamingResponse:
+    def __init__(self, functions: AsyncFunctionsResource) -> None:
+        self._functions = functions
 
         self.create = async_to_streamed_response_wrapper(
-            scripts.create,
+            functions.create,
         )
         self.retrieve = async_to_streamed_response_wrapper(
-            scripts.retrieve,
+            functions.retrieve,
         )
         self.list = async_to_streamed_response_wrapper(
-            scripts.list,
+            functions.list,
         )
         self.delete = async_to_streamed_response_wrapper(
-            scripts.delete,
+            functions.delete,
         )
         self.source = async_to_streamed_response_wrapper(
-            scripts.source,
+            functions.source,
         )
 
     @cached_property
     def validations(self) -> AsyncValidationsResourceWithStreamingResponse:
-        return AsyncValidationsResourceWithStreamingResponse(self._scripts.validations)
+        return AsyncValidationsResourceWithStreamingResponse(self._functions.validations)

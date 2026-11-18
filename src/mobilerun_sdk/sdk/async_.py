@@ -338,7 +338,7 @@ class AsyncMobilerunSDK:
         self.devices = AsyncDeviceManager(self.api)
         self.models = self.api.models
         self.proxies = AsyncProxyConfigurationManager(self.api)
-        self.scripts = self.api.scripts
+        self.functions = self.api.functions
         self.connect = _AsyncSDKConnect(self.api)
         self.tasks = AsyncTaskManager(self.api)
         self.workflows = _AsyncSDKWorkflows(self.api)

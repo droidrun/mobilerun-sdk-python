@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
-from mobilerun_sdk.types.scripts import (
+from mobilerun_sdk.types.functions import (
     ValidationCreateResponse,
     ValidationRetrieveResponse,
 )
@@ -23,7 +23,7 @@ class TestValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Mobilerun) -> None:
-        validation = client.scripts.validations.create(
+        validation = client.functions.validations.create(
             source="x",
         )
         assert_matches_type(ValidationCreateResponse, validation, path=["response"])
@@ -31,7 +31,7 @@ class TestValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Mobilerun) -> None:
-        validation = client.scripts.validations.create(
+        validation = client.functions.validations.create(
             source="x",
             wait_s=0,
             manifest={
@@ -50,7 +50,7 @@ class TestValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Mobilerun) -> None:
-        response = client.scripts.validations.with_raw_response.create(
+        response = client.functions.validations.with_raw_response.create(
             source="x",
         )
 
@@ -62,7 +62,7 @@ class TestValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Mobilerun) -> None:
-        with client.scripts.validations.with_streaming_response.create(
+        with client.functions.validations.with_streaming_response.create(
             source="x",
         ) as response:
             assert not response.is_closed
@@ -76,7 +76,7 @@ class TestValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Mobilerun) -> None:
-        validation = client.scripts.validations.retrieve(
+        validation = client.functions.validations.retrieve(
             validation_id="550e8400-e29b-41d4-a716-446655440000",
         )
         assert_matches_type(ValidationRetrieveResponse, validation, path=["response"])
@@ -84,7 +84,7 @@ class TestValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve_with_all_params(self, client: Mobilerun) -> None:
-        validation = client.scripts.validations.retrieve(
+        validation = client.functions.validations.retrieve(
             validation_id="550e8400-e29b-41d4-a716-446655440000",
             wait_s=0,
         )
@@ -93,7 +93,7 @@ class TestValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Mobilerun) -> None:
-        response = client.scripts.validations.with_raw_response.retrieve(
+        response = client.functions.validations.with_raw_response.retrieve(
             validation_id="550e8400-e29b-41d4-a716-446655440000",
         )
 
@@ -105,7 +105,7 @@ class TestValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Mobilerun) -> None:
-        with client.scripts.validations.with_streaming_response.retrieve(
+        with client.functions.validations.with_streaming_response.retrieve(
             validation_id="550e8400-e29b-41d4-a716-446655440000",
         ) as response:
             assert not response.is_closed
@@ -120,7 +120,7 @@ class TestValidations:
     @parametrize
     def test_path_params_retrieve(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `validation_id` but received ''"):
-            client.scripts.validations.with_raw_response.retrieve(
+            client.functions.validations.with_raw_response.retrieve(
                 validation_id="",
             )
 
@@ -133,7 +133,7 @@ class TestAsyncValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncMobilerun) -> None:
-        validation = await async_client.scripts.validations.create(
+        validation = await async_client.functions.validations.create(
             source="x",
         )
         assert_matches_type(ValidationCreateResponse, validation, path=["response"])
@@ -141,7 +141,7 @@ class TestAsyncValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncMobilerun) -> None:
-        validation = await async_client.scripts.validations.create(
+        validation = await async_client.functions.validations.create(
             source="x",
             wait_s=0,
             manifest={
@@ -160,7 +160,7 @@ class TestAsyncValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.scripts.validations.with_raw_response.create(
+        response = await async_client.functions.validations.with_raw_response.create(
             source="x",
         )
 
@@ -172,7 +172,7 @@ class TestAsyncValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.scripts.validations.with_streaming_response.create(
+        async with async_client.functions.validations.with_streaming_response.create(
             source="x",
         ) as response:
             assert not response.is_closed
@@ -186,7 +186,7 @@ class TestAsyncValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncMobilerun) -> None:
-        validation = await async_client.scripts.validations.retrieve(
+        validation = await async_client.functions.validations.retrieve(
             validation_id="550e8400-e29b-41d4-a716-446655440000",
         )
         assert_matches_type(ValidationRetrieveResponse, validation, path=["response"])
@@ -194,7 +194,7 @@ class TestAsyncValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncMobilerun) -> None:
-        validation = await async_client.scripts.validations.retrieve(
+        validation = await async_client.functions.validations.retrieve(
             validation_id="550e8400-e29b-41d4-a716-446655440000",
             wait_s=0,
         )
@@ -203,7 +203,7 @@ class TestAsyncValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMobilerun) -> None:
-        response = await async_client.scripts.validations.with_raw_response.retrieve(
+        response = await async_client.functions.validations.with_raw_response.retrieve(
             validation_id="550e8400-e29b-41d4-a716-446655440000",
         )
 
@@ -215,7 +215,7 @@ class TestAsyncValidations:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMobilerun) -> None:
-        async with async_client.scripts.validations.with_streaming_response.retrieve(
+        async with async_client.functions.validations.with_streaming_response.retrieve(
             validation_id="550e8400-e29b-41d4-a716-446655440000",
         ) as response:
             assert not response.is_closed
@@ -230,6 +230,6 @@ class TestAsyncValidations:
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `validation_id` but received ''"):
-            await async_client.scripts.validations.with_raw_response.retrieve(
+            await async_client.functions.validations.with_raw_response.retrieve(
                 validation_id="",
             )

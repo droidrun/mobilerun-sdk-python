@@ -72,14 +72,6 @@ from .proxies import (
     ProxiesResourceWithStreamingResponse,
     AsyncProxiesResourceWithStreamingResponse,
 )
-from .scripts import (
-    ScriptsResource,
-    AsyncScriptsResource,
-    ScriptsResourceWithRawResponse,
-    AsyncScriptsResourceWithRawResponse,
-    ScriptsResourceWithStreamingResponse,
-    AsyncScriptsResourceWithStreamingResponse,
-)
 from .messages import (
     MessagesResource,
     AsyncMessagesResource,
@@ -103,6 +95,14 @@ from .assistant import (
     AsyncAssistantResourceWithRawResponse,
     AssistantResourceWithStreamingResponse,
     AsyncAssistantResourceWithStreamingResponse,
+)
+from .functions import (
+    FunctionsResource,
+    AsyncFunctionsResource,
+    FunctionsResourceWithRawResponse,
+    AsyncFunctionsResourceWithRawResponse,
+    FunctionsResourceWithStreamingResponse,
+    AsyncFunctionsResourceWithStreamingResponse,
 )
 from .mailboxes import (
     MailboxesResource,
@@ -160,12 +160,12 @@ __all__ = [
     "AsyncProxiesResourceWithRawResponse",
     "ProxiesResourceWithStreamingResponse",
     "AsyncProxiesResourceWithStreamingResponse",
-    "ScriptsResource",
-    "AsyncScriptsResource",
-    "ScriptsResourceWithRawResponse",
-    "AsyncScriptsResourceWithRawResponse",
-    "ScriptsResourceWithStreamingResponse",
-    "AsyncScriptsResourceWithStreamingResponse",
+    "FunctionsResource",
+    "AsyncFunctionsResource",
+    "FunctionsResourceWithRawResponse",
+    "AsyncFunctionsResourceWithRawResponse",
+    "FunctionsResourceWithStreamingResponse",
+    "AsyncFunctionsResourceWithStreamingResponse",
     "ConnectResource",
     "AsyncConnectResource",
     "ConnectResourceWithRawResponse",

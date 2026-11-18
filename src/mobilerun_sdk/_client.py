@@ -46,10 +46,10 @@ if TYPE_CHECKING:
         devices,
         numbers,
         proxies,
-        scripts,
         messages,
         webhooks,
         assistant,
+        functions,
         mailboxes,
         workflows,
         credentials,
@@ -63,10 +63,10 @@ if TYPE_CHECKING:
     from .resources.connect.connect import ConnectResource, AsyncConnectResource
     from .resources.devices.devices import DevicesResource, AsyncDevicesResource
     from .resources.numbers.numbers import NumbersResource, AsyncNumbersResource
-    from .resources.scripts.scripts import ScriptsResource, AsyncScriptsResource
     from .resources.messages.messages import MessagesResource, AsyncMessagesResource
     from .resources.webhooks.webhooks import WebhooksResource, AsyncWebhooksResource
     from .resources.assistant.assistant import AssistantResource, AsyncAssistantResource
+    from .resources.functions.functions import FunctionsResource, AsyncFunctionsResource
     from .resources.mailboxes.mailboxes import MailboxesResource, AsyncMailboxesResource
     from .resources.workflows.workflows import WorkflowsResource, AsyncWorkflowsResource
     from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
@@ -176,10 +176,10 @@ class Mobilerun(SyncAPIClient):
         return ProxiesResource(self)
 
     @cached_property
-    def scripts(self) -> ScriptsResource:
-        from .resources.scripts import ScriptsResource
+    def functions(self) -> FunctionsResource:
+        from .resources.functions import FunctionsResource
 
-        return ScriptsResource(self)
+        return FunctionsResource(self)
 
     @cached_property
     def connect(self) -> ConnectResource:
@@ -459,10 +459,10 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncProxiesResource(self)
 
     @cached_property
-    def scripts(self) -> AsyncScriptsResource:
-        from .resources.scripts import AsyncScriptsResource
+    def functions(self) -> AsyncFunctionsResource:
+        from .resources.functions import AsyncFunctionsResource
 
-        return AsyncScriptsResource(self)
+        return AsyncFunctionsResource(self)
 
     @cached_property
     def connect(self) -> AsyncConnectResource:
@@ -686,10 +686,10 @@ class MobilerunWithRawResponse:
         return ProxiesResourceWithRawResponse(self._client.proxies)
 
     @cached_property
-    def scripts(self) -> scripts.ScriptsResourceWithRawResponse:
-        from .resources.scripts import ScriptsResourceWithRawResponse
+    def functions(self) -> functions.FunctionsResourceWithRawResponse:
+        from .resources.functions import FunctionsResourceWithRawResponse
 
-        return ScriptsResourceWithRawResponse(self._client.scripts)
+        return FunctionsResourceWithRawResponse(self._client.functions)
 
     @cached_property
     def connect(self) -> connect.ConnectResourceWithRawResponse:
@@ -790,10 +790,10 @@ class AsyncMobilerunWithRawResponse:
         return AsyncProxiesResourceWithRawResponse(self._client.proxies)
 
     @cached_property
-    def scripts(self) -> scripts.AsyncScriptsResourceWithRawResponse:
-        from .resources.scripts import AsyncScriptsResourceWithRawResponse
+    def functions(self) -> functions.AsyncFunctionsResourceWithRawResponse:
+        from .resources.functions import AsyncFunctionsResourceWithRawResponse
 
-        return AsyncScriptsResourceWithRawResponse(self._client.scripts)
+        return AsyncFunctionsResourceWithRawResponse(self._client.functions)
 
     @cached_property
     def connect(self) -> connect.AsyncConnectResourceWithRawResponse:
@@ -894,10 +894,10 @@ class MobilerunWithStreamedResponse:
         return ProxiesResourceWithStreamingResponse(self._client.proxies)
 
     @cached_property
-    def scripts(self) -> scripts.ScriptsResourceWithStreamingResponse:
-        from .resources.scripts import ScriptsResourceWithStreamingResponse
+    def functions(self) -> functions.FunctionsResourceWithStreamingResponse:
+        from .resources.functions import FunctionsResourceWithStreamingResponse
 
-        return ScriptsResourceWithStreamingResponse(self._client.scripts)
+        return FunctionsResourceWithStreamingResponse(self._client.functions)
 
     @cached_property
     def connect(self) -> connect.ConnectResourceWithStreamingResponse:
@@ -998,10 +998,10 @@ class AsyncMobilerunWithStreamedResponse:
         return AsyncProxiesResourceWithStreamingResponse(self._client.proxies)
 
     @cached_property
-    def scripts(self) -> scripts.AsyncScriptsResourceWithStreamingResponse:
-        from .resources.scripts import AsyncScriptsResourceWithStreamingResponse
+    def functions(self) -> functions.AsyncFunctionsResourceWithStreamingResponse:
+        from .resources.functions import AsyncFunctionsResourceWithStreamingResponse
 
-        return AsyncScriptsResourceWithStreamingResponse(self._client.scripts)
+        return AsyncFunctionsResourceWithStreamingResponse(self._client.functions)
 
     @cached_property
     def connect(self) -> connect.AsyncConnectResourceWithStreamingResponse:

@@ -2,18 +2,18 @@
 
 from typing import List
 
-from .script import Script
 from .._models import BaseModel
 from .shared.pagination import Pagination
+from .serverless_function import ServerlessFunction
 
-__all__ = ["ScriptListResponse", "Data"]
+__all__ = ["FunctionListResponse", "Data"]
 
 
 class Data(BaseModel):
-    items: List[Script]
+    items: List[ServerlessFunction]
 
     pagination: Pagination
 
 
-class ScriptListResponse(BaseModel):
+class FunctionListResponse(BaseModel):
     data: Data

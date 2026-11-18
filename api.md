@@ -549,36 +549,36 @@ Methods:
 - <code title="get /proxies">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/proxy_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/proxy_list_response.py">ProxyListResponse</a></code>
 - <code title="delete /proxies/{proxyId}">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">delete</a>(proxy_id) -> <a href="./src/mobilerun_sdk/types/proxy_delete_response.py">ProxyDeleteResponse</a></code>
 
-# Scripts
+# Functions
 
 Types:
 
 ```python
 from mobilerun_sdk.types import (
-    Script,
-    ScriptSource,
-    ScriptCreateResponse,
-    ScriptRetrieveResponse,
-    ScriptListResponse,
-    ScriptSourceResponse,
+    FunctionSource,
+    ServerlessFunction,
+    FunctionCreateResponse,
+    FunctionRetrieveResponse,
+    FunctionListResponse,
+    FunctionSourceResponse,
 )
 ```
 
 Methods:
 
-- <code title="post /sandbox/scripts">client.scripts.<a href="./src/mobilerun_sdk/resources/scripts/scripts.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/script_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/script_create_response.py">ScriptCreateResponse</a></code>
-- <code title="get /sandbox/scripts/{scriptId}">client.scripts.<a href="./src/mobilerun_sdk/resources/scripts/scripts.py">retrieve</a>(script_id) -> <a href="./src/mobilerun_sdk/types/script_retrieve_response.py">ScriptRetrieveResponse</a></code>
-- <code title="get /sandbox/scripts">client.scripts.<a href="./src/mobilerun_sdk/resources/scripts/scripts.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/script_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/script_list_response.py">ScriptListResponse</a></code>
-- <code title="delete /sandbox/scripts/{scriptId}">client.scripts.<a href="./src/mobilerun_sdk/resources/scripts/scripts.py">delete</a>(script_id) -> None</code>
-- <code title="get /sandbox/scripts/{scriptId}/source">client.scripts.<a href="./src/mobilerun_sdk/resources/scripts/scripts.py">source</a>(script_id) -> <a href="./src/mobilerun_sdk/types/script_source_response.py">ScriptSourceResponse</a></code>
+- <code title="post /functions">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/function_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/function_create_response.py">FunctionCreateResponse</a></code>
+- <code title="get /functions/{functionId}">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">retrieve</a>(function_id) -> <a href="./src/mobilerun_sdk/types/function_retrieve_response.py">FunctionRetrieveResponse</a></code>
+- <code title="get /functions">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/function_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/function_list_response.py">FunctionListResponse</a></code>
+- <code title="delete /functions/{functionId}">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">delete</a>(function_id) -> None</code>
+- <code title="get /functions/{functionId}/source">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">source</a>(function_id) -> <a href="./src/mobilerun_sdk/types/function_source_response.py">FunctionSourceResponse</a></code>
 
 ## Validations
 
 Types:
 
 ```python
-from mobilerun_sdk.types.scripts import (
-    Validation,
+from mobilerun_sdk.types.functions import (
+    FunctionValidation,
     ValidationCreateResponse,
     ValidationRetrieveResponse,
 )
@@ -586,8 +586,8 @@ from mobilerun_sdk.types.scripts import (
 
 Methods:
 
-- <code title="post /sandbox/scripts/validations">client.scripts.validations.<a href="./src/mobilerun_sdk/resources/scripts/validations.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/scripts/validation_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/scripts/validation_create_response.py">ValidationCreateResponse</a></code>
-- <code title="get /sandbox/scripts/validations/{validationId}">client.scripts.validations.<a href="./src/mobilerun_sdk/resources/scripts/validations.py">retrieve</a>(validation_id, \*\*<a href="src/mobilerun_sdk/types/scripts/validation_retrieve_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/scripts/validation_retrieve_response.py">ValidationRetrieveResponse</a></code>
+- <code title="post /functions/validations">client.functions.validations.<a href="./src/mobilerun_sdk/resources/functions/validations.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/functions/validation_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/functions/validation_create_response.py">ValidationCreateResponse</a></code>
+- <code title="get /functions/validations/{validationId}">client.functions.validations.<a href="./src/mobilerun_sdk/resources/functions/validations.py">retrieve</a>(validation_id, \*\*<a href="src/mobilerun_sdk/types/functions/validation_retrieve_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/functions/validation_retrieve_response.py">ValidationRetrieveResponse</a></code>
 
 # Connect
 

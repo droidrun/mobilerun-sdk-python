@@ -1,12 +1,12 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .scripts import (
-    ScriptsResource,
-    AsyncScriptsResource,
-    ScriptsResourceWithRawResponse,
-    AsyncScriptsResourceWithRawResponse,
-    ScriptsResourceWithStreamingResponse,
-    AsyncScriptsResourceWithStreamingResponse,
+from .functions import (
+    FunctionsResource,
+    AsyncFunctionsResource,
+    FunctionsResourceWithRawResponse,
+    AsyncFunctionsResourceWithRawResponse,
+    FunctionsResourceWithStreamingResponse,
+    AsyncFunctionsResourceWithStreamingResponse,
 )
 from .validations import (
     ValidationsResource,
@@ -24,10 +24,10 @@ __all__ = [
     "AsyncValidationsResourceWithRawResponse",
     "ValidationsResourceWithStreamingResponse",
     "AsyncValidationsResourceWithStreamingResponse",
-    "ScriptsResource",
-    "AsyncScriptsResource",
-    "ScriptsResourceWithRawResponse",
-    "AsyncScriptsResourceWithRawResponse",
-    "ScriptsResourceWithStreamingResponse",
-    "AsyncScriptsResourceWithStreamingResponse",
+    "FunctionsResource",
+    "AsyncFunctionsResource",
+    "FunctionsResourceWithRawResponse",
+    "AsyncFunctionsResourceWithRawResponse",
+    "FunctionsResourceWithStreamingResponse",
+    "AsyncFunctionsResourceWithStreamingResponse",
 ]
