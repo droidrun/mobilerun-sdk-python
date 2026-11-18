@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.3.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.2.1...v6.3.0) (2026-11-18)
+
+
+### Features
+
+* **sdk:** add sandbox scripts preview ([a77e684](https://github.com/droidrun/mobilerun-sdk-python/commit/a77e6844666c4abc96b7c1067d81293ad9e2e69c))
+
 ## [6.2.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.2.0...v6.2.1) (2026-11-14)
 
 
