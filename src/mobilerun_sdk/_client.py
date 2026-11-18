@@ -49,6 +49,7 @@ if TYPE_CHECKING:
         messages,
         webhooks,
         assistant,
+        functions,
         mailboxes,
         workflows,
         credentials,
@@ -65,6 +66,7 @@ if TYPE_CHECKING:
     from .resources.messages.messages import MessagesResource, AsyncMessagesResource
     from .resources.webhooks.webhooks import WebhooksResource, AsyncWebhooksResource
     from .resources.assistant.assistant import AssistantResource, AsyncAssistantResource
+    from .resources.functions.functions import FunctionsResource, AsyncFunctionsResource
     from .resources.mailboxes.mailboxes import MailboxesResource, AsyncMailboxesResource
     from .resources.workflows.workflows import WorkflowsResource, AsyncWorkflowsResource
     from .resources.credentials.credentials import CredentialsResource, AsyncCredentialsResource
@@ -172,6 +174,12 @@ class Mobilerun(SyncAPIClient):
         from .resources.proxies import ProxiesResource
 
         return ProxiesResource(self)
+
+    @cached_property
+    def functions(self) -> FunctionsResource:
+        from .resources.functions import FunctionsResource
+
+        return FunctionsResource(self)
 
     @cached_property
     def connect(self) -> ConnectResource:
@@ -451,6 +459,12 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncProxiesResource(self)
 
     @cached_property
+    def functions(self) -> AsyncFunctionsResource:
+        from .resources.functions import AsyncFunctionsResource
+
+        return AsyncFunctionsResource(self)
+
+    @cached_property
     def connect(self) -> AsyncConnectResource:
         from .resources.connect import AsyncConnectResource
 
@@ -672,6 +686,12 @@ class MobilerunWithRawResponse:
         return ProxiesResourceWithRawResponse(self._client.proxies)
 
     @cached_property
+    def functions(self) -> functions.FunctionsResourceWithRawResponse:
+        from .resources.functions import FunctionsResourceWithRawResponse
+
+        return FunctionsResourceWithRawResponse(self._client.functions)
+
+    @cached_property
     def connect(self) -> connect.ConnectResourceWithRawResponse:
         from .resources.connect import ConnectResourceWithRawResponse
 
@@ -768,6 +788,12 @@ class AsyncMobilerunWithRawResponse:
         from .resources.proxies import AsyncProxiesResourceWithRawResponse
 
         return AsyncProxiesResourceWithRawResponse(self._client.proxies)
+
+    @cached_property
+    def functions(self) -> functions.AsyncFunctionsResourceWithRawResponse:
+        from .resources.functions import AsyncFunctionsResourceWithRawResponse
+
+        return AsyncFunctionsResourceWithRawResponse(self._client.functions)
 
     @cached_property
     def connect(self) -> connect.AsyncConnectResourceWithRawResponse:
@@ -868,6 +894,12 @@ class MobilerunWithStreamedResponse:
         return ProxiesResourceWithStreamingResponse(self._client.proxies)
 
     @cached_property
+    def functions(self) -> functions.FunctionsResourceWithStreamingResponse:
+        from .resources.functions import FunctionsResourceWithStreamingResponse
+
+        return FunctionsResourceWithStreamingResponse(self._client.functions)
+
+    @cached_property
     def connect(self) -> connect.ConnectResourceWithStreamingResponse:
         from .resources.connect import ConnectResourceWithStreamingResponse
 
@@ -964,6 +996,12 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.proxies import AsyncProxiesResourceWithStreamingResponse
 
         return AsyncProxiesResourceWithStreamingResponse(self._client.proxies)
+
+    @cached_property
+    def functions(self) -> functions.AsyncFunctionsResourceWithStreamingResponse:
+        from .resources.functions import AsyncFunctionsResourceWithStreamingResponse
+
+        return AsyncFunctionsResourceWithStreamingResponse(self._client.functions)
 
     @cached_property
     def connect(self) -> connect.AsyncConnectResourceWithStreamingResponse:

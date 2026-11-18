@@ -267,19 +267,24 @@ from ..types.devices.browser_execute_script_response import BrowserExecuteScript
 from ..types.devices.traffic_session_create_response import TrafficSessionCreateResponse
 from ..types.devices.traffic_session_delete_response import TrafficSessionDeleteResponse
 from ..types.workflows.actions.service_list_response import ServiceListResponse
+from ..types.workflows.flow_document_schema_response import FlowDocumentSchemaResponse
 from ..types.workflows.flow_retrieve_repair_response import FlowRetrieveRepairResponse
 from ..types.workflows.flows.action_replace_response import ActionReplaceResponse
 from ..types.messages.conversation_mark_read_response import ConversationMarkReadResponse
 from ..types.workflows.execution_get_metrics_response import ExecutionGetMetricsResponse
 from ..types.workflows.flow_delivery_options_response import FlowDeliveryOptionsResponse
+from ..types.workflows.flow_replace_document_response import FlowReplaceDocumentResponse
 from ..types.workflows.flow_template_context_response import FlowTemplateContextResponse
 from ..types.credentials.packages.link_create_response import LinkCreateResponse
 from ..types.devices.traffic_session_retrieve_response import TrafficSessionRetrieveResponse
+from ..types.workflows.flow_retrieve_document_response import FlowRetrieveDocumentResponse
+from ..types.workflows.flow_validate_document_response import FlowValidateDocumentResponse
 from ..types.webhooks.integration_list_targets_response import IntegrationListTargetsResponse
 from ..types.workflows.action_catalog_retrieve_response import ActionCatalogRetrieveResponse
 from ..types.agents.request_retrieve_by_session_response import RequestRetrieveBySessionResponse
 from ..types.webhooks.delivery_list_for_webhook_response import DeliveryListForWebhookResponse
 from ..types.webhooks.delivery_retrieve_attempts_response import DeliveryRetrieveAttemptsResponse
+from ..types.workflows.flow_create_from_document_response import FlowCreateFromDocumentResponse
 from ..types.workflows.flows.state_list_versions_response import StateListVersionsResponse
 from ..types.credentials.packages.credential_create_response import CredentialCreateResponse
 from ..types.credentials.packages.credential_delete_response import CredentialDeleteResponse
@@ -318,6 +323,7 @@ class MobilerunSDK:
         self.devices = DeviceManager(self.api)
         self.models = self.api.models
         self.proxies = ProxyConfigurationManager(self.api)
+        self.functions = self.api.functions
         self.connect = _SDKConnect(self.api)
         self.tasks = TaskManager(self.api)
         self.workflows = _SDKWorkflows(self.api)
@@ -2645,6 +2651,78 @@ class FlowManager:
         )
         return result
 
+    def create_from_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowCreateFromDocumentResponse:
+        """Atomically creates the trigger, actions and disabled flow.
+
+        Body: {document}.
+        Optional Idempotency-Key fingerprints the canonical document; identical retries
+        reload the resource, changed documents return idempotency_key_reused. Verify and
+        activate with the existing flow endpoints.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.workflows.flows.create_from_document(
+            document=document,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def document_schema(
+        self,
+        *,
+        profile: Literal["agent_routine"] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowDocumentSchemaResponse:
+        """The optional agent_routine profile lists only agent-eligible steps.
+
+        This is
+        authoring guidance; backend validation remains authoritative.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        result = self.api.workflows.flows.document_schema(
+            profile=profile,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+        return result
+
     def template_context(
         self,
         *,
@@ -2787,6 +2865,45 @@ class FlowManager:
             agent_id=agent_id,
             contract=contract,
             verify=verify,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def validate_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowValidateDocumentResponse:
+        """Validates graph, settings and scheduled inputs without writing.
+
+        Disconnected
+        delivery destinations produce warnings; create and replace enforce the existing
+        delivery connection checks.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.workflows.flows.validate_document(
+            document=document,
             extra_headers=extra_headers,
             extra_query=extra_query,
             extra_body=extra_body,
@@ -10067,6 +10184,67 @@ class Flow:
     ) -> FlowListRepairsResponse:
         """List self-healing repair episodes"""
         result = self.api.workflows.flows.list_repairs(
+            self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+        )
+        return result
+
+    def replace_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowReplaceDocumentResponse:
+        """Body: {document}.
+
+        Preserves enabled state. Omitted settings preserves all stored
+        settings; present settings replaces them, with absent fields defaulted. Agent
+        routines require a new version deployed through the agent. Omitted description,
+        devices and trigger options clear their values. Shared triggers return
+        trigger_shared and agent-managed routines return routine_agent_managed (409);
+        shared action definitions are never modified.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.workflows.flows.replace_document(
+            self.id,
+            document=document,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def retrieve_document(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowRetrieveDocumentResponse:
+        """
+        Returns the canonical routine document, including delivery, recording, health,
+        cooldown, owner wake and scheduled inputs. Unsupported stored behavior returns
+        document_unsupported with JSON Pointer paths.
+        """
+        result = self.api.workflows.flows.retrieve_document(
             self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
         )
         return result

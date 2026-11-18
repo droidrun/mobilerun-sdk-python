@@ -24,9 +24,14 @@ from mobilerun_sdk.types.workflows import (
     FlowRetrieveResponse,
     FlowValidateResponse,
     FlowListRepairsResponse,
+    FlowDocumentSchemaResponse,
     FlowRetrieveRepairResponse,
     FlowDeliveryOptionsResponse,
+    FlowReplaceDocumentResponse,
     FlowTemplateContextResponse,
+    FlowRetrieveDocumentResponse,
+    FlowValidateDocumentResponse,
+    FlowCreateFromDocumentResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -480,6 +485,42 @@ class TestFlows:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_create_from_document(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.create_from_document()
+        assert_matches_type(FlowCreateFromDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_create_from_document_with_all_params(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.create_from_document(
+            document={},
+        )
+        assert_matches_type(FlowCreateFromDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_create_from_document(self, client: Mobilerun) -> None:
+        response = client.workflows.flows.with_raw_response.create_from_document()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = response.parse()
+        assert_matches_type(FlowCreateFromDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_create_from_document(self, client: Mobilerun) -> None:
+        with client.workflows.flows.with_streaming_response.create_from_document() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = response.parse()
+            assert_matches_type(FlowCreateFromDocumentResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_method_delivery_options(self, client: Mobilerun) -> None:
         flow = client.workflows.flows.delivery_options(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -519,6 +560,42 @@ class TestFlows:
             client.workflows.flows.with_raw_response.delivery_options(
                 "",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_document_schema(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.document_schema()
+        assert_matches_type(FlowDocumentSchemaResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_document_schema_with_all_params(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.document_schema(
+            profile="agent_routine",
+        )
+        assert_matches_type(FlowDocumentSchemaResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_document_schema(self, client: Mobilerun) -> None:
+        response = client.workflows.flows.with_raw_response.document_schema()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = response.parse()
+        assert_matches_type(FlowDocumentSchemaResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_document_schema(self, client: Mobilerun) -> None:
+        with client.workflows.flows.with_streaming_response.document_schema() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = response.parse()
+            assert_matches_type(FlowDocumentSchemaResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -610,6 +687,99 @@ class TestFlows:
     def test_path_params_list_repairs(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `flow_id` but received ''"):
             client.workflows.flows.with_raw_response.list_repairs(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_replace_document(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.replace_document(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(FlowReplaceDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_replace_document_with_all_params(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.replace_document(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            document={},
+        )
+        assert_matches_type(FlowReplaceDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_replace_document(self, client: Mobilerun) -> None:
+        response = client.workflows.flows.with_raw_response.replace_document(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = response.parse()
+        assert_matches_type(FlowReplaceDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_replace_document(self, client: Mobilerun) -> None:
+        with client.workflows.flows.with_streaming_response.replace_document(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = response.parse()
+            assert_matches_type(FlowReplaceDocumentResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_replace_document(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `flow_id` but received ''"):
+            client.workflows.flows.with_raw_response.replace_document(
+                flow_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_retrieve_document(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.retrieve_document(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(FlowRetrieveDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_retrieve_document(self, client: Mobilerun) -> None:
+        response = client.workflows.flows.with_raw_response.retrieve_document(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = response.parse()
+        assert_matches_type(FlowRetrieveDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_retrieve_document(self, client: Mobilerun) -> None:
+        with client.workflows.flows.with_streaming_response.retrieve_document(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = response.parse()
+            assert_matches_type(FlowRetrieveDocumentResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_retrieve_document(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `flow_id` but received ''"):
+            client.workflows.flows.with_raw_response.retrieve_document(
                 "",
             )
 
@@ -1052,6 +1222,42 @@ class TestFlows:
 
             flow = response.parse()
             assert_matches_type(FlowValidateResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_validate_document(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.validate_document()
+        assert_matches_type(FlowValidateDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_validate_document_with_all_params(self, client: Mobilerun) -> None:
+        flow = client.workflows.flows.validate_document(
+            document={},
+        )
+        assert_matches_type(FlowValidateDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_validate_document(self, client: Mobilerun) -> None:
+        response = client.workflows.flows.with_raw_response.validate_document()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = response.parse()
+        assert_matches_type(FlowValidateDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_validate_document(self, client: Mobilerun) -> None:
+        with client.workflows.flows.with_streaming_response.validate_document() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = response.parse()
+            assert_matches_type(FlowValidateDocumentResponse, flow, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -1563,6 +1769,42 @@ class TestAsyncFlows:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    async def test_method_create_from_document(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.create_from_document()
+        assert_matches_type(FlowCreateFromDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_create_from_document_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.create_from_document(
+            document={},
+        )
+        assert_matches_type(FlowCreateFromDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_create_from_document(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.workflows.flows.with_raw_response.create_from_document()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = await response.parse()
+        assert_matches_type(FlowCreateFromDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_create_from_document(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.workflows.flows.with_streaming_response.create_from_document() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = await response.parse()
+            assert_matches_type(FlowCreateFromDocumentResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     async def test_method_delivery_options(self, async_client: AsyncMobilerun) -> None:
         flow = await async_client.workflows.flows.delivery_options(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -1602,6 +1844,42 @@ class TestAsyncFlows:
             await async_client.workflows.flows.with_raw_response.delivery_options(
                 "",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_document_schema(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.document_schema()
+        assert_matches_type(FlowDocumentSchemaResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_document_schema_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.document_schema(
+            profile="agent_routine",
+        )
+        assert_matches_type(FlowDocumentSchemaResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_document_schema(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.workflows.flows.with_raw_response.document_schema()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = await response.parse()
+        assert_matches_type(FlowDocumentSchemaResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_document_schema(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.workflows.flows.with_streaming_response.document_schema() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = await response.parse()
+            assert_matches_type(FlowDocumentSchemaResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1693,6 +1971,99 @@ class TestAsyncFlows:
     async def test_path_params_list_repairs(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `flow_id` but received ''"):
             await async_client.workflows.flows.with_raw_response.list_repairs(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_replace_document(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.replace_document(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(FlowReplaceDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_replace_document_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.replace_document(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            document={},
+        )
+        assert_matches_type(FlowReplaceDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_replace_document(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.workflows.flows.with_raw_response.replace_document(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = await response.parse()
+        assert_matches_type(FlowReplaceDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_replace_document(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.workflows.flows.with_streaming_response.replace_document(
+            flow_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = await response.parse()
+            assert_matches_type(FlowReplaceDocumentResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_replace_document(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `flow_id` but received ''"):
+            await async_client.workflows.flows.with_raw_response.replace_document(
+                flow_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_retrieve_document(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.retrieve_document(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(FlowRetrieveDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_retrieve_document(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.workflows.flows.with_raw_response.retrieve_document(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = await response.parse()
+        assert_matches_type(FlowRetrieveDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_retrieve_document(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.workflows.flows.with_streaming_response.retrieve_document(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = await response.parse()
+            assert_matches_type(FlowRetrieveDocumentResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_retrieve_document(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `flow_id` but received ''"):
+            await async_client.workflows.flows.with_raw_response.retrieve_document(
                 "",
             )
 
@@ -2135,6 +2506,42 @@ class TestAsyncFlows:
 
             flow = await response.parse()
             assert_matches_type(FlowValidateResponse, flow, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_validate_document(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.validate_document()
+        assert_matches_type(FlowValidateDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_validate_document_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        flow = await async_client.workflows.flows.validate_document(
+            document={},
+        )
+        assert_matches_type(FlowValidateDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_validate_document(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.workflows.flows.with_raw_response.validate_document()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        flow = await response.parse()
+        assert_matches_type(FlowValidateDocumentResponse, flow, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_validate_document(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.workflows.flows.with_streaming_response.validate_document() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            flow = await response.parse()
+            assert_matches_type(FlowValidateDocumentResponse, flow, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
