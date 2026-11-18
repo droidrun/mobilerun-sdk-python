@@ -45,7 +45,11 @@ from ....types.workflows import (
     flow_activate_params,
     flow_capacity_params,
     flow_validate_params,
+    flow_document_schema_params,
+    flow_replace_document_params,
     flow_template_context_params,
+    flow_validate_document_params,
+    flow_create_from_document_params,
 )
 from ....types.workflows.flow_run_response import FlowRunResponse
 from ....types.workflows.flow_list_response import FlowListResponse
@@ -61,9 +65,14 @@ from ....types.workflows.flow_capacity_response import FlowCapacityResponse
 from ....types.workflows.flow_retrieve_response import FlowRetrieveResponse
 from ....types.workflows.flow_validate_response import FlowValidateResponse
 from ....types.workflows.flow_list_repairs_response import FlowListRepairsResponse
+from ....types.workflows.flow_document_schema_response import FlowDocumentSchemaResponse
 from ....types.workflows.flow_retrieve_repair_response import FlowRetrieveRepairResponse
 from ....types.workflows.flow_delivery_options_response import FlowDeliveryOptionsResponse
+from ....types.workflows.flow_replace_document_response import FlowReplaceDocumentResponse
 from ....types.workflows.flow_template_context_response import FlowTemplateContextResponse
+from ....types.workflows.flow_retrieve_document_response import FlowRetrieveDocumentResponse
+from ....types.workflows.flow_validate_document_response import FlowValidateDocumentResponse
+from ....types.workflows.flow_create_from_document_response import FlowCreateFromDocumentResponse
 
 __all__ = ["FlowsResource", "AsyncFlowsResource"]
 
@@ -561,6 +570,51 @@ class FlowsResource(SyncAPIResource):
             cast_to=FlowCloneResponse,
         )
 
+    def create_from_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowCreateFromDocumentResponse:
+        """Atomically creates the trigger, actions and disabled flow.
+
+        Body: {document}.
+        Optional Idempotency-Key fingerprints the canonical document; identical retries
+        reload the resource, changed documents return idempotency_key_reused. Verify and
+        activate with the existing flow endpoints.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        return self._post(
+            "/flows/document",
+            body=maybe_transform({"document": document}, flow_create_from_document_params.FlowCreateFromDocumentParams),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=FlowCreateFromDocumentResponse,
+        )
+
     def delivery_options(
         self,
         flow_id: str,
@@ -596,6 +650,43 @@ class FlowsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FlowDeliveryOptionsResponse,
+        )
+
+    def document_schema(
+        self,
+        *,
+        profile: Literal["agent_routine"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowDocumentSchemaResponse:
+        """The optional agent_routine profile lists only agent-eligible steps.
+
+        This is
+        authoring guidance; backend validation remains authoritative.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/flows/document-schema",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"profile": profile}, flow_document_schema_params.FlowDocumentSchemaParams),
+            ),
+            cast_to=FlowDocumentSchemaResponse,
         )
 
     def dry_run(
@@ -685,6 +776,91 @@ class FlowsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FlowListRepairsResponse,
+        )
+
+    def replace_document(
+        self,
+        flow_id: str,
+        *,
+        document: object | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowReplaceDocumentResponse:
+        """Body: {document}.
+
+        Preserves enabled state. Omitted settings preserves all stored
+        settings; present settings replaces them, with absent fields defaulted. Agent
+        routines require a new version deployed through the agent. Omitted description,
+        devices and trigger options clear their values. Shared triggers return
+        trigger_shared and agent-managed routines return routine_agent_managed (409);
+        shared action definitions are never modified.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return self._put(
+            path_template("/flows/{flow_id}/document", flow_id=flow_id),
+            body=maybe_transform({"document": document}, flow_replace_document_params.FlowReplaceDocumentParams),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=FlowReplaceDocumentResponse,
+        )
+
+    def retrieve_document(
+        self,
+        flow_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowRetrieveDocumentResponse:
+        """
+        Returns the canonical routine document, including delivery, recording, health,
+        cooldown, owner wake and scheduled inputs. Unsupported stored behavior returns
+        document_unsupported with JSON Pointer paths.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return self._get(
+            path_template("/flows/{flow_id}/document", flow_id=flow_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FlowRetrieveDocumentResponse,
         )
 
     def retrieve_repair(
@@ -1012,6 +1188,50 @@ class FlowsResource(SyncAPIResource):
                 idempotency_key=idempotency_key,
             ),
             cast_to=FlowValidateResponse,
+        )
+
+    def validate_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowValidateDocumentResponse:
+        """Validates graph, settings and scheduled inputs without writing.
+
+        Disconnected
+        delivery destinations produce warnings; create and replace enforce the existing
+        delivery connection checks.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        return self._post(
+            "/flows/document/validate",
+            body=maybe_transform({"document": document}, flow_validate_document_params.FlowValidateDocumentParams),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=FlowValidateDocumentResponse,
         )
 
     def verify(
@@ -1586,6 +1806,53 @@ class AsyncFlowsResource(AsyncAPIResource):
             cast_to=FlowCloneResponse,
         )
 
+    async def create_from_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowCreateFromDocumentResponse:
+        """Atomically creates the trigger, actions and disabled flow.
+
+        Body: {document}.
+        Optional Idempotency-Key fingerprints the canonical document; identical retries
+        reload the resource, changed documents return idempotency_key_reused. Verify and
+        activate with the existing flow endpoints.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        return await self._post(
+            "/flows/document",
+            body=await async_maybe_transform(
+                {"document": document}, flow_create_from_document_params.FlowCreateFromDocumentParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=FlowCreateFromDocumentResponse,
+        )
+
     async def delivery_options(
         self,
         flow_id: str,
@@ -1621,6 +1888,45 @@ class AsyncFlowsResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FlowDeliveryOptionsResponse,
+        )
+
+    async def document_schema(
+        self,
+        *,
+        profile: Literal["agent_routine"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowDocumentSchemaResponse:
+        """The optional agent_routine profile lists only agent-eligible steps.
+
+        This is
+        authoring guidance; backend validation remains authoritative.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/flows/document-schema",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"profile": profile}, flow_document_schema_params.FlowDocumentSchemaParams
+                ),
+            ),
+            cast_to=FlowDocumentSchemaResponse,
         )
 
     async def dry_run(
@@ -1710,6 +2016,93 @@ class AsyncFlowsResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FlowListRepairsResponse,
+        )
+
+    async def replace_document(
+        self,
+        flow_id: str,
+        *,
+        document: object | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowReplaceDocumentResponse:
+        """Body: {document}.
+
+        Preserves enabled state. Omitted settings preserves all stored
+        settings; present settings replaces them, with absent fields defaulted. Agent
+        routines require a new version deployed through the agent. Omitted description,
+        devices and trigger options clear their values. Shared triggers return
+        trigger_shared and agent-managed routines return routine_agent_managed (409);
+        shared action definitions are never modified.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return await self._put(
+            path_template("/flows/{flow_id}/document", flow_id=flow_id),
+            body=await async_maybe_transform(
+                {"document": document}, flow_replace_document_params.FlowReplaceDocumentParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=FlowReplaceDocumentResponse,
+        )
+
+    async def retrieve_document(
+        self,
+        flow_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowRetrieveDocumentResponse:
+        """
+        Returns the canonical routine document, including delivery, recording, health,
+        cooldown, owner wake and scheduled inputs. Unsupported stored behavior returns
+        document_unsupported with JSON Pointer paths.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not flow_id:
+            raise ValueError(f"Expected a non-empty value for `flow_id` but received {flow_id!r}")
+        return await self._get(
+            path_template("/flows/{flow_id}/document", flow_id=flow_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FlowRetrieveDocumentResponse,
         )
 
     async def retrieve_repair(
@@ -2039,6 +2432,52 @@ class AsyncFlowsResource(AsyncAPIResource):
             cast_to=FlowValidateResponse,
         )
 
+    async def validate_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowValidateDocumentResponse:
+        """Validates graph, settings and scheduled inputs without writing.
+
+        Disconnected
+        delivery destinations produce warnings; create and replace enforce the existing
+        delivery connection checks.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        return await self._post(
+            "/flows/document/validate",
+            body=await async_maybe_transform(
+                {"document": document}, flow_validate_document_params.FlowValidateDocumentParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=FlowValidateDocumentResponse,
+        )
+
     async def verify(
         self,
         flow_id: str,
@@ -2146,14 +2585,26 @@ class FlowsResourceWithRawResponse:
         self.clone = to_raw_response_wrapper(
             flows.clone,
         )
+        self.create_from_document = to_raw_response_wrapper(
+            flows.create_from_document,
+        )
         self.delivery_options = to_raw_response_wrapper(
             flows.delivery_options,
+        )
+        self.document_schema = to_raw_response_wrapper(
+            flows.document_schema,
         )
         self.dry_run = to_raw_response_wrapper(
             flows.dry_run,
         )
         self.list_repairs = to_raw_response_wrapper(
             flows.list_repairs,
+        )
+        self.replace_document = to_raw_response_wrapper(
+            flows.replace_document,
+        )
+        self.retrieve_document = to_raw_response_wrapper(
+            flows.retrieve_document,
         )
         self.retrieve_repair = to_raw_response_wrapper(
             flows.retrieve_repair,
@@ -2169,6 +2620,9 @@ class FlowsResourceWithRawResponse:
         )
         self.validate = to_raw_response_wrapper(
             flows.validate,
+        )
+        self.validate_document = to_raw_response_wrapper(
+            flows.validate_document,
         )
         self.verify = to_raw_response_wrapper(
             flows.verify,
@@ -2211,14 +2665,26 @@ class AsyncFlowsResourceWithRawResponse:
         self.clone = async_to_raw_response_wrapper(
             flows.clone,
         )
+        self.create_from_document = async_to_raw_response_wrapper(
+            flows.create_from_document,
+        )
         self.delivery_options = async_to_raw_response_wrapper(
             flows.delivery_options,
+        )
+        self.document_schema = async_to_raw_response_wrapper(
+            flows.document_schema,
         )
         self.dry_run = async_to_raw_response_wrapper(
             flows.dry_run,
         )
         self.list_repairs = async_to_raw_response_wrapper(
             flows.list_repairs,
+        )
+        self.replace_document = async_to_raw_response_wrapper(
+            flows.replace_document,
+        )
+        self.retrieve_document = async_to_raw_response_wrapper(
+            flows.retrieve_document,
         )
         self.retrieve_repair = async_to_raw_response_wrapper(
             flows.retrieve_repair,
@@ -2234,6 +2700,9 @@ class AsyncFlowsResourceWithRawResponse:
         )
         self.validate = async_to_raw_response_wrapper(
             flows.validate,
+        )
+        self.validate_document = async_to_raw_response_wrapper(
+            flows.validate_document,
         )
         self.verify = async_to_raw_response_wrapper(
             flows.verify,
@@ -2276,14 +2745,26 @@ class FlowsResourceWithStreamingResponse:
         self.clone = to_streamed_response_wrapper(
             flows.clone,
         )
+        self.create_from_document = to_streamed_response_wrapper(
+            flows.create_from_document,
+        )
         self.delivery_options = to_streamed_response_wrapper(
             flows.delivery_options,
+        )
+        self.document_schema = to_streamed_response_wrapper(
+            flows.document_schema,
         )
         self.dry_run = to_streamed_response_wrapper(
             flows.dry_run,
         )
         self.list_repairs = to_streamed_response_wrapper(
             flows.list_repairs,
+        )
+        self.replace_document = to_streamed_response_wrapper(
+            flows.replace_document,
+        )
+        self.retrieve_document = to_streamed_response_wrapper(
+            flows.retrieve_document,
         )
         self.retrieve_repair = to_streamed_response_wrapper(
             flows.retrieve_repair,
@@ -2299,6 +2780,9 @@ class FlowsResourceWithStreamingResponse:
         )
         self.validate = to_streamed_response_wrapper(
             flows.validate,
+        )
+        self.validate_document = to_streamed_response_wrapper(
+            flows.validate_document,
         )
         self.verify = to_streamed_response_wrapper(
             flows.verify,
@@ -2341,14 +2825,26 @@ class AsyncFlowsResourceWithStreamingResponse:
         self.clone = async_to_streamed_response_wrapper(
             flows.clone,
         )
+        self.create_from_document = async_to_streamed_response_wrapper(
+            flows.create_from_document,
+        )
         self.delivery_options = async_to_streamed_response_wrapper(
             flows.delivery_options,
+        )
+        self.document_schema = async_to_streamed_response_wrapper(
+            flows.document_schema,
         )
         self.dry_run = async_to_streamed_response_wrapper(
             flows.dry_run,
         )
         self.list_repairs = async_to_streamed_response_wrapper(
             flows.list_repairs,
+        )
+        self.replace_document = async_to_streamed_response_wrapper(
+            flows.replace_document,
+        )
+        self.retrieve_document = async_to_streamed_response_wrapper(
+            flows.retrieve_document,
         )
         self.retrieve_repair = async_to_streamed_response_wrapper(
             flows.retrieve_repair,
@@ -2364,6 +2860,9 @@ class AsyncFlowsResourceWithStreamingResponse:
         )
         self.validate = async_to_streamed_response_wrapper(
             flows.validate,
+        )
+        self.validate_document = async_to_streamed_response_wrapper(
+            flows.validate_document,
         )
         self.verify = async_to_streamed_response_wrapper(
             flows.verify,

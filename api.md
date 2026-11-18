@@ -549,6 +549,46 @@ Methods:
 - <code title="get /proxies">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/proxy_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/proxy_list_response.py">ProxyListResponse</a></code>
 - <code title="delete /proxies/{proxyId}">client.proxies.<a href="./src/mobilerun_sdk/resources/proxies.py">delete</a>(proxy_id) -> <a href="./src/mobilerun_sdk/types/proxy_delete_response.py">ProxyDeleteResponse</a></code>
 
+# Functions
+
+Types:
+
+```python
+from mobilerun_sdk.types import (
+    FunctionSource,
+    ServerlessFunction,
+    FunctionCreateResponse,
+    FunctionRetrieveResponse,
+    FunctionListResponse,
+    FunctionSourceResponse,
+)
+```
+
+Methods:
+
+- <code title="post /functions">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/function_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/function_create_response.py">FunctionCreateResponse</a></code>
+- <code title="get /functions/{functionId}">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">retrieve</a>(function_id) -> <a href="./src/mobilerun_sdk/types/function_retrieve_response.py">FunctionRetrieveResponse</a></code>
+- <code title="get /functions">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/function_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/function_list_response.py">FunctionListResponse</a></code>
+- <code title="delete /functions/{functionId}">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">delete</a>(function_id) -> None</code>
+- <code title="get /functions/{functionId}/source">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">source</a>(function_id) -> <a href="./src/mobilerun_sdk/types/function_source_response.py">FunctionSourceResponse</a></code>
+
+## Validations
+
+Types:
+
+```python
+from mobilerun_sdk.types.functions import (
+    FunctionValidation,
+    ValidationCreateResponse,
+    ValidationRetrieveResponse,
+)
+```
+
+Methods:
+
+- <code title="post /functions/validations">client.functions.validations.<a href="./src/mobilerun_sdk/resources/functions/validations.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/functions/validation_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/functions/validation_create_response.py">ValidationCreateResponse</a></code>
+- <code title="get /functions/validations/{validationId}">client.functions.validations.<a href="./src/mobilerun_sdk/resources/functions/validations.py">retrieve</a>(validation_id, \*\*<a href="src/mobilerun_sdk/types/functions/validation_retrieve_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/functions/validation_retrieve_response.py">ValidationRetrieveResponse</a></code>
+
 # Connect
 
 ## Countries
@@ -757,14 +797,19 @@ from mobilerun_sdk.types.workflows import (
     FlowActivateResponse,
     FlowCapacityResponse,
     FlowCloneResponse,
+    FlowCreateFromDocumentResponse,
     FlowDeliveryOptionsResponse,
+    FlowDocumentSchemaResponse,
     FlowDryRunResponse,
     FlowListRepairsResponse,
+    FlowReplaceDocumentResponse,
+    FlowRetrieveDocumentResponse,
     FlowRetrieveRepairResponse,
     FlowRunResponse,
     FlowTemplateContextResponse,
     FlowUnblockResponse,
     FlowValidateResponse,
+    FlowValidateDocumentResponse,
     FlowVerifyResponse,
 )
 ```
@@ -779,14 +824,19 @@ Methods:
 - <code title="post /flows/{flowId}/activate">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">activate</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_activate_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_activate_response.py">FlowActivateResponse</a></code>
 - <code title="get /flows/capacity">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">capacity</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/flow_capacity_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_capacity_response.py">FlowCapacityResponse</a></code>
 - <code title="post /flows/{flowId}/clone">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">clone</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_clone_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_clone_response.py">FlowCloneResponse</a></code>
+- <code title="post /flows/document">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">create_from_document</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/flow_create_from_document_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_create_from_document_response.py">FlowCreateFromDocumentResponse</a></code>
 - <code title="get /flows/{flowId}/delivery-options">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">delivery_options</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_delivery_options_response.py">FlowDeliveryOptionsResponse</a></code>
+- <code title="get /flows/document-schema">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">document_schema</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/flow_document_schema_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_document_schema_response.py">FlowDocumentSchemaResponse</a></code>
 - <code title="post /flows/{flowId}/dry-run">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">dry_run</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_dry_run_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_dry_run_response.py">FlowDryRunResponse</a></code>
 - <code title="get /flows/{flowId}/repairs">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">list_repairs</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_list_repairs_response.py">FlowListRepairsResponse</a></code>
+- <code title="put /flows/{flowId}/document">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">replace_document</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_replace_document_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_replace_document_response.py">FlowReplaceDocumentResponse</a></code>
+- <code title="get /flows/{flowId}/document">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">retrieve_document</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_retrieve_document_response.py">FlowRetrieveDocumentResponse</a></code>
 - <code title="get /flows/{flowId}/repairs/{episodeId}">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">retrieve_repair</a>(episode_id, \*, flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_retrieve_repair_response.py">FlowRetrieveRepairResponse</a></code>
 - <code title="post /flows/{flowId}/run">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">run</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_run_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_run_response.py">FlowRunResponse</a></code>
 - <code title="get /flows/template-context">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">template_context</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/flow_template_context_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_template_context_response.py">FlowTemplateContextResponse</a></code>
 - <code title="post /flows/{flowId}/unblock">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">unblock</a>(flow_id) -> <a href="./src/mobilerun_sdk/types/workflows/flow_unblock_response.py">FlowUnblockResponse</a></code>
 - <code title="post /flows/validate">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">validate</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/flow_validate_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_validate_response.py">FlowValidateResponse</a></code>
+- <code title="post /flows/document/validate">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">validate_document</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/flow_validate_document_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_validate_document_response.py">FlowValidateDocumentResponse</a></code>
 - <code title="post /flows/{flowId}/verify">client.workflows.flows.<a href="./src/mobilerun_sdk/resources/workflows/flows/flows.py">verify</a>(flow_id, \*\*<a href="src/mobilerun_sdk/types/workflows/flow_verify_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/flow_verify_response.py">FlowVerifyResponse</a></code>
 
 ### Actions
