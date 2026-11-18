@@ -566,11 +566,11 @@ from mobilerun_sdk.types import (
 
 Methods:
 
-- <code title="post /functions">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/function_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/function_create_response.py">FunctionCreateResponse</a></code>
-- <code title="get /functions/{functionId}">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">retrieve</a>(function_id) -> <a href="./src/mobilerun_sdk/types/function_retrieve_response.py">FunctionRetrieveResponse</a></code>
-- <code title="get /functions">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/function_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/function_list_response.py">FunctionListResponse</a></code>
-- <code title="delete /functions/{functionId}">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">delete</a>(function_id) -> None</code>
-- <code title="get /functions/{functionId}/source">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">source</a>(function_id) -> <a href="./src/mobilerun_sdk/types/function_source_response.py">FunctionSourceResponse</a></code>
+- <code title="post /compute/functions">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/function_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/function_create_response.py">FunctionCreateResponse</a></code>
+- <code title="get /compute/functions/{functionId}">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">retrieve</a>(function_id) -> <a href="./src/mobilerun_sdk/types/function_retrieve_response.py">FunctionRetrieveResponse</a></code>
+- <code title="get /compute/functions">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/function_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/function_list_response.py">FunctionListResponse</a></code>
+- <code title="delete /compute/functions/{functionId}">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">delete</a>(function_id) -> None</code>
+- <code title="get /compute/functions/{functionId}/source">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">source</a>(function_id) -> <a href="./src/mobilerun_sdk/types/function_source_response.py">FunctionSourceResponse</a></code>
 
 ## Validations
 
@@ -586,8 +586,8 @@ from mobilerun_sdk.types.functions import (
 
 Methods:
 
-- <code title="post /functions/validations">client.functions.validations.<a href="./src/mobilerun_sdk/resources/functions/validations.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/functions/validation_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/functions/validation_create_response.py">ValidationCreateResponse</a></code>
-- <code title="get /functions/validations/{validationId}">client.functions.validations.<a href="./src/mobilerun_sdk/resources/functions/validations.py">retrieve</a>(validation_id, \*\*<a href="src/mobilerun_sdk/types/functions/validation_retrieve_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/functions/validation_retrieve_response.py">ValidationRetrieveResponse</a></code>
+- <code title="post /compute/functions/validations">client.functions.validations.<a href="./src/mobilerun_sdk/resources/functions/validations.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/functions/validation_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/functions/validation_create_response.py">ValidationCreateResponse</a></code>
+- <code title="get /compute/functions/validations/{validationId}">client.functions.validations.<a href="./src/mobilerun_sdk/resources/functions/validations.py">retrieve</a>(validation_id, \*\*<a href="src/mobilerun_sdk/types/functions/validation_retrieve_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/functions/validation_retrieve_response.py">ValidationRetrieveResponse</a></code>
 
 # Connect
 

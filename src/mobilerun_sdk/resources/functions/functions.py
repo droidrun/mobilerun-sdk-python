@@ -88,7 +88,7 @@ class FunctionsResource(SyncAPIResource):
           idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
-            "/functions",
+            "/compute/functions",
             body=maybe_transform(
                 {
                     "name": name,
@@ -134,7 +134,7 @@ class FunctionsResource(SyncAPIResource):
         if not function_id:
             raise ValueError(f"Expected a non-empty value for `function_id` but received {function_id!r}")
         return self._get(
-            path_template("/functions/{function_id}", function_id=function_id),
+            path_template("/compute/functions/{function_id}", function_id=function_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -176,7 +176,7 @@ class FunctionsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._get(
-            "/functions",
+            "/compute/functions",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -226,7 +226,7 @@ class FunctionsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `function_id` but received {function_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            path_template("/functions/{function_id}", function_id=function_id),
+            path_template("/compute/functions/{function_id}", function_id=function_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -263,7 +263,7 @@ class FunctionsResource(SyncAPIResource):
         if not function_id:
             raise ValueError(f"Expected a non-empty value for `function_id` but received {function_id!r}")
         return self._get(
-            path_template("/functions/{function_id}/source", function_id=function_id),
+            path_template("/compute/functions/{function_id}/source", function_id=function_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -325,7 +325,7 @@ class AsyncFunctionsResource(AsyncAPIResource):
           idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
-            "/functions",
+            "/compute/functions",
             body=await async_maybe_transform(
                 {
                     "name": name,
@@ -371,7 +371,7 @@ class AsyncFunctionsResource(AsyncAPIResource):
         if not function_id:
             raise ValueError(f"Expected a non-empty value for `function_id` but received {function_id!r}")
         return await self._get(
-            path_template("/functions/{function_id}", function_id=function_id),
+            path_template("/compute/functions/{function_id}", function_id=function_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -413,7 +413,7 @@ class AsyncFunctionsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._get(
-            "/functions",
+            "/compute/functions",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -463,7 +463,7 @@ class AsyncFunctionsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `function_id` but received {function_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            path_template("/functions/{function_id}", function_id=function_id),
+            path_template("/compute/functions/{function_id}", function_id=function_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -500,7 +500,7 @@ class AsyncFunctionsResource(AsyncAPIResource):
         if not function_id:
             raise ValueError(f"Expected a non-empty value for `function_id` but received {function_id!r}")
         return await self._get(
-            path_template("/functions/{function_id}/source", function_id=function_id),
+            path_template("/compute/functions/{function_id}/source", function_id=function_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

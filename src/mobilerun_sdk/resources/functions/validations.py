@@ -76,7 +76,7 @@ class ValidationsResource(SyncAPIResource):
           idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
-            "/functions/validations",
+            "/compute/functions/validations",
             body=maybe_transform(
                 {
                     "source": source,
@@ -125,7 +125,7 @@ class ValidationsResource(SyncAPIResource):
         if not validation_id:
             raise ValueError(f"Expected a non-empty value for `validation_id` but received {validation_id!r}")
         return self._get(
-            path_template("/functions/validations/{validation_id}", validation_id=validation_id),
+            path_template("/compute/functions/validations/{validation_id}", validation_id=validation_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -189,7 +189,7 @@ class AsyncValidationsResource(AsyncAPIResource):
           idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
-            "/functions/validations",
+            "/compute/functions/validations",
             body=await async_maybe_transform(
                 {
                     "source": source,
@@ -238,7 +238,7 @@ class AsyncValidationsResource(AsyncAPIResource):
         if not validation_id:
             raise ValueError(f"Expected a non-empty value for `validation_id` but received {validation_id!r}")
         return await self._get(
-            path_template("/functions/validations/{validation_id}", validation_id=validation_id),
+            path_template("/compute/functions/validations/{validation_id}", validation_id=validation_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
