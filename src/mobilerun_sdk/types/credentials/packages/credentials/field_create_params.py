@@ -14,7 +14,19 @@ class FieldCreateParams(TypedDict, total=False):
 
     field_type: Required[
         Annotated[
-            Literal["email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"],
+            Literal[
+                "email",
+                "username",
+                "password",
+                "api_token",
+                "phone_number",
+                "two_factor_secret",
+                "backup_codes",
+                "cc_number",
+                "cc_exp",
+                "cc_csc",
+                "cc_name",
+            ],
             PropertyInfo(alias="fieldType"),
         ]
     ]

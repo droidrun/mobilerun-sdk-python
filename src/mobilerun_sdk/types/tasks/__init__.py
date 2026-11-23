@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from .ui_state_list_response import UiStateListResponse as UiStateListResponse
+from .approval_respond_params import ApprovalRespondParams as ApprovalRespondParams
 from .screenshot_list_response import ScreenshotListResponse as ScreenshotListResponse
+from .approval_respond_response import ApprovalRespondResponse as ApprovalRespondResponse
 from .ui_state_retrieve_response import UiStateRetrieveResponse as UiStateRetrieveResponse
 from .screenshot_retrieve_response import ScreenshotRetrieveResponse as ScreenshotRetrieveResponse
