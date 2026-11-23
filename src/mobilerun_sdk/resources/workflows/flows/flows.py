@@ -108,9 +108,9 @@ class FlowsResource(SyncAPIResource):
     def create(
         self,
         *,
-        actions: Iterable[flow_create_params.Action],
         name: str,
         trigger_id: str,
+        actions: Iterable[flow_create_params.Action] | Omit = omit,
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
         delivery: flow_create_params.Delivery | Omit = omit,
@@ -124,6 +124,7 @@ class FlowsResource(SyncAPIResource):
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_create_params.RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -135,16 +136,23 @@ class FlowsResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FlowCreateResponse:
         """
-        Create a flow that binds a trigger (`triggerId`) to an ordered list of actions,
-        with at least one action required. Optional settings include target `deviceIds`,
-        a cooldown (`cooldownSeconds`/`cooldownScope`), and webhook notifications on
-        success or failure.
+        Create a flow that binds a trigger (`triggerId`) to an ordered list of actions.
+        The list may be empty or omitted: a routine without steps is stored disabled and
+        cannot be enabled, run or verified until it has a step. Enabling it returns 400
+        with "Add a step before enabling this routine". Optional settings include target
+        `deviceIds`, a cooldown (`cooldownSeconds`/`cooldownScope`), and webhook
+        notifications on success or failure.
 
         Supports an optional `Idempotency-Key` header (1-255 printable ASCII
         characters). Replays with the same key and an identical body return the original
         201; a changed body under the same key returns 422 `idempotency_key_reused`.
 
         Args:
+          enabled: Defaults to true when steps exist. A routine without steps is created disabled;
+              explicit true is rejected.
+
+          owner_wake: Defaults to final.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -159,9 +167,9 @@ class FlowsResource(SyncAPIResource):
             "/flows",
             body=maybe_transform(
                 {
-                    "actions": actions,
                     "name": name,
                     "trigger_id": trigger_id,
+                    "actions": actions,
                     "cooldown_scope": cooldown_scope,
                     "cooldown_seconds": cooldown_seconds,
                     "delivery": delivery,
@@ -175,6 +183,7 @@ class FlowsResource(SyncAPIResource):
                     "owner_wake": owner_wake,
                     "recording_enabled": recording_enabled,
                     "recording_policy": recording_policy,
+                    "save_sandbox_logs": save_sandbox_logs,
                     "self_healing_enabled": self_healing_enabled,
                     "self_healing_max_attempts": self_healing_max_attempts,
                 },
@@ -243,6 +252,7 @@ class FlowsResource(SyncAPIResource):
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_update_params.RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -256,12 +266,18 @@ class FlowsResource(SyncAPIResource):
     ) -> FlowUpdateResponse:
         """
         Partially update a flow's settings — name, trigger binding, enabled state,
-        target devices, cooldown, or notifications; all fields are optional. Actions are
+        target devices, cooldown, or notifications; all fields are optional. The owner
+        can enable a routine directly with `enabled: true` or
+        `lifecycleStatus: "enabled"`, without verification; at least one step is
+        required. For the verified path used by agent deploys, use POST
+        /flows/{flowId}/verify then POST /flows/{flowId}/activate instead. Actions are
         managed through the flow-actions endpoints, not here. Returns 404 if the flow
         does not exist.
 
         Args:
           lifecycle_status: Set the visible agent lifecycle. Archive remains available only through DELETE.
+
+          owner_wake: Defaults to final.
 
           recording_enabled: Deprecated compatibility field. true maps to recordingPolicy.mode="flow"; false
               maps to "off".
@@ -297,6 +313,7 @@ class FlowsResource(SyncAPIResource):
                     "owner_wake": owner_wake,
                     "recording_enabled": recording_enabled,
                     "recording_policy": recording_policy,
+                    "save_sandbox_logs": save_sandbox_logs,
                     "self_healing_enabled": self_healing_enabled,
                     "self_healing_max_attempts": self_healing_max_attempts,
                     "trigger_id": trigger_id,
@@ -401,6 +418,7 @@ class FlowsResource(SyncAPIResource):
 
         Archived flows cannot be restored and are
         hidden from customer reads. Repeating the request is idempotent for the owner.
+        Files saved by its runs are deleted with it.
 
         Args:
           extra_headers: Send extra headers
@@ -441,9 +459,13 @@ class FlowsResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FlowActivateResponse:
         """
-        Activate a disabled flow only when the supplied verification execution succeeded
-        and the flow graph has not changed since verification. Repeating activation is
-        idempotent for an already-enabled flow.
+        The verified activation path used by agent deploys: first run POST
+        /flows/{flowId}/verify, then activate the disabled flow only when the supplied
+        verification execution succeeded and the flow graph has not changed since
+        verification. Repeating activation is idempotent for an already-enabled flow.
+        Alternatively, the owner can enable a routine with at least one step directly
+        through PATCH /flows/{flowId} using `enabled: true` or
+        `lifecycleStatus: "enabled"`, without verification.
 
         Args:
           extra_headers: Send extra headers
@@ -586,8 +608,12 @@ class FlowsResource(SyncAPIResource):
 
         Body: {document}.
         Optional Idempotency-Key fingerprints the canonical document; identical retries
-        reload the resource, changed documents return idempotency_key_reused. Verify and
-        activate with the existing flow endpoints.
+        reload the resource, changed documents return idempotency_key_reused. The owner
+        can enable a routine with at least one step directly through PATCH
+        /flows/{flowId} using enabled: true or lifecycleStatus: "enabled", without
+        verification. For the verified path used by agent deploys, call POST
+        /flows/{flowId}/verify then POST /flows/{flowId}/activate; activation requires a
+        successful verification of the current graph.
 
         Args:
           document: Routine document; format at GET /flows/document-schema
@@ -798,7 +824,12 @@ class FlowsResource(SyncAPIResource):
         routines require a new version deployed through the agent. Omitted description,
         devices and trigger options clear their values. Shared triggers return
         trigger_shared and agent-managed routines return routine_agent_managed (409);
-        shared action definitions are never modified.
+        shared action definitions are never modified. To enable a disabled routine with
+        at least one step, the owner can PATCH /flows/{flowId} with enabled: true or
+        lifecycleStatus: "enabled", without verification. For the verified path used by
+        agent deploys, call POST /flows/{flowId}/verify then POST
+        /flows/{flowId}/activate; activation requires a successful verification of the
+        current graph.
 
         Args:
           document: Routine document; format at GET /flows/document-schema
@@ -915,7 +946,8 @@ class FlowsResource(SyncAPIResource):
     ) -> FlowRunResponse:
         """
         Immediately enqueue one live execution on every device bound to the flow,
-        regardless of whether its trigger is event-based, custom, or scheduled.
+        regardless of whether its trigger is event-based, custom, or scheduled. A
+        routine without steps is refused with 409 `flow_has_no_steps`.
 
         Supports an optional `Idempotency-Key` header (1-255 printable ASCII
         characters). The run identity is derived from the key, so a retry never starts a
@@ -1058,6 +1090,7 @@ class FlowsResource(SyncAPIResource):
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_validate_params.Variant0RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -1073,6 +1106,8 @@ class FlowsResource(SyncAPIResource):
         Validate a flow
 
         Args:
+          owner_wake: Defaults to final.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1136,6 +1171,7 @@ class FlowsResource(SyncAPIResource):
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_validate_params.Variant0RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -1170,6 +1206,7 @@ class FlowsResource(SyncAPIResource):
                     "owner_wake": owner_wake,
                     "recording_enabled": recording_enabled,
                     "recording_policy": recording_policy,
+                    "save_sandbox_logs": save_sandbox_logs,
                     "self_healing_enabled": self_healing_enabled,
                     "self_healing_max_attempts": self_healing_max_attempts,
                     "trigger_id": trigger_id,
@@ -1256,6 +1293,7 @@ class FlowsResource(SyncAPIResource):
         Unlike a normal trigger firing, verification:
 
         - runs a flow that is `enabled` OR `disabled` (an archived flow returns 404);
+        - refuses routines without steps with 409 `flow_has_no_steps`;
         - targets one device (`deviceId`, or the single bound device);
         - is idempotent per `invocationId`: a repeat returns the existing run
           (`deduplicated: true`, HTTP 200) instead of enqueuing another (HTTP 202);
@@ -1344,9 +1382,9 @@ class AsyncFlowsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        actions: Iterable[flow_create_params.Action],
         name: str,
         trigger_id: str,
+        actions: Iterable[flow_create_params.Action] | Omit = omit,
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
         delivery: flow_create_params.Delivery | Omit = omit,
@@ -1360,6 +1398,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_create_params.RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1371,16 +1410,23 @@ class AsyncFlowsResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FlowCreateResponse:
         """
-        Create a flow that binds a trigger (`triggerId`) to an ordered list of actions,
-        with at least one action required. Optional settings include target `deviceIds`,
-        a cooldown (`cooldownSeconds`/`cooldownScope`), and webhook notifications on
-        success or failure.
+        Create a flow that binds a trigger (`triggerId`) to an ordered list of actions.
+        The list may be empty or omitted: a routine without steps is stored disabled and
+        cannot be enabled, run or verified until it has a step. Enabling it returns 400
+        with "Add a step before enabling this routine". Optional settings include target
+        `deviceIds`, a cooldown (`cooldownSeconds`/`cooldownScope`), and webhook
+        notifications on success or failure.
 
         Supports an optional `Idempotency-Key` header (1-255 printable ASCII
         characters). Replays with the same key and an identical body return the original
         201; a changed body under the same key returns 422 `idempotency_key_reused`.
 
         Args:
+          enabled: Defaults to true when steps exist. A routine without steps is created disabled;
+              explicit true is rejected.
+
+          owner_wake: Defaults to final.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1395,9 +1441,9 @@ class AsyncFlowsResource(AsyncAPIResource):
             "/flows",
             body=await async_maybe_transform(
                 {
-                    "actions": actions,
                     "name": name,
                     "trigger_id": trigger_id,
+                    "actions": actions,
                     "cooldown_scope": cooldown_scope,
                     "cooldown_seconds": cooldown_seconds,
                     "delivery": delivery,
@@ -1411,6 +1457,7 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "owner_wake": owner_wake,
                     "recording_enabled": recording_enabled,
                     "recording_policy": recording_policy,
+                    "save_sandbox_logs": save_sandbox_logs,
                     "self_healing_enabled": self_healing_enabled,
                     "self_healing_max_attempts": self_healing_max_attempts,
                 },
@@ -1479,6 +1526,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_update_params.RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -1492,12 +1540,18 @@ class AsyncFlowsResource(AsyncAPIResource):
     ) -> FlowUpdateResponse:
         """
         Partially update a flow's settings — name, trigger binding, enabled state,
-        target devices, cooldown, or notifications; all fields are optional. Actions are
+        target devices, cooldown, or notifications; all fields are optional. The owner
+        can enable a routine directly with `enabled: true` or
+        `lifecycleStatus: "enabled"`, without verification; at least one step is
+        required. For the verified path used by agent deploys, use POST
+        /flows/{flowId}/verify then POST /flows/{flowId}/activate instead. Actions are
         managed through the flow-actions endpoints, not here. Returns 404 if the flow
         does not exist.
 
         Args:
           lifecycle_status: Set the visible agent lifecycle. Archive remains available only through DELETE.
+
+          owner_wake: Defaults to final.
 
           recording_enabled: Deprecated compatibility field. true maps to recordingPolicy.mode="flow"; false
               maps to "off".
@@ -1533,6 +1587,7 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "owner_wake": owner_wake,
                     "recording_enabled": recording_enabled,
                     "recording_policy": recording_policy,
+                    "save_sandbox_logs": save_sandbox_logs,
                     "self_healing_enabled": self_healing_enabled,
                     "self_healing_max_attempts": self_healing_max_attempts,
                     "trigger_id": trigger_id,
@@ -1637,6 +1692,7 @@ class AsyncFlowsResource(AsyncAPIResource):
 
         Archived flows cannot be restored and are
         hidden from customer reads. Repeating the request is idempotent for the owner.
+        Files saved by its runs are deleted with it.
 
         Args:
           extra_headers: Send extra headers
@@ -1677,9 +1733,13 @@ class AsyncFlowsResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FlowActivateResponse:
         """
-        Activate a disabled flow only when the supplied verification execution succeeded
-        and the flow graph has not changed since verification. Repeating activation is
-        idempotent for an already-enabled flow.
+        The verified activation path used by agent deploys: first run POST
+        /flows/{flowId}/verify, then activate the disabled flow only when the supplied
+        verification execution succeeded and the flow graph has not changed since
+        verification. Repeating activation is idempotent for an already-enabled flow.
+        Alternatively, the owner can enable a routine with at least one step directly
+        through PATCH /flows/{flowId} using `enabled: true` or
+        `lifecycleStatus: "enabled"`, without verification.
 
         Args:
           extra_headers: Send extra headers
@@ -1822,8 +1882,12 @@ class AsyncFlowsResource(AsyncAPIResource):
 
         Body: {document}.
         Optional Idempotency-Key fingerprints the canonical document; identical retries
-        reload the resource, changed documents return idempotency_key_reused. Verify and
-        activate with the existing flow endpoints.
+        reload the resource, changed documents return idempotency_key_reused. The owner
+        can enable a routine with at least one step directly through PATCH
+        /flows/{flowId} using enabled: true or lifecycleStatus: "enabled", without
+        verification. For the verified path used by agent deploys, call POST
+        /flows/{flowId}/verify then POST /flows/{flowId}/activate; activation requires a
+        successful verification of the current graph.
 
         Args:
           document: Routine document; format at GET /flows/document-schema
@@ -2038,7 +2102,12 @@ class AsyncFlowsResource(AsyncAPIResource):
         routines require a new version deployed through the agent. Omitted description,
         devices and trigger options clear their values. Shared triggers return
         trigger_shared and agent-managed routines return routine_agent_managed (409);
-        shared action definitions are never modified.
+        shared action definitions are never modified. To enable a disabled routine with
+        at least one step, the owner can PATCH /flows/{flowId} with enabled: true or
+        lifecycleStatus: "enabled", without verification. For the verified path used by
+        agent deploys, call POST /flows/{flowId}/verify then POST
+        /flows/{flowId}/activate; activation requires a successful verification of the
+        current graph.
 
         Args:
           document: Routine document; format at GET /flows/document-schema
@@ -2157,7 +2226,8 @@ class AsyncFlowsResource(AsyncAPIResource):
     ) -> FlowRunResponse:
         """
         Immediately enqueue one live execution on every device bound to the flow,
-        regardless of whether its trigger is event-based, custom, or scheduled.
+        regardless of whether its trigger is event-based, custom, or scheduled. A
+        routine without steps is refused with 409 `flow_has_no_steps`.
 
         Supports an optional `Idempotency-Key` header (1-255 printable ASCII
         characters). The run identity is derived from the key, so a retry never starts a
@@ -2300,6 +2370,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_validate_params.Variant0RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -2315,6 +2386,8 @@ class AsyncFlowsResource(AsyncAPIResource):
         Validate a flow
 
         Args:
+          owner_wake: Defaults to final.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -2378,6 +2451,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_validate_params.Variant0RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -2412,6 +2486,7 @@ class AsyncFlowsResource(AsyncAPIResource):
                     "owner_wake": owner_wake,
                     "recording_enabled": recording_enabled,
                     "recording_policy": recording_policy,
+                    "save_sandbox_logs": save_sandbox_logs,
                     "self_healing_enabled": self_healing_enabled,
                     "self_healing_max_attempts": self_healing_max_attempts,
                     "trigger_id": trigger_id,
@@ -2500,6 +2575,7 @@ class AsyncFlowsResource(AsyncAPIResource):
         Unlike a normal trigger firing, verification:
 
         - runs a flow that is `enabled` OR `disabled` (an archived flow returns 404);
+        - refuses routines without steps with 409 `flow_has_no_steps`;
         - targets one device (`deviceId`, or the single bound device);
         - is idempotent per `invocationId`: a repeat returns the existing run
           (`deduplicated: true`, HTTP 200) instead of enqueuing another (HTTP 202);

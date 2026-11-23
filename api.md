@@ -515,6 +515,19 @@ Methods:
 - <code title="get /devices/number-bindings">client.devices.number_bindings.<a href="./src/mobilerun_sdk/resources/devices/number_bindings.py">list</a>() -> <a href="./src/mobilerun_sdk/types/devices/number_binding_list_response.py">NumberBindingListResponse</a></code>
 - <code title="get /devices/number-bindings/candidates">client.devices.number_bindings.<a href="./src/mobilerun_sdk/resources/devices/number_bindings.py">list_candidates</a>() -> <a href="./src/mobilerun_sdk/types/devices/number_binding_list_candidates_response.py">NumberBindingListCandidatesResponse</a></code>
 
+# StreamTokens
+
+Types:
+
+```python
+from mobilerun_sdk.types import StreamTokenCreateResponse
+```
+
+Methods:
+
+- <code title="post /identity/stream-keys">client.stream_tokens.<a href="./src/mobilerun_sdk/resources/stream_tokens.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/stream_token_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/stream_token_create_response.py">StreamTokenCreateResponse</a></code>
+- <code title="delete /identity/stream-keys/{id}">client.stream_tokens.<a href="./src/mobilerun_sdk/resources/stream_tokens.py">delete</a>(id) -> None</code>
+
 # Models
 
 Types:
@@ -570,7 +583,7 @@ Methods:
 - <code title="get /compute/functions/{functionId}">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">retrieve</a>(function_id) -> <a href="./src/mobilerun_sdk/types/function_retrieve_response.py">FunctionRetrieveResponse</a></code>
 - <code title="get /compute/functions">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/function_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/function_list_response.py">FunctionListResponse</a></code>
 - <code title="delete /compute/functions/{functionId}">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">delete</a>(function_id) -> None</code>
-- <code title="get /compute/functions/{functionId}/source">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">source</a>(function_id) -> <a href="./src/mobilerun_sdk/types/function_source_response.py">FunctionSourceResponse</a></code>
+- <code title="get /compute/functions/{functionId}/source">client.functions.<a href="./src/mobilerun_sdk/resources/functions/functions.py">source</a>(function_id, \*\*<a href="src/mobilerun_sdk/types/function_source_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/function_source_response.py">FunctionSourceResponse</a></code>
 
 ## Validations
 
@@ -905,7 +918,7 @@ from mobilerun_sdk.types.workflows import (
 
 Methods:
 
-- <code title="get /executions/{executionId}">client.workflows.executions.<a href="./src/mobilerun_sdk/resources/workflows/executions/executions.py">retrieve</a>(execution_id) -> <a href="./src/mobilerun_sdk/types/workflows/execution_retrieve_response.py">ExecutionRetrieveResponse</a></code>
+- <code title="get /executions/{executionId}">client.workflows.executions.<a href="./src/mobilerun_sdk/resources/workflows/executions/executions.py">retrieve</a>(execution_id, \*\*<a href="src/mobilerun_sdk/types/workflows/execution_retrieve_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/execution_retrieve_response.py">ExecutionRetrieveResponse</a></code>
 - <code title="get /executions">client.workflows.executions.<a href="./src/mobilerun_sdk/resources/workflows/executions/executions.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/execution_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/execution_list_response.py">ExecutionListResponse</a></code>
 - <code title="post /executions/{executionId}/abort">client.workflows.executions.<a href="./src/mobilerun_sdk/resources/workflows/executions/executions.py">abort</a>(execution_id) -> <a href="./src/mobilerun_sdk/types/workflows/execution_abort_response.py">ExecutionAbortResponse</a></code>
 - <code title="get /executions/metrics">client.workflows.executions.<a href="./src/mobilerun_sdk/resources/workflows/executions/executions.py">get_metrics</a>(\*\*<a href="src/mobilerun_sdk/types/workflows/execution_get_metrics_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/workflows/execution_get_metrics_response.py">ExecutionGetMetricsResponse</a></code>

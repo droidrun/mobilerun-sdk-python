@@ -37,6 +37,7 @@ class TestFunctions:
         function = client.functions.create(
             name="x",
             source="x",
+            api_key={"permissions": {"foo": ["x"]}},
             description="description",
             manifest={
                 "credentials": [
@@ -131,8 +132,6 @@ class TestFunctions:
     @parametrize
     def test_method_list_with_all_params(self, client: Mobilerun) -> None:
         function = client.functions.list(
-            latest="true",
-            name="x",
             page=1,
             page_size=1,
             search="x",
@@ -207,7 +206,16 @@ class TestFunctions:
     @parametrize
     def test_method_source(self, client: Mobilerun) -> None:
         function = client.functions.source(
-            "550e8400-e29b-41d4-a716-446655440000",
+            function_id="550e8400-e29b-41d4-a716-446655440000",
+        )
+        assert_matches_type(FunctionSourceResponse, function, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_source_with_all_params(self, client: Mobilerun) -> None:
+        function = client.functions.source(
+            function_id="550e8400-e29b-41d4-a716-446655440000",
+            version=1,
         )
         assert_matches_type(FunctionSourceResponse, function, path=["response"])
 
@@ -215,7 +223,7 @@ class TestFunctions:
     @parametrize
     def test_raw_response_source(self, client: Mobilerun) -> None:
         response = client.functions.with_raw_response.source(
-            "550e8400-e29b-41d4-a716-446655440000",
+            function_id="550e8400-e29b-41d4-a716-446655440000",
         )
 
         assert response.is_closed is True
@@ -227,7 +235,7 @@ class TestFunctions:
     @parametrize
     def test_streaming_response_source(self, client: Mobilerun) -> None:
         with client.functions.with_streaming_response.source(
-            "550e8400-e29b-41d4-a716-446655440000",
+            function_id="550e8400-e29b-41d4-a716-446655440000",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -242,7 +250,7 @@ class TestFunctions:
     def test_path_params_source(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `function_id` but received ''"):
             client.functions.with_raw_response.source(
-                "",
+                function_id="",
             )
 
 
@@ -266,6 +274,7 @@ class TestAsyncFunctions:
         function = await async_client.functions.create(
             name="x",
             source="x",
+            api_key={"permissions": {"foo": ["x"]}},
             description="description",
             manifest={
                 "credentials": [
@@ -360,8 +369,6 @@ class TestAsyncFunctions:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMobilerun) -> None:
         function = await async_client.functions.list(
-            latest="true",
-            name="x",
             page=1,
             page_size=1,
             search="x",
@@ -436,7 +443,16 @@ class TestAsyncFunctions:
     @parametrize
     async def test_method_source(self, async_client: AsyncMobilerun) -> None:
         function = await async_client.functions.source(
-            "550e8400-e29b-41d4-a716-446655440000",
+            function_id="550e8400-e29b-41d4-a716-446655440000",
+        )
+        assert_matches_type(FunctionSourceResponse, function, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_source_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        function = await async_client.functions.source(
+            function_id="550e8400-e29b-41d4-a716-446655440000",
+            version=1,
         )
         assert_matches_type(FunctionSourceResponse, function, path=["response"])
 
@@ -444,7 +460,7 @@ class TestAsyncFunctions:
     @parametrize
     async def test_raw_response_source(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.functions.with_raw_response.source(
-            "550e8400-e29b-41d4-a716-446655440000",
+            function_id="550e8400-e29b-41d4-a716-446655440000",
         )
 
         assert response.is_closed is True
@@ -456,7 +472,7 @@ class TestAsyncFunctions:
     @parametrize
     async def test_streaming_response_source(self, async_client: AsyncMobilerun) -> None:
         async with async_client.functions.with_streaming_response.source(
-            "550e8400-e29b-41d4-a716-446655440000",
+            function_id="550e8400-e29b-41d4-a716-446655440000",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -471,5 +487,5 @@ class TestAsyncFunctions:
     async def test_path_params_source(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `function_id` but received ''"):
             await async_client.functions.with_raw_response.source(
-                "",
+                function_id="",
             )

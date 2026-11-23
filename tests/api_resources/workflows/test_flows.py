@@ -44,12 +44,6 @@ class TestFlows:
     @parametrize
     def test_method_create(self, client: Mobilerun) -> None:
         flow = client.workflows.flows.create(
-            actions=[
-                {
-                    "action_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "position": 0,
-                }
-            ],
             name="x",
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -59,6 +53,8 @@ class TestFlows:
     @parametrize
     def test_method_create_with_all_params(self, client: Mobilerun) -> None:
         flow = client.workflows.flows.create(
+            name="x",
+            trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             actions=[
                 {
                     "action_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -81,8 +77,6 @@ class TestFlows:
                     "recording_enabled": True,
                 }
             ],
-            name="x",
-            trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
@@ -101,6 +95,7 @@ class TestFlows:
             owner_wake="final",
             recording_enabled=True,
             recording_policy={"mode": "off"},
+            save_sandbox_logs=True,
             self_healing_enabled=True,
             self_healing_max_attempts=1,
         )
@@ -110,12 +105,6 @@ class TestFlows:
     @parametrize
     def test_raw_response_create(self, client: Mobilerun) -> None:
         response = client.workflows.flows.with_raw_response.create(
-            actions=[
-                {
-                    "action_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "position": 0,
-                }
-            ],
             name="x",
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -129,12 +118,6 @@ class TestFlows:
     @parametrize
     def test_streaming_response_create(self, client: Mobilerun) -> None:
         with client.workflows.flows.with_streaming_response.create(
-            actions=[
-                {
-                    "action_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "position": 0,
-                }
-            ],
             name="x",
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
@@ -221,6 +204,7 @@ class TestFlows:
             owner_wake="final",
             recording_enabled=True,
             recording_policy={"mode": "off"},
+            save_sandbox_logs=True,
             self_healing_enabled=True,
             self_healing_max_attempts=1,
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -1024,6 +1008,7 @@ class TestFlows:
             owner_wake="final",
             recording_enabled=True,
             recording_policy={"mode": "off"},
+            save_sandbox_logs=True,
             self_healing_enabled=True,
             self_healing_max_attempts=1,
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -1140,7 +1125,6 @@ class TestFlows:
                     },
                     "timezone": "timezone",
                     "trigger": {
-                        "activation": "event",
                         "cadence": "cadence",
                         "event_type": "eventType",
                         "schedule_rule": {
@@ -1155,6 +1139,7 @@ class TestFlows:
                         },
                         "timezone": "timezone",
                         "type": "schedule",
+                        "activation": "event",
                     },
                     "verification": "rules",
                     "cloud_actions": [
@@ -1164,6 +1149,7 @@ class TestFlows:
                         }
                     ],
                     "output_filename": "outputFilename",
+                    "version": 1,
                 },
                 "producer_roles": ["string"],
                 "profile": "agent_routine",
@@ -1328,12 +1314,6 @@ class TestAsyncFlows:
     @parametrize
     async def test_method_create(self, async_client: AsyncMobilerun) -> None:
         flow = await async_client.workflows.flows.create(
-            actions=[
-                {
-                    "action_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "position": 0,
-                }
-            ],
             name="x",
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -1343,6 +1323,8 @@ class TestAsyncFlows:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncMobilerun) -> None:
         flow = await async_client.workflows.flows.create(
+            name="x",
+            trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             actions=[
                 {
                     "action_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -1365,8 +1347,6 @@ class TestAsyncFlows:
                     "recording_enabled": True,
                 }
             ],
-            name="x",
-            trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             cooldown_scope="flow",
             cooldown_seconds=0,
             delivery={
@@ -1385,6 +1365,7 @@ class TestAsyncFlows:
             owner_wake="final",
             recording_enabled=True,
             recording_policy={"mode": "off"},
+            save_sandbox_logs=True,
             self_healing_enabled=True,
             self_healing_max_attempts=1,
         )
@@ -1394,12 +1375,6 @@ class TestAsyncFlows:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.workflows.flows.with_raw_response.create(
-            actions=[
-                {
-                    "action_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "position": 0,
-                }
-            ],
             name="x",
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
@@ -1413,12 +1388,6 @@ class TestAsyncFlows:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMobilerun) -> None:
         async with async_client.workflows.flows.with_streaming_response.create(
-            actions=[
-                {
-                    "action_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-                    "position": 0,
-                }
-            ],
             name="x",
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         ) as response:
@@ -1505,6 +1474,7 @@ class TestAsyncFlows:
             owner_wake="final",
             recording_enabled=True,
             recording_policy={"mode": "off"},
+            save_sandbox_logs=True,
             self_healing_enabled=True,
             self_healing_max_attempts=1,
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -2308,6 +2278,7 @@ class TestAsyncFlows:
             owner_wake="final",
             recording_enabled=True,
             recording_policy={"mode": "off"},
+            save_sandbox_logs=True,
             self_healing_enabled=True,
             self_healing_max_attempts=1,
             trigger_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -2424,7 +2395,6 @@ class TestAsyncFlows:
                     },
                     "timezone": "timezone",
                     "trigger": {
-                        "activation": "event",
                         "cadence": "cadence",
                         "event_type": "eventType",
                         "schedule_rule": {
@@ -2439,6 +2409,7 @@ class TestAsyncFlows:
                         },
                         "timezone": "timezone",
                         "type": "schedule",
+                        "activation": "event",
                     },
                     "verification": "rules",
                     "cloud_actions": [
@@ -2448,6 +2419,7 @@ class TestAsyncFlows:
                         }
                     ],
                     "output_filename": "outputFilename",
+                    "version": 1,
                 },
                 "producer_roles": ["string"],
                 "profile": "agent_routine",

@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal
-
 import httpx
 
-from ...types import function_list_params, function_create_params
+from ...types import function_list_params, function_create_params, function_source_params
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -63,6 +61,7 @@ class FunctionsResource(SyncAPIResource):
         *,
         name: str,
         source: str,
+        api_key: function_create_params.APIKey | Omit = omit,
         description: str | Omit = omit,
         manifest: function_create_params.Manifest | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -74,7 +73,7 @@ class FunctionsResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FunctionCreateResponse:
         """
-        Upload an immutable Python function as the next version of its name
+        Create a function with its first immutable version
 
         Args:
           extra_headers: Send extra headers
@@ -93,6 +92,7 @@ class FunctionsResource(SyncAPIResource):
                 {
                     "name": name,
                     "source": source,
+                    "api_key": api_key,
                     "description": description,
                     "manifest": manifest,
                 },
@@ -144,8 +144,6 @@ class FunctionsResource(SyncAPIResource):
     def list(
         self,
         *,
-        latest: Literal["true", "false"] | Omit = omit,
-        name: str | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         search: str | Omit = omit,
@@ -160,11 +158,6 @@ class FunctionsResource(SyncAPIResource):
         List functions owned by this organisation
 
         Args:
-          latest: Return one row per function name: its newest upload (any status), with
-              versionCount. Combined with name, returns that single row.
-
-          name: Exact function name. Returns every active version of that name, newest first.
-
           search: Case-insensitive substring match against the function name.
 
           extra_headers: Send extra headers
@@ -184,8 +177,6 @@ class FunctionsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
-                        "latest": latest,
-                        "name": name,
                         "page": page,
                         "page_size": page_size,
                         "search": search,
@@ -241,6 +232,7 @@ class FunctionsResource(SyncAPIResource):
         self,
         function_id: str,
         *,
+        version: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -265,7 +257,11 @@ class FunctionsResource(SyncAPIResource):
         return self._get(
             path_template("/compute/functions/{function_id}/source", function_id=function_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"version": version}, function_source_params.FunctionSourceParams),
             ),
             cast_to=FunctionSourceResponse,
         )
@@ -300,6 +296,7 @@ class AsyncFunctionsResource(AsyncAPIResource):
         *,
         name: str,
         source: str,
+        api_key: function_create_params.APIKey | Omit = omit,
         description: str | Omit = omit,
         manifest: function_create_params.Manifest | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -311,7 +308,7 @@ class AsyncFunctionsResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> FunctionCreateResponse:
         """
-        Upload an immutable Python function as the next version of its name
+        Create a function with its first immutable version
 
         Args:
           extra_headers: Send extra headers
@@ -330,6 +327,7 @@ class AsyncFunctionsResource(AsyncAPIResource):
                 {
                     "name": name,
                     "source": source,
+                    "api_key": api_key,
                     "description": description,
                     "manifest": manifest,
                 },
@@ -381,8 +379,6 @@ class AsyncFunctionsResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        latest: Literal["true", "false"] | Omit = omit,
-        name: str | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         search: str | Omit = omit,
@@ -397,11 +393,6 @@ class AsyncFunctionsResource(AsyncAPIResource):
         List functions owned by this organisation
 
         Args:
-          latest: Return one row per function name: its newest upload (any status), with
-              versionCount. Combined with name, returns that single row.
-
-          name: Exact function name. Returns every active version of that name, newest first.
-
           search: Case-insensitive substring match against the function name.
 
           extra_headers: Send extra headers
@@ -421,8 +412,6 @@ class AsyncFunctionsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
-                        "latest": latest,
-                        "name": name,
                         "page": page,
                         "page_size": page_size,
                         "search": search,
@@ -478,6 +467,7 @@ class AsyncFunctionsResource(AsyncAPIResource):
         self,
         function_id: str,
         *,
+        version: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -502,7 +492,11 @@ class AsyncFunctionsResource(AsyncAPIResource):
         return await self._get(
             path_template("/compute/functions/{function_id}/source", function_id=function_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"version": version}, function_source_params.FunctionSourceParams),
             ),
             cast_to=FunctionSourceResponse,
         )
