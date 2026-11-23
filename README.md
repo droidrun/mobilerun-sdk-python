@@ -213,7 +213,23 @@ Path("recording.mp4").write_bytes(video)
 
 The async client uses `await` for start, stop, wait and video.
 
-The Python SDK runs on your server; to show a device in a web app, pass `device.info.stream_url` and `device.info.stream_token` for a device the authenticated end user may see to the frontend and render it with [`@mobilerun/react`](https://github.com/droidrun/mobilerun-react#readme), keeping the API key on the server.
+### Stream a device in a web app
+
+Keep the Python SDK and API key on your server. Each time your authenticated token endpoint is called, check that the end user may access the device, then mint a short-lived, single-use token:
+
+```python
+from mobilerun_sdk import MobilerunSDK
+
+sdk = MobilerunSDK()
+
+
+# Call from your authenticated route handler after checking device access.
+def create_stream_token(device_id: str) -> dict[str, str]:
+    token = sdk.stream_tokens.create(device_id=device_id, ttl_seconds=120)
+    return {"token": token.key}
+```
+
+Resolve `device.info.stream_url` on your server and pass it to the frontend. Render the device with [`@mobilerun/react`](https://github.com/droidrun/mobilerun-react#readme), using the `tokenProvider` pattern in the TypeScript example above: call your authenticated endpoint for a fresh token on every connection, including reconnects. Never send the API key to the browser.
 
 ### Automatic cleanup and async
 
