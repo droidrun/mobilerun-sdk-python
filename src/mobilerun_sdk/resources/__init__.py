@@ -96,6 +96,14 @@ from .assistant import (
     AssistantResourceWithStreamingResponse,
     AsyncAssistantResourceWithStreamingResponse,
 )
+from .functions import (
+    FunctionsResource,
+    AsyncFunctionsResource,
+    FunctionsResourceWithRawResponse,
+    AsyncFunctionsResourceWithRawResponse,
+    FunctionsResourceWithStreamingResponse,
+    AsyncFunctionsResourceWithStreamingResponse,
+)
 from .mailboxes import (
     MailboxesResource,
     AsyncMailboxesResource,
@@ -120,6 +128,14 @@ from .credentials import (
     CredentialsResourceWithStreamingResponse,
     AsyncCredentialsResourceWithStreamingResponse,
 )
+from .stream_tokens import (
+    StreamTokensResource,
+    AsyncStreamTokensResource,
+    StreamTokensResourceWithRawResponse,
+    AsyncStreamTokensResourceWithRawResponse,
+    StreamTokensResourceWithStreamingResponse,
+    AsyncStreamTokensResourceWithStreamingResponse,
+)
 
 __all__ = [
     "AppsResource",
@@ -140,6 +156,12 @@ __all__ = [
     "AsyncDevicesResourceWithRawResponse",
     "DevicesResourceWithStreamingResponse",
     "AsyncDevicesResourceWithStreamingResponse",
+    "StreamTokensResource",
+    "AsyncStreamTokensResource",
+    "StreamTokensResourceWithRawResponse",
+    "AsyncStreamTokensResourceWithRawResponse",
+    "StreamTokensResourceWithStreamingResponse",
+    "AsyncStreamTokensResourceWithStreamingResponse",
     "ModelsResource",
     "AsyncModelsResource",
     "ModelsResourceWithRawResponse",
@@ -152,6 +174,12 @@ __all__ = [
     "AsyncProxiesResourceWithRawResponse",
     "ProxiesResourceWithStreamingResponse",
     "AsyncProxiesResourceWithStreamingResponse",
+    "FunctionsResource",
+    "AsyncFunctionsResource",
+    "FunctionsResourceWithRawResponse",
+    "AsyncFunctionsResourceWithRawResponse",
+    "FunctionsResourceWithStreamingResponse",
+    "AsyncFunctionsResourceWithStreamingResponse",
     "ConnectResource",
     "AsyncConnectResource",
     "ConnectResourceWithRawResponse",

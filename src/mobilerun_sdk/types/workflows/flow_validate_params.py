@@ -67,10 +67,13 @@ class Variant0(TypedDict, total=False):
     notify_webhook_id: Annotated[Optional[str], PropertyInfo(alias="notifyWebhookId")]
 
     owner_wake: Annotated[Literal["final", "off"], PropertyInfo(alias="ownerWake")]
+    """Defaults to final."""
 
     recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
 
     recording_policy: Annotated[Variant0RecordingPolicy, PropertyInfo(alias="recordingPolicy")]
+
+    save_sandbox_logs: Annotated[bool, PropertyInfo(alias="saveSandboxLogs")]
 
     self_healing_enabled: Annotated[bool, PropertyInfo(alias="selfHealingEnabled")]
 
@@ -183,16 +186,19 @@ class Variant0Delivery(TypedDict, total=False):
     destination: Required[Literal["mobilerun", "one_drive", "google_drive"]]
 
     folder: str
-    """Absolute destination folder; not allowed when destination is mobilerun.
+    """Absolute destination folder.
 
-    May contain {{meta.<name>}} (for example {{meta.shortDate}} = YYMMDD,
-    {{meta.fileTime}} = HH-mm, in the trigger timezone) and
-    {{event.payload.<field>}} placeholders, resolved once per run so every artifact
-    of that run lands in the same folder. Each substituted value must be a single
-    safe folder name (no "/", "\", "..", control characters); otherwise delivery
-    fails with invalid_delivery_folder. With a placeholder folder, screenshots are
-    delivered directly into the resolved folder; with a static folder they go into a
-    per-run "<flow>-<timestamp>-<id>-screenshots" subfolder.
+    For destination mobilerun, a folder turns on saving a copy of the run's
+    recording, screenshots and files.upload outputs in Mobilerun storage under that
+    folder (counts against storage). May contain {{meta.<name>}} (for example
+    {{meta.shortDate}} = YYMMDD, {{meta.fileTime}} = HH-mm, in the trigger timezone)
+    and {{event.payload.<field>}} placeholders, resolved once per run so every
+    artifact of that run lands in the same folder. Each substituted value must be a
+    single safe folder name (no "/", "\", "..", control characters); otherwise
+    delivery fails with invalid_delivery_folder. For OneDrive and Google Drive,
+    screenshots are delivered directly into the resolved folder with a placeholder
+    folder, and into a per-run "<flow>-<timestamp>-<id>-screenshots" subfolder with
+    a static folder. Mobilerun copies always go directly into the folder.
     """
 
     recording: Variant0DeliveryRecording
@@ -236,16 +242,19 @@ class Variant1DraftFlowDelivery(TypedDict, total=False):
     destination: Required[Literal["mobilerun", "one_drive", "google_drive"]]
 
     folder: str
-    """Absolute destination folder; not allowed when destination is mobilerun.
+    """Absolute destination folder.
 
-    May contain {{meta.<name>}} (for example {{meta.shortDate}} = YYMMDD,
-    {{meta.fileTime}} = HH-mm, in the trigger timezone) and
-    {{event.payload.<field>}} placeholders, resolved once per run so every artifact
-    of that run lands in the same folder. Each substituted value must be a single
-    safe folder name (no "/", "\", "..", control characters); otherwise delivery
-    fails with invalid_delivery_folder. With a placeholder folder, screenshots are
-    delivered directly into the resolved folder; with a static folder they go into a
-    per-run "<flow>-<timestamp>-<id>-screenshots" subfolder.
+    For destination mobilerun, a folder turns on saving a copy of the run's
+    recording, screenshots and files.upload outputs in Mobilerun storage under that
+    folder (counts against storage). May contain {{meta.<name>}} (for example
+    {{meta.shortDate}} = YYMMDD, {{meta.fileTime}} = HH-mm, in the trigger timezone)
+    and {{event.payload.<field>}} placeholders, resolved once per run so every
+    artifact of that run lands in the same folder. Each substituted value must be a
+    single safe folder name (no "/", "\", "..", control characters); otherwise
+    delivery fails with invalid_delivery_folder. For OneDrive and Google Drive,
+    screenshots are delivered directly into the resolved folder with a placeholder
+    folder, and into a per-run "<flow>-<timestamp>-<id>-screenshots" subfolder with
+    a static folder. Mobilerun copies always go directly into the folder.
     """
 
     recording: Variant1DraftFlowDeliveryRecording
@@ -336,9 +345,6 @@ class Variant1ContractMetaTriggerScheduleRule(  # type: ignore[call-arg]
 
 
 class Variant1ContractMetaTrigger(TypedDict, total=False):
-    activation: Required[Literal["event", "schedule", "custom"]]
-    """Accepted for compatibility; derived from trigger.type with agent_routine."""
-
     cadence: Required[Optional[str]]
 
     event_type: Required[Annotated[Optional[str], PropertyInfo(alias="eventType")]]
@@ -348,6 +354,9 @@ class Variant1ContractMetaTrigger(TypedDict, total=False):
     timezone: Required[Optional[str]]
 
     type: Required[Literal["schedule", "app_event", "device_event", "platform_event", "custom"]]
+
+    activation: Literal["event", "schedule", "custom"]
+    """Optional; derived from trigger.type with agent_routine."""
 
 
 class Variant1ContractMetaCloudAction(TypedDict, total=False):
@@ -371,6 +380,12 @@ class Variant1ContractMeta(TypedDict, total=False):
 
     output_filename: Annotated[Optional[str], PropertyInfo(alias="outputFilename")]
 
+    version: Literal[1, 2]
+    """
+    Absent means version 1 (internal service.method names); version 2 signs public
+    step names. Signed records are never rewritten.
+    """
+
 
 class Variant1Contract(TypedDict, total=False):
     deliverable: Literal["none", "file", "chat", "integration"]
@@ -388,6 +403,16 @@ class Variant1Contract(TypedDict, total=False):
     """Ignored with agent_routine; derived from the action graph."""
 
     profile: Literal["agent_routine"]
+    """
+    For agent_routine, contract.meta owns trigger activation, eventType,
+    scheduleRule and timezone. Draft timing copies are deprecated and ignored;
+    deploy still checks the types of supplied copies, while public full-draft
+    trigger objects retain their existing loose structure. For agent_routine,
+    contract.meta.flow owns healthMonitoringEnabled, selfHealingEnabled,
+    selfHealingMaxAttempts and explicit recordingMode. Draft setting copies are
+    deprecated and ignored after type checking. When metadata omits recordingMode,
+    the draft recordingPolicy still applies (implicitly off when absent).
+    """
 
     slug: str
 

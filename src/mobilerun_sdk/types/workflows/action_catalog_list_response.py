@@ -27,12 +27,19 @@ class Item(BaseModel):
     """
 
     method: str
+    """Deprecated: use stepName."""
 
     name: str
 
     provider: Literal["mobilerun", "oneDrive", "googleDrive"]
 
-    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+    service: Literal[
+        "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+    ]
+    """Deprecated: use stepName."""
+
+    step_name: str = FieldInfo(alias="stepName")
+    """Public step name for routine document uses, e.g. files.upload or scripts.run."""
 
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
