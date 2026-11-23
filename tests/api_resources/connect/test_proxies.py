@@ -133,6 +133,7 @@ class TestProxies:
             country="country",
             page=1,
             page_size=1,
+            type=["dedicated_residential"],
         )
         assert_matches_type(ProxyListResponse, proxy, path=["response"])
 
@@ -560,6 +561,7 @@ class TestAsyncProxies:
             country="country",
             page=1,
             page_size=1,
+            type=["dedicated_residential"],
         )
         assert_matches_type(ProxyListResponse, proxy, path=["response"])
 

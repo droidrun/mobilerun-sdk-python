@@ -75,7 +75,7 @@ class TestConversations:
     @parametrize
     def test_method_update(self, client: Mobilerun) -> None:
         conversation = client.assistant.conversations.update(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
         )
         assert_matches_type(ConversationUpdateResponse, conversation, path=["response"])
 
@@ -83,7 +83,7 @@ class TestConversations:
     @parametrize
     def test_method_update_with_all_params(self, client: Mobilerun) -> None:
         conversation = client.assistant.conversations.update(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
             description="description",
             pinned=True,
             status="active",
@@ -95,7 +95,7 @@ class TestConversations:
     @parametrize
     def test_raw_response_update(self, client: Mobilerun) -> None:
         response = client.assistant.conversations.with_raw_response.update(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
         )
 
         assert response.is_closed is True
@@ -107,7 +107,7 @@ class TestConversations:
     @parametrize
     def test_streaming_response_update(self, client: Mobilerun) -> None:
         with client.assistant.conversations.with_streaming_response.update(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -304,7 +304,7 @@ class TestConversations:
     @parametrize
     def test_method_history(self, client: Mobilerun) -> None:
         conversation = client.assistant.conversations.history(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
         )
         assert_matches_type(ConversationHistoryResponse, conversation, path=["response"])
 
@@ -312,7 +312,7 @@ class TestConversations:
     @parametrize
     def test_method_history_with_all_params(self, client: Mobilerun) -> None:
         conversation = client.assistant.conversations.history(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
             before="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             limit=1,
         )
@@ -322,7 +322,7 @@ class TestConversations:
     @parametrize
     def test_raw_response_history(self, client: Mobilerun) -> None:
         response = client.assistant.conversations.with_raw_response.history(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
         )
 
         assert response.is_closed is True
@@ -334,7 +334,7 @@ class TestConversations:
     @parametrize
     def test_streaming_response_history(self, client: Mobilerun) -> None:
         with client.assistant.conversations.with_streaming_response.history(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -530,7 +530,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_method_update(self, async_client: AsyncMobilerun) -> None:
         conversation = await async_client.assistant.conversations.update(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
         )
         assert_matches_type(ConversationUpdateResponse, conversation, path=["response"])
 
@@ -538,7 +538,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncMobilerun) -> None:
         conversation = await async_client.assistant.conversations.update(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
             description="description",
             pinned=True,
             status="active",
@@ -550,7 +550,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.assistant.conversations.with_raw_response.update(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
         )
 
         assert response.is_closed is True
@@ -562,7 +562,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncMobilerun) -> None:
         async with async_client.assistant.conversations.with_streaming_response.update(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -759,7 +759,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_method_history(self, async_client: AsyncMobilerun) -> None:
         conversation = await async_client.assistant.conversations.history(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
         )
         assert_matches_type(ConversationHistoryResponse, conversation, path=["response"])
 
@@ -767,7 +767,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_method_history_with_all_params(self, async_client: AsyncMobilerun) -> None:
         conversation = await async_client.assistant.conversations.history(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
             before="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             limit=1,
         )
@@ -777,7 +777,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_raw_response_history(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.assistant.conversations.with_raw_response.history(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
         )
 
         assert response.is_closed is True
@@ -789,7 +789,7 @@ class TestAsyncConversations:
     @parametrize
     async def test_streaming_response_history(self, async_client: AsyncMobilerun) -> None:
         async with async_client.assistant.conversations.with_streaming_response.history(
-            id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="550e8400-e29b-41d4-a716-446655440000",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

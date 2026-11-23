@@ -1,13 +1,14 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Dict, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["TaskGetStatusResponse", "Execution", "ExecutionCheckpoint"]
+__all__ = ["TaskGetStatusResponse", "Execution", "ExecutionCheckpoint", "PendingApproval"]
 
 
 class ExecutionCheckpoint(BaseModel):
@@ -32,9 +33,34 @@ class Execution(BaseModel):
     retry_safety: Optional[Literal["unknown"]] = FieldInfo(alias="retrySafety", default=None)
 
 
+class PendingApproval(BaseModel):
+    """A human approval the running task is waiting for."""
+
+    approval_id: str = FieldInfo(alias="approvalId")
+    """Identifies the approval"""
+
+    details: Dict[str, object]
+    """
+    Kind-specific, non-secret context (payment_card: label, secretGroup,
+    targetPackage, targetHost?)
+    """
+
+    expires_at: datetime = FieldInfo(alias="expiresAt")
+    """Without an answer by this time the task fails"""
+
+    kind: str
+    """What is being approved, e.g. payment_card; new kinds may be added"""
+
+    device_id: Optional[str] = FieldInfo(alias="deviceId", default=None)
+    """Device the task runs on, so a client can show it next to the approval"""
+
+
 class TaskGetStatusResponse(BaseModel):
     status: Literal["prepared", "queued", "created", "running", "cancelling", "completed", "failed", "cancelled"]
     """The status of the task"""
+
+    terminal: bool
+    """True when the task has reached a final status and will not change again"""
 
     execution: Optional[Execution] = None
     """Execution metadata for abnormal terminal outcomes"""
@@ -47,6 +73,9 @@ class TaskGetStatusResponse(BaseModel):
 
     output: Optional[Dict[str, object]] = None
     """Structured output if outputSchema was set"""
+
+    pending_approval: Optional[PendingApproval] = FieldInfo(alias="pendingApproval", default=None)
+    """A human approval the running task is waiting for."""
 
     recording_device_id: Optional[str] = FieldInfo(alias="recordingDeviceId", default=None)
     """Device ID associated with recordingId"""
