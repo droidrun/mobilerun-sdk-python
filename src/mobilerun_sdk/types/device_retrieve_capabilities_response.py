@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -52,6 +52,12 @@ class Capabilities(BaseModel):
     recording: bool
 
     reset: bool
+
+    reset_preserve: List[Literal["proxy", "location", "locale", "timezone"]] = FieldInfo(alias="resetPreserve")
+
+    set_geo: bool = FieldInfo(alias="setGeo")
+
+    set_time: bool = FieldInfo(alias="setTime")
 
     shell: bool
 

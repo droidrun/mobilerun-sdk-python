@@ -28,9 +28,10 @@ from ..types import (
     webhook_create_params,
     webhook_list_response as __types_webhook_list_response,
     task_run_streamed_params,
+    routine_file_list_response as __types_routine_file_list_response,
     app_create_signed_upload_url_params,
 )
-from .._types import Body, Omit, Query, Headers, NotGiven, FileTypes, SequenceNotStr, omit, not_given
+from .._types import Body, Omit, Query, Headers, NotGiven, FileTypes, FileContent, SequenceNotStr, omit, not_given
 from ._common import (
     SINGLE_CALL_INTERVAL,
     ObjectPage,
@@ -70,6 +71,13 @@ from ..types.agents import (
     routine_create_params,
     request_list_for_agent_response as __types_agents_request_list_for_agent_response,
 )
+from ..types.compute import (
+    run_list_response as __types_compute_run_list_response,
+    serverless_function as __types_compute_serverless_function,
+    sandbox_create_params,
+    sandbox_list_response as __types_compute_sandbox_list_response,
+    function_create_params,
+)
 from ..types.connect import (
     user_list_response as __types_connect_user_list_response,
     proxy_list_response as __types_connect_proxy_list_response,
@@ -101,8 +109,17 @@ from ..types.credentials import (
     package_list_all_response as __types_credentials_package_list_all_response,
 )
 from ..types.shared.location import Location as SharedLocation
-from ..types.workflows.flows import action_add_params, action_replace_params
+from ..types.workflows.flows import (
+    action_add_params,
+    action_replace_params,
+    scheduled_run_list_response as __types_workflows_flows_scheduled_run_list_response,
+)
 from ..types.app_list_response import AppListResponse as TypesAppListResponse
+from ..types.compute.functions import (
+    run_list_response as __types_compute_functions_run_list_response,
+    version_create_params,
+    validation_create_params,
+)
 from ..types.task_run_response import TaskRunResponse
 from ..types.file_list_response import FileListResponse as TypesFileListResponse
 from ..types.task_list_response import TaskListResponse as TypesTaskListResponse
@@ -146,6 +163,8 @@ from ..types.number_capacity_response import NumberCapacityResponse
 from ..types.number_retrieve_response import NumberRetrieveResponse as TypesNumberRetrieveResponse
 from ..types.task_get_status_response import TaskGetStatusResponse
 from ..types.agents.file_list_response import FileListResponse as AgentsFileListResponse
+from ..types.compute.run_list_response import RunListResponse as ComputeRunListResponse
+from ..types.compute.run_logs_response import RunLogsResponse
 from ..types.devices.app_list_response import AppListResponse as DevicesAppListResponse
 from ..types.devices.state_ui_response import StateUiResponse
 from ..types.mailbox_capacity_response import MailboxCapacityResponse
@@ -162,7 +181,9 @@ from ..types.device_wait_ready_response import DeviceWaitReadyResponse
 from ..types.devices.esim_list_response import EsimListResponse
 from ..types.devices.file_list_response import FileListResponse as DevicesFileListResponse
 from ..types.devices.task_list_response import TaskListResponse as DevicesTaskListResponse
+from ..types.routine_file_list_response import RoutineFileListResponse
 from ..types.task_send_message_response import TaskSendMessageResponse
+from ..types.compute.run_cancel_response import RunCancelResponse
 from ..types.connect.proxy_list_response import ProxyListResponse as ConnectProxyListResponse
 from ..types.connect.proxy_ping_response import ProxyPingResponse
 from ..types.device_fingerprint_response import DeviceFingerprintResponse
@@ -175,11 +196,15 @@ from ..types.devices.esim_status_response import EsimStatusResponse
 from ..types.devices.number_bind_response import NumberBindResponse
 from ..types.file_cancel_pending_response import FileCancelPendingResponse
 from ..types.shared_params.device_carrier import DeviceCarrier
+from ..types.stream_token_create_response import StreamTokenCreateResponse
 from ..types.task_get_trajectory_response import TaskGetTrajectoryResponse
 from ..types.tasks.ui_state_list_response import UiStateListResponse
 from ..types.workflows.flow_list_response import FlowListResponse
 from ..types.agent_model_profiles_response import AgentModelProfilesResponse
 from ..types.agents.routine_clone_response import RoutineCloneResponse
+from ..types.compute.run_retrieve_response import RunRetrieveResponse
+from ..types.compute.sandbox_exec_response import SandboxExecResponse
+from ..types.compute.sandbox_list_response import SandboxListResponse
 from ..types.connect.proxy_update_response import ProxyUpdateResponse as ConnectProxyUpdateResponse
 from ..types.devices.language_get_response import LanguageGetResponse
 from ..types.devices.package_list_response import PackageListResponse as DevicesPackageListResponse
@@ -190,6 +215,7 @@ from ..types.numbers.message_send_response import MessageSendResponse
 from ..types.workflows.flow_clone_response import FlowCloneResponse
 from ..types.agents.profile_update_response import ProfileUpdateResponse
 from ..types.agents.routine_create_response import RoutineCreateResponse
+from ..types.compute.function_list_response import FunctionListResponse
 from ..types.connect.user_retrieve_response import UserRetrieveResponse
 from ..types.devices.clipboard_get_response import ClipboardGetResponse
 from ..types.devices.esim.apn_list_response import ApnListResponse
@@ -203,6 +229,8 @@ from ..types.workflows.flow_create_response import FlowCreateResponse
 from ..types.workflows.flow_delete_response import FlowDeleteResponse
 from ..types.workflows.flow_update_response import FlowUpdateResponse
 from ..types.workflows.flow_verify_response import FlowVerifyResponse
+from ..types.compute.sandbox_create_response import SandboxCreateResponse
+from ..types.compute.sandbox_delete_response import SandboxDeleteResponse
 from ..types.connect.proxy_checkout_response import ProxyCheckoutResponse
 from ..types.connect.proxy_retrieve_response import ProxyRetrieveResponse as ConnectProxyRetrieveResponse
 from ..types.devices.recording_list_response import RecordingListResponse
@@ -213,6 +241,9 @@ from ..types.workflows.flow_unblock_response import FlowUnblockResponse
 from ..types.workflows.trigger_fire_response import TriggerFireResponse
 from ..types.workflows.trigger_list_response import TriggerListResponse
 from ..types.agents.request_retrieve_response import RequestRetrieveResponse
+from ..types.compute.function_create_response import FunctionCreateResponse
+from ..types.compute.function_source_response import FunctionSourceResponse
+from ..types.compute.function_update_response import FunctionUpdateResponse
 from ..types.devices.number_retrieve_response import NumberRetrieveResponse as DevicesNumberRetrieveResponse
 from ..types.devices.recording_start_response import RecordingStartResponse
 from ..types.devices.screenshot_list_response import ScreenshotListResponse as DevicesScreenshotListResponse
@@ -226,18 +257,23 @@ from ..types.workflows.flow_capacity_response import FlowCapacityResponse
 from ..types.workflows.flow_retrieve_response import FlowRetrieveResponse
 from ..types.workflows.flow_validate_response import FlowValidateResponse
 from ..types.agents.conversation_list_response import ConversationListResponse as AgentsConversationListResponse
+from ..types.compute.sandbox_retrieve_response import SandboxRetrieveResponse
 from ..types.credentials.package_list_response import PackageListResponse as CredentialsPackageListResponse
 from ..types.devices.recording_status_response import RecordingStatusResponse
+from ..types.routine_file_delete_many_response import RoutineFileDeleteManyResponse
 from ..types.workflows.execution_list_response import ExecutionListResponse
 from ..types.workflows.trigger_create_response import TriggerCreateResponse
 from ..types.workflows.trigger_delete_response import TriggerDeleteResponse
 from ..types.workflows.trigger_update_response import TriggerUpdateResponse
+from ..types.compute.function_retrieve_response import FunctionRetrieveResponse
 from ..types.devices.app_list_installs_response import AppListInstallsResponse
+from ..types.routine_file_list_folders_response import RoutineFileListFoldersResponse
 from ..types.tasks.screenshot_retrieve_response import ScreenshotRetrieveResponse
 from ..types.webhooks.integration_list_response import IntegrationListResponse
 from ..types.workflows.action_retrieve_response import ActionRetrieveResponse
 from ..types.workflows.execution_abort_response import ExecutionAbortResponse
 from ..types.agents.conversation_create_response import ConversationCreateResponse
+from ..types.compute.functions.run_list_response import RunListResponse as FunctionsRunListResponse
 from ..types.credentials.package_create_response import PackageCreateResponse
 from ..types.mailboxes.message_retrieve_response import MessageRetrieveResponse as MailboxesMessageRetrieveResponse
 from ..types.messages.conversation_list_response import ConversationListResponse as MessagesConversationListResponse
@@ -249,6 +285,7 @@ from ..types.mailboxes.connection_create_response import ConnectionCreateRespons
 from ..types.workflows.flow_list_repairs_response import FlowListRepairsResponse
 from ..types.workflows.flows.action_list_response import ActionListResponse as FlowsActionListResponse
 from ..types.app_create_signed_upload_url_response import AppCreateSignedUploadURLResponse
+from ..types.compute.functions.run_create_response import RunCreateResponse
 from ..types.connect.proxy_ensure_healthy_response import ProxyEnsureHealthyResponse
 from ..types.credentials.package_list_all_response import PackageListAllResponse
 from ..types.device_retrieve_capabilities_response import DeviceRetrieveCapabilitiesResponse
@@ -261,26 +298,41 @@ from ..types.devices.recording_screenshots_response import RecordingScreenshotsR
 from ..types.mailboxes.connection_retrieve_response import ConnectionRetrieveResponse
 from ..types.workflows.action_catalog_list_response import ActionCatalogListResponse
 from ..types.workflows.flows.action_remove_response import ActionRemoveResponse
+from ..types.compute.functions.version_list_response import VersionListResponse
+from ..types.compute.sandboxes.command_list_response import CommandListResponse
 from ..types.connect.proxy_list_connections_response import ProxyListConnectionsResponse
 from ..types.devices.action_overlay_visible_response import ActionOverlayVisibleResponse
 from ..types.devices.browser_execute_script_response import BrowserExecuteScriptResponse
 from ..types.devices.traffic_session_create_response import TrafficSessionCreateResponse
 from ..types.devices.traffic_session_delete_response import TrafficSessionDeleteResponse
 from ..types.workflows.actions.service_list_response import ServiceListResponse
+from ..types.workflows.flow_document_schema_response import FlowDocumentSchemaResponse
 from ..types.workflows.flow_retrieve_repair_response import FlowRetrieveRepairResponse
 from ..types.workflows.flows.action_replace_response import ActionReplaceResponse
 from ..types.messages.conversation_mark_read_response import ConversationMarkReadResponse
 from ..types.workflows.execution_get_metrics_response import ExecutionGetMetricsResponse
 from ..types.workflows.flow_delivery_options_response import FlowDeliveryOptionsResponse
+from ..types.workflows.flow_replace_document_response import FlowReplaceDocumentResponse
 from ..types.workflows.flow_template_context_response import FlowTemplateContextResponse
+from ..types.compute.functions.version_create_response import VersionCreateResponse
 from ..types.credentials.packages.link_create_response import LinkCreateResponse
 from ..types.devices.traffic_session_retrieve_response import TrafficSessionRetrieveResponse
+from ..types.workflows.flow_retrieve_document_response import FlowRetrieveDocumentResponse
+from ..types.workflows.flow_validate_document_response import FlowValidateDocumentResponse
 from ..types.webhooks.integration_list_targets_response import IntegrationListTargetsResponse
 from ..types.workflows.action_catalog_retrieve_response import ActionCatalogRetrieveResponse
 from ..types.agents.request_retrieve_by_session_response import RequestRetrieveBySessionResponse
+from ..types.compute.functions.version_retrieve_response import VersionRetrieveResponse
+from ..types.compute.sandboxes.command_retrieve_response import CommandRetrieveResponse
 from ..types.webhooks.delivery_list_for_webhook_response import DeliveryListForWebhookResponse
+from ..types.workflows.flows.scheduled_run_list_response import ScheduledRunListResponse
+from ..types.compute.functions.validation_create_response import ValidationCreateResponse
 from ..types.webhooks.delivery_retrieve_attempts_response import DeliveryRetrieveAttemptsResponse
+from ..types.workflows.flow_create_from_document_response import FlowCreateFromDocumentResponse
 from ..types.workflows.flows.state_list_versions_response import StateListVersionsResponse
+from ..types.workflows.flows.scheduled_run_cancel_response import ScheduledRunCancelResponse
+from ..types.workflows.flows.scheduled_run_create_response import ScheduledRunCreateResponse
+from ..types.compute.functions.validation_retrieve_response import ValidationRetrieveResponse
 from ..types.credentials.packages.credential_create_response import CredentialCreateResponse
 from ..types.credentials.packages.credential_delete_response import CredentialDeleteResponse
 from ..types.devices.number_binding_list_candidates_response import NumberBindingListCandidatesResponse
@@ -316,13 +368,16 @@ class MobilerunSDK:
         self.apps = AppManager(self.api)
         self.credentials = _SDKCredentials(self.api)
         self.devices = DeviceManager(self.api)
+        self.stream_tokens = self.api.stream_tokens
         self.models = self.api.models
         self.proxies = ProxyConfigurationManager(self.api)
+        self.compute = _SDKCompute(self.api)
         self.connect = _SDKConnect(self.api)
         self.tasks = TaskManager(self.api)
         self.workflows = _SDKWorkflows(self.api)
         self.webhooks = WebhookManager(self.api)
         self.mailboxes = MailboxManager(self.api)
+        self.routine_files = RoutineFileManager(self.api)
         self.files = AgentFileManager(self.api)
         self.agents = AgentManager(self.api)
         self.assistant = self.api.assistant
@@ -381,6 +436,22 @@ class _SDKCredentials:
             timeout=timeout,
         )
         return result
+
+
+class _SDKCompute:
+    def __init__(self, api: Mobilerun) -> None:
+        self.api = api
+        self._resource = api.compute
+        self.functions = ComputeFunctionManager(self.api)
+        self.runs = RunManager(self.api)
+        self.sandboxes = SandboxManager(self.api)
+
+    def __getattr__(self, name: str) -> Any:
+        return getattr(self._resource, name)
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
 
 
 class _SDKConnect:
@@ -453,6 +524,7 @@ class AppManager:
         platform: Literal["all", "android", "ios"] | Omit = omit,
         query: str | Omit = omit,
         sort_by: Literal["createdAt", "name"] | Omit = omit,
+        source: Literal["user", "system", "portal", "store"] | Omit = omit,
         status: Literal["all", "queued", "available", "failed", "pruned"] | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -467,6 +539,7 @@ class AppManager:
                 platform=platform,
                 query=query,
                 sort_by=sort_by,
+                source=source,
                 status=status,
                 extra_headers=extra_headers,
                 extra_query=bound_extra(extra_query, {"page": __number}),
@@ -782,6 +855,7 @@ class CredentialManager:
         *,
         credential_name: str,
         fields: Iterable[credential_create_params.Field],
+        label: str | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -790,8 +864,9 @@ class CredentialManager:
     ) -> Credential:
         """
         Creates a credential under the given package with a `credentialName` and at
-        least one field. Each field has a `fieldType` (email, username, password,
-        api_token, phone_number, two_factor_secret, or backup_codes) and a value.
+        least one field. Field types must be unique. Each field has a `fieldType`
+        (email, username, password, api_token, phone_number, two_factor_secret, or
+        backup_codes) and a value.
 
         Args:
           extra_headers: Send extra headers
@@ -808,6 +883,7 @@ class CredentialManager:
             self.package_name,
             credential_name=credential_name,
             fields=fields,
+            label=label,
             extra_headers=extra_headers,
             extra_query=extra_query,
             extra_body=extra_body,
@@ -1519,6 +1595,366 @@ class ProxyConfigurationManager:
         return load()
 
 
+class _ComputeFunctionManagerValidations:
+    def __init__(self, api: Mobilerun) -> None:
+        self.api = api
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    def create(
+        self,
+        *,
+        source: str,
+        wait_s: Optional[int] | Omit = omit,
+        manifest: validation_create_params.Manifest | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ValidationCreateResponse:
+        """
+        Validate Python function source without uploading it
+
+        Args:
+          wait_s: Wait up to 25 seconds for validation to finish. Excess waiters return
+              immediately.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.compute.functions.validations.create(
+            source=source,
+            wait_s=wait_s,
+            manifest=manifest,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def retrieve(
+        self,
+        validation_id: str,
+        *,
+        wait_s: Optional[int] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ValidationRetrieveResponse:
+        """
+        Retrieve a function validation owned by this organisation
+
+        Args:
+          wait_s: Wait up to 25 seconds for validation to finish. Excess waiters return
+              immediately.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        result = self.api.compute.functions.validations.retrieve(
+            validation_id,
+            wait_s=wait_s,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+        return result
+
+
+class ComputeFunctionManager:
+    def __init__(self, api: Mobilerun) -> None:
+        self.api = api
+        self.validations = _ComputeFunctionManagerValidations(api)
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    def from_id(self, id: str) -> ComputeFunction:
+        return ComputeFunction(self.api, id)
+
+    def get(
+        self,
+        id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ComputeFunction:
+        info = self.api.compute.functions.retrieve(
+            id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+        )
+        return ComputeFunction(self.api, id, info, info_root="data")
+
+    def create(
+        self,
+        *,
+        name: str,
+        source: str,
+        api_key: function_create_params.APIKey | Omit = omit,
+        description: str | Omit = omit,
+        manifest: function_create_params.Manifest | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ComputeFunction:
+        """
+        Create a function with its first immutable version
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        info = self.api.compute.functions.create(
+            name=name,
+            source=source,
+            api_key=api_key,
+            description=description,
+            manifest=manifest,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        object = ComputeFunction(self.api, info.data.id, info, owned=True, info_root="data")
+
+        return object
+
+    def list(
+        self,
+        *,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        search: str | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PagedObjectPage[ComputeFunction, FunctionListResponse]:
+        def load(__number: int) -> PagedObjectPage[ComputeFunction, FunctionListResponse]:
+            __page = self.api.compute.functions.list(
+                page=page,
+                page_size=page_size,
+                search=search,
+                extra_headers=extra_headers,
+                extra_query=bound_extra(extra_query, {"page": __number}),
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+            return PagedObjectPage(
+                [ComputeFunction(self.api, item.id, item, info_root="") for item in (__page.data.items or [])],
+                __page,
+                lambda: next_object_page(
+                    __page.data.pagination.page, __page.data.pagination.has_next, __page.data.pagination.pages, __number
+                ),
+                load,
+            )
+
+        return load(int(page) if isinstance(page, (int, float)) else 1)
+
+
+class RunManager:
+    def __init__(self, api: Mobilerun) -> None:
+        self.api = api
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    def from_id(self, id: str) -> Run:
+        return Run(self.api, id)
+
+    def get(
+        self,
+        id: str,
+        *,
+        wait_s: Optional[int] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Run:
+        info = self.api.compute.runs.retrieve(
+            id,
+            wait_s=wait_s,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+        return Run(self.api, id, info, info_root="data")
+
+    def list(
+        self,
+        *,
+        function_id: str | Omit = omit,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        status: Literal["running", "done", "failed"] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PagedObjectPage[Run, ComputeRunListResponse]:
+        def load(__number: int) -> PagedObjectPage[Run, ComputeRunListResponse]:
+            __page = self.api.compute.runs.list(
+                function_id=function_id,
+                page=page,
+                page_size=page_size,
+                status=status,
+                extra_headers=extra_headers,
+                extra_query=bound_extra(extra_query, {"page": __number}),
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+            return PagedObjectPage(
+                [Run(self.api, item.id, item, info_root="") for item in (__page.data.items or [])],
+                __page,
+                lambda: next_object_page(
+                    __page.data.pagination.page, __page.data.pagination.has_next, __page.data.pagination.pages, __number
+                ),
+                load,
+            )
+
+        return load(int(page) if isinstance(page, (int, float)) else 1)
+
+
+class SandboxManager:
+    def __init__(self, api: Mobilerun) -> None:
+        self.api = api
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    def from_id(self, id: str) -> Sandbox:
+        return Sandbox(self.api, id)
+
+    def get(
+        self,
+        id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Sandbox:
+        info = self.api.compute.sandboxes.retrieve(
+            id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+        )
+        return Sandbox(self.api, id, info, info_root="data")
+
+    def create(
+        self,
+        *,
+        allowed_hosts: SequenceNotStr[str] | Omit = omit,
+        api_key: sandbox_create_params.APIKey | Omit = omit,
+        env: Dict[str, str] | Omit = omit,
+        idle_timeout_s: int | Omit = omit,
+        name: str | Omit = omit,
+        timeout_s: int | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> Sandbox:
+        """Starts a compute sandbox; compute usage may incur charges until it stops.
+
+
+        Create a sandbox
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        info = self.api.compute.sandboxes.create(
+            allowed_hosts=allowed_hosts,
+            api_key=api_key,
+            env=env,
+            idle_timeout_s=idle_timeout_s,
+            name=name,
+            timeout_s=timeout_s,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        object = Sandbox(self.api, info.data.id, info, owned=True, info_root="data")
+
+        return object
+
+    def list(
+        self,
+        *,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        status: Literal["starting", "running", "stopped"] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PagedObjectPage[Sandbox, SandboxListResponse]:
+        def load(__number: int) -> PagedObjectPage[Sandbox, SandboxListResponse]:
+            __page = self.api.compute.sandboxes.list(
+                page=page,
+                page_size=page_size,
+                status=status,
+                extra_headers=extra_headers,
+                extra_query=bound_extra(extra_query, {"page": __number}),
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+            return PagedObjectPage(
+                [Sandbox(self.api, item.id, item, info_root="") for item in (__page.data.items or [])],
+                __page,
+                lambda: next_object_page(
+                    __page.data.pagination.page, __page.data.pagination.has_next, __page.data.pagination.pages, __number
+                ),
+                load,
+            )
+
+        return load(int(page) if isinstance(page, (int, float)) else 1)
+
+
 class ConnectProxyManager:
     def __init__(self, api: Mobilerun) -> None:
         self.api = api
@@ -1550,6 +1986,7 @@ class ConnectProxyManager:
         country: str | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        type: List[Literal["dedicated_residential", "residential", "mobile"]] | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -1560,6 +1997,7 @@ class ConnectProxyManager:
                 country=country,
                 page=page,
                 page_size=page_size,
+                type=type,
                 extra_headers=extra_headers,
                 extra_query=bound_extra(extra_query, {"page": __number}),
                 extra_body=extra_body,
@@ -1847,8 +2285,9 @@ class TaskManager:
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -2020,8 +2459,9 @@ class TaskManager:
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -2252,7 +2692,9 @@ class CatalogEntryManager:
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         profile: Literal["agent_routine"] | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+        service: Literal[
+            "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+        ]
         | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -2426,7 +2868,9 @@ class WorkflowActionManager:
         page_size: int | Omit = omit,
         profile: Literal["agent_routine"] | Omit = omit,
         search: str | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+        service: Literal[
+            "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+        ]
         | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -2487,9 +2931,9 @@ class FlowManager:
     def create(
         self,
         *,
-        actions: Iterable[flow_create_params.Action],
         name: str,
         trigger_id: str,
+        actions: Iterable[flow_create_params.Action] | Omit = omit,
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
         delivery: flow_create_params.Delivery | Omit = omit,
@@ -2503,6 +2947,7 @@ class FlowManager:
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_create_params.RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         extra_headers: Headers | None = None,
@@ -2512,16 +2957,23 @@ class FlowManager:
         idempotency_key: str | None = None,
     ) -> Flow:
         """
-        Create a flow that binds a trigger (`triggerId`) to an ordered list of actions,
-        with at least one action required. Optional settings include target `deviceIds`,
-        a cooldown (`cooldownSeconds`/`cooldownScope`), and webhook notifications on
-        success or failure.
+        Create a flow that binds a trigger (`triggerId`) to an ordered list of actions.
+        The list may be empty or omitted: a routine without steps is stored disabled and
+        cannot be enabled, run or verified until it has a step. Enabling it returns 400
+        with "Add a step before enabling this routine". Optional settings include target
+        `deviceIds`, a cooldown (`cooldownSeconds`/`cooldownScope`), and webhook
+        notifications on success or failure.
 
         Supports an optional `Idempotency-Key` header (1-255 printable ASCII
         characters). Replays with the same key and an identical body return the original
         201; a changed body under the same key returns 422 `idempotency_key_reused`.
 
         Args:
+          enabled: Defaults to true when steps exist. A routine without steps is created disabled;
+              explicit true is rejected.
+
+          owner_wake: Defaults to final.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -2533,9 +2985,9 @@ class FlowManager:
           idempotency_key: Specify a custom idempotency key for this request
         """
         info = self.api.workflows.flows.create(
-            actions=actions,
             name=name,
             trigger_id=trigger_id,
+            actions=actions,
             cooldown_scope=cooldown_scope,
             cooldown_seconds=cooldown_seconds,
             delivery=delivery,
@@ -2549,6 +3001,7 @@ class FlowManager:
             owner_wake=owner_wake,
             recording_enabled=recording_enabled,
             recording_policy=recording_policy,
+            save_sandbox_logs=save_sandbox_logs,
             self_healing_enabled=self_healing_enabled,
             self_healing_max_attempts=self_healing_max_attempts,
             extra_headers=extra_headers,
@@ -2645,6 +3098,82 @@ class FlowManager:
         )
         return result
 
+    def create_from_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowCreateFromDocumentResponse:
+        """Atomically creates the trigger, actions and disabled flow.
+
+        Body: {document}.
+        Optional Idempotency-Key fingerprints the canonical document; identical retries
+        reload the resource, changed documents return idempotency_key_reused. The owner
+        can enable a routine with at least one step directly through PATCH
+        /flows/{flowId} using enabled: true or lifecycleStatus: "enabled", without
+        verification. For the verified path used by agent deploys, call POST
+        /flows/{flowId}/verify then POST /flows/{flowId}/activate; activation requires a
+        successful verification of the current graph.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.workflows.flows.create_from_document(
+            document=document,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def document_schema(
+        self,
+        *,
+        profile: Literal["agent_routine"] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowDocumentSchemaResponse:
+        """The optional agent_routine profile lists only agent-eligible steps.
+
+        This is
+        authoring guidance; backend validation remains authoritative.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        result = self.api.workflows.flows.document_schema(
+            profile=profile,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+        return result
+
     def template_context(
         self,
         *,
@@ -2694,6 +3223,7 @@ class FlowManager:
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_validate_params.Variant0RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -2737,6 +3267,7 @@ class FlowManager:
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_validate_params.Variant0RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -2780,6 +3311,7 @@ class FlowManager:
             owner_wake=owner_wake,
             recording_enabled=recording_enabled,
             recording_policy=recording_policy,
+            save_sandbox_logs=save_sandbox_logs,
             self_healing_enabled=self_healing_enabled,
             self_healing_max_attempts=self_healing_max_attempts,
             trigger_id=trigger_id,
@@ -2794,6 +3326,139 @@ class FlowManager:
             idempotency_key=idempotency_key,
         )
         return result
+
+    def validate_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowValidateDocumentResponse:
+        """Validates graph, settings and scheduled inputs without writing.
+
+        Disconnected
+        delivery destinations produce warnings; create and replace enforce the existing
+        delivery connection checks.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.workflows.flows.validate_document(
+            document=document,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+
+class ScheduledRunManager:
+    def __init__(self, api: Mobilerun, flow_id: str) -> None:
+        self.api = api
+        self._flow_id = flow_id
+
+    @property
+    def flow_id(self) -> str:
+        return self._flow_id
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    def from_id(self, id: str) -> ScheduledRun:
+        return ScheduledRun(self.api, self.flow_id, id)
+
+    def create(
+        self,
+        *,
+        run_at: Union[str, datetime],
+        payload: Dict[str, object] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ScheduledRun:
+        """
+        Plan Run now for a future time, using the same devices, payload rules and
+        admission at fire time. A flow can have at most 100 scheduled runs. Supports an
+        optional Idempotency-Key; a replay returns the current scheduled run with the
+        original 201 status.
+
+        Args:
+          run_at: RFC 3339 time with an offset; between one minute and 365 days from now.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        info = self.api.workflows.flows.scheduled_runs.create(
+            self.flow_id,
+            run_at=run_at,
+            payload=payload,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        object = ScheduledRun(self.api, self.flow_id, info.data.id, info, owned=True, info_root="data")
+
+        return object
+
+    def list(
+        self,
+        *,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        status: Literal["scheduled", "all"] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PagedObjectPage[ScheduledRun, ScheduledRunListResponse]:
+        def load(__number: int) -> PagedObjectPage[ScheduledRun, ScheduledRunListResponse]:
+            __page = self.api.workflows.flows.scheduled_runs.list(
+                self.flow_id,
+                page=page,
+                page_size=page_size,
+                status=status,
+                extra_headers=extra_headers,
+                extra_query=bound_extra(extra_query, {"page": __number}),
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+            return PagedObjectPage(
+                [ScheduledRun(self.api, self.flow_id, item.id, item, info_root="") for item in (__page.items or [])],
+                __page,
+                lambda: next_object_page(
+                    __page.pagination.page, __page.pagination.has_next, __page.pagination.pages, __number
+                ),
+                load,
+            )
+
+        return load(int(page) if isinstance(page, (int, float)) else 1)
 
 
 class ExecutionManager:
@@ -2811,13 +3476,19 @@ class ExecutionManager:
         self,
         id: str,
         *,
+        include: Literal["input"] | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Execution:
         info = self.api.workflows.executions.retrieve(
-            id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            id,
+            include=include,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
         )
         return Execution(self.api, id, info, info_root="data")
 
@@ -2827,6 +3498,7 @@ class ExecutionManager:
         flow_id: str | Omit = omit,
         from_: Union[str, datetime, None] | Omit = omit,
         invocation_id: str | Omit = omit,
+        kind: List[Literal["live", "dry_run", "verification"]] | Omit = omit,
         order_by: Literal["startedAt", "finishedAt", "status"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
@@ -2845,6 +3517,7 @@ class ExecutionManager:
                 flow_id=flow_id,
                 from_=from_,
                 invocation_id=invocation_id,
+                kind=kind,
                 order_by=order_by,
                 order_by_direction=order_by_direction,
                 page=page,
@@ -3455,6 +4128,130 @@ class MailboxMessageManager:
             )
 
         return load(cursor if isinstance(cursor, str) else None)
+
+
+class RoutineFileManager:
+    def __init__(self, api: Mobilerun) -> None:
+        self.api = api
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    def from_id(self, id: str) -> RoutineFile:
+        return RoutineFile(self.api, id)
+
+    def list(
+        self,
+        *,
+        execution_id: str | Omit = omit,
+        flow_id: str | Omit = omit,
+        folder: str | Omit = omit,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PagedObjectPage[RoutineFile, RoutineFileListResponse]:
+        def load(__number: int) -> PagedObjectPage[RoutineFile, RoutineFileListResponse]:
+            __page = self.api.routine_files.list(
+                execution_id=execution_id,
+                flow_id=flow_id,
+                folder=folder,
+                page=page,
+                page_size=page_size,
+                extra_headers=extra_headers,
+                extra_query=bound_extra(extra_query, {"page": __number}),
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+            return PagedObjectPage(
+                [RoutineFile(self.api, item.id, item, info_root="") for item in (__page.items or [])],
+                __page,
+                lambda: next_object_page(
+                    __page.pagination.page, __page.pagination.has_next, __page.pagination.pages, __number
+                ),
+                load,
+            )
+
+        return load(int(page) if isinstance(page, (int, float)) else 1)
+
+    def delete_many(
+        self,
+        *,
+        execution_id: str | Omit = omit,
+        folder: str | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> RoutineFileDeleteManyResponse:
+        """Permanently deletes files for exactly one folder or executionId.
+
+
+        Deletes every saved file of exactly one folder (`folder`) or one run
+        (`executionId`) permanently. Pass exactly one of the two. Returns how many files
+        were deleted.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.routine_files.delete_many(
+            execution_id=execution_id,
+            folder=folder,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def list_folders(
+        self,
+        *,
+        flow_id: str | Omit = omit,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> RoutineFileListFoldersResponse:
+        """
+        Lists the folders that hold saved files with their file count, total size and
+        newest save time, newest first. Independent of whether the routine or run still
+        exists; `flows` names the routines that saved into each folder.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        result = self.api.routine_files.list_folders(
+            flow_id=flow_id,
+            page=page,
+            page_size=page_size,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+        return result
 
 
 class AgentFileManager:
@@ -4260,13 +5057,45 @@ class _CredentialPackageLinks:
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}()"
 
+    @overload
     def create(
         self,
         *,
         credential_name: str,
-        field_map: Iterable[link_create_params.FieldMap],
+        field_map: Iterable[link_create_params.LinkOnePasswordCredentialBodyFieldMap],
         item_id: str,
         vault_id: str,
+        provider: Literal["onepassword"] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> LinkCreateResponse: ...
+
+    @overload
+    def create(
+        self,
+        *,
+        card_id: str,
+        credential_name: str,
+        provider: Literal["wallet"],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> LinkCreateResponse: ...
+
+    def create(
+        self,
+        *,
+        credential_name: str,
+        field_map: Iterable[link_create_params.LinkOnePasswordCredentialBodyFieldMap] | Omit = omit,
+        item_id: str | Omit = omit,
+        vault_id: str | Omit = omit,
+        provider: Literal["onepassword"] | Literal["wallet"] | Omit = omit,
+        card_id: str | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -4274,7 +5103,11 @@ class _CredentialPackageLinks:
         idempotency_key: str | None = None,
     ) -> LinkCreateResponse:
         """
-        Link a 1Password item to a credential
+        Creates a read-only credential that resolves its values live from the provider.
+        `provider` defaults to `onepassword` (vaultId, itemId, fieldMap). `wallet` takes
+        a cardId, is only allowed in the reserved payment_cards package, and only the
+        cardholder may link the card (404 otherwise). Never replaces an existing
+        credential of the same name.
 
         Args:
           extra_headers: Send extra headers
@@ -4287,12 +5120,14 @@ class _CredentialPackageLinks:
 
           idempotency_key: Specify a custom idempotency key for this request
         """
-        result = self.api.credentials.packages.links.create(
+        result = cast(Callable[..., LinkCreateResponse], self.api.credentials.packages.links.create)(
             self._owner.id,
             credential_name=credential_name,
             field_map=field_map,
             item_id=item_id,
             vault_id=vault_id,
+            provider=provider,
+            card_id=card_id,
             extra_headers=extra_headers,
             extra_query=extra_query,
             extra_body=extra_body,
@@ -4364,7 +5199,17 @@ class _CredentialFields:
         self,
         *,
         field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+            "email",
+            "username",
+            "password",
+            "api_token",
+            "phone_number",
+            "two_factor_secret",
+            "backup_codes",
+            "cc_number",
+            "cc_exp",
+            "cc_csc",
+            "cc_name",
         ],
         value: str,
         extra_headers: Headers | None = None,
@@ -4406,7 +5251,17 @@ class _CredentialFields:
     def update(
         self,
         field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+            "email",
+            "username",
+            "password",
+            "api_token",
+            "phone_number",
+            "two_factor_secret",
+            "backup_codes",
+            "cc_number",
+            "cc_exp",
+            "cc_csc",
+            "cc_name",
         ],
         *,
         value: str,
@@ -4448,7 +5303,17 @@ class _CredentialFields:
     def delete(
         self,
         field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+            "email",
+            "username",
+            "password",
+            "api_token",
+            "phone_number",
+            "two_factor_secret",
+            "backup_codes",
+            "cc_number",
+            "cc_exp",
+            "cc_csc",
+            "cc_name",
         ],
         *,
         extra_headers: Headers | None = None,
@@ -4518,10 +5383,11 @@ class Credential:
         return self._package_name
 
     @property
-    def source(self) -> Union[Literal["mobilerun", "onepassword"], None]:
+    def source(self) -> Union[Literal["mobilerun", "onepassword", "wallet"], None]:
         """Reads only the last create/list snapshot without making a request; fromId/from_id handles have no data."""
         return cast(
-            Union[Literal["mobilerun", "onepassword"], None], record_field(self.info, self._info_root, "source")
+            Union[Literal["mobilerun", "onepassword", "wallet"], None],
+            record_field(self.info, self._info_root, "source"),
         )
 
     def delete(
@@ -4814,6 +5680,8 @@ class _DeviceApps:
         self,
         *,
         bundle_id: str,
+        app_id: str | Omit = omit,
+        app_url: str | Omit = omit,
         background: bool | Omit = omit,
         country: str | Omit = omit,
         package_name: str | Omit = omit,
@@ -4831,9 +5699,30 @@ class _DeviceApps:
         self,
         *,
         package_name: str,
+        app_id: str | Omit = omit,
+        app_url: str | Omit = omit,
         background: bool | Omit = omit,
         bundle_id: str | Omit = omit,
         country: str | Omit = omit,
+        version_code: int | Omit = omit,
+        x_device_display_id: int | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> None: ...
+
+    @overload
+    def install(
+        self,
+        *,
+        app_id: str,
+        app_url: str | Omit = omit,
+        background: bool | Omit = omit,
+        bundle_id: str | Omit = omit,
+        country: str | Omit = omit,
+        package_name: str | Omit = omit,
         version_code: int | Omit = omit,
         x_device_display_id: int | Omit = omit,
         extra_headers: Headers | None = None,
@@ -4847,6 +5736,8 @@ class _DeviceApps:
         self,
         *,
         bundle_id: str | Omit = omit,
+        app_id: str | Omit = omit,
+        app_url: str | Omit = omit,
         background: bool | Omit = omit,
         country: str | Omit = omit,
         package_name: str | Omit = omit,
@@ -4888,6 +5779,8 @@ class _DeviceApps:
         cast(Callable[..., None], self.api.devices.apps.install)(
             self._owner.id,
             bundle_id=bundle_id,
+            app_id=app_id,
+            app_url=app_url,
             background=background,
             country=country,
             package_name=package_name,
@@ -6834,6 +7727,50 @@ class Device:
         )
         return None
 
+    def create_stream_token(
+        self,
+        *,
+        allowed_origins: SequenceNotStr[str] | Omit = omit,
+        ttl_seconds: int | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> StreamTokenCreateResponse:
+        """Starts billing for the device according to the selected billing mode.
+
+        Mint a short-lived, single-use stream token for a device.
+
+        The token permits
+        streaming and control.
+
+        Args:
+          allowed_origins: Exact `https://host[:port]` origins (and `http://localhost[:port]`) allowed to
+              connect.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.stream_tokens.create(
+            device_id=self.id,
+            allowed_origins=allowed_origins,
+            ttl_seconds=ttl_seconds,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=bound_extra(extra_body, {"deviceId": self.id}, headers=False),
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
     def resume(
         self,
         *,
@@ -6848,7 +7785,8 @@ class Device:
         """
         Wakes a parked device: it first checks that the device can run again, then the
         same device starts and per-minute billing resumes. On a device that is not
-        parked, the request does nothing.
+        parked, the request does nothing. Unsupported intents return 400
+        DEVICE_TOOL_UNSUPPORTED.
 
 
         Waits until the object is ready again (default), returns the handle; opt out with `wait_ready=False` and set the timeout with `ready_timeout`.
@@ -6886,8 +7824,10 @@ class Device:
     ) -> Device:
         """
         Parks the device: its data, apps and identity are kept, but nothing runs and
-        nothing is billed until it is resumed. Only devices whose capabilities report
-        stop=true support this; others return 404.
+        nothing is billed until it is resumed. Hosted subscription devices refuse a new
+        park with 400 DEVICE_TOOL_UNSUPPORTED. Stop remains available for cleanup when
+        the device already targets stopped. Other devices require stop support;
+        unsupported intents return 400 DEVICE_TOOL_UNSUPPORTED.
 
 
         Runs wait_stopped after success (default), returns the handle; opt out with `wait=False` and set the timeout with `wait_timeout`.
@@ -7154,8 +8094,9 @@ class Device:
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -8185,6 +9126,799 @@ class ProxyConfiguration:
         traceback: Optional[TracebackType],
     ) -> None:
         return None
+
+
+class _ComputeFunctionVersions:
+    def __init__(self, api: Mobilerun, owner: ComputeFunction) -> None:
+        self.api = api
+        self._owner = owner
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    def create(
+        self,
+        *,
+        source: str,
+        api_key: version_create_params.APIKey | Omit = omit,
+        manifest: version_create_params.Manifest | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> VersionCreateResponse:
+        """
+        Upload a new immutable version
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.compute.functions.versions.create(
+            self._owner.id,
+            source=source,
+            api_key=api_key,
+            manifest=manifest,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def retrieve(
+        self,
+        version: int,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VersionRetrieveResponse:
+        """
+        Get an exact version
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        result = self.api.compute.functions.versions.retrieve(
+            version,
+            function_id=self._owner.id,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+        return result
+
+    def list(
+        self,
+        *,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VersionListResponse:
+        """
+        List active versions, newest first
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        result = self.api.compute.functions.versions.list(
+            self._owner.id,
+            page=page,
+            page_size=page_size,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+        return result
+
+    def delete(
+        self,
+        version: int,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> None:
+        """
+        Delete a version except the last active version
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        self.api.compute.functions.versions.delete(
+            version,
+            function_id=self._owner.id,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return None
+
+
+class _ComputeFunctionRuns:
+    def __init__(self, api: Mobilerun, owner: ComputeFunction) -> None:
+        self.api = api
+        self._owner = owner
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    def list(
+        self,
+        *,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        status: Literal["running", "done", "failed"] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> PagedObjectPage[Run, FunctionsRunListResponse]:
+        def load(__number: int) -> PagedObjectPage[Run, FunctionsRunListResponse]:
+            __page = self.api.compute.functions.runs.list(
+                self._owner.id,
+                page=page,
+                page_size=page_size,
+                status=status,
+                extra_headers=extra_headers,
+                extra_query=bound_extra(extra_query, {"page": __number}),
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+            return PagedObjectPage(
+                [Run(self.api, item.id, item, info_root="") for item in (__page.data.items or [])],
+                __page,
+                lambda: next_object_page(
+                    __page.data.pagination.page, __page.data.pagination.has_next, __page.data.pagination.pages, __number
+                ),
+                load,
+            )
+
+        return load(int(page) if isinstance(page, (int, float)) else 1)
+
+    def create(
+        self,
+        *,
+        input: Dict[str, object],
+        timeout_s: int | Omit = omit,
+        version: Union[Literal["latest"], int] | Omit = omit,
+        wait_s: int | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> Run:
+        """
+        Returns 200 with the finished run when it ends within `waitS`, else 202 with the
+        run.
+
+        Args:
+          timeout_s: Omitted: 300 s.
+
+          version: Latest selects the newest ready version of the function; a number pins a
+              version.
+
+          wait_s: Seconds the reply waits for the run to end; 202 when it is still running.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.compute.functions.runs.create(
+            self._owner.id,
+            input=input,
+            timeout_s=timeout_s,
+            version=version,
+            wait_s=wait_s,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return Run(self.api, result.data.id, result, info_root="data")
+
+
+ComputeFunctionInfo = Union[
+    FunctionCreateResponse, FunctionRetrieveResponse, __types_compute_serverless_function.ServerlessFunction
+]
+
+
+class ComputeFunction:
+    def __init__(
+        self,
+        api: Mobilerun,
+        id: str,
+        info: Optional[ComputeFunctionInfo] = None,
+        *,
+        owned: bool = False,
+        info_root: str = "data",
+    ) -> None:
+        self.api = api
+        self.id = id
+        self.info: Optional[ComputeFunctionInfo] = info
+        self._info_root = info_root
+        self._owned = owned
+        owner = self
+        self.versions = _ComputeFunctionVersions(api, owner)
+        self.runs = _ComputeFunctionRuns(api, owner)
+
+    @override
+    def __repr__(self) -> str:
+        fields = f", name={self.name!r}" if self.info is not None else ""
+        return f"{self.__class__.__name__}(id={self.id!r}{fields})"
+
+    def refresh(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FunctionRetrieveResponse:
+        result = self.api.compute.functions.retrieve(
+            self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+        )
+        self.info = result
+        self._info_root = "data"
+        return result
+
+    @property
+    def name(self) -> Union[str, None]:
+        """Reads the last response without making a request."""
+        return cast(Union[str, None], record_field(self.info, self._info_root, "name"))
+
+    def update(
+        self,
+        *,
+        description: str | Omit = omit,
+        name: str | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FunctionUpdateResponse:
+        """
+        Rename a function or update its description
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.compute.functions.update(
+            self.id,
+            description=description,
+            name=name,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def delete(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> None:
+        """Delete a function"""
+        self.api.compute.functions.delete(
+            self.id,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return None
+
+    def source(
+        self,
+        *,
+        version: int | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FunctionSourceResponse:
+        """
+        Read verified function source
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        result = self.api.compute.functions.source(
+            self.id,
+            version=version,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+        return result
+
+    def __enter__(self) -> ComputeFunction:
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[builtins.type[BaseException]],
+        exc: Optional[BaseException],
+        traceback: Optional[TracebackType],
+    ) -> None:
+        return None
+
+
+RunInfo = Union[
+    RunRetrieveResponse,
+    RunCreateResponse,
+    __types_compute_functions_run_list_response.DataItem,
+    __types_compute_run_list_response.DataItem,
+]
+
+
+class Run:
+    def __init__(
+        self, api: Mobilerun, id: str, info: Optional[RunInfo] = None, *, owned: bool = False, info_root: str = "data"
+    ) -> None:
+        self.api = api
+        self.id = id
+        self.info: Optional[RunInfo] = info
+        self._info_root = info_root
+        self._owned = owned
+
+    @override
+    def __repr__(self) -> str:
+        fields = f", status={self.status!r}, outcome={self.outcome!r}" if self.info is not None else ""
+        return f"{self.__class__.__name__}(id={self.id!r}{fields})"
+
+    def refresh(
+        self,
+        *,
+        wait_s: Optional[int] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> RunRetrieveResponse:
+        result = self.api.compute.runs.retrieve(
+            self.id,
+            wait_s=wait_s,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+        self.info = result
+        self._info_root = "data"
+        return result
+
+    @property
+    def status(self) -> Union[Literal["running", "done", "failed"], None]:
+        """Reads the last response without making a request."""
+        return cast(
+            Union[Literal["running", "done", "failed"], None], record_field(self.info, self._info_root, "status")
+        )
+
+    @property
+    def outcome(self) -> Union[Literal["succeeded", "partial", "failed"], None]:
+        """Reads the last response without making a request."""
+        return cast(
+            Union[Literal["succeeded", "partial", "failed"], None], record_field(self.info, self._info_root, "outcome")
+        )
+
+    def cancel(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> RunCancelResponse:
+        """Cancel a run"""
+        result = self.api.compute.runs.cancel(
+            self.id,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def logs(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> RunLogsResponse:
+        """Get a short-lived download link for the full log of a run"""
+        result = self.api.compute.runs.logs(
+            self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+        )
+        return result
+
+    def wait(
+        self,
+        *,
+        timeout: float = 600,
+        poll_interval: float = 1,
+        cancel: Optional[threading.Event] = None,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+    ) -> RunRetrieveResponse:
+        """Wait for the declared success condition; failure raises with the last response. Sync requests cannot be hard-aborted in flight; cancellation and deadlines are checked between requests."""
+
+        poll_api = self.api.with_options(max_retries=0)
+
+        def poll(remaining: float) -> RunRetrieveResponse:
+            result = poll_api.compute.runs.retrieve(
+                self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=remaining
+            )
+            self.info = result
+            self._info_root = "data"
+            return result
+
+        result = wait_sync(
+            poll,
+            lambda status: status.data.status,
+            ["done"],
+            ["failed"],
+            pending=["running"],
+            timeout=timeout,
+            poll_interval=poll_interval,
+            poll_request_timeout=30,
+            cancel=cancel,
+        )
+        return result
+
+    def __enter__(self) -> Run:
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[builtins.type[BaseException]],
+        exc: Optional[BaseException],
+        traceback: Optional[TracebackType],
+    ) -> None:
+        return None
+
+
+class _SandboxCommands:
+    def __init__(self, api: Mobilerun, owner: Sandbox) -> None:
+        self.api = api
+        self._owner = owner
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    def retrieve(
+        self,
+        command_id: str,
+        *,
+        wait_s: Optional[int] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CommandRetrieveResponse:
+        """
+        Get a command result
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        result = self.api.compute.sandboxes.commands.retrieve(
+            command_id,
+            sandbox_id=self._owner.id,
+            wait_s=wait_s,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+        return result
+
+    def list(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CommandListResponse:
+        """List the newest commands"""
+        result = self.api.compute.sandboxes.commands.list(
+            self._owner.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+        )
+        return result
+
+
+class _SandboxFiles:
+    def __init__(self, api: Mobilerun, owner: Sandbox) -> None:
+        self.api = api
+        self._owner = owner
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    def upload(
+        self,
+        body: FileContent,
+        *,
+        path: str,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> None:
+        """
+        Upload a file
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        self.api.compute.sandboxes.files.upload(
+            self._owner.id,
+            body,
+            path=path,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return None
+
+    def download(
+        self,
+        *,
+        path: str,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> bytes:
+        with self.api.compute.sandboxes.files.with_streaming_response.retrieve(
+            self._owner.id,
+            path=path,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        ) as response:
+            data = response.read()
+            return data
+
+
+SandboxInfo = Union[SandboxCreateResponse, SandboxRetrieveResponse, __types_compute_sandbox_list_response.DataItem]
+
+
+class Sandbox:
+    def __init__(
+        self,
+        api: Mobilerun,
+        id: str,
+        info: Optional[SandboxInfo] = None,
+        *,
+        owned: bool = False,
+        info_root: str = "data",
+    ) -> None:
+        self.api = api
+        self.id = id
+        self.info: Optional[SandboxInfo] = info
+        self._info_root = info_root
+        self._owned = owned
+        owner = self
+        self.commands = _SandboxCommands(api, owner)
+        self.files = _SandboxFiles(api, owner)
+
+    @override
+    def __repr__(self) -> str:
+        fields = f", name={self.name!r}, status={self.status!r}" if self.info is not None else ""
+        return f"{self.__class__.__name__}(id={self.id!r}{fields})"
+
+    def refresh(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SandboxRetrieveResponse:
+        result = self.api.compute.sandboxes.retrieve(
+            self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+        )
+        self.info = result
+        self._info_root = "data"
+        return result
+
+    @property
+    def name(self) -> Union[str, None]:
+        """Reads the last response without making a request."""
+        return cast(Union[str, None], record_field(self.info, self._info_root, "name"))
+
+    @property
+    def status(self) -> Union[Literal["starting", "running", "stopped"], None]:
+        """Reads the last response without making a request."""
+        return cast(
+            Union[Literal["starting", "running", "stopped"], None], record_field(self.info, self._info_root, "status")
+        )
+
+    def delete(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> SandboxDeleteResponse:
+        """Requests sandbox shutdown; a 202 response means shutdown is still in progress.
+
+        Stop a sandbox"""
+        result = self.api.compute.sandboxes.delete(
+            self.id,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def exec(
+        self,
+        *,
+        command: str,
+        cwd: str | Omit = omit,
+        env: Dict[str, str] | Omit = omit,
+        timeout_s: int | Omit = omit,
+        wait_s: int | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> SandboxExecResponse:
+        """
+        Execute a shell command
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.compute.sandboxes.exec(
+            self.id,
+            command=command,
+            cwd=cwd,
+            env=env,
+            timeout_s=timeout_s,
+            wait_s=wait_s,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def __enter__(self) -> Sandbox:
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[builtins.type[BaseException]],
+        exc: Optional[BaseException],
+        traceback: Optional[TracebackType],
+    ) -> None:
+        if not self._owned:
+            return
+        self._owned = False
+        try:
+            self.api.compute.sandboxes.delete(
+                self.id, extra_headers=None, extra_query=None, extra_body=None, timeout=not_given, idempotency_key=None
+            )
+        except BaseException as cleanup_error:
+            if exc is None:
+                raise
+            attach_cleanup_error(exc, cleanup_error)
 
 
 ConnectProxyInfo = Union[ConnectProxyRetrieveResponse, ProxyBuyResponse, __types_connect_proxy_list_response.Item]
@@ -9388,11 +11122,25 @@ class CatalogEntry:
     @property
     def service(
         self,
-    ) -> Union[Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"], None]:
+    ) -> Union[
+        Literal[
+            "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+        ],
+        None,
+    ]:
         """Reads the last response without making a request."""
         return cast(
             Union[
-                Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"], None
+                Literal[
+                    "tasks_api",
+                    "devices_api",
+                    "agents_api",
+                    "webhooks",
+                    "integrations_api",
+                    "triggers_api",
+                    "sandbox_api",
+                ],
+                None,
             ],
             record_field(self.info, self._info_root, "service"),
         )
@@ -9462,11 +11210,25 @@ class WorkflowAction:
     @property
     def service(
         self,
-    ) -> Union[Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"], None]:
+    ) -> Union[
+        Literal[
+            "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+        ],
+        None,
+    ]:
         """Reads the last response without making a request."""
         return cast(
             Union[
-                Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"], None
+                Literal[
+                    "tasks_api",
+                    "devices_api",
+                    "agents_api",
+                    "webhooks",
+                    "integrations_api",
+                    "triggers_api",
+                    "sandbox_api",
+                ],
+                None,
             ],
             record_field(self.info, self._info_root, "service"),
         )
@@ -9822,6 +11584,7 @@ class Flow:
         self._info_root = info_root
         self._owned = owned
         owner = self
+        self.scheduled_runs = ScheduledRunManager(api, owner.id)
         self.actions = _FlowActions(api, owner)
         self.state = _FlowState(api, owner)
 
@@ -9868,6 +11631,7 @@ class Flow:
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_update_params.RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -9879,12 +11643,18 @@ class Flow:
     ) -> FlowUpdateResponse:
         """
         Partially update a flow's settings — name, trigger binding, enabled state,
-        target devices, cooldown, or notifications; all fields are optional. Actions are
+        target devices, cooldown, or notifications; all fields are optional. The owner
+        can enable a routine directly with `enabled: true` or
+        `lifecycleStatus: "enabled"`, without verification; at least one step is
+        required. For the verified path used by agent deploys, use POST
+        /flows/{flowId}/verify then POST /flows/{flowId}/activate instead. Actions are
         managed through the flow-actions endpoints, not here. Returns 404 if the flow
         does not exist.
 
         Args:
           lifecycle_status: Set the visible agent lifecycle. Archive remains available only through DELETE.
+
+          owner_wake: Defaults to final.
 
           recording_enabled: Deprecated compatibility field. true maps to recordingPolicy.mode="flow"; false
               maps to "off".
@@ -9916,6 +11686,7 @@ class Flow:
             owner_wake=owner_wake,
             recording_enabled=recording_enabled,
             recording_policy=recording_policy,
+            save_sandbox_logs=save_sandbox_logs,
             self_healing_enabled=self_healing_enabled,
             self_healing_max_attempts=self_healing_max_attempts,
             trigger_id=trigger_id,
@@ -9940,6 +11711,7 @@ class Flow:
 
         Archived flows cannot be restored and are
         hidden from customer reads. Repeating the request is idempotent for the owner.
+        Files saved by its runs are deleted with it.
         """
         result = self.api.workflows.flows.delete(
             self.id,
@@ -9962,9 +11734,13 @@ class Flow:
         idempotency_key: str | None = None,
     ) -> FlowActivateResponse:
         """
-        Activate a disabled flow only when the supplied verification execution succeeded
-        and the flow graph has not changed since verification. Repeating activation is
-        idempotent for an already-enabled flow.
+        The verified activation path used by agent deploys: first run POST
+        /flows/{flowId}/verify, then activate the disabled flow only when the supplied
+        verification execution succeeded and the flow graph has not changed since
+        verification. Repeating activation is idempotent for an already-enabled flow.
+        Alternatively, the owner can enable a routine with at least one step directly
+        through PATCH /flows/{flowId} using `enabled: true` or
+        `lifecycleStatus: "enabled"`, without verification.
 
         Args:
           extra_headers: Send extra headers
@@ -10071,6 +11847,72 @@ class Flow:
         )
         return result
 
+    def replace_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowReplaceDocumentResponse:
+        """Body: {document}.
+
+        Preserves enabled state. Omitted settings preserves all stored
+        settings; present settings replaces them, with absent fields defaulted. Agent
+        routines require a new version deployed through the agent. Omitted description,
+        devices and trigger options clear their values. Shared triggers return
+        trigger_shared and agent-managed routines return routine_agent_managed (409);
+        shared action definitions are never modified. To enable a disabled routine with
+        at least one step, the owner can PATCH /flows/{flowId} with enabled: true or
+        lifecycleStatus: "enabled", without verification. For the verified path used by
+        agent deploys, call POST /flows/{flowId}/verify then POST
+        /flows/{flowId}/activate; activation requires a successful verification of the
+        current graph.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.workflows.flows.replace_document(
+            self.id,
+            document=document,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def retrieve_document(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowRetrieveDocumentResponse:
+        """
+        Returns the canonical routine document, including delivery, recording, health,
+        cooldown, owner wake and scheduled inputs. Unsupported stored behavior returns
+        document_unsupported with JSON Pointer paths.
+        """
+        result = self.api.workflows.flows.retrieve_document(
+            self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+        )
+        return result
+
     def retrieve_repair(
         self,
         episode_id: str,
@@ -10115,7 +11957,8 @@ class Flow:
     ) -> FlowRunResponse:
         """
         Immediately enqueue one live execution on every device bound to the flow,
-        regardless of whether its trigger is event-based, custom, or scheduled.
+        regardless of whether its trigger is event-based, custom, or scheduled. A
+        routine without steps is refused with 409 `flow_has_no_steps`.
 
         Supports an optional `Idempotency-Key` header (1-255 printable ASCII
         characters). The run identity is derived from the key, so a retry never starts a
@@ -10239,6 +12082,7 @@ class Flow:
         Unlike a normal trigger firing, verification:
 
         - runs a flow that is `enabled` OR `disabled` (an archived flow returns 404);
+        - refuses routines without steps with 409 `flow_has_no_steps`;
         - targets one device (`deviceId`, or the single bound device);
         - is idempotent per `invocationId`: a repeat returns the existing run
           (`deduplicated: true`, HTTP 200) instead of enqueuing another (HTTP 202);
@@ -10287,6 +12131,82 @@ class Flow:
         return Execution(self.api, result.data.execution_id, result, info_root="data")
 
     def __enter__(self) -> Flow:
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[builtins.type[BaseException]],
+        exc: Optional[BaseException],
+        traceback: Optional[TracebackType],
+    ) -> None:
+        return None
+
+
+ScheduledRunInfo = Union[ScheduledRunCreateResponse, __types_workflows_flows_scheduled_run_list_response.Item]
+
+
+class ScheduledRun:
+    def __init__(
+        self,
+        api: Mobilerun,
+        flow_id: str,
+        id: str,
+        info: Optional[ScheduledRunInfo] = None,
+        *,
+        owned: bool = False,
+        info_root: str = "data",
+    ) -> None:
+        self.api = api
+        self.id = id
+        self._flow_id = flow_id
+        self.info: Optional[ScheduledRunInfo] = info
+        self._info_root = info_root
+        self._owned = owned
+
+    @override
+    def __repr__(self) -> str:
+        fields = f", status={self.status!r}, run_at={self.run_at!r}" if self.info is not None else ""
+        return f"{self.__class__.__name__}(id={self.id!r}{fields})"
+
+    @property
+    def flow_id(self) -> str:
+        return self._flow_id
+
+    @property
+    def status(self) -> Union[Literal["scheduled", "started", "skipped", "failed", "missed", "cancelled"], None]:
+        """Reads only the last create/list snapshot without making a request; fromId/from_id handles have no data."""
+        return cast(
+            Union[Literal["scheduled", "started", "skipped", "failed", "missed", "cancelled"], None],
+            record_field(self.info, self._info_root, "status"),
+        )
+
+    @property
+    def run_at(self) -> Union[datetime, None]:
+        """Reads only the last create/list snapshot without making a request; fromId/from_id handles have no data."""
+        return cast(Union[datetime, None], record_field(self.info, self._info_root, "runAt"))
+
+    def cancel(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ScheduledRunCancelResponse:
+        """Cancel a planned flow run"""
+        result = self.api.workflows.flows.scheduled_runs.cancel(
+            self.id,
+            flow_id=self.flow_id,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def __enter__(self) -> ScheduledRun:
         return self
 
     def __exit__(
@@ -10370,13 +12290,19 @@ class Execution:
     def refresh(
         self,
         *,
+        include: Literal["input"] | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ExecutionRetrieveResponse:
         result = self.api.workflows.executions.retrieve(
-            self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            self.id,
+            include=include,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
         )
         self.info = result
         self._info_root = "data"
@@ -11144,6 +13070,101 @@ class MailboxMessage:
         return cast(Union[str, None], record_field(self.info, self._info_root, "subject"))
 
     def __enter__(self) -> MailboxMessage:
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[builtins.type[BaseException]],
+        exc: Optional[BaseException],
+        traceback: Optional[TracebackType],
+    ) -> None:
+        return None
+
+
+RoutineFileInfo = Union[__types_routine_file_list_response.Item]
+
+
+class RoutineFile:
+    def __init__(
+        self,
+        api: Mobilerun,
+        id: str,
+        info: Optional[RoutineFileInfo] = None,
+        *,
+        owned: bool = False,
+        info_root: str = "",
+    ) -> None:
+        self.api = api
+        self.id = id
+        self.info: Optional[RoutineFileInfo] = info
+        self._info_root = info_root
+        self._owned = owned
+
+    @override
+    def __repr__(self) -> str:
+        fields = (
+            f", filename={self.filename!r}, folder={self.folder!r}, kind={self.kind!r}" if self.info is not None else ""
+        )
+        return f"{self.__class__.__name__}(id={self.id!r}{fields})"
+
+    @property
+    def filename(self) -> Union[str, None]:
+        """Reads only the last create/list snapshot without making a request; fromId/from_id handles have no data."""
+        return cast(Union[str, None], record_field(self.info, self._info_root, "filename"))
+
+    @property
+    def folder(self) -> Union[str, None]:
+        """Reads only the last create/list snapshot without making a request; fromId/from_id handles have no data."""
+        return cast(Union[str, None], record_field(self.info, self._info_root, "folder"))
+
+    @property
+    def kind(self) -> Union[Literal["recording", "screenshot", "file"], None]:
+        """Reads only the last create/list snapshot without making a request; fromId/from_id handles have no data."""
+        return cast(
+            Union[Literal["recording", "screenshot", "file"], None], record_field(self.info, self._info_root, "kind")
+        )
+
+    def delete(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> None:
+        """Permanently deletes this saved routine file.
+
+
+        Deletes one saved file permanently and frees its storage (the file disappears at
+        once; the stored object is removed right after). Idempotent: an already deleted
+        file returns 204 too.
+        """
+        self.api.routine_files.delete(
+            self.id,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return None
+
+    def download(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> bytes:
+        with self.api.routine_files.with_streaming_response.download(
+            self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+        ) as response:
+            data = response.read()
+            return data
+
+    def __enter__(self) -> RoutineFile:
         return self
 
     def __exit__(
@@ -12164,6 +14185,9 @@ SavedScreenshotListPage = PagedObjectPage[SavedScreenshot, DevicesScreenshotList
 RecordingListPage = ObjectPage[Recording, Optional[RecordingListResponse]]
 TrafficSessionListPage = PagedObjectPage[TrafficSession, TrafficSessionListResponse]
 ProxyConfigurationListPage = ObjectPage[ProxyConfiguration, TypesProxyListResponse]
+ComputeFunctionListPage = PagedObjectPage[ComputeFunction, FunctionListResponse]
+RunListPage = PagedObjectPage[Run, ComputeRunListResponse]
+SandboxListPage = PagedObjectPage[Sandbox, SandboxListResponse]
 ConnectProxyListPage = PagedObjectPage[ConnectProxy, ConnectProxyListResponse]
 ConnectUserListPage = PagedObjectPage[ConnectUser, UserListResponse]
 TaskListPage = PagedObjectPage[Task, TypesTaskListResponse]
@@ -12171,11 +14195,13 @@ TriggerListPage = PagedObjectPage[Trigger, TriggerListResponse]
 CatalogEntryListPage = PagedObjectPage[CatalogEntry, ActionCatalogListResponse]
 WorkflowActionListPage = PagedObjectPage[WorkflowAction, WorkflowsActionListResponse]
 FlowListPage = PagedObjectPage[Flow, FlowListResponse]
+ScheduledRunListPage = PagedObjectPage[ScheduledRun, ScheduledRunListResponse]
 ExecutionListPage = PagedObjectPage[Execution, ExecutionListResponse]
 WebhookListPage = PagedObjectPage[Webhook, WebhookListResponse]
 WebhookDeliveryListPage = PagedObjectPage[WebhookDelivery, DeliveryListForWebhookResponse]
 MailboxListPage = PagedObjectPage[Mailbox, MailboxListResponse]
 MailboxMessageListPage = PagedObjectPage[MailboxMessage, MailboxesMessageListResponse]
+RoutineFileListPage = PagedObjectPage[RoutineFile, RoutineFileListResponse]
 AgentFileListPage = ObjectPage[AgentFile, TypesFileListResponse]
 AgentListPage = ObjectPage[Agent, __types_agent_list_response.AgentListResponse]
 AgentRequestListPage = ObjectPage[AgentRequest, RequestListResponse]

@@ -449,7 +449,8 @@ class DevicesResource(SyncAPIResource):
         """
         Returns the current state and metadata for a single device, including its
         lifecycle state, type, stream URL, billing strategy, and timestamps. A stream
-        token is included while the device is active.
+        token is included while the device is active, but may be omitted when it cannot
+        be read at that moment. Refetch the device to obtain the stream token.
 
         Args:
           extra_headers: Send extra headers
@@ -771,7 +772,8 @@ class DevicesResource(SyncAPIResource):
         """
         Wakes a parked device: it first checks that the device can run again, then the
         same device starts and per-minute billing resumes. On a device that is not
-        parked, the request does nothing.
+        parked, the request does nothing. Unsupported intents return 400
+        DEVICE_TOOL_UNSUPPORTED.
 
         Args:
           extra_headers: Send extra headers
@@ -891,8 +893,10 @@ class DevicesResource(SyncAPIResource):
     ) -> None:
         """
         Parks the device: its data, apps and identity are kept, but nothing runs and
-        nothing is billed until it is resumed. Only devices whose capabilities report
-        stop=true support this; others return 404.
+        nothing is billed until it is resumed. Hosted subscription devices refuse a new
+        park with 400 DEVICE_TOOL_UNSUPPORTED. Stop remains available for cleanup when
+        the device already targets stopped. Other devices require stop support;
+        unsupported intents return 400 DEVICE_TOOL_UNSUPPORTED.
 
         Args:
           extra_headers: Send extra headers
@@ -1294,7 +1298,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         """
         Returns the current state and metadata for a single device, including its
         lifecycle state, type, stream URL, billing strategy, and timestamps. A stream
-        token is included while the device is active.
+        token is included while the device is active, but may be omitted when it cannot
+        be read at that moment. Refetch the device to obtain the stream token.
 
         Args:
           extra_headers: Send extra headers
@@ -1616,7 +1621,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         """
         Wakes a parked device: it first checks that the device can run again, then the
         same device starts and per-minute billing resumes. On a device that is not
-        parked, the request does nothing.
+        parked, the request does nothing. Unsupported intents return 400
+        DEVICE_TOOL_UNSUPPORTED.
 
         Args:
           extra_headers: Send extra headers
@@ -1736,8 +1742,10 @@ class AsyncDevicesResource(AsyncAPIResource):
     ) -> None:
         """
         Parks the device: its data, apps and identity are kept, but nothing runs and
-        nothing is billed until it is resumed. Only devices whose capabilities report
-        stop=true support this; others return 404.
+        nothing is billed until it is resumed. Hosted subscription devices refuse a new
+        park with 400 DEVICE_TOOL_UNSUPPORTED. Stop remains available for cleanup when
+        the device already targets stopped. Other devices require stop support;
+        unsupported intents return 400 DEVICE_TOOL_UNSUPPORTED.
 
         Args:
           extra_headers: Send extra headers
