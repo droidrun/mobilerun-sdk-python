@@ -84,6 +84,7 @@ class TestApps:
             platform="all",
             query="query",
             sort_by="createdAt",
+            source="user",
             status="all",
         )
         assert_matches_type(AppListResponse, app, path=["response"])
@@ -455,6 +456,7 @@ class TestAsyncApps:
             platform="all",
             query="query",
             sort_by="createdAt",
+            source="user",
             status="all",
         )
         assert_matches_type(AppListResponse, app, path=["response"])
