@@ -37,6 +37,22 @@ class TestCredentials:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_create_with_all_params(self, client: Mobilerun) -> None:
+        credential = client.credentials.packages.credentials.create(
+            package_name="x",
+            credential_name="26f1kl_-n-71",
+            fields=[
+                {
+                    "field_type": "email",
+                    "value": "x",
+                }
+            ],
+            label="label",
+        )
+        assert_matches_type(CredentialCreateResponse, credential, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_raw_response_create(self, client: Mobilerun) -> None:
         response = client.credentials.packages.credentials.with_raw_response.create(
             package_name="x",
@@ -160,6 +176,22 @@ class TestAsyncCredentials:
                     "value": "x",
                 }
             ],
+        )
+        assert_matches_type(CredentialCreateResponse, credential, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        credential = await async_client.credentials.packages.credentials.create(
+            package_name="x",
+            credential_name="26f1kl_-n-71",
+            fields=[
+                {
+                    "field_type": "email",
+                    "value": "x",
+                }
+            ],
+            label="label",
         )
         assert_matches_type(CredentialCreateResponse, credential, path=["response"])
 
