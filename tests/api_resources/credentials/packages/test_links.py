@@ -19,7 +19,7 @@ class TestLinks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_create(self, client: Mobilerun) -> None:
+    def test_method_create_overload_1(self, client: Mobilerun) -> None:
         link = client.credentials.packages.links.create(
             package_name="x",
             credential_name="26f1kl_-n-71",
@@ -36,7 +36,25 @@ class TestLinks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_raw_response_create(self, client: Mobilerun) -> None:
+    def test_method_create_with_all_params_overload_1(self, client: Mobilerun) -> None:
+        link = client.credentials.packages.links.create(
+            package_name="x",
+            credential_name="26f1kl_-n-71",
+            field_map=[
+                {
+                    "field_id": "x",
+                    "field_type": "email",
+                }
+            ],
+            item_id="x",
+            vault_id="x",
+            provider="onepassword",
+        )
+        assert_matches_type(LinkCreateResponse, link, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_create_overload_1(self, client: Mobilerun) -> None:
         response = client.credentials.packages.links.with_raw_response.create(
             package_name="x",
             credential_name="26f1kl_-n-71",
@@ -57,7 +75,7 @@ class TestLinks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_streaming_response_create(self, client: Mobilerun) -> None:
+    def test_streaming_response_create_overload_1(self, client: Mobilerun) -> None:
         with client.credentials.packages.links.with_streaming_response.create(
             package_name="x",
             credential_name="26f1kl_-n-71",
@@ -80,7 +98,7 @@ class TestLinks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_path_params_create(self, client: Mobilerun) -> None:
+    def test_path_params_create_overload_1(self, client: Mobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             client.credentials.packages.links.with_raw_response.create(
                 package_name="",
@@ -95,6 +113,60 @@ class TestLinks:
                 vault_id="x",
             )
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_create_overload_2(self, client: Mobilerun) -> None:
+        link = client.credentials.packages.links.create(
+            package_name="x",
+            card_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            credential_name="26f1kl_-n-71",
+            provider="wallet",
+        )
+        assert_matches_type(LinkCreateResponse, link, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_create_overload_2(self, client: Mobilerun) -> None:
+        response = client.credentials.packages.links.with_raw_response.create(
+            package_name="x",
+            card_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            credential_name="26f1kl_-n-71",
+            provider="wallet",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        link = response.parse()
+        assert_matches_type(LinkCreateResponse, link, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_create_overload_2(self, client: Mobilerun) -> None:
+        with client.credentials.packages.links.with_streaming_response.create(
+            package_name="x",
+            card_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            credential_name="26f1kl_-n-71",
+            provider="wallet",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            link = response.parse()
+            assert_matches_type(LinkCreateResponse, link, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_create_overload_2(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
+            client.credentials.packages.links.with_raw_response.create(
+                package_name="",
+                card_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                credential_name="26f1kl_-n-71",
+                provider="wallet",
+            )
+
 
 class TestAsyncLinks:
     parametrize = pytest.mark.parametrize(
@@ -103,7 +175,7 @@ class TestAsyncLinks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_create(self, async_client: AsyncMobilerun) -> None:
+    async def test_method_create_overload_1(self, async_client: AsyncMobilerun) -> None:
         link = await async_client.credentials.packages.links.create(
             package_name="x",
             credential_name="26f1kl_-n-71",
@@ -120,7 +192,25 @@ class TestAsyncLinks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncMobilerun) -> None:
+    async def test_method_create_with_all_params_overload_1(self, async_client: AsyncMobilerun) -> None:
+        link = await async_client.credentials.packages.links.create(
+            package_name="x",
+            credential_name="26f1kl_-n-71",
+            field_map=[
+                {
+                    "field_id": "x",
+                    "field_type": "email",
+                }
+            ],
+            item_id="x",
+            vault_id="x",
+            provider="onepassword",
+        )
+        assert_matches_type(LinkCreateResponse, link, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_create_overload_1(self, async_client: AsyncMobilerun) -> None:
         response = await async_client.credentials.packages.links.with_raw_response.create(
             package_name="x",
             credential_name="26f1kl_-n-71",
@@ -141,7 +231,7 @@ class TestAsyncLinks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncMobilerun) -> None:
+    async def test_streaming_response_create_overload_1(self, async_client: AsyncMobilerun) -> None:
         async with async_client.credentials.packages.links.with_streaming_response.create(
             package_name="x",
             credential_name="26f1kl_-n-71",
@@ -164,7 +254,7 @@ class TestAsyncLinks:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_path_params_create(self, async_client: AsyncMobilerun) -> None:
+    async def test_path_params_create_overload_1(self, async_client: AsyncMobilerun) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
             await async_client.credentials.packages.links.with_raw_response.create(
                 package_name="",
@@ -177,4 +267,58 @@ class TestAsyncLinks:
                 ],
                 item_id="x",
                 vault_id="x",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_create_overload_2(self, async_client: AsyncMobilerun) -> None:
+        link = await async_client.credentials.packages.links.create(
+            package_name="x",
+            card_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            credential_name="26f1kl_-n-71",
+            provider="wallet",
+        )
+        assert_matches_type(LinkCreateResponse, link, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_create_overload_2(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.credentials.packages.links.with_raw_response.create(
+            package_name="x",
+            card_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            credential_name="26f1kl_-n-71",
+            provider="wallet",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        link = await response.parse()
+        assert_matches_type(LinkCreateResponse, link, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_create_overload_2(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.credentials.packages.links.with_streaming_response.create(
+            package_name="x",
+            card_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            credential_name="26f1kl_-n-71",
+            provider="wallet",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            link = await response.parse()
+            assert_matches_type(LinkCreateResponse, link, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_create_overload_2(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `package_name` but received ''"):
+            await async_client.credentials.packages.links.with_raw_response.create(
+                package_name="",
+                card_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                credential_name="26f1kl_-n-71",
+                provider="wallet",
             )
