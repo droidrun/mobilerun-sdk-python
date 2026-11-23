@@ -1,33 +1,62 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
-from typing_extensions import Literal
+from typing import List, Union, Optional
+from typing_extensions import Literal, TypeAlias
 
 from pydantic import Field as FieldInfo
 
 from ....._models import BaseModel
 
-__all__ = ["FieldDeleteResponse", "Data", "DataField", "DataLink", "DataLinkFieldMap"]
+__all__ = [
+    "FieldDeleteResponse",
+    "Data",
+    "DataField",
+    "DataLink",
+    "DataLinkUnionMember0",
+    "DataLinkUnionMember0FieldMap",
+    "DataLinkUnionMember1",
+    "DataLinkUnionMember1FieldMap",
+]
 
 
 class DataField(BaseModel):
     field_type: Literal[
-        "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+        "email",
+        "username",
+        "password",
+        "api_token",
+        "phone_number",
+        "two_factor_secret",
+        "backup_codes",
+        "cc_number",
+        "cc_exp",
+        "cc_csc",
+        "cc_name",
     ] = FieldInfo(alias="fieldType")
 
     value: str
 
 
-class DataLinkFieldMap(BaseModel):
+class DataLinkUnionMember0FieldMap(BaseModel):
     field_id: str = FieldInfo(alias="fieldId")
 
     field_type: Literal[
-        "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+        "email",
+        "username",
+        "password",
+        "api_token",
+        "phone_number",
+        "two_factor_secret",
+        "backup_codes",
+        "cc_number",
+        "cc_exp",
+        "cc_csc",
+        "cc_name",
     ] = FieldInfo(alias="fieldType")
 
 
-class DataLink(BaseModel):
-    field_map: List[DataLinkFieldMap] = FieldInfo(alias="fieldMap")
+class DataLinkUnionMember0(BaseModel):
+    field_map: List[DataLinkUnionMember0FieldMap] = FieldInfo(alias="fieldMap")
 
     item_id: str = FieldInfo(alias="itemId")
 
@@ -38,6 +67,37 @@ class DataLink(BaseModel):
     vault_id: str = FieldInfo(alias="vaultId")
 
     vault_name: str = FieldInfo(alias="vaultName")
+
+
+class DataLinkUnionMember1FieldMap(BaseModel):
+    field_id: str = FieldInfo(alias="fieldId")
+
+    field_type: Literal[
+        "email",
+        "username",
+        "password",
+        "api_token",
+        "phone_number",
+        "two_factor_secret",
+        "backup_codes",
+        "cc_number",
+        "cc_exp",
+        "cc_csc",
+        "cc_name",
+    ] = FieldInfo(alias="fieldType")
+
+
+class DataLinkUnionMember1(BaseModel):
+    card_id: str = FieldInfo(alias="cardId")
+
+    field_map: List[DataLinkUnionMember1FieldMap] = FieldInfo(alias="fieldMap")
+
+    label: str
+
+    provider: Literal["wallet"]
+
+
+DataLink: TypeAlias = Union[DataLinkUnionMember0, DataLinkUnionMember1]
 
 
 class Data(BaseModel):
@@ -59,9 +119,11 @@ class Data(BaseModel):
     Null for credentials created before rollout.
     """
 
+    label: Optional[str] = None
+
     link: Optional[DataLink] = None
 
-    source: Optional[Literal["mobilerun", "onepassword"]] = None
+    source: Optional[Literal["mobilerun", "onepassword", "wallet"]] = None
 
 
 class FieldDeleteResponse(BaseModel):

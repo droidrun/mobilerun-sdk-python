@@ -16,6 +16,14 @@ from .files import (
     FilesResourceWithStreamingResponse,
     AsyncFilesResourceWithStreamingResponse,
 )
+from .store import (
+    StoreResource,
+    AsyncStoreResource,
+    StoreResourceWithRawResponse,
+    AsyncStoreResourceWithRawResponse,
+    StoreResourceWithStreamingResponse,
+    AsyncStoreResourceWithStreamingResponse,
+)
 from .tasks import (
     TasksResource,
     AsyncTasksResource,
@@ -39,6 +47,14 @@ from .models import (
     AsyncModelsResourceWithRawResponse,
     ModelsResourceWithStreamingResponse,
     AsyncModelsResourceWithStreamingResponse,
+)
+from .compute import (
+    ComputeResource,
+    AsyncComputeResource,
+    ComputeResourceWithRawResponse,
+    AsyncComputeResourceWithRawResponse,
+    ComputeResourceWithStreamingResponse,
+    AsyncComputeResourceWithStreamingResponse,
 )
 from .connect import (
     ConnectResource,
@@ -96,6 +112,14 @@ from .assistant import (
     AssistantResourceWithStreamingResponse,
     AsyncAssistantResourceWithStreamingResponse,
 )
+from .functions import (
+    FunctionsResource,
+    AsyncFunctionsResource,
+    FunctionsResourceWithRawResponse,
+    AsyncFunctionsResourceWithRawResponse,
+    FunctionsResourceWithStreamingResponse,
+    AsyncFunctionsResourceWithStreamingResponse,
+)
 from .mailboxes import (
     MailboxesResource,
     AsyncMailboxesResource,
@@ -120,6 +144,22 @@ from .credentials import (
     CredentialsResourceWithStreamingResponse,
     AsyncCredentialsResourceWithStreamingResponse,
 )
+from .routine_files import (
+    RoutineFilesResource,
+    AsyncRoutineFilesResource,
+    RoutineFilesResourceWithRawResponse,
+    AsyncRoutineFilesResourceWithRawResponse,
+    RoutineFilesResourceWithStreamingResponse,
+    AsyncRoutineFilesResourceWithStreamingResponse,
+)
+from .stream_tokens import (
+    StreamTokensResource,
+    AsyncStreamTokensResource,
+    StreamTokensResourceWithRawResponse,
+    AsyncStreamTokensResourceWithRawResponse,
+    StreamTokensResourceWithStreamingResponse,
+    AsyncStreamTokensResourceWithStreamingResponse,
+)
 
 __all__ = [
     "AppsResource",
@@ -140,6 +180,12 @@ __all__ = [
     "AsyncDevicesResourceWithRawResponse",
     "DevicesResourceWithStreamingResponse",
     "AsyncDevicesResourceWithStreamingResponse",
+    "StreamTokensResource",
+    "AsyncStreamTokensResource",
+    "StreamTokensResourceWithRawResponse",
+    "AsyncStreamTokensResourceWithRawResponse",
+    "StreamTokensResourceWithStreamingResponse",
+    "AsyncStreamTokensResourceWithStreamingResponse",
     "ModelsResource",
     "AsyncModelsResource",
     "ModelsResourceWithRawResponse",
@@ -152,6 +198,18 @@ __all__ = [
     "AsyncProxiesResourceWithRawResponse",
     "ProxiesResourceWithStreamingResponse",
     "AsyncProxiesResourceWithStreamingResponse",
+    "FunctionsResource",
+    "AsyncFunctionsResource",
+    "FunctionsResourceWithRawResponse",
+    "AsyncFunctionsResourceWithRawResponse",
+    "FunctionsResourceWithStreamingResponse",
+    "AsyncFunctionsResourceWithStreamingResponse",
+    "ComputeResource",
+    "AsyncComputeResource",
+    "ComputeResourceWithRawResponse",
+    "AsyncComputeResourceWithRawResponse",
+    "ComputeResourceWithStreamingResponse",
+    "AsyncComputeResourceWithStreamingResponse",
     "ConnectResource",
     "AsyncConnectResource",
     "ConnectResourceWithRawResponse",
@@ -170,6 +228,18 @@ __all__ = [
     "AsyncWorkflowsResourceWithRawResponse",
     "WorkflowsResourceWithStreamingResponse",
     "AsyncWorkflowsResourceWithStreamingResponse",
+    "RoutineFilesResource",
+    "AsyncRoutineFilesResource",
+    "RoutineFilesResourceWithRawResponse",
+    "AsyncRoutineFilesResourceWithRawResponse",
+    "RoutineFilesResourceWithStreamingResponse",
+    "AsyncRoutineFilesResourceWithStreamingResponse",
+    "StoreResource",
+    "AsyncStoreResource",
+    "StoreResourceWithRawResponse",
+    "AsyncStoreResourceWithRawResponse",
+    "StoreResourceWithStreamingResponse",
+    "AsyncStoreResourceWithStreamingResponse",
     "WebhooksResource",
     "AsyncWebhooksResource",
     "WebhooksResourceWithRawResponse",

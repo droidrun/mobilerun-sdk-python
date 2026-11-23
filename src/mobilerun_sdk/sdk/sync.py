@@ -109,6 +109,7 @@ from ..types.task_list_response import TaskListResponse as TypesTaskListResponse
 from ..types.task_stop_response import TaskStopResponse
 from ..types.app_delete_response import AppDeleteResponse
 from ..types.proxy_list_response import ProxyListResponse as TypesProxyListResponse
+from ..types.task_stats_response import TaskStatsResponse
 from ..types.credentials.packages import link_create_params, credential_create_params
 from ..types.device_list_response import DeviceListResponse
 from ..types.file_delete_response import FileDeleteResponse
@@ -208,11 +209,13 @@ from ..types.connect.proxy_retrieve_response import ProxyRetrieveResponse as Con
 from ..types.devices.recording_list_response import RecordingListResponse
 from ..types.devices.recording_stop_response import RecordingStopResponse
 from ..types.mailboxes.message_list_response import MessageListResponse as MailboxesMessageListResponse
+from ..types.tasks.approval_respond_response import ApprovalRespondResponse
 from ..types.workflows.flow_dry_run_response import FlowDryRunResponse
 from ..types.workflows.flow_unblock_response import FlowUnblockResponse
 from ..types.workflows.trigger_fire_response import TriggerFireResponse
 from ..types.workflows.trigger_list_response import TriggerListResponse
 from ..types.agents.request_retrieve_response import RequestRetrieveResponse
+from ..types.device_set_idle_timeout_response import DeviceSetIdleTimeoutResponse
 from ..types.devices.number_retrieve_response import NumberRetrieveResponse as DevicesNumberRetrieveResponse
 from ..types.devices.recording_start_response import RecordingStartResponse
 from ..types.devices.screenshot_list_response import ScreenshotListResponse as DevicesScreenshotListResponse
@@ -267,22 +270,31 @@ from ..types.devices.browser_execute_script_response import BrowserExecuteScript
 from ..types.devices.traffic_session_create_response import TrafficSessionCreateResponse
 from ..types.devices.traffic_session_delete_response import TrafficSessionDeleteResponse
 from ..types.workflows.actions.service_list_response import ServiceListResponse
+from ..types.workflows.flow_document_schema_response import FlowDocumentSchemaResponse
 from ..types.workflows.flow_retrieve_repair_response import FlowRetrieveRepairResponse
 from ..types.workflows.flows.action_replace_response import ActionReplaceResponse
 from ..types.messages.conversation_mark_read_response import ConversationMarkReadResponse
 from ..types.workflows.execution_get_metrics_response import ExecutionGetMetricsResponse
 from ..types.workflows.flow_delivery_options_response import FlowDeliveryOptionsResponse
+from ..types.workflows.flow_replace_document_response import FlowReplaceDocumentResponse
 from ..types.workflows.flow_template_context_response import FlowTemplateContextResponse
 from ..types.credentials.packages.link_create_response import LinkCreateResponse
 from ..types.devices.traffic_session_retrieve_response import TrafficSessionRetrieveResponse
+from ..types.workflows.flow_retrieve_document_response import FlowRetrieveDocumentResponse
+from ..types.workflows.flow_validate_document_response import FlowValidateDocumentResponse
 from ..types.webhooks.integration_list_targets_response import IntegrationListTargetsResponse
 from ..types.workflows.action_catalog_retrieve_response import ActionCatalogRetrieveResponse
 from ..types.agents.request_retrieve_by_session_response import RequestRetrieveBySessionResponse
 from ..types.webhooks.delivery_list_for_webhook_response import DeliveryListForWebhookResponse
+from ..types.workflows.flows.scheduled_run_list_response import ScheduledRunListResponse
 from ..types.webhooks.delivery_retrieve_attempts_response import DeliveryRetrieveAttemptsResponse
+from ..types.workflows.flow_create_from_document_response import FlowCreateFromDocumentResponse
 from ..types.workflows.flows.state_list_versions_response import StateListVersionsResponse
+from ..types.workflows.flows.scheduled_run_cancel_response import ScheduledRunCancelResponse
+from ..types.workflows.flows.scheduled_run_create_response import ScheduledRunCreateResponse
 from ..types.credentials.packages.credential_create_response import CredentialCreateResponse
 from ..types.credentials.packages.credential_delete_response import CredentialDeleteResponse
+from ..types.credentials.packages.credential_update_response import CredentialUpdateResponse
 from ..types.devices.number_binding_list_candidates_response import NumberBindingListCandidatesResponse
 from ..types.workflows.actions.service_list_methods_response import ServiceListMethodsResponse
 from ..types.credentials.packages.credentials.field_create_response import FieldCreateResponse
@@ -316,11 +328,16 @@ class MobilerunSDK:
         self.apps = AppManager(self.api)
         self.credentials = _SDKCredentials(self.api)
         self.devices = DeviceManager(self.api)
+        self.stream_tokens = self.api.stream_tokens
         self.models = self.api.models
         self.proxies = ProxyConfigurationManager(self.api)
+        self.functions = self.api.functions
+        self.compute = self.api.compute
         self.connect = _SDKConnect(self.api)
         self.tasks = TaskManager(self.api)
         self.workflows = _SDKWorkflows(self.api)
+        self.routine_files = self.api.routine_files
+        self.store = self.api.store
         self.webhooks = WebhookManager(self.api)
         self.mailboxes = MailboxManager(self.api)
         self.files = AgentFileManager(self.api)
@@ -453,6 +470,7 @@ class AppManager:
         platform: Literal["all", "android", "ios"] | Omit = omit,
         query: str | Omit = omit,
         sort_by: Literal["createdAt", "name"] | Omit = omit,
+        source: Literal["user", "system", "portal", "store"] | Omit = omit,
         status: Literal["all", "queued", "available", "failed", "pruned"] | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -467,6 +485,7 @@ class AppManager:
                 platform=platform,
                 query=query,
                 sort_by=sort_by,
+                source=source,
                 status=status,
                 extra_headers=extra_headers,
                 extra_query=bound_extra(extra_query, {"page": __number}),
@@ -782,6 +801,7 @@ class CredentialManager:
         *,
         credential_name: str,
         fields: Iterable[credential_create_params.Field],
+        label: str | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -790,8 +810,9 @@ class CredentialManager:
     ) -> Credential:
         """
         Creates a credential under the given package with a `credentialName` and at
-        least one field. Each field has a `fieldType` (email, username, password,
-        api_token, phone_number, two_factor_secret, or backup_codes) and a value.
+        least one field. Field types must be unique. Each field has a `fieldType`
+        (email, username, password, api_token, phone_number, two_factor_secret, or
+        backup_codes) and a value.
 
         Args:
           extra_headers: Send extra headers
@@ -808,6 +829,7 @@ class CredentialManager:
             self.package_name,
             credential_name=credential_name,
             fields=fields,
+            label=label,
             extra_headers=extra_headers,
             extra_query=extra_query,
             extra_body=extra_body,
@@ -1550,6 +1572,7 @@ class ConnectProxyManager:
         country: str | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        type: List[Literal["dedicated_residential", "residential", "mobile"]] | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -1560,6 +1583,7 @@ class ConnectProxyManager:
                 country=country,
                 page=page,
                 page_size=page_size,
+                type=type,
                 extra_headers=extra_headers,
                 extra_query=bound_extra(extra_query, {"page": __number}),
                 extra_body=extra_body,
@@ -1847,8 +1871,9 @@ class TaskManager:
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -1903,6 +1928,52 @@ class TaskManager:
             extra_body=extra_body,
             timeout=timeout,
             idempotency_key=idempotency_key,
+        )
+        return result
+
+    def stats(
+        self,
+        *,
+        from_: Union[str, datetime],
+        to: Union[str, datetime],
+        bucket: Literal["hour", "day"] | Omit = omit,
+        source: Optional[Literal["api", "agent"]] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> TaskStatsResponse:
+        """
+        Task outcome counts per time bucket, success rate, duration percentiles and top
+        failure reasons for a window. Tasks are bucketed by creation time.
+
+        Args:
+          from_: Window start, ISO 8601 UTC (inclusive).
+
+          to: Window end, ISO 8601 UTC (exclusive). At most 90 days after `from`.
+
+          bucket: Bucket size. `hour` only for windows of at most 7 days.
+
+          source: Only tasks created via the API ('api') or tasks spawned by an agent step or
+              created with internal=true ('agent').
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        result = self.api.tasks.stats(
+            from_=from_,
+            to=to,
+            bucket=bucket,
+            source=source,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
         )
         return result
 
@@ -2020,8 +2091,9 @@ class TaskManager:
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -2252,7 +2324,9 @@ class CatalogEntryManager:
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         profile: Literal["agent_routine"] | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+        service: Literal[
+            "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+        ]
         | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -2426,7 +2500,9 @@ class WorkflowActionManager:
         page_size: int | Omit = omit,
         profile: Literal["agent_routine"] | Omit = omit,
         search: str | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+        service: Literal[
+            "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+        ]
         | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -2487,9 +2563,9 @@ class FlowManager:
     def create(
         self,
         *,
-        actions: Iterable[flow_create_params.Action],
         name: str,
         trigger_id: str,
+        actions: Iterable[flow_create_params.Action] | Omit = omit,
         cooldown_scope: Literal["flow", "device"] | Omit = omit,
         cooldown_seconds: Optional[int] | Omit = omit,
         delivery: flow_create_params.Delivery | Omit = omit,
@@ -2503,6 +2579,7 @@ class FlowManager:
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_create_params.RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         extra_headers: Headers | None = None,
@@ -2512,16 +2589,23 @@ class FlowManager:
         idempotency_key: str | None = None,
     ) -> Flow:
         """
-        Create a flow that binds a trigger (`triggerId`) to an ordered list of actions,
-        with at least one action required. Optional settings include target `deviceIds`,
-        a cooldown (`cooldownSeconds`/`cooldownScope`), and webhook notifications on
-        success or failure.
+        Create a flow that binds a trigger (`triggerId`) to an ordered list of actions.
+        The list may be empty or omitted: a routine without steps is stored disabled and
+        cannot be enabled, run or verified until it has a step. Enabling it returns 400
+        with "Add a step before enabling this routine". Optional settings include target
+        `deviceIds`, a cooldown (`cooldownSeconds`/`cooldownScope`), and webhook
+        notifications on success or failure.
 
         Supports an optional `Idempotency-Key` header (1-255 printable ASCII
         characters). Replays with the same key and an identical body return the original
         201; a changed body under the same key returns 422 `idempotency_key_reused`.
 
         Args:
+          enabled: Defaults to true when steps exist. A routine without steps is created disabled;
+              explicit true is rejected.
+
+          owner_wake: Defaults to final.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -2533,9 +2617,9 @@ class FlowManager:
           idempotency_key: Specify a custom idempotency key for this request
         """
         info = self.api.workflows.flows.create(
-            actions=actions,
             name=name,
             trigger_id=trigger_id,
+            actions=actions,
             cooldown_scope=cooldown_scope,
             cooldown_seconds=cooldown_seconds,
             delivery=delivery,
@@ -2549,6 +2633,7 @@ class FlowManager:
             owner_wake=owner_wake,
             recording_enabled=recording_enabled,
             recording_policy=recording_policy,
+            save_sandbox_logs=save_sandbox_logs,
             self_healing_enabled=self_healing_enabled,
             self_healing_max_attempts=self_healing_max_attempts,
             extra_headers=extra_headers,
@@ -2645,6 +2730,82 @@ class FlowManager:
         )
         return result
 
+    def create_from_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowCreateFromDocumentResponse:
+        """Atomically creates the trigger, actions and disabled flow.
+
+        Body: {document}.
+        Optional Idempotency-Key fingerprints the canonical document; identical retries
+        reload the resource, changed documents return idempotency_key_reused. The owner
+        can enable a routine with at least one step directly through PATCH
+        /flows/{flowId} using enabled: true or lifecycleStatus: "enabled", without
+        verification. For the verified path used by agent deploys, call POST
+        /flows/{flowId}/verify then POST /flows/{flowId}/activate; activation requires a
+        successful verification of the current graph.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.workflows.flows.create_from_document(
+            document=document,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def document_schema(
+        self,
+        *,
+        profile: Literal["agent_routine"] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowDocumentSchemaResponse:
+        """The optional agent_routine profile lists only agent-eligible steps.
+
+        This is
+        authoring guidance; backend validation remains authoritative.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        result = self.api.workflows.flows.document_schema(
+            profile=profile,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+        return result
+
     def template_context(
         self,
         *,
@@ -2694,6 +2855,7 @@ class FlowManager:
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_validate_params.Variant0RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -2737,6 +2899,7 @@ class FlowManager:
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_validate_params.Variant0RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -2780,6 +2943,7 @@ class FlowManager:
             owner_wake=owner_wake,
             recording_enabled=recording_enabled,
             recording_policy=recording_policy,
+            save_sandbox_logs=save_sandbox_logs,
             self_healing_enabled=self_healing_enabled,
             self_healing_max_attempts=self_healing_max_attempts,
             trigger_id=trigger_id,
@@ -2787,6 +2951,45 @@ class FlowManager:
             agent_id=agent_id,
             contract=contract,
             verify=verify,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def validate_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowValidateDocumentResponse:
+        """Validates graph, settings and scheduled inputs without writing.
+
+        Disconnected
+        delivery destinations produce warnings; create and replace enforce the existing
+        delivery connection checks.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.workflows.flows.validate_document(
+            document=document,
             extra_headers=extra_headers,
             extra_query=extra_query,
             extra_body=extra_body,
@@ -2811,13 +3014,19 @@ class ExecutionManager:
         self,
         id: str,
         *,
+        include: Literal["input"] | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Execution:
         info = self.api.workflows.executions.retrieve(
-            id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            id,
+            include=include,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
         )
         return Execution(self.api, id, info, info_root="data")
 
@@ -2827,6 +3036,7 @@ class ExecutionManager:
         flow_id: str | Omit = omit,
         from_: Union[str, datetime, None] | Omit = omit,
         invocation_id: str | Omit = omit,
+        kind: List[Literal["live", "dry_run", "verification"]] | Omit = omit,
         order_by: Literal["startedAt", "finishedAt", "status"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
@@ -2845,6 +3055,7 @@ class ExecutionManager:
                 flow_id=flow_id,
                 from_=from_,
                 invocation_id=invocation_id,
+                kind=kind,
                 order_by=order_by,
                 order_by_direction=order_by_direction,
                 page=page,
@@ -4260,13 +4471,45 @@ class _CredentialPackageLinks:
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}()"
 
+    @overload
     def create(
         self,
         *,
         credential_name: str,
-        field_map: Iterable[link_create_params.FieldMap],
+        field_map: Iterable[link_create_params.LinkOnePasswordCredentialBodyFieldMap],
         item_id: str,
         vault_id: str,
+        provider: Literal["onepassword"] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> LinkCreateResponse: ...
+
+    @overload
+    def create(
+        self,
+        *,
+        card_id: str,
+        credential_name: str,
+        provider: Literal["wallet"],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> LinkCreateResponse: ...
+
+    def create(
+        self,
+        *,
+        credential_name: str,
+        field_map: Iterable[link_create_params.LinkOnePasswordCredentialBodyFieldMap] | Omit = omit,
+        item_id: str | Omit = omit,
+        vault_id: str | Omit = omit,
+        provider: Literal["onepassword"] | Literal["wallet"] | Omit = omit,
+        card_id: str | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -4274,7 +4517,11 @@ class _CredentialPackageLinks:
         idempotency_key: str | None = None,
     ) -> LinkCreateResponse:
         """
-        Link a 1Password item to a credential
+        Creates a read-only credential that resolves its values live from the provider.
+        `provider` defaults to `onepassword` (vaultId, itemId, fieldMap). `wallet` takes
+        a cardId, is only allowed in the reserved payment_cards package, and only the
+        cardholder may link the card (404 otherwise). Never replaces an existing
+        credential of the same name.
 
         Args:
           extra_headers: Send extra headers
@@ -4287,12 +4534,14 @@ class _CredentialPackageLinks:
 
           idempotency_key: Specify a custom idempotency key for this request
         """
-        result = self.api.credentials.packages.links.create(
+        result = cast(Callable[..., LinkCreateResponse], self.api.credentials.packages.links.create)(
             self._owner.id,
             credential_name=credential_name,
             field_map=field_map,
             item_id=item_id,
             vault_id=vault_id,
+            provider=provider,
+            card_id=card_id,
             extra_headers=extra_headers,
             extra_query=extra_query,
             extra_body=extra_body,
@@ -4364,7 +4613,17 @@ class _CredentialFields:
         self,
         *,
         field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+            "email",
+            "username",
+            "password",
+            "api_token",
+            "phone_number",
+            "two_factor_secret",
+            "backup_codes",
+            "cc_number",
+            "cc_exp",
+            "cc_csc",
+            "cc_name",
         ],
         value: str,
         extra_headers: Headers | None = None,
@@ -4406,7 +4665,17 @@ class _CredentialFields:
     def update(
         self,
         field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+            "email",
+            "username",
+            "password",
+            "api_token",
+            "phone_number",
+            "two_factor_secret",
+            "backup_codes",
+            "cc_number",
+            "cc_exp",
+            "cc_csc",
+            "cc_name",
         ],
         *,
         value: str,
@@ -4448,7 +4717,17 @@ class _CredentialFields:
     def delete(
         self,
         field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+            "email",
+            "username",
+            "password",
+            "api_token",
+            "phone_number",
+            "two_factor_secret",
+            "backup_codes",
+            "cc_number",
+            "cc_exp",
+            "cc_csc",
+            "cc_name",
         ],
         *,
         extra_headers: Headers | None = None,
@@ -4518,11 +4797,51 @@ class Credential:
         return self._package_name
 
     @property
-    def source(self) -> Union[Literal["mobilerun", "onepassword"], None]:
+    def source(self) -> Union[Literal["mobilerun", "onepassword", "wallet"], None]:
         """Reads only the last create/list snapshot without making a request; fromId/from_id handles have no data."""
         return cast(
-            Union[Literal["mobilerun", "onepassword"], None], record_field(self.info, self._info_root, "source")
+            Union[Literal["mobilerun", "onepassword", "wallet"], None],
+            record_field(self.info, self._info_root, "source"),
         )
+
+    def update(
+        self,
+        *,
+        label: Optional[str],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> CredentialUpdateResponse:
+        """
+        Sets or clears the optional `label` (human-readable name, free text, max 200
+        characters) of an existing credential. `null` or an empty text clears it. Works
+        for linked credentials too: the label is metadata of the credential, not a field
+        of the linked item. Returns the updated credential.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.credentials.packages.credentials.update(
+            self.id,
+            package_name=self.package_name,
+            label=label,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
 
     def delete(
         self,
@@ -4814,6 +5133,8 @@ class _DeviceApps:
         self,
         *,
         bundle_id: str,
+        app_id: str | Omit = omit,
+        app_url: str | Omit = omit,
         background: bool | Omit = omit,
         country: str | Omit = omit,
         package_name: str | Omit = omit,
@@ -4831,9 +5152,30 @@ class _DeviceApps:
         self,
         *,
         package_name: str,
+        app_id: str | Omit = omit,
+        app_url: str | Omit = omit,
         background: bool | Omit = omit,
         bundle_id: str | Omit = omit,
         country: str | Omit = omit,
+        version_code: int | Omit = omit,
+        x_device_display_id: int | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> None: ...
+
+    @overload
+    def install(
+        self,
+        *,
+        app_id: str,
+        app_url: str | Omit = omit,
+        background: bool | Omit = omit,
+        bundle_id: str | Omit = omit,
+        country: str | Omit = omit,
+        package_name: str | Omit = omit,
         version_code: int | Omit = omit,
         x_device_display_id: int | Omit = omit,
         extra_headers: Headers | None = None,
@@ -4847,6 +5189,8 @@ class _DeviceApps:
         self,
         *,
         bundle_id: str | Omit = omit,
+        app_id: str | Omit = omit,
+        app_url: str | Omit = omit,
         background: bool | Omit = omit,
         country: str | Omit = omit,
         package_name: str | Omit = omit,
@@ -4888,6 +5232,8 @@ class _DeviceApps:
         cast(Callable[..., None], self.api.devices.apps.install)(
             self._owner.id,
             bundle_id=bundle_id,
+            app_id=app_id,
+            app_url=app_url,
             background=background,
             country=country,
             package_name=package_name,
@@ -6754,6 +7100,58 @@ class Device:
         )
         return result
 
+    def set_idle_timeout(
+        self,
+        *,
+        minutes: Optional[int],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> DeviceSetIdleTimeoutResponse:
+        """
+        Sets the device's own idle stop setting and returns the updated device.
+        `minutes` between 5 and 240 sets a custom timeout; `0` turns the idle timer off
+        for this device; `null` removes the device's own setting, so the platform
+        default applies again (a pay-as-you-go device that can be stopped stops after
+        the default; other devices have no timer). Other values return 422. While a
+        timer is on, the device is stopped automatically (state `stopped`, `stopReason`
+        `IDLE_TIMEOUT`) once it has had no client activity for longer than that: API
+        tool calls, open stream/adb/browser/frida/port connections and a held lease all
+        count as activity, reading device state does not. Setting a custom timeout
+        requires a device whose capabilities report stop=true, otherwise 409; `0` and
+        `null` are always allowed. The response's `idleTimeoutMinutes` is the effective
+        timeout.
+
+        Args:
+          minutes:
+              Minutes without client activity after which the device is stopped automatically:
+              5 to 240 sets a custom timeout, 0 turns the idle timer off for this device, null
+              removes the device's own setting so the platform default applies again (if any).
+              1 to 4 are rejected.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.devices.set_idle_timeout(
+            self.id,
+            minutes=minutes,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
     def set_name(
         self,
         *,
@@ -6848,7 +7246,8 @@ class Device:
         """
         Wakes a parked device: it first checks that the device can run again, then the
         same device starts and per-minute billing resumes. On a device that is not
-        parked, the request does nothing.
+        parked, the request does nothing. Unsupported intents return 400
+        DEVICE_TOOL_UNSUPPORTED.
 
 
         Waits until the object is ready again (default), returns the handle; opt out with `wait_ready=False` and set the timeout with `ready_timeout`.
@@ -6886,8 +7285,10 @@ class Device:
     ) -> Device:
         """
         Parks the device: its data, apps and identity are kept, but nothing runs and
-        nothing is billed until it is resumed. Only devices whose capabilities report
-        stop=true support this; others return 404.
+        nothing is billed until it is resumed. Hosted subscription devices refuse a new
+        park with 400 DEVICE_TOOL_UNSUPPORTED. Stop remains available for cleanup when
+        the device already targets stopped. Other devices require stop support;
+        unsupported intents return 400 DEVICE_TOOL_UNSUPPORTED.
 
 
         Runs wait_stopped after success (default), returns the handle; opt out with `wait=False` and set the timeout with `wait_timeout`.
@@ -7154,8 +7555,9 @@ class Device:
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -8775,6 +9177,56 @@ class ConnectUser:
         return None
 
 
+class _TaskApprovals:
+    def __init__(self, api: Mobilerun, owner: Task[Any]) -> None:
+        self.api = api
+        self._owner = owner
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    def respond(
+        self,
+        approval_id: str,
+        *,
+        decision: Literal["approve", "deny"],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ApprovalRespondResponse:
+        """
+        Approve or deny the approval a running task is waiting for (see
+        `pendingApproval` on the task). Deny ends the task as failed.
+
+        Args:
+          decision: Approve lets the task continue; deny ends it as failed
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.tasks.approvals.respond(
+            approval_id,
+            task_id=self._owner.id,
+            decision=decision,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+
 class _TaskScreenshots:
     def __init__(self, api: Mobilerun, owner: Task[Any]) -> None:
         self.api = api
@@ -8912,6 +9364,7 @@ class Task(Generic[_OutputT]):
         self._owned = owned
         self._output_parser = output_parser
         owner = self
+        self.approvals = _TaskApprovals(api, owner)
         self.screenshots = _TaskScreenshots(api, owner)
         self.ui_states = _TaskUiStates(api, owner)
 
@@ -9388,11 +9841,25 @@ class CatalogEntry:
     @property
     def service(
         self,
-    ) -> Union[Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"], None]:
+    ) -> Union[
+        Literal[
+            "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+        ],
+        None,
+    ]:
         """Reads the last response without making a request."""
         return cast(
             Union[
-                Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"], None
+                Literal[
+                    "tasks_api",
+                    "devices_api",
+                    "agents_api",
+                    "webhooks",
+                    "integrations_api",
+                    "triggers_api",
+                    "sandbox_api",
+                ],
+                None,
             ],
             record_field(self.info, self._info_root, "service"),
         )
@@ -9462,11 +9929,25 @@ class WorkflowAction:
     @property
     def service(
         self,
-    ) -> Union[Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"], None]:
+    ) -> Union[
+        Literal[
+            "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+        ],
+        None,
+    ]:
         """Reads the last response without making a request."""
         return cast(
             Union[
-                Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"], None
+                Literal[
+                    "tasks_api",
+                    "devices_api",
+                    "agents_api",
+                    "webhooks",
+                    "integrations_api",
+                    "triggers_api",
+                    "sandbox_api",
+                ],
+                None,
             ],
             record_field(self.info, self._info_root, "service"),
         )
@@ -9541,6 +10022,130 @@ class WorkflowAction:
         traceback: Optional[TracebackType],
     ) -> None:
         return None
+
+
+class _FlowScheduledRuns:
+    def __init__(self, api: Mobilerun, owner: Flow) -> None:
+        self.api = api
+        self._owner = owner
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    def create(
+        self,
+        *,
+        run_at: Union[str, datetime],
+        payload: Dict[str, object] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ScheduledRunCreateResponse:
+        """
+        Plan Run now for a future time, using the same devices, payload rules and
+        admission at fire time. A flow can have at most 100 scheduled runs. Supports an
+        optional Idempotency-Key; a replay returns the current scheduled run with the
+        original 201 status.
+
+        Args:
+          run_at: RFC 3339 time with an offset; between one minute and 365 days from now.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.workflows.flows.scheduled_runs.create(
+            self._owner.id,
+            run_at=run_at,
+            payload=payload,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def list(
+        self,
+        *,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        status: Literal["scheduled", "all"] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ScheduledRunListResponse:
+        """Lists upcoming runs by default, including claimed runs awaiting dispatch.
+
+        Set
+        status=all to include terminal rows. Ordered by runAt ascending.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        result = self.api.workflows.flows.scheduled_runs.list(
+            self._owner.id,
+            page=page,
+            page_size=page_size,
+            status=status,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+        return result
+
+    def cancel(
+        self,
+        scheduled_run_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ScheduledRunCancelResponse:
+        """
+        Cancel a planned flow run
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.workflows.flows.scheduled_runs.cancel(
+            scheduled_run_id,
+            flow_id=self._owner.id,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
 
 
 class _FlowActions:
@@ -9822,6 +10427,7 @@ class Flow:
         self._info_root = info_root
         self._owned = owned
         owner = self
+        self.scheduled_runs = _FlowScheduledRuns(api, owner)
         self.actions = _FlowActions(api, owner)
         self.state = _FlowState(api, owner)
 
@@ -9868,6 +10474,7 @@ class Flow:
         owner_wake: Literal["final", "off"] | Omit = omit,
         recording_enabled: bool | Omit = omit,
         recording_policy: flow_update_params.RecordingPolicy | Omit = omit,
+        save_sandbox_logs: bool | Omit = omit,
         self_healing_enabled: bool | Omit = omit,
         self_healing_max_attempts: int | Omit = omit,
         trigger_id: str | Omit = omit,
@@ -9879,12 +10486,18 @@ class Flow:
     ) -> FlowUpdateResponse:
         """
         Partially update a flow's settings — name, trigger binding, enabled state,
-        target devices, cooldown, or notifications; all fields are optional. Actions are
+        target devices, cooldown, or notifications; all fields are optional. The owner
+        can enable a routine directly with `enabled: true` or
+        `lifecycleStatus: "enabled"`, without verification; at least one step is
+        required. For the verified path used by agent deploys, use POST
+        /flows/{flowId}/verify then POST /flows/{flowId}/activate instead. Actions are
         managed through the flow-actions endpoints, not here. Returns 404 if the flow
         does not exist.
 
         Args:
           lifecycle_status: Set the visible agent lifecycle. Archive remains available only through DELETE.
+
+          owner_wake: Defaults to final.
 
           recording_enabled: Deprecated compatibility field. true maps to recordingPolicy.mode="flow"; false
               maps to "off".
@@ -9916,6 +10529,7 @@ class Flow:
             owner_wake=owner_wake,
             recording_enabled=recording_enabled,
             recording_policy=recording_policy,
+            save_sandbox_logs=save_sandbox_logs,
             self_healing_enabled=self_healing_enabled,
             self_healing_max_attempts=self_healing_max_attempts,
             trigger_id=trigger_id,
@@ -9940,6 +10554,7 @@ class Flow:
 
         Archived flows cannot be restored and are
         hidden from customer reads. Repeating the request is idempotent for the owner.
+        Files saved by its runs are deleted with it.
         """
         result = self.api.workflows.flows.delete(
             self.id,
@@ -9962,9 +10577,13 @@ class Flow:
         idempotency_key: str | None = None,
     ) -> FlowActivateResponse:
         """
-        Activate a disabled flow only when the supplied verification execution succeeded
-        and the flow graph has not changed since verification. Repeating activation is
-        idempotent for an already-enabled flow.
+        The verified activation path used by agent deploys: first run POST
+        /flows/{flowId}/verify, then activate the disabled flow only when the supplied
+        verification execution succeeded and the flow graph has not changed since
+        verification. Repeating activation is idempotent for an already-enabled flow.
+        Alternatively, the owner can enable a routine with at least one step directly
+        through PATCH /flows/{flowId} using `enabled: true` or
+        `lifecycleStatus: "enabled"`, without verification.
 
         Args:
           extra_headers: Send extra headers
@@ -10071,6 +10690,72 @@ class Flow:
         )
         return result
 
+    def replace_document(
+        self,
+        *,
+        document: object | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> FlowReplaceDocumentResponse:
+        """Body: {document}.
+
+        Preserves enabled state. Omitted settings preserves all stored
+        settings; present settings replaces them, with absent fields defaulted. Agent
+        routines require a new version deployed through the agent. Omitted description,
+        devices and trigger options clear their values. Shared triggers return
+        trigger_shared and agent-managed routines return routine_agent_managed (409);
+        shared action definitions are never modified. To enable a disabled routine with
+        at least one step, the owner can PATCH /flows/{flowId} with enabled: true or
+        lifecycleStatus: "enabled", without verification. For the verified path used by
+        agent deploys, call POST /flows/{flowId}/verify then POST
+        /flows/{flowId}/activate; activation requires a successful verification of the
+        current graph.
+
+        Args:
+          document: Routine document; format at GET /flows/document-schema
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = self.api.workflows.flows.replace_document(
+            self.id,
+            document=document,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+    def retrieve_document(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FlowRetrieveDocumentResponse:
+        """
+        Returns the canonical routine document, including delivery, recording, health,
+        cooldown, owner wake and scheduled inputs. Unsupported stored behavior returns
+        document_unsupported with JSON Pointer paths.
+        """
+        result = self.api.workflows.flows.retrieve_document(
+            self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+        )
+        return result
+
     def retrieve_repair(
         self,
         episode_id: str,
@@ -10115,7 +10800,8 @@ class Flow:
     ) -> FlowRunResponse:
         """
         Immediately enqueue one live execution on every device bound to the flow,
-        regardless of whether its trigger is event-based, custom, or scheduled.
+        regardless of whether its trigger is event-based, custom, or scheduled. A
+        routine without steps is refused with 409 `flow_has_no_steps`.
 
         Supports an optional `Idempotency-Key` header (1-255 printable ASCII
         characters). The run identity is derived from the key, so a retry never starts a
@@ -10239,6 +10925,7 @@ class Flow:
         Unlike a normal trigger firing, verification:
 
         - runs a flow that is `enabled` OR `disabled` (an archived flow returns 404);
+        - refuses routines without steps with 409 `flow_has_no_steps`;
         - targets one device (`deviceId`, or the single bound device);
         - is idempotent per `invocationId`: a repeat returns the existing run
           (`deduplicated: true`, HTTP 200) instead of enqueuing another (HTTP 202);
@@ -10370,13 +11057,19 @@ class Execution:
     def refresh(
         self,
         *,
+        include: Literal["input"] | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ExecutionRetrieveResponse:
         result = self.api.workflows.executions.retrieve(
-            self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            self.id,
+            include=include,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
         )
         self.info = result
         self._info_root = "data"

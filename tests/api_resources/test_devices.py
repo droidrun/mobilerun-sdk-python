@@ -18,6 +18,7 @@ from mobilerun_sdk.types import (
     DeviceRetrieveResponse,
     DeviceWaitReadyResponse,
     DeviceFingerprintResponse,
+    DeviceSetIdleTimeoutResponse,
     DeviceRetrieveCapabilitiesResponse,
 )
 from mobilerun_sdk._utils import parse_datetime
@@ -471,6 +472,52 @@ class TestDevices:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.with_raw_response.retrieve_capabilities(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_set_idle_timeout(self, client: Mobilerun) -> None:
+        device = client.devices.set_idle_timeout(
+            device_id="deviceId",
+            minutes=0,
+        )
+        assert_matches_type(DeviceSetIdleTimeoutResponse, device, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_set_idle_timeout(self, client: Mobilerun) -> None:
+        response = client.devices.with_raw_response.set_idle_timeout(
+            device_id="deviceId",
+            minutes=0,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        device = response.parse()
+        assert_matches_type(DeviceSetIdleTimeoutResponse, device, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_set_idle_timeout(self, client: Mobilerun) -> None:
+        with client.devices.with_streaming_response.set_idle_timeout(
+            device_id="deviceId",
+            minutes=0,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            device = response.parse()
+            assert_matches_type(DeviceSetIdleTimeoutResponse, device, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_set_idle_timeout(self, client: Mobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            client.devices.with_raw_response.set_idle_timeout(
+                device_id="",
+                minutes=0,
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -1138,6 +1185,52 @@ class TestAsyncDevices:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.with_raw_response.retrieve_capabilities(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_set_idle_timeout(self, async_client: AsyncMobilerun) -> None:
+        device = await async_client.devices.set_idle_timeout(
+            device_id="deviceId",
+            minutes=0,
+        )
+        assert_matches_type(DeviceSetIdleTimeoutResponse, device, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_set_idle_timeout(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.with_raw_response.set_idle_timeout(
+            device_id="deviceId",
+            minutes=0,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        device = await response.parse()
+        assert_matches_type(DeviceSetIdleTimeoutResponse, device, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_set_idle_timeout(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.with_streaming_response.set_idle_timeout(
+            device_id="deviceId",
+            minutes=0,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            device = await response.parse()
+            assert_matches_type(DeviceSetIdleTimeoutResponse, device, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_set_idle_timeout(self, async_client: AsyncMobilerun) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
+            await async_client.devices.with_raw_response.set_idle_timeout(
+                device_id="",
+                minutes=0,
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")

@@ -92,6 +92,32 @@ The object API is additive. Existing client APIs are unchanged and the complete 
 | WebhookDelivery    | `webhook.deliveries`             | `get, list`                                                                                  |
 | Recording          | `device.recordings`              | `get, list, start, stop, wait, delete, trajectory, video, screenshots`                       |
 
+### Additional client APIs
+
+These methods are available on the raw client (`client`) or through `sdk.api`.
+
+| Resource                                  | New methods                            |
+| ----------------------------------------- | -------------------------------------- |
+| `client.functions`                        | `update`                               |
+| `client.functions.runs`                   | `create, list`                         |
+| `client.functions.versions`               | `create, list, retrieve, delete`       |
+| `client.compute.runs`                     | `list, retrieve, cancel, logs`         |
+| `client.compute.sandboxes`                | `create, list, retrieve, delete, exec` |
+| `client.compute.sandboxes.commands`       | `list, retrieve`                       |
+| `client.compute.sandboxes.files`          | `download, upload`                     |
+| `client.stream_tokens`                    | `create, delete`                       |
+| `client.routine_files`                    | `list, delete, delete_all, download`   |
+| `client.routine_files.folders`            | `list`                                 |
+| `client.store.apps`                       | `list`                                 |
+| `client.store.requests`                   | `create`                               |
+| `client.devices`                          | `set_idle_timeout`                     |
+| `client.devices.recordings`               | `list_all`                             |
+| `client.devices.screenshots`              | `list_all`                             |
+| `client.workflows.flows.scheduled_runs`   | `create, list, cancel`                 |
+| `client.tasks`                            | `stats`                                |
+| `client.tasks.approvals`                  | `respond`                              |
+| `client.credentials.packages.credentials` | `update`                               |
+
 Every manager has `fromId(id)` / `from_id(id)` for an unfetched handle. Child managers carry their parent context. Agent and AgentFile have no get or refresh: their fields carry only the last create/list snapshot; fromId/from_id handles have no data. Agent profile.update returns a fresh Agent and leaves the original snapshot unchanged. Package get retains the full credentials-array response and takes its canonical name from the first row; an empty response keeps the requested name. Credential list maps that same package route to child handles. Recording start is its only factory and owns stop on scope exit; handles from get/list/fromId never stop automatically. Recording video/trajectory and AgentFile download return bytes. SavedScreenshot.image returns bytes; Screenshot remains the capture result returned by device.screenshot().
 
 Object purchase methods keep the API's own operation name:
@@ -213,7 +239,23 @@ Path("recording.mp4").write_bytes(video)
 
 The async client uses `await` for start, stop, wait and video.
 
-The Python SDK runs on your server; to show a device in a web app, pass `device.info.stream_url` and `device.info.stream_token` for a device the authenticated end user may see to the frontend and render it with [`@mobilerun/react`](https://github.com/droidrun/mobilerun-react#readme), keeping the API key on the server.
+### Stream a device in a web app
+
+Keep the Python SDK and API key on your server. Each time your authenticated token endpoint is called, check that the end user may access the device, then mint a short-lived, single-use token:
+
+```python
+from mobilerun_sdk import MobilerunSDK
+
+sdk = MobilerunSDK()
+
+
+# Call from your authenticated route handler after checking device access.
+def create_stream_token(device_id: str) -> dict[str, str]:
+    token = sdk.stream_tokens.create(device_id=device_id, ttl_seconds=120)
+    return {"token": token.key}
+```
+
+Resolve `device.info.stream_url` on your server and pass it to the frontend. Render the device with [`@mobilerun/react`](https://github.com/droidrun/mobilerun-react#readme), using the `tokenProvider` pattern in the TypeScript example above: call your authenticated endpoint for a fresh token on every connection, including reconnects. Never send the API key to the browser.
 
 ### Automatic cleanup and async
 

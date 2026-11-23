@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union
+from typing import List, Union
 from datetime import datetime
 from typing_extensions import Literal, Annotated, TypedDict
 
@@ -17,6 +17,9 @@ class ExecutionListParams(TypedDict, total=False):
     from_: Annotated[Union[str, datetime, None], PropertyInfo(alias="from", format="iso8601")]
 
     invocation_id: Annotated[str, PropertyInfo(alias="invocationId")]
+
+    kind: List[Literal["live", "dry_run", "verification"]]
+    """Only include these execution kinds. Omit to include all kinds."""
 
     order_by: Annotated[Literal["startedAt", "finishedAt", "status"], PropertyInfo(alias="orderBy")]
 
