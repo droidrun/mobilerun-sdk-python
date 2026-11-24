@@ -9696,6 +9696,39 @@ class AsyncRun:
         )
         return result
 
+    async def wait_logs(
+        self,
+        *,
+        timeout: float = 60,
+        poll_interval: float = 1,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+    ) -> RunRetrieveResponse:
+        """Wait for the declared success condition; failure raises with the last response."""
+
+        poll_api = self.api.with_options(max_retries=0)
+
+        async def poll(remaining: float) -> RunRetrieveResponse:
+            result = await poll_api.compute.runs.retrieve(
+                self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=remaining
+            )
+            self.info = result
+            self._info_root = "data"
+            return result
+
+        result = await wait_async(
+            poll,
+            lambda status: status.data.logs,
+            ["available"],
+            ["none", "gone"],
+            pending=["pending"],
+            timeout=timeout,
+            poll_interval=poll_interval,
+            poll_request_timeout=30,
+        )
+        return result
+
     async def __aenter__(self) -> AsyncRun:
         return self
 
@@ -9895,7 +9928,9 @@ class AsyncSandbox:
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> SandboxDeleteResponse:
-        """Requests sandbox shutdown; a 202 response means shutdown is still in progress.
+        """
+        Stops the sandbox; a 202 response means shutdown is still in progress; once stopped, the sandbox stays listed with status stopped.
+
 
         Stop a sandbox"""
         result = await self.api.compute.sandboxes.delete(

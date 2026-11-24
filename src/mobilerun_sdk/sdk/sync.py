@@ -9647,6 +9647,41 @@ class Run:
         )
         return result
 
+    def wait_logs(
+        self,
+        *,
+        timeout: float = 60,
+        poll_interval: float = 1,
+        cancel: Optional[threading.Event] = None,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+    ) -> RunRetrieveResponse:
+        """Wait for the declared success condition; failure raises with the last response. Sync requests cannot be hard-aborted in flight; cancellation and deadlines are checked between requests."""
+
+        poll_api = self.api.with_options(max_retries=0)
+
+        def poll(remaining: float) -> RunRetrieveResponse:
+            result = poll_api.compute.runs.retrieve(
+                self.id, extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=remaining
+            )
+            self.info = result
+            self._info_root = "data"
+            return result
+
+        result = wait_sync(
+            poll,
+            lambda status: status.data.logs,
+            ["available"],
+            ["none", "gone"],
+            pending=["pending"],
+            timeout=timeout,
+            poll_interval=poll_interval,
+            poll_request_timeout=30,
+            cancel=cancel,
+        )
+        return result
+
     def __enter__(self) -> Run:
         return self
 
@@ -9846,7 +9881,9 @@ class Sandbox:
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> SandboxDeleteResponse:
-        """Requests sandbox shutdown; a 202 response means shutdown is still in progress.
+        """
+        Stops the sandbox; a 202 response means shutdown is still in progress; once stopped, the sandbox stays listed with status stopped.
+
 
         Stop a sandbox"""
         result = self.api.compute.sandboxes.delete(

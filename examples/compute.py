@@ -77,6 +77,7 @@ def compute(sdk: MobilerunSDK, name: str) -> tuple[RunRetrieveResponse, RunLogsR
         if type(run) is not Run:
             raise TypeError("Expected a Run handle")
         finished = run.wait(timeout=600)
+        run.wait_logs()
         return finished, run.logs()  # A link envelope, not the log bytes.
     except BaseException:
         failed = True

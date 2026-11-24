@@ -180,9 +180,17 @@ def test_compute_example_validates_inspects_numeric_versions_and_cleans_up() -> 
         response({"data": {"items": [VERSION], "pagination": PAGE}}),
         response({"data": {"items": [FUNCTION], "pagination": PAGE}}),
         response({"data": RUNNING}),
+        response({"data": {**DONE, "logs": "pending"}}),
+        response({"data": {**DONE, "logs": "pending"}}),
         response({"data": DONE}),
         response(
-            {"data": {"url": "https://storage.example/log", "expiresAt": "2026-11-23T12:00:00Z", "sizeBytes": 12}}
+            {
+                "data": {
+                    "url": "https://storage.example/log",
+                    "expiresAt": "2026-11-23T12:00:00Z",
+                    "sizeBytes": 12,
+                }
+            }
         ),
         httpx.Response(204),
         httpx.Response(204),
@@ -191,6 +199,7 @@ def test_compute_example_validates_inspects_numeric_versions_and_cleans_up() -> 
     finished, logs = compute(sdk, "greeting")
     assert finished.data.status == "done"
     assert finished.data.outcome == "partial"
+    assert finished.data.logs == "pending"
     assert logs.data.url == "https://storage.example/log"
     assert [r.url.path for r in requests] == [
         "/v1/compute/functions/validations",
@@ -204,6 +213,8 @@ def test_compute_example_validates_inspects_numeric_versions_and_cleans_up() -> 
         "/v1/compute/functions",
         "/v1/compute/functions/fn-1/runs",
         "/v1/compute/runs/run-1",
+        "/v1/compute/runs/run-1",
+        "/v1/compute/runs/run-1",
         "/v1/compute/runs/run-1/logs",
         "/v1/compute/functions/fn-1/versions/2",
         "/v1/compute/functions/fn-1",
@@ -216,7 +227,10 @@ def test_compute_example_validates_inspects_numeric_versions_and_cleans_up() -> 
 
 def test_function_run_factory_returns_global_run_and_failure_retains_response() -> None:
     sdk, requests = transport(
-        [response({"data": RUNNING}), response({"data": {"id": "run-1", "status": "failed", "outcome": "failed"}})]
+        [
+            response({"data": RUNNING}),
+            response({"data": {"id": "run-1", "status": "failed", "outcome": "failed"}}),
+        ]
     )
     run = sdk.compute.functions.from_id("fn-1").runs.create(input={}, wait_s=0)
     assert isinstance(run, Run)
@@ -226,6 +240,20 @@ def test_function_run_factory_returns_global_run_and_failure_retains_response() 
     assert error.value.response.data.status == "failed"
     assert run.status == "failed"
     assert requests[1].url.path == "/v1/compute/runs/run-1"
+
+
+@pytest.mark.parametrize("logs", ["none", "gone"])
+def test_unavailable_logs_fail_with_the_run_response(logs: str) -> None:
+    sdk, requests = transport(
+        [
+            response({"data": {**DONE, "logs": logs}}),
+        ]
+    )
+    with pytest.raises(WaitFailureError) as error:
+        sdk.compute.runs.from_id("run-1").wait_logs()
+    assert isinstance(error.value.response, RunRetrieveResponse)
+    assert error.value.response.data.logs == logs
+    assert len(requests) == 1
 
 
 @pytest.mark.parametrize(
@@ -452,7 +480,10 @@ async def test_async_global_run_wait_and_scheduled_parent_binding() -> None:
 
     async with httpx.AsyncClient(transport=httpx.MockTransport(handle)) as http_client:
         sdk = AsyncMobilerunSDK(
-            api_key="contract-fixture", base_url="https://api.example/v1", max_retries=0, http_client=http_client
+            api_key="contract-fixture",
+            base_url="https://api.example/v1",
+            max_retries=0,
+            http_client=http_client,
         )
         run = await sdk.compute.functions.from_id("fn-1").runs.create(input={}, wait_s=0)
         assert isinstance(run, AsyncRun)
@@ -468,7 +499,13 @@ async def test_async_global_run_wait_and_scheduled_parent_binding() -> None:
 
 
 def test_global_run_get_refresh_and_object_version_retrieval() -> None:
-    sdk, requests = transport([response({"data": RUNNING}), response({"data": DONE}), response({"data": VERSION})])
+    sdk, requests = transport(
+        [
+            response({"data": RUNNING}),
+            response({"data": DONE}),
+            response({"data": VERSION}),
+        ]
+    )
     run = sdk.compute.runs.get("run-1")
     assert isinstance(run, Run)
     run.refresh()
@@ -493,7 +530,10 @@ def test_run_wait_rejects_a_response_that_spans_its_deadline(monkeypatch: pytest
 
     with httpx.Client(transport=httpx.MockTransport(slow_response)) as http_client:
         sdk = MobilerunSDK(
-            api_key="contract-fixture", base_url="https://api.example/v1", max_retries=0, http_client=http_client
+            api_key="contract-fixture",
+            base_url="https://api.example/v1",
+            max_retries=0,
+            http_client=http_client,
         )
         with pytest.raises(WaitTimeoutError):
             sdk.compute.runs.from_id("run-1").wait(timeout=0.01)
