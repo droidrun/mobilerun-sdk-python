@@ -72,6 +72,7 @@ from ...types import (
     device_summary_params,
     device_set_name_params,
     device_terminate_params,
+    device_update_idle_timeout_params,
 )
 from .actions import (
     ActionsResource,
@@ -215,6 +216,7 @@ from ...types.device_wait_ready_response import DeviceWaitReadyResponse
 from ...types.device_fingerprint_response import DeviceFingerprintResponse
 from ...types.shared_params.device_carrier import DeviceCarrier
 from ...types.shared_params.device_identifiers import DeviceIdentifiers
+from ...types.device_update_idle_timeout_response import DeviceUpdateIdleTimeoutResponse
 from ...types.device_retrieve_capabilities_response import DeviceRetrieveCapabilitiesResponse
 
 __all__ = ["DevicesResource", "AsyncDevicesResource"]
@@ -449,7 +451,8 @@ class DevicesResource(SyncAPIResource):
         """
         Returns the current state and metadata for a single device, including its
         lifecycle state, type, stream URL, billing strategy, and timestamps. A stream
-        token is included while the device is active.
+        token is included while the device is active, but may be omitted when it cannot
+        be read at that moment. Refetch the device to obtain the stream token.
 
         Args:
           extra_headers: Send extra headers
@@ -771,7 +774,8 @@ class DevicesResource(SyncAPIResource):
         """
         Wakes a parked device: it first checks that the device can run again, then the
         same device starts and per-minute billing resumes. On a device that is not
-        parked, the request does nothing.
+        parked, the request does nothing. Unsupported intents return 400
+        DEVICE_TOOL_UNSUPPORTED.
 
         Args:
           extra_headers: Send extra headers
@@ -891,8 +895,10 @@ class DevicesResource(SyncAPIResource):
     ) -> None:
         """
         Parks the device: its data, apps and identity are kept, but nothing runs and
-        nothing is billed until it is resumed. Only devices whose capabilities report
-        stop=true support this; others return 404.
+        nothing is billed until it is resumed. Hosted subscription devices refuse a new
+        park with 400 DEVICE_TOOL_UNSUPPORTED. Stop remains available for cleanup when
+        the device already targets stopped. Other devices require stop support;
+        unsupported intents return 400 DEVICE_TOOL_UNSUPPORTED.
 
         Args:
           extra_headers: Send extra headers
@@ -1027,6 +1033,65 @@ class DevicesResource(SyncAPIResource):
                 idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
+        )
+
+    def update_idle_timeout(
+        self,
+        device_id: str,
+        *,
+        minutes: Optional[int],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> DeviceUpdateIdleTimeoutResponse:
+        """
+        Sets the device's own idle stop setting and returns the updated device.
+        `minutes` between 5 and 240 sets a custom timeout; `0` turns the idle timer off
+        for this device; `null` removes the device's own setting, so the platform
+        default applies again (a pay-as-you-go device that can be stopped stops after
+        the default; other devices have no timer). Other values return 422. While a
+        timer is on, the device is stopped automatically (state `stopped`, `stopReason`
+        `IDLE_TIMEOUT`) once it has had no client activity for longer than that: API
+        tool calls, open stream/adb/browser/frida/port connections and a held lease all
+        count as activity, reading device state does not. Setting a custom timeout
+        requires a device whose capabilities report stop=true, otherwise 409; `0` and
+        `null` are always allowed. The response's `idleTimeoutMinutes` is the effective
+        timeout.
+
+        Args:
+          minutes:
+              Minutes without client activity after which the device is stopped automatically:
+              5 to 240 sets a custom timeout, 0 turns the idle timer off for this device, null
+              removes the device's own setting so the platform default applies again (if any).
+              1 to 4 are rejected.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        return self._put(
+            path_template("/devices/{device_id}/idle-timeout", device_id=device_id),
+            body=maybe_transform({"minutes": minutes}, device_update_idle_timeout_params.DeviceUpdateIdleTimeoutParams),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=DeviceUpdateIdleTimeoutResponse,
         )
 
     def wait_ready(
@@ -1294,7 +1359,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         """
         Returns the current state and metadata for a single device, including its
         lifecycle state, type, stream URL, billing strategy, and timestamps. A stream
-        token is included while the device is active.
+        token is included while the device is active, but may be omitted when it cannot
+        be read at that moment. Refetch the device to obtain the stream token.
 
         Args:
           extra_headers: Send extra headers
@@ -1616,7 +1682,8 @@ class AsyncDevicesResource(AsyncAPIResource):
         """
         Wakes a parked device: it first checks that the device can run again, then the
         same device starts and per-minute billing resumes. On a device that is not
-        parked, the request does nothing.
+        parked, the request does nothing. Unsupported intents return 400
+        DEVICE_TOOL_UNSUPPORTED.
 
         Args:
           extra_headers: Send extra headers
@@ -1736,8 +1803,10 @@ class AsyncDevicesResource(AsyncAPIResource):
     ) -> None:
         """
         Parks the device: its data, apps and identity are kept, but nothing runs and
-        nothing is billed until it is resumed. Only devices whose capabilities report
-        stop=true support this; others return 404.
+        nothing is billed until it is resumed. Hosted subscription devices refuse a new
+        park with 400 DEVICE_TOOL_UNSUPPORTED. Stop remains available for cleanup when
+        the device already targets stopped. Other devices require stop support;
+        unsupported intents return 400 DEVICE_TOOL_UNSUPPORTED.
 
         Args:
           extra_headers: Send extra headers
@@ -1874,6 +1943,67 @@ class AsyncDevicesResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def update_idle_timeout(
+        self,
+        device_id: str,
+        *,
+        minutes: Optional[int],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> DeviceUpdateIdleTimeoutResponse:
+        """
+        Sets the device's own idle stop setting and returns the updated device.
+        `minutes` between 5 and 240 sets a custom timeout; `0` turns the idle timer off
+        for this device; `null` removes the device's own setting, so the platform
+        default applies again (a pay-as-you-go device that can be stopped stops after
+        the default; other devices have no timer). Other values return 422. While a
+        timer is on, the device is stopped automatically (state `stopped`, `stopReason`
+        `IDLE_TIMEOUT`) once it has had no client activity for longer than that: API
+        tool calls, open stream/adb/browser/frida/port connections and a held lease all
+        count as activity, reading device state does not. Setting a custom timeout
+        requires a device whose capabilities report stop=true, otherwise 409; `0` and
+        `null` are always allowed. The response's `idleTimeoutMinutes` is the effective
+        timeout.
+
+        Args:
+          minutes:
+              Minutes without client activity after which the device is stopped automatically:
+              5 to 240 sets a custom timeout, 0 turns the idle timer off for this device, null
+              removes the device's own setting so the platform default applies again (if any).
+              1 to 4 are rejected.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        return await self._put(
+            path_template("/devices/{device_id}/idle-timeout", device_id=device_id),
+            body=await async_maybe_transform(
+                {"minutes": minutes}, device_update_idle_timeout_params.DeviceUpdateIdleTimeoutParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=DeviceUpdateIdleTimeoutResponse,
+        )
+
     async def wait_ready(
         self,
         device_id: str,
@@ -1954,6 +2084,9 @@ class DevicesResourceWithRawResponse:
         )
         self.terminate = to_raw_response_wrapper(
             devices.terminate,
+        )
+        self.update_idle_timeout = to_raw_response_wrapper(
+            devices.update_idle_timeout,
         )
         self.wait_ready = to_raw_response_wrapper(
             devices.wait_ready,
@@ -2093,6 +2226,9 @@ class AsyncDevicesResourceWithRawResponse:
         self.terminate = async_to_raw_response_wrapper(
             devices.terminate,
         )
+        self.update_idle_timeout = async_to_raw_response_wrapper(
+            devices.update_idle_timeout,
+        )
         self.wait_ready = async_to_raw_response_wrapper(
             devices.wait_ready,
         )
@@ -2231,6 +2367,9 @@ class DevicesResourceWithStreamingResponse:
         self.terminate = to_streamed_response_wrapper(
             devices.terminate,
         )
+        self.update_idle_timeout = to_streamed_response_wrapper(
+            devices.update_idle_timeout,
+        )
         self.wait_ready = to_streamed_response_wrapper(
             devices.wait_ready,
         )
@@ -2368,6 +2507,9 @@ class AsyncDevicesResourceWithStreamingResponse:
         )
         self.terminate = async_to_streamed_response_wrapper(
             devices.terminate,
+        )
+        self.update_idle_timeout = async_to_streamed_response_wrapper(
+            devices.update_idle_timeout,
         )
         self.wait_ready = async_to_streamed_response_wrapper(
             devices.wait_ready,
