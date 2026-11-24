@@ -219,7 +219,9 @@ class ActionsResource(SyncAPIResource):
         page_size: int | Omit = omit,
         profile: Literal["agent_routine"] | Omit = omit,
         search: str | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+        service: Literal[
+            "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+        ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -493,7 +495,9 @@ class AsyncActionsResource(AsyncAPIResource):
         page_size: int | Omit = omit,
         profile: Literal["agent_routine"] | Omit = omit,
         search: str | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+        service: Literal[
+            "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+        ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
