@@ -24,17 +24,27 @@ class Item(BaseModel):
     description: Optional[str] = None
 
     method: str
+    """Deprecated: use uses."""
 
     name: str
 
     owner_id: str = FieldInfo(alias="ownerId")
 
-    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+    service: Literal[
+        "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+    ]
+    """Deprecated: use uses."""
 
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
     user_id: str = FieldInfo(alias="userId")
     """Deprecated: use ownerId (tenancy) / createdBy (actor)."""
+
+    uses: Optional[str] = None
+    """Authored step name; null when this step has no name.
+
+    Includes hidden executable steps.
+    """
 
     params: Optional[object] = None
 

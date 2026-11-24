@@ -15,11 +15,25 @@ class CredentialCreateParams(TypedDict, total=False):
 
     fields: Required[Iterable[Field]]
 
+    label: str
+
 
 class Field(TypedDict, total=False):
     field_type: Required[
         Annotated[
-            Literal["email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"],
+            Literal[
+                "email",
+                "username",
+                "password",
+                "api_token",
+                "phone_number",
+                "two_factor_secret",
+                "backup_codes",
+                "cc_number",
+                "cc_exp",
+                "cc_csc",
+                "cc_name",
+            ],
             PropertyInfo(alias="fieldType"),
         ]
     ]
