@@ -14,7 +14,7 @@ from .fields import (
     FieldsResourceWithStreamingResponse,
     AsyncFieldsResourceWithStreamingResponse,
 )
-from ....._types import Body, Query, Headers, NotGiven, not_given
+from ....._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ....._utils import path_template, maybe_transform, async_maybe_transform
 from ....._compat import cached_property
 from ....._resource import SyncAPIResource, AsyncAPIResource
@@ -62,6 +62,7 @@ class CredentialsResource(SyncAPIResource):
         *,
         credential_name: str,
         fields: Iterable[credential_create_params.Field],
+        label: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -72,8 +73,9 @@ class CredentialsResource(SyncAPIResource):
     ) -> CredentialCreateResponse:
         """
         Creates a credential under the given package with a `credentialName` and at
-        least one field. Each field has a `fieldType` (email, username, password,
-        api_token, phone_number, two_factor_secret, or backup_codes) and a value.
+        least one field. Field types must be unique. Each field has a `fieldType`
+        (email, username, password, api_token, phone_number, two_factor_secret, or
+        backup_codes) and a value.
 
         Args:
           extra_headers: Send extra headers
@@ -94,6 +96,7 @@ class CredentialsResource(SyncAPIResource):
                 {
                     "credential_name": credential_name,
                     "fields": fields,
+                    "label": label,
                 },
                 credential_create_params.CredentialCreateParams,
             ),
@@ -186,6 +189,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         *,
         credential_name: str,
         fields: Iterable[credential_create_params.Field],
+        label: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -196,8 +200,9 @@ class AsyncCredentialsResource(AsyncAPIResource):
     ) -> CredentialCreateResponse:
         """
         Creates a credential under the given package with a `credentialName` and at
-        least one field. Each field has a `fieldType` (email, username, password,
-        api_token, phone_number, two_factor_secret, or backup_codes) and a value.
+        least one field. Field types must be unique. Each field has a `fieldType`
+        (email, username, password, api_token, phone_number, two_factor_secret, or
+        backup_codes) and a value.
 
         Args:
           extra_headers: Send extra headers
@@ -218,6 +223,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
                 {
                     "credential_name": credential_name,
                     "fields": fields,
+                    "label": label,
                 },
                 credential_create_params.CredentialCreateParams,
             ),
