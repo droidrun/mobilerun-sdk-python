@@ -40,6 +40,14 @@ from .models import (
     ModelsResourceWithStreamingResponse,
     AsyncModelsResourceWithStreamingResponse,
 )
+from .compute import (
+    ComputeResource,
+    AsyncComputeResource,
+    ComputeResourceWithRawResponse,
+    AsyncComputeResourceWithRawResponse,
+    ComputeResourceWithStreamingResponse,
+    AsyncComputeResourceWithStreamingResponse,
+)
 from .connect import (
     ConnectResource,
     AsyncConnectResource,
@@ -96,14 +104,6 @@ from .assistant import (
     AssistantResourceWithStreamingResponse,
     AsyncAssistantResourceWithStreamingResponse,
 )
-from .functions import (
-    FunctionsResource,
-    AsyncFunctionsResource,
-    FunctionsResourceWithRawResponse,
-    AsyncFunctionsResourceWithRawResponse,
-    FunctionsResourceWithStreamingResponse,
-    AsyncFunctionsResourceWithStreamingResponse,
-)
 from .mailboxes import (
     MailboxesResource,
     AsyncMailboxesResource,
@@ -127,6 +127,14 @@ from .credentials import (
     AsyncCredentialsResourceWithRawResponse,
     CredentialsResourceWithStreamingResponse,
     AsyncCredentialsResourceWithStreamingResponse,
+)
+from .routine_files import (
+    RoutineFilesResource,
+    AsyncRoutineFilesResource,
+    RoutineFilesResourceWithRawResponse,
+    AsyncRoutineFilesResourceWithRawResponse,
+    RoutineFilesResourceWithStreamingResponse,
+    AsyncRoutineFilesResourceWithStreamingResponse,
 )
 from .stream_tokens import (
     StreamTokensResource,
@@ -174,12 +182,12 @@ __all__ = [
     "AsyncProxiesResourceWithRawResponse",
     "ProxiesResourceWithStreamingResponse",
     "AsyncProxiesResourceWithStreamingResponse",
-    "FunctionsResource",
-    "AsyncFunctionsResource",
-    "FunctionsResourceWithRawResponse",
-    "AsyncFunctionsResourceWithRawResponse",
-    "FunctionsResourceWithStreamingResponse",
-    "AsyncFunctionsResourceWithStreamingResponse",
+    "ComputeResource",
+    "AsyncComputeResource",
+    "ComputeResourceWithRawResponse",
+    "AsyncComputeResourceWithRawResponse",
+    "ComputeResourceWithStreamingResponse",
+    "AsyncComputeResourceWithStreamingResponse",
     "ConnectResource",
     "AsyncConnectResource",
     "ConnectResourceWithRawResponse",
@@ -210,6 +218,12 @@ __all__ = [
     "AsyncMailboxesResourceWithRawResponse",
     "MailboxesResourceWithStreamingResponse",
     "AsyncMailboxesResourceWithStreamingResponse",
+    "RoutineFilesResource",
+    "AsyncRoutineFilesResource",
+    "RoutineFilesResourceWithRawResponse",
+    "AsyncRoutineFilesResourceWithRawResponse",
+    "RoutineFilesResourceWithStreamingResponse",
+    "AsyncRoutineFilesResourceWithStreamingResponse",
     "FilesResource",
     "AsyncFilesResource",
     "FilesResourceWithRawResponse",
