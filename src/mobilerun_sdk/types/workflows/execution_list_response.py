@@ -96,13 +96,18 @@ class Item(BaseModel):
     trigger_name: Optional[str] = FieldInfo(alias="triggerName", default=None)
 
     result: Optional[object] = None
-    """Opaque per-step result blob ({ steps: [...] }).
+    """Opaque result blob ({ steps: [...] } or historical dry-run { actions: [...] }).
 
-    Each step additionally carries a `verdict` field ({ outcome, summary, reason? }
-    | null) when it is an agent.run step that opted into a verdict — null otherwise.
-    Steps of current executions also carry a `status` string (e.g.
-    success/failed/stopped); it is optional and absent on older executions, so
-    clients must not assume its presence.
+    Steps and nested loop/action children carry `uses` (authored step name,
+    including hidden executable steps; null when unavailable). Admin execution list
+    responses do not carry `uses`. The retained `service` and `method` fields are
+    deprecated; use `uses`. Each step additionally carries a `verdict` field ({
+    outcome, summary, reason? } | null) when it is an agent.run step that opted into
+    a verdict — null otherwise. Steps of current executions also carry a `status`
+    string (e.g. success/failed/stopped); it is optional and absent on older
+    executions, so clients must not assume its presence. With `include=input` on the
+    detail request each step (loop children included) also carries `input`; see that
+    parameter.
     """
 
 
