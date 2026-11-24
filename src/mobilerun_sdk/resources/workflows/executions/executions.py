@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union
+from typing import List, Union
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -27,7 +27,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.workflows import execution_list_params, execution_get_metrics_params
+from ....types.workflows import execution_list_params, execution_retrieve_params, execution_get_metrics_params
 from ....types.workflows.execution_list_response import ExecutionListResponse
 from ....types.workflows.execution_abort_response import ExecutionAbortResponse
 from ....types.workflows.execution_retrieve_response import ExecutionRetrieveResponse
@@ -64,6 +64,7 @@ class ExecutionsResource(SyncAPIResource):
         self,
         execution_id: str,
         *,
+        include: Literal["input"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -73,9 +74,29 @@ class ExecutionsResource(SyncAPIResource):
     ) -> ExecutionRetrieveResponse:
         """
         Fetch a single flow execution by its ID, including its status, kind, result or
-        error, and start/finish timestamps. Returns 404 if no execution matches.
+        error, and start/finish timestamps. Add `include=input` to get what each step
+        ran with. Returns 404 if no execution matches.
 
         Args:
+          include: Extra data to add to each step of `result.steps` (loop children included).
+              `input` adds a field `input` per step: what the step ran with, resolved after
+              templating and without values the platform adds (ids, session and idempotency
+              keys, script state). For sandbox steps, nested `input` is the effective input
+              when available, otherwise the submitted input. The value is the input object, a
+              marker `{ "notRecorded": "too_large" | "invalid" | "unavailable" }` (`too_large`
+              adds `bytes`) when it could not be stored or exceeds 64 KiB, or null for a step
+              without a recorded input, such as a run from before inputs were stored. Secrets
+              are redacted before storing, best effort and by key name only: a value is
+              replaced with `[REDACTED]` at any depth when its key, read as words
+              (`clientSecret`, `x-auth-token`), contains `password`, `passwd`, `passphrase`,
+              `secret`, `token`, `authorization`, `cookie`, `credential`, `signature`,
+              `api key`, `private key`, `client key` or `card number`, or is exactly `pwd`,
+              `otp`, `totp`, `pin`, `cvv` or `cvc`. `Bearer`, `Basic` and `Token`
+              authorization values in strings are masked too. Secrets inside other strings
+              (for example agent prompts) or under other key names are not detected. The
+              content of file uploads is never stored, only its size, encoding and type.
+              Without `include` the response has no `input` fields.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -89,7 +110,11 @@ class ExecutionsResource(SyncAPIResource):
         return self._get(
             path_template("/executions/{execution_id}", execution_id=execution_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"include": include}, execution_retrieve_params.ExecutionRetrieveParams),
             ),
             cast_to=ExecutionRetrieveResponse,
         )
@@ -100,6 +125,7 @@ class ExecutionsResource(SyncAPIResource):
         flow_id: str | Omit = omit,
         from_: Union[str, datetime, None] | Omit = omit,
         invocation_id: str | Omit = omit,
+        kind: List[Literal["live", "dry_run", "verification"]] | Omit = omit,
         order_by: Literal["startedAt", "finishedAt", "status"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
@@ -118,11 +144,13 @@ class ExecutionsResource(SyncAPIResource):
         """Return a paginated history of flow executions.
 
         Supports filtering by `flowId`,
-        `triggerId`, `invocationId` (the client/verify key), `status`, and a `from`/`to`
-        time range, plus free-text `search` and ordering by startedAt, finishedAt, or
-        status.
+        `triggerId`, `invocationId` (the client/verify key), `status`, `kind` (one or
+        more execution kinds), and a `from`/`to` time range, plus free-text `search` and
+        ordering by startedAt, finishedAt, or status.
 
         Args:
+          kind: Only include these execution kinds. Omit to include all kinds.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -143,6 +171,7 @@ class ExecutionsResource(SyncAPIResource):
                         "flow_id": flow_id,
                         "from_": from_,
                         "invocation_id": invocation_id,
+                        "kind": kind,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,
@@ -277,6 +306,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
         self,
         execution_id: str,
         *,
+        include: Literal["input"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -286,9 +316,29 @@ class AsyncExecutionsResource(AsyncAPIResource):
     ) -> ExecutionRetrieveResponse:
         """
         Fetch a single flow execution by its ID, including its status, kind, result or
-        error, and start/finish timestamps. Returns 404 if no execution matches.
+        error, and start/finish timestamps. Add `include=input` to get what each step
+        ran with. Returns 404 if no execution matches.
 
         Args:
+          include: Extra data to add to each step of `result.steps` (loop children included).
+              `input` adds a field `input` per step: what the step ran with, resolved after
+              templating and without values the platform adds (ids, session and idempotency
+              keys, script state). For sandbox steps, nested `input` is the effective input
+              when available, otherwise the submitted input. The value is the input object, a
+              marker `{ "notRecorded": "too_large" | "invalid" | "unavailable" }` (`too_large`
+              adds `bytes`) when it could not be stored or exceeds 64 KiB, or null for a step
+              without a recorded input, such as a run from before inputs were stored. Secrets
+              are redacted before storing, best effort and by key name only: a value is
+              replaced with `[REDACTED]` at any depth when its key, read as words
+              (`clientSecret`, `x-auth-token`), contains `password`, `passwd`, `passphrase`,
+              `secret`, `token`, `authorization`, `cookie`, `credential`, `signature`,
+              `api key`, `private key`, `client key` or `card number`, or is exactly `pwd`,
+              `otp`, `totp`, `pin`, `cvv` or `cvc`. `Bearer`, `Basic` and `Token`
+              authorization values in strings are masked too. Secrets inside other strings
+              (for example agent prompts) or under other key names are not detected. The
+              content of file uploads is never stored, only its size, encoding and type.
+              Without `include` the response has no `input` fields.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -302,7 +352,13 @@ class AsyncExecutionsResource(AsyncAPIResource):
         return await self._get(
             path_template("/executions/{execution_id}", execution_id=execution_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"include": include}, execution_retrieve_params.ExecutionRetrieveParams
+                ),
             ),
             cast_to=ExecutionRetrieveResponse,
         )
@@ -313,6 +369,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
         flow_id: str | Omit = omit,
         from_: Union[str, datetime, None] | Omit = omit,
         invocation_id: str | Omit = omit,
+        kind: List[Literal["live", "dry_run", "verification"]] | Omit = omit,
         order_by: Literal["startedAt", "finishedAt", "status"] | Omit = omit,
         order_by_direction: Literal["asc", "desc"] | Omit = omit,
         page: int | Omit = omit,
@@ -331,11 +388,13 @@ class AsyncExecutionsResource(AsyncAPIResource):
         """Return a paginated history of flow executions.
 
         Supports filtering by `flowId`,
-        `triggerId`, `invocationId` (the client/verify key), `status`, and a `from`/`to`
-        time range, plus free-text `search` and ordering by startedAt, finishedAt, or
-        status.
+        `triggerId`, `invocationId` (the client/verify key), `status`, `kind` (one or
+        more execution kinds), and a `from`/`to` time range, plus free-text `search` and
+        ordering by startedAt, finishedAt, or status.
 
         Args:
+          kind: Only include these execution kinds. Omit to include all kinds.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -356,6 +415,7 @@ class AsyncExecutionsResource(AsyncAPIResource):
                         "flow_id": flow_id,
                         "from_": from_,
                         "invocation_id": invocation_id,
+                        "kind": kind,
                         "order_by": order_by,
                         "order_by_direction": order_by_direction,
                         "page": page,
