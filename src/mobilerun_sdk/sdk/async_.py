@@ -9928,9 +9928,8 @@ class AsyncSandbox:
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> SandboxDeleteResponse:
-        """Stops the sandbox; a 202 response means shutdown is still in progress.
-
-        The sandbox stays listed with status stopped.
+        """
+        Stops the sandbox; a 202 response means shutdown is still in progress; once stopped, the sandbox stays listed with status stopped.
 
 
         Stop a sandbox"""
