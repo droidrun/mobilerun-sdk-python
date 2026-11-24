@@ -311,6 +311,8 @@ class ItemVersion(BaseModel):
 class Item(BaseModel):
     id: str
 
+    app_store_id: Optional[int] = FieldInfo(alias="appStoreId", default=None)
+
     bundle_id: str = FieldInfo(alias="bundleId")
 
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
