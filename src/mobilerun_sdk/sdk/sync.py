@@ -7738,7 +7738,10 @@ class Device:
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> StreamTokenCreateResponse:
-        """Starts billing for the device according to the selected billing mode.
+        """Mints a short-lived single-use stream token for this device.
+
+        Returns the token response; does not update the device snapshot.
+
 
         Mint a short-lived, single-use stream token for a device.
 
