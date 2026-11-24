@@ -1,0 +1,170 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from typing import Dict, List, Optional
+from datetime import datetime
+from typing_extensions import Literal
+
+from pydantic import Field as FieldInfo
+
+from ..._models import BaseModel
+
+__all__ = [
+    "FlowReplaceDocumentResponse",
+    "Data",
+    "DataFlow",
+    "DataFlowDelivery",
+    "DataFlowDeliveryRecording",
+    "DataFlowRecordingPolicy",
+]
+
+
+class DataFlowDeliveryRecording(BaseModel):
+    filename: str
+
+
+class DataFlowDelivery(BaseModel):
+    destination: Literal["mobilerun", "one_drive", "google_drive"]
+
+    folder: Optional[str] = None
+    """Absolute destination folder.
+
+    For destination mobilerun, a folder turns on saving a copy of the run's
+    recording, screenshots and files.upload outputs in Mobilerun storage under that
+    folder (counts against storage). May contain {{meta.<name>}} (for example
+    {{meta.shortDate}} = YYMMDD, {{meta.fileTime}} = HH-mm, in the trigger timezone)
+    and {{event.payload.<field>}} placeholders, resolved once per run so every
+    artifact of that run lands in the same folder. Each substituted value must be a
+    single safe folder name (no "/", "\", "..", control characters); otherwise
+    delivery fails with invalid_delivery_folder. For OneDrive and Google Drive,
+    screenshots are delivered directly into the resolved folder with a placeholder
+    folder, and into a per-run "<flow>-<timestamp>-<id>-screenshots" subfolder with
+    a static folder. Mobilerun copies always go directly into the folder.
+    """
+
+    recording: Optional[DataFlowDeliveryRecording] = None
+
+    screenshots: Optional[object] = None
+
+
+class DataFlowRecordingPolicy(BaseModel):
+    mode: Literal["off", "flow", "selected_steps"]
+
+
+class DataFlow(BaseModel):
+    id: str
+
+    agent_id: Optional[str] = FieldInfo(alias="agentId", default=None)
+
+    archived_at: Optional[datetime] = FieldInfo(alias="archivedAt", default=None)
+
+    blocked_at: Optional[datetime] = FieldInfo(alias="blockedAt", default=None)
+
+    consecutive_failures: int = FieldInfo(alias="consecutiveFailures")
+
+    cooldown_scope: Literal["flow", "device"] = FieldInfo(alias="cooldownScope")
+
+    cooldown_seconds: Optional[int] = FieldInfo(alias="cooldownSeconds", default=None)
+
+    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
+
+    created_by: Optional[str] = FieldInfo(alias="createdBy", default=None)
+
+    delivery: Optional[DataFlowDelivery] = None
+
+    description: Optional[str] = None
+
+    device_ids: List[str] = FieldInfo(alias="deviceIds")
+
+    enabled: bool
+    """
+    Compatibility projection of lifecycleStatus; true only when lifecycleStatus is
+    enabled.
+    """
+
+    health_monitoring_enabled: bool = FieldInfo(alias="healthMonitoringEnabled")
+
+    last_failure_at: Optional[datetime] = FieldInfo(alias="lastFailureAt", default=None)
+
+    last_failure_code: Optional[
+        Literal[
+            "device_not_found",
+            "device_unavailable",
+            "permission_denied",
+            "client_error",
+            "transient",
+            "logic",
+            "invalid_config",
+        ]
+    ] = FieldInfo(alias="lastFailureCode", default=None)
+    """Curated flow failure class.
+
+    device_unavailable blocks immediately for a terminated device or a device
+    confirmed gone; event deviceState="gone" is triggers-defined for a
+    deleted/not-found device.
+    """
+
+    last_triggered_at: Optional[datetime] = FieldInfo(alias="lastTriggeredAt", default=None)
+
+    lifecycle_status: Literal["enabled", "disabled", "archived"] = FieldInfo(alias="lifecycleStatus")
+
+    name: str
+
+    notify_on_failure: bool = FieldInfo(alias="notifyOnFailure")
+
+    notify_on_success: bool = FieldInfo(alias="notifyOnSuccess")
+
+    notify_webhook_id: Optional[str] = FieldInfo(alias="notifyWebhookId", default=None)
+
+    owner_id: str = FieldInfo(alias="ownerId")
+
+    owner_wake: Literal["final", "off"] = FieldInfo(alias="ownerWake")
+    """Defaults to final."""
+
+    recording_enabled: bool = FieldInfo(alias="recordingEnabled")
+    """
+    Deprecated: use recordingPolicy.mode ("flow" = recordingEnabled=true, "off" =
+    recordingEnabled=false).
+    """
+
+    recording_policy: DataFlowRecordingPolicy = FieldInfo(alias="recordingPolicy")
+
+    result_delivery: Literal["none", "message", "wake"] = FieldInfo(alias="resultDelivery")
+    """
+    Effective routine result delivery: the stored setting, else message for a chat
+    sink, else none.
+    """
+
+    save_sandbox_logs: bool = FieldInfo(alias="saveSandboxLogs")
+
+    self_healing_enabled: bool = FieldInfo(alias="selfHealingEnabled")
+
+    self_healing_max_attempts: int = FieldInfo(alias="selfHealingMaxAttempts")
+
+    status: Literal["healthy", "failing", "blocked"]
+
+    template_resolution_version: int = FieldInfo(alias="templateResolutionVersion")
+    """Template-resolver semantics this flow runs under.
+
+    1 = legacy (missing/forbidden/null all resolve to ''). 2 = typed
+    (missing/forbidden throw, a whole-token null stays JSON null). 3 = typed,
+    key-based (steps are addressed as {{steps.<key>...}} instead of by name;
+    trigger.payload is not available). Existing flows stay 1; new flows default to
+    the current version.
+    """
+
+    trigger_id: str = FieldInfo(alias="triggerId")
+
+    updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
+
+    user_id: str = FieldInfo(alias="userId")
+    """Deprecated: use ownerId (tenancy) / createdBy (actor)."""
+
+
+class Data(BaseModel):
+    document: Dict[str, object]
+
+    flow: DataFlow
+
+
+class FlowReplaceDocumentResponse(BaseModel):
+    data: Data
