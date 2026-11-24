@@ -8,13 +8,35 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["TaskRetrieveResponse", "Task", "TaskCredential"]
+__all__ = ["TaskRetrieveResponse", "Task", "TaskCredential", "TaskPendingApproval"]
 
 
 class TaskCredential(BaseModel):
     credential_names: List[str] = FieldInfo(alias="credentialNames")
 
     package_name: str = FieldInfo(alias="packageName")
+
+
+class TaskPendingApproval(BaseModel):
+    """A human approval the running task is waiting for."""
+
+    approval_id: str = FieldInfo(alias="approvalId")
+    """Identifies the approval"""
+
+    details: Dict[str, object]
+    """
+    Kind-specific, non-secret context (payment_card: label, secretGroup,
+    targetPackage, targetHost?)
+    """
+
+    expires_at: datetime = FieldInfo(alias="expiresAt")
+    """Without an answer by this time the task fails"""
+
+    kind: str
+    """What is being approved, e.g. payment_card; new kinds may be added"""
+
+    device_id: Optional[str] = FieldInfo(alias="deviceId", default=None)
+    """Device the task runs on, so a client can show it next to the approval"""
 
 
 class Task(BaseModel):
@@ -79,6 +101,9 @@ class Task(BaseModel):
     output: Optional[Dict[str, object]] = None
 
     output_schema: Optional[Dict[str, object]] = FieldInfo(alias="outputSchema", default=None)
+
+    pending_approval: Optional[TaskPendingApproval] = FieldInfo(alias="pendingApproval", default=None)
+    """A human approval the running task is waiting for."""
 
     reasoning: Optional[bool] = None
 
