@@ -9,8 +9,10 @@ import pytest
 
 from mobilerun_sdk import (
     Run,
+    Device,
     Sandbox,
     AsyncRun,
+    AsyncDevice,
     RoutineFile,
     MobilerunSDK,
     ScheduledRun,
@@ -574,3 +576,73 @@ def test_stream_token_without_key_id_preserves_shape_error_without_revocation() 
     with pytest.raises(RuntimeError, match="Invalid token response"):
         stream_token(sdk, "device-1")
     assert [request.method for request in requests] == ["POST"]
+
+
+IDLE_DEVICE = {
+    "id": "device-1",
+    "name": "fixture",
+    "state": "ready",
+    "stateMessage": "",
+    "streamUrl": "",
+    "type": "cloud",
+    "platform": "android",
+    "createdAt": "2026-11-24T00:00:00Z",
+    "updatedAt": "2026-11-24T00:00:00Z",
+    "assignedAt": None,
+    "terminatesAt": None,
+    "taskCount": 0,
+    "activeTaskId": "",
+    "idleTimeoutSource": "default",
+    "idleTimeoutMinutes": 15,
+}
+
+
+@pytest.mark.parametrize("minutes", [30, 0, None])
+def test_device_idle_timeout_returns_fresh_handle(minutes: int | None) -> None:
+    sdk, requests = transport([response(IDLE_DEVICE), response(IDLE_DEVICE)])
+    device = sdk.devices.from_id("device-1")
+    raw = sdk.api.devices.update_idle_timeout("device-1", minutes=minutes)
+    updated = device.set_idle_timeout(minutes)
+    assert raw.id == "device-1"
+    assert isinstance(updated, Device)
+    assert updated is not device
+    assert updated.id == "device-1"
+    assert updated.info is not None
+    assert updated.info.idle_timeout_minutes == 15
+    assert updated.info.idle_timeout_source == "default"
+    assert device.info is None
+    assert [r.method for r in requests] == ["PUT", "PUT"]
+    assert [r.url.path for r in requests] == [
+        "/v1/devices/device-1/idle-timeout",
+        "/v1/devices/device-1/idle-timeout",
+    ]
+    assert [json.loads(r.content) for r in requests] == [{"minutes": minutes}, {"minutes": minutes}]
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("minutes", [30, 0, None])
+async def test_async_device_idle_timeout_returns_fresh_handle(minutes: int | None) -> None:
+    requests: list[httpx.Request] = []
+
+    def handle(request: httpx.Request) -> httpx.Response:
+        requests.append(request)
+        return response(IDLE_DEVICE)
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handle)) as client:
+        sdk = AsyncMobilerunSDK(
+            api_key="contract-fixture",
+            base_url="https://api.example/v1",
+            max_retries=0,
+            http_client=client,
+        )
+        device = sdk.devices.from_id("device-1")
+        updated = await device.set_idle_timeout(minutes)
+    assert isinstance(updated, AsyncDevice)
+    assert updated is not device
+    assert updated.id == "device-1"
+    assert updated.info is not None
+    assert updated.info.idle_timeout_minutes == 15
+    assert device.info is None
+    assert requests[0].method == "PUT"
+    assert requests[0].url.path == "/v1/devices/device-1/idle-timeout"
+    assert json.loads(requests[0].content) == {"minutes": minutes}
