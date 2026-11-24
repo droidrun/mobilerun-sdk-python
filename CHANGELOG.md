@@ -1,5 +1,23 @@
 # Changelog
 
+## [6.3.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.2.1...v6.3.0) (2026-11-24)
+
+
+### Features
+
+* **sdk:** add sandbox scripts preview ([a77e684](https://github.com/droidrun/mobilerun-sdk-python/commit/a77e6844666c4abc96b7c1067d81293ad9e2e69c))
+* **sdk:** stream tokens resource ([4e63746](https://github.com/droidrun/mobilerun-sdk-python/commit/4e637465a2d93014a1dfea9c83fdc40d35a3c5ed))
+
+
+### Bug Fixes
+
+* **sdk:** re-anchor 6.3.0 tracking ([162cd3e](https://github.com/droidrun/mobilerun-sdk-python/commit/162cd3e8097a3be7e2fe90f77305e71d64127fe3))
+
+
+### Chores
+
+* release 6.3.0 ([08722ef](https://github.com/droidrun/mobilerun-sdk-python/commit/08722ef981d9cbfa64865b1b40d3c7d9b8a9012d))
+
 ## [6.2.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.2.0...v6.2.1) (2026-11-14)
 
 
