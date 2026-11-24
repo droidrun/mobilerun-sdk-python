@@ -1,5 +1,17 @@
 # Changelog
 
+## [6.3.2](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.3.1...v6.3.2) (2026-11-24)
+
+
+### Features
+
+* **sdk:** device idle timeout ([f13b228](https://github.com/droidrun/mobilerun-sdk-python/commit/f13b22815e4998821ac0c5460dc8cb3de476528f))
+
+
+### Chores
+
+* release 6.3.2 ([a716c4e](https://github.com/droidrun/mobilerun-sdk-python/commit/a716c4e9de8c2ea4eed0672c099c209d6d4287f4))
+
 ## [6.3.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.3.0...v6.3.1) (2026-11-24)
 
 
