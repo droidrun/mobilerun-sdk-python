@@ -7,12 +7,21 @@ from typing_extensions import Required, Annotated, TypeAlias, TypedDict
 
 from ..._utils import PropertyInfo
 
-__all__ = ["AppInstallParams", "Variant0", "Variant1"]
+__all__ = ["AppInstallParams", "Variant0", "Variant1", "Variant2"]
 
 
 class Variant0(TypedDict, total=False):
     bundle_id: Required[Annotated[str, PropertyInfo(alias="bundleId")]]
     """iOS bundle identifier (e.g. com.example.app)"""
+
+    app_id: Annotated[str, PropertyInfo(alias="appId")]
+    """UUID of a published Android or iOS store app."""
+
+    app_url: Annotated[str, PropertyInfo(alias="appUrl")]
+    """
+    HTTPS APK URL downloaded and installed by the device; not stored in your app
+    library.
+    """
 
     background: bool
     """
@@ -22,7 +31,7 @@ class Variant0(TypedDict, total=False):
     """
 
     country: str
-    """Optional ISO 3166-1 alpha-2 country of the uploaded app version (e.g.
+    """Optional ISO 3166-1 alpha-2 country of the library or store app version (e.g.
 
     MY or SG).
     """
@@ -31,7 +40,7 @@ class Variant0(TypedDict, total=False):
     """Android package name (e.g. com.example.app)"""
 
     version_code: Annotated[int, PropertyInfo(alias="versionCode")]
-    """Optional exact app-library version code.
+    """Optional exact library or store version code.
 
     Use with country when multiple regional versions share an identifier.
     """
@@ -42,6 +51,15 @@ class Variant0(TypedDict, total=False):
 class Variant1(TypedDict, total=False):
     package_name: Required[Annotated[str, PropertyInfo(alias="packageName")]]
     """Android package name (e.g. com.example.app)"""
+
+    app_id: Annotated[str, PropertyInfo(alias="appId")]
+    """UUID of a published Android or iOS store app."""
+
+    app_url: Annotated[str, PropertyInfo(alias="appUrl")]
+    """
+    HTTPS APK URL downloaded and installed by the device; not stored in your app
+    library.
+    """
 
     background: bool
     """
@@ -54,13 +72,13 @@ class Variant1(TypedDict, total=False):
     """iOS bundle identifier (e.g. com.example.app)"""
 
     country: str
-    """Optional ISO 3166-1 alpha-2 country of the uploaded app version (e.g.
+    """Optional ISO 3166-1 alpha-2 country of the library or store app version (e.g.
 
     MY or SG).
     """
 
     version_code: Annotated[int, PropertyInfo(alias="versionCode")]
-    """Optional exact app-library version code.
+    """Optional exact library or store version code.
 
     Use with country when multiple regional versions share an identifier.
     """
@@ -68,4 +86,42 @@ class Variant1(TypedDict, total=False):
     x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
 
 
-AppInstallParams: TypeAlias = Union[Variant0, Variant1]
+class Variant2(TypedDict, total=False):
+    app_id: Required[Annotated[str, PropertyInfo(alias="appId")]]
+    """UUID of a published Android or iOS store app."""
+
+    app_url: Annotated[str, PropertyInfo(alias="appUrl")]
+    """
+    HTTPS APK URL downloaded and installed by the device; not stored in your app
+    library.
+    """
+
+    background: bool
+    """
+    true: return 202 immediately and install in the background (poll
+    list-app-installs). false/omitted: install inline and return the outcome
+    directly (200 on success, an error status on failure).
+    """
+
+    bundle_id: Annotated[str, PropertyInfo(alias="bundleId")]
+    """iOS bundle identifier (e.g. com.example.app)"""
+
+    country: str
+    """Optional ISO 3166-1 alpha-2 country of the library or store app version (e.g.
+
+    MY or SG).
+    """
+
+    package_name: Annotated[str, PropertyInfo(alias="packageName")]
+    """Android package name (e.g. com.example.app)"""
+
+    version_code: Annotated[int, PropertyInfo(alias="versionCode")]
+    """Optional exact library or store version code.
+
+    Use with country when multiple regional versions share an identifier.
+    """
+
+    x_device_display_id: Annotated[int, PropertyInfo(alias="X-Device-Display-ID")]
+
+
+AppInstallParams: TypeAlias = Union[Variant0, Variant1, Variant2]

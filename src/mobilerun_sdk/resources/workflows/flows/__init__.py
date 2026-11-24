@@ -24,8 +24,22 @@ from .actions import (
     ActionsResourceWithStreamingResponse,
     AsyncActionsResourceWithStreamingResponse,
 )
+from .scheduled_runs import (
+    ScheduledRunsResource,
+    AsyncScheduledRunsResource,
+    ScheduledRunsResourceWithRawResponse,
+    AsyncScheduledRunsResourceWithRawResponse,
+    ScheduledRunsResourceWithStreamingResponse,
+    AsyncScheduledRunsResourceWithStreamingResponse,
+)
 
 __all__ = [
+    "ScheduledRunsResource",
+    "AsyncScheduledRunsResource",
+    "ScheduledRunsResourceWithRawResponse",
+    "AsyncScheduledRunsResourceWithRawResponse",
+    "ScheduledRunsResourceWithStreamingResponse",
+    "AsyncScheduledRunsResourceWithStreamingResponse",
     "ActionsResource",
     "AsyncActionsResource",
     "ActionsResourceWithRawResponse",
