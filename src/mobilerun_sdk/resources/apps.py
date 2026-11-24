@@ -93,6 +93,7 @@ class AppsResource(SyncAPIResource):
         platform: Literal["all", "android", "ios"] | Omit = omit,
         query: str | Omit = omit,
         sort_by: Literal["createdAt", "name"] | Omit = omit,
+        source: Literal["user", "system", "portal", "store"] | Omit = omit,
         status: Literal["all", "queued", "available", "failed", "pruned"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -105,6 +106,9 @@ class AppsResource(SyncAPIResource):
         Retrieves a paginated list of apps with filtering and search capabilities
 
         Args:
+          source: Only list apps that have a version of this source (for example `user` for the
+              apps you uploaded).
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -128,6 +132,7 @@ class AppsResource(SyncAPIResource):
                         "platform": platform,
                         "query": query,
                         "sort_by": sort_by,
+                        "source": source,
                         "status": status,
                     },
                     app_list_params.AppListParams,
@@ -459,6 +464,7 @@ class AsyncAppsResource(AsyncAPIResource):
         platform: Literal["all", "android", "ios"] | Omit = omit,
         query: str | Omit = omit,
         sort_by: Literal["createdAt", "name"] | Omit = omit,
+        source: Literal["user", "system", "portal", "store"] | Omit = omit,
         status: Literal["all", "queued", "available", "failed", "pruned"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -471,6 +477,9 @@ class AsyncAppsResource(AsyncAPIResource):
         Retrieves a paginated list of apps with filtering and search capabilities
 
         Args:
+          source: Only list apps that have a version of this source (for example `user` for the
+              apps you uploaded).
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -494,6 +503,7 @@ class AsyncAppsResource(AsyncAPIResource):
                         "platform": platform,
                         "query": query,
                         "sort_by": sort_by,
+                        "source": source,
                         "status": status,
                     },
                     app_list_params.AppListParams,
