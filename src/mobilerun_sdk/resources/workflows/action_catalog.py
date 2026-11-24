@@ -57,10 +57,10 @@ class ActionCatalogResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionCatalogRetrieveResponse:
         """
-        Fetch a single action catalog entry by its ID, including its service, method,
-        parameter schema, and `deviceFree` eligibility. Supports
-        `profile=agent_routine`; returns 404 if no entry matches or the entry is outside
-        that profile.
+        Fetch a single action catalog entry by its ID, including its public `stepName`
+        for routine documents, service, method, parameter schema, and `deviceFree`
+        eligibility. Supports `profile=agent_routine`; returns 404 if no entry matches
+        or the entry is outside that profile.
 
         Args:
           profile: Restrict reads to the agent routine step surface.
@@ -93,7 +93,9 @@ class ActionCatalogResource(SyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         profile: Literal["agent_routine"] | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+        service: Literal[
+            "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+        ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -104,8 +106,9 @@ class ActionCatalogResource(SyncAPIResource):
     ) -> ActionCatalogListResponse:
         """
         Return a paginated list of catalog entries — the service/method templates that
-        actions are created from, each carrying its parameter schema and `deviceFree`
-        eligibility. Supports filtering by `service` and `profile=agent_routine`.
+        actions are created from, each carrying its public `stepName` for routine
+        documents, parameter schema and `deviceFree` eligibility. Supports filtering by
+        `service` and `profile=agent_routine`.
 
         Args:
           profile: Restrict reads to the agent routine step surface.
@@ -172,10 +175,10 @@ class AsyncActionCatalogResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ActionCatalogRetrieveResponse:
         """
-        Fetch a single action catalog entry by its ID, including its service, method,
-        parameter schema, and `deviceFree` eligibility. Supports
-        `profile=agent_routine`; returns 404 if no entry matches or the entry is outside
-        that profile.
+        Fetch a single action catalog entry by its ID, including its public `stepName`
+        for routine documents, service, method, parameter schema, and `deviceFree`
+        eligibility. Supports `profile=agent_routine`; returns 404 if no entry matches
+        or the entry is outside that profile.
 
         Args:
           profile: Restrict reads to the agent routine step surface.
@@ -210,7 +213,9 @@ class AsyncActionCatalogResource(AsyncAPIResource):
         page: int | Omit = omit,
         page_size: int | Omit = omit,
         profile: Literal["agent_routine"] | Omit = omit,
-        service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+        service: Literal[
+            "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+        ]
         | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -221,8 +226,9 @@ class AsyncActionCatalogResource(AsyncAPIResource):
     ) -> ActionCatalogListResponse:
         """
         Return a paginated list of catalog entries — the service/method templates that
-        actions are created from, each carrying its parameter schema and `deviceFree`
-        eligibility. Supports filtering by `service` and `profile=agent_routine`.
+        actions are created from, each carrying its public `stepName` for routine
+        documents, parameter schema and `deviceFree` eligibility. Supports filtering by
+        `service` and `profile=agent_routine`.
 
         Args:
           profile: Restrict reads to the agent routine step surface.
