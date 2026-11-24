@@ -527,3 +527,10 @@ def test_compute_failure_confirms_cancel_before_deleting_function() -> None:
         ("DELETE", "/v1/compute/functions/fn-1/versions/2"),
         ("DELETE", "/v1/compute/functions/fn-1"),
     ]
+
+
+def test_stream_token_without_key_id_preserves_shape_error_without_revocation() -> None:
+    sdk, requests = transport([response({"key": "fixture-only-secret", "expiresAt": "2026-11-23T12:00:00Z"})])
+    with pytest.raises(RuntimeError, match="Invalid token response"):
+        stream_token(sdk, "device-1")
+    assert [request.method for request in requests] == ["POST"]

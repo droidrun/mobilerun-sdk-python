@@ -14,7 +14,8 @@ def stream_token(sdk: MobilerunSDK, device_id: str, allowed_origins: list[str] |
         if not token.key or not token.key_id or not token.expires_at:
             raise RuntimeError("Invalid token response")
     finally:
-        sdk.stream_tokens.delete(token.key_id)
+        if token.key_id:
+            sdk.stream_tokens.delete(token.key_id)
 
 
 if __name__ == "__main__":
