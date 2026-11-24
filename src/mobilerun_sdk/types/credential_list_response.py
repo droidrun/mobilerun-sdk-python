@@ -1,34 +1,63 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
-from typing_extensions import Literal
+from typing import List, Union, Optional
+from typing_extensions import Literal, TypeAlias
 
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 from .shared.pagination import Pagination
 
-__all__ = ["CredentialListResponse", "Item", "ItemField", "ItemLink", "ItemLinkFieldMap"]
+__all__ = [
+    "CredentialListResponse",
+    "Item",
+    "ItemField",
+    "ItemLink",
+    "ItemLinkUnionMember0",
+    "ItemLinkUnionMember0FieldMap",
+    "ItemLinkUnionMember1",
+    "ItemLinkUnionMember1FieldMap",
+]
 
 
 class ItemField(BaseModel):
     field_type: Literal[
-        "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+        "email",
+        "username",
+        "password",
+        "api_token",
+        "phone_number",
+        "two_factor_secret",
+        "backup_codes",
+        "cc_number",
+        "cc_exp",
+        "cc_csc",
+        "cc_name",
     ] = FieldInfo(alias="fieldType")
 
     value: str
 
 
-class ItemLinkFieldMap(BaseModel):
+class ItemLinkUnionMember0FieldMap(BaseModel):
     field_id: str = FieldInfo(alias="fieldId")
 
     field_type: Literal[
-        "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+        "email",
+        "username",
+        "password",
+        "api_token",
+        "phone_number",
+        "two_factor_secret",
+        "backup_codes",
+        "cc_number",
+        "cc_exp",
+        "cc_csc",
+        "cc_name",
     ] = FieldInfo(alias="fieldType")
 
 
-class ItemLink(BaseModel):
-    field_map: List[ItemLinkFieldMap] = FieldInfo(alias="fieldMap")
+class ItemLinkUnionMember0(BaseModel):
+    field_map: List[ItemLinkUnionMember0FieldMap] = FieldInfo(alias="fieldMap")
 
     item_id: str = FieldInfo(alias="itemId")
 
@@ -39,6 +68,37 @@ class ItemLink(BaseModel):
     vault_id: str = FieldInfo(alias="vaultId")
 
     vault_name: str = FieldInfo(alias="vaultName")
+
+
+class ItemLinkUnionMember1FieldMap(BaseModel):
+    field_id: str = FieldInfo(alias="fieldId")
+
+    field_type: Literal[
+        "email",
+        "username",
+        "password",
+        "api_token",
+        "phone_number",
+        "two_factor_secret",
+        "backup_codes",
+        "cc_number",
+        "cc_exp",
+        "cc_csc",
+        "cc_name",
+    ] = FieldInfo(alias="fieldType")
+
+
+class ItemLinkUnionMember1(BaseModel):
+    card_id: str = FieldInfo(alias="cardId")
+
+    field_map: List[ItemLinkUnionMember1FieldMap] = FieldInfo(alias="fieldMap")
+
+    label: str
+
+    provider: Literal["wallet"]
+
+
+ItemLink: TypeAlias = Union[ItemLinkUnionMember0, ItemLinkUnionMember1]
 
 
 class Item(BaseModel):
@@ -60,9 +120,11 @@ class Item(BaseModel):
     Null for credentials created before rollout.
     """
 
+    label: Optional[str] = None
+
     link: Optional[ItemLink] = None
 
-    source: Optional[Literal["mobilerun", "onepassword"]] = None
+    source: Optional[Literal["mobilerun", "onepassword", "wallet"]] = None
 
 
 class CredentialListResponse(BaseModel):
