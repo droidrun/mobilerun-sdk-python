@@ -290,6 +290,7 @@ from ..types.workflows.execution_abort_response import ExecutionAbortResponse
 from ..types.agents.conversation_create_response import ConversationCreateResponse
 from ..types.compute.functions.run_list_response import RunListResponse as FunctionsRunListResponse
 from ..types.credentials.package_create_response import PackageCreateResponse
+from ..types.device_update_idle_timeout_response import DeviceUpdateIdleTimeoutResponse
 from ..types.mailboxes.message_retrieve_response import MessageRetrieveResponse as MailboxesMessageRetrieveResponse
 from ..types.messages.conversation_list_response import ConversationListResponse as MessagesConversationListResponse
 from ..types.workflows.flows.action_add_response import ActionAddResponse
@@ -7461,7 +7462,11 @@ class _AsyncDeviceNumber:
 
 
 AsyncDeviceInfo = Union[
-    DeviceCreateResponse, DeviceRetrieveResponse, DeviceWaitReadyResponse, __types_device_list_response.Item
+    DeviceCreateResponse,
+    DeviceRetrieveResponse,
+    DeviceWaitReadyResponse,
+    DeviceUpdateIdleTimeoutResponse,
+    __types_device_list_response.Item,
 ]
 
 
@@ -7809,6 +7814,62 @@ class AsyncDevice:
             idempotency_key=idempotency_key,
         )
         return result
+
+    async def set_idle_timeout(
+        self,
+        minutes: Optional[int],
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> AsyncDevice:
+        """
+        Sets the idle timeout to 5–240 minutes, 0 to turn it off, or null to use the platform default. Returns the updated device as a new handle; call refresh() on an existing handle to update it. A custom timeout returns 409 when the device cannot be stopped; other values return 422.
+
+
+
+        Sets the device's own idle stop setting and returns the updated device.
+        `minutes` between 5 and 240 sets a custom timeout; `0` turns the idle timer off
+        for this device; `null` removes the device's own setting, so the platform
+        default applies again (a pay-as-you-go device that can be stopped stops after
+        the default; other devices have no timer). Other values return 422. While a
+        timer is on, the device is stopped automatically (state `stopped`, `stopReason`
+        `IDLE_TIMEOUT`) once it has had no client activity for longer than that: API
+        tool calls, open stream/adb/browser/frida/port connections and a held lease all
+        count as activity, reading device state does not. Setting a custom timeout
+        requires a device whose capabilities report stop=true, otherwise 409; `0` and
+        `null` are always allowed. The response's `idleTimeoutMinutes` is the effective
+        timeout.
+
+        Args:
+          minutes:
+              Minutes without client activity after which the device is stopped automatically:
+              5 to 240 sets a custom timeout, 0 turns the idle timer off for this device, null
+              removes the device's own setting so the platform default applies again (if any).
+              1 to 4 are rejected.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = await self.api.devices.update_idle_timeout(
+            self.id,
+            minutes=minutes,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return AsyncDevice(self.api, result.id, result, info_root="")
 
     async def resume(
         self,

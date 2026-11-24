@@ -176,6 +176,7 @@ from mobilerun_sdk.types import (
     DeviceRetrieveCapabilitiesResponse,
     DeviceSetNameResponse,
     DeviceSummaryResponse,
+    DeviceUpdateIdleTimeoutResponse,
     DeviceWaitReadyResponse,
 )
 ```
@@ -195,6 +196,7 @@ Methods:
 - <code title="post /devices/{deviceId}/stop">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">stop</a>(device_id) -> None</code>
 - <code title="get /devices/summary">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">summary</a>(\*\*<a href="src/mobilerun_sdk/types/device_summary_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/device_summary_response.py">DeviceSummaryResponse</a></code>
 - <code title="delete /devices/{deviceId}">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">terminate</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/device_terminate_params.py">params</a>) -> None</code>
+- <code title="put /devices/{deviceId}/idle-timeout">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">update_idle_timeout</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/device_update_idle_timeout_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/device_update_idle_timeout_response.py">DeviceUpdateIdleTimeoutResponse</a></code>
 - <code title="get /devices/{deviceId}/wait">client.devices.<a href="./src/mobilerun_sdk/resources/devices/devices.py">wait_ready</a>(device_id) -> <a href="./src/mobilerun_sdk/types/device_wait_ready_response.py">DeviceWaitReadyResponse</a></code>
 
 ## Actions
