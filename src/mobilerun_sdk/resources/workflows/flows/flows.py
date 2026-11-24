@@ -33,6 +33,14 @@ from ...._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .scheduled_runs import (
+    ScheduledRunsResource,
+    AsyncScheduledRunsResource,
+    ScheduledRunsResourceWithRawResponse,
+    AsyncScheduledRunsResourceWithRawResponse,
+    ScheduledRunsResourceWithStreamingResponse,
+    AsyncScheduledRunsResourceWithStreamingResponse,
+)
 from ...._base_client import make_request_options
 from ....types.workflows import (
     flow_run_params,
@@ -78,6 +86,10 @@ __all__ = ["FlowsResource", "AsyncFlowsResource"]
 
 
 class FlowsResource(SyncAPIResource):
+    @cached_property
+    def scheduled_runs(self) -> ScheduledRunsResource:
+        return ScheduledRunsResource(self._client)
+
     @cached_property
     def actions(self) -> ActionsResource:
         return ActionsResource(self._client)
@@ -1352,6 +1364,10 @@ class FlowsResource(SyncAPIResource):
 
 
 class AsyncFlowsResource(AsyncAPIResource):
+    @cached_property
+    def scheduled_runs(self) -> AsyncScheduledRunsResource:
+        return AsyncScheduledRunsResource(self._client)
+
     @cached_property
     def actions(self) -> AsyncActionsResource:
         return AsyncActionsResource(self._client)
@@ -2705,6 +2721,10 @@ class FlowsResourceWithRawResponse:
         )
 
     @cached_property
+    def scheduled_runs(self) -> ScheduledRunsResourceWithRawResponse:
+        return ScheduledRunsResourceWithRawResponse(self._flows.scheduled_runs)
+
+    @cached_property
     def actions(self) -> ActionsResourceWithRawResponse:
         return ActionsResourceWithRawResponse(self._flows.actions)
 
@@ -2783,6 +2803,10 @@ class AsyncFlowsResourceWithRawResponse:
         self.verify = async_to_raw_response_wrapper(
             flows.verify,
         )
+
+    @cached_property
+    def scheduled_runs(self) -> AsyncScheduledRunsResourceWithRawResponse:
+        return AsyncScheduledRunsResourceWithRawResponse(self._flows.scheduled_runs)
 
     @cached_property
     def actions(self) -> AsyncActionsResourceWithRawResponse:
@@ -2865,6 +2889,10 @@ class FlowsResourceWithStreamingResponse:
         )
 
     @cached_property
+    def scheduled_runs(self) -> ScheduledRunsResourceWithStreamingResponse:
+        return ScheduledRunsResourceWithStreamingResponse(self._flows.scheduled_runs)
+
+    @cached_property
     def actions(self) -> ActionsResourceWithStreamingResponse:
         return ActionsResourceWithStreamingResponse(self._flows.actions)
 
@@ -2943,6 +2971,10 @@ class AsyncFlowsResourceWithStreamingResponse:
         self.verify = async_to_streamed_response_wrapper(
             flows.verify,
         )
+
+    @cached_property
+    def scheduled_runs(self) -> AsyncScheduledRunsResourceWithStreamingResponse:
+        return AsyncScheduledRunsResourceWithStreamingResponse(self._flows.scheduled_runs)
 
     @cached_property
     def actions(self) -> AsyncActionsResourceWithStreamingResponse:
