@@ -329,8 +329,9 @@ class TasksResource(SyncAPIResource):
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -445,8 +446,9 @@ class TasksResource(SyncAPIResource):
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -884,8 +886,9 @@ class AsyncTasksResource(AsyncAPIResource):
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -1000,8 +1003,9 @@ class AsyncTasksResource(AsyncAPIResource):
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
