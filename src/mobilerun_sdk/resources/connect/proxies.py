@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union, Optional
+from typing import List, Union, Optional
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -142,6 +142,7 @@ class ProxiesResource(SyncAPIResource):
         country: str | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        type: List[Literal["dedicated_residential", "residential", "mobile"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -159,6 +160,9 @@ class ProxiesResource(SyncAPIResource):
           page: Page number (1-based).
 
           page_size: Number of items per page.
+
+          type: Filter to proxies of these types. Repeat the parameter for several types
+              (`?type=a&type=b`).
 
           extra_headers: Send extra headers
 
@@ -180,6 +184,7 @@ class ProxiesResource(SyncAPIResource):
                         "country": country,
                         "page": page,
                         "page_size": page_size,
+                        "type": type,
                     },
                     proxy_list_params.ProxyListParams,
                 ),
@@ -665,6 +670,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         country: str | Omit = omit,
         page: int | Omit = omit,
         page_size: int | Omit = omit,
+        type: List[Literal["dedicated_residential", "residential", "mobile"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -682,6 +688,9 @@ class AsyncProxiesResource(AsyncAPIResource):
           page: Page number (1-based).
 
           page_size: Number of items per page.
+
+          type: Filter to proxies of these types. Repeat the parameter for several types
+              (`?type=a&type=b`).
 
           extra_headers: Send extra headers
 
@@ -703,6 +712,7 @@ class AsyncProxiesResource(AsyncAPIResource):
                         "country": country,
                         "page": page,
                         "page_size": page_size,
+                        "type": type,
                     },
                     proxy_list_params.ProxyListParams,
                 ),

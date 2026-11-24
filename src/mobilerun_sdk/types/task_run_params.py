@@ -43,8 +43,9 @@ class TaskRunParams(TypedDict, total=False):
     """Mark a task started by an agent or worker on the user's behalf.
 
     It is listed as source='agent' (excluded from source='api' lists) and its events
-    carry internal=true so user-facing notifications and webhooks skip it. It is
-    still billed, controllable and retrievable by id.
+    carry internal=true so user-facing notifications and webhooks skip it, except
+    task approval events, which always reach the owner. It is still billed,
+    controllable and retrievable by id.
     """
 
     llm_model: Annotated[str, PropertyInfo(alias="llmModel")]
