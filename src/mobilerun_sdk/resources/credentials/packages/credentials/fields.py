@@ -51,7 +51,17 @@ class FieldsResource(SyncAPIResource):
         *,
         package_name: str,
         field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+            "email",
+            "username",
+            "password",
+            "api_token",
+            "phone_number",
+            "two_factor_secret",
+            "backup_codes",
+            "cc_number",
+            "cc_exp",
+            "cc_csc",
+            "cc_name",
         ],
         value: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -109,7 +119,17 @@ class FieldsResource(SyncAPIResource):
     def update(
         self,
         field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+            "email",
+            "username",
+            "password",
+            "api_token",
+            "phone_number",
+            "two_factor_secret",
+            "backup_codes",
+            "cc_number",
+            "cc_exp",
+            "cc_csc",
+            "cc_name",
         ],
         *,
         package_name: str,
@@ -166,7 +186,17 @@ class FieldsResource(SyncAPIResource):
     def delete(
         self,
         field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+            "email",
+            "username",
+            "password",
+            "api_token",
+            "phone_number",
+            "two_factor_secret",
+            "backup_codes",
+            "cc_number",
+            "cc_exp",
+            "cc_csc",
+            "cc_name",
         ],
         *,
         package_name: str,
@@ -244,7 +274,17 @@ class AsyncFieldsResource(AsyncAPIResource):
         *,
         package_name: str,
         field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+            "email",
+            "username",
+            "password",
+            "api_token",
+            "phone_number",
+            "two_factor_secret",
+            "backup_codes",
+            "cc_number",
+            "cc_exp",
+            "cc_csc",
+            "cc_name",
         ],
         value: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -302,7 +342,17 @@ class AsyncFieldsResource(AsyncAPIResource):
     async def update(
         self,
         field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+            "email",
+            "username",
+            "password",
+            "api_token",
+            "phone_number",
+            "two_factor_secret",
+            "backup_codes",
+            "cc_number",
+            "cc_exp",
+            "cc_csc",
+            "cc_name",
         ],
         *,
         package_name: str,
@@ -359,7 +409,17 @@ class AsyncFieldsResource(AsyncAPIResource):
     async def delete(
         self,
         field_type: Literal[
-            "email", "username", "password", "api_token", "phone_number", "two_factor_secret", "backup_codes"
+            "email",
+            "username",
+            "password",
+            "api_token",
+            "phone_number",
+            "two_factor_secret",
+            "backup_codes",
+            "cc_number",
+            "cc_exp",
+            "cc_csc",
+            "cc_name",
         ],
         *,
         package_name: str,
