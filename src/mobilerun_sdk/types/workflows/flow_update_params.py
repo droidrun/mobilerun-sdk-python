@@ -38,6 +38,7 @@ class FlowUpdateParams(TypedDict, total=False):
     notify_webhook_id: Annotated[Optional[str], PropertyInfo(alias="notifyWebhookId")]
 
     owner_wake: Annotated[Literal["final", "off"], PropertyInfo(alias="ownerWake")]
+    """Defaults to final."""
 
     recording_enabled: Annotated[bool, PropertyInfo(alias="recordingEnabled")]
     """Deprecated compatibility field.
@@ -46,6 +47,8 @@ class FlowUpdateParams(TypedDict, total=False):
     """
 
     recording_policy: Annotated[RecordingPolicy, PropertyInfo(alias="recordingPolicy")]
+
+    save_sandbox_logs: Annotated[bool, PropertyInfo(alias="saveSandboxLogs")]
 
     self_healing_enabled: Annotated[bool, PropertyInfo(alias="selfHealingEnabled")]
 
@@ -62,16 +65,19 @@ class Delivery(TypedDict, total=False):
     destination: Required[Literal["mobilerun", "one_drive", "google_drive"]]
 
     folder: str
-    """Absolute destination folder; not allowed when destination is mobilerun.
+    """Absolute destination folder.
 
-    May contain {{meta.<name>}} (for example {{meta.shortDate}} = YYMMDD,
-    {{meta.fileTime}} = HH-mm, in the trigger timezone) and
-    {{event.payload.<field>}} placeholders, resolved once per run so every artifact
-    of that run lands in the same folder. Each substituted value must be a single
-    safe folder name (no "/", "\", "..", control characters); otherwise delivery
-    fails with invalid_delivery_folder. With a placeholder folder, screenshots are
-    delivered directly into the resolved folder; with a static folder they go into a
-    per-run "<flow>-<timestamp>-<id>-screenshots" subfolder.
+    For destination mobilerun, a folder turns on saving a copy of the run's
+    recording, screenshots and files.upload outputs in Mobilerun storage under that
+    folder (counts against storage). May contain {{meta.<name>}} (for example
+    {{meta.shortDate}} = YYMMDD, {{meta.fileTime}} = HH-mm, in the trigger timezone)
+    and {{event.payload.<field>}} placeholders, resolved once per run so every
+    artifact of that run lands in the same folder. Each substituted value must be a
+    single safe folder name (no "/", "\", "..", control characters); otherwise
+    delivery fails with invalid_delivery_folder. For OneDrive and Google Drive,
+    screenshots are delivered directly into the resolved folder with a placeholder
+    folder, and into a per-run "<flow>-<timestamp>-<id>-screenshots" subfolder with
+    a static folder. Mobilerun copies always go directly into the folder.
     """
 
     recording: DeliveryRecording
