@@ -1,5 +1,17 @@
 # Changelog
 
+## [6.4.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.3.2...v6.4.0) (2026-11-25)
+
+
+### Features
+
+* **sdk:** go objects and 6.4.0 ([4a952dd](https://github.com/droidrun/mobilerun-sdk-python/commit/4a952ddc8df242b90c5daeedcb6c45d40d4fb7a6))
+
+
+### Chores
+
+* release 6.4.0 ([804feea](https://github.com/droidrun/mobilerun-sdk-python/commit/804feeac31bf317ab4809f7447582691f02c1e1a))
+
 ## [6.3.2](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.3.1...v6.3.2) (2026-11-24)
 
 
