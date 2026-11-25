@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.5.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.4.0...v6.5.0) (2026-11-25)
+
+
+### Features
+
+* **docs:** enable go code samples ([8a2b489](https://github.com/droidrun/mobilerun-sdk-python/commit/8a2b489b997070cf63709c7f01d974f174ed6e04))
+
 ## [6.4.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.3.2...v6.4.0) (2026-11-25)
 
 
