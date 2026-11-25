@@ -39,6 +39,7 @@ if TYPE_CHECKING:
     from .resources import (
         apps,
         files,
+        store,
         tasks,
         agents,
         models,
@@ -47,6 +48,7 @@ if TYPE_CHECKING:
         devices,
         numbers,
         proxies,
+        identity,
         messages,
         webhooks,
         assistant,
@@ -60,6 +62,8 @@ if TYPE_CHECKING:
     from .resources.files import FilesResource, AsyncFilesResource
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
+    from .resources.identity import IdentityResource, AsyncIdentityResource
+    from .resources.store.store import StoreResource, AsyncStoreResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
     from .resources.agents.agents import AgentsResource, AsyncAgentsResource
     from .resources.routine_files import RoutineFilesResource, AsyncRoutineFilesResource
@@ -174,6 +178,12 @@ class Mobilerun(SyncAPIClient):
         return StreamTokensResource(self)
 
     @cached_property
+    def identity(self) -> IdentityResource:
+        from .resources.identity import IdentityResource
+
+        return IdentityResource(self)
+
+    @cached_property
     def models(self) -> ModelsResource:
         from .resources.models import ModelsResource
 
@@ -257,6 +267,12 @@ class Mobilerun(SyncAPIClient):
         from .resources.numbers import NumbersResource
 
         return NumbersResource(self)
+
+    @cached_property
+    def store(self) -> StoreResource:
+        from .resources.store import StoreResource
+
+        return StoreResource(self)
 
     @cached_property
     def with_raw_response(self) -> MobilerunWithRawResponse:
@@ -469,6 +485,12 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncStreamTokensResource(self)
 
     @cached_property
+    def identity(self) -> AsyncIdentityResource:
+        from .resources.identity import AsyncIdentityResource
+
+        return AsyncIdentityResource(self)
+
+    @cached_property
     def models(self) -> AsyncModelsResource:
         from .resources.models import AsyncModelsResource
 
@@ -552,6 +574,12 @@ class AsyncMobilerun(AsyncAPIClient):
         from .resources.numbers import AsyncNumbersResource
 
         return AsyncNumbersResource(self)
+
+    @cached_property
+    def store(self) -> AsyncStoreResource:
+        from .resources.store import AsyncStoreResource
+
+        return AsyncStoreResource(self)
 
     @cached_property
     def with_raw_response(self) -> AsyncMobilerunWithRawResponse:
@@ -708,6 +736,12 @@ class MobilerunWithRawResponse:
         return StreamTokensResourceWithRawResponse(self._client.stream_tokens)
 
     @cached_property
+    def identity(self) -> identity.IdentityResourceWithRawResponse:
+        from .resources.identity import IdentityResourceWithRawResponse
+
+        return IdentityResourceWithRawResponse(self._client.identity)
+
+    @cached_property
     def models(self) -> models.ModelsResourceWithRawResponse:
         from .resources.models import ModelsResourceWithRawResponse
 
@@ -792,6 +826,12 @@ class MobilerunWithRawResponse:
 
         return NumbersResourceWithRawResponse(self._client.numbers)
 
+    @cached_property
+    def store(self) -> store.StoreResourceWithRawResponse:
+        from .resources.store import StoreResourceWithRawResponse
+
+        return StoreResourceWithRawResponse(self._client.store)
+
 
 class AsyncMobilerunWithRawResponse:
     _client: AsyncMobilerun
@@ -822,6 +862,12 @@ class AsyncMobilerunWithRawResponse:
         from .resources.stream_tokens import AsyncStreamTokensResourceWithRawResponse
 
         return AsyncStreamTokensResourceWithRawResponse(self._client.stream_tokens)
+
+    @cached_property
+    def identity(self) -> identity.AsyncIdentityResourceWithRawResponse:
+        from .resources.identity import AsyncIdentityResourceWithRawResponse
+
+        return AsyncIdentityResourceWithRawResponse(self._client.identity)
 
     @cached_property
     def models(self) -> models.AsyncModelsResourceWithRawResponse:
@@ -908,6 +954,12 @@ class AsyncMobilerunWithRawResponse:
 
         return AsyncNumbersResourceWithRawResponse(self._client.numbers)
 
+    @cached_property
+    def store(self) -> store.AsyncStoreResourceWithRawResponse:
+        from .resources.store import AsyncStoreResourceWithRawResponse
+
+        return AsyncStoreResourceWithRawResponse(self._client.store)
+
 
 class MobilerunWithStreamedResponse:
     _client: Mobilerun
@@ -938,6 +990,12 @@ class MobilerunWithStreamedResponse:
         from .resources.stream_tokens import StreamTokensResourceWithStreamingResponse
 
         return StreamTokensResourceWithStreamingResponse(self._client.stream_tokens)
+
+    @cached_property
+    def identity(self) -> identity.IdentityResourceWithStreamingResponse:
+        from .resources.identity import IdentityResourceWithStreamingResponse
+
+        return IdentityResourceWithStreamingResponse(self._client.identity)
 
     @cached_property
     def models(self) -> models.ModelsResourceWithStreamingResponse:
@@ -1024,6 +1082,12 @@ class MobilerunWithStreamedResponse:
 
         return NumbersResourceWithStreamingResponse(self._client.numbers)
 
+    @cached_property
+    def store(self) -> store.StoreResourceWithStreamingResponse:
+        from .resources.store import StoreResourceWithStreamingResponse
+
+        return StoreResourceWithStreamingResponse(self._client.store)
+
 
 class AsyncMobilerunWithStreamedResponse:
     _client: AsyncMobilerun
@@ -1054,6 +1118,12 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.stream_tokens import AsyncStreamTokensResourceWithStreamingResponse
 
         return AsyncStreamTokensResourceWithStreamingResponse(self._client.stream_tokens)
+
+    @cached_property
+    def identity(self) -> identity.AsyncIdentityResourceWithStreamingResponse:
+        from .resources.identity import AsyncIdentityResourceWithStreamingResponse
+
+        return AsyncIdentityResourceWithStreamingResponse(self._client.identity)
 
     @cached_property
     def models(self) -> models.AsyncModelsResourceWithStreamingResponse:
@@ -1139,6 +1209,12 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.numbers import AsyncNumbersResourceWithStreamingResponse
 
         return AsyncNumbersResourceWithStreamingResponse(self._client.numbers)
+
+    @cached_property
+    def store(self) -> store.AsyncStoreResourceWithStreamingResponse:
+        from .resources.store import AsyncStoreResourceWithStreamingResponse
+
+        return AsyncStoreResourceWithStreamingResponse(self._client.store)
 
 
 Client = Mobilerun
