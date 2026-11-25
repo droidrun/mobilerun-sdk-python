@@ -998,9 +998,11 @@ class DevicesResource(SyncAPIResource):
         the owner (API key or user) can instead remove the phone from the account so
         anyone can pair it again; the phone must be disconnected first, otherwise the
         request is rejected with 409 BYOD_DEVICE_CONNECTED. Other subscription-billed
-        devices cannot be terminated with this request; it is rejected with 401. The
-        `terminateAt` and `previousDeviceId` body fields are reserved for internal use;
-        requests that set them are rejected with 401.
+        devices cannot be terminated with this request; it is rejected with 403
+        FORBIDDEN: Subscription devices are managed through subscription cancellation.
+        This includes owner requests that set `terminateAt` or `previousDeviceId`. Those
+        body fields are reserved for internal use; owner requests on other devices that
+        set them are rejected with 401.
 
         Args:
           extra_headers: Send extra headers
@@ -1906,9 +1908,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         the owner (API key or user) can instead remove the phone from the account so
         anyone can pair it again; the phone must be disconnected first, otherwise the
         request is rejected with 409 BYOD_DEVICE_CONNECTED. Other subscription-billed
-        devices cannot be terminated with this request; it is rejected with 401. The
-        `terminateAt` and `previousDeviceId` body fields are reserved for internal use;
-        requests that set them are rejected with 401.
+        devices cannot be terminated with this request; it is rejected with 403
+        FORBIDDEN: Subscription devices are managed through subscription cancellation.
+        This includes owner requests that set `terminateAt` or `previousDeviceId`. Those
+        body fields are reserved for internal use; owner requests on other devices that
+        set them are rejected with 401.
 
         Args:
           extra_headers: Send extra headers

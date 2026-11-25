@@ -141,6 +141,7 @@ from ..types.task_stop_response import TaskStopResponse
 from ..types.agent_list_response import AgentListResponse
 from ..types.app_delete_response import AppDeleteResponse
 from ..types.proxy_list_response import ProxyListResponse as TypesProxyListResponse
+from ..types.task_stats_response import TaskStatsResponse
 from ..types.credentials.packages import link_create_params, credential_create_params
 from ..types.device_list_response import DeviceListResponse
 from ..types.file_delete_response import FileDeleteResponse
@@ -236,6 +237,7 @@ from ..types.devices.clipboard_get_response import ClipboardGetResponse
 from ..types.devices.esim.apn_list_response import ApnListResponse
 from ..types.devices.esim_activate_response import EsimActivateResponse
 from ..types.devices.number_unbind_response import NumberUnbindResponse
+from ..types.tasks.approval_decide_response import ApprovalDecideResponse
 from ..types.tasks.screenshot_list_response import ScreenshotListResponse as TasksScreenshotListResponse
 from ..types.webhook_rotate_secret_response import WebhookRotateSecretResponse
 from ..types.webhook_test_delivery_response import WebhookTestDeliveryResponse
@@ -351,6 +353,7 @@ from ..types.workflows.flows.scheduled_run_create_response import ScheduledRunCr
 from ..types.compute.functions.validation_retrieve_response import ValidationRetrieveResponse
 from ..types.credentials.packages.credential_create_response import CredentialCreateResponse
 from ..types.credentials.packages.credential_delete_response import CredentialDeleteResponse
+from ..types.credentials.packages.credential_update_response import CredentialUpdateResponse
 from ..types.devices.number_binding_list_candidates_response import NumberBindingListCandidatesResponse
 from ..types.workflows.actions.service_list_methods_response import ServiceListMethodsResponse
 from ..types.credentials.packages.credentials.field_create_response import FieldCreateResponse
@@ -385,6 +388,7 @@ class AsyncMobilerunSDK:
         self.credentials = _AsyncSDKCredentials(self.api)
         self.devices = AsyncDeviceManager(self.api)
         self.stream_tokens = self.api.stream_tokens
+        self.identity = self.api.identity
         self.models = self.api.models
         self.proxies = AsyncProxyConfigurationManager(self.api)
         self.compute = _AsyncSDKCompute(self.api)
@@ -399,6 +403,7 @@ class AsyncMobilerunSDK:
         self.assistant = self.api.assistant
         self.messages = AsyncNumberMessageManager(self.api)
         self.numbers = AsyncPhoneNumberManager(self.api)
+        self.store = self.api.store
 
     @override
     def __repr__(self) -> str:
@@ -2363,6 +2368,52 @@ class AsyncTaskManager:
             extra_body=extra_body,
             timeout=timeout,
             idempotency_key=idempotency_key,
+        )
+        return result
+
+    async def stats(
+        self,
+        *,
+        from_: Union[str, datetime],
+        to: Union[str, datetime],
+        bucket: Literal["hour", "day"] | Omit = omit,
+        source: Optional[Literal["api", "agent"]] | Omit = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> TaskStatsResponse:
+        """
+        Task outcome counts per time bucket, success rate, duration percentiles and top
+        failure reasons for a window. Tasks are bucketed by creation time.
+
+        Args:
+          from_: Window start, ISO 8601 UTC (inclusive).
+
+          to: Window end, ISO 8601 UTC (exclusive). At most 90 days after `from`.
+
+          bucket: Bucket size. `hour` only for windows of at most 7 days.
+
+          source: Only tasks created via the API ('api') or tasks spawned by an agent step or
+              created with internal=true ('agent').
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        result = await self.api.tasks.stats(
+            from_=from_,
+            to=to,
+            bucket=bucket,
+            source=source,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
         )
         return result
 
@@ -5422,6 +5473,45 @@ class AsyncCredential:
             record_field(self.info, self._info_root, "source"),
         )
 
+    async def update(
+        self,
+        *,
+        label: Optional[str],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> CredentialUpdateResponse:
+        """
+        Sets or clears the optional `label` (human-readable name, free text, max 200
+        characters) of an existing credential. `null` or an empty text clears it. Works
+        for linked credentials too: the label is metadata of the credential, not a field
+        of the linked item. Returns the updated credential.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = await self.api.credentials.packages.credentials.update(
+            self.id,
+            package_name=self.package_name,
+            label=label,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
     async def delete(
         self,
         *,
@@ -7741,9 +7831,11 @@ class AsyncDevice:
         the owner (API key or user) can instead remove the phone from the account so
         anyone can pair it again; the phone must be disconnected first, otherwise the
         request is rejected with 409 BYOD_DEVICE_CONNECTED. Other subscription-billed
-        devices cannot be terminated with this request; it is rejected with 401. The
-        `terminateAt` and `previousDeviceId` body fields are reserved for internal use;
-        requests that set them are rejected with 401.
+        devices cannot be terminated with this request; it is rejected with 403
+        FORBIDDEN: Subscription devices are managed through subscription cancellation.
+        This includes owner requests that set `terminateAt` or `previousDeviceId`. Those
+        body fields are reserved for internal use; owner requests on other devices that
+        set them are rejected with 401.
 
         Args:
           extra_headers: Send extra headers
@@ -10776,6 +10868,56 @@ class _AsyncTaskUiStates:
         return result
 
 
+class _AsyncTaskApprovals:
+    def __init__(self, api: AsyncMobilerun, owner: AsyncTask[Any]) -> None:
+        self.api = api
+        self._owner = owner
+
+    @override
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
+
+    async def decide(
+        self,
+        approval_id: str,
+        *,
+        decision: Literal["approve", "deny"],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> ApprovalDecideResponse:
+        """
+        Approve or deny the approval a running task is waiting for (see
+        `pendingApproval` on the task). Deny ends the task as failed.
+
+        Args:
+          decision: Approve lets the task continue; deny ends it as failed
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        result = await self.api.tasks.approvals.decide(
+            approval_id,
+            task_id=self._owner.id,
+            decision=decision,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            idempotency_key=idempotency_key,
+        )
+        return result
+
+
 AsyncTaskInfo = Union[
     TaskRetrieveResponse,
     TaskGetStatusResponse,
@@ -10805,6 +10947,7 @@ class AsyncTask(Generic[_OutputT]):
         owner = self
         self.screenshots = _AsyncTaskScreenshots(api, owner)
         self.ui_states = _AsyncTaskUiStates(api, owner)
+        self.approvals = _AsyncTaskApprovals(api, owner)
 
     @override
     def __repr__(self) -> str:
