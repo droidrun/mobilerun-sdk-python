@@ -17,4 +17,6 @@ class ActionCatalogListParams(TypedDict, total=False):
     profile: Literal["agent_routine"]
     """Restrict reads to the agent routine step surface."""
 
-    service: Literal["tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api"]
+    service: Literal[
+        "tasks_api", "devices_api", "agents_api", "webhooks", "integrations_api", "triggers_api", "sandbox_api"
+    ]
