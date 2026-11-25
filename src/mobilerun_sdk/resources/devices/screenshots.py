@@ -15,8 +15,9 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.devices import screenshot_list_params, screenshot_capture_params
+from ...types.devices import screenshot_list_params, screenshot_capture_params, screenshot_list_all_params
 from ...types.devices.screenshot_list_response import ScreenshotListResponse
+from ...types.devices.screenshot_list_all_response import ScreenshotListAllResponse
 
 __all__ = ["ScreenshotsResource", "AsyncScreenshotsResource"]
 
@@ -237,6 +238,51 @@ class ScreenshotsResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
+    def list_all(
+        self,
+        *,
+        cursor: str | Omit = omit,
+        device_id: str | Omit = omit,
+        limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ScreenshotListAllResponse:
+        """
+        Saved screenshots across all devices, newest first, including files whose device
+        has been removed. Pass nextCursor as cursor to retrieve the next page.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/devices/screenshots",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "device_id": device_id,
+                        "limit": limit,
+                    },
+                    screenshot_list_all_params.ScreenshotListAllParams,
+                ),
+            ),
+            cast_to=ScreenshotListAllResponse,
+        )
+
 
 class AsyncScreenshotsResource(AsyncAPIResource):
     @cached_property
@@ -454,6 +500,51 @@ class AsyncScreenshotsResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def list_all(
+        self,
+        *,
+        cursor: str | Omit = omit,
+        device_id: str | Omit = omit,
+        limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ScreenshotListAllResponse:
+        """
+        Saved screenshots across all devices, newest first, including files whose device
+        has been removed. Pass nextCursor as cursor to retrieve the next page.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/devices/screenshots",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "device_id": device_id,
+                        "limit": limit,
+                    },
+                    screenshot_list_all_params.ScreenshotListAllParams,
+                ),
+            ),
+            cast_to=ScreenshotListAllResponse,
+        )
+
 
 class ScreenshotsResourceWithRawResponse:
     def __init__(self, screenshots: ScreenshotsResource) -> None:
@@ -470,6 +561,9 @@ class ScreenshotsResourceWithRawResponse:
         )
         self.image = to_raw_response_wrapper(
             screenshots.image,
+        )
+        self.list_all = to_raw_response_wrapper(
+            screenshots.list_all,
         )
 
 
@@ -489,6 +583,9 @@ class AsyncScreenshotsResourceWithRawResponse:
         self.image = async_to_raw_response_wrapper(
             screenshots.image,
         )
+        self.list_all = async_to_raw_response_wrapper(
+            screenshots.list_all,
+        )
 
 
 class ScreenshotsResourceWithStreamingResponse:
@@ -507,6 +604,9 @@ class ScreenshotsResourceWithStreamingResponse:
         self.image = to_streamed_response_wrapper(
             screenshots.image,
         )
+        self.list_all = to_streamed_response_wrapper(
+            screenshots.list_all,
+        )
 
 
 class AsyncScreenshotsResourceWithStreamingResponse:
@@ -524,4 +624,7 @@ class AsyncScreenshotsResourceWithStreamingResponse:
         )
         self.image = async_to_streamed_response_wrapper(
             screenshots.image,
+        )
+        self.list_all = async_to_streamed_response_wrapper(
+            screenshots.list_all,
         )
