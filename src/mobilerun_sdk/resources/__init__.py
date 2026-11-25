@@ -16,6 +16,14 @@ from .files import (
     FilesResourceWithStreamingResponse,
     AsyncFilesResourceWithStreamingResponse,
 )
+from .store import (
+    StoreResource,
+    AsyncStoreResource,
+    StoreResourceWithRawResponse,
+    AsyncStoreResourceWithRawResponse,
+    StoreResourceWithStreamingResponse,
+    AsyncStoreResourceWithStreamingResponse,
+)
 from .tasks import (
     TasksResource,
     AsyncTasksResource,
@@ -79,6 +87,14 @@ from .proxies import (
     AsyncProxiesResourceWithRawResponse,
     ProxiesResourceWithStreamingResponse,
     AsyncProxiesResourceWithStreamingResponse,
+)
+from .identity import (
+    IdentityResource,
+    AsyncIdentityResource,
+    IdentityResourceWithRawResponse,
+    AsyncIdentityResourceWithRawResponse,
+    IdentityResourceWithStreamingResponse,
+    AsyncIdentityResourceWithStreamingResponse,
 )
 from .messages import (
     MessagesResource,
@@ -170,6 +186,12 @@ __all__ = [
     "AsyncStreamTokensResourceWithRawResponse",
     "StreamTokensResourceWithStreamingResponse",
     "AsyncStreamTokensResourceWithStreamingResponse",
+    "IdentityResource",
+    "AsyncIdentityResource",
+    "IdentityResourceWithRawResponse",
+    "AsyncIdentityResourceWithRawResponse",
+    "IdentityResourceWithStreamingResponse",
+    "AsyncIdentityResourceWithStreamingResponse",
     "ModelsResource",
     "AsyncModelsResource",
     "ModelsResourceWithRawResponse",
@@ -254,4 +276,10 @@ __all__ = [
     "AsyncNumbersResourceWithRawResponse",
     "NumbersResourceWithStreamingResponse",
     "AsyncNumbersResourceWithStreamingResponse",
+    "StoreResource",
+    "AsyncStoreResource",
+    "StoreResourceWithRawResponse",
+    "AsyncStoreResourceWithRawResponse",
+    "StoreResourceWithStreamingResponse",
+    "AsyncStoreResourceWithStreamingResponse",
 ]

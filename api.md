@@ -79,6 +79,7 @@ Types:
 ```python
 from mobilerun_sdk.types.credentials.packages import (
     CredentialCreateResponse,
+    CredentialUpdateResponse,
     CredentialDeleteResponse,
 )
 ```
@@ -86,6 +87,7 @@ from mobilerun_sdk.types.credentials.packages import (
 Methods:
 
 - <code title="post /credentials/packages/{packageName}">client.credentials.packages.credentials.<a href="./src/mobilerun_sdk/resources/credentials/packages/credentials/credentials.py">create</a>(package_name, \*\*<a href="src/mobilerun_sdk/types/credentials/packages/credential_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/credentials/packages/credential_create_response.py">CredentialCreateResponse</a></code>
+- <code title="patch /credentials/packages/{packageName}/credentials/{credentialName}">client.credentials.packages.credentials.<a href="./src/mobilerun_sdk/resources/credentials/packages/credentials/credentials.py">update</a>(credential_name, \*, package_name, \*\*<a href="src/mobilerun_sdk/types/credentials/packages/credential_update_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/credentials/packages/credential_update_response.py">CredentialUpdateResponse</a></code>
 - <code title="delete /credentials/packages/{packageName}/credentials/{credentialName}">client.credentials.packages.credentials.<a href="./src/mobilerun_sdk/resources/credentials/packages/credentials/credentials.py">delete</a>(credential_name, \*, package_name) -> <a href="./src/mobilerun_sdk/types/credentials/packages/credential_delete_response.py">CredentialDeleteResponse</a></code>
 
 #### Fields
@@ -333,7 +335,11 @@ Methods:
 Types:
 
 ```python
-from mobilerun_sdk.types.devices import ScreenshotListResponse, ScreenshotCaptureResponse
+from mobilerun_sdk.types.devices import (
+    ScreenshotListResponse,
+    ScreenshotCaptureResponse,
+    ScreenshotListAllResponse,
+)
 ```
 
 Methods:
@@ -342,6 +348,7 @@ Methods:
 - <code title="delete /devices/{deviceId}/screenshots/{screenshotId}">client.devices.screenshots.<a href="./src/mobilerun_sdk/resources/devices/screenshots.py">delete</a>(screenshot_id, \*, device_id) -> None</code>
 - <code title="post /devices/{deviceId}/screenshots">client.devices.screenshots.<a href="./src/mobilerun_sdk/resources/devices/screenshots.py">capture</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/screenshot_capture_params.py">params</a>) -> str</code>
 - <code title="get /devices/{deviceId}/screenshots/{screenshotId}/image">client.devices.screenshots.<a href="./src/mobilerun_sdk/resources/devices/screenshots.py">image</a>(screenshot_id, \*, device_id) -> None</code>
+- <code title="get /devices/screenshots">client.devices.screenshots.<a href="./src/mobilerun_sdk/resources/devices/screenshots.py">list_all</a>(\*\*<a href="src/mobilerun_sdk/types/devices/screenshot_list_all_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/screenshot_list_all_response.py">ScreenshotListAllResponse</a></code>
 
 ## State
 
@@ -445,6 +452,7 @@ Types:
 ```python
 from mobilerun_sdk.types.devices import (
     RecordingListResponse,
+    RecordingListAllResponse,
     RecordingScreenshotsResponse,
     RecordingStartResponse,
     RecordingStatusResponse,
@@ -456,6 +464,7 @@ Methods:
 
 - <code title="get /devices/{deviceId}/recordings">client.devices.recordings.<a href="./src/mobilerun_sdk/resources/devices/recordings.py">list</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/recording_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/recording_list_response.py">Optional[RecordingListResponse]</a></code>
 - <code title="delete /devices/{deviceId}/recordings/{recordingId}">client.devices.recordings.<a href="./src/mobilerun_sdk/resources/devices/recordings.py">delete</a>(recording_id, \*, device_id) -> None</code>
+- <code title="get /devices/recordings">client.devices.recordings.<a href="./src/mobilerun_sdk/resources/devices/recordings.py">list_all</a>(\*\*<a href="src/mobilerun_sdk/types/devices/recording_list_all_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/recording_list_all_response.py">RecordingListAllResponse</a></code>
 - <code title="get /devices/{deviceId}/recordings/{recordingId}/screenshots">client.devices.recordings.<a href="./src/mobilerun_sdk/resources/devices/recordings.py">screenshots</a>(recording_id, \*, device_id) -> <a href="./src/mobilerun_sdk/types/devices/recording_screenshots_response.py">Optional[RecordingScreenshotsResponse]</a></code>
 - <code title="post /devices/{deviceId}/recordings">client.devices.recordings.<a href="./src/mobilerun_sdk/resources/devices/recordings.py">start</a>(device_id, \*\*<a href="src/mobilerun_sdk/types/devices/recording_start_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/devices/recording_start_response.py">RecordingStartResponse</a></code>
 - <code title="get /devices/{deviceId}/recordings/{recordingId}">client.devices.recordings.<a href="./src/mobilerun_sdk/resources/devices/recordings.py">status</a>(recording_id, \*, device_id) -> <a href="./src/mobilerun_sdk/types/devices/recording_status_response.py">RecordingStatusResponse</a></code>
@@ -529,6 +538,18 @@ Methods:
 
 - <code title="post /identity/stream-keys">client.stream_tokens.<a href="./src/mobilerun_sdk/resources/stream_tokens.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/stream_token_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/stream_token_create_response.py">StreamTokenCreateResponse</a></code>
 - <code title="delete /identity/stream-keys/{id}">client.stream_tokens.<a href="./src/mobilerun_sdk/resources/stream_tokens.py">delete</a>(id) -> None</code>
+
+# Identity
+
+Types:
+
+```python
+from mobilerun_sdk.types import IdentityMeResponse
+```
+
+Methods:
+
+- <code title="get /identity/me">client.identity.<a href="./src/mobilerun_sdk/resources/identity.py">me</a>() -> <a href="./src/mobilerun_sdk/types/identity_me_response.py">IdentityMeResponse</a></code>
 
 # Models
 
@@ -780,6 +801,7 @@ from mobilerun_sdk.types import (
     TaskGetTrajectoryResponse,
     TaskRunResponse,
     TaskSendMessageResponse,
+    TaskStatsResponse,
     TaskStopResponse,
 )
 ```
@@ -794,6 +816,7 @@ Methods:
 - <code title="post /tasks">client.tasks.<a href="./src/mobilerun_sdk/resources/tasks/tasks.py">run</a>(\*\*<a href="src/mobilerun_sdk/types/task_run_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/task_run_response.py">TaskRunResponse</a></code>
 - <code title="post /tasks/stream">client.tasks.<a href="./src/mobilerun_sdk/resources/tasks/tasks.py">run_streamed</a>(\*\*<a href="src/mobilerun_sdk/types/task_run_streamed_params.py">params</a>) -> object</code>
 - <code title="post /tasks/{task_id}/message">client.tasks.<a href="./src/mobilerun_sdk/resources/tasks/tasks.py">send_message</a>(task_id, \*\*<a href="src/mobilerun_sdk/types/task_send_message_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/task_send_message_response.py">TaskSendMessageResponse</a></code>
+- <code title="get /tasks/stats">client.tasks.<a href="./src/mobilerun_sdk/resources/tasks/tasks.py">stats</a>(\*\*<a href="src/mobilerun_sdk/types/task_stats_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/task_stats_response.py">TaskStatsResponse</a></code>
 - <code title="post /tasks/{task_id}/cancel">client.tasks.<a href="./src/mobilerun_sdk/resources/tasks/tasks.py">stop</a>(task_id) -> <a href="./src/mobilerun_sdk/types/task_stop_response.py">TaskStopResponse</a></code>
 
 ## Screenshots
@@ -821,6 +844,18 @@ Methods:
 
 - <code title="get /tasks/{task_id}/ui_states/{index}">client.tasks.ui_states.<a href="./src/mobilerun_sdk/resources/tasks/ui_states.py">retrieve</a>(index, \*, task_id) -> <a href="./src/mobilerun_sdk/types/tasks/ui_state_retrieve_response.py">UiStateRetrieveResponse</a></code>
 - <code title="get /tasks/{task_id}/ui_states">client.tasks.ui_states.<a href="./src/mobilerun_sdk/resources/tasks/ui_states.py">list</a>(task_id) -> <a href="./src/mobilerun_sdk/types/tasks/ui_state_list_response.py">UiStateListResponse</a></code>
+
+## Approvals
+
+Types:
+
+```python
+from mobilerun_sdk.types.tasks import ApprovalDecideResponse
+```
+
+Methods:
+
+- <code title="post /tasks/{task_id}/approvals/{approval_id}">client.tasks.approvals.<a href="./src/mobilerun_sdk/resources/tasks/approvals.py">decide</a>(approval_id, \*, task_id, \*\*<a href="src/mobilerun_sdk/types/tasks/approval_decide_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/tasks/approval_decide_response.py">ApprovalDecideResponse</a></code>
 
 # Workflows
 
@@ -1402,3 +1437,29 @@ Methods:
 
 - <code title="get /numbers/phones/{id}/messages">client.numbers.messages.<a href="./src/mobilerun_sdk/resources/numbers/messages.py">list</a>(id, \*\*<a href="src/mobilerun_sdk/types/numbers/message_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/numbers/message_list_response.py">MessageListResponse</a></code>
 - <code title="post /numbers/phones/{id}/messages">client.numbers.messages.<a href="./src/mobilerun_sdk/resources/numbers/messages.py">send</a>(id, \*\*<a href="src/mobilerun_sdk/types/numbers/message_send_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/numbers/message_send_response.py">MessageSendResponse</a></code>
+
+# Store
+
+## Apps
+
+Types:
+
+```python
+from mobilerun_sdk.types.store import AppListResponse
+```
+
+Methods:
+
+- <code title="get /store/apps">client.store.apps.<a href="./src/mobilerun_sdk/resources/store/apps.py">list</a>(\*\*<a href="src/mobilerun_sdk/types/store/app_list_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/store/app_list_response.py">AppListResponse</a></code>
+
+## Requests
+
+Types:
+
+```python
+from mobilerun_sdk.types.store import RequestCreateResponse
+```
+
+Methods:
+
+- <code title="post /store/requests">client.store.requests.<a href="./src/mobilerun_sdk/resources/store/requests.py">create</a>(\*\*<a href="src/mobilerun_sdk/types/store/request_create_params.py">params</a>) -> <a href="./src/mobilerun_sdk/types/store/request_create_response.py">RequestCreateResponse</a></code>

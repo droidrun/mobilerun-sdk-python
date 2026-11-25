@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Iterable, Optional
 
 import httpx
 
@@ -25,9 +25,10 @@ from ....._response import (
     async_to_streamed_response_wrapper,
 )
 from ....._base_client import make_request_options
-from .....types.credentials.packages import credential_create_params
+from .....types.credentials.packages import credential_create_params, credential_update_params
 from .....types.credentials.packages.credential_create_response import CredentialCreateResponse
 from .....types.credentials.packages.credential_delete_response import CredentialDeleteResponse
+from .....types.credentials.packages.credential_update_response import CredentialUpdateResponse
 
 __all__ = ["CredentialsResource", "AsyncCredentialsResource"]
 
@@ -108,6 +109,58 @@ class CredentialsResource(SyncAPIResource):
                 idempotency_key=idempotency_key,
             ),
             cast_to=CredentialCreateResponse,
+        )
+
+    def update(
+        self,
+        credential_name: str,
+        *,
+        package_name: str,
+        label: Optional[str],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> CredentialUpdateResponse:
+        """
+        Sets or clears the optional `label` (human-readable name, free text, max 200
+        characters) of an existing credential. `null` or an empty text clears it. Works
+        for linked credentials too: the label is metadata of the credential, not a field
+        of the linked item. Returns the updated credential.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not package_name:
+            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+        if not credential_name:
+            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+        return self._patch(
+            path_template(
+                "/credentials/packages/{package_name}/credentials/{credential_name}",
+                package_name=package_name,
+                credential_name=credential_name,
+            ),
+            body=maybe_transform({"label": label}, credential_update_params.CredentialUpdateParams),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=CredentialUpdateResponse,
         )
 
     def delete(
@@ -237,6 +290,58 @@ class AsyncCredentialsResource(AsyncAPIResource):
             cast_to=CredentialCreateResponse,
         )
 
+    async def update(
+        self,
+        credential_name: str,
+        *,
+        package_name: str,
+        label: Optional[str],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> CredentialUpdateResponse:
+        """
+        Sets or clears the optional `label` (human-readable name, free text, max 200
+        characters) of an existing credential. `null` or an empty text clears it. Works
+        for linked credentials too: the label is metadata of the credential, not a field
+        of the linked item. Returns the updated credential.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        if not package_name:
+            raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
+        if not credential_name:
+            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+        return await self._patch(
+            path_template(
+                "/credentials/packages/{package_name}/credentials/{credential_name}",
+                package_name=package_name,
+                credential_name=credential_name,
+            ),
+            body=await async_maybe_transform({"label": label}, credential_update_params.CredentialUpdateParams),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
+            ),
+            cast_to=CredentialUpdateResponse,
+        )
+
     async def delete(
         self,
         credential_name: str,
@@ -293,6 +398,9 @@ class CredentialsResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             credentials.create,
         )
+        self.update = to_raw_response_wrapper(
+            credentials.update,
+        )
         self.delete = to_raw_response_wrapper(
             credentials.delete,
         )
@@ -308,6 +416,9 @@ class AsyncCredentialsResourceWithRawResponse:
 
         self.create = async_to_raw_response_wrapper(
             credentials.create,
+        )
+        self.update = async_to_raw_response_wrapper(
+            credentials.update,
         )
         self.delete = async_to_raw_response_wrapper(
             credentials.delete,
@@ -325,6 +436,9 @@ class CredentialsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             credentials.create,
         )
+        self.update = to_streamed_response_wrapper(
+            credentials.update,
+        )
         self.delete = to_streamed_response_wrapper(
             credentials.delete,
         )
@@ -340,6 +454,9 @@ class AsyncCredentialsResourceWithStreamingResponse:
 
         self.create = async_to_streamed_response_wrapper(
             credentials.create,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            credentials.update,
         )
         self.delete = async_to_streamed_response_wrapper(
             credentials.delete,
