@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing_extensions import Annotated, TypedDict
+from typing import List
+from typing_extensions import Literal, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
@@ -18,3 +19,9 @@ class ProxyListParams(TypedDict, total=False):
 
     page_size: Annotated[int, PropertyInfo(alias="pageSize")]
     """Number of items per page."""
+
+    type: List[Literal["dedicated_residential", "residential", "mobile"]]
+    """Filter to proxies of these types.
+
+    Repeat the parameter for several types (`?type=a&type=b`).
+    """
