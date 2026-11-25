@@ -36,11 +36,11 @@ $ pip install -r requirements-dev.lock
 
 Most of the SDK is generated code. Modifications to code will be persisted between generations, but may
 result in merge conflicts between manual patches and changes from the generator. The generator will never
-modify the contents of the `src/mobilerun_sdk/lib/` and `examples/` directories.
+modify the contents of the `src/mobilerun_sdk/lib/` directory.
 
 ## Adding and running examples
 
-All files in the `examples/` directory are not modified by the generator and can be freely edited or added to.
+Configured examples are regenerated from objects.examples; edit their source files in the generator configuration repository. Additional example files can be freely added.
 
 ```py
 # add an example to examples/<your-example>.py
