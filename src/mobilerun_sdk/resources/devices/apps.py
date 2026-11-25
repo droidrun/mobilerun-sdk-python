@@ -225,6 +225,8 @@ class AppsResource(SyncAPIResource):
         device_id: str,
         *,
         bundle_id: str,
+        app_id: str | Omit = omit,
+        app_url: str | Omit = omit,
         background: bool | Omit = omit,
         country: str | Omit = omit,
         package_name: str | Omit = omit,
@@ -257,16 +259,22 @@ class AppsResource(SyncAPIResource):
         Args:
           bundle_id: iOS bundle identifier (e.g. com.example.app)
 
+          app_id: UUID of a published Android or iOS store app.
+
+          app_url: HTTPS APK URL downloaded and installed by the device; not stored in your app
+              library.
+
           background: true: return 202 immediately and install in the background (poll
               list-app-installs). false/omitted: install inline and return the outcome
               directly (200 on success, an error status on failure).
 
-          country: Optional ISO 3166-1 alpha-2 country of the uploaded app version (e.g. MY or SG).
+          country: Optional ISO 3166-1 alpha-2 country of the library or store app version (e.g. MY
+              or SG).
 
           package_name: Android package name (e.g. com.example.app)
 
-          version_code: Optional exact app-library version code. Use with country when multiple regional
-              versions share an identifier.
+          version_code: Optional exact library or store version code. Use with country when multiple
+              regional versions share an identifier.
 
           extra_headers: Send extra headers
 
@@ -286,6 +294,8 @@ class AppsResource(SyncAPIResource):
         device_id: str,
         *,
         package_name: str,
+        app_id: str | Omit = omit,
+        app_url: str | Omit = omit,
         background: bool | Omit = omit,
         bundle_id: str | Omit = omit,
         country: str | Omit = omit,
@@ -318,16 +328,22 @@ class AppsResource(SyncAPIResource):
         Args:
           package_name: Android package name (e.g. com.example.app)
 
+          app_id: UUID of a published Android or iOS store app.
+
+          app_url: HTTPS APK URL downloaded and installed by the device; not stored in your app
+              library.
+
           background: true: return 202 immediately and install in the background (poll
               list-app-installs). false/omitted: install inline and return the outcome
               directly (200 on success, an error status on failure).
 
           bundle_id: iOS bundle identifier (e.g. com.example.app)
 
-          country: Optional ISO 3166-1 alpha-2 country of the uploaded app version (e.g. MY or SG).
+          country: Optional ISO 3166-1 alpha-2 country of the library or store app version (e.g. MY
+              or SG).
 
-          version_code: Optional exact app-library version code. Use with country when multiple regional
-              versions share an identifier.
+          version_code: Optional exact library or store version code. Use with country when multiple
+              regional versions share an identifier.
 
           extra_headers: Send extra headers
 
@@ -341,12 +357,83 @@ class AppsResource(SyncAPIResource):
         """
         ...
 
-    @required_args(["bundle_id"], ["package_name"])
+    @overload
+    def install(
+        self,
+        device_id: str,
+        *,
+        app_id: str,
+        app_url: str | Omit = omit,
+        background: bool | Omit = omit,
+        bundle_id: str | Omit = omit,
+        country: str | Omit = omit,
+        package_name: str | Omit = omit,
+        version_code: int | Omit = omit,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> None:
+        """Requests an app install on the device.
+
+        The request body must supply exactly one
+        of an Android packageName or an iOS bundleId. For packageName installs, optional
+        country and versionCode select an exact regional uploaded Android version, and
+        protected packages are rejected. background (default false) selects the response
+        contract: false installs inline and returns the outcome directly (200 on
+        success, an error status on failure); true accepts the request and runs the
+        download + install in the background, returning 202 immediately — poll
+        list-app-installs for the backend's view of that attempt's status. Refuses with
+        409 once 2 other installs are already running on the device, in either mode; a
+        repeat request for an app that already has an install running is also refused
+        with 409 rather than superseding it — retry once that attempt reaches a terminal
+        state. Synchronous failures report APP_DOWNLOAD_FAILED (502) when the app file
+        cannot be downloaded or APP_INSTALL_TIMEOUT (504) when the install times out.
+
+        Args:
+          app_id: UUID of a published Android or iOS store app.
+
+          app_url: HTTPS APK URL downloaded and installed by the device; not stored in your app
+              library.
+
+          background: true: return 202 immediately and install in the background (poll
+              list-app-installs). false/omitted: install inline and return the outcome
+              directly (200 on success, an error status on failure).
+
+          bundle_id: iOS bundle identifier (e.g. com.example.app)
+
+          country: Optional ISO 3166-1 alpha-2 country of the library or store app version (e.g. MY
+              or SG).
+
+          package_name: Android package name (e.g. com.example.app)
+
+          version_code: Optional exact library or store version code. Use with country when multiple
+              regional versions share an identifier.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        ...
+
+    @required_args(["bundle_id"], ["package_name"], ["app_id"])
     def install(
         self,
         device_id: str,
         *,
         bundle_id: str | Omit = omit,
+        app_id: str | Omit = omit,
+        app_url: str | Omit = omit,
         background: bool | Omit = omit,
         country: str | Omit = omit,
         package_name: str | Omit = omit,
@@ -374,6 +461,8 @@ class AppsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "bundle_id": bundle_id,
+                    "app_id": app_id,
+                    "app_url": app_url,
                     "background": background,
                     "country": country,
                     "package_name": package_name,
@@ -812,6 +901,8 @@ class AsyncAppsResource(AsyncAPIResource):
         device_id: str,
         *,
         bundle_id: str,
+        app_id: str | Omit = omit,
+        app_url: str | Omit = omit,
         background: bool | Omit = omit,
         country: str | Omit = omit,
         package_name: str | Omit = omit,
@@ -844,16 +935,22 @@ class AsyncAppsResource(AsyncAPIResource):
         Args:
           bundle_id: iOS bundle identifier (e.g. com.example.app)
 
+          app_id: UUID of a published Android or iOS store app.
+
+          app_url: HTTPS APK URL downloaded and installed by the device; not stored in your app
+              library.
+
           background: true: return 202 immediately and install in the background (poll
               list-app-installs). false/omitted: install inline and return the outcome
               directly (200 on success, an error status on failure).
 
-          country: Optional ISO 3166-1 alpha-2 country of the uploaded app version (e.g. MY or SG).
+          country: Optional ISO 3166-1 alpha-2 country of the library or store app version (e.g. MY
+              or SG).
 
           package_name: Android package name (e.g. com.example.app)
 
-          version_code: Optional exact app-library version code. Use with country when multiple regional
-              versions share an identifier.
+          version_code: Optional exact library or store version code. Use with country when multiple
+              regional versions share an identifier.
 
           extra_headers: Send extra headers
 
@@ -873,6 +970,8 @@ class AsyncAppsResource(AsyncAPIResource):
         device_id: str,
         *,
         package_name: str,
+        app_id: str | Omit = omit,
+        app_url: str | Omit = omit,
         background: bool | Omit = omit,
         bundle_id: str | Omit = omit,
         country: str | Omit = omit,
@@ -905,16 +1004,22 @@ class AsyncAppsResource(AsyncAPIResource):
         Args:
           package_name: Android package name (e.g. com.example.app)
 
+          app_id: UUID of a published Android or iOS store app.
+
+          app_url: HTTPS APK URL downloaded and installed by the device; not stored in your app
+              library.
+
           background: true: return 202 immediately and install in the background (poll
               list-app-installs). false/omitted: install inline and return the outcome
               directly (200 on success, an error status on failure).
 
           bundle_id: iOS bundle identifier (e.g. com.example.app)
 
-          country: Optional ISO 3166-1 alpha-2 country of the uploaded app version (e.g. MY or SG).
+          country: Optional ISO 3166-1 alpha-2 country of the library or store app version (e.g. MY
+              or SG).
 
-          version_code: Optional exact app-library version code. Use with country when multiple regional
-              versions share an identifier.
+          version_code: Optional exact library or store version code. Use with country when multiple
+              regional versions share an identifier.
 
           extra_headers: Send extra headers
 
@@ -928,12 +1033,83 @@ class AsyncAppsResource(AsyncAPIResource):
         """
         ...
 
-    @required_args(["bundle_id"], ["package_name"])
+    @overload
+    async def install(
+        self,
+        device_id: str,
+        *,
+        app_id: str,
+        app_url: str | Omit = omit,
+        background: bool | Omit = omit,
+        bundle_id: str | Omit = omit,
+        country: str | Omit = omit,
+        package_name: str | Omit = omit,
+        version_code: int | Omit = omit,
+        x_device_display_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> None:
+        """Requests an app install on the device.
+
+        The request body must supply exactly one
+        of an Android packageName or an iOS bundleId. For packageName installs, optional
+        country and versionCode select an exact regional uploaded Android version, and
+        protected packages are rejected. background (default false) selects the response
+        contract: false installs inline and returns the outcome directly (200 on
+        success, an error status on failure); true accepts the request and runs the
+        download + install in the background, returning 202 immediately — poll
+        list-app-installs for the backend's view of that attempt's status. Refuses with
+        409 once 2 other installs are already running on the device, in either mode; a
+        repeat request for an app that already has an install running is also refused
+        with 409 rather than superseding it — retry once that attempt reaches a terminal
+        state. Synchronous failures report APP_DOWNLOAD_FAILED (502) when the app file
+        cannot be downloaded or APP_INSTALL_TIMEOUT (504) when the install times out.
+
+        Args:
+          app_id: UUID of a published Android or iOS store app.
+
+          app_url: HTTPS APK URL downloaded and installed by the device; not stored in your app
+              library.
+
+          background: true: return 202 immediately and install in the background (poll
+              list-app-installs). false/omitted: install inline and return the outcome
+              directly (200 on success, an error status on failure).
+
+          bundle_id: iOS bundle identifier (e.g. com.example.app)
+
+          country: Optional ISO 3166-1 alpha-2 country of the library or store app version (e.g. MY
+              or SG).
+
+          package_name: Android package name (e.g. com.example.app)
+
+          version_code: Optional exact library or store version code. Use with country when multiple
+              regional versions share an identifier.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        ...
+
+    @required_args(["bundle_id"], ["package_name"], ["app_id"])
     async def install(
         self,
         device_id: str,
         *,
         bundle_id: str | Omit = omit,
+        app_id: str | Omit = omit,
+        app_url: str | Omit = omit,
         background: bool | Omit = omit,
         country: str | Omit = omit,
         package_name: str | Omit = omit,
@@ -961,6 +1137,8 @@ class AsyncAppsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "bundle_id": bundle_id,
+                    "app_id": app_id,
+                    "app_url": app_url,
                     "background": background,
                     "country": country,
                     "package_name": package_name,
