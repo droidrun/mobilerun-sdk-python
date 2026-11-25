@@ -1,5 +1,73 @@
 # Changelog
 
+## [6.3.2](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.3.1...v6.3.2) (2026-11-24)
+
+
+### Features
+
+* **sdk:** device idle timeout ([f13b228](https://github.com/droidrun/mobilerun-sdk-python/commit/f13b22815e4998821ac0c5460dc8cb3de476528f))
+
+
+### Chores
+
+* release 6.3.2 ([a716c4e](https://github.com/droidrun/mobilerun-sdk-python/commit/a716c4e9de8c2ea4eed0672c099c209d6d4287f4))
+
+## [6.3.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.3.0...v6.3.1) (2026-11-24)
+
+
+### Bug Fixes
+
+* **sdk:** wait for run logs and 6.3.1 ([bb98f88](https://github.com/droidrun/mobilerun-sdk-python/commit/bb98f88bf711149769eded44bb00393ac11e7510))
+
+
+### Chores
+
+* release 6.3.1 ([be5983d](https://github.com/droidrun/mobilerun-sdk-python/commit/be5983dd231c2131058f8924c7074ab0d137a569))
+
+## [6.3.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.2.1...v6.3.0) (2026-11-24)
+
+
+### Features
+
+* **sdk:** add sandbox scripts preview ([a77e684](https://github.com/droidrun/mobilerun-sdk-python/commit/a77e6844666c4abc96b7c1067d81293ad9e2e69c))
+* **sdk:** stream tokens resource ([4e63746](https://github.com/droidrun/mobilerun-sdk-python/commit/4e637465a2d93014a1dfea9c83fdc40d35a3c5ed))
+
+
+### Bug Fixes
+
+* **sdk:** re-anchor 6.3.0 tracking ([162cd3e](https://github.com/droidrun/mobilerun-sdk-python/commit/162cd3e8097a3be7e2fe90f77305e71d64127fe3))
+
+
+### Chores
+
+* release 6.3.0 ([08722ef](https://github.com/droidrun/mobilerun-sdk-python/commit/08722ef981d9cbfa64865b1b40d3c7d9b8a9012d))
+
+## [6.2.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.2.0...v6.2.1) (2026-11-14)
+
+
+### Bug Fixes
+
+* **sdk:** webhook invalid json reason ([3c7ad92](https://github.com/droidrun/mobilerun-sdk-python/commit/3c7ad929b50391289984db56e80f2db232d2844a))
+
+
+### Chores
+
+* release 6.2.1 ([7f0745f](https://github.com/droidrun/mobilerun-sdk-python/commit/7f0745fc84c4f315920a083915f9ae0370b5a325))
+
+## [6.2.0](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.1.1...v6.2.0) (2026-11-14)
+
+
+### Features
+
+* **sdk:** object api and helpers ([4460e14](https://github.com/droidrun/mobilerun-sdk-python/commit/4460e146011be505f48e25183f685d5b405c6bf3))
+* **sdk:** read MOBILERUN_API_KEY first ([5ff01fe](https://github.com/droidrun/mobilerun-sdk-python/commit/5ff01fe8b4ab4e9e1f7ae0db834fddc1589b9e6f))
+
+
+### Chores
+
+* release 6.2.0 ([32a1d26](https://github.com/droidrun/mobilerun-sdk-python/commit/32a1d26b2cb9d7ae415a9d14dc7680b1f49cabe7))
+* **sdk:** regenerate from a792995 ([f9e70bc](https://github.com/droidrun/mobilerun-sdk-python/commit/f9e70bc4f415dcce9ad2acf62dfe9804fd767a2a))
+
 ## [6.1.1](https://github.com/droidrun/mobilerun-sdk-python/compare/v6.1.0...v6.1.1) (2026-11-10)
 
 
