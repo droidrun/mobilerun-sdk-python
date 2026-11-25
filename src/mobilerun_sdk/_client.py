@@ -39,26 +39,36 @@ if TYPE_CHECKING:
     from .resources import (
         apps,
         files,
+        store,
         tasks,
         agents,
         models,
+        compute,
         connect,
         devices,
         numbers,
         proxies,
+        identity,
         messages,
         webhooks,
         assistant,
         mailboxes,
         workflows,
         credentials,
+        routine_files,
+        stream_tokens,
     )
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.files import FilesResource, AsyncFilesResource
     from .resources.models import ModelsResource, AsyncModelsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
+    from .resources.identity import IdentityResource, AsyncIdentityResource
+    from .resources.store.store import StoreResource, AsyncStoreResource
     from .resources.tasks.tasks import TasksResource, AsyncTasksResource
     from .resources.agents.agents import AgentsResource, AsyncAgentsResource
+    from .resources.routine_files import RoutineFilesResource, AsyncRoutineFilesResource
+    from .resources.stream_tokens import StreamTokensResource, AsyncStreamTokensResource
+    from .resources.compute.compute import ComputeResource, AsyncComputeResource
     from .resources.connect.connect import ConnectResource, AsyncConnectResource
     from .resources.devices.devices import DevicesResource, AsyncDevicesResource
     from .resources.numbers.numbers import NumbersResource, AsyncNumbersResource
@@ -162,6 +172,18 @@ class Mobilerun(SyncAPIClient):
         return DevicesResource(self)
 
     @cached_property
+    def stream_tokens(self) -> StreamTokensResource:
+        from .resources.stream_tokens import StreamTokensResource
+
+        return StreamTokensResource(self)
+
+    @cached_property
+    def identity(self) -> IdentityResource:
+        from .resources.identity import IdentityResource
+
+        return IdentityResource(self)
+
+    @cached_property
     def models(self) -> ModelsResource:
         from .resources.models import ModelsResource
 
@@ -172,6 +194,12 @@ class Mobilerun(SyncAPIClient):
         from .resources.proxies import ProxiesResource
 
         return ProxiesResource(self)
+
+    @cached_property
+    def compute(self) -> ComputeResource:
+        from .resources.compute import ComputeResource
+
+        return ComputeResource(self)
 
     @cached_property
     def connect(self) -> ConnectResource:
@@ -205,6 +233,12 @@ class Mobilerun(SyncAPIClient):
         return MailboxesResource(self)
 
     @cached_property
+    def routine_files(self) -> RoutineFilesResource:
+        from .resources.routine_files import RoutineFilesResource
+
+        return RoutineFilesResource(self)
+
+    @cached_property
     def files(self) -> FilesResource:
         from .resources.files import FilesResource
 
@@ -233,6 +267,12 @@ class Mobilerun(SyncAPIClient):
         from .resources.numbers import NumbersResource
 
         return NumbersResource(self)
+
+    @cached_property
+    def store(self) -> StoreResource:
+        from .resources.store import StoreResource
+
+        return StoreResource(self)
 
     @cached_property
     def with_raw_response(self) -> MobilerunWithRawResponse:
@@ -439,6 +479,18 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncDevicesResource(self)
 
     @cached_property
+    def stream_tokens(self) -> AsyncStreamTokensResource:
+        from .resources.stream_tokens import AsyncStreamTokensResource
+
+        return AsyncStreamTokensResource(self)
+
+    @cached_property
+    def identity(self) -> AsyncIdentityResource:
+        from .resources.identity import AsyncIdentityResource
+
+        return AsyncIdentityResource(self)
+
+    @cached_property
     def models(self) -> AsyncModelsResource:
         from .resources.models import AsyncModelsResource
 
@@ -449,6 +501,12 @@ class AsyncMobilerun(AsyncAPIClient):
         from .resources.proxies import AsyncProxiesResource
 
         return AsyncProxiesResource(self)
+
+    @cached_property
+    def compute(self) -> AsyncComputeResource:
+        from .resources.compute import AsyncComputeResource
+
+        return AsyncComputeResource(self)
 
     @cached_property
     def connect(self) -> AsyncConnectResource:
@@ -482,6 +540,12 @@ class AsyncMobilerun(AsyncAPIClient):
         return AsyncMailboxesResource(self)
 
     @cached_property
+    def routine_files(self) -> AsyncRoutineFilesResource:
+        from .resources.routine_files import AsyncRoutineFilesResource
+
+        return AsyncRoutineFilesResource(self)
+
+    @cached_property
     def files(self) -> AsyncFilesResource:
         from .resources.files import AsyncFilesResource
 
@@ -510,6 +574,12 @@ class AsyncMobilerun(AsyncAPIClient):
         from .resources.numbers import AsyncNumbersResource
 
         return AsyncNumbersResource(self)
+
+    @cached_property
+    def store(self) -> AsyncStoreResource:
+        from .resources.store import AsyncStoreResource
+
+        return AsyncStoreResource(self)
 
     @cached_property
     def with_raw_response(self) -> AsyncMobilerunWithRawResponse:
@@ -660,6 +730,18 @@ class MobilerunWithRawResponse:
         return DevicesResourceWithRawResponse(self._client.devices)
 
     @cached_property
+    def stream_tokens(self) -> stream_tokens.StreamTokensResourceWithRawResponse:
+        from .resources.stream_tokens import StreamTokensResourceWithRawResponse
+
+        return StreamTokensResourceWithRawResponse(self._client.stream_tokens)
+
+    @cached_property
+    def identity(self) -> identity.IdentityResourceWithRawResponse:
+        from .resources.identity import IdentityResourceWithRawResponse
+
+        return IdentityResourceWithRawResponse(self._client.identity)
+
+    @cached_property
     def models(self) -> models.ModelsResourceWithRawResponse:
         from .resources.models import ModelsResourceWithRawResponse
 
@@ -670,6 +752,12 @@ class MobilerunWithRawResponse:
         from .resources.proxies import ProxiesResourceWithRawResponse
 
         return ProxiesResourceWithRawResponse(self._client.proxies)
+
+    @cached_property
+    def compute(self) -> compute.ComputeResourceWithRawResponse:
+        from .resources.compute import ComputeResourceWithRawResponse
+
+        return ComputeResourceWithRawResponse(self._client.compute)
 
     @cached_property
     def connect(self) -> connect.ConnectResourceWithRawResponse:
@@ -703,6 +791,12 @@ class MobilerunWithRawResponse:
         return MailboxesResourceWithRawResponse(self._client.mailboxes)
 
     @cached_property
+    def routine_files(self) -> routine_files.RoutineFilesResourceWithRawResponse:
+        from .resources.routine_files import RoutineFilesResourceWithRawResponse
+
+        return RoutineFilesResourceWithRawResponse(self._client.routine_files)
+
+    @cached_property
     def files(self) -> files.FilesResourceWithRawResponse:
         from .resources.files import FilesResourceWithRawResponse
 
@@ -732,6 +826,12 @@ class MobilerunWithRawResponse:
 
         return NumbersResourceWithRawResponse(self._client.numbers)
 
+    @cached_property
+    def store(self) -> store.StoreResourceWithRawResponse:
+        from .resources.store import StoreResourceWithRawResponse
+
+        return StoreResourceWithRawResponse(self._client.store)
+
 
 class AsyncMobilerunWithRawResponse:
     _client: AsyncMobilerun
@@ -758,6 +858,18 @@ class AsyncMobilerunWithRawResponse:
         return AsyncDevicesResourceWithRawResponse(self._client.devices)
 
     @cached_property
+    def stream_tokens(self) -> stream_tokens.AsyncStreamTokensResourceWithRawResponse:
+        from .resources.stream_tokens import AsyncStreamTokensResourceWithRawResponse
+
+        return AsyncStreamTokensResourceWithRawResponse(self._client.stream_tokens)
+
+    @cached_property
+    def identity(self) -> identity.AsyncIdentityResourceWithRawResponse:
+        from .resources.identity import AsyncIdentityResourceWithRawResponse
+
+        return AsyncIdentityResourceWithRawResponse(self._client.identity)
+
+    @cached_property
     def models(self) -> models.AsyncModelsResourceWithRawResponse:
         from .resources.models import AsyncModelsResourceWithRawResponse
 
@@ -768,6 +880,12 @@ class AsyncMobilerunWithRawResponse:
         from .resources.proxies import AsyncProxiesResourceWithRawResponse
 
         return AsyncProxiesResourceWithRawResponse(self._client.proxies)
+
+    @cached_property
+    def compute(self) -> compute.AsyncComputeResourceWithRawResponse:
+        from .resources.compute import AsyncComputeResourceWithRawResponse
+
+        return AsyncComputeResourceWithRawResponse(self._client.compute)
 
     @cached_property
     def connect(self) -> connect.AsyncConnectResourceWithRawResponse:
@@ -801,6 +919,12 @@ class AsyncMobilerunWithRawResponse:
         return AsyncMailboxesResourceWithRawResponse(self._client.mailboxes)
 
     @cached_property
+    def routine_files(self) -> routine_files.AsyncRoutineFilesResourceWithRawResponse:
+        from .resources.routine_files import AsyncRoutineFilesResourceWithRawResponse
+
+        return AsyncRoutineFilesResourceWithRawResponse(self._client.routine_files)
+
+    @cached_property
     def files(self) -> files.AsyncFilesResourceWithRawResponse:
         from .resources.files import AsyncFilesResourceWithRawResponse
 
@@ -830,6 +954,12 @@ class AsyncMobilerunWithRawResponse:
 
         return AsyncNumbersResourceWithRawResponse(self._client.numbers)
 
+    @cached_property
+    def store(self) -> store.AsyncStoreResourceWithRawResponse:
+        from .resources.store import AsyncStoreResourceWithRawResponse
+
+        return AsyncStoreResourceWithRawResponse(self._client.store)
+
 
 class MobilerunWithStreamedResponse:
     _client: Mobilerun
@@ -856,6 +986,18 @@ class MobilerunWithStreamedResponse:
         return DevicesResourceWithStreamingResponse(self._client.devices)
 
     @cached_property
+    def stream_tokens(self) -> stream_tokens.StreamTokensResourceWithStreamingResponse:
+        from .resources.stream_tokens import StreamTokensResourceWithStreamingResponse
+
+        return StreamTokensResourceWithStreamingResponse(self._client.stream_tokens)
+
+    @cached_property
+    def identity(self) -> identity.IdentityResourceWithStreamingResponse:
+        from .resources.identity import IdentityResourceWithStreamingResponse
+
+        return IdentityResourceWithStreamingResponse(self._client.identity)
+
+    @cached_property
     def models(self) -> models.ModelsResourceWithStreamingResponse:
         from .resources.models import ModelsResourceWithStreamingResponse
 
@@ -866,6 +1008,12 @@ class MobilerunWithStreamedResponse:
         from .resources.proxies import ProxiesResourceWithStreamingResponse
 
         return ProxiesResourceWithStreamingResponse(self._client.proxies)
+
+    @cached_property
+    def compute(self) -> compute.ComputeResourceWithStreamingResponse:
+        from .resources.compute import ComputeResourceWithStreamingResponse
+
+        return ComputeResourceWithStreamingResponse(self._client.compute)
 
     @cached_property
     def connect(self) -> connect.ConnectResourceWithStreamingResponse:
@@ -899,6 +1047,12 @@ class MobilerunWithStreamedResponse:
         return MailboxesResourceWithStreamingResponse(self._client.mailboxes)
 
     @cached_property
+    def routine_files(self) -> routine_files.RoutineFilesResourceWithStreamingResponse:
+        from .resources.routine_files import RoutineFilesResourceWithStreamingResponse
+
+        return RoutineFilesResourceWithStreamingResponse(self._client.routine_files)
+
+    @cached_property
     def files(self) -> files.FilesResourceWithStreamingResponse:
         from .resources.files import FilesResourceWithStreamingResponse
 
@@ -928,6 +1082,12 @@ class MobilerunWithStreamedResponse:
 
         return NumbersResourceWithStreamingResponse(self._client.numbers)
 
+    @cached_property
+    def store(self) -> store.StoreResourceWithStreamingResponse:
+        from .resources.store import StoreResourceWithStreamingResponse
+
+        return StoreResourceWithStreamingResponse(self._client.store)
+
 
 class AsyncMobilerunWithStreamedResponse:
     _client: AsyncMobilerun
@@ -954,6 +1114,18 @@ class AsyncMobilerunWithStreamedResponse:
         return AsyncDevicesResourceWithStreamingResponse(self._client.devices)
 
     @cached_property
+    def stream_tokens(self) -> stream_tokens.AsyncStreamTokensResourceWithStreamingResponse:
+        from .resources.stream_tokens import AsyncStreamTokensResourceWithStreamingResponse
+
+        return AsyncStreamTokensResourceWithStreamingResponse(self._client.stream_tokens)
+
+    @cached_property
+    def identity(self) -> identity.AsyncIdentityResourceWithStreamingResponse:
+        from .resources.identity import AsyncIdentityResourceWithStreamingResponse
+
+        return AsyncIdentityResourceWithStreamingResponse(self._client.identity)
+
+    @cached_property
     def models(self) -> models.AsyncModelsResourceWithStreamingResponse:
         from .resources.models import AsyncModelsResourceWithStreamingResponse
 
@@ -964,6 +1136,12 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.proxies import AsyncProxiesResourceWithStreamingResponse
 
         return AsyncProxiesResourceWithStreamingResponse(self._client.proxies)
+
+    @cached_property
+    def compute(self) -> compute.AsyncComputeResourceWithStreamingResponse:
+        from .resources.compute import AsyncComputeResourceWithStreamingResponse
+
+        return AsyncComputeResourceWithStreamingResponse(self._client.compute)
 
     @cached_property
     def connect(self) -> connect.AsyncConnectResourceWithStreamingResponse:
@@ -997,6 +1175,12 @@ class AsyncMobilerunWithStreamedResponse:
         return AsyncMailboxesResourceWithStreamingResponse(self._client.mailboxes)
 
     @cached_property
+    def routine_files(self) -> routine_files.AsyncRoutineFilesResourceWithStreamingResponse:
+        from .resources.routine_files import AsyncRoutineFilesResourceWithStreamingResponse
+
+        return AsyncRoutineFilesResourceWithStreamingResponse(self._client.routine_files)
+
+    @cached_property
     def files(self) -> files.AsyncFilesResourceWithStreamingResponse:
         from .resources.files import AsyncFilesResourceWithStreamingResponse
 
@@ -1025,6 +1209,12 @@ class AsyncMobilerunWithStreamedResponse:
         from .resources.numbers import AsyncNumbersResourceWithStreamingResponse
 
         return AsyncNumbersResourceWithStreamingResponse(self._client.numbers)
+
+    @cached_property
+    def store(self) -> store.AsyncStoreResourceWithStreamingResponse:
+        from .resources.store import AsyncStoreResourceWithStreamingResponse
+
+        return AsyncStoreResourceWithStreamingResponse(self._client.store)
 
 
 Client = Mobilerun
