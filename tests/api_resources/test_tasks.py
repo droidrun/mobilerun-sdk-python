@@ -13,11 +13,13 @@ from mobilerun_sdk.types import (
     TaskRunResponse,
     TaskListResponse,
     TaskStopResponse,
+    TaskStatsResponse,
     TaskRetrieveResponse,
     TaskGetStatusResponse,
     TaskSendMessageResponse,
     TaskGetTrajectoryResponse,
 )
+from mobilerun_sdk._utils import parse_datetime
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -424,6 +426,54 @@ class TestTasks:
                 task_id="",
                 message="x",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_stats(self, client: Mobilerun) -> None:
+        task = client.tasks.stats(
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
+        )
+        assert_matches_type(TaskStatsResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_stats_with_all_params(self, client: Mobilerun) -> None:
+        task = client.tasks.stats(
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
+            bucket="hour",
+            source="api",
+        )
+        assert_matches_type(TaskStatsResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_stats(self, client: Mobilerun) -> None:
+        response = client.tasks.with_raw_response.stats(
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        task = response.parse()
+        assert_matches_type(TaskStatsResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_stats(self, client: Mobilerun) -> None:
+        with client.tasks.with_streaming_response.stats(
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            task = response.parse()
+            assert_matches_type(TaskStatsResponse, task, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -872,6 +922,54 @@ class TestAsyncTasks:
                 task_id="",
                 message="x",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_stats(self, async_client: AsyncMobilerun) -> None:
+        task = await async_client.tasks.stats(
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
+        )
+        assert_matches_type(TaskStatsResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_stats_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        task = await async_client.tasks.stats(
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
+            bucket="hour",
+            source="api",
+        )
+        assert_matches_type(TaskStatsResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_stats(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.tasks.with_raw_response.stats(
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        task = await response.parse()
+        assert_matches_type(TaskStatsResponse, task, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_stats(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.tasks.with_streaming_response.stats(
+            from_=parse_datetime("2019-12-27T18:11:19.117Z"),
+            to=parse_datetime("2019-12-27T18:11:19.117Z"),
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            task = await response.parse()
+            assert_matches_type(TaskStatsResponse, task, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
