@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 from typing import Iterable
+from typing_extensions import Literal, overload
 
 import httpx
 
-from ...._types import Body, Query, Headers, NotGiven, not_given
-from ...._utils import path_template, maybe_transform, async_maybe_transform
+from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ...._utils import path_template, required_args, maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -43,14 +44,16 @@ class LinksResource(SyncAPIResource):
         """
         return LinksResourceWithStreamingResponse(self)
 
+    @overload
     def create(
         self,
         package_name: str,
         *,
         credential_name: str,
-        field_map: Iterable[link_create_params.FieldMap],
+        field_map: Iterable[link_create_params.LinkOnePasswordCredentialBodyFieldMap],
         item_id: str,
         vault_id: str,
+        provider: Literal["onepassword"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -60,7 +63,11 @@ class LinksResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> LinkCreateResponse:
         """
-        Link a 1Password item to a credential
+        Creates a read-only credential that resolves its values live from the provider.
+        `provider` defaults to `onepassword` (vaultId, itemId, fieldMap). `wallet` takes
+        a cardId, is only allowed in the reserved payment_cards package, and only the
+        cardholder may link the card (404 otherwise). Never replaces an existing
+        credential of the same name.
 
         Args:
           extra_headers: Send extra headers
@@ -73,6 +80,63 @@ class LinksResource(SyncAPIResource):
 
           idempotency_key: Specify a custom idempotency key for this request
         """
+        ...
+
+    @overload
+    def create(
+        self,
+        package_name: str,
+        *,
+        card_id: str,
+        credential_name: str,
+        provider: Literal["wallet"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> LinkCreateResponse:
+        """
+        Creates a read-only credential that resolves its values live from the provider.
+        `provider` defaults to `onepassword` (vaultId, itemId, fieldMap). `wallet` takes
+        a cardId, is only allowed in the reserved payment_cards package, and only the
+        cardholder may link the card (404 otherwise). Never replaces an existing
+        credential of the same name.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        ...
+
+    @required_args(["credential_name", "field_map", "item_id", "vault_id"], ["card_id", "credential_name", "provider"])
+    def create(
+        self,
+        package_name: str,
+        *,
+        credential_name: str,
+        field_map: Iterable[link_create_params.LinkOnePasswordCredentialBodyFieldMap] | Omit = omit,
+        item_id: str | Omit = omit,
+        vault_id: str | Omit = omit,
+        provider: Literal["onepassword"] | Literal["wallet"] | Omit = omit,
+        card_id: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> LinkCreateResponse:
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
         return self._post(
@@ -83,6 +147,8 @@ class LinksResource(SyncAPIResource):
                     "field_map": field_map,
                     "item_id": item_id,
                     "vault_id": vault_id,
+                    "provider": provider,
+                    "card_id": card_id,
                 },
                 link_create_params.LinkCreateParams,
             ),
@@ -117,14 +183,16 @@ class AsyncLinksResource(AsyncAPIResource):
         """
         return AsyncLinksResourceWithStreamingResponse(self)
 
+    @overload
     async def create(
         self,
         package_name: str,
         *,
         credential_name: str,
-        field_map: Iterable[link_create_params.FieldMap],
+        field_map: Iterable[link_create_params.LinkOnePasswordCredentialBodyFieldMap],
         item_id: str,
         vault_id: str,
+        provider: Literal["onepassword"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -134,7 +202,11 @@ class AsyncLinksResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> LinkCreateResponse:
         """
-        Link a 1Password item to a credential
+        Creates a read-only credential that resolves its values live from the provider.
+        `provider` defaults to `onepassword` (vaultId, itemId, fieldMap). `wallet` takes
+        a cardId, is only allowed in the reserved payment_cards package, and only the
+        cardholder may link the card (404 otherwise). Never replaces an existing
+        credential of the same name.
 
         Args:
           extra_headers: Send extra headers
@@ -147,6 +219,63 @@ class AsyncLinksResource(AsyncAPIResource):
 
           idempotency_key: Specify a custom idempotency key for this request
         """
+        ...
+
+    @overload
+    async def create(
+        self,
+        package_name: str,
+        *,
+        card_id: str,
+        credential_name: str,
+        provider: Literal["wallet"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> LinkCreateResponse:
+        """
+        Creates a read-only credential that resolves its values live from the provider.
+        `provider` defaults to `onepassword` (vaultId, itemId, fieldMap). `wallet` takes
+        a cardId, is only allowed in the reserved payment_cards package, and only the
+        cardholder may link the card (404 otherwise). Never replaces an existing
+        credential of the same name.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        ...
+
+    @required_args(["credential_name", "field_map", "item_id", "vault_id"], ["card_id", "credential_name", "provider"])
+    async def create(
+        self,
+        package_name: str,
+        *,
+        credential_name: str,
+        field_map: Iterable[link_create_params.LinkOnePasswordCredentialBodyFieldMap] | Omit = omit,
+        item_id: str | Omit = omit,
+        vault_id: str | Omit = omit,
+        provider: Literal["onepassword"] | Literal["wallet"] | Omit = omit,
+        card_id: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> LinkCreateResponse:
         if not package_name:
             raise ValueError(f"Expected a non-empty value for `package_name` but received {package_name!r}")
         return await self._post(
@@ -157,6 +286,8 @@ class AsyncLinksResource(AsyncAPIResource):
                     "field_map": field_map,
                     "item_id": item_id,
                     "vault_id": vault_id,
+                    "provider": provider,
+                    "card_id": card_id,
                 },
                 link_create_params.LinkCreateParams,
             ),
