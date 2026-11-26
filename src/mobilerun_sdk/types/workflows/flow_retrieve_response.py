@@ -19,16 +19,19 @@ class DataDelivery(BaseModel):
     destination: Literal["mobilerun", "one_drive", "google_drive"]
 
     folder: Optional[str] = None
-    """Absolute destination folder; not allowed when destination is mobilerun.
+    """Absolute destination folder.
 
-    May contain {{meta.<name>}} (for example {{meta.shortDate}} = YYMMDD,
-    {{meta.fileTime}} = HH-mm, in the trigger timezone) and
-    {{event.payload.<field>}} placeholders, resolved once per run so every artifact
-    of that run lands in the same folder. Each substituted value must be a single
-    safe folder name (no "/", "\", "..", control characters); otherwise delivery
-    fails with invalid_delivery_folder. With a placeholder folder, screenshots are
-    delivered directly into the resolved folder; with a static folder they go into a
-    per-run "<flow>-<timestamp>-<id>-screenshots" subfolder.
+    For destination mobilerun, a folder turns on saving a copy of the run's
+    recording, screenshots and files.upload outputs in Mobilerun storage under that
+    folder (counts against storage). May contain {{meta.<name>}} (for example
+    {{meta.shortDate}} = YYMMDD, {{meta.fileTime}} = HH-mm, in the trigger timezone)
+    and {{event.payload.<field>}} placeholders, resolved once per run so every
+    artifact of that run lands in the same folder. Each substituted value must be a
+    single safe folder name (no "/", "\", "..", control characters); otherwise
+    delivery fails with invalid_delivery_folder. For OneDrive and Google Drive,
+    screenshots are delivered directly into the resolved folder with a placeholder
+    folder, and into a per-run "<flow>-<timestamp>-<id>-screenshots" subfolder with
+    a static folder. Mobilerun copies always go directly into the folder.
     """
 
     recording: Optional[DataDeliveryRecording] = None
@@ -153,6 +156,7 @@ class Data(BaseModel):
     owner_id: str = FieldInfo(alias="ownerId")
 
     owner_wake: Literal["final", "off"] = FieldInfo(alias="ownerWake")
+    """Defaults to final."""
 
     recording_enabled: bool = FieldInfo(alias="recordingEnabled")
     """
@@ -167,6 +171,8 @@ class Data(BaseModel):
     Effective routine result delivery: the stored setting, else message for a chat
     sink, else none.
     """
+
+    save_sandbox_logs: bool = FieldInfo(alias="saveSandboxLogs")
 
     self_healing_enabled: bool = FieldInfo(alias="selfHealingEnabled")
 
