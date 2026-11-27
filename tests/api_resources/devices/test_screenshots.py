@@ -11,6 +11,7 @@ from tests.utils import assert_matches_type
 from mobilerun_sdk import Mobilerun, AsyncMobilerun
 from mobilerun_sdk.types.devices import (
     ScreenshotListResponse,
+    ScreenshotListAllResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -228,6 +229,44 @@ class TestScreenshots:
                 device_id="deviceId",
             )
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_all(self, client: Mobilerun) -> None:
+        screenshot = client.devices.screenshots.list_all()
+        assert_matches_type(ScreenshotListAllResponse, screenshot, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_all_with_all_params(self, client: Mobilerun) -> None:
+        screenshot = client.devices.screenshots.list_all(
+            cursor="cursor",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            limit=1,
+        )
+        assert_matches_type(ScreenshotListAllResponse, screenshot, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_list_all(self, client: Mobilerun) -> None:
+        response = client.devices.screenshots.with_raw_response.list_all()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        screenshot = response.parse()
+        assert_matches_type(ScreenshotListAllResponse, screenshot, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_list_all(self, client: Mobilerun) -> None:
+        with client.devices.screenshots.with_streaming_response.list_all() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            screenshot = response.parse()
+            assert_matches_type(ScreenshotListAllResponse, screenshot, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
 
 class TestAsyncScreenshots:
     parametrize = pytest.mark.parametrize(
@@ -442,3 +481,41 @@ class TestAsyncScreenshots:
                 screenshot_id="",
                 device_id="deviceId",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_all(self, async_client: AsyncMobilerun) -> None:
+        screenshot = await async_client.devices.screenshots.list_all()
+        assert_matches_type(ScreenshotListAllResponse, screenshot, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_all_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        screenshot = await async_client.devices.screenshots.list_all(
+            cursor="cursor",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            limit=1,
+        )
+        assert_matches_type(ScreenshotListAllResponse, screenshot, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_list_all(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.screenshots.with_raw_response.list_all()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        screenshot = await response.parse()
+        assert_matches_type(ScreenshotListAllResponse, screenshot, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_list_all(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.screenshots.with_streaming_response.list_all() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            screenshot = await response.parse()
+            assert_matches_type(ScreenshotListAllResponse, screenshot, path=["response"])
+
+        assert cast(Any, response.is_closed) is True

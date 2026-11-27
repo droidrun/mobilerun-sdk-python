@@ -15,14 +15,30 @@ __all__ = [
     "DataDeviceBinding",
     "DataLineCapabilities",
     "DataLineCapabilitiesSMS",
+    "DataSim",
 ]
 
 
 class DataActions(BaseModel):
     """Actions currently available for this phone number."""
 
+    bind_device: bool = FieldInfo(alias="bindDevice")
+    """
+    True when this number can be bound to a cloud device (active, has a phone
+    number, receives SMS, not a BYO device line). When false,
+    `bindDeviceBlockedReason` says why.
+    """
+
+    bind_device_blocked_reason: Optional[
+        Literal["number_not_active", "no_phone_number", "sms_inbound_unsupported", "byo_device_line"]
+    ] = FieldInfo(alias="bindDeviceBlockedReason", default=None)
+    """Why `bindDevice` is false; null exactly when it is true."""
+
     cancel: bool
-    """True when DELETE /numbers/phones/{id} would currently succeed."""
+    """True when DELETE /numbers/phones/{id} would cancel or abort this number now.
+
+    False once a cancellation is already scheduled; the DELETE stays idempotent.
+    """
 
     send: bool
     """
@@ -60,6 +76,18 @@ class DataLineCapabilities(BaseModel):
     sms: DataLineCapabilitiesSMS
 
 
+class DataSim(BaseModel):
+    """
+    SIM of a phone connected through the Mobilerun Portal app; null for other phones or before the first sync.
+    """
+
+    carrier_name: Optional[str] = FieldInfo(alias="carrierName", default=None)
+
+    display_name: Optional[str] = FieldInfo(alias="displayName", default=None)
+
+    sim_slot: Optional[int] = FieldInfo(alias="simSlot", default=None)
+
+
 class Data(BaseModel):
     id: str
 
@@ -95,6 +123,9 @@ class Data(BaseModel):
     out_of_stock: no number is currently available for the requested country.
     """
 
+    iccid: Optional[str] = None
+    """ICCID of the SIM behind this line when a trustworthy value is known, else null."""
+
     label: Optional[str] = None
 
     line_capabilities: DataLineCapabilities = FieldInfo(alias="lineCapabilities")
@@ -106,6 +137,12 @@ class Data(BaseModel):
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
 
     purpose: Optional[str] = None
+
+    sim: Optional[DataSim] = None
+    """
+    SIM of a phone connected through the Mobilerun Portal app; null for other phones
+    or before the first sync.
+    """
 
     state: Literal["awaiting_payment", "provisioning", "active", "cancel_scheduled", "expired", "failed"]
 
