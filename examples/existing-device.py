@@ -1,4 +1,4 @@
-# Uses device minutes until the device is stopped or terminated. Run: rye run python examples/existing-device.py DEVICE_ID
+# Uses device credits until the device is stopped or terminated. Run: rye run python examples/existing-device.py DEVICE_ID
 import sys
 
 from mobilerun_sdk import MobilerunSDK
