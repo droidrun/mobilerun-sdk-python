@@ -22,6 +22,7 @@ from .task_list_params import TaskListParams as TaskListParams
 from .app_list_response import AppListResponse as AppListResponse
 from .proxy_list_params import ProxyListParams as ProxyListParams
 from .task_run_response import TaskRunResponse as TaskRunResponse
+from .task_stats_params import TaskStatsParams as TaskStatsParams
 from .device_list_params import DeviceListParams as DeviceListParams
 from .file_list_response import FileListResponse as FileListResponse
 from .file_update_params import FileUpdateParams as FileUpdateParams
@@ -39,11 +40,13 @@ from .model_list_response import ModelListResponse as ModelListResponse
 from .proxy_create_params import ProxyCreateParams as ProxyCreateParams
 from .proxy_list_response import ProxyListResponse as ProxyListResponse
 from .proxy_update_params import ProxyUpdateParams as ProxyUpdateParams
+from .task_stats_response import TaskStatsResponse as TaskStatsResponse
 from .webhook_list_params import WebhookListParams as WebhookListParams
 from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse
 from .file_delete_response import FileDeleteResponse as FileDeleteResponse
 from .file_update_response import FileUpdateResponse as FileUpdateResponse
+from .identity_me_response import IdentityMeResponse as IdentityMeResponse
 from .mailbox_otp_response import MailboxOtpResponse as MailboxOtpResponse
 from .number_create_params import NumberCreateParams as NumberCreateParams
 from .number_list_response import NumberListResponse as NumberListResponse
@@ -89,6 +92,7 @@ from .file_upload_url_response import FileUploadURLResponse as FileUploadURLResp
 from .mailbox_restart_response import MailboxRestartResponse as MailboxRestartResponse
 from .number_capacity_response import NumberCapacityResponse as NumberCapacityResponse
 from .number_retrieve_response import NumberRetrieveResponse as NumberRetrieveResponse
+from .routine_file_list_params import RoutineFileListParams as RoutineFileListParams
 from .task_get_status_response import TaskGetStatusResponse as TaskGetStatusResponse
 from .task_run_streamed_params import TaskRunStreamedParams as TaskRunStreamedParams
 from .task_send_message_params import TaskSendMessageParams as TaskSendMessageParams
@@ -101,16 +105,25 @@ from .webhook_retrieve_response import WebhookRetrieveResponse as WebhookRetriev
 from .app_list_versions_response import AppListVersionsResponse as AppListVersionsResponse
 from .app_storage_usage_response import AppStorageUsageResponse as AppStorageUsageResponse
 from .device_wait_ready_response import DeviceWaitReadyResponse as DeviceWaitReadyResponse
+from .routine_file_list_response import RoutineFileListResponse as RoutineFileListResponse
+from .stream_token_create_params import StreamTokenCreateParams as StreamTokenCreateParams
 from .task_send_message_response import TaskSendMessageResponse as TaskSendMessageResponse
 from .app_confirm_upload_response import AppConfirmUploadResponse as AppConfirmUploadResponse
 from .device_fingerprint_response import DeviceFingerprintResponse as DeviceFingerprintResponse
 from .mailbox_disconnect_response import MailboxDisconnectResponse as MailboxDisconnectResponse
 from .file_cancel_pending_response import FileCancelPendingResponse as FileCancelPendingResponse
+from .stream_token_create_response import StreamTokenCreateResponse as StreamTokenCreateResponse
 from .task_get_trajectory_response import TaskGetTrajectoryResponse as TaskGetTrajectoryResponse
 from .agent_model_profiles_response import AgentModelProfilesResponse as AgentModelProfilesResponse
 from .webhook_rotate_secret_response import WebhookRotateSecretResponse as WebhookRotateSecretResponse
 from .webhook_test_delivery_response import WebhookTestDeliveryResponse as WebhookTestDeliveryResponse
+from .routine_file_delete_many_params import RoutineFileDeleteManyParams as RoutineFileDeleteManyParams
+from .routine_file_list_folders_params import RoutineFileListFoldersParams as RoutineFileListFoldersParams
+from .device_update_idle_timeout_params import DeviceUpdateIdleTimeoutParams as DeviceUpdateIdleTimeoutParams
+from .routine_file_delete_many_response import RoutineFileDeleteManyResponse as RoutineFileDeleteManyResponse
+from .routine_file_list_folders_response import RoutineFileListFoldersResponse as RoutineFileListFoldersResponse
 from .app_create_signed_upload_url_params import AppCreateSignedUploadURLParams as AppCreateSignedUploadURLParams
+from .device_update_idle_timeout_response import DeviceUpdateIdleTimeoutResponse as DeviceUpdateIdleTimeoutResponse
 from .app_create_signed_upload_url_response import AppCreateSignedUploadURLResponse as AppCreateSignedUploadURLResponse
 from .device_retrieve_capabilities_response import (
     DeviceRetrieveCapabilitiesResponse as DeviceRetrieveCapabilitiesResponse,
