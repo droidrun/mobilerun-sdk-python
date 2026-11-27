@@ -1,4 +1,4 @@
-# Uses device minutes until the device is stopped or terminated. Task execution may incur costs. Run: rye run python examples/quickstart.py
+# Uses device credits until the device is stopped or terminated. Task execution may incur costs. Run: rye run python examples/quickstart.py
 from mobilerun_sdk import MobilerunSDK
 
 sdk = MobilerunSDK()  # Reads MOBILERUN_API_KEY from the environment.

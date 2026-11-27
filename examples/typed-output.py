@@ -1,4 +1,4 @@
-# Uses device minutes until the device is stopped or terminated. Task execution may incur costs. Run: rye run python examples/typed-output.py DEVICE_ID
+# Uses device credits until the device is stopped or terminated. Task execution may incur costs. Run: rye run python examples/typed-output.py DEVICE_ID
 import sys
 
 from pydantic import BaseModel
