@@ -22,4 +22,10 @@ class AppListParams(TypedDict, total=False):
 
     sort_by: Annotated[Literal["createdAt", "name"], PropertyInfo(alias="sortBy")]
 
+    source: Literal["user", "system", "portal", "store"]
+    """
+    Only list apps that have a version of this source (for example `user` for the
+    apps you uploaded).
+    """
+
     status: Literal["all", "queued", "available", "failed", "pruned"]
