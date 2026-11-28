@@ -2,15 +2,30 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
+from typing import Dict, Union, Iterable, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 import httpx
 
-from ...types import task_run_params, task_list_params, task_run_streamed_params, task_send_message_params
+from ...types import (
+    task_run_params,
+    task_list_params,
+    task_stats_params,
+    task_run_streamed_params,
+    task_send_message_params,
+)
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
+from .approvals import (
+    ApprovalsResource,
+    AsyncApprovalsResource,
+    ApprovalsResourceWithRawResponse,
+    AsyncApprovalsResourceWithRawResponse,
+    ApprovalsResourceWithStreamingResponse,
+    AsyncApprovalsResourceWithStreamingResponse,
+)
 from .ui_states import (
     UiStatesResource,
     AsyncUiStatesResource,
@@ -38,6 +53,7 @@ from ..._base_client import make_request_options
 from ...types.task_run_response import TaskRunResponse
 from ...types.task_list_response import TaskListResponse
 from ...types.task_stop_response import TaskStopResponse
+from ...types.task_stats_response import TaskStatsResponse
 from ...types.task_retrieve_response import TaskRetrieveResponse
 from ...types.task_get_status_response import TaskGetStatusResponse
 from ...types.task_send_message_response import TaskSendMessageResponse
@@ -58,6 +74,11 @@ class TasksResource(SyncAPIResource):
     def ui_states(self) -> UiStatesResource:
         """Tasks API"""
         return UiStatesResource(self._client)
+
+    @cached_property
+    def approvals(self) -> ApprovalsResource:
+        """Tasks API"""
+        return ApprovalsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> TasksResourceWithRawResponse:
@@ -329,8 +350,9 @@ class TasksResource(SyncAPIResource):
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -445,8 +467,9 @@ class TasksResource(SyncAPIResource):
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -558,6 +581,62 @@ class TasksResource(SyncAPIResource):
             cast_to=TaskSendMessageResponse,
         )
 
+    def stats(
+        self,
+        *,
+        from_: Union[str, datetime],
+        to: Union[str, datetime],
+        bucket: Literal["hour", "day"] | Omit = omit,
+        source: Optional[Literal["api", "agent"]] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> TaskStatsResponse:
+        """
+        Task outcome counts per time bucket, success rate, duration percentiles and top
+        failure reasons for a window. Tasks are bucketed by creation time.
+
+        Args:
+          from_: Window start, ISO 8601 UTC (inclusive).
+
+          to: Window end, ISO 8601 UTC (exclusive). At most 90 days after `from`.
+
+          bucket: Bucket size. `hour` only for windows of at most 7 days.
+
+          source: Only tasks created via the API ('api') or tasks spawned by an agent step or
+              created with internal=true ('agent').
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/tasks/stats",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "from_": from_,
+                        "to": to,
+                        "bucket": bucket,
+                        "source": source,
+                    },
+                    task_stats_params.TaskStatsParams,
+                ),
+            ),
+            cast_to=TaskStatsResponse,
+        )
+
     def stop(
         self,
         task_id: str,
@@ -613,6 +692,11 @@ class AsyncTasksResource(AsyncAPIResource):
     def ui_states(self) -> AsyncUiStatesResource:
         """Tasks API"""
         return AsyncUiStatesResource(self._client)
+
+    @cached_property
+    def approvals(self) -> AsyncApprovalsResource:
+        """Tasks API"""
+        return AsyncApprovalsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncTasksResourceWithRawResponse:
@@ -884,8 +968,9 @@ class AsyncTasksResource(AsyncAPIResource):
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -1000,8 +1085,9 @@ class AsyncTasksResource(AsyncAPIResource):
 
           internal: Mark a task started by an agent or worker on the user's behalf. It is listed as
               source='agent' (excluded from source='api' lists) and its events carry
-              internal=true so user-facing notifications and webhooks skip it. It is still
-              billed, controllable and retrievable by id.
+              internal=true so user-facing notifications and webhooks skip it, except task
+              approval events, which always reach the owner. It is still billed, controllable
+              and retrievable by id.
 
           llm_model: The LLM model identifier to use for the task (e.g.
               'mobilerun/mobile-agent-fast'). When omitted with reasoning=false, the fast-mode
@@ -1113,6 +1199,62 @@ class AsyncTasksResource(AsyncAPIResource):
             cast_to=TaskSendMessageResponse,
         )
 
+    async def stats(
+        self,
+        *,
+        from_: Union[str, datetime],
+        to: Union[str, datetime],
+        bucket: Literal["hour", "day"] | Omit = omit,
+        source: Optional[Literal["api", "agent"]] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> TaskStatsResponse:
+        """
+        Task outcome counts per time bucket, success rate, duration percentiles and top
+        failure reasons for a window. Tasks are bucketed by creation time.
+
+        Args:
+          from_: Window start, ISO 8601 UTC (inclusive).
+
+          to: Window end, ISO 8601 UTC (exclusive). At most 90 days after `from`.
+
+          bucket: Bucket size. `hour` only for windows of at most 7 days.
+
+          source: Only tasks created via the API ('api') or tasks spawned by an agent step or
+              created with internal=true ('agent').
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/tasks/stats",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "from_": from_,
+                        "to": to,
+                        "bucket": bucket,
+                        "source": source,
+                    },
+                    task_stats_params.TaskStatsParams,
+                ),
+            ),
+            cast_to=TaskStatsResponse,
+        )
+
     async def stop(
         self,
         task_id: str,
@@ -1184,6 +1326,9 @@ class TasksResourceWithRawResponse:
         self.send_message = to_raw_response_wrapper(
             tasks.send_message,
         )
+        self.stats = to_raw_response_wrapper(
+            tasks.stats,
+        )
         self.stop = to_raw_response_wrapper(
             tasks.stop,
         )
@@ -1197,6 +1342,11 @@ class TasksResourceWithRawResponse:
     def ui_states(self) -> UiStatesResourceWithRawResponse:
         """Tasks API"""
         return UiStatesResourceWithRawResponse(self._tasks.ui_states)
+
+    @cached_property
+    def approvals(self) -> ApprovalsResourceWithRawResponse:
+        """Tasks API"""
+        return ApprovalsResourceWithRawResponse(self._tasks.approvals)
 
 
 class AsyncTasksResourceWithRawResponse:
@@ -1227,6 +1377,9 @@ class AsyncTasksResourceWithRawResponse:
         self.send_message = async_to_raw_response_wrapper(
             tasks.send_message,
         )
+        self.stats = async_to_raw_response_wrapper(
+            tasks.stats,
+        )
         self.stop = async_to_raw_response_wrapper(
             tasks.stop,
         )
@@ -1240,6 +1393,11 @@ class AsyncTasksResourceWithRawResponse:
     def ui_states(self) -> AsyncUiStatesResourceWithRawResponse:
         """Tasks API"""
         return AsyncUiStatesResourceWithRawResponse(self._tasks.ui_states)
+
+    @cached_property
+    def approvals(self) -> AsyncApprovalsResourceWithRawResponse:
+        """Tasks API"""
+        return AsyncApprovalsResourceWithRawResponse(self._tasks.approvals)
 
 
 class TasksResourceWithStreamingResponse:
@@ -1270,6 +1428,9 @@ class TasksResourceWithStreamingResponse:
         self.send_message = to_streamed_response_wrapper(
             tasks.send_message,
         )
+        self.stats = to_streamed_response_wrapper(
+            tasks.stats,
+        )
         self.stop = to_streamed_response_wrapper(
             tasks.stop,
         )
@@ -1283,6 +1444,11 @@ class TasksResourceWithStreamingResponse:
     def ui_states(self) -> UiStatesResourceWithStreamingResponse:
         """Tasks API"""
         return UiStatesResourceWithStreamingResponse(self._tasks.ui_states)
+
+    @cached_property
+    def approvals(self) -> ApprovalsResourceWithStreamingResponse:
+        """Tasks API"""
+        return ApprovalsResourceWithStreamingResponse(self._tasks.approvals)
 
 
 class AsyncTasksResourceWithStreamingResponse:
@@ -1313,6 +1479,9 @@ class AsyncTasksResourceWithStreamingResponse:
         self.send_message = async_to_streamed_response_wrapper(
             tasks.send_message,
         )
+        self.stats = async_to_streamed_response_wrapper(
+            tasks.stats,
+        )
         self.stop = async_to_streamed_response_wrapper(
             tasks.stop,
         )
@@ -1326,3 +1495,8 @@ class AsyncTasksResourceWithStreamingResponse:
     def ui_states(self) -> AsyncUiStatesResourceWithStreamingResponse:
         """Tasks API"""
         return AsyncUiStatesResourceWithStreamingResponse(self._tasks.ui_states)
+
+    @cached_property
+    def approvals(self) -> AsyncApprovalsResourceWithStreamingResponse:
+        """Tasks API"""
+        return AsyncApprovalsResourceWithStreamingResponse(self._tasks.approvals)

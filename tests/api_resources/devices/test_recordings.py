@@ -14,6 +14,7 @@ from mobilerun_sdk.types.devices import (
     RecordingStopResponse,
     RecordingStartResponse,
     RecordingStatusResponse,
+    RecordingListAllResponse,
     RecordingScreenshotsResponse,
 )
 
@@ -126,6 +127,46 @@ class TestRecordings:
                 recording_id="",
                 device_id="deviceId",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_all(self, client: Mobilerun) -> None:
+        recording = client.devices.recordings.list_all()
+        assert_matches_type(RecordingListAllResponse, recording, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_all_with_all_params(self, client: Mobilerun) -> None:
+        recording = client.devices.recordings.list_all(
+            cursor="cursor",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            limit=1,
+            status="status",
+            type="type",
+        )
+        assert_matches_type(RecordingListAllResponse, recording, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_list_all(self, client: Mobilerun) -> None:
+        response = client.devices.recordings.with_raw_response.list_all()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        recording = response.parse()
+        assert_matches_type(RecordingListAllResponse, recording, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_list_all(self, client: Mobilerun) -> None:
+        with client.devices.recordings.with_streaming_response.list_all() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            recording = response.parse()
+            assert_matches_type(RecordingListAllResponse, recording, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -550,6 +591,46 @@ class TestAsyncRecordings:
                 recording_id="",
                 device_id="deviceId",
             )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_all(self, async_client: AsyncMobilerun) -> None:
+        recording = await async_client.devices.recordings.list_all()
+        assert_matches_type(RecordingListAllResponse, recording, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_all_with_all_params(self, async_client: AsyncMobilerun) -> None:
+        recording = await async_client.devices.recordings.list_all(
+            cursor="cursor",
+            device_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            limit=1,
+            status="status",
+            type="type",
+        )
+        assert_matches_type(RecordingListAllResponse, recording, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_list_all(self, async_client: AsyncMobilerun) -> None:
+        response = await async_client.devices.recordings.with_raw_response.list_all()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        recording = await response.parse()
+        assert_matches_type(RecordingListAllResponse, recording, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_list_all(self, async_client: AsyncMobilerun) -> None:
+        async with async_client.devices.recordings.with_streaming_response.list_all() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            recording = await response.parse()
+            assert_matches_type(RecordingListAllResponse, recording, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize

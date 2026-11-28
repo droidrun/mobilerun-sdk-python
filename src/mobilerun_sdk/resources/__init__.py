@@ -16,6 +16,14 @@ from .files import (
     FilesResourceWithStreamingResponse,
     AsyncFilesResourceWithStreamingResponse,
 )
+from .store import (
+    StoreResource,
+    AsyncStoreResource,
+    StoreResourceWithRawResponse,
+    AsyncStoreResourceWithRawResponse,
+    StoreResourceWithStreamingResponse,
+    AsyncStoreResourceWithStreamingResponse,
+)
 from .tasks import (
     TasksResource,
     AsyncTasksResource,
@@ -39,6 +47,14 @@ from .models import (
     AsyncModelsResourceWithRawResponse,
     ModelsResourceWithStreamingResponse,
     AsyncModelsResourceWithStreamingResponse,
+)
+from .compute import (
+    ComputeResource,
+    AsyncComputeResource,
+    ComputeResourceWithRawResponse,
+    AsyncComputeResourceWithRawResponse,
+    ComputeResourceWithStreamingResponse,
+    AsyncComputeResourceWithStreamingResponse,
 )
 from .connect import (
     ConnectResource,
@@ -71,6 +87,14 @@ from .proxies import (
     AsyncProxiesResourceWithRawResponse,
     ProxiesResourceWithStreamingResponse,
     AsyncProxiesResourceWithStreamingResponse,
+)
+from .identity import (
+    IdentityResource,
+    AsyncIdentityResource,
+    IdentityResourceWithRawResponse,
+    AsyncIdentityResourceWithRawResponse,
+    IdentityResourceWithStreamingResponse,
+    AsyncIdentityResourceWithStreamingResponse,
 )
 from .messages import (
     MessagesResource,
@@ -120,6 +144,22 @@ from .credentials import (
     CredentialsResourceWithStreamingResponse,
     AsyncCredentialsResourceWithStreamingResponse,
 )
+from .routine_files import (
+    RoutineFilesResource,
+    AsyncRoutineFilesResource,
+    RoutineFilesResourceWithRawResponse,
+    AsyncRoutineFilesResourceWithRawResponse,
+    RoutineFilesResourceWithStreamingResponse,
+    AsyncRoutineFilesResourceWithStreamingResponse,
+)
+from .stream_tokens import (
+    StreamTokensResource,
+    AsyncStreamTokensResource,
+    StreamTokensResourceWithRawResponse,
+    AsyncStreamTokensResourceWithRawResponse,
+    StreamTokensResourceWithStreamingResponse,
+    AsyncStreamTokensResourceWithStreamingResponse,
+)
 
 __all__ = [
     "AppsResource",
@@ -140,6 +180,18 @@ __all__ = [
     "AsyncDevicesResourceWithRawResponse",
     "DevicesResourceWithStreamingResponse",
     "AsyncDevicesResourceWithStreamingResponse",
+    "StreamTokensResource",
+    "AsyncStreamTokensResource",
+    "StreamTokensResourceWithRawResponse",
+    "AsyncStreamTokensResourceWithRawResponse",
+    "StreamTokensResourceWithStreamingResponse",
+    "AsyncStreamTokensResourceWithStreamingResponse",
+    "IdentityResource",
+    "AsyncIdentityResource",
+    "IdentityResourceWithRawResponse",
+    "AsyncIdentityResourceWithRawResponse",
+    "IdentityResourceWithStreamingResponse",
+    "AsyncIdentityResourceWithStreamingResponse",
     "ModelsResource",
     "AsyncModelsResource",
     "ModelsResourceWithRawResponse",
@@ -152,6 +204,12 @@ __all__ = [
     "AsyncProxiesResourceWithRawResponse",
     "ProxiesResourceWithStreamingResponse",
     "AsyncProxiesResourceWithStreamingResponse",
+    "ComputeResource",
+    "AsyncComputeResource",
+    "ComputeResourceWithRawResponse",
+    "AsyncComputeResourceWithRawResponse",
+    "ComputeResourceWithStreamingResponse",
+    "AsyncComputeResourceWithStreamingResponse",
     "ConnectResource",
     "AsyncConnectResource",
     "ConnectResourceWithRawResponse",
@@ -182,6 +240,12 @@ __all__ = [
     "AsyncMailboxesResourceWithRawResponse",
     "MailboxesResourceWithStreamingResponse",
     "AsyncMailboxesResourceWithStreamingResponse",
+    "RoutineFilesResource",
+    "AsyncRoutineFilesResource",
+    "RoutineFilesResourceWithRawResponse",
+    "AsyncRoutineFilesResourceWithRawResponse",
+    "RoutineFilesResourceWithStreamingResponse",
+    "AsyncRoutineFilesResourceWithStreamingResponse",
     "FilesResource",
     "AsyncFilesResource",
     "FilesResourceWithRawResponse",
@@ -212,4 +276,10 @@ __all__ = [
     "AsyncNumbersResourceWithRawResponse",
     "NumbersResourceWithStreamingResponse",
     "AsyncNumbersResourceWithStreamingResponse",
+    "StoreResource",
+    "AsyncStoreResource",
+    "StoreResourceWithRawResponse",
+    "AsyncStoreResourceWithRawResponse",
+    "StoreResourceWithStreamingResponse",
+    "AsyncStoreResourceWithStreamingResponse",
 ]
