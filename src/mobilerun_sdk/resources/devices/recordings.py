@@ -17,11 +17,12 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.devices import recording_list_params, recording_start_params
+from ...types.devices import recording_list_params, recording_start_params, recording_list_all_params
 from ...types.devices.recording_list_response import RecordingListResponse
 from ...types.devices.recording_stop_response import RecordingStopResponse
 from ...types.devices.recording_start_response import RecordingStartResponse
 from ...types.devices.recording_status_response import RecordingStatusResponse
+from ...types.devices.recording_list_all_response import RecordingListAllResponse
 from ...types.devices.recording_screenshots_response import RecordingScreenshotsResponse
 
 __all__ = ["RecordingsResource", "AsyncRecordingsResource"]
@@ -136,6 +137,56 @@ class RecordingsResource(SyncAPIResource):
                 idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
+        )
+
+    def list_all(
+        self,
+        *,
+        cursor: str | Omit = omit,
+        device_id: str | Omit = omit,
+        limit: int | Omit = omit,
+        status: str | Omit = omit,
+        type: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> RecordingListAllResponse:
+        """
+        Recordings whose files are still stored across all devices, newest first,
+        including files whose device has been removed. Expired recordings are excluded.
+        Pass nextCursor as cursor to retrieve the next page.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/devices/recordings",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "device_id": device_id,
+                        "limit": limit,
+                        "status": status,
+                        "type": type,
+                    },
+                    recording_list_all_params.RecordingListAllParams,
+                ),
+            ),
+            cast_to=RecordingListAllResponse,
         )
 
     def screenshots(
@@ -518,6 +569,56 @@ class AsyncRecordingsResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def list_all(
+        self,
+        *,
+        cursor: str | Omit = omit,
+        device_id: str | Omit = omit,
+        limit: int | Omit = omit,
+        status: str | Omit = omit,
+        type: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> RecordingListAllResponse:
+        """
+        Recordings whose files are still stored across all devices, newest first,
+        including files whose device has been removed. Expired recordings are excluded.
+        Pass nextCursor as cursor to retrieve the next page.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/devices/recordings",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "device_id": device_id,
+                        "limit": limit,
+                        "status": status,
+                        "type": type,
+                    },
+                    recording_list_all_params.RecordingListAllParams,
+                ),
+            ),
+            cast_to=RecordingListAllResponse,
+        )
+
     async def screenshots(
         self,
         recording_id: str,
@@ -797,6 +898,9 @@ class RecordingsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             recordings.delete,
         )
+        self.list_all = to_raw_response_wrapper(
+            recordings.list_all,
+        )
         self.screenshots = to_raw_response_wrapper(
             recordings.screenshots,
         )
@@ -826,6 +930,9 @@ class AsyncRecordingsResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             recordings.delete,
+        )
+        self.list_all = async_to_raw_response_wrapper(
+            recordings.list_all,
         )
         self.screenshots = async_to_raw_response_wrapper(
             recordings.screenshots,
@@ -857,6 +964,9 @@ class RecordingsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             recordings.delete,
         )
+        self.list_all = to_streamed_response_wrapper(
+            recordings.list_all,
+        )
         self.screenshots = to_streamed_response_wrapper(
             recordings.screenshots,
         )
@@ -886,6 +996,9 @@ class AsyncRecordingsResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             recordings.delete,
+        )
+        self.list_all = async_to_streamed_response_wrapper(
+            recordings.list_all,
         )
         self.screenshots = async_to_streamed_response_wrapper(
             recordings.screenshots,
